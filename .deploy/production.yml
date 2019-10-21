@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+  backend:
+    restart: always
+    image: ${DOCKER_IMAGE_BACKEND}:${TAG-latest}
+    environment:
+      - SMTP_PASSWORD
+    command: ["yarn", "run", "start:backend:prod"]
+
+  frontend:
+    restart: always
+    image: ${DOCKER_IMAGE_FRONTEND}:${TAG-latest}
+
+  proxy:
+    command:
+      - "--log.level=INFO"
+      - "--api.insecure=false"
+      - "--api.debug=false"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"

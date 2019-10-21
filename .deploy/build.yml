@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+  backend:
+    image: '${DOCKER_IMAGE_BACKEND}:${TAG-latest}'
+    build:
+      context: ../
+      dockerfile: packages/backend/Dockerfile
+      args:
+        BACKEND_ENV: production
+
+  frontend:
+    image: '${DOCKER_IMAGE_FRONTEND}:${TAG-latest}'
+    build:
+      context: ../
+      dockerfile: packages/frontend/Dockerfile
+      args:
+        FRONTEND_ENV: production

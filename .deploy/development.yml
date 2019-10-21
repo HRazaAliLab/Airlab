@@ -1,0 +1,35 @@
+version: '3.7'
+services:
+
+  backend:
+    restart: "no"
+    build:
+      context: ../
+      dockerfile: packages/backend/Dockerfile
+      args:
+        BACKEND_ENV: development
+    command: ["yarn", "run", "start:backend:debug"]
+    ports:
+      - 3000:3000
+      - 9229:9229
+    volumes:
+      - ../packages/backend:/app/packages/backend
+      - /app/packages/backend/node_modules/
+#      - /app/packages/backend/dist/
+
+  frontend:
+    restart: "no"
+    build:
+      context: ../
+      dockerfile: packages/frontend/Dockerfile
+      args:
+        FRONTEND_ENV: development
+
+  proxy:
+    command:
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--api.debug=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=true"
+      - "--entrypoints.web.address=:80"
