@@ -1,0 +1,14 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "postgres",
+  "password": "changethis",
+  "database": "airlab",
+  "entities": ["**/*.entity{.ts,.js}"],
+  "migrationsTableName": "migrations",
+  "migrations": ["src/migrations/*.ts"],
+  "cli": {
+    "migrationsDir": "src/migrations"
+  }
+}
