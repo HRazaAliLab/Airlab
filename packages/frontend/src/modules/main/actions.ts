@@ -56,7 +56,7 @@ export class MainActions extends Actions<MainState, MainGetters, MainMutations, 
       this.mutations.addNotification(loadingNotification);
       const data = (await Promise.all([
         api.updateMe(this.state.token, payload),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500))
+        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
       ]))[0];
       this.mutations.setUserProfile(data);
       this.mutations.removeNotification(loadingNotification);
@@ -140,7 +140,7 @@ export class MainActions extends Actions<MainState, MainGetters, MainMutations, 
       this.mutations.addNotification(loadingNotification);
       const response = (await Promise.all([
         api.passwordRecovery(payload.username),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500))
+        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
       ]))[0];
       this.mutations.removeNotification(loadingNotification);
       this.mutations.addNotification({ content: "Password recovery email sent", color: "success" });
@@ -157,7 +157,7 @@ export class MainActions extends Actions<MainState, MainGetters, MainMutations, 
       this.mutations.addNotification(loadingNotification);
       const response = (await Promise.all([
         api.resetPassword(payload.password, payload.token),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500))
+        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
       ]))[0];
       this.mutations.removeNotification(loadingNotification);
       this.mutations.addNotification({ content: "Password successfully reset", color: "success" });

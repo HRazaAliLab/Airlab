@@ -40,7 +40,7 @@ export class DatasetActions extends Actions<DatasetState, DatasetGetters, Datase
       this.main!.mutations.addNotification(notification);
       const data = (await Promise.all([
         api.deleteDataset(this.main!.getters.token, id),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500))
+        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
       ]))[0];
       this.mutations.deleteDataset(id);
       this.main!.mutations.removeNotification(notification);
@@ -93,8 +93,8 @@ export class DatasetActions extends Actions<DatasetState, DatasetGetters, Datase
       input: {
         acquisition_ids: acquisitionIds,
         metals: metals,
-        channel_settings: channelsSettings
-      }
+        channel_settings: channelsSettings,
+      },
     };
 
     try {
@@ -102,7 +102,7 @@ export class DatasetActions extends Actions<DatasetState, DatasetGetters, Datase
       this.main!.mutations.addNotification(notification);
       const data = (await Promise.all([
         api.createDataset(this.main!.getters.token, params),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500))
+        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
       ]))[0];
       this.mutations.setDataset(data);
       this.main!.mutations.removeNotification(notification);

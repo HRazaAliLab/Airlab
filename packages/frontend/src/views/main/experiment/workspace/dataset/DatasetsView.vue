@@ -48,12 +48,7 @@
           <v-list-item-action>
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
-                <v-btn
-                  icon
-                  v-on="on"
-                  color="secondary lighten-3"
-                  @click.stop="deleteDataset($event, item.id)"
-                >
+                <v-btn icon v-on="on" color="secondary lighten-3" @click.stop="deleteDataset($event, item.id)">
                   <v-icon>mdi-delete</v-icon>
                 </v-btn>
               </template>
@@ -80,7 +75,7 @@ export default class DatasetsView extends Vue {
   readonly apiUrl = apiUrl;
   readonly icons = {
     pending: "mdi-progress-clock",
-    ready: "mdi-check-circle-outline"
+    ready: "mdi-check-circle-outline",
   };
 
   selected?: number | null = null;
@@ -103,7 +98,7 @@ export default class DatasetsView extends Vue {
     return this.datasets.map(dataset => {
       return Object.assign({}, dataset, {
         icon: this.icons[dataset.status],
-        createdAt: new Date(dataset.created_at).toUTCString()
+        createdAt: new Date(dataset.created_at).toUTCString(),
       });
     });
   }

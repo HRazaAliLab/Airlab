@@ -8,8 +8,8 @@ export const api = {
       .post(`${apiUrl}/api/v1/datasets/`, {
         json: data,
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .json<IDataset>();
   },
@@ -17,17 +17,17 @@ export const api = {
     return ky.post(`${apiUrl}/api/v1/datasets/experiment/${experimentId}/upload`, {
       body: data,
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
-      timeout: false
+      timeout: false,
     });
   },
   async getExperimentDatasets(token: string, experimentId: number) {
     return ky
       .get(`${apiUrl}/api/v1/datasets/experiment/${experimentId}`, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .json<IDataset[]>();
   },
@@ -35,17 +35,17 @@ export const api = {
     return ky
       .delete(`${apiUrl}/api/v1/datasets/${id}`, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .json();
   },
   async downloadDataset(token: string, id: number) {
     return ky.get(`${apiUrl}/api/v1/datasets/${id}/download`, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
-      timeout: false
+      timeout: false,
     });
-  }
+  },
 };

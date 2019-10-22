@@ -14,8 +14,8 @@ export const api = {
     return ky
       .get(`${apiUrl}/api/v1/users/me`, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .json<IUserProfile>();
   },
@@ -24,8 +24,8 @@ export const api = {
       .put(`${apiUrl}/api/v1/users/me`, {
         json: data,
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .json<IUserProfile>();
   },
@@ -33,8 +33,8 @@ export const api = {
     return ky
       .get(`${apiUrl}/api/v1/users/`, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .json<IUserProfile[]>();
   },
@@ -43,8 +43,8 @@ export const api = {
       .put(`${apiUrl}/api/v1/users/${id}`, {
         json: data,
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .json<IUserProfile>();
   },
@@ -53,8 +53,8 @@ export const api = {
       .post(`${apiUrl}/api/v1/users/`, {
         json: data,
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .json<IUserProfile>();
   },
@@ -67,7 +67,7 @@ export const api = {
   async signUp(data: IUserProfileCreate) {
     return ky
       .post(`${apiUrl}/api/v1/users/signup`, {
-        json: data
+        json: data,
       })
       .json();
   },
@@ -76,9 +76,9 @@ export const api = {
       .post(`${apiUrl}/api/v1/auth/reset-password/`, {
         json: {
           new_password: password,
-          token
-        }
+          token,
+        },
       })
       .json();
-  }
+  },
 };

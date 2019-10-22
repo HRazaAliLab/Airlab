@@ -1,14 +1,7 @@
 <template>
   <v-card tile>
     <v-card-title>
-      <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="Search"
-        single-line
-        hide-details
-        clearable
-      />
+      <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details clearable />
     </v-card-title>
     <v-data-table
       :headers="headers"
@@ -39,26 +32,26 @@ export default class RegionsView extends Vue {
       text: "Metal",
       sortable: true,
       value: "metal",
-      align: "start"
+      align: "start",
     },
     {
       text: "Min",
       sortable: true,
       value: "min",
-      align: "end"
+      align: "end",
     },
     {
       text: "Max",
       sortable: true,
       value: "max",
-      align: "end"
+      align: "end",
     },
     {
       text: "Mean",
       sortable: true,
       value: "mean",
-      align: "end"
-    }
+      align: "end",
+    },
   ];
 
   get items() {

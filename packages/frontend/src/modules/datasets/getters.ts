@@ -23,13 +23,13 @@ export class DatasetGetters extends Getters<DatasetState> {
     const channelItems = this.channels.map(item => {
       return {
         type: "channel",
-        label: item
+        label: item,
       };
     });
     const neighborItems = this.activeDataset.input["neighbors_columns"].map(item => {
       return {
         type: "neighbor",
-        label: item.substring(10, item.length)
+        label: item.substring(10, item.length),
       };
     });
     return channelItems.concat(neighborItems);

@@ -4,13 +4,7 @@
       <v-icon small left>mdi-cloud-upload</v-icon>
       Upload
     </v-btn>
-    <input
-      :multiple="multiple"
-      class="visually-hidden"
-      type="file"
-      v-on:change="files"
-      ref="fileInput"
-    />
+    <input :multiple="multiple" class="visually-hidden" type="file" v-on:change="files" ref="fileInput" />
   </span>
 </template>
 
@@ -33,7 +27,7 @@ export default class UploadButton extends Vue {
     e.target.value = "";
     await this.experimentContext.actions.upload({
       id: this.id,
-      data: formData
+      data: formData,
     });
     return e.target.files;
   }

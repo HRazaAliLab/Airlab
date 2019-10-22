@@ -1,28 +1,13 @@
 <template>
   <v-container fluid class="overflow-y-auto tiles-view">
     <v-row>
-      <v-col
-        v-for="item in items"
-        :key="item.id"
-        class="d-flex child-flex"
-        :cols="cols"
-      >
+      <v-col v-for="item in items" :key="item.id" class="d-flex child-flex" :cols="cols">
         <v-card flat>
-          <v-card-title class="subtitle-2 pa-0">{{
-            item.caption
-          }}</v-card-title>
-          <v-img
-            :src="`${item.url}`"
-            aspect-ratio="1"
-            class="grey lighten-2"
-            eager
-          >
+          <v-card-title class="subtitle-2 pa-0">{{ item.caption }}</v-card-title>
+          <v-img :src="`${item.url}`" aspect-ratio="1" class="grey lighten-2" eager>
             <template v-slot:placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
-                <v-progress-circular
-                  indeterminate
-                  color="grey lighten-5"
-                ></v-progress-circular>
+                <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
               </v-row>
             </template>
           </v-img>
@@ -49,24 +34,13 @@ export default class TilesView extends Vue {
       if (color) {
         color = color.replace("#", "");
       }
-      const channelSettings = this.settingsContext.getters.getChannelSettings(
-        channel.id
-      );
-      const min =
-        channelSettings && channelSettings.levels
-          ? channelSettings.levels.min
-          : "";
-      const max =
-        channelSettings && channelSettings.levels
-          ? channelSettings.levels.max
-          : "";
+      const channelSettings = this.settingsContext.getters.getChannelSettings(channel.id);
+      const min = channelSettings && channelSettings.levels ? channelSettings.levels.min : "";
+      const max = channelSettings && channelSettings.levels ? channelSettings.levels.max : "";
       return {
         id: channel.id,
         url: `${apiUrl}/api/v1/channels/${channel.id}/image?color=${color}&min=${min}&max=${max}`,
-        caption:
-          channelSettings && channelSettings.customLabel
-            ? channelSettings.customLabel
-            : channel.label
+        caption: channelSettings && channelSettings.customLabel ? channelSettings.customLabel : channel.label,
       };
     });
   }

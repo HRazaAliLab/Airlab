@@ -7,13 +7,7 @@
           <v-spacer></v-spacer>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-btn
-                icon
-                x-small
-                color="primary"
-                @click.stop="setSharedChannelLevels"
-                v-on="on"
-              >
+              <v-btn icon x-small color="primary" @click.stop="setSharedChannelLevels" v-on="on">
                 <v-icon small>mdi-share</v-icon>
               </v-btn>
             </template>
@@ -94,9 +88,7 @@ export default class ChannelSettingsView extends Vue {
   }
 
   get label() {
-    return this.settings && this.settings.customLabel
-      ? this.settings.customLabel
-      : this.channel.label;
+    return this.settings && this.settings.customLabel ? this.settings.customLabel : this.channel.label;
   }
 
   submitLimit() {
@@ -107,18 +99,18 @@ export default class ChannelSettingsView extends Vue {
         customLabel: this.channel.label,
         levels: {
           min: Math.round(this.levels[0]),
-          max: Math.round(this.levels[1])
+          max: Math.round(this.levels[1]),
         },
-        suppressBroadcast: false
+        suppressBroadcast: false,
       };
     } else {
       settings = {
         ...settings,
         levels: {
           min: Math.round(this.levels[0]),
-          max: Math.round(this.levels[1])
+          max: Math.round(this.levels[1]),
         },
-        suppressBroadcast: false
+        suppressBroadcast: false,
       };
     }
     this.settingsContext.mutations.setChannelSettings(settings);
@@ -134,7 +126,7 @@ export default class ChannelSettingsView extends Vue {
         : [this.channel.min_intensity, this.channel.max_intensity];
     this.experimentContext.actions.setSharedChannelLevels({
       metal: metal,
-      levels: levels
+      levels: levels,
     });
   }
 
@@ -148,7 +140,7 @@ export default class ChannelSettingsView extends Vue {
   onColorChanged(color: string) {
     this.settingsContext.mutations.setMetalColor({
       metal: this.channel.metal,
-      color: color
+      color: color,
     });
   }
 }

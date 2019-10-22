@@ -8,10 +8,7 @@
       <v-img :src="imageUrl" class="grey lighten-2" width="380px">
         <template v-slot:placeholder>
           <v-row class="fill-height ma-0" align="center" justify="center">
-            <v-progress-circular
-              indeterminate
-              color="grey lighten-5"
-            ></v-progress-circular>
+            <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
           </v-row>
         </template>
       </v-img>
@@ -24,9 +21,7 @@
           </v-list-item-content>
 
           <v-list-item-action>
-            <v-list-item-action-text
-              v-text="item.value"
-            ></v-list-item-action-text>
+            <v-list-item-action-text v-text="item.value"></v-list-item-action-text>
           </v-list-item-action>
         </v-list-item>
       </template>
@@ -59,7 +54,7 @@ export default class InfoCard extends Vue {
       return items.map(item => {
         return {
           name: item[0],
-          value: item[1]
+          value: item[1],
         };
       });
     } else {

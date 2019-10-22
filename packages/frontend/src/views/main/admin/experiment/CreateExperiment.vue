@@ -7,15 +7,8 @@
       <v-card-text>
         <template>
           <v-form v-model="valid" ref="form" lazy-validation>
-            <v-text-field
-              label="Name"
-              v-model="name"
-              :rules="nameRules"
-            ></v-text-field>
-            <v-text-field
-              label="Description"
-              v-model="description"
-            ></v-text-field>
+            <v-text-field label="Name" v-model="name" :rules="nameRules"></v-text-field>
+            <v-text-field label="Description" v-model="description"></v-text-field>
             <v-combobox
               v-model="tags"
               :filter="filter"
@@ -37,19 +30,11 @@
                 </v-list-item>
               </template>
               <template v-slot:selection="{ attrs, item, parent, selected }">
-                <v-chip
-                  v-if="item === Object(item)"
-                  v-bind="attrs"
-                  :input-value="selected"
-                  label
-                  small
-                >
+                <v-chip v-if="item === Object(item)" v-bind="attrs" :input-value="selected" label small>
                   <span class="pr-2">
                     {{ item.text }}
                   </span>
-                  <v-icon small @click="parent.selectItem(item)"
-                    >mdi-close
-                  </v-icon>
+                  <v-icon small @click="parent.selectItem(item)">mdi-close </v-icon>
                 </v-chip>
               </template>
               <template v-slot:item="{ index, item }">
@@ -69,9 +54,7 @@
                 <v-spacer></v-spacer>
                 <v-list-item-action @click.stop>
                   <v-btn icon @click.stop.prevent="edit(index, item)">
-                    <v-icon>{{
-                      editing !== item ? "mdi-pencil" : "mdi-check"
-                    }}</v-icon>
+                    <v-icon>{{ editing !== item ? "mdi-pencil" : "mdi-check" }}</v-icon>
                   </v-btn>
                 </v-list-item-action>
               </template>
@@ -104,8 +87,8 @@ export default class CreateExperiment extends Vue {
   readonly nameRules = [required];
 
   valid = false;
-  name: string = "";
-  description: string = "";
+  name = "";
+  description = "";
 
   editing = null;
   index = -1;
@@ -117,7 +100,7 @@ export default class CreateExperiment extends Vue {
     const list = this.experimentContext.getters.tags;
     return list.map(item => {
       return {
-        text: item
+        text: item,
       };
     });
   }
@@ -146,7 +129,7 @@ export default class CreateExperiment extends Vue {
     this.tags = val.map(v => {
       if (typeof v === "string") {
         v = {
-          text: v
+          text: v,
         };
         this.items.push(v);
         this.nonce++;
@@ -182,7 +165,7 @@ export default class CreateExperiment extends Vue {
   async submit() {
     if ((this.$refs.form as any).validate()) {
       const params: IExperimentCreate = {
-        name: this.name
+        name: this.name,
       };
       if (this.description) {
         params.description = this.description;

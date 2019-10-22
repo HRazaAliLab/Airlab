@@ -15,12 +15,7 @@
           </div>
           <v-form v-model="valid" ref="form">
             <v-text-field label="Full Name" v-model="fullName"></v-text-field>
-            <v-text-field
-              label="E-mail"
-              type="email"
-              v-model="email"
-              :rules="emailRules"
-            ></v-text-field>
+            <v-text-field label="E-mail" type="email" v-model="email" :rules="emailRules"></v-text-field>
             <v-checkbox label="Is Superuser" v-model="isSuperuser"></v-checkbox>
             <v-checkbox label="Is Active" v-model="isActive"></v-checkbox>
             <v-row align="center">
@@ -81,19 +76,17 @@ export default class EditUser extends Vue {
   }
 
   passwordIsEqual(v) {
-    return this.setPassword && v !== this.password1
-      ? "Password should be the same"
-      : true;
+    return this.setPassword && v !== this.password1 ? "Password should be the same" : true;
   }
 
   valid = true;
-  fullName: string = "";
-  email: string = "";
-  isActive: boolean = true;
-  isSuperuser: boolean = false;
+  fullName = "";
+  email = "";
+  isActive = true;
+  isSuperuser = false;
   setPassword = false;
-  password1: string = "";
-  password2: string = "";
+  password1 = "";
+  password2 = "";
 
   async mounted() {
     await this.userContext.actions.getUsers();
@@ -135,16 +128,14 @@ export default class EditUser extends Vue {
       }
       await this.userContext.actions.updateUser({
         id: this.user!.id,
-        user: data
+        user: data,
       });
       this.$router.push("/main/admin/users");
     }
   }
 
   get user() {
-    return this.userContext.getters.getUser(
-      +this.$router.currentRoute.params.id
-    );
+    return this.userContext.getters.getUser(+this.$router.currentRoute.params.id);
   }
 }
 </script>

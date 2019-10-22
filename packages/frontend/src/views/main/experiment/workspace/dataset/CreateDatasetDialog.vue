@@ -11,17 +11,10 @@
         <v-form v-model="valid" ref="form" lazy-validation>
           <v-layout column>
             <v-flex>
-              <v-text-field
-                label="Name"
-                v-model="name"
-                :rules="nameRules"
-              ></v-text-field>
+              <v-text-field label="Name" v-model="name" :rules="nameRules"></v-text-field>
             </v-flex>
             <v-flex>
-              <v-text-field
-                label="Description"
-                v-model="description"
-              ></v-text-field>
+              <v-text-field label="Description" v-model="description"></v-text-field>
             </v-flex>
           </v-layout>
         </v-form>
@@ -52,8 +45,8 @@ export default class CreateDatasetDialog extends Vue {
   dialog = false;
 
   valid = false;
-  name: string = "";
-  description: string = "";
+  name = "";
+  description = "";
 
   reset() {
     this.name = "";
@@ -69,7 +62,7 @@ export default class CreateDatasetDialog extends Vue {
     if ((this.$refs.form as any).validate()) {
       await this.datasetContext.actions.createDataset({
         name: this.name,
-        description: this.description
+        description: this.description,
       });
       this.dialog = false;
     }

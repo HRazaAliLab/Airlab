@@ -4,7 +4,7 @@ module.exports = {
   transpileDependencies: ["vuetify"],
 
   pwa: {
-    name: "AirLab"
+    name: "AirLab",
   },
 
   configureWebpack: config => {
@@ -22,12 +22,12 @@ module.exports = {
       openAnalyzer: false,
       // Excludes module sources from stats file so there won't be any sensitive data
       statsOptions: {
-        source: false
-      }
-    }
+        source: false,
+      },
+    },
   },
 
   devServer: {
-    port: 9999
-  }
+    port: 9999,
+  },
 };

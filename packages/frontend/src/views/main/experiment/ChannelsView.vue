@@ -61,22 +61,22 @@ export default class ChannelsView extends Vue {
       sortable: true,
       value: "label",
       align: "start",
-      width: "50%"
+      width: "50%",
     },
     {
       text: "Metal",
       sortable: true,
       value: "metal",
       align: "start",
-      width: "30%"
+      width: "30%",
     },
     {
       text: "Mass",
       sortable: true,
       value: "mass",
       align: "end",
-      width: "20%"
-    }
+      width: "20%",
+    },
   ];
 
   max25chars = v => v.length <= 25 || "Input too long!";
@@ -88,17 +88,12 @@ export default class ChannelsView extends Vue {
 
   get items() {
     return this.channels.map(channel => {
-      const settings = this.settingsModule.getters.getChannelSettings(
-        channel.id
-      );
+      const settings = this.settingsModule.getters.getChannelSettings(channel.id);
       return {
         id: channel.id,
-        label:
-          settings && settings.customLabel
-            ? settings.customLabel
-            : channel.label,
+        label: settings && settings.customLabel ? settings.customLabel : channel.label,
         metal: channel.metal,
-        mass: channel.mass
+        mass: channel.mass,
       };
     });
   }
@@ -128,13 +123,13 @@ export default class ChannelsView extends Vue {
       if (!settings) {
         this.settingsModule.mutations.setChannelSettings({
           id: item.id,
-          customLabel: item.label
+          customLabel: item.label,
         });
       } else {
         if (settings.customLabel !== item.label) {
           this.settingsModule.mutations.setChannelSettings({
             ...settings,
-            customLabel: item.label
+            customLabel: item.label,
           });
         }
       }

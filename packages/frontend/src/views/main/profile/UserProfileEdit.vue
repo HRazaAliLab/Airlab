@@ -8,12 +8,7 @@
         <template>
           <v-form v-model="valid" ref="form" lazy-validation>
             <v-text-field label="Full Name" v-model="fullName"></v-text-field>
-            <v-text-field
-              label="E-mail"
-              type="email"
-              v-model="email"
-              :rules="emailRules"
-            ></v-text-field>
+            <v-text-field label="E-mail" type="email" v-model="email" :rules="emailRules"></v-text-field>
           </v-form>
         </template>
       </v-card-text>
@@ -42,8 +37,8 @@ export default class UserProfileEdit extends Vue {
   readonly emailRules = [required, email];
 
   valid = true;
-  fullName: string = "";
-  email: string = "";
+  fullName = "";
+  email = "";
 
   created() {
     const userProfile = this.userProfile;

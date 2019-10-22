@@ -12,28 +12,28 @@ export class SettingsMutations extends Mutations<SettingsState> {
       type: "gaussian",
       settings: {
         sigma: 1.0,
-        kernel_size: 3
-      }
+        kernel_size: 3,
+      },
     };
     this.state.legend = {
       apply: false,
       fontScale: 1.0,
-      showIntensity: false
+      showIntensity: false,
     };
     this.state.scalebar = {
       apply: false,
       settings: {
-        scale: 1.0
-      }
+        scale: 1.0,
+      },
     };
     this.state.mask = {
       apply: false,
-      location: undefined
+      location: undefined,
     };
     if (!payload.suppressBroadcast) {
       BroadcastManager.postMessage({
         method: this.resetSettings.name,
-        payload: payload
+        payload: payload,
       });
     }
   }
@@ -44,7 +44,7 @@ export class SettingsMutations extends Mutations<SettingsState> {
     if (!payload.suppressBroadcast) {
       BroadcastManager.postMessage({
         method: this.setChannelSettings.name,
-        payload: payload
+        payload: payload,
       });
     }
   }
@@ -55,7 +55,7 @@ export class SettingsMutations extends Mutations<SettingsState> {
     if (!payload.suppressBroadcast) {
       BroadcastManager.postMessage({
         method: this.setMetalColor.name,
-        payload: payload
+        payload: payload,
       });
     }
   }
@@ -65,7 +65,7 @@ export class SettingsMutations extends Mutations<SettingsState> {
     if (!payload.suppressBroadcast) {
       BroadcastManager.postMessage({
         method: this.setFilter.name,
-        payload: payload
+        payload: payload,
       });
     }
   }
@@ -75,7 +75,7 @@ export class SettingsMutations extends Mutations<SettingsState> {
     if (!payload.suppressBroadcast) {
       BroadcastManager.postMessage({
         method: this.setLegend.name,
-        payload: payload
+        payload: payload,
       });
     }
   }
@@ -85,7 +85,7 @@ export class SettingsMutations extends Mutations<SettingsState> {
     if (!payload.suppressBroadcast) {
       BroadcastManager.postMessage({
         method: this.setScalebar.name,
-        payload: payload
+        payload: payload,
       });
     }
   }
@@ -95,7 +95,7 @@ export class SettingsMutations extends Mutations<SettingsState> {
     if (!payload.suppressBroadcast) {
       BroadcastManager.postMessage({
         method: this.setMaskSettings.name,
-        payload: payload
+        payload: payload,
       });
     }
   }

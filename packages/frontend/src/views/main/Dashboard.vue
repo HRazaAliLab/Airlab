@@ -24,24 +24,14 @@
       ></v-select>
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
-          <v-btn
-            v-on="on"
-            dark
-            fab
-            color="primary lighten-1"
-            to="/main/experiments/create"
-            class="ml-4"
-          >
+          <v-btn v-on="on" dark fab color="primary lighten-1" to="/main/experiments/create" class="ml-4">
             <v-icon>mdi-plus</v-icon>
           </v-btn>
         </template>
         <span>Create experiment</span>
       </v-tooltip>
     </v-row>
-    <masonry
-      :cols="{ default: 4, 1000: 3, 700: 2, 400: 1 }"
-      :gutter="{ default: '0px' }"
-    >
+    <masonry :cols="{ default: 4, 1000: 3, 700: 2, 400: 1 }" :gutter="{ default: '0px' }">
       <ExperimentCard
         v-for="experiment in experiments"
         :key="experiment.id"
@@ -59,7 +49,7 @@ import { mainModule } from "@/modules/main";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({
-  components: { ExperimentCard }
+  components: { ExperimentCard },
 })
 export default class Dashboard extends Vue {
   mainContext = mainModule.context(this.$store);
@@ -72,7 +62,7 @@ export default class Dashboard extends Vue {
     const list = this.experimentContext.getters.tags;
     return list.map(item => {
       return {
-        text: item
+        text: item,
       };
     });
   }
@@ -83,18 +73,13 @@ export default class Dashboard extends Vue {
 
   get experiments() {
     const items = this.search
-      ? this.experimentContext.getters.experiments.filter(item =>
-          item.name.includes(this.search)
-        )
+      ? this.experimentContext.getters.experiments.filter(item => item.name.includes(this.search))
       : this.experimentContext.getters.experiments;
     if (this.tags.length === 0) {
       return items;
     } else {
       return items.filter(experiment => {
-        if (
-          experiment.tags &&
-          this.tags.some(r => experiment.tags.includes(r))
-        ) {
+        if (experiment.tags && this.tags.some(r => experiment.tags.includes(r))) {
           return experiment;
         }
       });

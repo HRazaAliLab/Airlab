@@ -2,13 +2,7 @@
   <v-expansion-panel>
     <v-expansion-panel-header>Legend</v-expansion-panel-header>
     <v-expansion-panel-content class="ma-0 pa-0">
-      <v-switch
-        v-model="apply"
-        label="Show Legend"
-        hide-details
-        inset
-        class="ma-0 pa-0"
-      ></v-switch>
+      <v-switch v-model="apply" label="Show Legend" hide-details inset class="ma-0 pa-0"></v-switch>
       <v-text-field
         type="number"
         label="Font Scale"
@@ -18,12 +12,7 @@
         step="0.05"
         hide-details
       ></v-text-field>
-      <v-switch
-        v-model="showIntensity"
-        label="Show Intensity"
-        hide-details
-        inset
-      ></v-switch>
+      <v-switch v-model="showIntensity" label="Show Intensity" hide-details inset></v-switch>
     </v-expansion-panel-content>
   </v-expansion-panel>
 </template>
@@ -48,7 +37,7 @@ export default class LegendSettingsView extends Vue {
   set apply(value: boolean) {
     this.settingsContext.mutations.setLegend({
       ...this.settingsContext.getters.legend,
-      apply: value
+      apply: value,
     });
     this.experimentContext.actions.getChannelStackImage();
   }
@@ -60,7 +49,7 @@ export default class LegendSettingsView extends Vue {
   set legendFontScale(value: number) {
     this.settingsContext.mutations.setLegend({
       ...this.settingsContext.getters.legend,
-      fontScale: value
+      fontScale: value,
     });
     if (this.apply) {
       this.experimentContext.actions.getChannelStackImage();
@@ -74,7 +63,7 @@ export default class LegendSettingsView extends Vue {
   set showIntensity(value: boolean) {
     this.settingsContext.mutations.setLegend({
       ...this.settingsContext.getters.legend,
-      showIntensity: value
+      showIntensity: value,
     });
     this.experimentContext.actions.getChannelStackImage();
   }

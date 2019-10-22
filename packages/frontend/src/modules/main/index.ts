@@ -6,18 +6,18 @@ import { AppNotification } from "./models";
 import { MainMutations } from "./mutations";
 
 export class MainState {
-  token: string = "";
+  token = "";
   isLoggedIn: boolean | null = null;
-  logInError: boolean = false;
+  logInError = false;
   userProfile: IUserProfile | null = null;
-  dashboardMiniDrawer: boolean = true;
-  dashboardShowDrawer: boolean = true;
+  dashboardMiniDrawer = true;
+  dashboardShowDrawer = true;
   notifications: AppNotification[] = [];
-  showWorkspace: boolean = true;
-  showOptions: boolean = true;
+  showWorkspace = true;
+  showOptions = true;
 
-  processing: boolean = false;
-  processingProgress: number = 0;
+  processing = false;
+  processingProgress = 0;
 }
 
 export const mainModule = new Module({
@@ -26,5 +26,5 @@ export const mainModule = new Module({
   state: MainState,
   getters: MainGetters,
   mutations: MainMutations,
-  actions: MainActions
+  actions: MainActions,
 });

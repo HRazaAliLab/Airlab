@@ -57,7 +57,7 @@ export class ExperimentActions extends Actions<
       this.main!.mutations.addNotification(notification);
       const data = (await Promise.all([
         api.updateExperiment(this.main!.getters.token, payload.id, payload.data),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500))
+        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
       ]))[0];
       this.mutations.setExperiment(data);
       this.main!.mutations.removeNotification(notification);
@@ -73,7 +73,7 @@ export class ExperimentActions extends Actions<
       this.main!.mutations.addNotification(notification);
       const data = (await Promise.all([
         api.deleteExperiment(this.main!.getters.token, id),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500))
+        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
       ]))[0];
       this.mutations.deleteExperiment(id);
       this.main!.mutations.removeNotification(notification);
@@ -89,7 +89,7 @@ export class ExperimentActions extends Actions<
       this.main!.mutations.addNotification(notification);
       const data = (await Promise.all([
         api.createExperiment(this.main!.getters.token, payload),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500))
+        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
       ]))[0];
       this.mutations.setExperiment(data);
       this.main!.mutations.removeNotification(notification);
@@ -216,16 +216,16 @@ export class ExperimentActions extends Actions<
                       customLabel: channel.label,
                       levels: {
                         min: payload.levels[0],
-                        max: payload.levels[1]
-                      }
+                        max: payload.levels[1],
+                      },
                     };
                   } else {
                     settings = {
                       ...settings,
                       levels: {
                         min: payload.levels[0],
-                        max: payload.levels[1]
-                      }
+                        max: payload.levels[1],
+                      },
                     };
                   }
                   this.settings!.mutations.setChannelSettings(settings);
@@ -244,7 +244,7 @@ export class ExperimentActions extends Actions<
       this.main!.mutations.addNotification(notification);
       const data = (await Promise.all([
         api.createShare(this.main!.getters.token, payload),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500))
+        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
       ]))[0];
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Experiment successfully shared", color: "success" });
@@ -268,7 +268,7 @@ export class ExperimentActions extends Actions<
       this.main!.mutations.addNotification(notification);
       const data = (await Promise.all([
         api.deleteSlide(this.main!.getters.token, id),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500))
+        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
       ]))[0];
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Slide successfully deleted", color: "success" });
@@ -289,7 +289,7 @@ export class ExperimentActions extends Actions<
         color: color,
         customLabel: customLabel,
         min: min,
-        max: max
+        max: max,
       };
     });
 
@@ -302,7 +302,7 @@ export class ExperimentActions extends Actions<
       filter: filter,
       legend: legend,
       scalebar: scalebar,
-      channels: channels
+      channels: channels,
     };
 
     const activeDataset = this.datasets!.getters.activeDataset;
@@ -315,7 +315,7 @@ export class ExperimentActions extends Actions<
         if (mask) {
           result["mask"] = {
             apply: maskSettings.apply,
-            location: mask.location
+            location: mask.location,
           };
         }
       }

@@ -4,24 +4,10 @@
       <v-card-title primary-title>
         <div class="headline primary--text">Share Experiment</div>
         <v-spacer />
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Search"
-          single-line
-          hide-details
-          clearable
-        />
+        <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details clearable />
       </v-card-title>
       <v-card-text>
-        <v-data-table
-          :headers="headers"
-          :items="users"
-          :search="search"
-          v-model="selected"
-          show-select
-        >
-        </v-data-table>
+        <v-data-table :headers="headers" :items="users" :search="search" v-model="selected" show-select> </v-data-table>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -57,14 +43,14 @@ export default class ShareExperiment extends Vue {
       text: "Email",
       sortable: true,
       value: "email",
-      align: "left"
+      align: "left",
     },
     {
       text: "Full Name",
       sortable: true,
       value: "full_name",
-      align: "left"
-    }
+      align: "left",
+    },
   ];
 
   get users() {
@@ -81,9 +67,7 @@ export default class ShareExperiment extends Vue {
 
   async mounted() {
     await this.userContext.actions.getUsers();
-    await this.experimentContext.actions.getExperimentShares(
-      parseInt(this.$router.currentRoute.params.id, 10)
-    );
+    await this.experimentContext.actions.getExperimentShares(parseInt(this.$router.currentRoute.params.id, 10));
     this.reset();
   }
 
@@ -104,7 +88,7 @@ export default class ShareExperiment extends Vue {
     const userIds = this.selected.map(item => item.id);
     const data: IShareCreate = {
       user_ids: userIds,
-      experiment_id: parseInt(this.$router.currentRoute.params.id, 10)
+      experiment_id: parseInt(this.$router.currentRoute.params.id, 10),
     };
     await this.experimentContext.actions.createShare(data);
   }

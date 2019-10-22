@@ -2,13 +2,7 @@
   <v-expansion-panel>
     <v-expansion-panel-header>Scalebar</v-expansion-panel-header>
     <v-expansion-panel-content class="ma-0 pa-0">
-      <v-switch
-        v-model="apply"
-        label="Show Scalebar"
-        hide-details
-        inset
-        class="ma-0 pa-0"
-      ></v-switch>
+      <v-switch v-model="apply" label="Show Scalebar" hide-details inset class="ma-0 pa-0"></v-switch>
       <v-text-field
         type="number"
         :rules="[required]"
@@ -43,7 +37,7 @@ export default class ScalebarSettingsView extends Vue {
   set apply(value: boolean) {
     this.settingsContext.mutations.setScalebar({
       ...this.settingsContext.getters.scalebar,
-      apply: value
+      apply: value,
     });
     this.experimentContext.actions.getChannelStackImage();
   }
@@ -58,8 +52,8 @@ export default class ScalebarSettingsView extends Vue {
     this.settingsContext.mutations.setScalebar({
       ...this.settingsContext.getters.scalebar,
       settings: {
-        scale: value
-      }
+        scale: value,
+      },
     });
     if (this.apply) {
       this.experimentContext.actions.getChannelStackImage();

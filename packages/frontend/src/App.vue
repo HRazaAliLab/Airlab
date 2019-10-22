@@ -6,11 +6,7 @@
           <v-col>
             <div class="text-center">
               <div class="headline my-12">Loading...</div>
-              <v-progress-circular
-                size="100"
-                indeterminate
-                color="primary"
-              ></v-progress-circular>
+              <v-progress-circular size="100" indeterminate color="primary"></v-progress-circular>
             </div>
           </v-col>
         </v-row>
@@ -28,8 +24,8 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component({
   components: {
-    NotificationsManager
-  }
+    NotificationsManager,
+  },
 })
 export default class App extends Vue {
   readonly mainContext = mainModule.context(this.$store);

@@ -5,9 +5,7 @@
         Manage Experiments
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn small color="primary" to="/main/experiments/create"
-        >Create Experiment</v-btn
-      >
+      <v-btn small color="primary" to="/main/experiments/create">Create Experiment</v-btn>
     </v-toolbar>
 
     <v-data-table :headers="headers" :items="experiments">
@@ -19,7 +17,7 @@
               icon
               :to="{
                 name: 'main-admin-experiments-edit',
-                params: { id: item.id }
+                params: { id: item.id },
               }"
             >
               <v-icon>mdi-pencil</v-icon>
@@ -53,25 +51,25 @@ export default class AdminExperiments extends Vue {
       text: "Name",
       sortable: true,
       value: "name",
-      align: "left"
+      align: "left",
     },
     {
       text: "Description",
       sortable: true,
       value: "description",
-      align: "left"
+      align: "left",
     },
     {
       text: "Location",
       sortable: true,
       value: "location",
-      align: "left"
+      align: "left",
     },
     {
       text: "Actions",
       value: "action",
-      sortable: false
-    }
+      sortable: false,
+    },
   ];
 
   get experiments() {

@@ -8,10 +8,7 @@
         <template>
           <div class="my-4">
             <div class="subtitle-1 primary--text text--lighten-2">User</div>
-            <div
-              class="title primary--text text--darken-2"
-              v-if="userProfile.full_name"
-            >
+            <div class="title primary--text text--darken-2" v-if="userProfile.full_name">
               {{ userProfile.full_name }}
             </div>
             <div class="title primary--text text--darken-2" v-else>
@@ -19,20 +16,9 @@
             </div>
           </div>
           <v-form ref="form">
-            <v-text-field
-              type="password"
-              ref="password"
-              label="Password"
-              :rules="password1Rules"
-              v-model="password1"
-            >
+            <v-text-field type="password" ref="password" label="Password" :rules="password1Rules" v-model="password1">
             </v-text-field>
-            <v-text-field
-              type="password"
-              label="Confirm Password"
-              :rules="password2Rules"
-              v-model="password2"
-            >
+            <v-text-field type="password" label="Confirm Password" :rules="password2Rules" v-model="password2">
             </v-text-field>
           </v-form>
         </template>

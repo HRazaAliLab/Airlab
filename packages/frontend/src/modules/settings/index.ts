@@ -12,23 +12,23 @@ export class SettingsState {
     type: "gaussian",
     settings: {
       sigma: 1.0,
-      kernel_size: 3
-    }
+      kernel_size: 3,
+    },
   };
   legend: IImageLegend = {
     apply: false,
     fontScale: 1.0,
-    showIntensity: false
+    showIntensity: false,
   };
   scalebar: IImageScalebar = {
     apply: false,
     settings: {
-      scale: 1.0
-    }
+      scale: 1.0,
+    },
   };
   mask: IMaskSettings = {
     apply: false,
-    location: undefined
+    location: undefined,
   };
 }
 
@@ -38,5 +38,5 @@ export const settingsModule = new Module({
   state: SettingsState,
   getters: SettingsGetters,
   mutations: SettingsMutations,
-  actions: SettingsActions
+  actions: SettingsActions,
 });

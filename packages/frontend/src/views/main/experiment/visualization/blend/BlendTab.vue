@@ -18,23 +18,10 @@
             </v-list-item>
           </v-list>
         </v-menu>
-        <v-switch
-          v-model="regionsEnabled"
-          label="Enable regions"
-          hide-details
-          inset
-          class="ml-8"
-        ></v-switch>
+        <v-switch v-model="regionsEnabled" label="Enable regions" hide-details inset class="ml-8"></v-switch>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-btn
-              small
-              elevation="1"
-              v-on="on"
-              @click="deleteRegions"
-              class="ml-2"
-              :disabled="!selectedRegion"
-            >
+            <v-btn small elevation="1" v-on="on" @click="deleteRegions" class="ml-2" :disabled="!selectedRegion">
               Delete region(s)
             </v-btn>
           </template>
@@ -42,14 +29,7 @@
         </v-tooltip>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-btn
-              small
-              elevation="1"
-              v-on="on"
-              @click="calculateRegionStats"
-              class="ml-2"
-              :disabled="!selectedRegion"
-            >
+            <v-btn small elevation="1" v-on="on" @click="calculateRegionStats" class="ml-2" :disabled="!selectedRegion">
               Region stats
             </v-btn>
           </template>
@@ -95,7 +75,7 @@ export default class BlendTab extends Vue {
   set applyMask(value: boolean) {
     this.settingsContext.mutations.setMaskSettings({
       ...this.settingsContext.getters.maskSettings,
-      apply: value
+      apply: value,
     });
     this.experimentContext.actions.getChannelStackImage();
   }
@@ -114,15 +94,8 @@ export default class BlendTab extends Vue {
 
   get hasMask() {
     let hasMask = false;
-    if (
-      this.activeAcquisition &&
-      this.dataset &&
-      this.dataset.input &&
-      this.dataset.input.probability_masks
-    ) {
-      hasMask = !!this.dataset.input.probability_masks[
-        this.activeAcquisition.id
-      ];
+    if (this.activeAcquisition && this.dataset && this.dataset.input && this.dataset.input.probability_masks) {
+      hasMask = !!this.dataset.input.probability_masks[this.activeAcquisition.id];
     }
     return hasMask;
   }

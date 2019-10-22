@@ -4,9 +4,7 @@
       <v-row no-gutters>
         <v-col>
           <h5 class="headline">{{ experiment.name }}</h5>
-          <span class="caption"
-            ><v-icon small>mdi-calendar-outline</v-icon> {{ createdAt }}</span
-          >
+          <span class="caption"><v-icon small>mdi-calendar-outline</v-icon> {{ createdAt }}</span>
         </v-col>
       </v-row>
     </v-card-title>
@@ -14,22 +12,13 @@
       {{ experiment.description }}
     </v-card-text>
     <v-card-text v-if="experiment.tags">
-      <v-chip
-        :key="item"
-        v-for="item in experiment.tags"
-        label
-        small
-        class="mr-1"
-      >
+      <v-chip :key="item" v-for="item in experiment.tags" label small class="mr-1">
         <v-icon small left>mdi-tag-outline</v-icon>
         {{ item }}
       </v-chip>
     </v-card-text>
     <v-card-actions>
-      <v-btn
-        color="primary"
-        :to="{ name: 'main-experiment', params: { id: experiment.id } }"
-      >
+      <v-btn color="primary" :to="{ name: 'main-experiment', params: { id: experiment.id } }">
         Open
       </v-btn>
       <v-spacer></v-spacer>
@@ -40,7 +29,7 @@
             v-on="on"
             :to="{
               name: 'main-experiment-edit',
-              params: { id: experiment.id }
+              params: { id: experiment.id },
             }"
           >
             <v-icon>mdi-pencil</v-icon>
@@ -55,7 +44,7 @@
             v-on="on"
             :to="{
               name: 'main-experiment-share',
-              params: { id: experiment.id }
+              params: { id: experiment.id },
             }"
           >
             <v-icon>mdi-share-variant</v-icon>
@@ -65,12 +54,7 @@
       </v-tooltip>
       <v-tooltip bottom v-if="isOwner || hasAdminAccess">
         <template v-slot:activator="{ on }">
-          <v-btn
-            icon
-            color="secondary"
-            v-on="on"
-            @click="deleteExperiment($event, experiment.id)"
-          >
+          <v-btn icon color="secondary" v-on="on" @click="deleteExperiment($event, experiment.id)">
             <v-icon>mdi-delete-outline</v-icon>
           </v-btn>
         </template>

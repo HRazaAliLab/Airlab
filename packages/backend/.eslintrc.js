@@ -1,17 +1,11 @@
 module.exports = {
   env: {
-    browser: true,
-    commonjs: true,
-    jest: true,
-    serviceworker: true
+    node: true,
+    jest: true
   },
-  parser: "vue-eslint-parser",
+  parser: "@typescript-eslint/parser",
   parserOptions: {
-    parser: "@typescript-eslint/parser",
     ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
     sourceType: "module", // Allows for the use of imports
-    extraFileExtensions: [
-      ".vue"
-    ]
   }
 };

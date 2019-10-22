@@ -64,13 +64,7 @@
         </v-tooltip>
         <v-tooltip bottom v-if="item.type === 'slide'">
           <template v-slot:activator="{ on }">
-            <v-btn
-              v-on="on"
-              small
-              icon
-              color="grey"
-              @click.stop="deleteSlide(item.id)"
-            >
+            <v-btn v-on="on" small icon color="grey" @click.stop="deleteSlide(item.id)">
               <v-icon small>mdi-delete</v-icon>
             </v-btn>
           </template>
@@ -99,7 +93,7 @@ import { equals } from "rambda";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 @Component({
-  components: { UploadButton, InfoCard }
+  components: { UploadButton, InfoCard },
 })
 export default class SlidesTreeView extends Vue {
   readonly experimentContext = experimentModule.context(this.$store);
@@ -117,7 +111,7 @@ export default class SlidesTreeView extends Vue {
     slide: "mdi-folder-outline",
     panorama: "mdi-apps",
     roi: "mdi-blur",
-    acquisition: "mdi-buffer"
+    acquisition: "mdi-buffer",
   };
 
   toggleShowROI() {
@@ -142,9 +136,7 @@ export default class SlidesTreeView extends Vue {
   @Watch("selected")
   async selectedChanged(items: any[]) {
     this.mutex = true;
-    const ids = items
-      .filter(item => item.type === "acquisition")
-      .map(acquisition => acquisition.id);
+    const ids = items.filter(item => item.type === "acquisition").map(acquisition => acquisition.id);
     await this.experimentContext.mutations.setSelectedAcquisitionIds(ids);
     this.mutex = false;
   }
@@ -154,7 +146,7 @@ export default class SlidesTreeView extends Vue {
     if (!this.mutex && !equals(newIds, oldIds)) {
       const items: any[] = [];
       const nodes = {
-        children: this.items
+        children: this.items,
       };
 
       for (const id of newIds) {
@@ -171,8 +163,8 @@ export default class SlidesTreeView extends Vue {
     if (element.type === "acquisition" && element.id === id) {
       return element;
     } else if (element.children != null) {
-      var i;
-      var result = null;
+      let i;
+      let result = null;
       for (i = 0; result == null && i < element.children.length; i++) {
         result = this.searchTree(element.children[i], id);
       }
@@ -200,27 +192,21 @@ export default class SlidesTreeView extends Vue {
           const rois = panorama.rois.map(roi => {
             const acquisitions = roi.acquisitions.map(acquisition => {
               let hasMask = false;
-              if (
-                this.dataset &&
-                this.dataset.input &&
-                this.dataset.input.probability_masks
-              ) {
-                hasMask = !!this.dataset.input.probability_masks[
-                  acquisition.id
-                ];
+              if (this.dataset && this.dataset.input && this.dataset.input.probability_masks) {
+                hasMask = !!this.dataset.input.probability_masks[acquisition.id];
               }
               return Object.assign({}, acquisition, {
                 type: "acquisition",
                 name: `${acquisition.id}: ${acquisition.meta.Description}`,
                 uid: `acquisition-${acquisition.id}`,
-                hasMask: hasMask
+                hasMask: hasMask,
               });
             });
             return Object.assign({}, roi, {
               type: "roi",
               name: `ROI ${roi.origin_id}`,
               uid: `roi-${roi.id}`,
-              children: acquisitions
+              children: acquisitions,
             });
           });
           const panoramaChildren = this.showROI
@@ -235,14 +221,14 @@ export default class SlidesTreeView extends Vue {
             type: "panorama",
             name: panorama.meta.Description,
             uid: `panorama-${panorama.id}`,
-            children: panoramaChildren
+            children: panoramaChildren,
           });
         });
         return Object.assign({}, slide, {
           type: "slide",
           name: slide.name,
           children: panoramas,
-          uid: `slide-${slide.id}`
+          uid: `slide-${slide.id}`,
         });
       });
     } else {

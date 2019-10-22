@@ -1,11 +1,7 @@
 <template>
   <div>
     <v-snackbar :color="currentNotificationColor" v-model="show" right>
-      <v-progress-circular
-        class="ma-2"
-        indeterminate
-        v-show="showProgress"
-      ></v-progress-circular>
+      <v-progress-circular class="ma-2" indeterminate v-show="showProgress"></v-progress-circular>
       {{ currentNotificationContent }}
       <v-btn text @click.native="close">Close</v-btn>
     </v-snackbar>
@@ -21,9 +17,9 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 export default class NotificationsManager extends Vue {
   readonly mainContext = mainModule.context(this.$store);
 
-  show: boolean = false;
-  text: string = "";
-  showProgress: boolean = false;
+  show = false;
+  text = "";
+  showProgress = false;
   currentNotification: AppNotification | false = false;
 
   async hide() {
@@ -60,16 +56,13 @@ export default class NotificationsManager extends Vue {
   }
 
   @Watch("firstNotification")
-  async onNotificationChange(
-    newNotification: AppNotification | false,
-    oldNotification: AppNotification | false
-  ) {
+  async onNotificationChange(newNotification: AppNotification | false, oldNotification: AppNotification | false) {
     if (newNotification !== this.currentNotification) {
       await this.setNotification(newNotification);
       if (newNotification) {
         this.mainContext.actions.removeNotification({
           notification: newNotification,
-          timeout: 6500
+          timeout: 6500,
         });
       }
     }
@@ -80,9 +73,7 @@ export default class NotificationsManager extends Vue {
   }
 
   get currentNotificationColor() {
-    return (
-      (this.currentNotification && this.currentNotification.color) || "info"
-    );
+    return (this.currentNotification && this.currentNotification.color) || "info";
   }
 }
 </script>

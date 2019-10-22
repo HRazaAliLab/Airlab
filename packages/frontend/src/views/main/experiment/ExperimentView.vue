@@ -2,15 +2,7 @@
   <LoadingView v-if="!experimentData" text="Loading..." />
   <v-container v-else fluid class="px-1 py-0">
     <v-row no-gutters>
-      <v-col
-        v-show="showWorkspace"
-        class="pr-1"
-        xs="3"
-        sm="3"
-        md="3"
-        lg="3"
-        xl="2"
-      >
+      <v-col v-show="showWorkspace" class="pr-1" xs="3" sm="3" md="3" lg="3" xl="2">
         <WorkspaceView :experiment="experimentData" />
       </v-col>
       <v-col :cols="viewerColumns">
@@ -44,8 +36,8 @@ import { Component, Vue } from "vue-property-decorator";
     AnalysisView,
     WorkspaceView,
     VisualizationView,
-    LoadingView
-  }
+    LoadingView,
+  },
 })
 export default class ExperimentView extends Vue {
   readonly mainContext = mainModule.context(this.$store);
@@ -58,9 +50,7 @@ export default class ExperimentView extends Vue {
   }
 
   get experimentData() {
-    return this.experiment && this.experiment.slides
-      ? this.experiment
-      : undefined;
+    return this.experiment && this.experiment.slides ? this.experiment : undefined;
   }
 
   get showWorkspace() {

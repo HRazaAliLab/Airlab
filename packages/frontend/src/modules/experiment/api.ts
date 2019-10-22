@@ -8,7 +8,7 @@ import {
   IExperimentUpdate,
   IShare,
   IShareCreate,
-  ISlide
+  ISlide,
 } from "./models";
 
 const cacheAvailable = false; // 'caches' in self;
@@ -18,8 +18,8 @@ export const api = {
     return ky
       .get(`${apiUrl}/api/v1/experiments/`, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .json<IExperiment[]>();
   },
@@ -27,8 +27,8 @@ export const api = {
     return ky
       .get(`${apiUrl}/api/v1/experiments/tags`, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .json<string[]>();
   },
@@ -37,8 +37,8 @@ export const api = {
       .put(`${apiUrl}/api/v1/experiments/${id}`, {
         json: data,
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .json<IExperiment>();
   },
@@ -47,8 +47,8 @@ export const api = {
       .post(`${apiUrl}/api/v1/experiments/`, {
         json: data,
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .json<IExperiment>();
   },
@@ -87,8 +87,8 @@ export const api = {
     return ky
       .delete(`${apiUrl}/api/v1/experiments/${id}`, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .json<IExperiment>();
   },
@@ -96,8 +96,8 @@ export const api = {
     return ky
       .get(`${apiUrl}/api/v1/experiments/${id}`, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .json<IExperiment>();
   },
@@ -105,8 +105,8 @@ export const api = {
     return ky
       .get(`${apiUrl}/api/v1/experiments/${id}/data`, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .json<IExperiment>();
   },
@@ -122,8 +122,8 @@ export const api = {
     }
     const response = await ky.get(url, {
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
     if (response.ok) {
       if (cacheAvailable) {
@@ -135,10 +135,10 @@ export const api = {
   async downloadChannelStackImage(token: string, params: IChannelStack) {
     return ky.post(`${apiUrl}/api/v1/channels/stack`, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       json: params,
-      timeout: false
+      timeout: false,
     });
   },
   async createShare(token: string, data: IShareCreate) {
@@ -146,8 +146,8 @@ export const api = {
       .post(`${apiUrl}/api/v1/share/`, {
         json: data,
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .json<IShare>();
   },
@@ -155,8 +155,8 @@ export const api = {
     return ky
       .get(`${apiUrl}/api/v1/share/${id}`, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .json<IShare[]>();
   },
@@ -164,9 +164,9 @@ export const api = {
     return ky
       .delete(`${apiUrl}/api/v1/slides/${id}`, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .json<ISlide>();
-  }
+  },
 };

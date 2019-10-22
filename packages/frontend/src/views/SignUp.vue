@@ -9,13 +9,7 @@
               <v-spacer></v-spacer>
             </v-toolbar>
             <v-card-text>
-              <v-form
-                @keyup.enter="submit"
-                v-model="valid"
-                ref="form"
-                @submit.prevent=""
-                lazy-validation
-              >
+              <v-form @keyup.enter="submit" v-model="valid" ref="form" @submit.prevent="" lazy-validation>
                 <v-text-field
                   @keyup.enter="submit"
                   type="email"
@@ -52,9 +46,7 @@
               </v-form>
               <v-row>
                 <v-col class="caption text-right py-0">
-                  <router-link to="/login"
-                    >Already have an account?</router-link
-                  >
+                  <router-link to="/login">Already have an account?</router-link>
                 </v-col>
               </v-row>
             </v-card-text>
@@ -110,20 +102,18 @@ export default class SignUp extends Vue {
       if (!userExist) {
         await this.userContext.actions.signUp({
           email: this.email,
-          password: this.password1
+          password: this.password1,
         });
       }
     }
   }
 
   private async checkUserExists() {
-    const userExist = await this.userContext.actions.checkUserExists(
-      this.email
-    );
+    const userExist = await this.userContext.actions.checkUserExists(this.email);
     if (userExist) {
       this.mainContext.mutations.addNotification({
         content: "User with this email already exists",
-        color: "warning"
+        color: "warning",
       });
     }
     return userExist;

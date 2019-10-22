@@ -2,25 +2,9 @@
   <v-expansion-panel>
     <v-expansion-panel-header>Filter</v-expansion-panel-header>
     <v-expansion-panel-content class="ma-0 pa-0">
-      <v-switch
-        v-model="apply"
-        label="Apply Filter"
-        inset
-        hide-details
-        class="ma-0 pa-0"
-      ></v-switch>
-      <v-select
-        :items="filterTypes"
-        v-model="filterType"
-        label="Filter Type"
-        hide-details
-      ></v-select>
-      <v-select
-        :items="kernelSizes"
-        v-model.number="kernelSize"
-        label="Kernel Size"
-        hide-details
-      ></v-select>
+      <v-switch v-model="apply" label="Apply Filter" inset hide-details class="ma-0 pa-0"></v-switch>
+      <v-select :items="filterTypes" v-model="filterType" label="Filter Type" hide-details></v-select>
+      <v-select :items="kernelSizes" v-model.number="kernelSize" label="Kernel Size" hide-details></v-select>
       <v-text-field
         v-if="filterType === 'gaussian'"
         type="number"
@@ -61,7 +45,7 @@ export default class FilterSettingsView extends Vue {
   set apply(value: boolean) {
     this.settingsContext.mutations.setFilter({
       ...this.settingsContext.getters.filter,
-      apply: value
+      apply: value,
     });
     this.experimentContext.actions.getChannelStackImage();
   }
@@ -73,7 +57,7 @@ export default class FilterSettingsView extends Vue {
   set filterType(value: string) {
     this.settingsContext.mutations.setFilter({
       ...this.settingsContext.getters.filter,
-      type: value
+      type: value,
     });
     if (this.apply) {
       this.experimentContext.actions.getChannelStackImage();
@@ -90,8 +74,8 @@ export default class FilterSettingsView extends Vue {
     this.settingsContext.mutations.setFilter({
       ...this.settingsContext.getters.filter,
       settings: {
-        sigma: value
-      }
+        sigma: value,
+      },
     });
     if (this.apply) {
       this.experimentContext.actions.getChannelStackImage();
@@ -108,8 +92,8 @@ export default class FilterSettingsView extends Vue {
     this.settingsContext.mutations.setFilter({
       ...this.settingsContext.getters.filter,
       settings: {
-        kernel_size: value
-      }
+        kernel_size: value,
+      },
     });
     if (this.apply) {
       this.experimentContext.actions.getChannelStackImage();

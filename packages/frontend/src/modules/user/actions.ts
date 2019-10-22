@@ -35,7 +35,7 @@ export class UserActions extends Actions<UserState, UserGetters, UserMutations, 
       this.main!.mutations.addNotification(notification);
       const data = (await Promise.all([
         api.updateUser(this.main!.getters.token, payload.id, payload.user),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500))
+        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
       ]))[0];
       this.mutations.setUser(data);
       this.main!.mutations.removeNotification(notification);
@@ -51,7 +51,7 @@ export class UserActions extends Actions<UserState, UserGetters, UserMutations, 
       this.main!.mutations.addNotification(notification);
       const data = (await Promise.all([
         api.createUser(this.main!.getters.token, payload),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500))
+        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
       ]))[0];
       this.mutations.setUser(data);
       this.main!.mutations.removeNotification(notification);
@@ -76,7 +76,7 @@ export class UserActions extends Actions<UserState, UserGetters, UserMutations, 
       this.main!.mutations.addNotification(notification);
       const data = (await Promise.all([
         api.signUp(payload),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500))
+        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
       ]))[0];
       this.main!.actions.routeLogOut();
       this.main!.mutations.removeNotification(notification);

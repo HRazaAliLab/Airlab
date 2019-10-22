@@ -39,9 +39,7 @@
           <v-list>
             <v-list-item @click="switchMiniDrawer">
               <v-list-item-action>
-                <v-icon
-                  v-html="miniDrawer ? 'mdi-chevron-right' : 'mdi-chevron-left'"
-                ></v-icon>
+                <v-icon v-html="miniDrawer ? 'mdi-chevron-right' : 'mdi-chevron-left'"></v-icon>
               </v-list-item-action>
               <v-list-item-title>Collapse</v-list-item-title>
             </v-list-item>
@@ -49,18 +47,9 @@
         </v-col>
       </v-row>
     </v-navigation-drawer>
-    <v-app-bar
-      app
-      dense
-      dark
-      color="primary"
-      :clipped-left="$vuetify.breakpoint.lgAndUp"
-      extension-height="0"
-    >
+    <v-app-bar app dense dark color="primary" :clipped-left="$vuetify.breakpoint.lgAndUp" extension-height="0">
       <v-app-bar-nav-icon @click.stop="switchShowDrawer"></v-app-bar-nav-icon>
-      <v-toolbar-title @click="$router.push('/')" class="toolbar-title">{{
-        appName
-      }}</v-toolbar-title>
+      <v-toolbar-title @click="$router.push('/')" class="toolbar-title">{{ appName }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn-toggle v-model="views" multiple background-color="primary" group>
         <v-tooltip bottom>
@@ -134,7 +123,7 @@ const routeGuardMain = async (to, from, next) => {
   }
 };
 @Component({
-  components: { ToolbarProgressBar }
+  components: { ToolbarProgressBar },
 })
 export default class Main extends Vue {
   readonly mainContext = mainModule.context(this.$store);
@@ -154,7 +143,7 @@ export default class Main extends Vue {
   viewsChanged(views: string[]) {
     this.mainContext.mutations.setLayout({
       showWorkspace: views.includes("workspace"),
-      showOptions: views.includes("options")
+      showOptions: views.includes("options"),
     });
   }
 
@@ -179,15 +168,11 @@ export default class Main extends Vue {
   }
 
   switchShowDrawer() {
-    this.mainContext.mutations.setDashboardShowDrawer(
-      !this.mainContext.getters.dashboardShowDrawer
-    );
+    this.mainContext.mutations.setDashboardShowDrawer(!this.mainContext.getters.dashboardShowDrawer);
   }
 
   switchMiniDrawer() {
-    this.mainContext.mutations.setDashboardMiniDrawer(
-      !this.mainContext.getters.dashboardMiniDrawer
-    );
+    this.mainContext.mutations.setDashboardMiniDrawer(!this.mainContext.getters.dashboardMiniDrawer);
   }
 
   get hasAdminAccess() {
