@@ -1,25 +1,41 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
+@Entity({
+  name: "tblPerson",
+})
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({
+    name: "perPersonId",
+  })
   id: number;
 
-  @Column()
+  @Column({
+    name: "perName",
+  })
   name: string;
 
-  @Column()
+  @Column({
+    name: "perLastname",
+  })
   lastName: string;
 
-  @Column()
+  @Column({
+    name: "perPassword",
+  })
   password: string;
 
-  @Column()
+  @Column({
+    name: "zetActivationKey",
+  })
   activationKey: string;
 
-  @Column()
+  @Column({
+    name: "perEmail",
+  })
   email: string;
 
-  @Column()
+  @Column({
+    name: "zetActive",
+  })
   active: boolean;
 }

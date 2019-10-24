@@ -1,9 +1,9 @@
 module.exports = {
   env: {
-    browser: true,
-    commonjs: true,
-    jest: true,
-    serviceworker: true
+    "browser": true,
+    "commonjs": true,
+    "jest": true,
+    "serviceworker": true
   },
   parser: "vue-eslint-parser",
   parserOptions: {

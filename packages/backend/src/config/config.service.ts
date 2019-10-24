@@ -1,33 +1,40 @@
 import * as dotenv from "dotenv";
-import * as fs from "fs";
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
+import { User } from "../user/user.entity";
+import { Group } from "../group/group.entity";
 
 export class ConfigService {
-  private readonly envConfig: { [key: string]: string };
-
-  constructor(filePath: string) {
-    this.envConfig = dotenv.parse(fs.readFileSync(filePath));
+  constructor() {
+    dotenv.config();
+    // console.debug(process.env);
   }
 
-  get(key: string, throwOnMissing = true): string {
-    const value = this.envConfig[key];
+  private get(key: string, throwOnMissing = true): string {
+    const value = process.env[key];
     if (!value && throwOnMissing) {
       throw new Error(`config error - missing env.${key}`);
     }
     return value;
   }
 
-  getTypeOrmConfig(): TypeOrmModuleOptions {
+  get isProduction() {
+    return this.get("NODE_ENV") === "production";
+  }
+
+  get jwtSecret() {
+    return this.get("JWT_SECRET");
+  }
+
+  get typeOrmConfig(): TypeOrmModuleOptions {
     return {
-      type: "postgres",
+      type: this.get("DB_TYPE") as any,
+      host: this.get("DB_HOST"),
+      port: parseInt(this.get("DB_PORT")),
+      username: this.get("DB_USERNAME"),
+      password: this.get("DB_PASSWORD"),
+      database: this.get("DB_DATABASE"),
 
-      host: this.get("POSTGRES_HOST"),
-      port: parseInt(this.get("POSTGRES_PORT")),
-      username: this.get("POSTGRES_USER"),
-      password: this.get("POSTGRES_PASSWORD"),
-      database: this.get("POSTGRES_DATABASE"),
-
-      entities: ["**/*.entity{.ts,.js}"],
+      entities: [User, Group],
 
       migrationsTableName: "migrations",
       migrations: ["src/migrations/*.ts"],
@@ -35,7 +42,8 @@ export class ConfigService {
         migrationsDir: "src/migrations",
       },
 
-      ssl: process.env.NODE_ENV === "production",
+      ssl: this.isProduction,
+      synchronize: false,
     };
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "airlab-web",
+  "name": "airlab",
   "private": true,
   "version": "0.0.1",
   "description": "AirLab platform",
@@ -20,22 +20,23 @@
     "url": "https://github.com/BodenmillerGroup/airlab-web/issues"
   },
   "workspaces": [
+    "packages/shared",
     "packages/backend",
     "packages/frontend"
   ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
-    "build:frontend": "yarn workspace frontend run build",
-    "build:backend": "yarn workspace backend run build",
+    "build:frontend": "yarn workspace @airlab/frontend run build",
+    "build:backend": "yarn workspace @airlab/backend run build",
     "lint": "lerna run lint",
-    "lint:frontend": "yarn workspace frontend run lint",
-    "lint:backend": "yarn workspace backend run lint",
+    "lint:frontend": "yarn workspace @airlab/frontend run lint",
+    "lint:backend": "yarn workspace @airlab/backend run lint",
     "test": "lerna run test",
-    "test:frontend": "yarn workspace frontend run test",
-    "test:backend": "yarn workspace backend run test",
-    "start:backend:debug": "yarn workspace backend run start:debug",
-    "start:backend:prod": "yarn workspace backend run start:prod"
+    "test:frontend": "yarn workspace @airlab/frontend run test",
+    "test:backend": "yarn workspace @airlab/backend run test",
+    "start:backend:debug": "yarn workspace @airlab/backend run start:debug",
+    "start:backend:prod": "yarn workspace @airlab/backend run start:prod"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "2.5.0",

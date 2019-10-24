@@ -1,0 +1,27 @@
+{
+  "name": "@airlab/shared",
+  "version": "0.0.1",
+  "directories": {
+    "src": "src"
+  },
+  "files": [
+    "lib",
+    "README.md"
+  ],
+  "types": "./lib",
+  "scripts": {
+    "prebuild": "rm -rf ./lib",
+    "build": "tsc",
+    "prepublish": "yarn run build",
+    "postinstall": "yarn run build",
+    "test": "jest"
+  },
+  "dependencies": {
+    "class-validator": "0.10.2"
+  },
+  "devDependencies": {
+    "@types/jest": "24.0.19",
+    "jest": "24.9.0",
+    "typescript": "3.6.4"
+  }
+}
