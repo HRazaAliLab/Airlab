@@ -51,3 +51,8 @@ services:
       MYSQL_PASSWORD: pass
       MYSQL_ROOT_PASSWORD: pass
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:

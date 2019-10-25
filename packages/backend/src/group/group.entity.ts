@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 @Entity({
   name: "tblGroup",
 })
-export class Group {
+export class GroupEntity {
   @PrimaryGeneratedColumn({
     name: "grpGroupId",
   })

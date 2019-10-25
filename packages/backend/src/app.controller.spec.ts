@@ -1,22 +1,37 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { UserModule } from "./user/user.module";
+import { UserEntity } from "./user/user.entity";
+import { JwtModule } from "@nestjs/jwt";
+import { PassportModule } from "@nestjs/passport";
+import { AuthService } from "./auth/auth.service";
 
 describe("AppController", () => {
-  let appController: AppController;
+  let controller: AppController;
+  let service: AppService;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    const module: TestingModule = await Test.createTestingModule({
+      imports: [
+        TypeOrmModule.forRoot(),
+        TypeOrmModule.forFeature([UserEntity]),
+        JwtModule.register({}),
+        UserModule,
+        PassportModule,
+      ],
       controllers: [AppController],
-      providers: [AppService],
+      providers: [AuthService, AppService],
     }).compile();
 
-    appController = app.get<AppController>(AppController);
+    controller = module.get<AppController>(AppController);
+    service = module.get<AppService>(AppService);
   });
 
   describe("root", () => {
     it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe("Hello World!");
+      expect(controller.getHello()).toBe("Hello World!");
     });
   });
 });

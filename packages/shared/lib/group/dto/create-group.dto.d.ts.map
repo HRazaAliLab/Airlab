@@ -1,0 +1,1 @@
+{"version":3,"file":"create-group.dto.d.ts","sourceRoot":"","sources":["../../../src/group/dto/create-group.dto.ts"],"names":[],"mappings":"AAEA,qBAAa,cAAc;IAEzB,QAAQ,CAAC,IAAI,EAAE,MAAM,CAAC;IAGtB,QAAQ,CAAC,WAAW,EAAE,MAAM,CAAC;IAG7B,QAAQ,CAAC,WAAW,EAAE,MAAM,CAAC;IAG7B,QAAQ,CAAC,WAAW,EAAE,MAAM,CAAC;IAG7B,QAAQ,CAAC,GAAG,EAAE,MAAM,CAAC;IAGrB,QAAQ,CAAC,cAAc,EAAE,OAAO,CAAC;CAClC"}

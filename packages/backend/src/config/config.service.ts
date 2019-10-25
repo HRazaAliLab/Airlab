@@ -1,7 +1,9 @@
 import * as dotenv from "dotenv";
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
-import { User } from "../user/user.entity";
-import { Group } from "../group/group.entity";
+import { UserEntity } from "../user/user.entity";
+import { GroupEntity } from "../group/group.entity";
+import { GroupUserEntity } from "../groupUser/groupUser.entity";
+import * as SMTPConnection from "nodemailer/lib/smtp-connection";
 
 export class ConfigService {
   constructor() {
@@ -34,7 +36,7 @@ export class ConfigService {
       password: this.get("DB_PASSWORD"),
       database: this.get("DB_DATABASE"),
 
-      entities: [User, Group],
+      entities: [UserEntity, GroupEntity, GroupUserEntity],
 
       migrationsTableName: "migrations",
       migrations: ["src/migrations/*.ts"],
@@ -44,6 +46,18 @@ export class ConfigService {
 
       ssl: this.isProduction,
       synchronize: false,
+    };
+  }
+
+  get emailConfig(): SMTPConnection.Options {
+    return {
+      host: this.get("SMTP_HOST"),
+      port: parseInt(this.get("SMTP_PORT"), 10),
+      requireTLS: Boolean(this.get("SMTP_TLS")),
+      auth: {
+        user: this.get("SMTP_USER"),
+        pass: this.get("SMTP_PASSWORD"),
+      },
     };
   }
 }

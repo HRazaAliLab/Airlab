@@ -7,6 +7,8 @@ import { ConfigModule } from "./config/config.module";
 import { ConfigService } from "./config/config.service";
 import { AuthModule } from "./auth/auth.module";
 import { GroupModule } from "./group/group.module";
+import { GroupUserModule } from "./groupUser/groupUser.module";
+import { UtilsModule } from "./utils/utils.module";
 
 @Module({
   imports: [
@@ -17,7 +19,9 @@ import { GroupModule } from "./group/group.module";
     }),
     UserModule,
     GroupModule,
+    GroupUserModule,
     AuthModule,
+    UtilsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

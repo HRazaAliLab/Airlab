@@ -37,7 +37,7 @@ services:
     environment:
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
-      - app-db-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
     ports:
       - 5432:5432
 
@@ -89,7 +89,7 @@ services:
 
 volumes:
   app-data:
-  app-db-data:
+  postgres-data:
   portainer-data:
   redis-data:
   rabbitmq-data:

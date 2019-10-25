@@ -2,18 +2,18 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { TypeOrmCrudService } from "@nestjsx/crud-typeorm";
 import { Repository } from "typeorm";
-import { User } from "./user.entity";
+import { UserEntity } from "./user.entity";
 
 @Injectable()
-export class UserService extends TypeOrmCrudService<User> {
+export class UserService extends TypeOrmCrudService<UserEntity> {
   constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>
+    @InjectRepository(UserEntity)
+    private readonly repository: Repository<UserEntity>
   ) {
-    super(userRepository);
+    super(repository);
   }
 
   async findByEmail(email: string) {
-    return this.userRepository.findOne({ email: email });
+    return this.repository.findOne({ email: email });
   }
 }
