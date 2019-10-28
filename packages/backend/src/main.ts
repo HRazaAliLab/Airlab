@@ -16,6 +16,7 @@ async function bootstrap(): Promise<void> {
     .setDescription("AirLab API description")
     .setVersion("1.0")
     .setBasePath(apiRoot)
+    .addBearerAuth("Authorization", "header", "apiKey")
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup("docs", app, document);

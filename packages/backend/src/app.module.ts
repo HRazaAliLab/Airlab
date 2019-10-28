@@ -9,6 +9,9 @@ import { AuthModule } from "./auth/auth.module";
 import { GroupModule } from "./group/group.module";
 import { GroupUserModule } from "./groupUser/groupUser.module";
 import { UtilsModule } from "./utils/utils.module";
+import { ProteinModule } from "./protein/protein.module";
+import { PlateModule } from "./plate/plate.module";
+import { PlateWellModule } from "./plateWell/plateWell.module";
 
 @Module({
   imports: [
@@ -22,6 +25,9 @@ import { UtilsModule } from "./utils/utils.module";
     GroupUserModule,
     AuthModule,
     UtilsModule,
+    ProteinModule,
+    PlateModule,
+    PlateWellModule,
   ],
   controllers: [AppController],
   providers: [AppService],

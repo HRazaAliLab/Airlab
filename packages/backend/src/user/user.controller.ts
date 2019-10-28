@@ -1,8 +1,9 @@
-import { ClassSerializerInterceptor, Controller, UseInterceptors } from "@nestjs/common";
+import { ClassSerializerInterceptor, Controller, UseGuards, UseInterceptors } from "@nestjs/common";
 import { Crud } from "@nestjsx/crud";
 import { UserService } from "./user.service";
 import { UserEntity } from "./user.entity";
-import { ApiUseTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiUseTags } from "@nestjs/swagger";
+import { AuthGuard } from "@nestjs/passport";
 
 @Crud({
   model: {
@@ -12,6 +13,8 @@ import { ApiUseTags } from "@nestjs/swagger";
 @ApiUseTags("user")
 @Controller("user")
 @UseInterceptors(ClassSerializerInterceptor)
+@ApiBearerAuth()
+@UseGuards(AuthGuard("jwt"))
 export class UserController {
   constructor(private readonly service: UserService) {}
 }

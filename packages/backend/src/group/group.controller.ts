@@ -1,10 +1,15 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
 import { GroupService } from "./group.service";
 import { CreateGroupDto, GroupDto, InviteDto, RequestJoinGroupDto } from "./group.dto";
-import { ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
+import { AuthGuard } from "@nestjs/passport";
+import { Roles } from "../auth/roles.decorator";
+import { RolesGuard } from "../auth/roles.guard";
 
 @ApiUseTags("group")
 @Controller("group")
+@ApiBearerAuth()
+@UseGuards(AuthGuard("jwt"))
 export class GroupController {
   constructor(private readonly groupService: GroupService) {}
 
@@ -21,6 +26,8 @@ export class GroupController {
   }
 
   @Post()
+  @Roles("admin")
+  @UseGuards(RolesGuard)
   @ApiCreatedResponse({ description: "Create entity.", type: GroupDto })
   async create(@Body() params: CreateGroupDto) {
     return this.groupService.create(params);

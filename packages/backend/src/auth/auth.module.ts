@@ -9,15 +9,14 @@ import { JwtStrategy } from "./jwt.strategy";
 
 @Module({
   imports: [
+    PassportModule.register({ defaultStrategy: "jwt" }),
     JwtModule.registerAsync({
       useFactory: async (configService: ConfigService) => ({
         secret: configService.jwtSecret,
-        signOptions: { expiresIn: "60s" },
       }),
       inject: [ConfigService],
     }),
     UserModule,
-    PassportModule,
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy],
   exports: [AuthService],

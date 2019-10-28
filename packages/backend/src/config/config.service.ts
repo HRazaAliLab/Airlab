@@ -4,11 +4,13 @@ import { UserEntity } from "../user/user.entity";
 import { GroupEntity } from "../group/group.entity";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
 import * as SMTPConnection from "nodemailer/lib/smtp-connection";
+import { ProteinEntity } from "../protein/protein.entity";
+import { PlateEntity } from "../plate/plate.entity";
+import { PlateWellEntity } from "../plateWell/plateWell.entity";
 
 export class ConfigService {
   constructor() {
     dotenv.config();
-    // console.debug(process.env);
   }
 
   private get(key: string, throwOnMissing = true): string {
@@ -36,7 +38,7 @@ export class ConfigService {
       password: this.get("DB_PASSWORD"),
       database: this.get("DB_DATABASE"),
 
-      entities: [UserEntity, GroupEntity, GroupUserEntity],
+      entities: [UserEntity, GroupEntity, GroupUserEntity, ProteinEntity, PlateEntity, PlateWellEntity],
 
       migrationsTableName: "migrations",
       migrations: ["src/migrations/*.ts"],
@@ -53,11 +55,15 @@ export class ConfigService {
     return {
       host: this.get("SMTP_HOST"),
       port: parseInt(this.get("SMTP_PORT"), 10),
-      requireTLS: Boolean(this.get("SMTP_TLS")),
       auth: {
         user: this.get("SMTP_USER"),
         pass: this.get("SMTP_PASSWORD"),
       },
+      ignoreTLS: true,
     };
+  }
+
+  get fromEmail() {
+    return this.get("EMAILS_FROM_EMAIL");
   }
 }
