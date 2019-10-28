@@ -7,6 +7,7 @@ import * as SMTPConnection from "nodemailer/lib/smtp-connection";
 import { ProteinEntity } from "../protein/protein.entity";
 import { PlateEntity } from "../plate/plate.entity";
 import { PlateWellEntity } from "../plateWell/plateWell.entity";
+import { ProviderEntity } from "../provider/provider.entity";
 
 export class ConfigService {
   constructor() {
@@ -38,7 +39,7 @@ export class ConfigService {
       password: this.get("DB_PASSWORD"),
       database: this.get("DB_DATABASE"),
 
-      entities: [UserEntity, GroupEntity, GroupUserEntity, ProteinEntity, PlateEntity, PlateWellEntity],
+      entities: [UserEntity, GroupEntity, GroupUserEntity, ProteinEntity, PlateEntity, PlateWellEntity, ProviderEntity],
 
       migrationsTableName: "migrations",
       migrations: ["src/migrations/*.ts"],

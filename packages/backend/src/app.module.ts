@@ -12,6 +12,7 @@ import { UtilsModule } from "./utils/utils.module";
 import { ProteinModule } from "./protein/protein.module";
 import { PlateModule } from "./plate/plate.module";
 import { PlateWellModule } from "./plateWell/plateWell.module";
+import { ProviderModule } from "./provider/provider.module";
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { PlateWellModule } from "./plateWell/plateWell.module";
     ProteinModule,
     PlateModule,
     PlateWellModule,
+    ProviderModule,
   ],
   controllers: [AppController],
   providers: [AppService],

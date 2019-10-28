@@ -31,7 +31,7 @@ export class PlateWellService {
     });
   }
 
-  async getAllPlatesForGroup(groupId: number) {
+  async getAllPlateWellsForGroup(groupId: number) {
     return this.repository.find({
       where: {
         groupId: groupId,
@@ -39,7 +39,7 @@ export class PlateWellService {
     });
   }
 
-  async getAllPlatesForUserGroup(userGroupId: number) {
+  async getAllPlateWellsForUserGroup(userGroupId: number) {
     return this.repository.find({
       where: {
         createdBy: userGroupId,
