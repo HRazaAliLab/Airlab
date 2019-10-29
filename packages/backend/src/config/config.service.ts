@@ -8,6 +8,17 @@ import { ProteinEntity } from "../protein/protein.entity";
 import { PlateEntity } from "../plate/plate.entity";
 import { PlateWellEntity } from "../plateWell/plateWell.entity";
 import { ProviderEntity } from "../provider/provider.entity";
+import { SpeciesEntity } from "../species/species.entity";
+import { TagEntity } from "../tag/tag.entity";
+import { SpeciesProteinEntity } from "../speciesProtein/speciesProtein.entity";
+import { FileEntity } from "../file/file.entity";
+import { CloneEntity } from "../clone/clone.entity";
+import { CommercialReagentEntity } from "../commercialReagent/commercialReagent.entity";
+import { AntibodyEntity } from "../antibody/antibody.entity";
+import { EnsayoEntity } from "../ensayo/ensayo.entity";
+import { PlaceEntity } from "../place/place.entity";
+import { PartEntity } from "../part/part.entity";
+import { RecipeEntity } from "../recipe/recipe.entity";
 
 export class ConfigService {
   constructor() {
@@ -39,7 +50,26 @@ export class ConfigService {
       password: this.get("DB_PASSWORD"),
       database: this.get("DB_DATABASE"),
 
-      entities: [UserEntity, GroupEntity, GroupUserEntity, ProteinEntity, PlateEntity, PlateWellEntity, ProviderEntity],
+      entities: [
+        UserEntity,
+        GroupEntity,
+        GroupUserEntity,
+        ProteinEntity,
+        PlateEntity,
+        PlateWellEntity,
+        ProviderEntity,
+        SpeciesEntity,
+        TagEntity,
+        SpeciesProteinEntity,
+        FileEntity,
+        CloneEntity,
+        CommercialReagentEntity,
+        AntibodyEntity,
+        EnsayoEntity,
+        PlaceEntity,
+        PartEntity,
+        RecipeEntity,
+      ],
 
       migrationsTableName: "migrations",
       migrations: ["src/migrations/*.ts"],

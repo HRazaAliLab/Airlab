@@ -1,5 +1,5 @@
-import { IsBoolean, IsInt, IsString, IsUrl } from "class-validator";
-import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
+import { IsString } from "class-validator";
+import { ApiModelProperty } from "@nestjs/swagger";
 
 export class PlateDto {
   @ApiModelProperty()

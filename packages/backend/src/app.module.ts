@@ -13,14 +13,25 @@ import { ProteinModule } from "./protein/protein.module";
 import { PlateModule } from "./plate/plate.module";
 import { PlateWellModule } from "./plateWell/plateWell.module";
 import { ProviderModule } from "./provider/provider.module";
+import { SpeciesModule } from "./species/species.module";
+import { TagModule } from "./tag/tag.module";
+import { SpeciesProteinModule } from "./speciesProtein/speciesProtein.module";
+import { FileModule } from "./file/file.module";
+import { CloneModule } from "./clone/clone.module";
+import { CommercialReagentModule } from "./commercialReagent/commercialReagent.module";
+import { AntibodyModule } from "./antibody/antibody.module";
+import { EnsayoModule } from "./ensayo/ensayo.module";
+import { PlaceModule } from "./place/place.module";
+import { PartModule } from "./part/part.module";
+import { RecipeModule } from "./recipe/recipe.module";
 
 @Module({
   imports: [
-    ConfigModule,
     TypeOrmModule.forRootAsync({
       useFactory: async (configService: ConfigService) => configService.typeOrmConfig,
       inject: [ConfigService],
     }),
+    ConfigModule,
     UserModule,
     GroupModule,
     GroupUserModule,
@@ -30,6 +41,17 @@ import { ProviderModule } from "./provider/provider.module";
     PlateModule,
     PlateWellModule,
     ProviderModule,
+    SpeciesModule,
+    TagModule,
+    SpeciesProteinModule,
+    FileModule,
+    CloneModule,
+    CommercialReagentModule,
+    AntibodyModule,
+    EnsayoModule,
+    PlaceModule,
+    PartModule,
+    RecipeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

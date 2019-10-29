@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { ProviderService } from "./provider.service";
-import { ProviderDto, CreateProviderDto, UpdateProviderDto } from "./provider.dto";
+import { CreateProviderDto, ProviderDto, UpdateProviderDto } from "./provider.dto";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 

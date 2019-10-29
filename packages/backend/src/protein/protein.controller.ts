@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { ProteinService } from "./protein.service";
-import { ProteinDto, CreateProteinDto, UpdateProteinDto } from "./protein.dto";
+import { CreateProteinDto, ProteinDto, UpdateProteinDto } from "./protein.dto";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 

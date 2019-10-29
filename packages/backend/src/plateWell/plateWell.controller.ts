@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { PlateWellService } from "./plateWell.service";
-import { PlateWellDto, CreatePlateWellDto, UpdatePlateWellDto } from "./plateWell.dto";
+import { CreatePlateWellDto, PlateWellDto, UpdatePlateWellDto } from "./plateWell.dto";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 

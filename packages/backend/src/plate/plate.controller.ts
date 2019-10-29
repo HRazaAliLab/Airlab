@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { PlateService } from "./plate.service";
-import { PlateDto, CreatePlateDto, UpdatePlateDto } from "./plate.dto";
+import { CreatePlateDto, PlateDto, UpdatePlateDto } from "./plate.dto";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 
