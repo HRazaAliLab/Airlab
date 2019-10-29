@@ -8,11 +8,11 @@ export const api = {
     params.append("username", username);
     params.append("password", password);
 
-    return ky.post(`${apiUrl}/api/v1/auth/access-token`, { body: params }).json();
+    return ky.post(`${apiUrl}/api/v1/auth/login`, { body: params }).json();
   },
   async getMe(token: string) {
     return ky
-      .get(`${apiUrl}/api/v1/users/me`, {
+      .get(`${apiUrl}/api/v1/user/profile`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -21,7 +21,7 @@ export const api = {
   },
   async updateMe(token: string, data: IUserProfileUpdate) {
     return ky
-      .put(`${apiUrl}/api/v1/users/me`, {
+      .put(`${apiUrl}/api/v1/user/me`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -31,7 +31,7 @@ export const api = {
   },
   async getUsers(token: string) {
     return ky
-      .get(`${apiUrl}/api/v1/users/`, {
+      .get(`${apiUrl}/api/v1/user/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

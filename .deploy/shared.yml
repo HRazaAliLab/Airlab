@@ -16,6 +16,7 @@ services:
       - app-data:/data
     labels:
       - "traefik.enable=true"
+      - "traefik.port=3000"
       - "traefik.http.routers.backend.rule=PathPrefix(`/api`, `/ws`, `/docs`, `/redoc`)"
       - "traefik.http.routers.backend.entrypoints=web"
     networks:

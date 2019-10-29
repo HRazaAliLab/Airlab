@@ -87,8 +87,8 @@ export default class Dashboard extends Vue {
   }
 
   async mounted() {
-    await this.experimentContext.actions.getExperiments();
-    await this.experimentContext.actions.getTags();
+    // await this.experimentContext.actions.getExperiments();
+    // await this.experimentContext.actions.getTags();
   }
 }
 </script>

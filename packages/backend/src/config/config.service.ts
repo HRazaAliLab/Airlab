@@ -19,6 +19,7 @@ import { EnsayoEntity } from "../ensayo/ensayo.entity";
 import { PlaceEntity } from "../place/place.entity";
 import { PartEntity } from "../part/part.entity";
 import { RecipeEntity } from "../recipe/recipe.entity";
+import { ReagentInstanceEntity } from "../reagentInstance/reagentInstance.entity";
 
 export class ConfigService {
   constructor() {
@@ -69,6 +70,7 @@ export class ConfigService {
         PlaceEntity,
         PartEntity,
         RecipeEntity,
+        ReagentInstanceEntity,
       ],
 
       migrationsTableName: "migrations",

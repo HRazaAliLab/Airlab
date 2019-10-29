@@ -8,6 +8,7 @@ const apiRoot = "api/v1";
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  app.enableCors();
   app.setGlobalPrefix(apiRoot);
   app.useGlobalPipes(new ValidationPipe());
 

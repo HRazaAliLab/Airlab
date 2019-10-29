@@ -4,6 +4,11 @@ import { JwtService } from "@nestjs/jwt";
 import * as crypto from "crypto";
 import { UserEntity } from "../user/user.entity";
 
+export interface JwtPayload {
+  userId: number;
+  email: string;
+}
+
 @Injectable()
 export class AuthService {
   constructor(private readonly userService: UserService, private readonly jwtService: JwtService) {}
@@ -24,7 +29,7 @@ export class AuthService {
   }
 
   async login(user: UserEntity) {
-    const payload = { userId: user.id, email: user.email };
+    const payload: JwtPayload = { userId: user.id, email: user.email };
     return {
       token: this.jwtService.sign(payload, {
         subject: user.id.toString(),

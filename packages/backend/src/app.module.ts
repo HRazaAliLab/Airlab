@@ -24,6 +24,7 @@ import { EnsayoModule } from "./ensayo/ensayo.module";
 import { PlaceModule } from "./place/place.module";
 import { PartModule } from "./part/part.module";
 import { RecipeModule } from "./recipe/recipe.module";
+import { ReagentInstanceModule } from "./reagentInstance/reagentInstance.module";
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { RecipeModule } from "./recipe/recipe.module";
     PlaceModule,
     PartModule,
     RecipeModule,
+    ReagentInstanceModule,
   ],
   controllers: [AppController],
   providers: [AppService],

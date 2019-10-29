@@ -21,7 +21,7 @@ export class MainActions extends Actions<MainState, MainGetters, MainMutations, 
   async logIn(payload: { username: string; password: string }) {
     try {
       const data: any = await api.logInGetToken(payload.username, payload.password);
-      const token = data.access_token;
+      const token = data.token;
       if (token) {
         saveLocalToken(token);
         this.mutations.setToken(token);
