@@ -35,7 +35,7 @@
     "class-validator": "0.10.2",
     "dotenv": "8.2.0",
     "helmet": "3.21.2",
-    "mailgen": "2.0.9",
+    "mailgen": "2.0.10",
     "mysql": "2.17.1",
     "nodemailer": "6.3.1",
     "passport": "0.4.0",
@@ -50,26 +50,23 @@
     "uuid": "3.3.3"
   },
   "devDependencies": {
-    "@nestjs/cli": "6.11.1",
+    "@nestjs/cli": "6.11.2",
     "@nestjs/schematics": "6.7.0",
     "@nestjs/testing": "6.8.5",
     "@types/bcryptjs": "2.4.2",
     "@types/dotenv": "8.2.0",
     "@types/express": "4.17.1",
-    "@types/jest": "24.0.20",
     "@types/mailgen": "2.0.2",
-    "@types/node": "12.11.7",
+    "@types/node": "12.12.0",
     "@types/nodemailer": "6.2.2",
     "@types/passport-jwt": "3.0.2",
     "@types/passport-local": "1.0.33",
     "@types/supertest": "2.0.8",
     "@types/uuid": "3.4.5",
-    "jest": "24.9.0",
     "supertest": "4.0.2",
     "ts-jest": "24.1.0",
     "ts-loader": "6.2.1",
     "ts-node": "8.4.1",
-    "tsconfig-paths": "3.9.0",
-    "typescript": "3.6.4"
+    "tsconfig-paths": "3.9.0"
   }
 }

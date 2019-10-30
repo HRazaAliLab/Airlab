@@ -1,7 +1,7 @@
-import { IUserProfile } from "@/modules/user/models";
 import { Mutations } from "vuex-smart-module";
 import { MainState } from ".";
 import { AppNotification } from "./models";
+import { ProfileDto } from "@airlab/shared/lib/user/dto";
 
 export class MainMutations extends Mutations<MainState> {
   setToken(payload: string) {
@@ -16,7 +16,7 @@ export class MainMutations extends Mutations<MainState> {
     this.state.logInError = payload;
   }
 
-  setUserProfile(payload: IUserProfile) {
+  setUserProfile(payload: ProfileDto) {
     this.state.userProfile = payload;
   }
 

@@ -6,21 +6,14 @@
       </v-card-title>
       <v-card-text>
         <template>
-          <div class="my-4">
-            <div class="subtitle-1 primary--text text--lighten-2">Username</div>
-            <div class="title primary--text text--darken-2" v-if="user">
-              {{ user.email }}
-            </div>
-            <div class="title primary--text text--darken-2" v-else>-----</div>
-          </div>
           <v-form v-model="valid" ref="form">
-            <v-text-field label="Full Name" v-model="fullName"></v-text-field>
-            <v-text-field label="E-mail" type="email" v-model="email" :rules="emailRules"></v-text-field>
-            <v-checkbox label="Is Superuser" v-model="isSuperuser"></v-checkbox>
-            <v-checkbox label="Is Active" v-model="isActive"></v-checkbox>
+            <v-text-field label="Name" v-model="name" />
+            <v-text-field label="Last Name" v-model="lastName" />
+            <v-text-field label="E-mail" type="email" v-model="email" :rules="emailRules" />
+            <v-checkbox label="Active" v-model="active" />
             <v-row align="center">
               <v-col class="shrink">
-                <v-checkbox v-model="setPassword"></v-checkbox>
+                <v-checkbox v-model="setPassword" />
               </v-col>
               <v-col>
                 <v-text-field
@@ -46,7 +39,7 @@
         </template>
       </v-card-text>
       <v-card-actions>
-        <v-spacer></v-spacer>
+        <v-spacer />
         <v-btn @click="cancel">Cancel</v-btn>
         <v-btn @click="reset">Reset</v-btn>
         <v-btn @click="submit" :disabled="!valid">
@@ -59,9 +52,9 @@
 
 <script lang="ts">
 import { userModule } from "@/modules/user";
-import { IUserProfileUpdate } from "@/modules/user/models";
 import { email, required } from "@/utils/validators";
 import { Component, Vue } from "vue-property-decorator";
+import { UpdateUserDto } from "@airlab/shared/lib/user/dto";
 
 @Component
 export default class EditUser extends Vue {
@@ -80,10 +73,10 @@ export default class EditUser extends Vue {
   }
 
   valid = true;
-  fullName = "";
+  name = "";
+  lastName = "";
   email = "";
-  isActive = true;
-  isSuperuser = false;
+  active = false;
   setPassword = false;
   password1 = "";
   password2 = "";
@@ -98,10 +91,10 @@ export default class EditUser extends Vue {
     this.password1 = "";
     this.password2 = "";
     if (this.user) {
-      this.fullName = this.user.full_name;
       this.email = this.user.email;
-      this.isActive = this.user.is_active;
-      this.isSuperuser = this.user.is_superuser;
+      this.name = this.user.name;
+      this.lastName = this.user.lastName;
+      this.active = this.user.active;
     }
     if (this.$refs.form) {
       (this.$refs.form as any).resetValidation();
@@ -114,23 +107,18 @@ export default class EditUser extends Vue {
 
   async submit() {
     if ((this.$refs.form as any).validate()) {
-      const data: IUserProfileUpdate = {};
-      if (this.fullName) {
-        data.full_name = this.fullName;
-      }
-      if (this.email) {
-        data.email = this.email;
-      }
-      data.is_active = this.isActive;
-      data.is_superuser = this.isSuperuser;
-      if (this.setPassword) {
-        data.password = this.password1;
-      }
+      const data: UpdateUserDto = {
+        email: this.email,
+        name: this.name,
+        lastName: this.lastName,
+        password: this.password1,
+        active: this.active,
+      };
       await this.userContext.actions.updateUser({
         id: this.user!.id,
         user: data,
       });
-      this.$router.push("/main/admin/users");
+      this.$router.back();
     }
   }
 

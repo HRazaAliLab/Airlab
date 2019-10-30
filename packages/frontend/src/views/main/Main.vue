@@ -11,35 +11,84 @@
     >
       <v-row no-gutters>
         <v-col>
-          <v-list>
+          <v-list dense>
+            <v-subheader class="grey--text text--darken-1">Main</v-subheader>
             <v-list-item to="/main/dashboard">
               <v-list-item-action>
                 <v-icon>mdi-view-dashboard-outline</v-icon>
               </v-list-item-action>
               <v-list-item-title>Dashboard</v-list-item-title>
             </v-list-item>
-          </v-list>
-          <v-divider v-if="hasAdminAccess"></v-divider>
-          <v-list subheader v-if="hasAdminAccess">
-            <v-subheader class="subheader">Admin</v-subheader>
-            <v-list-item to="/main/admin/users/all">
+            <v-list-item to="/main/reagents">
               <v-list-item-action>
-                <v-icon>mdi-account-multiple-outline</v-icon>
+                <v-icon>mdi-view-dashboard-outline</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Reagents</v-list-item-title>
+            </v-list-item>
+            <v-list-item to="/main/clones">
+              <v-list-item-action>
+                <v-icon>mdi-view-dashboard-outline</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Clones</v-list-item-title>
+            </v-list-item>
+            <v-list-item to="/main/panels">
+              <v-list-item-action>
+                <v-icon>mdi-view-dashboard-outline</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Panels</v-list-item-title>
+            </v-list-item>
+            <v-list-item to="/main/shop">
+              <v-list-item-action>
+                <v-icon>mdi-view-dashboard-outline</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Shop</v-list-item-title>
+            </v-list-item>
+            <v-list-item to="/main/conjugates">
+              <v-list-item-action>
+                <v-icon>mdi-view-dashboard-outline</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Conjugates</v-list-item-title>
+            </v-list-item>
+            <v-list-item to="/main/lots">
+              <v-list-item-action>
+                <v-icon>mdi-view-dashboard-outline</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Lots</v-list-item-title>
+            </v-list-item>
+            <v-list-item to="/main/antibodies">
+              <v-list-item-action>
+                <v-icon>mdi-view-dashboard-outline</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Antibodies</v-list-item-title>
+            </v-list-item>
+          </v-list>
+          <v-divider v-if="hasAdminAccess" />
+          <v-list dense subheader v-if="hasAdminAccess">
+            <v-subheader class="grey--text text--darken-1">Admin</v-subheader>
+            <v-list-item to="/main/admin/user/all">
+              <v-list-item-action>
+                <v-icon>mdi-account-outline</v-icon>
               </v-list-item-action>
               <v-list-item-title>Manage Users</v-list-item-title>
             </v-list-item>
-            <v-list-item to="/main/admin/experiments/all">
+            <v-list-item to="/main/admin/group/all">
               <v-list-item-action>
-                <v-icon>mdi-folder-multiple-outline</v-icon>
+                <v-icon>mdi-account-group-outline</v-icon>
               </v-list-item-action>
-              <v-list-item-title>Manage Experiments</v-list-item-title>
+              <v-list-item-title>Manage Groups</v-list-item-title>
+            </v-list-item>
+            <v-list-item to="/main/admin/tag/all">
+              <v-list-item-action>
+                <v-icon>mdi-tag-outline</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Manage Tags</v-list-item-title>
             </v-list-item>
           </v-list>
-          <v-divider></v-divider>
-          <v-list>
+          <v-divider />
+          <v-list dense>
             <v-list-item @click="switchMiniDrawer">
               <v-list-item-action>
-                <v-icon v-html="miniDrawer ? 'mdi-chevron-right' : 'mdi-chevron-left'"></v-icon>
+                <v-icon v-html="miniDrawer ? 'mdi-chevron-right' : 'mdi-chevron-left'" />
               </v-list-item-action>
               <v-list-item-title>Collapse</v-list-item-title>
             </v-list-item>
@@ -48,9 +97,9 @@
       </v-row>
     </v-navigation-drawer>
     <v-app-bar app dense dark color="primary" :clipped-left="$vuetify.breakpoint.lgAndUp" extension-height="0">
-      <v-app-bar-nav-icon @click.stop="switchShowDrawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click.stop="switchShowDrawer" />
       <v-toolbar-title @click="$router.push('/')" class="toolbar-title">{{ appName }}</v-toolbar-title>
-      <v-spacer></v-spacer>
+      <v-spacer />
       <v-btn-toggle v-model="views" multiple background-color="primary" group>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
@@ -102,7 +151,7 @@
       />
     </v-app-bar>
     <v-content>
-      <router-view></router-view>
+      <router-view />
     </v-content>
   </div>
 </template>
@@ -192,12 +241,12 @@ export default class Main extends Vue {
   }
 
   mounted() {
-    WebSocketManager.init(this.$store);
+    // WebSocketManager.init(this.$store);
     BroadcastManager.init(this.$store);
   }
 
   beforeDestroy() {
-    WebSocketManager.close();
+    // WebSocketManager.close();
     BroadcastManager.close();
   }
 }

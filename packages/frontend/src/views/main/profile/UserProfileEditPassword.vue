@@ -8,10 +8,7 @@
         <template>
           <div class="my-4">
             <div class="subtitle-1 primary--text text--lighten-2">User</div>
-            <div class="title primary--text text--darken-2" v-if="userProfile.full_name">
-              {{ userProfile.full_name }}
-            </div>
-            <div class="title primary--text text--darken-2" v-else>
+            <div class="title primary--text text--darken-2">
               {{ userProfile.email }}
             </div>
           </div>
@@ -24,7 +21,7 @@
         </template>
       </v-card-text>
       <v-card-actions>
-        <v-spacer></v-spacer>
+        <v-spacer />
         <v-btn @click="cancel">Cancel</v-btn>
         <v-btn @click="reset">Reset</v-btn>
         <v-btn @click="submit" :disabled="!valid">Save</v-btn>
@@ -35,7 +32,6 @@
 
 <script lang="ts">
 import { mainModule } from "@/modules/main";
-import { IUserProfileUpdate } from "@/modules/user/models";
 import { required } from "@/utils/validators";
 import { Component, Vue } from "vue-property-decorator";
 
@@ -70,10 +66,11 @@ export default class UserProfileEdit extends Vue {
 
   async submit() {
     if ((this.$refs.form as any).validate()) {
-      const updatedProfile: IUserProfileUpdate = {};
-      updatedProfile.password = this.password1;
-      await this.mainContext.actions.updateUserProfile(updatedProfile);
-      this.$router.push("/main/profile");
+      // TODO: fix this
+      // const updatedProfile: UpdateUserDto = {};
+      // updatedProfile.password = this.password1;
+      // await this.mainContext.actions.updateUserProfile(updatedProfile);
+      // this.$router.push("/main/profile");
     }
   }
 }

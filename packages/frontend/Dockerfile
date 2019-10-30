@@ -4,10 +4,12 @@ FROM node:12.13.0-alpine as build-stage
 WORKDIR /app
 
 COPY package.json lerna.json yarn.lock ./
+COPY packages/shared/package.json ./packages/shared/
 COPY packages/frontend/package.json ./packages/frontend/
 
 RUN yarn install --non-interactive
 
+COPY packages/shared ./packages/shared/
 COPY packages/frontend ./packages/frontend/
 
 ARG FRONTEND_ENV

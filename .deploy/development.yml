@@ -14,7 +14,9 @@ services:
       - 9229:9229
     volumes:
       - ../packages/backend:/app/packages/backend
+      - ../packages/shared:/app/packages/shared
       - /app/packages/backend/node_modules/
+      - /app/packages/shared/node_modules/
 #      - /app/packages/backend/dist/
 
   frontend:

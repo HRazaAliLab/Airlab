@@ -7,10 +7,9 @@
       <v-card-text>
         <template>
           <v-form v-model="valid" ref="form" lazy-validation>
-            <v-text-field label="Full Name" v-model="fullName"></v-text-field>
-            <v-text-field label="E-mail" type="email" v-model="email" :rules="emailRules"></v-text-field>
-            <v-checkbox label="Is Superuser" v-model="isSuperuser"></v-checkbox>
-            <v-checkbox label="Is Active" v-model="isActive"></v-checkbox>
+            <v-text-field label="Name" v-model="name" />
+            <v-text-field label="Last Name" v-model="lastName" />
+            <v-text-field label="E-mail" type="email" v-model="email" :rules="emailRules" />
             <v-row align="center">
               <v-col>
                 <v-text-field
@@ -19,20 +18,15 @@
                   label="Set Password"
                   :rules="password1Rules"
                   v-model="password1"
-                ></v-text-field>
-                <v-text-field
-                  type="password"
-                  label="Confirm Password"
-                  :rules="password2Rules"
-                  v-model="password2"
-                ></v-text-field>
+                />
+                <v-text-field type="password" label="Confirm Password" :rules="password2Rules" v-model="password2" />
               </v-col>
             </v-row>
           </v-form>
         </template>
       </v-card-text>
       <v-card-actions>
-        <v-spacer></v-spacer>
+        <v-spacer />
         <v-btn @click="cancel">Cancel</v-btn>
         <v-btn @click="reset">Reset</v-btn>
         <v-btn @click="submit" :disabled="!valid">
@@ -45,9 +39,9 @@
 
 <script lang="ts">
 import { userModule } from "@/modules/user";
-import { IUserProfileCreate } from "@/modules/user/models";
 import { required, email } from "@/utils/validators";
 import { Component, Vue } from "vue-property-decorator";
+import { CreateUserDto } from "@airlab/shared/lib/user/dto";
 
 @Component
 export default class CreateUser extends Vue {
@@ -62,24 +56,22 @@ export default class CreateUser extends Vue {
   }
 
   valid = false;
-  fullName = "";
+  name = "";
+  lastName = "";
   email = "";
-  isActive = true;
-  isSuperuser = false;
   password1 = "";
   password2 = "";
 
-  async mounted() {
-    await this.userContext.actions.getUsers();
+  mounted() {
+    this.reset();
   }
 
   reset() {
     this.password1 = "";
     this.password2 = "";
-    this.fullName = "";
+    this.name = "";
+    this.lastName = "";
     this.email = "";
-    this.isActive = true;
-    this.isSuperuser = false;
     (this.$refs.form as any).resetValidation();
   }
 
@@ -89,20 +81,14 @@ export default class CreateUser extends Vue {
 
   async submit() {
     if ((this.$refs.form as any).validate()) {
-      const updatedProfile: IUserProfileCreate = {
+      const updatedProfile: CreateUserDto = {
         email: this.email,
+        name: this.name,
+        lastName: this.lastName,
+        password: this.password1,
       };
-      if (this.fullName) {
-        updatedProfile.full_name = this.fullName;
-      }
-      if (this.email) {
-        updatedProfile.email = this.email;
-      }
-      updatedProfile.is_active = this.isActive;
-      updatedProfile.is_superuser = this.isSuperuser;
-      updatedProfile.password = this.password1;
       await this.userContext.actions.createUser(updatedProfile);
-      this.$router.push("/main/admin/users");
+      this.$router.back();
     }
   }
 }

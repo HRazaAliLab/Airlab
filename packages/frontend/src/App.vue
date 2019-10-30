@@ -6,7 +6,7 @@
           <v-col>
             <div class="text-center">
               <div class="headline my-12">Loading...</div>
-              <v-progress-circular size="100" indeterminate color="primary"></v-progress-circular>
+              <v-progress-circular size="100" indeterminate color="primary" />
             </div>
           </v-col>
         </v-row>

@@ -16,17 +16,12 @@
                   label="Password"
                   :rules="password1Rules"
                   v-model="password1"
-                ></v-text-field>
-                <v-text-field
-                  type="password"
-                  label="Confirm Password"
-                  :rules="password2Rules"
-                  v-model="password2"
-                ></v-text-field>
+                />
+                <v-text-field type="password" label="Confirm Password" :rules="password2Rules" v-model="password2" />
               </v-form>
             </v-card-text>
             <v-card-actions>
-              <v-spacer></v-spacer>
+              <v-spacer />
               <v-btn @click="cancel">Cancel</v-btn>
               <v-btn @click="reset">Clear</v-btn>
               <v-btn @click="submit" :disabled="!valid">Save</v-btn>

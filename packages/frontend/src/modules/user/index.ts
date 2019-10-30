@@ -1,11 +1,11 @@
-import { UserActions } from "@/modules/user/actions";
-import { UserMutations } from "@/modules/user/mutations";
+import { UserActions } from "./actions";
+import { UserMutations } from "./mutations";
 import { Module } from "vuex-smart-module";
 import { UserGetters } from "./getters";
-import { IUserProfile } from "./models";
+import { UserDto } from "@airlab/shared/lib/user/dto";
 
 export class UserState {
-  users: IUserProfile[] = [];
+  users: UserDto[] = [];
 }
 
 export const userModule = new Module({

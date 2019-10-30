@@ -1,5 +1,3 @@
-import { datasetModule } from "@/modules/datasets";
-import { experimentModule } from "@/modules/experiment";
 import { mainModule } from "@/modules/main";
 import { settingsModule } from "@/modules/settings";
 import { userModule } from "@/modules/user";
@@ -9,6 +7,8 @@ import Vuex from "vuex";
 import VuexPersistence from "vuex-persist";
 import { createStore, Module } from "vuex-smart-module";
 import createLogger from "vuex/dist/logger";
+import { groupModule } from "@/modules/group";
+import { tagModule } from "@/modules/tag";
 
 Vue.use(Vuex);
 
@@ -18,8 +18,8 @@ const rootModule = new Module({
   modules: {
     main: mainModule,
     user: userModule,
-    experiment: experimentModule,
-    dataset: datasetModule,
+    group: groupModule,
+    tag: tagModule,
     settings: settingsModule,
   },
 });

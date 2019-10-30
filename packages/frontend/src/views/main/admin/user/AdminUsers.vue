@@ -4,22 +4,24 @@
       <v-toolbar-title>
         Manage Users
       </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn small color="primary" to="/main/admin/users/create">Create User </v-btn>
+      <v-spacer />
+      <v-btn small color="primary" to="/main/admin/user/create">Create User</v-btn>
     </v-toolbar>
-    <v-data-table :headers="headers" :items="users">
-      <template v-slot:item.is_active="{ item }">
-        <v-icon v-if="item.is_active">mdi-check</v-icon>
+    <v-data-table
+      :headers="headers"
+      :items="users"
+      :items-per-page="15"
+      :footer-props="{
+        itemsPerPageOptions: [10, 15, 20, -1],
+      }"
+    >
+      <template v-slot:item.active="{ item }">
+        <v-icon v-if="item.active">mdi-check</v-icon>
       </template>
-
-      <template v-slot:item.is_superuser="{ item }">
-        <v-icon v-if="item.is_superuser">mdi-check</v-icon>
-      </template>
-
       <template v-slot:item.action="{ item }">
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-btn v-on="on" icon :to="{ name: 'main-admin-users-edit', params: { id: item.id } }">
+            <v-btn v-on="on" icon :to="{ name: 'main-admin-user-edit', params: { id: item.id } }">
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
           </template>
@@ -40,27 +42,33 @@ export default class AdminUsers extends Vue {
 
   headers = [
     {
+      text: "Id",
+      sortable: true,
+      value: "id",
+      align: "right",
+    },
+    {
       text: "Email",
       sortable: true,
       value: "email",
       align: "left",
     },
     {
-      text: "Full Name",
+      text: "Name",
       sortable: true,
-      value: "full_name",
+      value: "name",
       align: "left",
     },
     {
-      text: "Is Active",
+      text: "Last Name",
       sortable: true,
-      value: "is_active",
+      value: "lastName",
       align: "left",
     },
     {
-      text: "Is Superuser",
+      text: "Active",
       sortable: true,
-      value: "is_superuser",
+      value: "active",
       align: "left",
     },
     {

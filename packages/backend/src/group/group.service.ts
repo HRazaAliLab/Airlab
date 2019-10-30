@@ -2,10 +2,10 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { GroupEntity } from "./group.entity";
-import { CreateGroupDto, InviteDto } from "./group.dto";
 import { GroupUserService } from "../groupUser/groupUser.service";
 import * as crypto from "crypto";
 import { UtilsService } from "../utils/utils.service";
+import { CreateGroupDto, InviteDto, UpdateGroupDto } from "@airlab/shared/lib/group/dto";
 
 const privateKey = "fsdfC987XXasdf979werl$#";
 
@@ -39,6 +39,10 @@ export class GroupService {
 
   async create(params: CreateGroupDto) {
     return this.groupRepository.save(params);
+  }
+
+  async update(id: number, params: UpdateGroupDto) {
+    return this.groupRepository.update(id, params);
   }
 
   async checkLabAcceptsRequests(id: number) {

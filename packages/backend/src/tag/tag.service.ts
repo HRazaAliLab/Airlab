@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { TagEntity } from "./tag.entity";
-import { CreateTagDto, UpdateTagDto } from "./tag.dto";
+import { CreateTagDto, UpdateTagDto } from "@airlab/shared/lib/tag/dto";
 
 @Injectable()
 export class TagService {
@@ -29,5 +29,9 @@ export class TagService {
         id: id,
       },
     });
+  }
+
+  async deleteById(id: number) {
+    return this.repository.delete(id);
   }
 }

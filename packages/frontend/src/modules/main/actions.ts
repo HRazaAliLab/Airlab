@@ -8,6 +8,7 @@ import { MainState } from ".";
 import { MainGetters } from "./getters";
 import { AppNotification } from "./models";
 import { MainMutations } from "./mutations";
+import { UpdateProfileDto } from "@airlab/shared/lib/user/dto";
 
 export class MainActions extends Actions<MainState, MainGetters, MainMutations, MainActions> {
   // Declare context type
@@ -50,7 +51,7 @@ export class MainActions extends Actions<MainState, MainGetters, MainMutations, 
     }
   }
 
-  async updateUserProfile(payload) {
+  async updateUserProfile(payload: UpdateProfileDto) {
     try {
       const loadingNotification = { content: "saving", showProgress: true };
       this.mutations.addNotification(loadingNotification);

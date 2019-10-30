@@ -6,7 +6,7 @@
           <v-card elevation="12">
             <v-toolbar dark color="primary">
               <v-toolbar-title>Create {{ appName }} Account</v-toolbar-title>
-              <v-spacer></v-spacer>
+              <v-spacer />
             </v-toolbar>
             <v-card-text>
               <v-form @keyup.enter="submit" v-model="valid" ref="form" @submit.prevent="" lazy-validation>
@@ -18,14 +18,21 @@
                   name="email"
                   label="Email"
                   :rules="emailRules"
-                ></v-text-field>
+                />
                 <v-text-field
                   @keyup.enter="submit"
                   type="text"
-                  label="Full Name"
+                  label="Name"
                   prepend-icon="mdi-account"
-                  v-model="fullName"
-                ></v-text-field>
+                  v-model="name"
+                />
+                <v-text-field
+                  @keyup.enter="submit"
+                  type="text"
+                  label="Last Name"
+                  prepend-icon="mdi-account"
+                  v-model="lastName"
+                />
                 <v-text-field
                   @keyup.enter="submit"
                   type="password"
@@ -34,7 +41,7 @@
                   :rules="password1Rules"
                   v-model="password1"
                   prepend-icon="mdi-lock"
-                ></v-text-field>
+                />
                 <v-text-field
                   @keyup.enter="submit"
                   type="password"
@@ -42,7 +49,7 @@
                   :rules="password2Rules"
                   v-model="password2"
                   prepend-icon="mdi-lock"
-                ></v-text-field>
+                />
               </v-form>
               <v-row>
                 <v-col class="caption text-right py-0">
@@ -51,7 +58,7 @@
               </v-row>
             </v-card-text>
             <v-card-actions>
-              <v-spacer></v-spacer>
+              <v-spacer />
               <v-btn @click.prevent="submit">Sign Up</v-btn>
             </v-card-actions>
           </v-card>
@@ -83,14 +90,16 @@ export default class SignUp extends Vue {
 
   valid = true;
   email = "";
-  fullName = "";
+  name = "";
+  lastName = "";
   password1 = "";
   password2 = "";
   appName = appName;
 
   reset() {
     this.email = "";
-    this.fullName = "";
+    this.name = "";
+    this.lastName = "";
     this.password1 = "";
     this.password2 = "";
     (this.$refs.form as any).resetValidation();
@@ -102,6 +111,8 @@ export default class SignUp extends Vue {
       if (!userExist) {
         await this.userContext.actions.signUp({
           email: this.email,
+          name: this.name,
+          lastName: this.lastName,
           password: this.password1,
         });
       }
@@ -120,5 +131,3 @@ export default class SignUp extends Vue {
   }
 }
 </script>
-
-<style></style>

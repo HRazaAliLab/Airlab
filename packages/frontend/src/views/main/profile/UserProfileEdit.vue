@@ -7,13 +7,14 @@
       <v-card-text>
         <template>
           <v-form v-model="valid" ref="form" lazy-validation>
-            <v-text-field label="Full Name" v-model="fullName"></v-text-field>
-            <v-text-field label="E-mail" type="email" v-model="email" :rules="emailRules"></v-text-field>
+            <v-text-field label="Name" v-model="name" />
+            <v-text-field label="Last Name" v-model="lastName" />
+            <v-text-field label="E-mail" type="email" v-model="email" :rules="emailRules" />
           </v-form>
         </template>
       </v-card-text>
       <v-card-actions>
-        <v-spacer></v-spacer>
+        <v-spacer />
         <v-btn @click="cancel">Cancel</v-btn>
         <v-btn @click="reset">Reset</v-btn>
         <v-btn @click="submit" :disabled="!valid">
@@ -28,7 +29,7 @@
 import { mainModule } from "@/modules/main";
 import { required, email } from "@/utils/validators";
 import { Component, Vue } from "vue-property-decorator";
-import { IUserProfileUpdate } from "@/modules/user/models";
+import { UpdateProfileDto } from "@airlab/shared/lib/user/dto";
 
 @Component
 export default class UserProfileEdit extends Vue {
@@ -37,26 +38,19 @@ export default class UserProfileEdit extends Vue {
   readonly emailRules = [required, email];
 
   valid = true;
-  fullName = "";
+  name = "";
+  lastName = "";
   email = "";
-
-  created() {
-    const userProfile = this.userProfile;
-    if (userProfile) {
-      this.fullName = userProfile.full_name;
-      this.email = userProfile.email;
-    }
-  }
 
   get userProfile() {
     return this.mainContext.getters.userProfile;
   }
 
   reset() {
-    const userProfile = this.userProfile;
-    if (userProfile) {
-      this.fullName = userProfile.full_name;
-      this.email = userProfile.email;
+    if (this.userProfile) {
+      this.name = this.userProfile.name;
+      this.lastName = this.userProfile.lastName;
+      this.email = this.userProfile.email;
     }
   }
 
@@ -66,16 +60,18 @@ export default class UserProfileEdit extends Vue {
 
   async submit() {
     if ((this.$refs.form as any).validate()) {
-      const updatedProfile: IUserProfileUpdate = {};
-      if (this.fullName) {
-        updatedProfile.full_name = this.fullName;
-      }
-      if (this.email) {
-        updatedProfile.email = this.email;
-      }
+      const updatedProfile: UpdateProfileDto = {
+        name: this.name,
+        lastName: this.lastName,
+        email: this.email,
+      };
       await this.mainContext.actions.updateUserProfile(updatedProfile);
       this.$router.push("/main/profile");
     }
+  }
+
+  async mounted() {
+    this.reset();
   }
 }
 </script>

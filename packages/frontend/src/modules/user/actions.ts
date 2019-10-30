@@ -1,12 +1,11 @@
 import { mainModule } from "@/modules/main";
-import router from "@/router";
 import { Store } from "vuex";
 import { Actions, Context } from "vuex-smart-module";
 import { UserState } from ".";
 import { api } from "./api";
 import { UserGetters } from "./getters";
-import { IUserProfileCreate, IUserProfileUpdate } from "./models";
 import { UserMutations } from "./mutations";
+import { CreateUserDto, UpdateUserDto } from "@airlab/shared/lib/user/dto";
 
 export class UserActions extends Actions<UserState, UserGetters, UserMutations, UserActions> {
   // Declare context type
@@ -29,7 +28,7 @@ export class UserActions extends Actions<UserState, UserGetters, UserMutations, 
     }
   }
 
-  async updateUser(payload: { id: number; user: IUserProfileUpdate }) {
+  async updateUser(payload: { id: number; user: UpdateUserDto }) {
     try {
       const notification = { content: "saving", showProgress: true };
       this.main!.mutations.addNotification(notification);
@@ -45,7 +44,7 @@ export class UserActions extends Actions<UserState, UserGetters, UserMutations, 
     }
   }
 
-  async createUser(payload: IUserProfileCreate) {
+  async createUser(payload: CreateUserDto) {
     try {
       const notification = { content: "saving", showProgress: true };
       this.main!.mutations.addNotification(notification);
@@ -70,7 +69,7 @@ export class UserActions extends Actions<UserState, UserGetters, UserMutations, 
     }
   }
 
-  async signUp(payload: IUserProfileCreate) {
+  async signUp(payload: CreateUserDto) {
     try {
       const notification = { content: "signing up", showProgress: true };
       this.main!.mutations.addNotification(notification);

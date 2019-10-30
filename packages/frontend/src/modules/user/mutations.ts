@@ -1,15 +1,15 @@
 import { Mutations } from "vuex-smart-module";
 import { UserState } from ".";
-import { IUserProfile } from "./models";
+import { UserDto } from "@airlab/shared/lib/user/dto";
 
 export class UserMutations extends Mutations<UserState> {
-  setUsers(payload: IUserProfile[]) {
+  setUsers(payload: UserDto[]) {
     this.state.users = payload;
   }
 
-  setUser(payload: IUserProfile) {
-    const users = this.state.users.filter((user: IUserProfile) => user.id !== payload.id);
-    users.push(payload);
-    this.state.users = users;
+  setUser(payload: UserDto) {
+    const items = this.state.users.filter(item => item.id !== payload.id);
+    items.push(payload);
+    this.state.users = items;
   }
 }

@@ -19,11 +19,11 @@
                   prepend-icon="mdi-account"
                   v-model="username"
                   :rules="usernameRules"
-                ></v-text-field>
+                />
               </v-form>
             </v-card-text>
             <v-card-actions>
-              <v-spacer></v-spacer>
+              <v-spacer />
               <v-btn @click="cancel">Cancel</v-btn>
               <v-btn @click.prevent="submit" :disabled="!valid">
                 Recover Password

@@ -1,15 +1,15 @@
-import { IUserProfile } from "@/modules/user/models";
 import { Module } from "vuex-smart-module";
 import { MainActions } from "./actions";
 import { MainGetters } from "./getters";
 import { AppNotification } from "./models";
 import { MainMutations } from "./mutations";
+import { ProfileDto } from "@airlab/shared/lib/user/dto";
 
 export class MainState {
   token = "";
   isLoggedIn: boolean | null = null;
   logInError = false;
-  userProfile: IUserProfile | null = null;
+  userProfile: ProfileDto | null = null;
   dashboardMiniDrawer = true;
   dashboardShowDrawer = true;
   notifications: AppNotification[] = [];

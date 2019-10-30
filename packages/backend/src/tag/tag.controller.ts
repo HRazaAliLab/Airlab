@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { TagService } from "./tag.service";
-import { CreateTagDto, TagDto, UpdateTagDto } from "./tag.dto";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
+import { CreateTagDto, TagDto, UpdateTagDto } from "@airlab/shared/lib/tag/dto";
+import { DeleteResult } from "typeorm";
 
 @ApiUseTags("tag")
 @Controller("tag")
@@ -21,6 +22,12 @@ export class TagController {
   @ApiCreatedResponse({ description: "Find entity by Id.", type: TagDto })
   findById(@Param("id") id: number) {
     return this.tagService.findById(id);
+  }
+
+  @Delete(":id")
+  @ApiCreatedResponse({ description: "Delete entity by Id.", type: DeleteResult })
+  deleteById(@Param("id") id: number) {
+    return this.tagService.deleteById(id);
   }
 
   @Post()

@@ -1,6 +1,6 @@
 import ky from "ky";
 import { apiUrl } from "@/env";
-import { IUserProfile, IUserProfileCreate, IUserProfileUpdate } from "./models";
+import { CreateUserDto, ProfileDto, UpdateProfileDto, UpdateUserDto, UserDto } from "@airlab/shared/lib/user/dto";
 
 export const api = {
   async logInGetToken(username: string, password: string) {
@@ -8,63 +8,63 @@ export const api = {
     params.append("username", username);
     params.append("password", password);
 
-    return ky.post(`${apiUrl}/api/v1/auth/login`, { body: params }).json();
+    return ky.post(`${apiUrl}/auth/login`, { body: params }).json();
   },
   async getMe(token: string) {
     return ky
-      .get(`${apiUrl}/api/v1/user/profile`, {
+      .get(`${apiUrl}/user/profile`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
-      .json<IUserProfile>();
+      .json<ProfileDto>();
   },
-  async updateMe(token: string, data: IUserProfileUpdate) {
+  async updateMe(token: string, data: UpdateProfileDto) {
     return ky
-      .put(`${apiUrl}/api/v1/user/me`, {
+      .patch(`${apiUrl}/user/profile`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
-      .json<IUserProfile>();
+      .json<ProfileDto>();
   },
   async getUsers(token: string) {
     return ky
-      .get(`${apiUrl}/api/v1/user/`, {
+      .get(`${apiUrl}/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
-      .json<IUserProfile[]>();
+      .json<UserDto[]>();
   },
-  async updateUser(token: string, id: number, data: IUserProfileUpdate) {
+  async updateUser(token: string, id: number, data: UpdateUserDto) {
     return ky
-      .put(`${apiUrl}/api/v1/users/${id}`, {
+      .patch(`${apiUrl}/user/${id}`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
-      .json<IUserProfile>();
+      .json<UserDto>();
   },
-  async createUser(token: string, data: IUserProfileCreate) {
+  async createUser(token: string, data: CreateUserDto) {
     return ky
-      .post(`${apiUrl}/api/v1/users/`, {
+      .post(`${apiUrl}/user`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
-      .json<IUserProfile>();
+      .json<UserDto>();
   },
   async passwordRecovery(email: string) {
-    return ky.post(`${apiUrl}/api/v1/auth/password-recovery/${email}`).json();
+    return ky.post(`${apiUrl}/auth/password-recovery/${email}`).json();
   },
   async checkUserExists(email: string) {
-    return ky.get(`${apiUrl}/api/v1/users/check/${email}`).json<{ exists: boolean }>();
+    return ky.get(`${apiUrl}/users/check/${email}`).json<{ exists: boolean }>();
   },
-  async signUp(data: IUserProfileCreate) {
+  async signUp(data: CreateUserDto) {
     return ky
       .post(`${apiUrl}/api/v1/users/signup`, {
         json: data,
@@ -73,9 +73,9 @@ export const api = {
   },
   async resetPassword(password: string, token: string) {
     return ky
-      .post(`${apiUrl}/api/v1/auth/reset-password/`, {
+      .post(`${apiUrl}/auth/reset-password/`, {
         json: {
-          new_password: password,
+          newPassword: password,
           token,
         },
       })
