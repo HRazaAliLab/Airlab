@@ -34,7 +34,7 @@ export class GroupService {
     //     outro: "Need help, or have questions? Just reply to this email, we'd love to help.",
     //   },
     // });
-    return this.groupRepository.find();
+    return this.groupRepository.find({ relations: ["groupUsers", "groupUsers.group", "groupUsers.user"] });
   }
 
   async create(params: CreateGroupDto) {
@@ -42,7 +42,8 @@ export class GroupService {
   }
 
   async update(id: number, params: UpdateGroupDto) {
-    return this.groupRepository.update(id, params);
+    await this.groupRepository.update(id, params);
+    return this.findById(id);
   }
 
   async checkLabAcceptsRequests(id: number) {
@@ -56,11 +57,7 @@ export class GroupService {
   }
 
   async findById(id: number) {
-    return this.groupRepository.findOne({
-      where: {
-        id: id,
-      },
-    });
+    return this.groupRepository.findOne(id);
   }
 
   async requestJoinGroup(userId: number, groupId: number) {

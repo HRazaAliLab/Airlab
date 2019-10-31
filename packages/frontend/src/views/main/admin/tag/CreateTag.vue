@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-card class="ma-4 pa-4">
       <v-card-title primary-title>
-        <div class="headline primary--text">Create Group</div>
+        <div class="headline primary--text">Create Tag</div>
       </v-card-title>
       <v-card-text>
         <template>

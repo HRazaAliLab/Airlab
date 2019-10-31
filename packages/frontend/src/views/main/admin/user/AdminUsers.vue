@@ -1,35 +1,46 @@
 <template>
-  <div>
-    <v-toolbar dense>
+  <v-col>
+    <v-toolbar class="toolbar">
       <v-toolbar-title>
         Manage Users
       </v-toolbar-title>
       <v-spacer />
-      <v-btn small color="primary" to="/main/admin/user/create">Create User</v-btn>
+      <v-toolbar-items>
+        <v-btn text to="/main/admin/user/create">Create User</v-btn>
+      </v-toolbar-items>
     </v-toolbar>
-    <v-data-table
-      :headers="headers"
-      :items="users"
-      :items-per-page="15"
-      :footer-props="{
-        itemsPerPageOptions: [10, 15, 20, -1],
-      }"
-    >
-      <template v-slot:item.active="{ item }">
-        <v-icon v-if="item.active">mdi-check</v-icon>
-      </template>
-      <template v-slot:item.action="{ item }">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-btn v-on="on" icon :to="{ name: 'main-admin-user-edit', params: { id: item.id } }">
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
-          </template>
-          <span>Edit</span>
-        </v-tooltip>
-      </template>
-    </v-data-table>
-  </div>
+
+    <v-card>
+      <v-card-title>
+        <v-spacer />
+        <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details clearable />
+      </v-card-title>
+      <v-data-table
+        :headers="headers"
+        :items="items"
+        :loading="!items"
+        :search="search"
+        :items-per-page="15"
+        :footer-props="{
+          itemsPerPageOptions: [10, 15, 20, -1],
+        }"
+      >
+        <template v-slot:item.active="{ item }">
+          <v-icon v-if="item.active">mdi-check</v-icon>
+        </template>
+        <template v-slot:item.action="{ item }">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn v-on="on" icon :to="{ name: 'main-admin-user-edit', params: { id: item.id } }">
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+            </template>
+            <span>Edit</span>
+          </v-tooltip>
+        </template>
+      </v-data-table>
+    </v-card>
+  </v-col>
 </template>
 
 <script lang="ts">
@@ -40,12 +51,13 @@ import { Component, Vue } from "vue-property-decorator";
 export default class AdminUsers extends Vue {
   readonly userContext = userModule.context(this.$store);
 
-  headers = [
+  readonly headers = [
     {
       text: "Id",
       sortable: true,
       value: "id",
       align: "right",
+      filterable: false,
     },
     {
       text: "Email",
@@ -70,15 +82,19 @@ export default class AdminUsers extends Vue {
       sortable: true,
       value: "active",
       align: "left",
+      filterable: false,
     },
     {
       text: "Actions",
       value: "action",
       sortable: false,
+      filterable: false,
     },
   ];
 
-  get users() {
+  search = "";
+
+  get items() {
     return this.userContext.getters.users;
   }
 
@@ -87,3 +103,9 @@ export default class AdminUsers extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.toolbar {
+  margin-bottom: 10px;
+}
+</style>

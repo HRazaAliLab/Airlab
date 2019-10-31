@@ -2,13 +2,15 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { UserService } from "./user.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserEntity } from "./user.entity";
+import { GroupEntity } from "../group/group.entity";
+import { GroupUserEntity } from "../groupUser/groupUser.entity";
 
 describe("UserService", () => {
   let service: UserService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([UserEntity])],
+      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([UserEntity, GroupEntity, GroupUserEntity])],
       providers: [UserService],
     }).compile();
 

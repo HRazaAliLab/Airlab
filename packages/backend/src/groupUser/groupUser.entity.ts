@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { GroupEntity } from "../group/group.entity";
+import { UserEntity } from "../user/user.entity";
 
 @Entity({
   name: "tblZGroupPerson",
@@ -53,4 +55,12 @@ export class GroupUserEntity {
     name: "gpeAllPanels",
   })
   gpeAllPanels: boolean;
+
+  @ManyToOne(type => GroupEntity, group => group.groupUsers)
+  @JoinColumn({ name: "gpeGroupId" })
+  group!: GroupEntity;
+
+  @ManyToOne(type => UserEntity, user => user.groupUsers)
+  @JoinColumn({ name: "gpePersonId" })
+  user!: UserEntity;
 }

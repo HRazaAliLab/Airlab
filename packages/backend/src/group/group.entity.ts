@@ -1,6 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ProteinEntity } from "../protein/protein.entity";
 import { PlateEntity } from "../plate/plate.entity";
+import { GroupUserEntity } from "../groupUser/groupUser.entity";
 
 @Entity({
   name: "tblGroup",
@@ -51,4 +52,7 @@ export class GroupEntity {
 
   @OneToMany(type => PlateEntity, plate => plate.group)
   plates: PlateEntity[];
+
+  @OneToMany(type => GroupUserEntity, groupUser => groupUser.group)
+  groupUsers!: GroupUserEntity[];
 }

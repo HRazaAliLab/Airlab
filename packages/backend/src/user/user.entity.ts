@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Exclude } from "class-transformer";
+import { GroupUserEntity } from "../groupUser/groupUser.entity";
 
 @Entity({
   name: "tblPerson",
@@ -41,4 +42,7 @@ export class UserEntity {
     name: "zetActive",
   })
   active: boolean;
+
+  @OneToMany(type => GroupUserEntity, groupUser => groupUser.user)
+  groupUsers!: GroupUserEntity[];
 }

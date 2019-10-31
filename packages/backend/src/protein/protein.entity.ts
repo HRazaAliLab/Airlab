@@ -60,9 +60,7 @@ export class ProteinEntity {
   })
   openBisCode: string;
 
-  @ManyToOne(type => GroupEntity, group => group.proteins, {
-    eager: false,
-  })
+  @ManyToOne(type => GroupEntity, group => group.proteins)
   @JoinColumn({ name: "groupId" })
   group: GroupEntity;
 }

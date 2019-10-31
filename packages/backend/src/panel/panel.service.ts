@@ -20,15 +20,12 @@ export class PanelService {
   }
 
   async update(id: number, params: UpdatePanelDto) {
-    return this.repository.update(id, params);
+    await this.repository.update(id, params);
+    return this.findById(id);
   }
 
   async findById(id: number) {
-    return this.repository.findOne({
-      where: {
-        id: id,
-      },
-    });
+    return this.repository.findOne(id);
   }
 
   async getAllPanelsForGroup(groupId: number) {

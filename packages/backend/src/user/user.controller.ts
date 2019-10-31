@@ -14,7 +14,7 @@ import {
   UseInterceptors,
 } from "@nestjs/common";
 import { JwtPayloadDto } from "@airlab/shared/lib/auth/dto";
-import { CreateUserDto, UpdateUserDto, UserDto } from "@airlab/shared/lib/user/dto";
+import { CreateUserDto, ProfileDto, UpdateProfileDto, UpdateUserDto, UserDto } from "@airlab/shared/lib/user/dto";
 
 @ApiUseTags("user")
 @Controller("user")
@@ -24,17 +24,24 @@ import { CreateUserDto, UpdateUserDto, UserDto } from "@airlab/shared/lib/user/d
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Get("profile")
+  @ApiCreatedResponse({ description: "Get personal profile.", type: ProfileDto })
+  profile(@Request() req) {
+    const user: JwtPayloadDto = req.user;
+    return this.userService.findById(user.userId);
+  }
+
+  @Patch("profile")
+  @ApiCreatedResponse({ description: "Update personal profile.", type: ProfileDto })
+  async updateProfile(@Request() req, @Body() params: UpdateProfileDto) {
+    const user: JwtPayloadDto = req.user;
+    return this.userService.update(user.userId, params);
+  }
+
   @Get()
   @ApiCreatedResponse({ description: "Find all entities.", type: UserDto, isArray: true })
   findAll() {
     return this.userService.findAll();
-  }
-
-  @Get("profile")
-  @ApiCreatedResponse({ description: "Get personal profile.", type: UserDto })
-  profile(@Request() req) {
-    const user: JwtPayloadDto = req.user;
-    return this.userService.findById(user.userId);
   }
 
   @Get(":id")
@@ -50,8 +57,14 @@ export class UserController {
   }
 
   @Patch(":id")
-  @ApiCreatedResponse({ description: "Updated entity.", type: UserDto })
+  @ApiCreatedResponse({ description: "Update entity.", type: UserDto })
   async update(@Param("id") id: number, @Body() params: UpdateUserDto) {
     return this.userService.update(id, params);
+  }
+
+  @Get(":userId/groups")
+  @ApiCreatedResponse({ description: "Find groups for the user.", type: UserDto })
+  getGroupsForUser(@Param("userId") userId: number) {
+    return this.userService.getGroupsForUser(userId);
   }
 }
