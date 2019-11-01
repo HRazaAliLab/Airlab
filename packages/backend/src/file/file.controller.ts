@@ -36,14 +36,14 @@ export class FileController {
   }
 
   @Get("group/:groupId")
-  @ApiCreatedResponse({ description: "Find all files for the group.", type: FileDto })
+  @ApiCreatedResponse({ description: "Find all files for the group.", type: FileDto, isArray: true })
   getAllFilesForGroup(@Param("groupId") groupId: number) {
     return this.fileService.getAllFilesForGroup(groupId);
   }
 
-  @Get("userGroup/:userGroupId")
-  @ApiCreatedResponse({ description: "Find all files for the userGroup.", type: FileDto })
-  getAllFilesForUserGroup(@Param("userGroupId") userGroupId: number) {
-    return this.fileService.getAllFilesForUserGroup(userGroupId);
+  @Get("groupUser/:groupUserId")
+  @ApiCreatedResponse({ description: "Find all files for the group user.", type: FileDto, isArray: true })
+  getAllFilesForGroupUser(@Param("groupUserId") groupUserId: number) {
+    return this.fileService.getAllFilesForGroupUser(groupUserId);
   }
 }

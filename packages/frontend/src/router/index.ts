@@ -46,6 +46,24 @@ export default new Router({
               path: "group/:id",
               name: "main-group",
               component: () => import(/* webpackChunkName: "main-group" */ "@/views/main/group/GroupView.vue"),
+              children: [
+                {
+                  path: "conjugates",
+                  name: "main-group-conjugates",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-conjugates" */ "@/views/main/group/conjugates/ConjugatesView.vue"
+                    ),
+                },
+                {
+                  path: "reagents",
+                  name: "main-group-reagents",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-reagents" */ "@/views/main/group/reagents/ReagentsView.vue"
+                    ),
+                },
+              ],
             },
             {
               path: "profile",
@@ -142,6 +160,32 @@ export default new Router({
                   name: "main-admin-tag-edit",
                   component: () =>
                     import(/* webpackChunkName: "main-admin-tag-edit" */ "@/views/main/admin/tag/EditTag.vue"),
+                },
+
+                {
+                  path: "species",
+                  redirect: "species/all",
+                },
+                {
+                  path: "species/all",
+                  component: () =>
+                    import(/* webpackChunkName: "main-admin-species" */ "@/views/main/admin/species/AdminSpecies.vue"),
+                },
+                {
+                  path: "species/create",
+                  name: "main-admin-species-create",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-admin-species-create" */ "@/views/main/admin/species/CreateSpecies.vue"
+                    ),
+                },
+                {
+                  path: "species/edit/:id",
+                  name: "main-admin-species-edit",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-admin-species-edit" */ "@/views/main/admin/species/EditSpecies.vue"
+                    ),
                 },
               ],
             },

@@ -1,16 +1,7 @@
 <template>
   <LoadingView v-if="!group" text="Loading..." />
   <v-container v-else fluid class="px-1 py-0">
-    <v-tabs v-model="tab">
-      <v-tab>Visualization</v-tab>
-      <v-tab>Analysis</v-tab>
-      <v-tab-item>
-        VVV
-      </v-tab-item>
-      <v-tab-item>
-        AAA
-      </v-tab-item>
-    </v-tabs>
+    <router-view />
   </v-container>
 </template>
 
@@ -30,19 +21,12 @@ export default class GroupView extends Vue {
   readonly mainContext = mainModule.context(this.$store);
   readonly groupContext = groupModule.context(this.$store);
 
-  tab = 0;
-
   get group() {
     return this.groupContext.getters.activeGroup;
   }
 
   get showWorkspace() {
     return this.mainContext.getters.showWorkspace;
-  }
-
-  get viewerColumns() {
-    const cols = this.$vuetify.breakpoint.name === "xl" ? 10 : 9;
-    return this.showWorkspace ? cols : 12;
   }
 
   async mounted() {
@@ -54,9 +38,10 @@ export default class GroupView extends Vue {
 
   beforeDestroy() {
     // WebSocketManager.close();
-    if (process.env.VUE_APP_ENV !== "development") {
-      this.groupContext.mutations.reset();
-    }
+    // if (process.env.VUE_APP_ENV !== "development") {
+    //   this.groupContext.mutations.reset();
+    // }
+    this.groupContext.mutations.reset();
   }
 }
 </script>

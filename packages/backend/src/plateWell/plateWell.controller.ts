@@ -36,14 +36,14 @@ export class PlateWellController {
   }
 
   @Get("group/:groupId")
-  @ApiCreatedResponse({ description: "Find all plate wells for the group.", type: PlateWellDto })
+  @ApiCreatedResponse({ description: "Find all plate wells for the group.", type: PlateWellDto, isArray: true })
   getAllPlateWellsForGroup(@Param("groupId") groupId: number) {
     return this.plateWellService.getAllPlateWellsForGroup(groupId);
   }
 
-  @Get("userGroup/:userGroupId")
-  @ApiCreatedResponse({ description: "Find all plate wells for the userGroup.", type: PlateWellDto })
-  getAllPlateWellsForUserGroup(@Param("userGroupId") userGroupId: number) {
-    return this.plateWellService.getAllPlateWellsForUserGroup(userGroupId);
+  @Get("groupUser/:groupUserId")
+  @ApiCreatedResponse({ description: "Find all plate wells for the group user.", type: PlateWellDto, isArray: true })
+  getAllPlateWellsForGroupUser(@Param("groupUserId") groupUserId: number) {
+    return this.plateWellService.getAllPlateWellsForGroupUser(groupUserId);
   }
 }

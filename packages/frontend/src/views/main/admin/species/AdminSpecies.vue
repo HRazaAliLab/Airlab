@@ -1,0 +1,116 @@
+<template>
+  <v-col>
+    <v-toolbar class="toolbar">
+      <v-toolbar-title>
+        Manage Species
+      </v-toolbar-title>
+      <v-spacer />
+      <v-toolbar-items>
+        <v-btn text to="/main/admin/species/create">Create Species</v-btn>
+      </v-toolbar-items>
+    </v-toolbar>
+
+    <v-card>
+      <v-card-title>
+        <v-spacer />
+        <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details clearable />
+      </v-card-title>
+      <v-data-table
+        :headers="headers"
+        :items="items"
+        :loading="!items"
+        :search="search"
+        :items-per-page="15"
+        :footer-props="{
+          itemsPerPageOptions: [10, 15, 20, -1],
+        }"
+      >
+        <template v-slot:item.action="{ item }">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                v-on="on"
+                icon
+                :to="{
+                  name: 'main-admin-species-edit',
+                  params: { id: item.id },
+                }"
+              >
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+            </template>
+            <span>Edit</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn v-on="on" icon @click="deleteSpecies($event, item.id)">
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+            </template>
+            <span>Delete</span>
+          </v-tooltip>
+        </template>
+      </v-data-table>
+    </v-card>
+  </v-col>
+</template>
+
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import { speciesModule } from "@/modules/species";
+
+@Component
+export default class AdminSpecies extends Vue {
+  readonly speciesContext = speciesModule.context(this.$store);
+
+  readonly headers = [
+    {
+      text: "Id",
+      sortable: true,
+      value: "id",
+      align: "right",
+      filterable: false,
+    },
+    {
+      text: "Name",
+      sortable: true,
+      value: "name",
+      align: "left",
+    },
+    {
+      text: "Acronym",
+      sortable: true,
+      value: "acronym",
+      align: "left",
+    },
+    {
+      text: "Actions",
+      value: "action",
+      sortable: false,
+      filterable: false,
+    },
+  ];
+
+  search = "";
+
+  get items() {
+    return this.speciesContext.getters.species;
+  }
+
+  async mounted() {
+    await this.speciesContext.actions.getSpecies();
+  }
+
+  async deleteSpecies(event, id: number) {
+    if (self.confirm("Are you sure you want to delete the species?")) {
+      await this.speciesContext.actions.deleteSpecies(id);
+    }
+  }
+}
+</script>
+
+<style scoped>
+.toolbar {
+  margin-bottom: 10px;
+}
+</style>

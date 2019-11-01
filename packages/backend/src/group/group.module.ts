@@ -6,9 +6,10 @@ import { GroupController } from "./group.controller";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
 import { GroupUserService } from "../groupUser/groupUser.service";
 import { UtilsService } from "../utils/utils.service";
+import { UserEntity } from "../user/user.entity";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([GroupEntity, GroupUserEntity])],
+  imports: [TypeOrmModule.forFeature([GroupEntity, GroupUserEntity, UserEntity])],
   providers: [GroupService, GroupUserService, UtilsService],
   controllers: [GroupController],
 })

@@ -5,6 +5,7 @@ import { UserEntity } from "./user.entity";
 import { CreateUserDto, UpdateProfileDto, UpdateUserDto } from "@airlab/shared/lib/user/dto";
 import { GroupEntity } from "../group/group.entity";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
+import { ReagentInstanceEntity } from "../reagentInstance/reagentInstance.entity";
 
 @Injectable()
 export class UserService {
@@ -14,7 +15,9 @@ export class UserService {
     @InjectRepository(GroupEntity)
     private readonly groupRepository: Repository<GroupEntity>,
     @InjectRepository(GroupUserEntity)
-    private readonly groupUserRepository: Repository<GroupUserEntity>
+    private readonly groupUserRepository: Repository<GroupUserEntity>,
+    @InjectRepository(ReagentInstanceEntity)
+    private readonly reagentInstanceRepository: Repository<ReagentInstanceEntity>
   ) {}
 
   async findAll() {
@@ -40,11 +43,13 @@ export class UserService {
     });
   }
 
+  async findByActivationKey(key: string) {
+    return this.userRepository.findOne({
+      where: { activationKey: key },
+    });
+  }
+
   async getGroupsForUser(userId: number) {
-    // return this.groupUserRepository.find({
-    //   where: { userId: userId },
-    //   relations: ["group"],
-    // });
     return this.groupRepository
       .createQueryBuilder("group")
       .where(qb => {
@@ -52,11 +57,32 @@ export class UserService {
           .subQuery()
           .select("groupUser.groupId", "groupId")
           .from(GroupUserEntity, "groupUser")
-          .where("groupUser.userId = :userId")
+          .where("groupUser.userId = :userId", { userId: userId })
           .getQuery();
         return "group.grpGroupId IN " + subQuery;
       })
-      .setParameter("userId", userId)
+      .getMany();
+  }
+
+  async activate(key: string) {
+    await this.userRepository.update(
+      {
+        activationKey: key,
+      },
+      {
+        active: true,
+      }
+    );
+    return this.findByActivationKey(key);
+  }
+
+  async getAllLotsForUser(userId: number) {
+    return this.reagentInstanceRepository
+      .createQueryBuilder("lot")
+      .leftJoin(GroupUserEntity, "groupUser", "lot.groupId = groupUser.groupId")
+      .where("groupUser.userId = :userId", { userId: userId })
+      .andWhere("lot.lotCloneId != 0")
+      .andWhere("lot.deleted = 0")
       .getMany();
   }
 }

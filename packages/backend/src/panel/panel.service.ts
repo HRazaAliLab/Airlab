@@ -40,10 +40,10 @@ export class PanelService {
     });
   }
 
-  async getAllPanelsForUser(userId: number) {
+  async getAllPanelsForGroupUser(groupUserId: number) {
     return this.repository.find({
       where: {
-        createdBy: userId,
+        createdBy: groupUserId,
         isDeleted: null,
       },
       order: {

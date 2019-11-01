@@ -16,10 +16,18 @@ export class CreateSpeciesDto {
   @IsString()
   @ApiModelProperty()
   readonly name: string;
+
+  @IsString()
+  @ApiModelProperty()
+  readonly acronym: string;
 }
 
 export class UpdateSpeciesDto {
   @IsString()
   @ApiModelProperty()
   readonly name: string;
+
+  @IsString()
+  @ApiModelProperty()
+  readonly acronym: string;
 }

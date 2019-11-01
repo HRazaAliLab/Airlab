@@ -9,6 +9,7 @@ import { createStore, Module } from "vuex-smart-module";
 import createLogger from "vuex/dist/logger";
 import { groupModule } from "@/modules/group";
 import { tagModule } from "@/modules/tag";
+import { speciesModule } from "@/modules/species";
 
 Vue.use(Vuex);
 
@@ -20,6 +21,7 @@ const rootModule = new Module({
     user: userModule,
     group: groupModule,
     tag: tagModule,
+    species: speciesModule,
     settings: settingsModule,
   },
 });

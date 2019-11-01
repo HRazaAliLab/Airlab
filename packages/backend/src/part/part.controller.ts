@@ -36,13 +36,13 @@ export class PartController {
   }
 
   @Get("group/:groupId")
-  @ApiCreatedResponse({ description: "Find all parts for the group.", type: PartDto })
+  @ApiCreatedResponse({ description: "Find all parts for the group.", type: PartDto, isArray: true })
   getAllPartsForGroup(@Param("groupId") groupId: number) {
     return this.partService.getAllPartsForGroup(groupId);
   }
 
   @Get("experiment/:experimentId")
-  @ApiCreatedResponse({ description: "Find all parts for the experiment.", type: PartDto })
+  @ApiCreatedResponse({ description: "Find all parts for the experiment.", type: PartDto, isArray: true })
   getAllPartsForExperiment(@Param("experimentId") experimentId: number) {
     return this.partService.getAllPartsForExperiment(experimentId);
   }

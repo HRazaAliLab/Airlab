@@ -15,7 +15,7 @@ import { FileEntity } from "../file/file.entity";
 import { CloneEntity } from "../clone/clone.entity";
 import { CommercialReagentEntity } from "../commercialReagent/commercialReagent.entity";
 import { AntibodyEntity } from "../antibody/antibody.entity";
-import { EnsayoEntity } from "../ensayo/ensayo.entity";
+import { ExperimentEntity } from "../experiment/experiment.entity";
 import { PlaceEntity } from "../place/place.entity";
 import { PartEntity } from "../part/part.entity";
 import { RecipeEntity } from "../recipe/recipe.entity";
@@ -66,7 +66,7 @@ export class ConfigService {
         CloneEntity,
         CommercialReagentEntity,
         AntibodyEntity,
-        EnsayoEntity,
+        ExperimentEntity,
         PlaceEntity,
         PartEntity,
         RecipeEntity,

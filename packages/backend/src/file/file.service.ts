@@ -36,10 +36,10 @@ export class FileService {
     });
   }
 
-  async getAllFilesForUserGroup(userGroupId: number) {
+  async getAllFilesForGroupUser(groupUserId: number) {
     return this.repository.find({
       where: {
-        createdBy: userGroupId,
+        createdBy: groupUserId,
       },
     });
   }

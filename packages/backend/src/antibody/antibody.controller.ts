@@ -36,7 +36,7 @@ export class AntibodyController {
   }
 
   @Get("group/:groupId")
-  @ApiCreatedResponse({ description: "Find all antibodies for the group.", type: AntibodyDto })
+  @ApiCreatedResponse({ description: "Find all antibodies for the group.", type: AntibodyDto, isArray: true })
   getAllAntibodiesForGroup(@Param("groupId") groupId: number) {
     return this.antibodyService.getAllAntibodiesForGroup(groupId);
   }

@@ -36,10 +36,10 @@ export class PlateWellService {
     });
   }
 
-  async getAllPlateWellsForUserGroup(userGroupId: number) {
+  async getAllPlateWellsForGroupUser(groupUserId: number) {
     return this.repository.find({
       where: {
-        createdBy: userGroupId,
+        createdBy: groupUserId,
       },
     });
   }

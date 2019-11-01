@@ -36,10 +36,10 @@ export class PlateService {
     });
   }
 
-  async getAllPlatesForUserGroup(userGroupId: number) {
+  async getAllPlatesForGroupUser(groupUserId: number) {
     return this.repository.find({
       where: {
-        createdBy: userGroupId,
+        createdBy: groupUserId,
       },
     });
   }

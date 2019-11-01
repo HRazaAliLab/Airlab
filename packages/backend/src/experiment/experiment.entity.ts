@@ -4,7 +4,7 @@ import { GroupEntity } from "../group/group.entity";
 @Entity({
   name: "tblEnsayo",
 })
-export class EnsayoEntity {
+export class ExperimentEntity {
   @PrimaryGeneratedColumn({
     name: "enyEnsayoId",
   })

@@ -15,6 +15,8 @@ import {
 } from "@nestjs/common";
 import { JwtPayloadDto } from "@airlab/shared/lib/auth/dto";
 import { CreateUserDto, ProfileDto, UpdateProfileDto, UpdateUserDto, UserDto } from "@airlab/shared/lib/user/dto";
+import { ReagentInstanceDto } from "../reagentInstance/reagentInstance.dto";
+import { GroupDto } from "@airlab/shared/lib/group/dto";
 
 @ApiUseTags("user")
 @Controller("user")
@@ -63,8 +65,14 @@ export class UserController {
   }
 
   @Get(":userId/groups")
-  @ApiCreatedResponse({ description: "Find groups for the user.", type: UserDto })
+  @ApiCreatedResponse({ description: "Find groups for the user.", type: GroupDto, isArray: true })
   getGroupsForUser(@Param("userId") userId: number) {
     return this.userService.getGroupsForUser(userId);
+  }
+
+  @Get(":userId/lots")
+  @ApiCreatedResponse({ description: "Find all lots for the user.", type: ReagentInstanceDto, isArray: true })
+  getAllLotsForUser(@Param("userId") userId: number) {
+    return this.userService.getAllLotsForUser(userId);
   }
 }

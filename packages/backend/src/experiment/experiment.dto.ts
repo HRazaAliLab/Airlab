@@ -1,7 +1,7 @@
 import { IsString } from "class-validator";
 import { ApiModelProperty } from "@nestjs/swagger";
 
-export class EnsayoDto {
+export class ExperimentDto {
   @ApiModelProperty()
   readonly id: number;
 
@@ -33,13 +33,13 @@ export class EnsayoDto {
   readonly groupId: number;
 }
 
-export class CreateEnsayoDto {
+export class CreateExperimentDto {
   @IsString()
   @ApiModelProperty()
   readonly conclusions: string;
 }
 
-export class UpdateEnsayoDto {
+export class UpdateExperimentDto {
   @IsString()
   @ApiModelProperty()
   readonly conclusions: string;

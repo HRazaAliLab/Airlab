@@ -6,6 +6,8 @@ import { GroupUserService } from "../groupUser/groupUser.service";
 import * as crypto from "crypto";
 import { UtilsService } from "../utils/utils.service";
 import { CreateGroupDto, InviteDto, UpdateGroupDto } from "@airlab/shared/lib/group/dto";
+import { UserEntity } from "../user/user.entity";
+import { GroupUserEntity } from "../groupUser/groupUser.entity";
 
 const privateKey = "fsdfC987XXasdf979werl$#";
 
@@ -14,6 +16,8 @@ export class GroupService {
   constructor(
     @InjectRepository(GroupEntity)
     private readonly groupRepository: Repository<GroupEntity>,
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
     private readonly groupUserService: GroupUserService,
     private readonly utilsService: UtilsService
   ) {}
@@ -88,5 +92,13 @@ export class GroupService {
       .update(compound)
       .digest("hex");
     return publicKey === hash;
+  }
+
+  async getUsersInGroup(groupId: number) {
+    return this.userRepository
+      .createQueryBuilder("user")
+      .leftJoin(GroupUserEntity, "groupUser", "user.id = groupUser.userId")
+      .where("groupUser.groupId = :groupId", { groupId: groupId })
+      .getMany();
   }
 }

@@ -36,13 +36,13 @@ export class RecipeController {
   }
 
   @Get("group/:groupId")
-  @ApiCreatedResponse({ description: "Find all recipes for the group.", type: RecipeDto })
+  @ApiCreatedResponse({ description: "Find all recipes for the group.", type: RecipeDto, isArray: true })
   getAllRecipesForGroup(@Param("groupId") groupId: number) {
     return this.recipeService.getAllRecipesForGroup(groupId);
   }
 
   @Get("public")
-  @ApiCreatedResponse({ description: "Find all public recipes.", type: RecipeDto })
+  @ApiCreatedResponse({ description: "Find all public recipes.", type: RecipeDto, isArray: true })
   getAllRecipesPublic() {
     return this.recipeService.getAllRecipesPublic();
   }

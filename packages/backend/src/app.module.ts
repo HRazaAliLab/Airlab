@@ -20,7 +20,7 @@ import { FileModule } from "./file/file.module";
 import { CloneModule } from "./clone/clone.module";
 import { CommercialReagentModule } from "./commercialReagent/commercialReagent.module";
 import { AntibodyModule } from "./antibody/antibody.module";
-import { EnsayoModule } from "./ensayo/ensayo.module";
+import { ExperimentModule } from "./experiment/experiment.module";
 import { PlaceModule } from "./place/place.module";
 import { PartModule } from "./part/part.module";
 import { RecipeModule } from "./recipe/recipe.module";
@@ -49,7 +49,7 @@ import { ReagentInstanceModule } from "./reagentInstance/reagentInstance.module"
     CloneModule,
     CommercialReagentModule,
     AntibodyModule,
-    EnsayoModule,
+    ExperimentModule,
     PlaceModule,
     PartModule,
     RecipeModule,

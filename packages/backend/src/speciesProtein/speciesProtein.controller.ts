@@ -36,7 +36,11 @@ export class SpeciesProteinController {
   }
 
   @Get("group/:groupId")
-  @ApiCreatedResponse({ description: "Find all species proteins for the group.", type: SpeciesProteinDto })
+  @ApiCreatedResponse({
+    description: "Find all species proteins for the group.",
+    type: SpeciesProteinDto,
+    isArray: true,
+  })
   getAllSpeciesProteinsForGroup(@Param("groupId") groupId: number) {
     return this.speciesProteinService.getAllSpeciesProteinsForGroup(groupId);
   }

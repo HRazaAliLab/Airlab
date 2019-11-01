@@ -36,14 +36,14 @@ export class PanelController {
   }
 
   @Get("group/:groupId")
-  @ApiCreatedResponse({ description: "Find all panels for the group.", type: PanelDto })
+  @ApiCreatedResponse({ description: "Find all panels for the group.", type: PanelDto, isArray: true })
   getAllPanelsForGroup(@Param("groupId") groupId: number) {
     return this.panelService.getAllPanelsForGroup(groupId);
   }
 
-  @Get("user/:userId")
-  @ApiCreatedResponse({ description: "Find all panels for the user.", type: PanelDto })
-  getAllPanelsForUser(@Param("userId") userId: number) {
-    return this.panelService.getAllPanelsForUser(userId);
+  @Get("groupUser/:groupUserId")
+  @ApiCreatedResponse({ description: "Find all panels for the user.", type: PanelDto, isArray: true })
+  getAllPanelsForGroupUser(@Param("groupUserId") groupUserId: number) {
+    return this.panelService.getAllPanelsForGroupUser(groupUserId);
   }
 }

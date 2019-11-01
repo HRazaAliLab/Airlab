@@ -36,7 +36,7 @@ export class ProteinController {
   }
 
   @Get("group/:groupId")
-  @ApiCreatedResponse({ description: "Find all proteins for the group.", type: ProteinDto })
+  @ApiCreatedResponse({ description: "Find all proteins for the group.", type: ProteinDto, isArray: true })
   getAllProteinsForGroup(@Param("groupId") groupId: number) {
     return this.proteinService.getAllProteinsForGroup(groupId);
   }

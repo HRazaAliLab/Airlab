@@ -36,7 +36,7 @@ export class CloneController {
   }
 
   @Get("group/:groupId")
-  @ApiCreatedResponse({ description: "Find all clones for the group.", type: CloneDto })
+  @ApiCreatedResponse({ description: "Find all clones for the group.", type: CloneDto, isArray: true })
   getAllClonesForGroup(@Param("groupId") groupId: number) {
     return this.cloneService.getAllClonesForGroup(groupId);
   }

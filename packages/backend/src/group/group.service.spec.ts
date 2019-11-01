@@ -6,13 +6,17 @@ import { GroupUserService } from "../groupUser/groupUser.service";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
 import { UtilsService } from "../utils/utils.service";
 import { ConfigService } from "../config/config.service";
+import { UserEntity } from "../user/user.entity";
 
 describe("GroupService", () => {
   let service: GroupService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([GroupEntity, GroupUserEntity])],
+      imports: [
+        TypeOrmModule.forRoot(),
+        TypeOrmModule.forFeature([GroupEntity, GroupUserEntity, UserEntity]),
+      ],
       providers: [GroupService, GroupUserService, UtilsService, ConfigService],
     }).compile();
 

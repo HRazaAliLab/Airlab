@@ -36,13 +36,21 @@ export class ReagentInstanceController {
   }
 
   @Get("group/:groupId")
-  @ApiCreatedResponse({ description: "Find all reagent instances for the group.", type: ReagentInstanceDto })
+  @ApiCreatedResponse({
+    description: "Find all reagent instances for the group.",
+    type: ReagentInstanceDto,
+    isArray: true,
+  })
   getAllReagentInstancesForGroup(@Param("groupId") groupId: number) {
     return this.reagentInstanceService.getAllReagentInstancesForGroup(groupId);
   }
 
   @Get("group/:groupId/lots")
-  @ApiCreatedResponse({ description: "Find all reagent instances with lots for the group.", type: ReagentInstanceDto })
+  @ApiCreatedResponse({
+    description: "Find all reagent instances with lots for the group.",
+    type: ReagentInstanceDto,
+    isArray: true,
+  })
   getAllReagentInstancesWithLotsForGroup(@Param("groupId") groupId: number) {
     return this.reagentInstanceService.getAllReagentInstancesWithLotsForGroup(groupId);
   }

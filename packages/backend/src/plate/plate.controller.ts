@@ -36,14 +36,14 @@ export class PlateController {
   }
 
   @Get("group/:groupId")
-  @ApiCreatedResponse({ description: "Find all plates for the group.", type: PlateDto })
+  @ApiCreatedResponse({ description: "Find all plates for the group.", type: PlateDto, isArray: true })
   getAllPlatesForGroup(@Param("groupId") groupId: number) {
     return this.plateService.getAllPlatesForGroup(groupId);
   }
 
-  @Get("userGroup/:userGroupId")
-  @ApiCreatedResponse({ description: "Find all plates for the userGroup.", type: PlateDto })
-  getAllPlatesForUserGroup(@Param("userGroupId") userGroupId: number) {
-    return this.plateService.getAllPlatesForUserGroup(userGroupId);
+  @Get("groupUser/:groupUserId")
+  @ApiCreatedResponse({ description: "Find all plates for the group user.", type: PlateDto, isArray: true })
+  getAllPlatesForGroupUser(@Param("groupUserId") groupUserId: number) {
+    return this.plateService.getAllPlatesForGroupUser(groupUserId);
   }
 }

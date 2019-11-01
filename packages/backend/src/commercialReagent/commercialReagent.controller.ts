@@ -36,7 +36,11 @@ export class CommercialReagentController {
   }
 
   @Get("group/:groupId")
-  @ApiCreatedResponse({ description: "Find all commercial reagents for the group.", type: CommercialReagentDto })
+  @ApiCreatedResponse({
+    description: "Find all commercial reagents for the group.",
+    type: CommercialReagentDto,
+    isArray: true,
+  })
   getAllCommercialReagentsForGroup(@Param("groupId") groupId: number) {
     return this.commercialReagentService.getAllCommercialReagentsForGroup(groupId);
   }

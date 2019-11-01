@@ -1,25 +1,25 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { EnsayoEntity } from "./ensayo.entity";
-import { CreateEnsayoDto, UpdateEnsayoDto } from "./ensayo.dto";
+import { ExperimentEntity } from "./experiment.entity";
+import { CreateExperimentDto, UpdateExperimentDto } from "./experiment.dto";
 
 @Injectable()
-export class EnsayoService {
+export class ExperimentService {
   constructor(
-    @InjectRepository(EnsayoEntity)
-    private readonly repository: Repository<EnsayoEntity>
+    @InjectRepository(ExperimentEntity)
+    private readonly repository: Repository<ExperimentEntity>
   ) {}
 
   async findAll() {
     return this.repository.find();
   }
 
-  async create(params: CreateEnsayoDto) {
+  async create(params: CreateExperimentDto) {
     return this.repository.save(params);
   }
 
-  async update(id: number, params: UpdateEnsayoDto) {
+  async update(id: number, params: UpdateExperimentDto) {
     await this.repository.update(id, params);
     return this.findById(id);
   }
@@ -28,7 +28,7 @@ export class EnsayoService {
     return this.repository.findOne(id);
   }
 
-  async getAllEnsayosForGroup(groupId: number) {
+  async getAllExperimentsForGroup(groupId: number) {
     return this.repository.find({
       where: {
         groupId: groupId,
@@ -36,18 +36,10 @@ export class EnsayoService {
     });
   }
 
-  async getAllEnsayosForUserGroup(userGroupId: number) {
+  async getAllExperimentsForGroupUser(groupUserId: number) {
     return this.repository.find({
       where: {
-        createdBy: userGroupId,
-      },
-    });
-  }
-
-  async getAllEnsayosSharedForUserGroup(userGroupId: number) {
-    return this.repository.find({
-      where: {
-        createdBy: userGroupId,
+        createdBy: groupUserId,
       },
     });
   }

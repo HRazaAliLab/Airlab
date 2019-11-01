@@ -36,7 +36,7 @@ export class PlaceController {
   }
 
   @Get("group/:groupId")
-  @ApiCreatedResponse({ description: "Find all places for the group.", type: PlaceDto })
+  @ApiCreatedResponse({ description: "Find all places for the group.", type: PlaceDto, isArray: true })
   getAllPlacesForGroup(@Param("groupId") groupId: number) {
     return this.placeService.getAllPlacesForGroup(groupId);
   }

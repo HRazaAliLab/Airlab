@@ -8,28 +8,28 @@ import { CreateReagentInstanceDto, UpdateReagentInstanceDto } from "./reagentIns
 export class ReagentInstanceService {
   constructor(
     @InjectRepository(ReagentInstanceEntity)
-    private readonly repository: Repository<ReagentInstanceEntity>
+    private readonly reagentInstanceRepository: Repository<ReagentInstanceEntity>
   ) {}
 
   async findAll() {
-    return this.repository.find();
+    return this.reagentInstanceRepository.find();
   }
 
   async create(params: CreateReagentInstanceDto) {
-    return this.repository.save(params);
+    return this.reagentInstanceRepository.save(params);
   }
 
   async update(id: number, params: UpdateReagentInstanceDto) {
-    await this.repository.update(id, params);
+    await this.reagentInstanceRepository.update(id, params);
     return this.findById(id);
   }
 
   async findById(id: number) {
-    return this.repository.findOne(id);
+    return this.reagentInstanceRepository.findOne(id);
   }
 
   async getAllReagentInstancesForGroup(groupId: number) {
-    return this.repository.find({
+    return this.reagentInstanceRepository.find({
       where: {
         groupId: groupId,
         lotCloneId: 0,
@@ -39,7 +39,7 @@ export class ReagentInstanceService {
   }
 
   async getAllReagentInstancesWithLotsForGroup(groupId: number) {
-    return this.repository.find({
+    return this.reagentInstanceRepository.find({
       where: {
         groupId: groupId,
         isDeleted: Not(1),
