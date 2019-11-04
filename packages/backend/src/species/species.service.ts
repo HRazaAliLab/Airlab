@@ -27,4 +27,9 @@ export class SpeciesService {
   async findById(id: number) {
     return this.repository.findOne(id);
   }
+
+  async deleteById(id: number) {
+    const result = await this.repository.delete(id);
+    return result.affected === 1 ? id : undefined;
+  }
 }

@@ -3,7 +3,6 @@ import { TagService } from "./tag.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CreateTagDto, TagDto, UpdateTagDto } from "@airlab/shared/lib/tag/dto";
-import { DeleteResult } from "typeorm";
 
 @ApiUseTags("tag")
 @Controller("tag")
@@ -25,7 +24,7 @@ export class TagController {
   }
 
   @Delete(":id")
-  @ApiCreatedResponse({ description: "Delete entity by Id.", type: DeleteResult })
+  @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
   deleteById(@Param("id") id: number) {
     return this.tagService.deleteById(id);
   }

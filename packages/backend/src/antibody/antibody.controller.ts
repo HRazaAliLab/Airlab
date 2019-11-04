@@ -35,9 +35,9 @@ export class AntibodyController {
     return this.antibodyService.update(id, params);
   }
 
-  @Get("group/:groupId")
-  @ApiCreatedResponse({ description: "Find all antibodies for the group.", type: AntibodyDto, isArray: true })
-  getAllAntibodiesForGroup(@Param("groupId") groupId: number) {
-    return this.antibodyService.getAllAntibodiesForGroup(groupId);
+  @Get("user/:userId")
+  @ApiCreatedResponse({ description: "Find all antibodies for the user.", type: AntibodyDto, isArray: true })
+  getAllAntibodiesForUser(@Param("userId") userId: number) {
+    return this.antibodyService.getAllAntibodiesForUser(userId);
   }
 }

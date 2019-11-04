@@ -79,7 +79,7 @@ export class TagActions extends Actions<TagState, TagGetters, TagMutations, TagA
         api.deleteTag(this.main!.getters.token, id),
         await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
       ]))[0];
-      this.mutations.deleteTag(data);
+      this.mutations.deleteTagById(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Tag successfully deleted", color: "success" });
     } catch (error) {

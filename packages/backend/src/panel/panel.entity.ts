@@ -41,9 +41,9 @@ export class PanelEntity {
   description: string;
 
   @Column({
-    name: "panIsDeleted",
+    name: "deleted",
   })
-  isDeleted: boolean;
+  deleted: boolean;
 
   @Column({
     name: "catchedInfo",

@@ -18,5 +18,12 @@ export class SpeciesMutations extends Mutations<SpeciesState> {
     this.state.species = items;
   }
 
-  reset() {}
+  deleteSpeciesById(id: number) {
+    const items = this.state.species.filter(item => item.id !== id);
+    this.state.species = items;
+  }
+
+  reset() {
+    this.state.species = [];
+  }
 }

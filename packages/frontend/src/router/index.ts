@@ -48,6 +48,42 @@ export default new Router({
               component: () => import(/* webpackChunkName: "main-group" */ "@/views/main/group/GroupView.vue"),
               children: [
                 {
+                  path: "reagents",
+                  name: "main-group-reagents",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-reagents" */ "@/views/main/group/reagents/ReagentsView.vue"
+                    ),
+                },
+
+                {
+                  path: "clones",
+                  name: "main-group-clones",
+                  component: () =>
+                    import(/* webpackChunkName: "main-group-clones" */ "@/views/main/group/clones/ClonesView.vue"),
+                },
+                {
+                  path: "clones/create",
+                  name: "main-group-clones-create",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-clones-create" */ "@/views/main/group/clones/CreateClone.vue"
+                    ),
+                },
+
+                {
+                  path: "panels",
+                  name: "main-group-panels",
+                  component: () =>
+                    import(/* webpackChunkName: "main-group-panels" */ "@/views/main/group/panels/PanelsView.vue"),
+                },
+                {
+                  path: "shop",
+                  name: "main-group-shop",
+                  component: () =>
+                    import(/* webpackChunkName: "main-group-shop" */ "@/views/main/group/shop/ShopView.vue"),
+                },
+                {
                   path: "conjugates",
                   name: "main-group-conjugates",
                   component: () =>
@@ -56,11 +92,17 @@ export default new Router({
                     ),
                 },
                 {
-                  path: "reagents",
-                  name: "main-group-reagents",
+                  path: "lots",
+                  name: "main-group-lots",
+                  component: () =>
+                    import(/* webpackChunkName: "main-group-lots" */ "@/views/main/group/lots/LotsView.vue"),
+                },
+                {
+                  path: "antibodies",
+                  name: "main-group-antibodies",
                   component: () =>
                     import(
-                      /* webpackChunkName: "main-group-reagents" */ "@/views/main/group/reagents/ReagentsView.vue"
+                      /* webpackChunkName: "main-group-antibodies" */ "@/views/main/group/antibodies/AntibodiesView.vue"
                     ),
                 },
               ],

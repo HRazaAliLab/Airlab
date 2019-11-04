@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { CloneService } from "./clone.service";
-import { CloneDto, CreateCloneDto, UpdateCloneDto } from "./clone.dto";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
+import { CloneDto, CreateCloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
+import { JwtPayloadDto } from "@airlab/shared/lib/auth/dto";
 
 @ApiUseTags("clone")
 @Controller("clone")
@@ -15,6 +16,13 @@ export class CloneController {
   @ApiCreatedResponse({ description: "Find all entities.", type: CloneDto, isArray: true })
   findAll() {
     return this.cloneService.findAll();
+  }
+
+  @Get("getAllClonesForGroup")
+  @ApiCreatedResponse({ description: "Find all clones for the user.", type: CloneDto, isArray: true })
+  getAllClonesForGroup(@Request() req) {
+    const user: JwtPayloadDto = req.user;
+    return this.cloneService.getAllClonesForGroupsWithProteinName(user.userId);
   }
 
   @Get(":id")
@@ -35,9 +43,9 @@ export class CloneController {
     return this.cloneService.update(id, params);
   }
 
-  @Get("group/:groupId")
-  @ApiCreatedResponse({ description: "Find all clones for the group.", type: CloneDto, isArray: true })
-  getAllClonesForGroup(@Param("groupId") groupId: number) {
-    return this.cloneService.getAllClonesForGroup(groupId);
+  @Delete(":id")
+  @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
+  deleteById(@Param("id") id: number) {
+    return this.cloneService.deleteById(id);
   }
 }

@@ -20,6 +20,7 @@ import { PlaceEntity } from "../place/place.entity";
 import { PartEntity } from "../part/part.entity";
 import { RecipeEntity } from "../recipe/recipe.entity";
 import { ReagentInstanceEntity } from "../reagentInstance/reagentInstance.entity";
+import { PanelEntity } from "../panel/panel.entity";
 
 export class ConfigService {
   constructor() {
@@ -67,6 +68,7 @@ export class ConfigService {
         CommercialReagentEntity,
         AntibodyEntity,
         ExperimentEntity,
+        PanelEntity,
         PlaceEntity,
         PartEntity,
         RecipeEntity,

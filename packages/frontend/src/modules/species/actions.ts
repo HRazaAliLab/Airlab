@@ -79,7 +79,7 @@ export class SpeciesActions extends Actions<SpeciesState, SpeciesGetters, Specie
         api.deleteSpecies(this.main!.getters.token, id),
         await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
       ]))[0];
-      this.mutations.deleteSpecies(data);
+      this.mutations.deleteSpeciesById(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Species successfully deleted", color: "success" });
     } catch (error) {

@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Not, Repository } from "typeorm";
 import { ReagentInstanceEntity } from "./reagentInstance.entity";
 import { CreateReagentInstanceDto, UpdateReagentInstanceDto } from "./reagentInstance.dto";
+import { GroupUserEntity } from "../groupUser/groupUser.entity";
 
 @Injectable()
 export class ReagentInstanceService {
@@ -33,7 +34,7 @@ export class ReagentInstanceService {
       where: {
         groupId: groupId,
         lotCloneId: 0,
-        isDeleted: Not(1),
+        deleted: Not(1),
       },
     });
   }
@@ -42,8 +43,18 @@ export class ReagentInstanceService {
     return this.reagentInstanceRepository.find({
       where: {
         groupId: groupId,
-        isDeleted: Not(1),
+        deleted: Not(1),
       },
     });
+  }
+
+  async getAllLotsForGroup(userId: number) {
+    return this.reagentInstanceRepository
+      .createQueryBuilder("reagent")
+      .leftJoin(GroupUserEntity, "groupUser", "reagent.groupId = groupUser.groupId")
+      .where("groupUser.userId = :userId", { userId: userId })
+      .andWhere("reagent.lotCloneId != 0")
+      .andWhere("reagent.deleted = 0")
+      .getMany();
   }
 }

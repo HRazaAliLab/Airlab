@@ -25,6 +25,7 @@ import { PlaceModule } from "./place/place.module";
 import { PartModule } from "./part/part.module";
 import { RecipeModule } from "./recipe/recipe.module";
 import { ReagentInstanceModule } from "./reagentInstance/reagentInstance.module";
+import { PanelModule } from "./panel/panel.module";
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { ReagentInstanceModule } from "./reagentInstance/reagentInstance.module"
     CommercialReagentModule,
     AntibodyModule,
     ExperimentModule,
+    PanelModule,
     PlaceModule,
     PartModule,
     RecipeModule,

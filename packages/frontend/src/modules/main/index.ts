@@ -10,7 +10,7 @@ export class MainState {
   isLoggedIn: boolean | null = null;
   logInError = false;
   userProfile: ProfileDto | null = null;
-  dashboardMiniDrawer = true;
+  dashboardMiniDrawer = false;
   dashboardShowDrawer = true;
   notifications: AppNotification[] = [];
   showWorkspace = true;

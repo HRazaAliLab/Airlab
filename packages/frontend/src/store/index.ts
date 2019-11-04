@@ -10,6 +10,8 @@ import createLogger from "vuex/dist/logger";
 import { groupModule } from "@/modules/group";
 import { tagModule } from "@/modules/tag";
 import { speciesModule } from "@/modules/species";
+import { cloneModule } from "@/modules/clone";
+import { proteinModule } from "@/modules/protein";
 
 Vue.use(Vuex);
 
@@ -21,6 +23,8 @@ const rootModule = new Module({
     user: userModule,
     group: groupModule,
     tag: tagModule,
+    protein: proteinModule,
+    clone: cloneModule,
     species: speciesModule,
     settings: settingsModule,
   },

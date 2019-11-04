@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { IsNull, Repository } from "typeorm";
 import { PanelEntity } from "./panel.entity";
 import { CreatePanelDto, UpdatePanelDto } from "./panel.dto";
 
@@ -32,7 +32,7 @@ export class PanelService {
     return this.repository.find({
       where: {
         groupId: groupId,
-        isDeleted: null,
+        deleted: IsNull(),
       },
       order: {
         id: "DESC",
@@ -44,7 +44,7 @@ export class PanelService {
     return this.repository.find({
       where: {
         createdBy: groupUserId,
-        isDeleted: null,
+        deleted: IsNull(),
       },
       order: {
         id: "DESC",

@@ -2,7 +2,9 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CloneEntity } from "./clone.entity";
-import { CreateCloneDto, UpdateCloneDto } from "./clone.dto";
+import { CreateCloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
+import { GroupUserEntity } from "../groupUser/groupUser.entity";
+import { ProteinEntity } from "../protein/protein.entity";
 
 @Injectable()
 export class CloneService {
@@ -28,28 +30,18 @@ export class CloneService {
     return this.repository.findOne(id);
   }
 
-  async getAllClonesForGroup(groupId: number) {
-    return this.repository.find({
-      where: {
-        groupId: groupId,
-      },
-    });
+  async deleteById(id: number) {
+    const result = await this.repository.delete(id);
+    return result.affected === 1 ? id : undefined;
   }
 
-  async getAllClonesForGroupWithProteinName(groupId: number) {
-    return this.repository.find({
-      where: {
-        groupId: groupId,
-        deleted: null,
-      },
-      join: {
-        alias: "protein",
-        leftJoinAndSelect: {
-          profile: "user.profile",
-          photo: "user.photos",
-          video: "user.videos",
-        },
-      },
-    });
+  async getAllClonesForGroupsWithProteinName(userId: number) {
+    return this.repository
+      .createQueryBuilder("clone")
+      .leftJoin(GroupUserEntity, "groupUser", "clone.groupId = groupUser.groupId")
+      .leftJoin(ProteinEntity, "protein", "protein.id = clone.cloProteinId")
+      .where("groupUser.userId = :userId", { userId: userId })
+      .andWhere("clone.deleted IS NULL")
+      .getMany();
   }
 }

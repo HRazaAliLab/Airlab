@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { ProteinEntity } from "./protein.entity";
-import { CreateProteinDto, UpdateProteinDto } from "./protein.dto";
+import { CreateProteinDto, UpdateProteinDto } from "@airlab/shared/lib/protein/dto";
 
 @Injectable()
 export class ProteinService {

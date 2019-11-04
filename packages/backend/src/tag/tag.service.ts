@@ -29,6 +29,7 @@ export class TagService {
   }
 
   async deleteById(id: number) {
-    return this.repository.delete(id);
+    const result = await this.repository.delete(id);
+    return result.affected === 1 ? id : undefined;
   }
 }

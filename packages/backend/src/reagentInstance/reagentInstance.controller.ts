@@ -54,4 +54,14 @@ export class ReagentInstanceController {
   getAllReagentInstancesWithLotsForGroup(@Param("groupId") groupId: number) {
     return this.reagentInstanceService.getAllReagentInstancesWithLotsForGroup(groupId);
   }
+
+  @Get("user/:userId/lots")
+  @ApiCreatedResponse({
+    description: "Find all reagent instances with lots for the user.",
+    type: ReagentInstanceDto,
+    isArray: true,
+  })
+  getAllLotsForGroup(@Param("userId") userId: number) {
+    return this.reagentInstanceService.getAllLotsForGroup(userId);
+  }
 }

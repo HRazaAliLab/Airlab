@@ -48,6 +48,6 @@ export const api = {
           Authorization: `Bearer ${token}`,
         },
       })
-      .json<TagDto>();
+      .json<number>();
   },
 };

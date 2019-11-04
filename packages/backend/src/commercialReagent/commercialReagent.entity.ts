@@ -2,11 +2,11 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "t
 import { GroupEntity } from "../group/group.entity";
 
 @Entity({
-  name: "tblCommercialReagent",
+  name: "tblComertialReagent",
 })
 export class CommercialReagentEntity {
   @PrimaryGeneratedColumn({
-    name: "comCommercialReagentId",
+    name: "comComertialReagentId",
   })
   id: number;
 

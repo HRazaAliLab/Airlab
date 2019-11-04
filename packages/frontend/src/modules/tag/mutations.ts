@@ -18,5 +18,12 @@ export class TagMutations extends Mutations<TagState> {
     this.state.tags = items;
   }
 
-  reset() {}
+  deleteTagById(id: number) {
+    const items = this.state.tags.filter(item => item.id !== id);
+    this.state.tags = items;
+  }
+
+  reset() {
+    this.state.tags = [];
+  }
 }

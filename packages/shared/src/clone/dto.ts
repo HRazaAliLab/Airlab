@@ -1,4 +1,4 @@
-import { IsString } from "class-validator";
+import { IsBoolean, IsInt, IsJSON, IsString } from "class-validator";
 import { ApiModelProperty } from "@nestjs/swagger";
 
 export class CloneDto {
@@ -33,7 +33,7 @@ export class CloneDto {
   readonly proteinId: number;
 
   @ApiModelProperty()
-  readonly speciesHost: string;
+  readonly speciesHost: number;
 
   @ApiModelProperty()
   readonly public: boolean;
@@ -55,6 +55,38 @@ export class CreateCloneDto {
   @IsString()
   @ApiModelProperty()
   readonly name: string;
+
+  @IsInt()
+  @ApiModelProperty()
+  readonly proteinId: number;
+
+  @IsString()
+  @ApiModelProperty()
+  readonly bindingRegion: string;
+
+  @IsString()
+  @ApiModelProperty()
+  readonly isotype: string;
+
+  @IsBoolean()
+  @ApiModelProperty()
+  readonly isPhospho: boolean;
+
+  @IsBoolean()
+  @ApiModelProperty()
+  readonly isPolyclonal: boolean;
+
+  @IsInt()
+  @ApiModelProperty()
+  readonly speciesHost: number;
+
+  @IsJSON()
+  @ApiModelProperty()
+  readonly reactivity: string;
+
+  @IsJSON()
+  @ApiModelProperty()
+  readonly application: string;
 }
 
 export class UpdateCloneDto {

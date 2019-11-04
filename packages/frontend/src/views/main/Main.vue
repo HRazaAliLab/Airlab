@@ -19,50 +19,51 @@
               </v-list-item-action>
               <v-list-item-title>Dashboard</v-list-item-title>
             </v-list-item>
-            <div v-if="activeGroupId">
-              <v-list-item :to="`/main/group/${activeGroupId}/reagents`">
-                <v-list-item-action>
-                  <v-icon>mdi-test-tube</v-icon>
-                </v-list-item-action>
-                <v-list-item-title>Reagents</v-list-item-title>
-              </v-list-item>
-              <v-list-item :to="`/main/group/${activeGroupId}/clones`">
-                <v-list-item-action>
-                  <v-icon>mdi-content-duplicate</v-icon>
-                </v-list-item-action>
-                <v-list-item-title>Clones</v-list-item-title>
-              </v-list-item>
-              <v-list-item :to="`/main/group/${activeGroupId}/panels`">
-                <v-list-item-action>
-                  <v-icon>mdi-clipboard-outline</v-icon>
-                </v-list-item-action>
-                <v-list-item-title>Panels</v-list-item-title>
-              </v-list-item>
-              <v-list-item :to="`/main/group/${activeGroupId}/shop`">
-                <v-list-item-action>
-                  <v-icon>mdi-cart-outline</v-icon>
-                </v-list-item-action>
-                <v-list-item-title>Shop</v-list-item-title>
-              </v-list-item>
-              <v-list-item :to="`/main/group/${activeGroupId}/conjugates`">
-                <v-list-item-action>
-                  <v-icon>mdi-set-center</v-icon>
-                </v-list-item-action>
-                <v-list-item-title>Conjugates</v-list-item-title>
-              </v-list-item>
-              <v-list-item :to="`/main/group/${activeGroupId}/lots`">
-                <v-list-item-action>
-                  <v-icon>mdi-pound-box-outline</v-icon>
-                </v-list-item-action>
-                <v-list-item-title>Lots</v-list-item-title>
-              </v-list-item>
-              <v-list-item :to="`/main/group/${activeGroupId}/antibodies`">
-                <v-list-item-action>
-                  <v-icon>mdi-alpha-a-circle-outline</v-icon>
-                </v-list-item-action>
-                <v-list-item-title>Antibodies</v-list-item-title>
-              </v-list-item>
-            </div>
+          </v-list>
+          <v-list dense subheader v-if="activeGroupId">
+            <v-subheader class="grey--text text--darken-1">Group</v-subheader>
+            <v-list-item :to="`/main/group/${activeGroupId}/reagents`">
+              <v-list-item-action>
+                <v-icon>mdi-test-tube</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Reagents</v-list-item-title>
+            </v-list-item>
+            <v-list-item :to="`/main/group/${activeGroupId}/clones`">
+              <v-list-item-action>
+                <v-icon>mdi-content-duplicate</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Clones</v-list-item-title>
+            </v-list-item>
+            <v-list-item :to="`/main/group/${activeGroupId}/panels`">
+              <v-list-item-action>
+                <v-icon>mdi-clipboard-outline</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Panels</v-list-item-title>
+            </v-list-item>
+            <v-list-item :to="`/main/group/${activeGroupId}/shop`">
+              <v-list-item-action>
+                <v-icon>mdi-cart-outline</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Shop</v-list-item-title>
+            </v-list-item>
+            <v-list-item :to="`/main/group/${activeGroupId}/conjugates`">
+              <v-list-item-action>
+                <v-icon>mdi-set-center</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Conjugates</v-list-item-title>
+            </v-list-item>
+            <v-list-item :to="`/main/group/${activeGroupId}/lots`">
+              <v-list-item-action>
+                <v-icon>mdi-pound-box-outline</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Lots</v-list-item-title>
+            </v-list-item>
+            <v-list-item :to="`/main/group/${activeGroupId}/antibodies`">
+              <v-list-item-action>
+                <v-icon>mdi-alpha-a-circle-outline</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Antibodies</v-list-item-title>
+            </v-list-item>
           </v-list>
           <v-divider v-if="hasAdminAccess" />
           <v-list dense subheader v-if="hasAdminAccess">
@@ -75,7 +76,7 @@
             </v-list-item>
             <v-list-item to="/main/admin/group/all">
               <v-list-item-action>
-                <v-icon>mdi-account-group-outline</v-icon>
+                <v-icon>mdi-account-multiple-outline</v-icon>
               </v-list-item-action>
               <v-list-item-title>Manage Groups</v-list-item-title>
             </v-list-item>

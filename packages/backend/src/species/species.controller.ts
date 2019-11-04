@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { SpeciesService } from "./species.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
@@ -33,5 +33,11 @@ export class SpeciesController {
   @ApiCreatedResponse({ description: "Updated entity.", type: SpeciesDto })
   async update(@Param("id") id: number, @Body() params: UpdateSpeciesDto) {
     return this.speciesService.update(id, params);
+  }
+
+  @Delete(":id")
+  @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
+  deleteById(@Param("id") id: number) {
+    return this.speciesService.deleteById(id);
   }
 }

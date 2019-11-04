@@ -23,6 +23,8 @@
         :items-per-page="15"
         :footer-props="{
           itemsPerPageOptions: [10, 15, 20, -1],
+          showFirstLastPage: true,
+          showCurrentPage: true,
         }"
       >
         <template v-slot:item.active="{ item }">

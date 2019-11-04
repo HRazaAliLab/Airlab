@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { AntibodyEntity } from "./antibody.entity";
 import { CreateAntibodyDto, UpdateAntibodyDto } from "./antibody.dto";
+import { GroupUserEntity } from "../groupUser/groupUser.entity";
 
 @Injectable()
 export class AntibodyService {
@@ -28,12 +29,18 @@ export class AntibodyService {
     return this.repository.findOne(id);
   }
 
-  async getAllAntibodiesForGroup(groupId: number) {
-    return this.repository.find({
-      where: {
-        groupId: groupId,
-      },
-    });
+  async deleteById(id: number) {
+    const result = await this.repository.delete(id);
+    return result.affected === 1 ? id : undefined;
+  }
+
+  async getAllAntibodiesForUser(userId: number) {
+    return this.repository
+      .createQueryBuilder("antibody")
+      .leftJoin(GroupUserEntity, "groupUser", "antibody.groupId = groupUser.groupId")
+      .where("groupUser.userId = :userId", { userId: userId })
+      .orderBy({ "antibody.labBBTubeNumber": "DESC" })
+      .getMany();
   }
 
   async lastAntibodyForGroup(groupId: number) {

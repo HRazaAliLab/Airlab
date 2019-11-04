@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { IsNull, Repository } from "typeorm";
 import { CommercialReagentEntity } from "./commercialReagent.entity";
 import { CreateCommercialReagentDto, UpdateCommercialReagentDto } from "./commercialReagent.dto";
 
@@ -32,7 +32,7 @@ export class CommercialReagentService {
     return this.repository.find({
       where: {
         groupId: groupId,
-        isDeleted: null,
+        deleted: IsNull(),
       },
     });
   }

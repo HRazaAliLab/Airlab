@@ -25,7 +25,7 @@ export class AuthService {
   }
 
   async login(user: UserEntity) {
-    const payload: JwtPayloadDto = { userId: user.id, email: user.email };
+    const payload: JwtPayloadDto = { userId: user.id };
     const token = this.jwtService.sign(payload, {
       subject: user.id.toString(),
       issuer: "AirLab",
