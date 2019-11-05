@@ -24,8 +24,8 @@ export declare class CreateCloneDto {
     readonly isPhospho: boolean;
     readonly isPolyclonal: boolean;
     readonly speciesHost: number;
-    readonly reactivity: string;
-    readonly application: string;
+    readonly reactivity: any;
+    readonly application: any;
 }
 export declare class UpdateCloneDto {
     readonly name: string;

@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { RecipeService } from "./recipe.service";
-import { CreateRecipeDto, RecipeDto, UpdateRecipeDto } from "./recipe.dto";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
+import { CreateRecipeDto, RecipeDto, UpdateRecipeDto } from "@airlab/shared/lib/recipe/dto";
 
 @ApiUseTags("recipe")
 @Controller("recipe")

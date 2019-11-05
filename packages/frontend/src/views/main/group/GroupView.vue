@@ -30,7 +30,7 @@ export default class GroupView extends Vue {
   }
 
   async mounted() {
-    const groupId = parseInt(this.$router.currentRoute.params.id, 10);
+    const groupId = parseInt(this.$router.currentRoute.params.groupId, 10);
     this.groupContext.mutations.setActiveGroupId(groupId);
     await this.groupContext.actions.getGroup(groupId);
     // WebSocketManager.connect(groupId);

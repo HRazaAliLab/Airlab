@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { ExperimentEntity } from "./experiment.entity";
-import { CreateExperimentDto, UpdateExperimentDto } from "./experiment.dto";
+import { CreateExperimentDto, UpdateExperimentDto } from "@airlab/shared/lib/experiment/dto";
 
 @Injectable()
 export class ExperimentService {

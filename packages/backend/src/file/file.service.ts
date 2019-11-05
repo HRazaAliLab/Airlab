@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { FileEntity } from "./file.entity";
-import { CreateFileDto, UpdateFileDto } from "./file.dto";
+import { CreateFileDto, UpdateFileDto } from "@airlab/shared/lib/file/dto";
 
 @Injectable()
 export class FileService {

@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { ExperimentService } from "./experiment.service";
-import { CreateExperimentDto, ExperimentDto, UpdateExperimentDto } from "./experiment.dto";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
+import { CreateExperimentDto, ExperimentDto, UpdateExperimentDto } from "@airlab/shared/lib/experiment/dto";
 
 @ApiUseTags("experiment")
 @Controller("experiment")

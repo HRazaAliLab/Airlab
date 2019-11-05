@@ -43,7 +43,7 @@ export default new Router({
               component: () => import(/* webpackChunkName: "main-dashboard" */ "@/views/main/Dashboard.vue"),
             },
             {
-              path: "group/:id",
+              path: "group/:groupId",
               name: "main-group",
               component: () => import(/* webpackChunkName: "main-group" */ "@/views/main/group/GroupView.vue"),
               children: [
@@ -69,6 +69,12 @@ export default new Router({
                     import(
                       /* webpackChunkName: "main-group-clones-create" */ "@/views/main/group/clones/CreateClone.vue"
                     ),
+                },
+                {
+                  path: "clones/edit/:id",
+                  name: "main-group-clones-edit",
+                  component: () =>
+                    import(/* webpackChunkName: "main-group-clones-edit" */ "@/views/main/group/clones/EditClone.vue"),
                 },
 
                 {

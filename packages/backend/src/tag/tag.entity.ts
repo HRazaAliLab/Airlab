@@ -1,5 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { GroupEntity } from "../group/group.entity";
+import { ConjugateEntity } from "../conjugate/conjugate.entity";
 
 @Entity({
   name: "tblTag",
@@ -55,9 +56,10 @@ export class TagEntity {
   })
   groupId: number;
 
-  @ManyToOne(type => GroupEntity, group => group.plates, {
-    eager: false,
-  })
+  @ManyToOne(type => GroupEntity, group => group.plates)
   @JoinColumn({ name: "groupId" })
   group: GroupEntity;
+
+  @OneToMany(type => ConjugateEntity, conjugate => conjugate.tag)
+  conjugates: ConjugateEntity[];
 }

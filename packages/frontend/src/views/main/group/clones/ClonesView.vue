@@ -27,6 +27,7 @@
           showFirstLastPage: true,
           showCurrentPage: true,
         }"
+        multi-sort
         show-expand
       >
         <template v-slot:item.isPhospho="{ item }">
@@ -42,8 +43,11 @@
                 v-on="on"
                 icon
                 :to="{
-                  name: 'main-group-clone-edit',
-                  params: { id: item.id },
+                  name: 'main-group-clones-edit',
+                  params: {
+                    groupId: activeGroupId,
+                    id: item.id,
+                  },
                 }"
               >
                 <v-icon>mdi-pencil</v-icon>
@@ -54,7 +58,7 @@
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
               <v-btn v-on="on" icon @click="deleteClone($event, item.id)">
-                <v-icon>mdi-delete</v-icon>
+                <v-icon color="red accent-1">mdi-delete</v-icon>
               </v-btn>
             </template>
             <span>Delete</span>
@@ -62,7 +66,7 @@
         </template>
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length">
-            <v-card flat tile class="expanded-item">
+            <v-card flat tile class="my-2">
               <v-card-title>
                 {{ item.name }}
               </v-card-title>
@@ -70,7 +74,9 @@
                 {{ item.bindingRegion }}
               </v-card-text>
               <v-card-actions>
-                <v-btn text>Button</v-btn>
+                <v-btn text color="primary" target="_blank" :href="citeAb(item)">CiteAb</v-btn>
+                <v-btn text color="primary" target="_blank" :href="antibodyRegistry(item)">AntibodyRegistry</v-btn>
+                <v-btn text color="primary" target="_blank" :href="antibodyPedia(item)">AntibodyPedia</v-btn>
               </v-card-actions>
             </v-card>
           </td>
@@ -85,6 +91,7 @@ import LoadingView from "@/components/LoadingView.vue";
 import { Component, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
 import { cloneModule } from "@/modules/clone";
+import { CloneDto } from "@airlab/shared/lib/clone/dto";
 
 @Component({
   components: {
@@ -116,7 +123,13 @@ export default class ClonesView extends Vue {
     {
       text: "Protein",
       sortable: true,
-      value: "proteinId",
+      value: "protein.name",
+      align: "left",
+    },
+    {
+      text: "Host Species",
+      sortable: true,
+      value: "hostSpecies.name",
       align: "left",
     },
     {
@@ -159,6 +172,18 @@ export default class ClonesView extends Vue {
     return this.cloneContext.getters.clones;
   }
 
+  citeAb(clone: CloneDto) {
+    return `http://www.citeab.com/search?q=${clone.name}`;
+  }
+
+  antibodyRegistry(clone: CloneDto) {
+    return `http://www.antibodyregistry.org/search?q=${(clone as any).protein.name}%20${clone.name}`;
+  }
+
+  antibodyPedia(clone: CloneDto) {
+    return `http://www.antibodypedia.com/explore/${(clone as any).protein.name}+${clone.name}`;
+  }
+
   async mounted() {
     await this.cloneContext.actions.getAllClonesForUser();
   }
@@ -174,8 +199,5 @@ export default class ClonesView extends Vue {
 <style scoped>
 .toolbar {
   margin-bottom: 10px;
-}
-.expanded-item {
-  margin: 5px;
 }
 </style>

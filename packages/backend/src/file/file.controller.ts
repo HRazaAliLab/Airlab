@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { FileService } from "./file.service";
-import { CreateFileDto, FileDto, UpdateFileDto } from "./file.dto";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
+import { CreateFileDto, FileDto, UpdateFileDto } from "@airlab/shared/lib/file/dto";
 
 @ApiUseTags("file")
 @Controller("file")

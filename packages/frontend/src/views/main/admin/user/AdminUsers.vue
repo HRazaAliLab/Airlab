@@ -26,6 +26,7 @@
           showFirstLastPage: true,
           showCurrentPage: true,
         }"
+        multi-sort
       >
         <template v-slot:item.active="{ item }">
           <v-icon v-if="item.active">mdi-check</v-icon>

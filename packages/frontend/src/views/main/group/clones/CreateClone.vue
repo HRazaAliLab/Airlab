@@ -24,21 +24,93 @@
             <div class="subtitle-1">
               Reactivity
             </div>
-            <v-chip-group v-model="species" multiple column active-class="primary--text">
-              <v-chip v-for="item in species" :key="item" :value="item.id" small>
+            <v-chip-group v-model="reactivity" multiple column active-class="primary--text">
+              <v-chip v-for="item in species" :key="item.id" :value="item.id" small>
                 {{ item.name }}
               </v-chip>
             </v-chip-group>
-            <div class="subtitle-1">
-              Applications
-            </div>
-            <v-checkbox
-              v-for="app in applications"
-              v-model="application"
-              indeterminate
-              :label="app.name"
-              :value="app.value"
-            />
+            <v-row>
+              <v-col>
+                <div class="subtitle-1">
+                  sMC
+                </div>
+                <v-btn-toggle v-model="smcApplication">
+                  <v-btn value="true">
+                    <v-icon>mdi-checkbox-marked-outline</v-icon>
+                  </v-btn>
+                  <v-btn value="false">
+                    <v-icon>mdi-checkbox-blank-outline</v-icon>
+                  </v-btn>
+                  <v-btn value="undefined">
+                    <v-icon>mdi-minus-box-outline</v-icon>
+                  </v-btn>
+                </v-btn-toggle>
+              </v-col>
+              <v-col>
+                <div class="subtitle-1">
+                  iMC
+                </div>
+                <v-btn-toggle v-model="imcApplication">
+                  <v-btn value="true">
+                    <v-icon>mdi-checkbox-marked-outline</v-icon>
+                  </v-btn>
+                  <v-btn value="false">
+                    <v-icon>mdi-checkbox-blank-outline</v-icon>
+                  </v-btn>
+                  <v-btn value="undefined">
+                    <v-icon>mdi-minus-box-outline</v-icon>
+                  </v-btn>
+                </v-btn-toggle>
+              </v-col>
+              <v-col>
+                <div class="subtitle-1">
+                  FC
+                </div>
+                <v-btn-toggle v-model="fcApplication">
+                  <v-btn value="true">
+                    <v-icon>mdi-checkbox-marked-outline</v-icon>
+                  </v-btn>
+                  <v-btn value="false">
+                    <v-icon>mdi-checkbox-blank-outline</v-icon>
+                  </v-btn>
+                  <v-btn value="undefined">
+                    <v-icon>mdi-minus-box-outline</v-icon>
+                  </v-btn>
+                </v-btn-toggle>
+              </v-col>
+              <v-col>
+                <div class="subtitle-1">
+                  IF
+                </div>
+                <v-btn-toggle v-model="ifApplication">
+                  <v-btn value="true">
+                    <v-icon>mdi-checkbox-marked-outline</v-icon>
+                  </v-btn>
+                  <v-btn value="false">
+                    <v-icon>mdi-checkbox-blank-outline</v-icon>
+                  </v-btn>
+                  <v-btn value="undefined">
+                    <v-icon>mdi-minus-box-outline</v-icon>
+                  </v-btn>
+                </v-btn-toggle>
+              </v-col>
+              <v-col>
+                <div class="subtitle-1">
+                  IHC
+                </div>
+                <v-btn-toggle v-model="ihcApplication">
+                  <v-btn value="true">
+                    <v-icon>mdi-checkbox-marked-outline</v-icon>
+                  </v-btn>
+                  <v-btn value="false">
+                    <v-icon>mdi-checkbox-blank-outline</v-icon>
+                  </v-btn>
+                  <v-btn value="undefined">
+                    <v-icon>mdi-minus-box-outline</v-icon>
+                  </v-btn>
+                </v-btn-toggle>
+              </v-col>
+            </v-row>
           </v-form>
         </template>
       </v-card-text>
@@ -104,7 +176,12 @@ export default class CreateClone extends Vue {
   isPolyclonal = false;
   isPhospho = false;
   speciesHost = "";
-  reactivity = "";
+  reactivity = [];
+  smcApplication = "undefined";
+  imcApplication = "undefined";
+  fcApplication = "undefined";
+  ifApplication = "undefined";
+  ihcApplication = "undefined";
   application = [];
 
   get proteins() {
@@ -123,7 +200,12 @@ export default class CreateClone extends Vue {
     this.isPolyclonal = false;
     this.isPhospho = false;
     this.speciesHost = "";
-    this.reactivity = "";
+    this.reactivity = [];
+    this.smcApplication = "undefined";
+    this.imcApplication = "undefined";
+    this.fcApplication = "undefined";
+    this.ifApplication = "undefined";
+    this.ihcApplication = "undefined";
     this.application = [];
     (this.$refs.form as any).resetValidation();
   }
@@ -133,8 +215,10 @@ export default class CreateClone extends Vue {
   }
 
   async mounted() {
-    await this.proteinContext.actions.getAllProteinsForGroup(+this.$router.currentRoute.params.id);
-    await this.speciesContext.actions.getSpecies();
+    await Promise.all([
+      await this.proteinContext.actions.getAllProteinsForGroup(+this.$router.currentRoute.params.groupId),
+      await this.speciesContext.actions.getSpecies(),
+    ]);
   }
 
   async submit() {

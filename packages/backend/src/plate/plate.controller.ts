@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { PlateService } from "./plate.service";
-import { CreatePlateDto, PlateDto, UpdatePlateDto } from "./plate.dto";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
+import { CreatePlateDto, PlateDto, UpdatePlateDto } from "@airlab/shared/lib/plate/dto";
 
 @ApiUseTags("plate")
 @Controller("plate")

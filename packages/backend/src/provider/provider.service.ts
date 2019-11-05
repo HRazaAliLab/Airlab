@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { ProviderEntity } from "./provider.entity";
-import { CreateProviderDto, UpdateProviderDto } from "./provider.dto";
+import { CreateProviderDto, UpdateProviderDto } from "@airlab/shared/lib/provider/dto";
 
 @Injectable()
 export class ProviderService {

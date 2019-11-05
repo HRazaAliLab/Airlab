@@ -19,7 +19,7 @@ import { SpeciesProteinModule } from "./speciesProtein/speciesProtein.module";
 import { FileModule } from "./file/file.module";
 import { CloneModule } from "./clone/clone.module";
 import { CommercialReagentModule } from "./commercialReagent/commercialReagent.module";
-import { AntibodyModule } from "./antibody/antibody.module";
+import { ConjugateModule } from "./conjugate/conjugate.module";
 import { ExperimentModule } from "./experiment/experiment.module";
 import { PlaceModule } from "./place/place.module";
 import { PartModule } from "./part/part.module";
@@ -49,7 +49,7 @@ import { PanelModule } from "./panel/panel.module";
     FileModule,
     CloneModule,
     CommercialReagentModule,
-    AntibodyModule,
+    ConjugateModule,
     ExperimentModule,
     PanelModule,
     PlaceModule,

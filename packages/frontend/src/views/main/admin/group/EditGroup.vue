@@ -51,7 +51,7 @@ export default class EditGroup extends Vue {
   }
 
   async mounted() {
-    await this.groupContext.actions.getGroups();
+    await this.groupContext.actions.getGroup(+this.$router.currentRoute.params.id);
     this.reset();
   }
 

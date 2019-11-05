@@ -60,6 +60,17 @@ export class UserActions extends Actions<UserState, UserGetters, UserMutations, 
     }
   }
 
+  async getUser(id: number) {
+    try {
+      const data = await api.getUser(this.main!.getters.token, id);
+      if (data) {
+        this.mutations.setUser(data);
+      }
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
+
   async checkUserExists(email: string) {
     try {
       const data = await api.checkUserExists(email);

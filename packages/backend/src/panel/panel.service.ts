@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { IsNull, Repository } from "typeorm";
 import { PanelEntity } from "./panel.entity";
-import { CreatePanelDto, UpdatePanelDto } from "./panel.dto";
+import { CreatePanelDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
 
 @Injectable()
 export class PanelService {

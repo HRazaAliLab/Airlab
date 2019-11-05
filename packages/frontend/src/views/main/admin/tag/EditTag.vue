@@ -50,7 +50,7 @@ export default class EditTag extends Vue {
   }
 
   async mounted() {
-    await this.tagContext.actions.getTags();
+    await this.tagContext.actions.getTag(+this.$router.currentRoute.params.id);
     this.reset();
   }
 

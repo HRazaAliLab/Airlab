@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { PlaceService } from "./place.service";
-import { CreatePlaceDto, PlaceDto, UpdatePlaceDto } from "./place.dto";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
+import { CreatePlaceDto, PlaceDto, UpdatePlaceDto } from "@airlab/shared/lib/place/dto";
 
 @ApiUseTags("place")
 @Controller("place")

@@ -46,7 +46,7 @@ export default class EditSpecies extends Vue {
   }
 
   async mounted() {
-    await this.speciesContext.actions.getSpecies();
+    await this.speciesContext.actions.getOneSpecies(+this.$router.currentRoute.params.id);
     this.reset();
   }
 

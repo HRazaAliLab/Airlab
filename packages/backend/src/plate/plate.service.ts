@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { PlateEntity } from "./plate.entity";
-import { CreatePlateDto, UpdatePlateDto } from "./plate.dto";
+import { CreatePlateDto, UpdatePlateDto } from "@airlab/shared/lib/plate/dto";
 
 @Injectable()
 export class PlateService {

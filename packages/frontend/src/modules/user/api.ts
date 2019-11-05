@@ -38,6 +38,15 @@ export const api = {
       })
       .json<UserDto[]>();
   },
+  async getUser(token: string, id: number) {
+    return ky
+      .get(`${apiUrl}/user/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .json<UserDto>();
+  },
   async updateUser(token: string, id: number, data: UpdateUserDto) {
     return ky
       .patch(`${apiUrl}/user/${id}`, {

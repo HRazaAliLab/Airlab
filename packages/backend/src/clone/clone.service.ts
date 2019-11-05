@@ -4,7 +4,6 @@ import { Repository } from "typeorm";
 import { CloneEntity } from "./clone.entity";
 import { CreateCloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
-import { ProteinEntity } from "../protein/protein.entity";
 
 @Injectable()
 export class CloneService {
@@ -36,12 +35,14 @@ export class CloneService {
   }
 
   async getAllClonesForGroupsWithProteinName(userId: number) {
-    return this.repository
+    const result = await this.repository
       .createQueryBuilder("clone")
+      .leftJoinAndSelect("clone.protein", "protein")
+      .leftJoinAndSelect("clone.hostSpecies", "hostSpecies")
       .leftJoin(GroupUserEntity, "groupUser", "clone.groupId = groupUser.groupId")
-      .leftJoin(ProteinEntity, "protein", "protein.id = clone.cloProteinId")
       .where("groupUser.userId = :userId", { userId: userId })
       .andWhere("clone.deleted IS NULL")
       .getMany();
+    return result;
   }
 }

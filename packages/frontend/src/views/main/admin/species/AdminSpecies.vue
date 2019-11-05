@@ -26,6 +26,7 @@
           showFirstLastPage: true,
           showCurrentPage: true,
         }"
+        multi-sort
       >
         <template v-slot:item.action="{ item }">
           <v-tooltip bottom>
@@ -46,7 +47,7 @@
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
               <v-btn v-on="on" icon @click="deleteSpecies($event, item.id)">
-                <v-icon>mdi-delete</v-icon>
+                <v-icon color="red accent-1">mdi-delete</v-icon>
               </v-btn>
             </template>
             <span>Delete</span>

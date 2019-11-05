@@ -1,10 +1,12 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { GroupEntity } from "../group/group.entity";
+import { UserEntity } from "../user/user.entity";
+import { TagEntity } from "../tag/tag.entity";
 
 @Entity({
   name: "tblLabeledAntibody",
 })
-export class AntibodyEntity {
+export class ConjugateEntity {
   @PrimaryGeneratedColumn({
     name: "labLabeledAntibodyId",
   })
@@ -110,9 +112,15 @@ export class AntibodyEntity {
   })
   groupId: number;
 
-  @ManyToOne(type => GroupEntity, group => group.plates, {
-    eager: false,
-  })
+  @ManyToOne(type => GroupEntity, group => group.plates)
   @JoinColumn({ name: "groupId" })
   group: GroupEntity;
+
+  @ManyToOne(type => UserEntity, user => user.conjugates)
+  @JoinColumn({ name: "labContributorId" })
+  user: UserEntity;
+
+  @ManyToOne(type => TagEntity, tag => tag.conjugates)
+  @JoinColumn({ name: "labTagId" })
+  tag: TagEntity;
 }

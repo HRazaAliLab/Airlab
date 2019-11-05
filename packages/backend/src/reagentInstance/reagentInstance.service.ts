@@ -2,8 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Not, Repository } from "typeorm";
 import { ReagentInstanceEntity } from "./reagentInstance.entity";
-import { CreateReagentInstanceDto, UpdateReagentInstanceDto } from "./reagentInstance.dto";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
+import { CreateReagentInstanceDto, UpdateReagentInstanceDto } from "@airlab/shared/lib/reagentInstance/dto";
 
 @Injectable()
 export class ReagentInstanceService {

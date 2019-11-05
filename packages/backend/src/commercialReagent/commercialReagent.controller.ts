@@ -1,8 +1,12 @@
 import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { CommercialReagentService } from "./commercialReagent.service";
-import { CommercialReagentDto, CreateCommercialReagentDto, UpdateCommercialReagentDto } from "./commercialReagent.dto";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
+import {
+  CommercialReagentDto,
+  CreateCommercialReagentDto,
+  UpdateCommercialReagentDto
+} from "@airlab/shared/lib/commercialReagent/dto";
 
 @ApiUseTags("commercialReagent")
 @Controller("commercialReagent")

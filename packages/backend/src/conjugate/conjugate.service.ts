@@ -1,26 +1,26 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { AntibodyEntity } from "./antibody.entity";
-import { CreateAntibodyDto, UpdateAntibodyDto } from "./antibody.dto";
+import { ConjugateEntity } from "./conjugate.entity";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
+import { CreateConjugateDto, UpdateConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 
 @Injectable()
-export class AntibodyService {
+export class ConjugateService {
   constructor(
-    @InjectRepository(AntibodyEntity)
-    private readonly repository: Repository<AntibodyEntity>
+    @InjectRepository(ConjugateEntity)
+    private readonly repository: Repository<ConjugateEntity>
   ) {}
 
   async findAll() {
     return this.repository.find();
   }
 
-  async create(params: CreateAntibodyDto) {
+  async create(params: CreateConjugateDto) {
     return this.repository.save(params);
   }
 
-  async update(id: number, params: UpdateAntibodyDto) {
+  async update(id: number, params: UpdateConjugateDto) {
     await this.repository.update(id, params);
     return this.findById(id);
   }
@@ -34,16 +34,18 @@ export class AntibodyService {
     return result.affected === 1 ? id : undefined;
   }
 
-  async getAllAntibodiesForUser(userId: number) {
+  async getAllConjugatesForGroup(userId: number) {
     return this.repository
-      .createQueryBuilder("antibody")
-      .leftJoin(GroupUserEntity, "groupUser", "antibody.groupId = groupUser.groupId")
+      .createQueryBuilder("conjugate")
+      .leftJoinAndSelect("conjugate.user", "user")
+      .leftJoinAndSelect("conjugate.tag", "tag")
+      .leftJoin(GroupUserEntity, "groupUser", "conjugate.groupId = groupUser.groupId")
       .where("groupUser.userId = :userId", { userId: userId })
-      .orderBy({ "antibody.labBBTubeNumber": "DESC" })
+      .orderBy({ "conjugate.labBBTubeNumber": "DESC" })
       .getMany();
   }
 
-  async lastAntibodyForGroup(groupId: number) {
+  async lastConjugateForGroup(groupId: number) {
     const entity = await this.repository.findOne({
       select: ["bbTubeNumber"],
       where: {

@@ -15,8 +15,8 @@ import {
 } from "@nestjs/common";
 import { JwtPayloadDto } from "@airlab/shared/lib/auth/dto";
 import { CreateUserDto, ProfileDto, UpdateProfileDto, UpdateUserDto, UserDto } from "@airlab/shared/lib/user/dto";
-import { ReagentInstanceDto } from "../reagentInstance/reagentInstance.dto";
 import { GroupDto } from "@airlab/shared/lib/group/dto";
+import { ReagentInstanceDto } from "@airlab/shared/lib/reagentInstance/dto";
 
 @ApiUseTags("user")
 @Controller("user")

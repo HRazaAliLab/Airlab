@@ -1,8 +1,12 @@
 import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { SpeciesProteinService } from "./speciesProtein.service";
-import { CreateSpeciesProteinDto, SpeciesProteinDto, UpdateSpeciesProteinDto } from "./speciesProtein.dto";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
+import {
+  CreateSpeciesProteinDto,
+  SpeciesProteinDto,
+  UpdateSpeciesProteinDto,
+} from "@airlab/shared/lib/speciesProtein/dto";
 
 @ApiUseTags("speciesProtein")
 @Controller("speciesProtein")

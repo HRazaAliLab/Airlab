@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { PanelService } from "./panel.service";
-import { CreatePanelDto, PanelDto, UpdatePanelDto } from "./panel.dto";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
+import { CreatePanelDto, PanelDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
 
 @ApiUseTags("panel")
 @Controller("panel")

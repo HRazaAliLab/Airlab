@@ -12,7 +12,7 @@
       {{ group.institution }}
     </v-card-text>
     <v-card-actions>
-      <v-btn color="primary" :to="{ name: 'main-group', params: { id: group.id } }">
+      <v-btn color="primary" :to="{ name: 'main-group', params: { groupId: group.id } }">
         Open
       </v-btn>
     </v-card-actions>

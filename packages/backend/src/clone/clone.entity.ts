@@ -1,5 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { GroupEntity } from "../group/group.entity";
+import { ProteinEntity } from "../protein/protein.entity";
+import { SpeciesEntity } from "../species/species.entity";
 
 @Entity({
   name: "tblClone",
@@ -90,9 +92,15 @@ export class CloneEntity {
   })
   groupId: number;
 
-  @ManyToOne(type => GroupEntity, group => group.plates, {
-    eager: false,
-  })
+  @ManyToOne(type => GroupEntity, group => group.plates)
   @JoinColumn({ name: "groupId" })
   group: GroupEntity;
+
+  @ManyToOne(type => ProteinEntity, protein => protein.clones)
+  @JoinColumn({ name: "cloProteinId" })
+  protein: ProteinEntity;
+
+  @ManyToOne(type => SpeciesEntity)
+  @JoinColumn({ name: "cloSpeciesHost" })
+  hostSpecies: SpeciesEntity;
 }

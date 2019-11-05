@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { IsNull, Repository } from "typeorm";
 import { CommercialReagentEntity } from "./commercialReagent.entity";
-import { CreateCommercialReagentDto, UpdateCommercialReagentDto } from "./commercialReagent.dto";
+import { CreateCommercialReagentDto, UpdateCommercialReagentDto } from "@airlab/shared/lib/commercialReagent/dto";
 
 @Injectable()
 export class CommercialReagentService {

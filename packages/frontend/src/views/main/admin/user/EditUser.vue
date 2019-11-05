@@ -82,7 +82,7 @@ export default class EditUser extends Vue {
   password2 = "";
 
   async mounted() {
-    await this.userContext.actions.getUsers();
+    await this.userContext.actions.getUser(+this.$router.currentRoute.params.id);
     this.reset();
   }
 

@@ -82,11 +82,11 @@ export class CreateCloneDto {
 
   @IsJSON()
   @ApiModelProperty()
-  readonly reactivity: string;
+  readonly reactivity: any;
 
   @IsJSON()
   @ApiModelProperty()
-  readonly application: string;
+  readonly application: any;
 }
 
 export class UpdateCloneDto {

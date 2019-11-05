@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { PartService } from "./part.service";
-import { CreatePartDto, PartDto, UpdatePartDto } from "./part.dto";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
+import { CreatePartDto, PartDto, UpdatePartDto } from "@airlab/shared/lib/part/dto";
 
 @ApiUseTags("part")
 @Controller("part")

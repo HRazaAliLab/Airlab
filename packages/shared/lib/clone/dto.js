@@ -118,12 +118,12 @@ __decorate([
 __decorate([
     class_validator_1.IsJSON(),
     swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], CreateCloneDto.prototype, "reactivity", void 0);
 __decorate([
     class_validator_1.IsJSON(),
     swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], CreateCloneDto.prototype, "application", void 0);
 exports.CreateCloneDto = CreateCloneDto;
 class UpdateCloneDto {

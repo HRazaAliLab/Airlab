@@ -1,7 +1,7 @@
 import { IsString } from "class-validator";
 import { ApiModelProperty } from "@nestjs/swagger";
 
-export class AntibodyDto {
+export class ConjugateDto {
   @ApiModelProperty()
   readonly id: number;
 
@@ -66,13 +66,13 @@ export class AntibodyDto {
   readonly catchedInfo: string;
 }
 
-export class CreateAntibodyDto {
+export class CreateConjugateDto {
   @IsString()
   @ApiModelProperty()
   readonly workingCondition: string;
 }
 
-export class UpdateAntibodyDto {
+export class UpdateConjugateDto {
   @IsString()
   @ApiModelProperty()
   readonly workingCondition: string;
