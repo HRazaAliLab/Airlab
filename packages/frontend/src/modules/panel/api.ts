@@ -50,4 +50,13 @@ export const api = {
       })
       .json<number>();
   },
+  async getAllPanelsForGroup(token: string, groupId: number) {
+    return ky
+      .get(`${apiUrl}/panel/group/${groupId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .json<PanelDto[]>();
+  },
 };

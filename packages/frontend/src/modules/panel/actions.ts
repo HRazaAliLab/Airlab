@@ -86,4 +86,15 @@ export class PanelActions extends Actions<PanelState, PanelGetters, PanelMutatio
       await this.main!.actions.checkApiError(error);
     }
   }
+
+  async getAllPanelsForGroup(groupId: number) {
+    try {
+      const data = await api.getAllPanelsForGroup(this.main!.getters.token, groupId);
+      if (data) {
+        this.mutations.setPanels(data);
+      }
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
 }

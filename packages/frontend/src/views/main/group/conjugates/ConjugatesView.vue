@@ -60,6 +60,9 @@
             </template>
             <span>Delete</span>
           </v-tooltip>
+          <v-btn text color="primary" @click.stop="showDetails(item)">
+            Details
+          </v-btn>
         </template>
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length">
@@ -70,13 +73,26 @@
               <v-card-text>
                 {{ item.bindingRegion }}
               </v-card-text>
-              <v-card-actions>
-              </v-card-actions>
             </v-card>
           </td>
         </template>
       </v-data-table>
     </v-card>
+    <v-navigation-drawer v-if="detailsItem" v-model="drawer" right absolute temporary width="400">
+      <v-card flat>
+        <v-list-item>
+          <v-list-item-avatar>
+            <v-icon>mdi-information-outline</v-icon>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title>{{ detailsItem.name }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-card-text>
+          {{ detailsItem }}
+        </v-card-text>
+      </v-card>
+    </v-navigation-drawer>
   </v-col>
 </template>
 
@@ -85,6 +101,7 @@ import LoadingView from "@/components/LoadingView.vue";
 import { Component, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
 import { conjugateModule } from "@/modules/conjugate";
+import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 
 @Component({
   components: {
@@ -145,10 +162,17 @@ export default class ConjugatesViews extends Vue {
     },
   ];
 
+  drawer = false;
+  detailsItem: ConjugateDto | null = null;
   search = "";
 
   get items() {
     return this.conjugateContext.getters.conjugates;
+  }
+
+  showDetails(item: ConjugateDto) {
+    this.detailsItem = item;
+    this.drawer = !this.drawer;
   }
 
   async mounted() {

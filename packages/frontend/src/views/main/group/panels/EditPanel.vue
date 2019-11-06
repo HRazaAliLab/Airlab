@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-card class="ma-4 pa-4">
       <v-card-title primary-title>
-        <div class="headline primary--text">Edit Conjugate</div>
+        <div class="headline primary--text">Edit Panel</div>
       </v-card-title>
       <v-card-text>
         <template>
@@ -135,7 +135,7 @@ import { proteinModule } from "@/modules/protein";
 import { speciesModule } from "@/modules/species";
 
 @Component
-export default class EditConjugate extends Vue {
+export default class EditPanel extends Vue {
   readonly cloneContext = cloneModule.context(this.$store);
   readonly proteinContext = proteinModule.context(this.$store);
   readonly speciesContext = speciesModule.context(this.$store);

@@ -3,6 +3,8 @@ import { PanelController } from "./panel.controller";
 import { PanelService } from "./panel.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { PanelEntity } from "./panel.entity";
+import { GroupUserService } from "../groupUser/groupUser.service";
+import { GroupUserEntity } from "../groupUser/groupUser.entity";
 
 describe("PanelController", () => {
   let controller: PanelController;
@@ -10,9 +12,9 @@ describe("PanelController", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([PanelEntity])],
+      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([PanelEntity, GroupUserEntity])],
       controllers: [PanelController],
-      providers: [PanelService],
+      providers: [PanelService, GroupUserService],
     }).compile();
 
     controller = module.get<PanelController>(PanelController);

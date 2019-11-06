@@ -28,4 +28,11 @@ export class GroupUserService {
       role: -1,
     });
   }
+
+  async findByUserIdAndGroupId(userId: number, groupId: number) {
+    return this.groupUserRepository.findOne({
+      groupId: groupId,
+      userId: userId,
+    });
+  }
 }

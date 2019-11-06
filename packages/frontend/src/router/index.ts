@@ -84,6 +84,21 @@ export default new Router({
                     import(/* webpackChunkName: "main-group-panels" */ "@/views/main/group/panels/PanelsView.vue"),
                 },
                 {
+                  path: "panels/create",
+                  name: "main-group-panels-create",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-panels-create" */ "@/views/main/group/panels/CreatePanel.vue"
+                    ),
+                },
+                {
+                  path: "panels/edit/:id",
+                  name: "main-group-panels-edit",
+                  component: () =>
+                    import(/* webpackChunkName: "main-group-panels-edit" */ "@/views/main/group/panels/EditPanel.vue"),
+                },
+
+                {
                   path: "shop",
                   name: "main-group-shop",
                   component: () =>

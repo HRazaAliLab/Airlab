@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-card class="ma-4 pa-4">
       <v-card-title primary-title>
-        <div class="headline primary--text">Edit Conjugate</div>
+        <div class="headline primary--text">Create Panel</div>
       </v-card-title>
       <v-card-text>
         <template>
@@ -135,7 +135,7 @@ import { proteinModule } from "@/modules/protein";
 import { speciesModule } from "@/modules/species";
 
 @Component
-export default class EditConjugate extends Vue {
+export default class CreatePanel extends Vue {
   readonly cloneContext = cloneModule.context(this.$store);
   readonly proteinContext = proteinModule.context(this.$store);
   readonly speciesContext = speciesModule.context(this.$store);
@@ -192,30 +192,22 @@ export default class EditConjugate extends Vue {
     return this.speciesContext.getters.species;
   }
 
-  get clone() {
-    return this.cloneContext.getters.getClone(+this.$router.currentRoute.params.id);
-  }
-
   reset() {
-    if (this.$refs.form) {
-      (this.$refs.form as any).resetValidation();
-    }
-    if (this.clone) {
-      this.name = this.clone.name;
-      // this.protein = this.clone.;
-      this.bindingRegion = this.clone.bindingRegion;
-      this.isotype = this.clone.isotype;
-      this.isPolyclonal = this.clone.isPolyclonal;
-      this.isPhospho = this.clone.isPhospho;
-      // this.speciesHost = "";
-      // this.reactivity = [];
-      // this.smcApplication = "undefined";
-      // this.imcApplication = "undefined";
-      // this.fcApplication = "undefined";
-      // this.ifApplication = "undefined";
-      // this.ihcApplication = "undefined";
-      // this.application = [];
-    }
+    this.name = "";
+    this.protein = "";
+    this.bindingRegion = "";
+    this.isotype = "";
+    this.isPolyclonal = false;
+    this.isPhospho = false;
+    this.speciesHost = "";
+    this.reactivity = [];
+    this.smcApplication = "undefined";
+    this.imcApplication = "undefined";
+    this.fcApplication = "undefined";
+    this.ifApplication = "undefined";
+    this.ihcApplication = "undefined";
+    this.application = [];
+    (this.$refs.form as any).resetValidation();
   }
 
   cancel() {
@@ -224,11 +216,9 @@ export default class EditConjugate extends Vue {
 
   async mounted() {
     await Promise.all([
-      await this.cloneContext.actions.getClone(+this.$router.currentRoute.params.id),
       await this.proteinContext.actions.getAllProteinsForGroup(+this.$router.currentRoute.params.groupId),
       await this.speciesContext.actions.getSpecies(),
     ]);
-    this.reset();
   }
 
   async submit() {

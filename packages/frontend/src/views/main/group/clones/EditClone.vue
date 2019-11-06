@@ -197,7 +197,9 @@ export default class EditClone extends Vue {
   }
 
   reset() {
-    (this.$refs.form as any).resetValidation();
+    if (this.$refs.form) {
+      (this.$refs.form as any).resetValidation();
+    }
     if (this.clone) {
       this.name = this.clone.name;
       // this.protein = this.clone.;

@@ -63,6 +63,9 @@
             </template>
             <span>Delete</span>
           </v-tooltip>
+          <v-btn text color="primary" @click.stop="showDetails(item)">
+            Details
+          </v-btn>
         </template>
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length">
@@ -83,6 +86,21 @@
         </template>
       </v-data-table>
     </v-card>
+    <v-navigation-drawer v-if="detailsItem" v-model="drawer" right absolute temporary width="400">
+      <v-card flat>
+        <v-list-item>
+          <v-list-item-avatar>
+            <v-icon>mdi-information-outline</v-icon>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title>{{ detailsItem.name }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-card-text>
+          {{ detailsItem }}
+        </v-card-text>
+      </v-card>
+    </v-navigation-drawer>
   </v-col>
 </template>
 
@@ -127,7 +145,7 @@ export default class ClonesView extends Vue {
       align: "left",
     },
     {
-      text: "Host Species",
+      text: "Host",
       sortable: true,
       value: "hostSpecies.name",
       align: "left",
@@ -166,10 +184,17 @@ export default class ClonesView extends Vue {
     },
   ];
 
+  drawer = false;
+  detailsItem: CloneDto | null = null;
   search = "";
 
   get items() {
     return this.cloneContext.getters.clones;
+  }
+
+  showDetails(item: CloneDto) {
+    this.detailsItem = item;
+    this.drawer = !this.drawer;
   }
 
   citeAb(clone: CloneDto) {

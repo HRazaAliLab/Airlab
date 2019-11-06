@@ -1,15 +1,17 @@
-import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { PanelService } from "./panel.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CreatePanelDto, PanelDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
+import { JwtPayloadDto } from "@airlab/shared/lib/auth/dto";
+import { GroupUserService } from "../groupUser/groupUser.service";
 
 @ApiUseTags("panel")
 @Controller("panel")
 @ApiBearerAuth()
 @UseGuards(AuthGuard("jwt"))
 export class PanelController {
-  constructor(private readonly panelService: PanelService) {}
+  constructor(private readonly panelService: PanelService, private readonly groupUserService: GroupUserService) {}
 
   @Get()
   @ApiCreatedResponse({ description: "Find all entities.", type: PanelDto, isArray: true })
@@ -37,13 +39,11 @@ export class PanelController {
 
   @Get("group/:groupId")
   @ApiCreatedResponse({ description: "Find all panels for the group.", type: PanelDto, isArray: true })
-  getAllPanelsForGroup(@Param("groupId") groupId: number) {
-    return this.panelService.getAllPanelsForGroup(groupId);
-  }
-
-  @Get("groupUser/:groupUserId")
-  @ApiCreatedResponse({ description: "Find all panels for the user.", type: PanelDto, isArray: true })
-  getAllPanelsForGroupUser(@Param("groupUserId") groupUserId: number) {
-    return this.panelService.getAllPanelsForGroupUser(groupUserId);
+  async getAllPanelsForGroup(@Request() req, @Param("groupId") groupId: number) {
+    const user: JwtPayloadDto = req.user;
+    const groupUser = await this.groupUserService.findByUserIdAndGroupId(user.userId, groupId);
+    return groupUser.gpeAllPanels
+      ? this.panelService.getAllPanelsForGroup(groupId)
+      : this.panelService.getAllPanelsForGroupUser(groupUser.id);
   }
 }
