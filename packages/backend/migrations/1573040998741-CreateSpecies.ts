@@ -15,12 +15,10 @@ export class CreateSpecies1573040998741 implements MigrationInterface {
           {
             name: "name",
             type: "varchar",
-            // isUnique: true,
           },
           {
             name: "acronym",
             type: "varchar",
-            isUnique: true,
           },
           {
             name: "meta",
@@ -29,11 +27,20 @@ export class CreateSpecies1573040998741 implements MigrationInterface {
           },
           {
             name: "created_at",
-            type: "timestamp",
+            type: "timestamptz",
             default: "NOW()",
           },
         ],
-        indices: [],
+        uniques: [
+          {
+            name: "UQ_species_name",
+            columnNames: ["name"],
+          },
+          {
+            name: "UQ_species_acronym",
+            columnNames: ["acronym"],
+          },
+        ],
       }),
       true
     );

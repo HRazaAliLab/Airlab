@@ -62,23 +62,25 @@ export class CreateGroupUser1573040991913 implements MigrationInterface {
           },
           {
             name: "created_at",
-            type: "timestamp",
+            type: "timestamptz",
             default: "NOW()",
           },
           {
             name: "updated_at",
-            type: "timestamp",
+            type: "timestamptz",
             default: "NOW()",
           },
         ],
         foreignKeys: [
           {
+            name: "FK_group_user_2_group",
             referencedTableName: "group",
             columnNames: ["group_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
+            name: "FK_group_user_2_user",
             referencedTableName: "user",
             columnNames: ["user_id"],
             referencedColumnNames: ["id"],
@@ -87,15 +89,19 @@ export class CreateGroupUser1573040991913 implements MigrationInterface {
         ],
         indices: [
           {
+            name: "IDX_group_user_group_id",
             columnNames: ["group_id"],
           },
           {
+            name: "IDX_group_user_user_id",
             columnNames: ["user_id"],
           },
           {
+            name: "IDX_group_user_activation_key",
             columnNames: ["activation_key"],
           },
           {
+            name: "IDX_group_user_is_active",
             columnNames: ["is_active"],
           },
         ],

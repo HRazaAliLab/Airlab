@@ -39,11 +39,16 @@ export class CreateTag1573041004316 implements MigrationInterface {
           },
           {
             name: "created_at",
-            type: "timestamp",
+            type: "timestamptz",
             default: "NOW()",
           },
         ],
-        indices: [],
+        uniques: [
+          {
+            name: "UQ_tag_name_and_mw",
+            columnNames: ["name", "mw"],
+          },
+        ],
       }),
       true
     );

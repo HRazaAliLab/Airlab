@@ -69,47 +69,53 @@ export class CreateConjugate1573050643464 implements MigrationInterface {
           },
           {
             name: "created_at",
-            type: "timestamp",
+            type: "timestamptz",
             default: "NOW()",
           },
           {
             name: "updated_at",
-            type: "timestamp",
+            type: "timestamptz",
             default: "NOW()",
           },
         ],
         foreignKeys: [
           {
+            name: "FK_conjugate_2_group",
             referencedTableName: "group",
             columnNames: ["group_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
+            name: "FK_conjugate_2_group_user",
             referencedTableName: "group_user",
             columnNames: ["created_by"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
+            name: "FK_conjugate_2_lot",
             referencedTableName: "lot",
             columnNames: ["lot_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
+            name: "FK_conjugate_2_tag",
             referencedTableName: "tag",
             columnNames: ["tag_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
+            name: "FK_conjugate_contributor_id_2_user",
             referencedTableName: "user",
             columnNames: ["contributor_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
+            name: "FK_conjugate_finished_by_2_user",
             referencedTableName: "user",
             columnNames: ["finished_by"],
             referencedColumnNames: ["id"],
@@ -118,18 +124,23 @@ export class CreateConjugate1573050643464 implements MigrationInterface {
         ],
         indices: [
           {
+            name: "IDX_conjugate_group_id",
             columnNames: ["group_id"],
           },
           {
+            name: "IDX_conjugate_created_by",
             columnNames: ["created_by"],
           },
           {
+            name: "IDX_conjugate_lot_id",
             columnNames: ["lot_id"],
           },
           {
+            name: "IDX_conjugate_tag_id",
             columnNames: ["tag_id"],
           },
           {
+            name: "IDX_conjugate_tube_number",
             columnNames: ["tube_number"],
           },
         ],

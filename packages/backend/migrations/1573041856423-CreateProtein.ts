@@ -23,7 +23,6 @@ export class CreateProtein1573041856423 implements MigrationInterface {
           {
             name: "name",
             type: "varchar",
-            // isUnique: true,
           },
           {
             name: "meta",
@@ -32,18 +31,20 @@ export class CreateProtein1573041856423 implements MigrationInterface {
           },
           {
             name: "created_at",
-            type: "timestamp",
+            type: "timestamptz",
             default: "NOW()",
           },
         ],
         foreignKeys: [
           {
+            name: "FK_protein_2_group",
             referencedTableName: "group",
             columnNames: ["group_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
+            name: "FK_protein_2_group_user",
             referencedTableName: "group_user",
             columnNames: ["created_by"],
             referencedColumnNames: ["id"],
@@ -52,12 +53,15 @@ export class CreateProtein1573041856423 implements MigrationInterface {
         ],
         indices: [
           {
+            name: "IDX_protein_group_id",
             columnNames: ["group_id"],
           },
           {
+            name: "IDX_protein_created_by",
             columnNames: ["created_by"],
           },
           {
+            name: "IDX_protein_name",
             columnNames: ["name"],
           },
         ],

@@ -15,7 +15,6 @@ export class CreateUser1573040981376 implements MigrationInterface {
           {
             name: "email",
             type: "varchar",
-            isUnique: true,
             isNullable: true,
           },
           {
@@ -45,23 +44,32 @@ export class CreateUser1573040981376 implements MigrationInterface {
           },
           {
             name: "created_at",
-            type: "timestamp",
+            type: "timestamptz",
             default: "NOW()",
           },
           {
             name: "updated_at",
-            type: "timestamp",
+            type: "timestamptz",
             default: "NOW()",
+          },
+        ],
+        uniques: [
+          {
+            name: "UQ_user_email",
+            columnNames: ["email"],
           },
         ],
         indices: [
           {
+            name: "IDX_user_email",
             columnNames: ["email"],
           },
           {
+            name: "IDX_user_activation_key",
             columnNames: ["activation_key"],
           },
           {
+            name: "IDX_user_is_active",
             columnNames: ["is_active"],
           },
         ],

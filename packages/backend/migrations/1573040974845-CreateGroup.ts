@@ -30,7 +30,6 @@ export class CreateGroup1573040974845 implements MigrationInterface {
             name: "accept_requests",
             type: "boolean",
             default: false,
-            isNullable: true,
           },
           {
             name: "meta",
@@ -39,7 +38,7 @@ export class CreateGroup1573040974845 implements MigrationInterface {
           },
           {
             name: "created_at",
-            type: "timestamp",
+            type: "timestamptz",
             default: "NOW()",
           },
         ],

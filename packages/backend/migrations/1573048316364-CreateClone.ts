@@ -32,7 +32,6 @@ export class CreateClone1573048316364 implements MigrationInterface {
           {
             name: "name",
             type: "varchar",
-            isUnique: true,
           },
           {
             name: "isotype",
@@ -76,41 +75,45 @@ export class CreateClone1573048316364 implements MigrationInterface {
             default: false,
           },
           {
-            name: "catched_info",
-            type: "text",
+            name: "meta",
+            type: "jsonb",
             isNullable: true,
           },
           {
             name: "created_at",
-            type: "timestamp",
+            type: "timestamptz",
             default: "NOW()",
           },
           {
             name: "updated_at",
-            type: "timestamp",
+            type: "timestamptz",
             default: "NOW()",
           },
         ],
         foreignKeys: [
           {
+            name: "FK_clone_2_group",
             referencedTableName: "group",
             columnNames: ["group_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
+            name: "FK_clone_2_group_user",
             referencedTableName: "group_user",
             columnNames: ["created_by"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
+            name: "FK_clone_2_species",
             referencedTableName: "species",
             columnNames: ["species_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
+            name: "FK_clone_2_protein",
             referencedTableName: "protein",
             columnNames: ["protein_id"],
             referencedColumnNames: ["id"],
@@ -119,18 +122,28 @@ export class CreateClone1573048316364 implements MigrationInterface {
         ],
         indices: [
           {
+            name: "IDX_clone_group_id",
             columnNames: ["group_id"],
           },
           {
+            name: "IDX_clone_created_by",
             columnNames: ["created_by"],
           },
           {
+            name: "IDX_clone_name",
             columnNames: ["name"],
           },
           {
+            name: "IDX_clone_protein_id",
             columnNames: ["protein_id"],
           },
         ],
+        // uniques: [
+        //   {
+        //     name: "UQ_clone_name_and_group_id",
+        //     columnNames: ["name", "group_id"],
+        //   },
+        // ],
       }),
       true
     );

@@ -28,7 +28,6 @@ export class CreateReagent1573041348430 implements MigrationInterface {
           {
             name: "name",
             type: "varchar",
-            // isUnique: true,
             isNullable: true,
           },
           {
@@ -40,7 +39,6 @@ export class CreateReagent1573041348430 implements MigrationInterface {
             name: "deleted",
             type: "boolean",
             default: false,
-            isNullable: true,
           },
           {
             name: "catched_info",
@@ -49,24 +47,27 @@ export class CreateReagent1573041348430 implements MigrationInterface {
           },
           {
             name: "created_at",
-            type: "timestamp",
+            type: "timestamptz",
             default: "NOW()",
           },
         ],
         foreignKeys: [
           {
+            name: "FK_reagent_2_group",
             referencedTableName: "group",
             columnNames: ["group_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
+            name: "FK_reagent_2_group_user",
             referencedTableName: "group_user",
             columnNames: ["created_by"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
+            name: "FK_reagent_2_provider",
             referencedTableName: "provider",
             columnNames: ["provider_id"],
             referencedColumnNames: ["id"],
@@ -75,15 +76,24 @@ export class CreateReagent1573041348430 implements MigrationInterface {
         ],
         indices: [
           {
+            name: "IDX_reagent_group_id",
             columnNames: ["group_id"],
           },
           {
+            name: "IDX_reagent_created_by",
             columnNames: ["created_by"],
           },
           {
+            name: "IDX_reagent_provider_id",
             columnNames: ["provider_id"],
           },
         ],
+        // uniques: [
+        //   {
+        //     name: "UQ_reagent_name_and_group_id",
+        //     columnNames: ["name", "group_id"],
+        //   },
+        // ],
       }),
       true
     );

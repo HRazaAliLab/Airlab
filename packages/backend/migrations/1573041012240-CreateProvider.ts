@@ -23,13 +23,6 @@ export class CreateProvider1573041012240 implements MigrationInterface {
           {
             name: "name",
             type: "varchar",
-            // isUnique: true,
-          },
-          {
-            name: "acronym",
-            type: "varchar",
-            // isUnique: true,
-            isNullable: true,
           },
           {
             name: "meta",
@@ -38,18 +31,20 @@ export class CreateProvider1573041012240 implements MigrationInterface {
           },
           {
             name: "created_at",
-            type: "timestamp",
+            type: "timestamptz",
             default: "NOW()",
           },
         ],
         foreignKeys: [
           {
+            name: "FK_provider_2_group",
             referencedTableName: "group",
             columnNames: ["group_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
+            name: "FK_provider_2_group_user",
             referencedTableName: "group_user",
             columnNames: ["created_by"],
             referencedColumnNames: ["id"],
@@ -58,10 +53,18 @@ export class CreateProvider1573041012240 implements MigrationInterface {
         ],
         indices: [
           {
+            name: "IDX_provider_group_id",
             columnNames: ["group_id"],
           },
           {
+            name: "IDX_provider_created_by",
             columnNames: ["created_by"],
+          },
+        ],
+        uniques: [
+          {
+            name: "UQ_provider_name_and_group_id",
+            columnNames: ["name", "group_id"],
           },
         ],
       }),

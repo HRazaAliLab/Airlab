@@ -27,6 +27,7 @@ export class CreateLot1573049366335 implements MigrationInterface {
           {
             name: "provider_id",
             type: "int",
+            isNullable: true,
           },
           {
             name: "clone_id",
@@ -35,22 +36,27 @@ export class CreateLot1573049366335 implements MigrationInterface {
           {
             name: "requested_by",
             type: "int",
+            isNullable: true,
           },
           {
             name: "approved_by",
             type: "int",
+            isNullable: true,
           },
           {
             name: "ordered_by",
             type: "int",
+            isNullable: true,
           },
           {
             name: "received_by",
             type: "int",
+            isNullable: true,
           },
           {
             name: "finished_by",
             type: "int",
+            isNullable: true,
           },
           {
             name: "number",
@@ -73,27 +79,27 @@ export class CreateLot1573049366335 implements MigrationInterface {
           },
           {
             name: "requested_at",
-            type: "timestamp",
+            type: "timestamptz",
             isNullable: true,
           },
           {
             name: "approved_at",
-            type: "timestamp",
+            type: "timestamptz",
             isNullable: true,
           },
           {
             name: "ordered_at",
-            type: "timestamp",
+            type: "timestamptz",
             isNullable: true,
           },
           {
             name: "received_at",
-            type: "timestamp",
+            type: "timestamptz",
             isNullable: true,
           },
           {
             name: "finished_at",
-            type: "timestamp",
+            type: "timestamptz",
             isNullable: true,
           },
           {
@@ -107,47 +113,52 @@ export class CreateLot1573049366335 implements MigrationInterface {
             default: false,
           },
           {
-            name: "catched_info",
-            type: "text",
+            name: "meta",
+            type: "jsonb",
             isNullable: true,
           },
           {
             name: "created_at",
-            type: "timestamp",
+            type: "timestamptz",
             default: "NOW()",
           },
           {
             name: "updated_at",
-            type: "timestamp",
+            type: "timestamptz",
             default: "NOW()",
           },
         ],
         foreignKeys: [
           {
+            name: "FK_lot_2_group",
             referencedTableName: "group",
             columnNames: ["group_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
+            name: "FK_lot_2_group_user",
             referencedTableName: "group_user",
             columnNames: ["created_by"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
+            name: "FK_lot_2_reagent",
             referencedTableName: "reagent",
             columnNames: ["reagent_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
+            name: "FK_lot_2_provider",
             referencedTableName: "provider",
             columnNames: ["provider_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
+            name: "FK_lot_2_clone",
             referencedTableName: "clone",
             columnNames: ["clone_id"],
             referencedColumnNames: ["id"],
@@ -156,21 +167,27 @@ export class CreateLot1573049366335 implements MigrationInterface {
         ],
         indices: [
           {
+            name: "IDX_lot_group_id",
             columnNames: ["group_id"],
           },
           {
+            name: "IDX_lot_created_by",
             columnNames: ["created_by"],
           },
           {
+            name: "IDX_lot_reagent_id",
             columnNames: ["reagent_id"],
           },
           {
+            name: "IDX_lot_provider_id",
             columnNames: ["provider_id"],
           },
           {
+            name: "IDX_lot_clone_id",
             columnNames: ["clone_id"],
           },
           {
+            name: "IDX_lot_status",
             columnNames: ["status"],
           },
         ],
