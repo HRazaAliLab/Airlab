@@ -9,7 +9,7 @@
           <v-form v-model="valid" ref="form" lazy-validation>
             <v-text-field label="Name" v-model="name" :rules="nameRules" />
             <v-text-field label="MW" v-model="mw" :rules="mwRules" />
-            <v-checkbox label="Fluorphore" v-model="isFluorphore" />
+            <v-checkbox label="Fluorophore" v-model="isFluorophore" />
             <v-checkbox label="Metal" v-model="isMetal" />
           </v-form>
         </template>
@@ -42,13 +42,13 @@ export default class CreateTag extends Vue {
   valid = true;
   name = "";
   mw = "";
-  isFluorphore = false;
+  isFluorophore = false;
   isMetal = false;
 
   reset() {
     this.name = "";
     this.mw = "";
-    this.isFluorphore = false;
+    this.isFluorophore = false;
     this.isMetal = false;
     (this.$refs.form as any).resetValidation();
   }
@@ -62,7 +62,7 @@ export default class CreateTag extends Vue {
       const data: CreateTagDto = {
         name: this.name,
         mw: this.mw,
-        isFluorphore: this.isFluorphore,
+        isFluorophore: this.isFluorophore,
         isMetal: this.isMetal,
       };
       await this.tagContext.actions.createTag(data);

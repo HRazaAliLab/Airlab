@@ -1,126 +1,87 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { GroupEntity } from "../group/group.entity";
-import { UserEntity } from "../user/user.entity";
-import { TagEntity } from "../tag/tag.entity";
 
 @Entity({
-  name: "tblLabeledAntibody",
+  name: "conjugate",
 })
 export class ConjugateEntity {
   @PrimaryGeneratedColumn({
-    name: "labLabeledAntibodyId",
+    name: "id",
   })
   id: number;
 
   @Column({
-    name: "labCellsUsedForValidation",
+    name: "group_id",
   })
-  cellsUsedForValidation: string;
+  groupId: number;
 
   @Column({
-    name: "labConcentration",
-  })
-  concentration: string;
-
-  @Column({
-    name: "labContributorId",
-  })
-  contributorId: string;
-
-  @Column({
-    name: "labCytobankLink",
-  })
-  cytobankLink: string;
-
-  @Column({
-    name: "labCytofStainingConc",
-  })
-  cytofStainingConc: string;
-
-  @Column({
-    name: "labDateOfLabeling",
-  })
-  dateOfLabeling: string;
-
-  @Column({
-    name: "labLabbookRef",
-  })
-  labbookRef: string;
-
-  @Column({
-    name: "labLotId",
-  })
-  lotId: number;
-
-  @Column({
-    name: "labTagId",
-  })
-  tagId: number;
-
-  @Column({
-    name: "labWorkingCondition",
-  })
-  workingCondition: string;
-
-  @Column({
-    name: "labBBTubeNumber",
-  })
-  bbTubeNumber: number;
-
-  @Column({
-    name: "labRelabeled",
-  })
-  relabeled: boolean;
-
-  @Column({
-    name: "tubPlaceId",
-  })
-  tubPlaceId: number;
-
-  @Column({
-    name: "tubFinishedBy",
-  })
-  tubFinishedBy: number;
-
-  @Column({
-    name: "tubFinishedAt",
-  })
-  tubFinishedAt: string;
-
-  @Column({
-    name: "tubIsLow",
-  })
-  tubIsLow: boolean;
-
-  @Column({
-    name: "deleted",
-  })
-  deleted: boolean;
-
-  @Column({
-    name: "catchedInfo",
-  })
-  catchedInfo: string;
-
-  @Column({
-    name: "createdBy",
+    name: "created_by",
   })
   createdBy: number;
 
   @Column({
-    name: "groupId",
+    name: "lot_id",
   })
-  groupId: number;
+  lotId: number;
 
-  @ManyToOne(type => GroupEntity, group => group.plates)
-  @JoinColumn({ name: "groupId" })
+  @Column({
+    name: "tag_id",
+  })
+  tagId: number;
+
+  @Column({
+    name: "finished_by",
+  })
+  finishedBy: number;
+
+  @Column({
+    name: "finished_at",
+  })
+  finishedAt: string;
+
+  @Column({
+    name: "tube_number",
+  })
+  tubeNumber: number;
+
+  @Column({
+    name: "concentration",
+  })
+  concentration: string;
+
+  @Column({
+    name: "description",
+  })
+  description: string;
+
+  @Column({
+    name: "is_deleted",
+  })
+  isDeleted: boolean;
+
+  @Column({
+    name: "meta",
+    type: "jsonb",
+  })
+  meta: object;
+
+  @Column({
+    name: "labeled_at",
+  })
+  labeledAt: string;
+
+  @Column({
+    name: "created_at",
+  })
+  createdAt: string;
+
+  @Column({
+    name: "updated_at",
+  })
+  updatedAt: string;
+
+  @ManyToOne(type => GroupEntity, group => group.conjugates)
+  @JoinColumn({ name: "group_id" })
   group: GroupEntity;
-
-  @ManyToOne(type => UserEntity, user => user.conjugates)
-  @JoinColumn({ name: "labContributorId" })
-  user: UserEntity;
-
-  @ManyToOne(type => TagEntity, tag => tag.conjugates)
-  @JoinColumn({ name: "labTagId" })
-  tag: TagEntity;
 }

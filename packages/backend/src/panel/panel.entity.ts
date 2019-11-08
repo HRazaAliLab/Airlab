@@ -2,67 +2,72 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "t
 import { GroupEntity } from "../group/group.entity";
 
 @Entity({
-  name: "tblPanel",
+  name: "panel",
 })
 export class PanelEntity {
   @PrimaryGeneratedColumn({
-    name: "panPanelId",
+    name: "id",
   })
   id: number;
 
   @Column({
-    name: "panName",
+    name: "group_id",
   })
-  name: string;
+  groupId: number;
 
   @Column({
-    name: "panDetails",
-  })
-  details: string;
-
-  @Column({
-    name: "panFluor",
-  })
-  fluor: boolean;
-
-  @Column({
-    name: "panIsProduction",
-  })
-  isProduction: boolean;
-
-  @Column({
-    name: "panApplication",
-  })
-  application: boolean;
-
-  @Column({
-    name: "panDescription",
-  })
-  description: string;
-
-  @Column({
-    name: "deleted",
-  })
-  deleted: boolean;
-
-  @Column({
-    name: "catchedInfo",
-  })
-  catchedInfo: string;
-
-  @Column({
-    name: "createdBy",
+    name: "created_by",
   })
   createdBy: number;
 
   @Column({
-    name: "groupId",
+    name: "name",
   })
-  groupId: number;
+  name: string;
 
-  @ManyToOne(type => GroupEntity, group => group.plates, {
-    eager: false,
+  @Column({
+    name: "description",
   })
-  @JoinColumn({ name: "groupId" })
+  description: string;
+
+  @Column({
+    name: "details",
+    type: "jsonb",
+  })
+  details: object;
+
+  @Column({
+    name: "is_fluor",
+  })
+  isFluor: boolean;
+
+  @Column({
+    name: "is_production",
+  })
+  isProduction: boolean;
+
+  @Column({
+    name: "application",
+  })
+  application: number;
+
+  @Column({
+    name: "meta",
+    type: "jsonb",
+  })
+  meta: object;
+
+  @Column({
+    name: "is_deleted",
+  })
+  isDeleted: boolean;
+
+  @Column({
+    name: "created_at",
+  })
+  createdAt: string;
+
+  @ManyToOne(type => GroupEntity, group => group.panels)
+  @JoinColumn({ name: "group_id" })
   group: GroupEntity;
 }

@@ -28,7 +28,6 @@ export class CreateReagent1573041348430 implements MigrationInterface {
           {
             name: "name",
             type: "varchar",
-            isNullable: true,
           },
           {
             name: "reference",
@@ -36,13 +35,13 @@ export class CreateReagent1573041348430 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: "deleted",
+            name: "is_deleted",
             type: "boolean",
             default: false,
           },
           {
-            name: "catched_info",
-            type: "text",
+            name: "meta",
+            type: "jsonb",
             isNullable: true,
           },
           {

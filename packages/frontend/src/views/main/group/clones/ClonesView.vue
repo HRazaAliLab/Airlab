@@ -147,13 +147,13 @@ export default class ClonesView extends Vue {
     {
       text: "Host",
       sortable: true,
-      value: "hostSpecies.name",
+      value: "species.name",
       align: "left",
     },
     {
-      text: "Epitope",
+      text: "Region",
       sortable: true,
-      value: "bindingRegion",
+      value: "region",
       align: "left",
     },
     {

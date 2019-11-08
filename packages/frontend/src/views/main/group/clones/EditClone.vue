@@ -9,7 +9,7 @@
           <v-form v-model="valid" ref="form" lazy-validation>
             <v-combobox label="Protein" v-model="protein" :items="proteins" item-text="name" item-value="id" />
             <v-text-field label="Clone Name" v-model="name" :rules="nameRules" />
-            <v-text-field label="Binding Region" v-model="bindingRegion" :rules="bindingRegionRules" />
+            <v-text-field label="Region" v-model="region" :rules="regionRules" />
             <v-text-field label="Isotype" v-model="isotype" :rules="isotypeRules" />
             <v-checkbox label="Polyclonal" v-model="isPolyclonal" />
             <v-checkbox label="Phosphoantibody" v-model="isPhospho" />
@@ -141,7 +141,7 @@ export default class EditClone extends Vue {
   readonly speciesContext = speciesModule.context(this.$store);
 
   readonly nameRules = [required];
-  readonly bindingRegionRules = [required];
+  readonly regionRules = [required];
   readonly isotypeRules = [required];
   readonly speciesHostRules = [required];
 
@@ -171,7 +171,7 @@ export default class EditClone extends Vue {
   valid = true;
   name = "";
   protein = "";
-  bindingRegion = "";
+  region = "";
   isotype = "";
   isPolyclonal = false;
   isPhospho = false;
@@ -203,7 +203,7 @@ export default class EditClone extends Vue {
     if (this.clone) {
       this.name = this.clone.name;
       // this.protein = this.clone.;
-      this.bindingRegion = this.clone.bindingRegion;
+      this.region = this.clone.region;
       this.isotype = this.clone.isotype;
       this.isPolyclonal = this.clone.isPolyclonal;
       this.isPhospho = this.clone.isPhospho;
@@ -233,19 +233,19 @@ export default class EditClone extends Vue {
 
   async submit() {
     if ((this.$refs.form as any).validate()) {
-      const data: CreateCloneDto = {
-        name: this.name,
-        proteinId: parseInt(this.protein, 10),
-        bindingRegion: this.bindingRegion,
-        isotype: this.isotype,
-        isPhospho: this.isPhospho,
-        isPolyclonal: this.isPolyclonal,
-        speciesHost: parseInt(this.speciesHost, 10),
-        reactivity: this.reactivity,
-        application: this.application,
-      };
-      await this.cloneContext.actions.createClone(data);
-      this.$router.back();
+      // const data: CreateCloneDto = {
+      //   name: this.name,
+      //   proteinId: parseInt(this.protein, 10),
+      //   region: this.region,
+      //   isotype: this.isotype,
+      //   isPhospho: this.isPhospho,
+      //   isPolyclonal: this.isPolyclonal,
+      //   speciesHost: parseInt(this.speciesHost, 10),
+      //   reactivity: this.reactivity,
+      //   application: this.application,
+      // };
+      // await this.cloneContext.actions.createClone(data);
+      // this.$router.back();
     }
   }
 }

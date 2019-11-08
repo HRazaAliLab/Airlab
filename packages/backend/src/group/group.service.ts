@@ -50,11 +50,11 @@ export class GroupService {
     return this.findById(id);
   }
 
-  async checkLabAcceptsRequests(id: number) {
+  async checkLabIsOpen(id: number) {
     const count = await this.groupRepository.count({
       where: {
         id: id,
-        acceptRequests: true,
+        isOpen: true,
       },
     });
     return count > 0;
@@ -69,7 +69,7 @@ export class GroupService {
     if (!group) {
       throw new NotFoundException("Group not found");
     }
-    if (group.acceptRequests) {
+    if (group.isOpen) {
       const requestExists = await this.groupUserService.checkRequest(userId, groupId);
       if (!requestExists) {
         await this.groupUserService.createJoinRequest(userId, groupId);

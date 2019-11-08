@@ -1,5 +1,5 @@
 import { IsString } from "class-validator";
-import { ApiModelProperty } from "@nestjs/swagger";
+import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 
 export class SpeciesDto {
   @ApiModelProperty()
@@ -10,6 +10,12 @@ export class SpeciesDto {
 
   @ApiModelProperty()
   readonly acronym: string;
+
+  @ApiModelPropertyOptional()
+  readonly meta: object;
+
+  @ApiModelPropertyOptional()
+  readonly createdAt: object;
 }
 
 export class CreateSpeciesDto {

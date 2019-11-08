@@ -19,12 +19,24 @@ __decorate([
 ], ProviderDto.prototype, "id", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
-], ProviderDto.prototype, "name", void 0);
+    __metadata("design:type", Number)
+], ProviderDto.prototype, "groupId", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], ProviderDto.prototype, "createdBy", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
-], ProviderDto.prototype, "acronym", void 0);
+], ProviderDto.prototype, "name", void 0);
+__decorate([
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", Object)
+], ProviderDto.prototype, "meta", void 0);
+__decorate([
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", String)
+], ProviderDto.prototype, "createdAt", void 0);
 exports.ProviderDto = ProviderDto;
 class CreateProviderDto {
 }

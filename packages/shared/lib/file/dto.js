@@ -19,26 +19,6 @@ __decorate([
 ], FileDto.prototype, "id", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
-], FileDto.prototype, "extension", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
-], FileDto.prototype, "hash", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Number)
-], FileDto.prototype, "partId", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
-], FileDto.prototype, "url", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Number)
-], FileDto.prototype, "size", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
     __metadata("design:type", Number)
 ], FileDto.prototype, "groupId", void 0);
 __decorate([
@@ -48,7 +28,27 @@ __decorate([
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
-], FileDto.prototype, "catchedInfo", void 0);
+], FileDto.prototype, "name", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", String)
+], FileDto.prototype, "extension", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], FileDto.prototype, "size", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", String)
+], FileDto.prototype, "hash", void 0);
+__decorate([
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", Object)
+], FileDto.prototype, "meta", void 0);
+__decorate([
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", String)
+], FileDto.prototype, "createdAt", void 0);
 exports.FileDto = FileDto;
 class CreateFileDto {
 }
@@ -56,7 +56,7 @@ __decorate([
     class_validator_1.IsString(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
-], CreateFileDto.prototype, "url", void 0);
+], CreateFileDto.prototype, "name", void 0);
 exports.CreateFileDto = CreateFileDto;
 class UpdateFileDto {
 }
@@ -64,6 +64,6 @@ __decorate([
     class_validator_1.IsString(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
-], UpdateFileDto.prototype, "url", void 0);
+], UpdateFileDto.prototype, "name", void 0);
 exports.UpdateFileDto = UpdateFileDto;
 //# sourceMappingURL=dto.js.map

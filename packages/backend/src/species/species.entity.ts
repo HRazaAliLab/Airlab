@@ -1,53 +1,32 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { GroupEntity } from "../group/group.entity";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({
-  name: "tblSpecies",
+  name: "species",
 })
 export class SpeciesEntity {
   @PrimaryGeneratedColumn({
-    name: "spcSpeciesId",
+    name: "id",
   })
   id: number;
 
   @Column({
-    name: "spcAcronym",
-  })
-  acronym: string;
-
-  @Column({
-    name: "spcName",
+    name: "name",
   })
   name: string;
 
   @Column({
-    name: "spcLinnaeus",
+    name: "acronym",
   })
-  linnaeus: string;
+  acronym: string;
 
   @Column({
-    name: "spcProperAcronym",
+    name: "meta",
+    type: "jsonb",
   })
-  properAcronym: string;
+  meta: object;
 
   @Column({
-    name: "catchedInfo",
+    name: "created_at",
   })
-  catchedInfo: string;
-
-  @Column({
-    name: "createdBy",
-  })
-  createdBy: number;
-
-  @Column({
-    name: "groupId",
-  })
-  groupId: number;
-
-  @ManyToOne(type => GroupEntity, group => group.plates, {
-    eager: false,
-  })
-  @JoinColumn({ name: "groupId" })
-  group: GroupEntity;
+  createdAt: string;
 }

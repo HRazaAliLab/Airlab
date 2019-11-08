@@ -25,6 +25,14 @@ __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], SpeciesDto.prototype, "acronym", void 0);
+__decorate([
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", Object)
+], SpeciesDto.prototype, "meta", void 0);
+__decorate([
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", Object)
+], SpeciesDto.prototype, "createdAt", void 0);
 exports.SpeciesDto = SpeciesDto;
 class CreateSpeciesDto {
 }

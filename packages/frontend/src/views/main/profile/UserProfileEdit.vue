@@ -8,7 +8,6 @@
         <template>
           <v-form v-model="valid" ref="form" lazy-validation>
             <v-text-field label="Name" v-model="name" />
-            <v-text-field label="Last Name" v-model="lastName" />
             <v-text-field label="E-mail" type="email" v-model="email" :rules="emailRules" />
           </v-form>
         </template>
@@ -39,7 +38,6 @@ export default class UserProfileEdit extends Vue {
 
   valid = true;
   name = "";
-  lastName = "";
   email = "";
 
   get userProfile() {
@@ -49,7 +47,6 @@ export default class UserProfileEdit extends Vue {
   reset() {
     if (this.userProfile) {
       this.name = this.userProfile.name;
-      this.lastName = this.userProfile.lastName;
       this.email = this.userProfile.email;
     }
   }
@@ -62,7 +59,6 @@ export default class UserProfileEdit extends Vue {
     if ((this.$refs.form as any).validate()) {
       const updatedProfile: UpdateProfileDto = {
         name: this.name,
-        lastName: this.lastName,
         email: this.email,
       };
       await this.mainContext.actions.updateUserProfile(updatedProfile);

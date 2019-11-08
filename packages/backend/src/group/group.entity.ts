@@ -1,57 +1,78 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ProteinEntity } from "../protein/protein.entity";
-import { PlateEntity } from "../plate/plate.entity";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
+import { CloneEntity } from "../clone/clone.entity";
+import { ConjugateEntity } from "../conjugate/conjugate.entity";
+import { TagEntity } from "../tag/tag.entity";
+import { FileEntity } from "../file/file.entity";
+import { LotEntity } from "../lot/lot.entity";
+import { PanelEntity } from "../panel/panel.entity";
+import { ProviderEntity } from "../provider/provider.entity";
+import { ReagentEntity } from "../reagent/reagent.entity";
 
 @Entity({
-  name: "tblGroup",
+  name: "group",
 })
 export class GroupEntity {
   @PrimaryGeneratedColumn({
-    name: "grpGroupId",
+    name: "id",
   })
   id: number;
 
   @Column({
-    name: "grpName",
+    name: "name",
   })
   name: string;
 
   @Column({
-    name: "grpInstitution",
+    name: "institution",
   })
   institution: string;
 
   @Column({
-    name: "grpCoordinates",
-  })
-  coordinates: string;
-
-  @Column({
-    name: "catchedInfo",
-  })
-  catchedInfo: string;
-
-  @Column({
-    name: "createdBy",
-  })
-  createdBy: number;
-
-  @Column({
-    name: "grpUrl",
+    name: "url",
   })
   url: string;
 
   @Column({
-    name: "grpAcceptRequests",
+    name: "is_open",
   })
-  acceptRequests: boolean;
+  isOpen: boolean;
+
+  @Column({
+    name: "meta",
+    type: "jsonb",
+  })
+  meta: object;
+
+  @Column({
+    name: "created_at",
+  })
+  createdAt: string;
 
   @OneToMany(type => ProteinEntity, protein => protein.group)
   proteins: ProteinEntity[];
 
-  @OneToMany(type => PlateEntity, plate => plate.group)
-  plates: PlateEntity[];
+  @OneToMany(type => ProviderEntity, provider => provider.group)
+  providers: ProviderEntity[];
+
+  @OneToMany(type => ReagentEntity, reagent => reagent.group)
+  reagents: ReagentEntity[];
+
+  @OneToMany(type => CloneEntity, clone => clone.group)
+  clones: CloneEntity[];
+
+  @OneToMany(type => LotEntity, lot => lot.group)
+  lots: LotEntity[];
+
+  @OneToMany(type => ConjugateEntity, conjugate => conjugate.group)
+  conjugates: ConjugateEntity[];
+
+  @OneToMany(type => FileEntity, file => file.group)
+  files: FileEntity[];
+
+  @OneToMany(type => PanelEntity, panel => panel.group)
+  panels: PanelEntity[];
 
   @OneToMany(type => GroupUserEntity, groupUser => groupUser.group)
   groupUsers!: GroupUserEntity[];

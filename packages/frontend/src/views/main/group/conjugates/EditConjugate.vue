@@ -201,20 +201,20 @@ export default class EditConjugate extends Vue {
       (this.$refs.form as any).resetValidation();
     }
     if (this.clone) {
-      this.name = this.clone.name;
-      // this.protein = this.clone.;
-      this.bindingRegion = this.clone.bindingRegion;
-      this.isotype = this.clone.isotype;
-      this.isPolyclonal = this.clone.isPolyclonal;
-      this.isPhospho = this.clone.isPhospho;
-      // this.speciesHost = "";
-      // this.reactivity = [];
-      // this.smcApplication = "undefined";
-      // this.imcApplication = "undefined";
-      // this.fcApplication = "undefined";
-      // this.ifApplication = "undefined";
-      // this.ihcApplication = "undefined";
-      // this.application = [];
+      // this.name = this.clone.name;
+      // // this.protein = this.clone.;
+      // this.bindingRegion = this.clone.bindingRegion;
+      // this.isotype = this.clone.isotype;
+      // this.isPolyclonal = this.clone.isPolyclonal;
+      // this.isPhospho = this.clone.isPhospho;
+      // // this.speciesHost = "";
+      // // this.reactivity = [];
+      // // this.smcApplication = "undefined";
+      // // this.imcApplication = "undefined";
+      // // this.fcApplication = "undefined";
+      // // this.ifApplication = "undefined";
+      // // this.ihcApplication = "undefined";
+      // // this.application = [];
     }
   }
 
@@ -233,19 +233,19 @@ export default class EditConjugate extends Vue {
 
   async submit() {
     if ((this.$refs.form as any).validate()) {
-      const data: CreateCloneDto = {
-        name: this.name,
-        proteinId: parseInt(this.protein, 10),
-        bindingRegion: this.bindingRegion,
-        isotype: this.isotype,
-        isPhospho: this.isPhospho,
-        isPolyclonal: this.isPolyclonal,
-        speciesHost: parseInt(this.speciesHost, 10),
-        reactivity: this.reactivity,
-        application: this.application,
-      };
-      await this.cloneContext.actions.createClone(data);
-      this.$router.back();
+      // const data: CreateCloneDto = {
+      //   name: this.name,
+      //   proteinId: parseInt(this.protein, 10),
+      //   bindingRegion: this.bindingRegion,
+      //   isotype: this.isotype,
+      //   isPhospho: this.isPhospho,
+      //   isPolyclonal: this.isPolyclonal,
+      //   speciesHost: parseInt(this.speciesHost, 10),
+      //   reactivity: this.reactivity,
+      //   application: this.application,
+      // };
+      // await this.cloneContext.actions.createClone(data);
+      // this.$router.back();
     }
   }
 }

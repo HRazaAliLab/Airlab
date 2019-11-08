@@ -108,7 +108,7 @@ export class CreateLot1573049366335 implements MigrationInterface {
             default: false,
           },
           {
-            name: "deleted",
+            name: "is_deleted",
             type: "boolean",
             default: false,
           },

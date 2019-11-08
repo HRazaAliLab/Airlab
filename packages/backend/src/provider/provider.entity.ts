@@ -2,42 +2,41 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "t
 import { GroupEntity } from "../group/group.entity";
 
 @Entity({
-  name: "tblProvider",
+  name: "provider",
 })
 export class ProviderEntity {
   @PrimaryGeneratedColumn({
-    name: "proProviderId",
+    name: "id",
   })
   id: number;
 
   @Column({
-    name: "proAcronym",
+    name: "group_id",
   })
-  acronym: string;
+  groupId: number;
 
   @Column({
-    name: "proName",
-  })
-  name: string;
-
-  @Column({
-    name: "catchedInfo",
-  })
-  catchedInfo: string;
-
-  @Column({
-    name: "createdBy",
+    name: "created_by",
   })
   createdBy: number;
 
   @Column({
-    name: "groupId",
+    name: "name",
   })
-  groupId: number;
+  name: string;
 
-  @ManyToOne(type => GroupEntity, group => group.plates, {
-    eager: false,
+  @Column({
+    name: "meta",
+    type: "jsonb",
   })
-  @JoinColumn({ name: "groupId" })
+  meta: object;
+
+  @Column({
+    name: "created_at",
+  })
+  createdAt: string;
+
+  @ManyToOne(type => GroupEntity, group => group.providers)
+  @JoinColumn({ name: "group_id" })
   group: GroupEntity;
 }

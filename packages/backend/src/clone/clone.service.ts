@@ -2,8 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CloneEntity } from "./clone.entity";
-import { CreateCloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
+import { CreateCloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
 
 @Injectable()
 export class CloneService {
@@ -38,10 +38,10 @@ export class CloneService {
     const result = await this.repository
       .createQueryBuilder("clone")
       .leftJoinAndSelect("clone.protein", "protein")
-      .leftJoinAndSelect("clone.hostSpecies", "hostSpecies")
+      .leftJoinAndSelect("clone.species", "species")
       .leftJoin(GroupUserEntity, "groupUser", "clone.groupId = groupUser.groupId")
       .where("groupUser.userId = :userId", { userId: userId })
-      .andWhere("clone.deleted IS NULL")
+      .andWhere("clone.is_deleted = false")
       .getMany();
     return result;
   }

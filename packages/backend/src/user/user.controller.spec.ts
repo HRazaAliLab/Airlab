@@ -5,7 +5,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserEntity } from "./user.entity";
 import { GroupEntity } from "../group/group.entity";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
-import { ReagentInstanceEntity } from "../reagentInstance/reagentInstance.entity";
+import { LotEntity } from "../lot/lot.entity";
 
 describe("UserController", () => {
   let controller: UserController;
@@ -15,7 +15,7 @@ describe("UserController", () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         TypeOrmModule.forRoot(),
-        TypeOrmModule.forFeature([UserEntity, GroupEntity, GroupUserEntity, ReagentInstanceEntity]),
+        TypeOrmModule.forFeature([UserEntity, GroupEntity, GroupUserEntity, LotEntity]),
       ],
       controllers: [UserController],
       providers: [UserService],

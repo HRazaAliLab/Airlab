@@ -3,66 +3,42 @@ import { GroupEntity } from "../group/group.entity";
 import { CloneEntity } from "../clone/clone.entity";
 
 @Entity({
-  name: "tblProtein",
+  name: "protein",
 })
 export class ProteinEntity {
   @PrimaryGeneratedColumn({
-    name: "proProteinId",
+    name: "id",
   })
   id: number;
 
   @Column({
-    name: "proDescription",
-  })
-  description: string;
-
-  @Column({
-    name: "proKd",
-  })
-  kd: number;
-
-  @Column({
-    name: "proName",
-  })
-  name: string;
-
-  @Column({
-    name: "proNcbiGeneID",
-  })
-  proNcbiGeneId: string;
-
-  @Column({
-    name: "proSwissDBID",
-  })
-  proSwissDbId: string;
-
-  @Column({
-    name: "openBisPermId",
-  })
-  openBisPermId: string;
-
-  @Column({
-    name: "catchedInfo",
-  })
-  catchedInfo: string;
-
-  @Column({
-    name: "createdBy",
-  })
-  createdBy: number;
-
-  @Column({
-    name: "groupId",
+    name: "group_id",
   })
   groupId: number;
 
   @Column({
-    name: "openBisCode",
+    name: "created_by",
   })
-  openBisCode: string;
+  createdBy: number;
+
+  @Column({
+    name: "name",
+  })
+  name: string;
+
+  @Column({
+    name: "meta",
+    type: "jsonb",
+  })
+  meta: object;
+
+  @Column({
+    name: "created_at",
+  })
+  createdAt: string;
 
   @ManyToOne(type => GroupEntity, group => group.proteins)
-  @JoinColumn({ name: "groupId" })
+  @JoinColumn({ name: "group_id" })
   group: GroupEntity;
 
   @OneToMany(type => CloneEntity, clone => clone.protein)

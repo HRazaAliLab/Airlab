@@ -22,29 +22,25 @@ __decorate([
     __metadata("design:type", String)
 ], GroupDto.prototype, "name", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Number)
-], GroupDto.prototype, "createdBy", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Boolean)
-], GroupDto.prototype, "acceptRequests", void 0);
-__decorate([
     swagger_1.ApiModelPropertyOptional(),
     __metadata("design:type", String)
 ], GroupDto.prototype, "institution", void 0);
 __decorate([
     swagger_1.ApiModelPropertyOptional(),
     __metadata("design:type", String)
-], GroupDto.prototype, "coordinates", void 0);
-__decorate([
-    swagger_1.ApiModelPropertyOptional(),
-    __metadata("design:type", String)
-], GroupDto.prototype, "catchedInfo", void 0);
-__decorate([
-    swagger_1.ApiModelPropertyOptional(),
-    __metadata("design:type", String)
 ], GroupDto.prototype, "url", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Boolean)
+], GroupDto.prototype, "isOpen", void 0);
+__decorate([
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", Object)
+], GroupDto.prototype, "meta", void 0);
+__decorate([
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", String)
+], GroupDto.prototype, "createdAt", void 0);
 exports.GroupDto = GroupDto;
 class CreateGroupDto {
 }
@@ -54,25 +50,20 @@ __decorate([
     __metadata("design:type", String)
 ], CreateGroupDto.prototype, "name", void 0);
 __decorate([
-    class_validator_1.IsBoolean(),
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Boolean)
-], CreateGroupDto.prototype, "acceptRequests", void 0);
-__decorate([
     class_validator_1.IsString(),
     swagger_1.ApiModelPropertyOptional(),
     __metadata("design:type", String)
 ], CreateGroupDto.prototype, "institution", void 0);
 __decorate([
-    class_validator_1.IsString(),
-    swagger_1.ApiModelPropertyOptional(),
-    __metadata("design:type", String)
-], CreateGroupDto.prototype, "coordinates", void 0);
-__decorate([
     class_validator_1.IsUrl(),
     swagger_1.ApiModelPropertyOptional(),
     __metadata("design:type", String)
 ], CreateGroupDto.prototype, "url", void 0);
+__decorate([
+    class_validator_1.IsBoolean(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Boolean)
+], CreateGroupDto.prototype, "isOpen", void 0);
 exports.CreateGroupDto = CreateGroupDto;
 class UpdateGroupDto {
 }
@@ -82,25 +73,20 @@ __decorate([
     __metadata("design:type", String)
 ], UpdateGroupDto.prototype, "name", void 0);
 __decorate([
-    class_validator_1.IsBoolean(),
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Boolean)
-], UpdateGroupDto.prototype, "acceptRequests", void 0);
-__decorate([
     class_validator_1.IsString(),
     swagger_1.ApiModelPropertyOptional(),
     __metadata("design:type", String)
 ], UpdateGroupDto.prototype, "institution", void 0);
 __decorate([
-    class_validator_1.IsString(),
-    swagger_1.ApiModelPropertyOptional(),
-    __metadata("design:type", String)
-], UpdateGroupDto.prototype, "coordinates", void 0);
-__decorate([
     class_validator_1.IsUrl(),
     swagger_1.ApiModelPropertyOptional(),
     __metadata("design:type", String)
 ], UpdateGroupDto.prototype, "url", void 0);
+__decorate([
+    class_validator_1.IsBoolean(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Boolean)
+], UpdateGroupDto.prototype, "isOpen", void 0);
 exports.UpdateGroupDto = UpdateGroupDto;
 class RequestJoinGroupDto {
 }

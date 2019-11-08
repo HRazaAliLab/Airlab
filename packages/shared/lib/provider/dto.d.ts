@@ -1,7 +1,10 @@
 export declare class ProviderDto {
     readonly id: number;
+    readonly groupId: number;
+    readonly createdBy: number;
     readonly name: string;
-    readonly acronym: string;
+    readonly meta: object;
+    readonly createdAt: string;
 }
 export declare class CreateProviderDto {
     readonly name: string;

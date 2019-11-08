@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { IsNull, Repository } from "typeorm";
+import { Repository } from "typeorm";
 import { PanelEntity } from "./panel.entity";
 import { CreatePanelDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
 
@@ -32,7 +32,7 @@ export class PanelService {
     return this.repository.find({
       where: {
         groupId: groupId,
-        deleted: IsNull(),
+        deleted: false,
       },
       order: {
         id: "DESC",
@@ -44,7 +44,7 @@ export class PanelService {
     return this.repository.find({
       where: {
         createdBy: groupUserId,
-        deleted: IsNull(),
+        deleted: false,
       },
       order: {
         id: "DESC",

@@ -1,65 +1,42 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { GroupEntity } from "../group/group.entity";
-import { ConjugateEntity } from "../conjugate/conjugate.entity";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({
-  name: "tblTag",
+  name: "tag",
 })
 export class TagEntity {
   @PrimaryGeneratedColumn({
-    name: "tagTagId",
+    name: "id",
   })
   id: number;
 
   @Column({
-    name: "tagEmission",
-  })
-  emission: string;
-
-  @Column({
-    name: "tagExcitation",
-  })
-  excitation: string;
-
-  @Column({
-    name: "tagIsFluorphore",
-  })
-  isFluorphore: boolean;
-
-  @Column({
-    name: "tagIsMetal",
-  })
-  isMetal: boolean;
-
-  @Column({
-    name: "tagMW",
-  })
-  mw: string;
-
-  @Column({
-    name: "tagName",
+    name: "name",
   })
   name: string;
 
   @Column({
-    name: "catchedInfo",
+    name: "mw",
   })
-  catchedInfo: string;
+  mw: string;
 
   @Column({
-    name: "createdBy",
+    name: "is_fluorophore",
   })
-  createdBy: number;
+  isFluorophore: boolean;
 
   @Column({
-    name: "groupId",
+    name: "is_metal",
   })
-  groupId: number;
+  isMetal: boolean;
 
-  @ManyToOne(type => GroupEntity, group => group.plates)
-  @JoinColumn({ name: "groupId" })
-  group: GroupEntity;
+  @Column({
+    name: "meta",
+    type: "jsonb",
+  })
+  meta: object;
 
-  @OneToMany(type => ConjugateEntity, conjugate => conjugate.tag)
-  conjugates: ConjugateEntity[];
+  @Column({
+    name: "created_at",
+  })
+  createdAt: string;
 }

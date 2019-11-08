@@ -5,7 +5,7 @@ import { UserEntity } from "./user.entity";
 import { CreateUserDto, UpdateProfileDto, UpdateUserDto } from "@airlab/shared/lib/user/dto";
 import { GroupEntity } from "../group/group.entity";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
-import { ReagentInstanceEntity } from "../reagentInstance/reagentInstance.entity";
+import { LotEntity } from "../lot/lot.entity";
 
 @Injectable()
 export class UserService {
@@ -16,8 +16,8 @@ export class UserService {
     private readonly groupRepository: Repository<GroupEntity>,
     @InjectRepository(GroupUserEntity)
     private readonly groupUserRepository: Repository<GroupUserEntity>,
-    @InjectRepository(ReagentInstanceEntity)
-    private readonly reagentInstanceRepository: Repository<ReagentInstanceEntity>
+    @InjectRepository(LotEntity)
+    private readonly lotRepository: Repository<LotEntity>
   ) {}
 
   async findAll() {
@@ -39,6 +39,7 @@ export class UserService {
 
   async findByEmail(email: string) {
     return this.userRepository.findOne({
+      select: ["id", "email", "password"],
       where: { email: email },
     });
   }
@@ -59,7 +60,7 @@ export class UserService {
           .from(GroupUserEntity, "groupUser")
           .where("groupUser.userId = :userId", { userId: userId })
           .getQuery();
-        return "group.grpGroupId IN " + subQuery;
+        return "group.id IN " + subQuery;
       })
       .getMany();
   }
@@ -70,19 +71,19 @@ export class UserService {
         activationKey: key,
       },
       {
-        active: true,
+        isActive: true,
       }
     );
     return this.findByActivationKey(key);
   }
 
   async getAllLotsForUser(userId: number) {
-    return this.reagentInstanceRepository
+    return this.lotRepository
       .createQueryBuilder("lot")
       .leftJoin(GroupUserEntity, "groupUser", "lot.groupId = groupUser.groupId")
       .where("groupUser.userId = :userId", { userId: userId })
-      .andWhere("lot.lotCloneId != 0")
-      .andWhere("lot.deleted = 0")
+      .andWhere("lot.cloneId != 0")
+      .andWhere("lot.isDeleted = false")
       .getMany();
   }
 }

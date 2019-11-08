@@ -28,8 +28,8 @@
         }"
         multi-sort
       >
-        <template v-slot:item.acceptRequests="{ item }">
-          <v-icon v-if="item.acceptRequests">mdi-check</v-icon>
+        <template v-slot:item.isOpen="{ item }">
+          <v-icon v-if="item.isOpen">mdi-check</v-icon>
         </template>
         <template v-slot:item.action="{ item }">
           <v-tooltip bottom>
@@ -90,9 +90,9 @@ export default class AdminGroups extends Vue {
       align: "left",
     },
     {
-      text: "Accept Requests",
+      text: "Open",
       sortable: true,
-      value: "acceptRequests",
+      value: "isOpen",
       align: "left",
       filterable: false,
     },

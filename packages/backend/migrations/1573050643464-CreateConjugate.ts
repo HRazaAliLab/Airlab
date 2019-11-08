@@ -29,17 +29,13 @@ export class CreateConjugate1573050643464 implements MigrationInterface {
             type: "int",
           },
           {
-            name: "contributor_id",
-            type: "int",
-          },
-          {
             name: "finished_by",
             type: "int",
             isNullable: true,
           },
           {
             name: "finished_at",
-            type: "timestamp",
+            type: "timestamptz",
             isNullable: true,
           },
           {
@@ -53,19 +49,25 @@ export class CreateConjugate1573050643464 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: "deleted",
+            name: "description",
+            type: "varchar",
+            isNullable: true,
+          },
+          {
+            name: "is_deleted",
             type: "boolean",
             default: false,
           },
           {
-            name: "catched_info",
-            type: "text",
+            name: "meta",
+            type: "jsonb",
             isNullable: true,
           },
           {
             name: "labeled_at",
-            type: "timestamp",
+            type: "timestamptz",
             default: "NOW()",
+            isNullable: true,
           },
           {
             name: "created_at",
@@ -108,15 +110,8 @@ export class CreateConjugate1573050643464 implements MigrationInterface {
             onDelete: "cascade",
           },
           {
-            name: "FK_conjugate_contributor_id_2_user",
-            referencedTableName: "user",
-            columnNames: ["contributor_id"],
-            referencedColumnNames: ["id"],
-            onDelete: "cascade",
-          },
-          {
-            name: "FK_conjugate_finished_by_2_user",
-            referencedTableName: "user",
+            name: "FK_conjugate_finished_by_2_group_user",
+            referencedTableName: "group_user",
             columnNames: ["finished_by"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",

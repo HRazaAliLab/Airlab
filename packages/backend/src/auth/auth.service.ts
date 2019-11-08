@@ -29,7 +29,7 @@ export class AuthService {
     const token = this.jwtService.sign(payload, {
       subject: user.id.toString(),
       issuer: "AirLab",
-      expiresIn: "365d",
+      expiresIn: "7d",
     });
     return {
       token: token,

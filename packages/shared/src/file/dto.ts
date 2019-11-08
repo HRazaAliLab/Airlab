@@ -1,24 +1,9 @@
 import { IsString } from "class-validator";
-import { ApiModelProperty } from "@nestjs/swagger";
+import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 
 export class FileDto {
   @ApiModelProperty()
   readonly id: number;
-
-  @ApiModelProperty()
-  readonly extension: string;
-
-  @ApiModelProperty()
-  readonly hash: string;
-
-  @ApiModelProperty()
-  readonly partId: number;
-
-  @ApiModelProperty()
-  readonly url: string;
-
-  @ApiModelProperty()
-  readonly size: number;
 
   @ApiModelProperty()
   readonly groupId: number;
@@ -27,17 +12,32 @@ export class FileDto {
   readonly createdBy: number;
 
   @ApiModelProperty()
-  readonly catchedInfo: string;
+  readonly name: string;
+
+  @ApiModelProperty()
+  readonly extension: string;
+
+  @ApiModelProperty()
+  readonly size: number;
+
+  @ApiModelProperty()
+  readonly hash: string;
+
+  @ApiModelPropertyOptional()
+  readonly meta: object;
+
+  @ApiModelPropertyOptional()
+  readonly createdAt: string;
 }
 
 export class CreateFileDto {
   @IsString()
   @ApiModelProperty()
-  readonly url: string;
+  readonly name: string;
 }
 
 export class UpdateFileDto {
   @IsString()
   @ApiModelProperty()
-  readonly url: string;
+  readonly name: string;
 }

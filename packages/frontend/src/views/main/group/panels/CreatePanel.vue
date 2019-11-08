@@ -223,19 +223,19 @@ export default class CreatePanel extends Vue {
 
   async submit() {
     if ((this.$refs.form as any).validate()) {
-      const data: CreateCloneDto = {
-        name: this.name,
-        proteinId: parseInt(this.protein, 10),
-        bindingRegion: this.bindingRegion,
-        isotype: this.isotype,
-        isPhospho: this.isPhospho,
-        isPolyclonal: this.isPolyclonal,
-        speciesHost: parseInt(this.speciesHost, 10),
-        reactivity: this.reactivity,
-        application: this.application,
-      };
-      await this.cloneContext.actions.createClone(data);
-      this.$router.back();
+      // const data: CreateCloneDto = {
+      //   name: this.name,
+      //   proteinId: parseInt(this.protein, 10),
+      //   bindingRegion: this.bindingRegion,
+      //   isotype: this.isotype,
+      //   isPhospho: this.isPhospho,
+      //   isPolyclonal: this.isPolyclonal,
+      //   speciesHost: parseInt(this.speciesHost, 10),
+      //   reactivity: this.reactivity,
+      //   application: this.application,
+      // };
+      // await this.cloneContext.actions.createClone(data);
+      // this.$router.back();
     }
   }
 }

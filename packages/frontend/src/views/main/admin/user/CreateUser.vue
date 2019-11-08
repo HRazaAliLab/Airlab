@@ -8,7 +8,6 @@
         <template>
           <v-form v-model="valid" ref="form" lazy-validation>
             <v-text-field label="Name" v-model="name" />
-            <v-text-field label="Last Name" v-model="lastName" />
             <v-text-field label="E-mail" type="email" v-model="email" :rules="emailRules" />
             <v-row align="center">
               <v-col>
@@ -57,7 +56,6 @@ export default class CreateUser extends Vue {
 
   valid = false;
   name = "";
-  lastName = "";
   email = "";
   password1 = "";
   password2 = "";
@@ -70,7 +68,6 @@ export default class CreateUser extends Vue {
     this.password1 = "";
     this.password2 = "";
     this.name = "";
-    this.lastName = "";
     this.email = "";
     (this.$refs.form as any).resetValidation();
   }
@@ -84,7 +81,6 @@ export default class CreateUser extends Vue {
       const updatedProfile: CreateUserDto = {
         email: this.email,
         name: this.name,
-        lastName: this.lastName,
         password: this.password1,
       };
       await this.userContext.actions.createUser(updatedProfile);

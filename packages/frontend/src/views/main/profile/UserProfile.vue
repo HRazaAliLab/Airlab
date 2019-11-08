@@ -12,13 +12,6 @@
           </div>
           <div class="title primary--text text--darken-2" v-else>-----</div>
         </div>
-        <div class="my-6">
-          <div class="subtitle-1 primary--text text--lighten-2">Last Name</div>
-          <div class="title primary--text text--darken-2" v-if="userProfile && userProfile.lastName">
-            {{ userProfile.lastName }}
-          </div>
-          <div class="title primary--text text--darken-2" v-else>-----</div>
-        </div>
         <div class="my-4">
           <div class="subtitle-1 primary--text text--lighten-2">Email</div>
           <div class="title primary--text text--darken-2" v-if="userProfile && userProfile.email">

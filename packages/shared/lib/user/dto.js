@@ -20,19 +20,23 @@ __decorate([
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
-], UserDto.prototype, "name", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
-], UserDto.prototype, "lastName", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
 ], UserDto.prototype, "email", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
+    __metadata("design:type", String)
+], UserDto.prototype, "name", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
     __metadata("design:type", Boolean)
-], UserDto.prototype, "active", void 0);
+], UserDto.prototype, "isActive", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", String)
+], UserDto.prototype, "createdAt", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", String)
+], UserDto.prototype, "updatedAt", void 0);
 exports.UserDto = UserDto;
 class ProfileDto {
 }
@@ -47,16 +51,12 @@ __decorate([
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
-], ProfileDto.prototype, "lastName", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
 ], ProfileDto.prototype, "email", void 0);
 exports.ProfileDto = ProfileDto;
 class UpdateProfileDto {
 }
 __decorate([
-    class_validator_1.IsString(),
+    class_validator_1.IsEmail(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], UpdateProfileDto.prototype, "email", void 0);
@@ -65,16 +65,11 @@ __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], UpdateProfileDto.prototype, "name", void 0);
-__decorate([
-    class_validator_1.IsString(),
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
-], UpdateProfileDto.prototype, "lastName", void 0);
 exports.UpdateProfileDto = UpdateProfileDto;
 class CreateUserDto {
 }
 __decorate([
-    class_validator_1.IsString(),
+    class_validator_1.IsEmail(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "email", void 0);
@@ -87,17 +82,12 @@ __decorate([
     class_validator_1.IsString(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
-], CreateUserDto.prototype, "lastName", void 0);
-__decorate([
-    class_validator_1.IsString(),
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
 ], CreateUserDto.prototype, "password", void 0);
 exports.CreateUserDto = CreateUserDto;
 class UpdateUserDto {
 }
 __decorate([
-    class_validator_1.IsString(),
+    class_validator_1.IsEmail(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], UpdateUserDto.prototype, "email", void 0);
@@ -107,19 +97,14 @@ __decorate([
     __metadata("design:type", String)
 ], UpdateUserDto.prototype, "name", void 0);
 __decorate([
-    class_validator_1.IsString(),
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
-], UpdateUserDto.prototype, "lastName", void 0);
-__decorate([
-    class_validator_1.IsString(),
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
-], UpdateUserDto.prototype, "password", void 0);
-__decorate([
     class_validator_1.IsBoolean(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Boolean)
-], UpdateUserDto.prototype, "active", void 0);
+], UpdateUserDto.prototype, "isActive", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", String)
+], UpdateUserDto.prototype, "password", void 0);
 exports.UpdateUserDto = UpdateUserDto;
 //# sourceMappingURL=dto.js.map

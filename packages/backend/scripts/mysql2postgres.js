@@ -27,7 +27,10 @@ async function migrateGroup() {
   const input = await mysqlPool.query("SELECT * FROM tblGroup");
   for (row of input[0]) {
     console.log(row);
-    const sql = 'INSERT INTO "group"(id, name, institution, url, accept_requests) VALUES($1, $2, $3, $4, $5)';
+    // if (row["grpGroupId"] !== 2) {
+    //   continue;
+    // }
+    const sql = 'INSERT INTO "group"(id, name, institution, url, is_open) VALUES($1, $2, $3, $4, $5)';
     const values = [
       row["grpGroupId"],
       row["grpName"],
@@ -61,6 +64,9 @@ async function migrateGroupUser() {
   const input = await mysqlPool.query("SELECT * FROM tblZGroupPerson");
   for (row of input[0]) {
     console.log(row);
+    // if (row["gpeGroupId"] !== 2) {
+    //   continue;
+    // }
     const sql =
       'INSERT INTO "group_user"(id, group_id, user_id, role, activation_key, is_active, can_order, can_erase, can_finances, can_panels) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)';
     const values = [
@@ -112,6 +118,9 @@ async function migrateProvider() {
   const input = await mysqlPool.query("SELECT * FROM tblProvider");
   for (row of input[0]) {
     console.log(row);
+    // if (row["groupId"] !== 2) {
+    //   continue;
+    // }
     if ([87, 97].includes(row["proProviderId"])) {
       continue;
     }
@@ -125,11 +134,15 @@ async function migrateReagent() {
   const input = await mysqlPool.query("SELECT * FROM tblComertialReagent");
   for (row of input[0]) {
     console.log(row);
-    if (row["comName"] === null) {
+    if (row["groupId"] !== 2) {
       continue;
     }
+    let name = row["comName"];
+    if (name === null) {
+      name = "";
+    }
     const sql =
-      'INSERT INTO "reagent"(id, group_id, created_by, provider_id, name, reference, deleted, catched_info) VALUES($1, $2, $3, $4, $5, $6, $7, $8)';
+      'INSERT INTO "reagent"(id, group_id, created_by, provider_id, name, reference, is_deleted, meta) VALUES($1, $2, $3, $4, $5, $6, $7, $8)';
     let providerId = [0, 25, 11111].includes(row["comProviderId"]) ? null : row["comProviderId"];
     if (providerId === 87) {
       providerId = 86;
@@ -137,15 +150,27 @@ async function migrateReagent() {
     if (providerId === 97) {
       providerId = 18;
     }
+
+    let meta = row["catchedInfo"];
+    if ([].includes(row["comComertialReagentId"])) {
+      meta = null;
+    }
+    if (meta === null || meta === "") {
+      meta = null;
+    } else {
+      meta = dJSON.parse(meta);
+      meta = JSON.stringify(meta);
+    }
+
     const values = [
       row["comComertialReagentId"],
-      [0].includes(row["groupId"]) ? 3 : row["groupId"],
+      [0].includes(row["groupId"]) ? 2 : row["groupId"],
       [0].includes(row["createdBy"]) ? 5 : row["createdBy"],
       providerId,
-      row["comName"],
+      name,
       row["comReference"],
       row["deleted"] === null ? false : row["deleted"],
-      row["catchedInfo"],
+      meta,
     ];
     await postgresPool.query(sql, values);
   }
@@ -155,10 +180,13 @@ async function migrateProtein() {
   const input = await mysqlPool.query("SELECT * FROM tblProtein");
   for (row of input[0]) {
     console.log(row);
+    if (row["groupId"] !== 2) {
+      continue;
+    }
     const sql = 'INSERT INTO "protein"(id, group_id, created_by, name) VALUES($1, $2, $3, $4)';
     const values = [
       row["proProteinId"],
-      [0, 21].includes(row["groupId"]) ? 3 : row["groupId"],
+      [0, 21].includes(row["groupId"]) ? 2 : row["groupId"],
       [0].includes(row["createdBy"]) ? 5 : row["createdBy"],
       row["proName"],
     ];
@@ -170,8 +198,11 @@ async function migrateClone() {
   const input = await mysqlPool.query("SELECT * FROM tblClone");
   for (row of input[0]) {
     console.log(row);
+    if (row["groupId"] !== 2) {
+      continue;
+    }
     const sql =
-      'INSERT INTO "clone"(id, group_id, created_by, protein_id, species_id, name, isotype, region, is_phospho, is_polyclonal, reactivity, application, deleted, public, meta) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)';
+      'INSERT INTO "clone"(id, group_id, created_by, protein_id, species_id, name, isotype, region, is_phospho, is_polyclonal, reactivity, application, is_deleted, is_public, meta) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)';
 
     let reactivity = row["cloReactivity"];
     if (reactivity === "") {
@@ -216,7 +247,7 @@ async function migrateClone() {
 
     const values = [
       row["cloCloneId"],
-      [0].includes(row["groupId"]) ? 3 : row["groupId"],
+      row["groupId"],
       [0, 76].includes(row["createdBy"]) ? 5 : row["createdBy"],
       [null, 0, 11111, 1111111].includes(row["cloProteinId"]) ? 1300 : row["cloProteinId"],
       speciesId,
@@ -249,21 +280,25 @@ async function migrateLot() {
     }
 
     const reagentId = row["reiComertialReagentId"];
-    if ([null, 11111, 1570, 1644, 1771, 1834, 2027, 2223, 2225, 2226, 2266, 2355, 2480].includes(reagentId)) {
+    if ([null, 11111].includes(reagentId)) {
       continue;
     }
 
     const sql =
-      'INSERT INTO "lot"(id, group_id, created_by, reagent_id, provider_id, clone_id, requested_by, approved_by, ordered_by, received_by, finished_by, number, status, purpose, link, requested_at, approved_at, ordered_at, received_at, finished_at, is_low, deleted, meta) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)';
+      'INSERT INTO "lot"(id, group_id, created_by, reagent_id, provider_id, clone_id, requested_by, approved_by, ordered_by, received_by, finished_by, number, status, purpose, link, requested_at, approved_at, ordered_at, received_at, finished_at, is_low, is_deleted, meta) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)';
 
     let meta = row["catchedInfo"];
-    if ([1977, 2293, 2732, 3252, 3399, 3425, 3485, 3495, 3512].includes(row["reiReagentInstanceId"])) {
+    if (
+      [1977, 2293, 2732, 3252, 3399, 3425, 3485, 3495, 3512, 3634, 3666, 3690, 3702, 3703].includes(
+        row["reiReagentInstanceId"]
+      )
+    ) {
       meta = null;
     }
     if (meta === null || meta === "") {
       meta = null;
     } else {
-      meta = dJSON.parse(meta);
+      meta = dJSON.parse(meta, true);
       meta = JSON.stringify(meta);
     }
 
@@ -306,17 +341,138 @@ async function migrateLot() {
   }
 }
 
+async function migrateConjugate() {
+  const input = await mysqlPool.query("SELECT * FROM tblLabeledAntibody");
+  for (row of input[0]) {
+    console.log(row);
+
+    if (row["groupId"] !== 2) {
+      continue;
+    }
+
+    if ([965, 1154, 1286].includes(row["labLotId"])) {
+      continue;
+    }
+
+    const sql =
+      'INSERT INTO "conjugate"(id, group_id, created_by, lot_id, tag_id, finished_by, finished_at, tube_number, concentration, is_deleted, description, labeled_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)';
+    const values = [
+      row["labLabeledAntibodyId"],
+      row["groupId"],
+      [0].includes(row["createdBy"]) ? 5 : row["createdBy"],
+      row["labLotId"],
+      row["labTagId"],
+      [0].includes(row["tubFinishedBy"]) ? null : row["tubFinishedBy"],
+      row["tubFinishedAt"] === "" || row["tubFinishedAt"] === null || row["tubFinishedAt"] === "0"
+        ? null
+        : row["tubFinishedAt"]
+            .replace("0000", "")
+            .replace("0100", "")
+            .replace("0200", "")
+            .trim(),
+      row["labBBTubeNumber"],
+      row["labConcentration"],
+      row["deleted"],
+      row["catchedInfo"],
+      row["labDateOfLabeling"] === "" || row["labDateOfLabeling"] === null || row["labDateOfLabeling"] === "0"
+        ? null
+        : row["labDateOfLabeling"]
+            .replace("0000", "")
+            .replace("0100", "")
+            .replace("0200", "")
+            .trim(),
+    ];
+    await postgresPool.query(sql, values);
+  }
+}
+
+async function migrateFile() {
+  const input = await mysqlPool.query("SELECT * FROM tblFile");
+  for (row of input[0]) {
+    console.log(row);
+    if (row["groupId"] !== 2) {
+      continue;
+    }
+    const sql =
+      'INSERT INTO "file"(id, group_id, created_by, name, extension, size, hash) VALUES($1, $2, $3, $4, $5, $6, $7)';
+
+    const name =
+      row["catchedInfo"] === "" || row["catchedInfo"] === null
+        ? null
+        : row["catchedInfo"].replace("||", "|").split("|")[0];
+    const size =
+      row["catchedInfo"] === "" || row["catchedInfo"] === null
+        ? null
+        : row["catchedInfo"].replace("||", "|").split("|")[1];
+
+    const values = [
+      row["filFileId"],
+      row["groupId"],
+      row["createdBy"],
+      name,
+      row["filExtension"],
+      size,
+      row["filHash"],
+    ];
+    await postgresPool.query(sql, values);
+  }
+}
+
+async function migratePanel() {
+  const input = await mysqlPool.query("SELECT * FROM tblPanel");
+  for (row of input[0]) {
+    console.log(row);
+    if (row["groupId"] !== 2) {
+      continue;
+    }
+    const sql =
+      'INSERT INTO "panel"(id, group_id, created_by, name, description, details, is_fluor, is_production, application, is_deleted) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)';
+
+    let details = row["panDetails"];
+    if ([538, 649, 661].includes(row["panPanelId"])) {
+      details = null;
+    }
+    if (details === null || details === "") {
+      details = null;
+    } else {
+      details = dJSON.parse(details, true);
+      details = JSON.stringify(details);
+    }
+
+    const values = [
+      row["panPanelId"],
+      row["groupId"],
+      row["createdBy"],
+      row["panName"] !== null ? row["panName"].toString() : null,
+      row["panDescription"],
+      details,
+      row["panFluor"] === null ? false : row["panFluor"],
+      row["panIsProduction"] === null ? false : row["panIsProduction"],
+      row["panApplication"],
+      row["deleted"] === null ? false : row["deleted"],
+    ];
+    await postgresPool.query(sql, values);
+  }
+}
+
 async function migrate() {
-  // await migrateGroup();
-  // await migrateUser();
-  // await migrateGroupUser();
-  // await migrateSpecies();
-  // await migrateTag();
-  // await migrateProvider();
-  // await migrateReagent();
-  // await migrateProtein();
-  // await migrateClone();
+  await migrateGroup();
+  await migrateUser();
+  await migrateGroupUser();
+  await migrateSpecies();
+  await migrateTag();
+  await migrateProvider();
+  await migrateReagent();
+  await migrateProtein();
+  await migrateClone();
   await migrateLot();
+  await migrateConjugate();
+  await migrateFile();
+  await migratePanel();
+
+  await postgresPool.query(
+    "SELECT 'SELECT setval(''public.' || c.relname || ''',' || ' (SELECT MAX(ID) FROM PUBLIC.' || REPLACE(c.relname,'_id_seq','') || '), true);' FROM pg_class c WHERE c.relkind = 'S' ORDER BY C.RELNAME;"
+  );
 }
 
 migrate();

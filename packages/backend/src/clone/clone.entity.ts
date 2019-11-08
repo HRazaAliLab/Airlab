@@ -4,103 +4,107 @@ import { ProteinEntity } from "../protein/protein.entity";
 import { SpeciesEntity } from "../species/species.entity";
 
 @Entity({
-  name: "tblClone",
+  name: "clone",
 })
 export class CloneEntity {
   @PrimaryGeneratedColumn({
-    name: "cloCloneId",
+    name: "id",
   })
   id: number;
 
   @Column({
-    name: "cloBindingRegion",
+    name: "group_id",
   })
-  bindingRegion: string;
+  groupId: number;
 
   @Column({
-    name: "cloEpitopeId",
-  })
-  epitopeId: number;
-
-  @Column({
-    name: "cloIsotype",
-  })
-  isotype: string;
-
-  @Column({
-    name: "cloIsPhospho",
-  })
-  isPhospho: boolean;
-
-  @Column({
-    name: "cloIsPolyclonal",
-  })
-  isPolyclonal: boolean;
-
-  @Column({
-    name: "cloName",
-  })
-  name: string;
-
-  @Column({
-    name: "cloProteinId",
-  })
-  proteinId: number;
-
-  @Column({
-    name: "cloSpeciesHost",
-  })
-  speciesHost: number;
-
-  @Column({
-    name: "cloPreferred",
-  })
-  preferred: number;
-
-  @Column({
-    name: "cloReactivity",
-  })
-  reactivity: string;
-
-  @Column({
-    name: "cloApplication",
-  })
-  application: string;
-
-  @Column({
-    name: "deleted",
-  })
-  deleted: boolean;
-
-  @Column({
-    name: "cloPublic",
-  })
-  public: boolean;
-
-  @Column({
-    name: "catchedInfo",
-  })
-  catchedInfo: string;
-
-  @Column({
-    name: "createdBy",
+    name: "created_by",
   })
   createdBy: number;
 
   @Column({
-    name: "groupId",
+    name: "protein_id",
   })
-  groupId: number;
+  proteinId: number;
 
-  @ManyToOne(type => GroupEntity, group => group.plates)
-  @JoinColumn({ name: "groupId" })
+  @Column({
+    name: "species_id",
+  })
+  speciesId: number;
+
+  @Column({
+    name: "name",
+  })
+  name: string;
+
+  @Column({
+    name: "isotype",
+  })
+  isotype: string;
+
+  @Column({
+    name: "region",
+  })
+  region: string;
+
+  @Column({
+    name: "is_phospho",
+  })
+  isPhospho: boolean;
+
+  @Column({
+    name: "is_polyclonal",
+  })
+  isPolyclonal: boolean;
+
+  @Column({
+    name: "reactivity",
+    type: "int",
+    array: true,
+  })
+  reactivity: number[];
+
+  @Column({
+    name: "application",
+    type: "jsonb",
+  })
+  application: object;
+
+  @Column({
+    name: "is_deleted",
+  })
+  isDeleted: boolean;
+
+  @Column({
+    name: "is_public",
+  })
+  isPublic: boolean;
+
+  @Column({
+    name: "meta",
+    type: "jsonb",
+  })
+  meta: object;
+
+  @Column({
+    name: "created_at",
+  })
+  createdAt: string;
+
+  @Column({
+    name: "updated_at",
+  })
+  updatedAt: string;
+
+  @ManyToOne(type => GroupEntity, group => group.clones)
+  @JoinColumn({ name: "group_id" })
   group: GroupEntity;
 
   @ManyToOne(type => ProteinEntity, protein => protein.clones)
-  @JoinColumn({ name: "cloProteinId" })
+  @JoinColumn({ name: "protein_id" })
   protein: ProteinEntity;
 
   @ManyToOne(type => SpeciesEntity)
-  @JoinColumn({ name: "cloSpeciesHost" })
-  hostSpecies: SpeciesEntity;
+  @JoinColumn({ name: "species_id" })
+  species: SpeciesEntity;
 }

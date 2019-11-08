@@ -8,23 +8,20 @@ export class GroupDto {
   @ApiModelProperty()
   readonly name: string;
 
-  @ApiModelProperty()
-  readonly createdBy: number;
-
-  @ApiModelProperty()
-  readonly acceptRequests: boolean;
-
   @ApiModelPropertyOptional()
   readonly institution: string;
 
   @ApiModelPropertyOptional()
-  readonly coordinates: string;
-
-  @ApiModelPropertyOptional()
-  readonly catchedInfo: string;
-
-  @ApiModelPropertyOptional()
   readonly url: string;
+
+  @ApiModelProperty()
+  readonly isOpen: boolean;
+
+  @ApiModelPropertyOptional()
+  readonly meta: object;
+
+  @ApiModelPropertyOptional()
+  readonly createdAt: string;
 }
 
 export class CreateGroupDto {
@@ -32,21 +29,17 @@ export class CreateGroupDto {
   @ApiModelProperty()
   readonly name: string;
 
-  @IsBoolean()
-  @ApiModelProperty()
-  readonly acceptRequests: boolean;
-
   @IsString()
   @ApiModelPropertyOptional()
   readonly institution: string;
 
-  @IsString()
-  @ApiModelPropertyOptional()
-  readonly coordinates: string;
-
   @IsUrl()
   @ApiModelPropertyOptional()
   readonly url: string;
+
+  @IsBoolean()
+  @ApiModelProperty()
+  readonly isOpen: boolean;
 }
 
 export class UpdateGroupDto {
@@ -54,21 +47,17 @@ export class UpdateGroupDto {
   @ApiModelProperty()
   readonly name: string;
 
-  @IsBoolean()
-  @ApiModelProperty()
-  readonly acceptRequests: boolean;
-
   @IsString()
   @ApiModelPropertyOptional()
   readonly institution: string;
 
-  @IsString()
-  @ApiModelPropertyOptional()
-  readonly coordinates: string;
-
   @IsUrl()
   @ApiModelPropertyOptional()
   readonly url: string;
+
+  @IsBoolean()
+  @ApiModelProperty()
+  readonly isOpen: boolean;
 }
 
 export class RequestJoinGroupDto {

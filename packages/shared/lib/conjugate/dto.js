@@ -19,32 +19,12 @@ __decorate([
 ], ConjugateDto.prototype, "id", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
-], ConjugateDto.prototype, "cellsUsedForValidation", void 0);
+    __metadata("design:type", Number)
+], ConjugateDto.prototype, "groupId", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
-], ConjugateDto.prototype, "concentration", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
-], ConjugateDto.prototype, "contributorId", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
-], ConjugateDto.prototype, "cytobankLink", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
-], ConjugateDto.prototype, "cytofStainingConc", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
-], ConjugateDto.prototype, "dateOfLabeling", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
-], ConjugateDto.prototype, "labbookRef", void 0);
+    __metadata("design:type", Number)
+], ConjugateDto.prototype, "createdBy", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Number)
@@ -55,48 +35,44 @@ __decorate([
 ], ConjugateDto.prototype, "tagId", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
-], ConjugateDto.prototype, "workingCondition", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
     __metadata("design:type", Number)
-], ConjugateDto.prototype, "bbTubeNumber", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Boolean)
-], ConjugateDto.prototype, "relabeled", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Number)
-], ConjugateDto.prototype, "tubPlaceId", void 0);
+], ConjugateDto.prototype, "finishedBy", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
-], ConjugateDto.prototype, "tubFinishedAt", void 0);
+], ConjugateDto.prototype, "finishedAt", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Number)
-], ConjugateDto.prototype, "tubFinishedBy", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Boolean)
-], ConjugateDto.prototype, "tubIsLow", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Boolean)
-], ConjugateDto.prototype, "deleted", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Number)
-], ConjugateDto.prototype, "groupId", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Number)
-], ConjugateDto.prototype, "createdBy", void 0);
+], ConjugateDto.prototype, "tubeNumber", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
-], ConjugateDto.prototype, "catchedInfo", void 0);
+], ConjugateDto.prototype, "concentration", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", String)
+], ConjugateDto.prototype, "description", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Boolean)
+], ConjugateDto.prototype, "isDeleted", void 0);
+__decorate([
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", Object)
+], ConjugateDto.prototype, "meta", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", String)
+], ConjugateDto.prototype, "labeledAt", void 0);
+__decorate([
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", String)
+], ConjugateDto.prototype, "createdAt", void 0);
+__decorate([
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", String)
+], ConjugateDto.prototype, "updatedAt", void 0);
 exports.ConjugateDto = ConjugateDto;
 class CreateConjugateDto {
 }
@@ -104,7 +80,7 @@ __decorate([
     class_validator_1.IsString(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
-], CreateConjugateDto.prototype, "workingCondition", void 0);
+], CreateConjugateDto.prototype, "description", void 0);
 exports.CreateConjugateDto = CreateConjugateDto;
 class UpdateConjugateDto {
 }
@@ -112,6 +88,6 @@ __decorate([
     class_validator_1.IsString(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
-], UpdateConjugateDto.prototype, "workingCondition", void 0);
+], UpdateConjugateDto.prototype, "description", void 0);
 exports.UpdateConjugateDto = UpdateConjugateDto;
 //# sourceMappingURL=dto.js.map

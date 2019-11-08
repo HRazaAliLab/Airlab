@@ -28,8 +28,8 @@
         }"
         multi-sort
       >
-        <template v-slot:item.isFluorphore="{ item }">
-          <v-icon v-if="item.isFluorphore">mdi-check</v-icon>
+        <template v-slot:item.isFluorophore="{ item }">
+          <v-icon v-if="item.isFluorophore">mdi-check</v-icon>
         </template>
         <template v-slot:item.isMetal="{ item }">
           <v-icon v-if="item.isMetal">mdi-check</v-icon>
@@ -93,9 +93,9 @@ export default class AdminTags extends Vue {
       align: "right",
     },
     {
-      text: "Fluorphore",
+      text: "Fluorophore",
       sortable: true,
-      value: "isFluorphore",
+      value: "isFluorophore",
       align: "left",
       filterable: false,
     },

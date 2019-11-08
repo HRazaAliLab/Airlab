@@ -3,64 +3,74 @@ import { GroupEntity } from "../group/group.entity";
 import { UserEntity } from "../user/user.entity";
 
 @Entity({
-  name: "tblZGroupPerson",
+  name: "group_user",
 })
 export class GroupUserEntity {
   @PrimaryGeneratedColumn({
-    name: "gpeGroupPersonId",
+    name: "id",
   })
   id: number;
 
   @Column({
-    name: "gpeGroupId",
+    name: "group_id",
   })
   groupId: number;
 
   @Column({
-    name: "gpePersonId",
+    name: "user_id",
   })
   userId: number;
 
   @Column({
-    name: "gpeRole",
+    name: "role",
   })
   role: number;
 
   @Column({
-    name: "gpeActiveInGroup",
+    name: "activation_key",
   })
-  activeInGroup: boolean;
+  activationKey: string;
 
   @Column({
-    name: "catchedInfo",
+    name: "is_active",
   })
-  catchedInfo: string;
+  isActive: boolean;
 
   @Column({
-    name: "gpeOrders",
+    name: "can_order",
   })
-  gpeOrders: boolean;
+  canOrder: boolean;
 
   @Column({
-    name: "gpeErase",
+    name: "can_erase",
   })
-  gpeErase: boolean;
+  canErase: boolean;
 
   @Column({
-    name: "gpeFinances",
+    name: "can_finances",
   })
-  gpeFinances: boolean;
+  canFinances: boolean;
 
   @Column({
-    name: "gpeAllPanels",
+    name: "can_panels",
   })
-  gpeAllPanels: boolean;
+  canPanels: boolean;
+
+  @Column({
+    name: "created_at",
+  })
+  createdAt: string;
+
+  @Column({
+    name: "updated_at",
+  })
+  updatedAt: string;
 
   @ManyToOne(type => GroupEntity, group => group.groupUsers)
-  @JoinColumn({ name: "gpeGroupId" })
+  @JoinColumn({ name: "group_id" })
   group!: GroupEntity;
 
   @ManyToOne(type => UserEntity, user => user.groupUsers)
-  @JoinColumn({ name: "gpePersonId" })
+  @JoinColumn({ name: "user_id" })
   user!: UserEntity;
 }

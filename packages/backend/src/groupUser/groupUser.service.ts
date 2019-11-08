@@ -24,7 +24,7 @@ export class GroupUserService {
     return this.groupUserRepository.save({
       groupId: groupId,
       userId: userId,
-      activeInGroup: false,
+      isActive: false,
       role: -1,
     });
   }

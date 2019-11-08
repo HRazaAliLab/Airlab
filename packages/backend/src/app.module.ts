@@ -10,21 +10,14 @@ import { GroupModule } from "./group/group.module";
 import { GroupUserModule } from "./groupUser/groupUser.module";
 import { UtilsModule } from "./utils/utils.module";
 import { ProteinModule } from "./protein/protein.module";
-import { PlateModule } from "./plate/plate.module";
-import { PlateWellModule } from "./plateWell/plateWell.module";
 import { ProviderModule } from "./provider/provider.module";
 import { SpeciesModule } from "./species/species.module";
 import { TagModule } from "./tag/tag.module";
-import { SpeciesProteinModule } from "./speciesProtein/speciesProtein.module";
 import { FileModule } from "./file/file.module";
 import { CloneModule } from "./clone/clone.module";
-import { CommercialReagentModule } from "./commercialReagent/commercialReagent.module";
+import { ReagentModule } from "./reagent/reagent.module";
 import { ConjugateModule } from "./conjugate/conjugate.module";
-import { ExperimentModule } from "./experiment/experiment.module";
-import { PlaceModule } from "./place/place.module";
-import { PartModule } from "./part/part.module";
-import { RecipeModule } from "./recipe/recipe.module";
-import { ReagentInstanceModule } from "./reagentInstance/reagentInstance.module";
+import { LotModule } from "./lot/lot.module";
 import { PanelModule } from "./panel/panel.module";
 
 @Module({
@@ -40,22 +33,15 @@ import { PanelModule } from "./panel/panel.module";
     AuthModule,
     UtilsModule,
     ProteinModule,
-    PlateModule,
-    PlateWellModule,
     ProviderModule,
     SpeciesModule,
     TagModule,
-    SpeciesProteinModule,
     FileModule,
     CloneModule,
-    CommercialReagentModule,
+    ReagentModule,
     ConjugateModule,
-    ExperimentModule,
     PanelModule,
-    PlaceModule,
-    PartModule,
-    RecipeModule,
-    ReagentInstanceModule,
+    LotModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -27,7 +27,7 @@ export class CreateGroup1573040974845 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: "accept_requests",
+            name: "is_open",
             type: "boolean",
             default: false,
           },

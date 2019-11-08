@@ -1,4 +1,4 @@
-import { IsBoolean, IsInt, IsString, IsUrl } from "class-validator";
+import { IsBoolean, IsEmail, IsInt, IsString, IsUrl } from "class-validator";
 import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 
 export class UserDto {
@@ -6,16 +6,19 @@ export class UserDto {
   readonly id: number;
 
   @ApiModelProperty()
-  readonly name: string;
-
-  @ApiModelProperty()
-  readonly lastName: string;
-
-  @ApiModelProperty()
   readonly email: string;
 
   @ApiModelProperty()
-  readonly active: boolean;
+  readonly name: string;
+
+  @ApiModelProperty()
+  readonly isActive: boolean;
+
+  @ApiModelProperty()
+  readonly createdAt: string;
+
+  @ApiModelProperty()
+  readonly updatedAt: string;
 }
 
 export class ProfileDto {
@@ -26,38 +29,27 @@ export class ProfileDto {
   readonly name: string;
 
   @ApiModelProperty()
-  readonly lastName: string;
-
-  @ApiModelProperty()
   readonly email: string;
 }
 
 export class UpdateProfileDto {
-  @IsString()
+  @IsEmail()
   @ApiModelProperty()
   readonly email: string;
 
   @IsString()
   @ApiModelProperty()
   readonly name: string;
-
-  @IsString()
-  @ApiModelProperty()
-  readonly lastName: string;
 }
 
 export class CreateUserDto {
-  @IsString()
+  @IsEmail()
   @ApiModelProperty()
   readonly email: string;
 
   @IsString()
   @ApiModelProperty()
   readonly name: string;
-
-  @IsString()
-  @ApiModelProperty()
-  readonly lastName: string;
 
   @IsString()
   @ApiModelProperty()
@@ -65,7 +57,7 @@ export class CreateUserDto {
 }
 
 export class UpdateUserDto {
-  @IsString()
+  @IsEmail()
   @ApiModelProperty()
   readonly email: string;
 
@@ -73,15 +65,11 @@ export class UpdateUserDto {
   @ApiModelProperty()
   readonly name: string;
 
-  @IsString()
-  @ApiModelProperty()
-  readonly lastName: string;
-
-  @IsString()
-  @ApiModelProperty()
-  readonly password: string;
-
   @IsBoolean()
   @ApiModelProperty()
-  readonly active: boolean;
+  readonly isActive: boolean;
+
+  @IsString()
+  @ApiModelPropertyOptional()
+  readonly password: string;
 }

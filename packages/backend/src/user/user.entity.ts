@@ -1,54 +1,61 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Exclude } from "class-transformer";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
-import { ConjugateEntity } from "../conjugate/conjugate.entity";
 
 @Entity({
-  name: "tblPerson",
+  name: "user",
 })
 export class UserEntity {
   @PrimaryGeneratedColumn({
-    name: "perPersonId",
+    name: "id",
   })
   id: number;
 
   @Column({
-    name: "perName",
+    name: "email",
+  })
+  email: string;
+
+  @Column({
+    name: "name",
   })
   name: string;
 
-  @Column({
-    name: "perLastname",
-  })
-  lastName: string;
-
   @Exclude()
   @Column({
-    name: "perPassword",
+    name: "password",
     select: false,
   })
   password: string;
 
   @Exclude()
   @Column({
-    name: "zetActivationKey",
+    name: "activation_key",
     select: false,
   })
   activationKey: string;
 
   @Column({
-    name: "perEmail",
+    name: "is_active",
   })
-  email: string;
+  isActive: boolean;
 
   @Column({
-    name: "zetActive",
+    name: "meta",
+    type: "jsonb",
   })
-  active: boolean;
+  meta: object;
+
+  @Column({
+    name: "created_at",
+  })
+  createdAt: string;
+
+  @Column({
+    name: "updated_at",
+  })
+  updatedAt: string;
 
   @OneToMany(type => GroupUserEntity, groupUser => groupUser.user)
   groupUsers!: GroupUserEntity[];
-
-  @OneToMany(type => ConjugateEntity, conjugate => conjugate.user)
-  conjugates: ConjugateEntity[];
 }

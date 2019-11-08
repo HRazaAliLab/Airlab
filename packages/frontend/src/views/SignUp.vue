@@ -28,13 +28,6 @@
                 />
                 <v-text-field
                   @keyup.enter="submit"
-                  type="text"
-                  label="Last Name"
-                  prepend-icon="mdi-account"
-                  v-model="lastName"
-                />
-                <v-text-field
-                  @keyup.enter="submit"
                   type="password"
                   ref="password"
                   label="Password"
@@ -91,7 +84,6 @@ export default class SignUp extends Vue {
   valid = true;
   email = "";
   name = "";
-  lastName = "";
   password1 = "";
   password2 = "";
   appName = appName;
@@ -99,7 +91,6 @@ export default class SignUp extends Vue {
   reset() {
     this.email = "";
     this.name = "";
-    this.lastName = "";
     this.password1 = "";
     this.password2 = "";
     (this.$refs.form as any).resetValidation();
@@ -112,7 +103,6 @@ export default class SignUp extends Vue {
         await this.userContext.actions.signUp({
           email: this.email,
           name: this.name,
-          lastName: this.lastName,
           password: this.password1,
         });
       }

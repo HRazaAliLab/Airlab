@@ -5,21 +5,14 @@ import { GroupEntity } from "../group/group.entity";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
 import * as SMTPConnection from "nodemailer/lib/smtp-connection";
 import { ProteinEntity } from "../protein/protein.entity";
-import { PlateEntity } from "../plate/plate.entity";
-import { PlateWellEntity } from "../plateWell/plateWell.entity";
 import { ProviderEntity } from "../provider/provider.entity";
 import { SpeciesEntity } from "../species/species.entity";
 import { TagEntity } from "../tag/tag.entity";
-import { SpeciesProteinEntity } from "../speciesProtein/speciesProtein.entity";
 import { FileEntity } from "../file/file.entity";
 import { CloneEntity } from "../clone/clone.entity";
-import { CommercialReagentEntity } from "../commercialReagent/commercialReagent.entity";
+import { ReagentEntity } from "../reagent/reagent.entity";
 import { ConjugateEntity } from "../conjugate/conjugate.entity";
-import { ExperimentEntity } from "../experiment/experiment.entity";
-import { PlaceEntity } from "../place/place.entity";
-import { PartEntity } from "../part/part.entity";
-import { RecipeEntity } from "../recipe/recipe.entity";
-import { ReagentInstanceEntity } from "../reagentInstance/reagentInstance.entity";
+import { LotEntity } from "../lot/lot.entity";
 import { PanelEntity } from "../panel/panel.entity";
 
 export class ConfigService {
@@ -57,22 +50,15 @@ export class ConfigService {
         GroupEntity,
         GroupUserEntity,
         ProteinEntity,
-        PlateEntity,
-        PlateWellEntity,
         ProviderEntity,
         SpeciesEntity,
         TagEntity,
-        SpeciesProteinEntity,
         FileEntity,
         CloneEntity,
-        CommercialReagentEntity,
+        ReagentEntity,
         ConjugateEntity,
-        ExperimentEntity,
         PanelEntity,
-        PlaceEntity,
-        PartEntity,
-        RecipeEntity,
-        ReagentInstanceEntity,
+        LotEntity,
       ],
 
       migrationsTableName: "migrations",

@@ -28,19 +28,19 @@ __decorate([
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Boolean)
-], TagDto.prototype, "isFluorphore", void 0);
+], TagDto.prototype, "isFluorophore", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Boolean)
 ], TagDto.prototype, "isMetal", void 0);
 __decorate([
     swagger_1.ApiModelPropertyOptional(),
-    __metadata("design:type", String)
-], TagDto.prototype, "emission", void 0);
+    __metadata("design:type", Object)
+], TagDto.prototype, "meta", void 0);
 __decorate([
     swagger_1.ApiModelPropertyOptional(),
     __metadata("design:type", String)
-], TagDto.prototype, "excitation", void 0);
+], TagDto.prototype, "createdAt", void 0);
 exports.TagDto = TagDto;
 class CreateTagDto {
 }
@@ -58,7 +58,7 @@ __decorate([
     class_validator_1.IsBoolean(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Boolean)
-], CreateTagDto.prototype, "isFluorphore", void 0);
+], CreateTagDto.prototype, "isFluorophore", void 0);
 __decorate([
     class_validator_1.IsBoolean(),
     swagger_1.ApiModelProperty(),
@@ -81,7 +81,7 @@ __decorate([
     class_validator_1.IsBoolean(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Boolean)
-], UpdateTagDto.prototype, "isFluorphore", void 0);
+], UpdateTagDto.prototype, "isFluorophore", void 0);
 __decorate([
     class_validator_1.IsBoolean(),
     swagger_1.ApiModelProperty(),

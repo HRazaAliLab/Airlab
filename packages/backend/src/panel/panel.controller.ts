@@ -42,7 +42,7 @@ export class PanelController {
   async getAllPanelsForGroup(@Request() req, @Param("groupId") groupId: number) {
     const user: JwtPayloadDto = req.user;
     const groupUser = await this.groupUserService.findByUserIdAndGroupId(user.userId, groupId);
-    return groupUser.gpeAllPanels
+    return groupUser.canPanels
       ? this.panelService.getAllPanelsForGroup(groupId)
       : this.panelService.getAllPanelsForGroupUser(groupUser.id);
   }

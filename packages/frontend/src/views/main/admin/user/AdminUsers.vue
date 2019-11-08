@@ -28,8 +28,8 @@
         }"
         multi-sort
       >
-        <template v-slot:item.active="{ item }">
-          <v-icon v-if="item.active">mdi-check</v-icon>
+        <template v-slot:item.isActive="{ item }">
+          <v-icon v-if="item.isActive">mdi-check</v-icon>
         </template>
         <template v-slot:item.action="{ item }">
           <v-tooltip bottom>
@@ -75,15 +75,9 @@ export default class AdminUsers extends Vue {
       align: "left",
     },
     {
-      text: "Last Name",
-      sortable: true,
-      value: "lastName",
-      align: "left",
-    },
-    {
       text: "Active",
       sortable: true,
-      value: "active",
+      value: "isActive",
       align: "left",
       filterable: false,
     },

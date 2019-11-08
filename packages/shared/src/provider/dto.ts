@@ -1,15 +1,24 @@
 import { IsString } from "class-validator";
-import { ApiModelProperty } from "@nestjs/swagger";
+import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 
 export class ProviderDto {
   @ApiModelProperty()
   readonly id: number;
 
   @ApiModelProperty()
-  readonly name: string;
+  readonly groupId: number;
 
   @ApiModelProperty()
-  readonly acronym: string;
+  readonly createdBy: number;
+
+  @ApiModelProperty()
+  readonly name: string;
+
+  @ApiModelPropertyOptional()
+  readonly meta: object;
+
+  @ApiModelPropertyOptional()
+  readonly createdAt: string;
 }
 
 export class CreateProviderDto {

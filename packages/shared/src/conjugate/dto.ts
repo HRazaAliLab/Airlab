@@ -1,60 +1,9 @@
 import { IsString } from "class-validator";
-import { ApiModelProperty } from "@nestjs/swagger";
+import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 
 export class ConjugateDto {
   @ApiModelProperty()
   readonly id: number;
-
-  @ApiModelProperty()
-  readonly cellsUsedForValidation: string;
-
-  @ApiModelProperty()
-  readonly concentration: string;
-
-  @ApiModelProperty()
-  readonly contributorId: string;
-
-  @ApiModelProperty()
-  readonly cytobankLink: string;
-
-  @ApiModelProperty()
-  readonly cytofStainingConc: string;
-
-  @ApiModelProperty()
-  readonly dateOfLabeling: string;
-
-  @ApiModelProperty()
-  readonly labbookRef: string;
-
-  @ApiModelProperty()
-  readonly lotId: number;
-
-  @ApiModelProperty()
-  readonly tagId: number;
-
-  @ApiModelProperty()
-  readonly workingCondition: string;
-
-  @ApiModelProperty()
-  readonly bbTubeNumber: number;
-
-  @ApiModelProperty()
-  readonly relabeled: boolean;
-
-  @ApiModelProperty()
-  readonly tubPlaceId: number;
-
-  @ApiModelProperty()
-  readonly tubFinishedAt: string;
-
-  @ApiModelProperty()
-  readonly tubFinishedBy: number;
-
-  @ApiModelProperty()
-  readonly tubIsLow: boolean;
-
-  @ApiModelProperty()
-  readonly deleted: boolean;
 
   @ApiModelProperty()
   readonly groupId: number;
@@ -63,17 +12,50 @@ export class ConjugateDto {
   readonly createdBy: number;
 
   @ApiModelProperty()
-  readonly catchedInfo: string;
+  readonly lotId: number;
+
+  @ApiModelProperty()
+  readonly tagId: number;
+
+  @ApiModelProperty()
+  readonly finishedBy: number;
+
+  @ApiModelProperty()
+  readonly finishedAt: string;
+
+  @ApiModelProperty()
+  readonly tubeNumber: number;
+
+  @ApiModelProperty()
+  readonly concentration: string;
+
+  @ApiModelProperty()
+  readonly description: string;
+
+  @ApiModelProperty()
+  readonly isDeleted: boolean;
+
+  @ApiModelPropertyOptional()
+  readonly meta: object;
+
+  @ApiModelProperty()
+  readonly labeledAt: string;
+
+  @ApiModelPropertyOptional()
+  readonly createdAt: string;
+
+  @ApiModelPropertyOptional()
+  readonly updatedAt: string;
 }
 
 export class CreateConjugateDto {
   @IsString()
   @ApiModelProperty()
-  readonly workingCondition: string;
+  readonly description: string;
 }
 
 export class UpdateConjugateDto {
   @IsString()
   @ApiModelProperty()
-  readonly workingCondition: string;
+  readonly description: string;
 }

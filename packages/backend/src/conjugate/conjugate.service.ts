@@ -35,9 +35,16 @@ export class ConjugateService {
   }
 
   async getAllConjugatesForGroup(userId: number) {
+    // return this.repository
+    //   .createQueryBuilder("conjugate")
+    //   .leftJoinAndSelect("conjugate.user", "user")
+    //   .leftJoinAndSelect("conjugate.tag", "tag")
+    //   .leftJoin(GroupUserEntity, "groupUser", "conjugate.groupId = groupUser.groupId")
+    //   .where("groupUser.userId = :userId", { userId: userId })
+    //   .orderBy({ "conjugate.labBBTubeNumber": "DESC" })
+    //   .getMany();
     return this.repository
       .createQueryBuilder("conjugate")
-      .leftJoinAndSelect("conjugate.user", "user")
       .leftJoinAndSelect("conjugate.tag", "tag")
       .leftJoin(GroupUserEntity, "groupUser", "conjugate.groupId = groupUser.groupId")
       .where("groupUser.userId = :userId", { userId: userId })
@@ -47,14 +54,14 @@ export class ConjugateService {
 
   async lastConjugateForGroup(groupId: number) {
     const entity = await this.repository.findOne({
-      select: ["bbTubeNumber"],
+      select: ["tubeNumber"],
       where: {
         groupId: groupId,
       },
       order: {
-        bbTubeNumber: "DESC",
+        tubeNumber: "DESC",
       },
     });
-    return entity.bbTubeNumber + 1;
+    return entity.tubeNumber + 1;
   }
 }

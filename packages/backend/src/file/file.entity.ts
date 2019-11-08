@@ -2,43 +2,18 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "t
 import { GroupEntity } from "../group/group.entity";
 
 @Entity({
-  name: "tblFile",
+  name: "file",
 })
 export class FileEntity {
   @PrimaryGeneratedColumn({
-    name: "filFileId",
+    name: "id",
   })
   id: number;
 
   @Column({
-    name: "filExtension",
+    name: "groupId",
   })
-  extension: string;
-
-  @Column({
-    name: "filHash",
-  })
-  hash: string;
-
-  @Column({
-    name: "filUrl",
-  })
-  url: string;
-
-  @Column({
-    name: "filPartId",
-  })
-  partId: number;
-
-  @Column({
-    name: "filSize",
-  })
-  size: number;
-
-  @Column({
-    name: "catchedInfo",
-  })
-  catchedInfo: string;
+  groupId: number;
 
   @Column({
     name: "createdBy",
@@ -46,13 +21,37 @@ export class FileEntity {
   createdBy: number;
 
   @Column({
-    name: "groupId",
+    name: "name",
   })
-  groupId: number;
+  name: string;
 
-  @ManyToOne(type => GroupEntity, group => group.plates, {
-    eager: false,
+  @Column({
+    name: "extension",
   })
-  @JoinColumn({ name: "groupId" })
+  extension: string;
+
+  @Column({
+    name: "size",
+  })
+  size: number;
+
+  @Column({
+    name: "hash",
+  })
+  hash: string;
+
+  @Column({
+    name: "meta",
+    type: "jsonb",
+  })
+  meta: object;
+
+  @Column({
+    name: "created_at",
+  })
+  createdAt: string;
+
+  @ManyToOne(type => GroupEntity, group => group.files)
+  @JoinColumn({ name: "group_id" })
   group: GroupEntity;
 }

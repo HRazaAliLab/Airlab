@@ -19,16 +19,32 @@ __decorate([
 ], CloneDto.prototype, "id", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
-], CloneDto.prototype, "bindingRegion", void 0);
+    __metadata("design:type", Number)
+], CloneDto.prototype, "groupId", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Number)
-], CloneDto.prototype, "epitopeId", void 0);
+], CloneDto.prototype, "createdBy", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], CloneDto.prototype, "proteinId", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], CloneDto.prototype, "speciesId", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", String)
+], CloneDto.prototype, "name", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], CloneDto.prototype, "isotype", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", String)
+], CloneDto.prototype, "region", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Boolean)
@@ -39,44 +55,32 @@ __decorate([
 ], CloneDto.prototype, "isPolyclonal", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
+    __metadata("design:type", Array)
 ], CloneDto.prototype, "reactivity", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], CloneDto.prototype, "application", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
-], CloneDto.prototype, "name", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Number)
-], CloneDto.prototype, "proteinId", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Number)
-], CloneDto.prototype, "speciesHost", void 0);
+    __metadata("design:type", Boolean)
+], CloneDto.prototype, "isDeleted", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Boolean)
-], CloneDto.prototype, "public", void 0);
+], CloneDto.prototype, "isPublic", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Boolean)
-], CloneDto.prototype, "preferred", void 0);
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", Object)
+], CloneDto.prototype, "meta", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Number)
-], CloneDto.prototype, "groupId", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Number)
-], CloneDto.prototype, "createdBy", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiModelPropertyOptional(),
     __metadata("design:type", String)
-], CloneDto.prototype, "catchedInfo", void 0);
+], CloneDto.prototype, "createdAt", void 0);
+__decorate([
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", String)
+], CloneDto.prototype, "updatedAt", void 0);
 exports.CloneDto = CloneDto;
 class CreateCloneDto {
 }
@@ -85,46 +89,6 @@ __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], CreateCloneDto.prototype, "name", void 0);
-__decorate([
-    class_validator_1.IsInt(),
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Number)
-], CreateCloneDto.prototype, "proteinId", void 0);
-__decorate([
-    class_validator_1.IsString(),
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
-], CreateCloneDto.prototype, "bindingRegion", void 0);
-__decorate([
-    class_validator_1.IsString(),
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
-], CreateCloneDto.prototype, "isotype", void 0);
-__decorate([
-    class_validator_1.IsBoolean(),
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Boolean)
-], CreateCloneDto.prototype, "isPhospho", void 0);
-__decorate([
-    class_validator_1.IsBoolean(),
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Boolean)
-], CreateCloneDto.prototype, "isPolyclonal", void 0);
-__decorate([
-    class_validator_1.IsInt(),
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Number)
-], CreateCloneDto.prototype, "speciesHost", void 0);
-__decorate([
-    class_validator_1.IsJSON(),
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Object)
-], CreateCloneDto.prototype, "reactivity", void 0);
-__decorate([
-    class_validator_1.IsJSON(),
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Object)
-], CreateCloneDto.prototype, "application", void 0);
 exports.CreateCloneDto = CreateCloneDto;
 class UpdateCloneDto {
 }

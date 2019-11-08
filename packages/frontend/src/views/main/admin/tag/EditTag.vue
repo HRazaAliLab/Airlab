@@ -9,7 +9,7 @@
           <v-form v-model="valid" ref="form" lazy-validation>
             <v-text-field label="Name" v-model="name" :rules="nameRules" />
             <v-text-field label="MW" v-model="mw" :rules="mwRules" />
-            <v-checkbox label="Fluorphore" v-model="isFluorphore" />
+            <v-checkbox label="Fluorophore" v-model="isFluorophore" />
             <v-checkbox label="Metal" v-model="isMetal" />
           </v-form>
         </template>
@@ -42,7 +42,7 @@ export default class EditTag extends Vue {
   valid = true;
   name = "";
   mw = "";
-  isFluorphore = false;
+  isFluorophore = false;
   isMetal = false;
 
   get tag() {
@@ -57,7 +57,7 @@ export default class EditTag extends Vue {
   reset() {
     this.name = "";
     this.mw = "";
-    this.isFluorphore = false;
+    this.isFluorophore = false;
     this.isMetal = false;
     if (this.$refs.form) {
       (this.$refs.form as any).resetValidation();
@@ -65,7 +65,7 @@ export default class EditTag extends Vue {
     if (this.tag) {
       this.name = this.tag.name;
       this.mw = this.tag.mw;
-      this.isFluorphore = this.tag.isFluorphore;
+      this.isFluorophore = this.tag.isFluorophore;
       this.isMetal = this.tag.isMetal;
     }
   }
@@ -79,7 +79,7 @@ export default class EditTag extends Vue {
       const data: UpdateTagDto = {
         name: this.name,
         mw: this.mw,
-        isFluorphore: this.isFluorphore,
+        isFluorophore: this.isFluorophore,
         isMetal: this.isMetal,
       };
       await this.tagContext.actions.updateTag({

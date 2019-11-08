@@ -16,7 +16,7 @@ import {
 import { JwtPayloadDto } from "@airlab/shared/lib/auth/dto";
 import { CreateUserDto, ProfileDto, UpdateProfileDto, UpdateUserDto, UserDto } from "@airlab/shared/lib/user/dto";
 import { GroupDto } from "@airlab/shared/lib/group/dto";
-import { ReagentInstanceDto } from "@airlab/shared/lib/reagentInstance/dto";
+import { LotDto } from "@airlab/shared/lib/lot/dto";
 
 @ApiUseTags("user")
 @Controller("user")
@@ -71,7 +71,7 @@ export class UserController {
   }
 
   @Get(":userId/lots")
-  @ApiCreatedResponse({ description: "Find all lots for the user.", type: ReagentInstanceDto, isArray: true })
+  @ApiCreatedResponse({ description: "Find all lots for the user.", type: LotDto, isArray: true })
   getAllLotsForUser(@Param("userId") userId: number) {
     return this.userService.getAllLotsForUser(userId);
   }

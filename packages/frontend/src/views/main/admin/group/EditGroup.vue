@@ -9,9 +9,8 @@
           <v-form v-model="valid" ref="form" lazy-validation>
             <v-text-field label="Name" v-model="name" :rules="nameRules" />
             <v-text-field label="Institution" v-model="institution" />
-            <v-text-field label="Coordinates" v-model="coordinates" />
             <v-text-field label="URL" v-model="url" />
-            <v-checkbox label="Accept Requests" v-model="acceptRequests" />
+            <v-checkbox label="Open" v-model="isOpen" />
           </v-form>
         </template>
       </v-card-text>
@@ -42,9 +41,8 @@ export default class EditGroup extends Vue {
   valid = true;
   name = "";
   institution = "";
-  coordinates = "";
   url = "";
-  acceptRequests = false;
+  isOpen = false;
 
   get group() {
     return this.groupContext.getters.getGroup(+this.$router.currentRoute.params.id);
@@ -58,18 +56,16 @@ export default class EditGroup extends Vue {
   reset() {
     this.name = "";
     this.institution = "";
-    this.coordinates = "";
     this.url = "";
-    this.acceptRequests = false;
+    this.isOpen = false;
     if (this.$refs.form) {
       (this.$refs.form as any).resetValidation();
     }
     if (this.group) {
       this.name = this.group.name;
       this.institution = this.group.institution;
-      this.coordinates = this.group.coordinates;
       this.url = this.group.url;
-      this.acceptRequests = this.group.acceptRequests;
+      this.isOpen = this.group.isOpen;
     }
   }
 
@@ -82,9 +78,8 @@ export default class EditGroup extends Vue {
       const data: UpdateGroupDto = {
         name: this.name,
         institution: this.institution,
-        coordinates: this.coordinates,
         url: this.url,
-        acceptRequests: this.acceptRequests,
+        isOpen: this.isOpen,
       };
       await this.groupContext.actions.updateGroup({
         id: this.group!.id,

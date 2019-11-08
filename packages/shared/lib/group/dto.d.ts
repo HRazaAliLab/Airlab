@@ -1,26 +1,23 @@
 export declare class GroupDto {
     readonly id: number;
     readonly name: string;
-    readonly createdBy: number;
-    readonly acceptRequests: boolean;
     readonly institution: string;
-    readonly coordinates: string;
-    readonly catchedInfo: string;
     readonly url: string;
+    readonly isOpen: boolean;
+    readonly meta: object;
+    readonly createdAt: string;
 }
 export declare class CreateGroupDto {
     readonly name: string;
-    readonly acceptRequests: boolean;
     readonly institution: string;
-    readonly coordinates: string;
     readonly url: string;
+    readonly isOpen: boolean;
 }
 export declare class UpdateGroupDto {
     readonly name: string;
-    readonly acceptRequests: boolean;
     readonly institution: string;
-    readonly coordinates: string;
     readonly url: string;
+    readonly isOpen: boolean;
 }
 export declare class RequestJoinGroupDto {
     readonly groupId: number;

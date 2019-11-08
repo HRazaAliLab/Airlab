@@ -12,16 +12,16 @@ export class TagDto {
   readonly mw: string;
 
   @ApiModelProperty()
-  readonly isFluorphore: boolean;
+  readonly isFluorophore: boolean;
 
   @ApiModelProperty()
   readonly isMetal: boolean;
 
   @ApiModelPropertyOptional()
-  readonly emission: string;
+  readonly meta: object;
 
   @ApiModelPropertyOptional()
-  readonly excitation: string;
+  readonly createdAt: string;
 }
 
 export class CreateTagDto {
@@ -35,7 +35,7 @@ export class CreateTagDto {
 
   @IsBoolean()
   @ApiModelProperty()
-  readonly isFluorphore: boolean;
+  readonly isFluorophore: boolean;
 
   @IsBoolean()
   @ApiModelProperty()
@@ -53,7 +53,7 @@ export class UpdateTagDto {
 
   @IsBoolean()
   @ApiModelProperty()
-  readonly isFluorphore: boolean;
+  readonly isFluorophore: boolean;
 
   @IsBoolean()
   @ApiModelProperty()

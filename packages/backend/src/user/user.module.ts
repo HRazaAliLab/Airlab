@@ -5,10 +5,10 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserEntity } from "./user.entity";
 import { GroupEntity } from "../group/group.entity";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
-import { ReagentInstanceEntity } from "../reagentInstance/reagentInstance.entity";
+import { LotEntity } from "../lot/lot.entity";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity, GroupEntity, GroupUserEntity, ReagentInstanceEntity])],
+  imports: [TypeOrmModule.forFeature([UserEntity, GroupEntity, GroupUserEntity, LotEntity])],
   providers: [UserService],
   controllers: [UserController],
   exports: [UserService],

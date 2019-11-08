@@ -6,52 +6,29 @@ export class ProteinDto {
   readonly id: number;
 
   @ApiModelProperty()
-  readonly name: string;
+  readonly groupId: number;
 
   @ApiModelProperty()
   readonly createdBy: number;
 
   @ApiModelProperty()
-  readonly groupId: number;
+  readonly name: string;
 
   @ApiModelPropertyOptional()
-  readonly description: string;
+  readonly meta: object;
 
   @ApiModelPropertyOptional()
-  readonly kd: number;
-
-  @ApiModelPropertyOptional()
-  readonly catchedInfo: string;
-
-  @ApiModelPropertyOptional()
-  readonly proNcbiGeneId: string;
-
-  @ApiModelPropertyOptional()
-  readonly proSwissDbId: string;
-
-  @ApiModelPropertyOptional()
-  readonly openBisPermId: string;
-
-  @ApiModelPropertyOptional()
-  readonly openBisCode: string;
+  readonly createdAt: string;
 }
 
 export class CreateProteinDto {
   @IsString()
   @ApiModelProperty()
   readonly name: string;
-
-  @IsString()
-  @ApiModelPropertyOptional()
-  readonly description: string;
 }
 
 export class UpdateProteinDto {
   @IsString()
   @ApiModelProperty()
   readonly name: string;
-
-  @IsString()
-  @ApiModelPropertyOptional()
-  readonly description: string;
 }

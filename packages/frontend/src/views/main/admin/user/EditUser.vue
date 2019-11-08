@@ -8,9 +8,8 @@
         <template>
           <v-form v-model="valid" ref="form">
             <v-text-field label="Name" v-model="name" />
-            <v-text-field label="Last Name" v-model="lastName" />
             <v-text-field label="E-mail" type="email" v-model="email" :rules="emailRules" />
-            <v-checkbox label="Active" v-model="active" />
+            <v-checkbox label="Active" v-model="isActive" />
             <v-row align="center">
               <v-col class="shrink">
                 <v-checkbox v-model="setPassword" />
@@ -74,9 +73,8 @@ export default class EditUser extends Vue {
 
   valid = true;
   name = "";
-  lastName = "";
   email = "";
-  active = false;
+  isActive = false;
   setPassword = false;
   password1 = "";
   password2 = "";
@@ -93,8 +91,7 @@ export default class EditUser extends Vue {
     if (this.user) {
       this.email = this.user.email;
       this.name = this.user.name;
-      this.lastName = this.user.lastName;
-      this.active = this.user.active;
+      this.isActive = this.user.isActive;
     }
     if (this.$refs.form) {
       (this.$refs.form as any).resetValidation();
@@ -110,9 +107,8 @@ export default class EditUser extends Vue {
       const data: UpdateUserDto = {
         email: this.email,
         name: this.name,
-        lastName: this.lastName,
         password: this.password1,
-        active: this.active,
+        isActive: this.isActive,
       };
       await this.userContext.actions.updateUser({
         id: this.user!.id,

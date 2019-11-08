@@ -20,6 +20,10 @@ __decorate([
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Number)
+], PanelDto.prototype, "groupId", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
 ], PanelDto.prototype, "createdBy", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
@@ -27,28 +31,36 @@ __decorate([
 ], PanelDto.prototype, "name", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
-    __metadata("design:type", Boolean)
-], PanelDto.prototype, "fluor", void 0);
+    __metadata("design:type", String)
+], PanelDto.prototype, "description", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Object)
+], PanelDto.prototype, "details", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Boolean)
-], PanelDto.prototype, "application", void 0);
+], PanelDto.prototype, "isFluor", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Boolean)
 ], PanelDto.prototype, "isProduction", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
-], PanelDto.prototype, "description", void 0);
+    __metadata("design:type", Number)
+], PanelDto.prototype, "application", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Object)
+], PanelDto.prototype, "meta", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Boolean)
+], PanelDto.prototype, "isDeleted", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
-], PanelDto.prototype, "details", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
-], PanelDto.prototype, "catchedInfo", void 0);
+], PanelDto.prototype, "createdAt", void 0);
 exports.PanelDto = PanelDto;
 class CreatePanelDto {
 }

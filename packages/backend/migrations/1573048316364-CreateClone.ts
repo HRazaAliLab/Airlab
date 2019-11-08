@@ -65,12 +65,12 @@ export class CreateClone1573048316364 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: "deleted",
+            name: "is_deleted",
             type: "boolean",
             default: false,
           },
           {
-            name: "public",
+            name: "is_public",
             type: "boolean",
             default: false,
           },

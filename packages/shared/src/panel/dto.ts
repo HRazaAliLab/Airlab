@@ -6,28 +6,37 @@ export class PanelDto {
   readonly id: number;
 
   @ApiModelProperty()
+  readonly groupId: number;
+
+  @ApiModelProperty()
   readonly createdBy: number;
 
   @ApiModelProperty()
   readonly name: string;
 
   @ApiModelProperty()
-  readonly fluor: boolean;
+  readonly description: string;
 
   @ApiModelProperty()
-  readonly application: boolean;
+  readonly details: object;
+
+  @ApiModelProperty()
+  readonly isFluor: boolean;
 
   @ApiModelProperty()
   readonly isProduction: boolean;
 
   @ApiModelProperty()
-  readonly description: string;
+  readonly application: number;
 
   @ApiModelProperty()
-  readonly details: string;
+  readonly meta: object;
 
   @ApiModelProperty()
-  readonly catchedInfo: string;
+  readonly isDeleted: boolean;
+
+  @ApiModelProperty()
+  readonly createdAt: string;
 }
 
 export class CreatePanelDto {

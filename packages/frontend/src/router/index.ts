@@ -118,14 +118,6 @@ export default new Router({
                   component: () =>
                     import(/* webpackChunkName: "main-group-lots" */ "@/views/main/group/lots/LotsView.vue"),
                 },
-                {
-                  path: "antibodies",
-                  name: "main-group-antibodies",
-                  component: () =>
-                    import(
-                      /* webpackChunkName: "main-group-antibodies" */ "@/views/main/group/antibodies/AntibodiesView.vue"
-                    ),
-                },
               ],
             },
             {
