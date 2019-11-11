@@ -14,6 +14,8 @@ import { cloneModule } from "@/modules/clone";
 import { proteinModule } from "@/modules/protein";
 import { conjugateModule } from "@/modules/conjugate";
 import { panelModule } from "@/modules/panel";
+import { providerModule } from "@/modules/provider";
+import { reagentModule } from "@/modules/reagent";
 
 Vue.use(Vuex);
 
@@ -26,10 +28,12 @@ const rootModule = new Module({
     group: groupModule,
     tag: tagModule,
     protein: proteinModule,
+    reagent: reagentModule,
     clone: cloneModule,
     conjugate: conjugateModule,
     panel: panelModule,
     species: speciesModule,
+    provider: providerModule,
     settings: settingsModule,
   },
 });

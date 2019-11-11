@@ -31,6 +31,10 @@ __decorate([
 ], UserDto.prototype, "isActive", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
+    __metadata("design:type", Boolean)
+], UserDto.prototype, "isAdmin", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], UserDto.prototype, "createdAt", void 0);
 __decorate([
@@ -52,6 +56,10 @@ __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], ProfileDto.prototype, "email", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Boolean)
+], ProfileDto.prototype, "isAdmin", void 0);
 exports.ProfileDto = ProfileDto;
 class UpdateProfileDto {
 }
@@ -101,6 +109,11 @@ __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Boolean)
 ], UpdateUserDto.prototype, "isActive", void 0);
+__decorate([
+    class_validator_1.IsBoolean(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Boolean)
+], UpdateUserDto.prototype, "isAdmin", void 0);
 __decorate([
     class_validator_1.IsString(),
     swagger_1.ApiModelPropertyOptional(),

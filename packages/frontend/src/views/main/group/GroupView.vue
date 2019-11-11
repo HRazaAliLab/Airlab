@@ -25,10 +25,6 @@ export default class GroupView extends Vue {
     return this.groupContext.getters.activeGroup;
   }
 
-  get showWorkspace() {
-    return this.mainContext.getters.showWorkspace;
-  }
-
   async mounted() {
     const groupId = parseInt(this.$router.currentRoute.params.groupId, 10);
     this.groupContext.mutations.setActiveGroupId(groupId);

@@ -30,6 +30,7 @@ export class ProteinService {
 
   async getAllProteinsForGroup(groupId: number) {
     return this.repository.find({
+      // select: ["id", "name", "description"],
       where: {
         groupId: groupId,
       },

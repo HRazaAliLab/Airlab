@@ -6,12 +6,6 @@ export class ProviderDto {
   readonly id: number;
 
   @ApiModelProperty()
-  readonly groupId: number;
-
-  @ApiModelProperty()
-  readonly createdBy: number;
-
-  @ApiModelProperty()
   readonly name: string;
 
   @ApiModelPropertyOptional()

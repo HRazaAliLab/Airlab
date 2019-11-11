@@ -1,5 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { GroupEntity } from "../group/group.entity";
+import { GroupUserEntity } from "../groupUser/groupUser.entity";
+import { ProviderEntity } from "../provider/provider.entity";
 
 @Entity({
   name: "reagent",
@@ -54,4 +56,12 @@ export class ReagentEntity {
   @ManyToOne(type => GroupEntity, group => group.reagents)
   @JoinColumn({ name: "group_id" })
   group: GroupEntity;
+
+  @ManyToOne(type => GroupUserEntity)
+  @JoinColumn({ name: "created_by" })
+  groupUser: GroupUserEntity;
+
+  @ManyToOne(type => ProviderEntity)
+  @JoinColumn({ name: "provider_id" })
+  provider: ProviderEntity;
 }

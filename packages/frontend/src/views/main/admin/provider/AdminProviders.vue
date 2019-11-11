@@ -2,11 +2,11 @@
   <v-col>
     <v-toolbar class="toolbar">
       <v-toolbar-title>
-        Manage Users
+        Manage Providers
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text to="/main/admin/user/create">Create User</v-btn>
+        <v-btn text to="/main/admin/species/create">Create Provider</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -28,20 +28,29 @@
         }"
         multi-sort
       >
-        <template v-slot:item.isActive="{ item }">
-          <v-icon v-if="item.isActive">mdi-check</v-icon>
-        </template>
-        <template v-slot:item.isAdmin="{ item }">
-          <v-icon v-if="item.isAdmin">mdi-check</v-icon>
-        </template>
         <template v-slot:item.action="{ item }">
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon :to="{ name: 'main-admin-user-edit', params: { id: item.id } }">
+              <v-btn
+                v-on="on"
+                icon
+                :to="{
+                  name: 'main-admin-provider-edit',
+                  params: { id: item.id },
+                }"
+              >
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
             </template>
             <span>Edit</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn v-on="on" icon @click="deleteProvider($event, item.id)">
+                <v-icon color="red accent-1">mdi-delete</v-icon>
+              </v-btn>
+            </template>
+            <span>Delete</span>
           </v-tooltip>
         </template>
       </v-data-table>
@@ -50,12 +59,12 @@
 </template>
 
 <script lang="ts">
-import { userModule } from "@/modules/user";
 import { Component, Vue } from "vue-property-decorator";
+import { providerModule } from "@/modules/provider";
 
 @Component
-export default class AdminUsers extends Vue {
-  readonly userContext = userModule.context(this.$store);
+export default class AdminProviders extends Vue {
+  readonly providerContext = providerModule.context(this.$store);
 
   readonly headers = [
     {
@@ -67,50 +76,34 @@ export default class AdminUsers extends Vue {
       width: "80",
     },
     {
-      text: "Email",
-      sortable: true,
-      value: "email",
-      align: "left",
-    },
-    {
       text: "Name",
       sortable: true,
       value: "name",
       align: "left",
     },
     {
-      text: "Active",
-      sortable: true,
-      value: "isActive",
-      align: "left",
-      filterable: false,
-      width: "110",
-    },
-    {
-      text: "Admin",
-      sortable: true,
-      value: "isAdmin",
-      align: "left",
-      filterable: false,
-      width: "110",
-    },
-    {
       text: "Actions",
       value: "action",
       sortable: false,
       filterable: false,
-      width: "70",
+      width: "110",
     },
   ];
 
   search = "";
 
   get items() {
-    return this.userContext.getters.users;
+    return this.providerContext.getters.providers;
   }
 
   async mounted() {
-    await this.userContext.actions.getUsers();
+    await this.providerContext.actions.getProviders();
+  }
+
+  async deleteProvider(event, id: number) {
+    if (self.confirm("Are you sure you want to delete the provider?")) {
+      await this.providerContext.actions.deleteProvider(id);
+    }
   }
 }
 </script>

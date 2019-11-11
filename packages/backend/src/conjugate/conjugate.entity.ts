@@ -1,5 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { GroupEntity } from "../group/group.entity";
+import { TagEntity } from "../tag/tag.entity";
+import { GroupUserEntity } from "../groupUser/groupUser.entity";
 
 @Entity({
   name: "conjugate",
@@ -84,4 +86,12 @@ export class ConjugateEntity {
   @ManyToOne(type => GroupEntity, group => group.conjugates)
   @JoinColumn({ name: "group_id" })
   group: GroupEntity;
+
+  @ManyToOne(type => GroupUserEntity)
+  @JoinColumn({ name: "created_by" })
+  groupUser: GroupUserEntity;
+
+  @ManyToOne(type => TagEntity)
+  @JoinColumn({ name: "tag_id" })
+  tag: TagEntity;
 }

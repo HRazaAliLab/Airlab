@@ -19,14 +19,6 @@ __decorate([
 ], ProviderDto.prototype, "id", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
-    __metadata("design:type", Number)
-], ProviderDto.prototype, "groupId", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", Number)
-], ProviderDto.prototype, "createdBy", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], ProviderDto.prototype, "name", void 0);
 __decorate([

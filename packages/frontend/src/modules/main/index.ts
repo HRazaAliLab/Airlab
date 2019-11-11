@@ -13,8 +13,6 @@ export class MainState {
   dashboardMiniDrawer = false;
   dashboardShowDrawer = true;
   notifications: AppNotification[] = [];
-  showWorkspace = true;
-  showOptions = true;
 
   processing = false;
   processingProgress = 0;

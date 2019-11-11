@@ -27,6 +27,11 @@ export class ProteinEntity {
   name: string;
 
   @Column({
+    name: "description",
+  })
+  description: string;
+
+  @Column({
     name: "meta",
     type: "jsonb",
   })

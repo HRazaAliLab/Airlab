@@ -27,9 +27,9 @@ async function migrateGroup() {
   const input = await mysqlPool.query("SELECT * FROM tblGroup");
   for (row of input[0]) {
     console.log(row);
-    // if (row["grpGroupId"] !== 2) {
-    //   continue;
-    // }
+    if (row["grpGroupId"] !== 2) {
+      continue;
+    }
     const sql = 'INSERT INTO "group"(id, name, institution, url, is_open) VALUES($1, $2, $3, $4, $5)';
     const values = [
       row["grpGroupId"],
@@ -66,9 +66,9 @@ async function migrateGroupUser() {
   const input = await mysqlPool.query("SELECT * FROM tblZGroupPerson");
   for (row of input[0]) {
     console.log(row);
-    // if (row["gpeGroupId"] !== 2) {
-    //   continue;
-    // }
+    if (row["gpeGroupId"] !== 2) {
+      continue;
+    }
     const sql =
       'INSERT INTO "group_user"(id, group_id, user_id, role, activation_key, is_active, can_order, can_erase, can_finances, can_panels) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)';
     const values = [
@@ -123,14 +123,11 @@ async function migrateProvider() {
   const input = await mysqlPool.query("SELECT * FROM tblProvider");
   for (row of input[0]) {
     console.log(row);
-    // if (row["groupId"] !== 2) {
-    //   continue;
-    // }
     if ([87, 97].includes(row["proProviderId"])) {
       continue;
     }
-    const sql = 'INSERT INTO "provider"(id, group_id, created_by, name) VALUES($1, $2, $3, $4)';
-    const values = [row["proProviderId"], row["groupId"], row["createdBy"], row["proName"]];
+    const sql = 'INSERT INTO "provider"(id, name) VALUES($1, $2)';
+    const values = [row["proProviderId"], row["proName"]];
     await postgresPool.query(sql, values);
   }
   await postgresPool.query("SELECT setval('public.provider_id_seq', (SELECT MAX(id) FROM public.provider), true);");
@@ -190,12 +187,13 @@ async function migrateProtein() {
     if (row["groupId"] !== 2) {
       continue;
     }
-    const sql = 'INSERT INTO "protein"(id, group_id, created_by, name) VALUES($1, $2, $3, $4)';
+    const sql = 'INSERT INTO "protein"(id, group_id, created_by, name, description) VALUES($1, $2, $3, $4, $5)';
     const values = [
       row["proProteinId"],
       [0, 21].includes(row["groupId"]) ? 2 : row["groupId"],
       [0].includes(row["createdBy"]) ? 5 : row["createdBy"],
       row["proName"],
+      row["proDescription"] === "" || row["proDescription"] === "0" ? null : row["proDescription"],
     ];
     await postgresPool.query(sql, values);
   }

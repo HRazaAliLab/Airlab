@@ -1,4 +1,4 @@
-import { IsBoolean, IsString } from "class-validator";
+import { IsBoolean, IsInt, IsString } from "class-validator";
 import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 
 export class ReagentDto {
@@ -31,6 +31,14 @@ export class ReagentDto {
 }
 
 export class CreateReagentDto {
+  @IsInt()
+  @ApiModelProperty()
+  readonly groupId: number;
+
+  @IsInt()
+  @ApiModelProperty()
+  readonly providerId: number;
+
   @IsString()
   @ApiModelProperty()
   readonly name: string;
@@ -41,6 +49,10 @@ export class CreateReagentDto {
 }
 
 export class UpdateReagentDto {
+  @IsInt()
+  @ApiModelProperty()
+  readonly providerId: number;
+
   @IsString()
   @ApiModelProperty()
   readonly name: string;

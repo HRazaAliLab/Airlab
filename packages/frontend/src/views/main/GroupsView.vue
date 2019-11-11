@@ -27,7 +27,7 @@ import { groupModule } from "@/modules/group";
 @Component({
   components: { GroupCard },
 })
-export default class Dashboard extends Vue {
+export default class GroupsView extends Vue {
   mainContext = mainModule.context(this.$store);
   groupContext = groupModule.context(this.$store);
 

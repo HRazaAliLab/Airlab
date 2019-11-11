@@ -73,6 +73,7 @@ export default class AdminSpecies extends Vue {
       value: "id",
       align: "right",
       filterable: false,
+      width: "80",
     },
     {
       text: "Name",
@@ -91,6 +92,7 @@ export default class AdminSpecies extends Vue {
       value: "action",
       sortable: false,
       filterable: false,
+      width: "110",
     },
   ];
 

@@ -36,14 +36,6 @@ export class MainGetters extends Getters<MainState> {
     return this.state.notifications.length > 0 && this.state.notifications[0];
   }
 
-  get showWorkspace() {
-    return this.state.showWorkspace;
-  }
-
-  get showOptions() {
-    return this.state.showOptions;
-  }
-
   get processing() {
     return this.state.processing;
   }

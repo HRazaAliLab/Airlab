@@ -76,6 +76,7 @@ export default class AdminGroups extends Vue {
       value: "id",
       align: "right",
       filterable: false,
+      width: "80",
     },
     {
       text: "Name",
@@ -95,12 +96,14 @@ export default class AdminGroups extends Vue {
       value: "isOpen",
       align: "left",
       filterable: false,
+      width: "100",
     },
     {
       text: "Actions",
       value: "action",
       sortable: false,
       filterable: false,
+      width: "110",
     },
   ];
 

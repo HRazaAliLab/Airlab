@@ -53,9 +53,6 @@ export class GroupEntity {
   @OneToMany(type => ProteinEntity, protein => protein.group)
   proteins: ProteinEntity[];
 
-  @OneToMany(type => ProviderEntity, provider => provider.group)
-  providers: ProviderEntity[];
-
   @OneToMany(type => ReagentEntity, reagent => reagent.group)
   reagents: ReagentEntity[];
 

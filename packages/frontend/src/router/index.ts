@@ -39,8 +39,9 @@ export default new Router({
           component: () => import(/* webpackChunkName: "main" */ "@/views/main/Main.vue"),
           children: [
             {
-              path: "dashboard",
-              component: () => import(/* webpackChunkName: "main-dashboard" */ "@/views/main/Dashboard.vue"),
+              path: "groups",
+              name: "main-groups",
+              component: () => import(/* webpackChunkName: "main-groups" */ "@/views/main/GroupsView.vue"),
             },
             {
               path: "group/:groupId",
@@ -53,6 +54,31 @@ export default new Router({
                   component: () =>
                     import(
                       /* webpackChunkName: "main-group-reagents" */ "@/views/main/group/reagents/ReagentsView.vue"
+                    ),
+                },
+
+                {
+                  path: "proteins",
+                  name: "main-group-proteins",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-proteins" */ "@/views/main/group/proteins/ProteinsView.vue"
+                    ),
+                },
+                {
+                  path: "proteins/create",
+                  name: "main-group-proteins-create",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-proteins-create" */ "@/views/main/group/proteins/CreateProtein.vue"
+                    ),
+                },
+                {
+                  path: "proteins/edit/:id",
+                  name: "main-group-proteins-edit",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-proteins-edit" */ "@/views/main/group/proteins/EditProtein.vue"
                     ),
                 },
 
@@ -240,6 +266,34 @@ export default new Router({
                   component: () =>
                     import(
                       /* webpackChunkName: "main-admin-species-edit" */ "@/views/main/admin/species/EditSpecies.vue"
+                    ),
+                },
+
+                {
+                  path: "provider",
+                  redirect: "provider/all",
+                },
+                {
+                  path: "provider/all",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-admin-provider" */ "@/views/main/admin/provider/AdminProviders.vue"
+                    ),
+                },
+                {
+                  path: "provider/create",
+                  name: "main-admin-provider-create",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-admin-provider-create" */ "@/views/main/admin/provider/CreateProvider.vue"
+                    ),
+                },
+                {
+                  path: "provider/edit/:id",
+                  name: "main-admin-provider-edit",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-admin-provider-edit" */ "@/views/main/admin/provider/EditProvider.vue"
                     ),
                 },
               ],

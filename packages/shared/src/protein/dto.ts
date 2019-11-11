@@ -15,6 +15,9 @@ export class ProteinDto {
   readonly name: string;
 
   @ApiModelPropertyOptional()
+  readonly description: string;
+
+  @ApiModelPropertyOptional()
   readonly meta: object;
 
   @ApiModelPropertyOptional()
@@ -25,10 +28,18 @@ export class CreateProteinDto {
   @IsString()
   @ApiModelProperty()
   readonly name: string;
+
+  @IsString()
+  @ApiModelPropertyOptional()
+  readonly description: string;
 }
 
 export class UpdateProteinDto {
   @IsString()
   @ApiModelProperty()
   readonly name: string;
+
+  @IsString()
+  @ApiModelPropertyOptional()
+  readonly description: string;
 }

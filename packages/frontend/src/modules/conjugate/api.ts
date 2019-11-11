@@ -5,7 +5,7 @@ import { ConjugateDto, CreateConjugateDto, UpdateConjugateDto } from "@airlab/sh
 export const api = {
   async getConjugates(token: string) {
     return ky
-      .get(`${apiUrl}/conjugate/getAllLabeledAntibodiesForGroup`, {
+      .get(`${apiUrl}/conjugate/getAllConjugatesForGroup`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

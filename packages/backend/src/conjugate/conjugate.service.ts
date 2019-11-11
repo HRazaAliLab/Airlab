@@ -35,21 +35,20 @@ export class ConjugateService {
   }
 
   async getAllConjugatesForGroup(userId: number) {
-    // return this.repository
-    //   .createQueryBuilder("conjugate")
-    //   .leftJoinAndSelect("conjugate.user", "user")
-    //   .leftJoinAndSelect("conjugate.tag", "tag")
-    //   .leftJoin(GroupUserEntity, "groupUser", "conjugate.groupId = groupUser.groupId")
-    //   .where("groupUser.userId = :userId", { userId: userId })
-    //   .orderBy({ "conjugate.labBBTubeNumber": "DESC" })
-    //   .getMany();
-    return this.repository
+    const result = await this.repository
       .createQueryBuilder("conjugate")
       .leftJoinAndSelect("conjugate.tag", "tag")
-      .leftJoin(GroupUserEntity, "groupUser", "conjugate.groupId = groupUser.groupId")
-      .where("groupUser.userId = :userId", { userId: userId })
-      .orderBy({ "conjugate.labBBTubeNumber": "DESC" })
+      .leftJoinAndSelect("conjugate.groupUser", "groupUser")
+      .orderBy({ "conjugate.tubeNumber": "DESC" })
       .getMany();
+    // const result = await this.repository
+    //   .createQueryBuilder("conjugate")
+    //   .leftJoinAndSelect(TagEntity, "tag", "conjugate.tagId = tag.id")
+    //   .leftJoin(GroupUserEntity, "groupUser", "conjugate.groupId = groupUser.groupId")
+    //   .where("groupUser.userId = :userId", { userId: userId })
+    //   .orderBy({ "conjugate.tubeNumber": "DESC" })
+    //   .getMany();
+    return result;
   }
 
   async lastConjugateForGroup(groupId: number) {

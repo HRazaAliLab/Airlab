@@ -31,6 +31,10 @@ __decorate([
 ], ProteinDto.prototype, "name", void 0);
 __decorate([
     swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", String)
+], ProteinDto.prototype, "description", void 0);
+__decorate([
+    swagger_1.ApiModelPropertyOptional(),
     __metadata("design:type", Object)
 ], ProteinDto.prototype, "meta", void 0);
 __decorate([
@@ -45,6 +49,11 @@ __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], CreateProteinDto.prototype, "name", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", String)
+], CreateProteinDto.prototype, "description", void 0);
 exports.CreateProteinDto = CreateProteinDto;
 class UpdateProteinDto {
 }
@@ -53,5 +62,10 @@ __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], UpdateProteinDto.prototype, "name", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", String)
+], UpdateProteinDto.prototype, "description", void 0);
 exports.UpdateProteinDto = UpdateProteinDto;
 //# sourceMappingURL=dto.js.map

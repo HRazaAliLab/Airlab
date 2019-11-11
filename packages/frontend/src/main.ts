@@ -12,8 +12,8 @@ import "@mdi/font/css/materialdesignicons.css"; // Ensure you are using css-load
 Vue.config.productionTip = false;
 
 new Vue({
-  router,
-  store,
-  vuetify,
+  router: router,
+  store: store,
+  vuetify: vuetify,
   render: h => h(App),
 }).$mount("#app");

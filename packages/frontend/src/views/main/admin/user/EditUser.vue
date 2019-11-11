@@ -10,6 +10,7 @@
             <v-text-field label="Name" v-model="name" />
             <v-text-field label="E-mail" type="email" v-model="email" :rules="emailRules" />
             <v-checkbox label="Active" v-model="isActive" />
+            <v-checkbox label="Admin" v-model="isAdmin" />
             <v-row align="center">
               <v-col class="shrink">
                 <v-checkbox v-model="setPassword" />
@@ -75,6 +76,7 @@ export default class EditUser extends Vue {
   name = "";
   email = "";
   isActive = false;
+  isAdmin = false;
   setPassword = false;
   password1 = "";
   password2 = "";
@@ -92,6 +94,7 @@ export default class EditUser extends Vue {
       this.email = this.user.email;
       this.name = this.user.name;
       this.isActive = this.user.isActive;
+      this.isAdmin = this.user.isAdmin;
     }
     if (this.$refs.form) {
       (this.$refs.form as any).resetValidation();
@@ -109,6 +112,7 @@ export default class EditUser extends Vue {
         name: this.name,
         password: this.password1,
         isActive: this.isActive,
+        isAdmin: this.isAdmin,
       };
       await this.userContext.actions.updateUser({
         id: this.user!.id,

@@ -25,6 +25,11 @@ export class CreateProtein1573041856423 implements MigrationInterface {
             type: "varchar",
           },
           {
+            name: "description",
+            type: "varchar",
+            isNullable: true,
+          },
+          {
             name: "meta",
             type: "jsonb",
             isNullable: true,

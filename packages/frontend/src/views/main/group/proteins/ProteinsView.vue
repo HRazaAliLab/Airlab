@@ -1,13 +1,13 @@
 <template>
-  <LoadingView v-if="!items" text="Loading reagents..." />
+  <LoadingView v-if="!items" text="Loading proteins..." />
   <v-col v-else>
     <v-toolbar class="toolbar">
       <v-toolbar-title>
-        Reagents
+        Proteins
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text :to="`/main/group/${activeGroupId}/reagents/create`">Create Reagent</v-btn>
+        <v-btn text :to="`/main/group/${activeGroupId}/proteins/create`">Create Protein</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -51,7 +51,7 @@
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon @click="deleteReagent($event, item.id)">
+              <v-btn v-on="on" icon @click="deleteProtein($event, item.id)">
                 <v-icon color="red accent-1">mdi-delete</v-icon>
               </v-btn>
             </template>
@@ -97,17 +97,17 @@
 import LoadingView from "@/components/LoadingView.vue";
 import { Component, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
-import { reagentModule } from "@/modules/reagent";
-import { ReagentDto } from "@airlab/shared/lib/reagent/dto";
+import { proteinModule } from "@/modules/protein";
+import { ProteinDto } from "@airlab/shared/lib/protein/dto";
 
 @Component({
   components: {
     LoadingView,
   },
 })
-export default class ReagentsView extends Vue {
+export default class ProteinsView extends Vue {
   readonly groupContext = groupModule.context(this.$store);
-  readonly reagentContext = reagentModule.context(this.$store);
+  readonly proteinContext = proteinModule.context(this.$store);
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
@@ -129,21 +129,9 @@ export default class ReagentsView extends Vue {
       align: "left",
     },
     {
-      text: "Reference",
+      text: "Description",
       sortable: true,
-      value: "reference",
-      align: "left",
-    },
-    {
-      text: "Provider",
-      sortable: true,
-      value: "providerId",
-      align: "left",
-    },
-    {
-      text: "Created by",
-      sortable: true,
-      value: "createdBy",
+      value: "description",
       align: "left",
     },
     {
@@ -156,27 +144,27 @@ export default class ReagentsView extends Vue {
   ];
 
   drawer = false;
-  detailsItem: ReagentDto | null = null;
+  detailsItem: ProteinDto | null = null;
   search = "";
 
   get items() {
-    return this.reagentContext.getters.reagents;
+    return this.proteinContext.getters.proteins;
   }
 
-  showDetails(item: ReagentDto) {
+  showDetails(item: ProteinDto) {
     this.detailsItem = item;
     this.drawer = !this.drawer;
   }
 
   async mounted() {
     if (this.activeGroupId) {
-      await this.reagentContext.actions.getAllReagentsForGroup(this.activeGroupId);
+      await this.proteinContext.actions.getAllProteinsForGroup(this.activeGroupId);
     }
   }
 
-  async deleteReagent(event, id: number) {
-    if (self.confirm("Are you sure you want to delete the reagent?")) {
-      await this.reagentContext.actions.deleteReagent(id);
+  async deleteProtein(event, id: number) {
+    if (self.confirm("Are you sure you want to delete the protein?")) {
+      await this.proteinContext.actions.deleteProtein(id);
     }
   }
 }

@@ -1,7 +1,5 @@
 export declare class ProviderDto {
     readonly id: number;
-    readonly groupId: number;
-    readonly createdBy: number;
     readonly name: string;
     readonly meta: object;
     readonly createdAt: string;

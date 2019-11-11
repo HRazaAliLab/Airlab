@@ -13,11 +13,11 @@
         <v-col>
           <v-list dense>
             <v-subheader class="grey--text text--darken-1">Main</v-subheader>
-            <v-list-item to="/main/dashboard">
+            <v-list-item to="/main/groups">
               <v-list-item-action>
                 <v-icon>mdi-view-dashboard-outline</v-icon>
               </v-list-item-action>
-              <v-list-item-title>Dashboard</v-list-item-title>
+              <v-list-item-title>Groups</v-list-item-title>
             </v-list-item>
           </v-list>
           <v-list dense subheader v-if="activeGroupId">
@@ -33,6 +33,12 @@
                 <v-icon>mdi-content-duplicate</v-icon>
               </v-list-item-action>
               <v-list-item-title>Clones</v-list-item-title>
+            </v-list-item>
+            <v-list-item :to="`/main/group/${activeGroupId}/proteins`">
+              <v-list-item-action>
+                <v-icon>mdi-dna</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Proteins</v-list-item-title>
             </v-list-item>
             <v-list-item :to="`/main/group/${activeGroupId}/panels`">
               <v-list-item-action>
@@ -58,12 +64,6 @@
               </v-list-item-action>
               <v-list-item-title>Lots</v-list-item-title>
             </v-list-item>
-            <v-list-item :to="`/main/group/${activeGroupId}/antibodies`">
-              <v-list-item-action>
-                <v-icon>mdi-alpha-a-circle-outline</v-icon>
-              </v-list-item-action>
-              <v-list-item-title>Antibodies</v-list-item-title>
-            </v-list-item>
           </v-list>
           <v-divider v-if="hasAdminAccess" />
           <v-list dense subheader v-if="hasAdminAccess">
@@ -86,6 +86,12 @@
               </v-list-item-action>
               <v-list-item-title>Manage Tags</v-list-item-title>
             </v-list-item>
+            <v-list-item to="/main/admin/provider/all">
+              <v-list-item-action>
+                <v-icon>mdi-domain</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Manage Providers</v-list-item-title>
+            </v-list-item>
             <v-list-item to="/main/admin/species/all">
               <v-list-item-action>
                 <v-icon>mdi-rabbit</v-icon>
@@ -107,28 +113,10 @@
     </v-navigation-drawer>
     <v-app-bar app dense dark color="primary" :clipped-left="$vuetify.breakpoint.lgAndUp" extension-height="0">
       <v-app-bar-nav-icon @click.stop="switchShowDrawer" />
-      <v-toolbar-title @click="$router.push('/')" class="toolbar-title">{{ appName }}</v-toolbar-title>
+      <v-toolbar-title @click.stop="$router.push({ name: 'main-groups' })" class="toolbar-title">{{
+        appName
+      }}</v-toolbar-title>
       <v-spacer />
-      <v-btn-toggle v-model="views" multiple background-color="primary" group>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-btn v-on="on" value="workspace" color="primary">
-              <v-icon>mdi-file-tree</v-icon>
-            </v-btn>
-          </template>
-          <span v-if="!showWorkspace">Show workspace</span>
-          <span v-else>Hide workspace</span>
-        </v-tooltip>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-btn v-on="on" value="options" color="primary">
-              <v-icon>mdi-tune</v-icon>
-            </v-btn>
-          </template>
-          <span v-if="!showOptions">Show options</span>
-          <span v-else>Hide options</span>
-        </v-tooltip>
-      </v-btn-toggle>
       <v-menu bottom left offset-y>
         <template v-slot:activator="{ on }">
           <v-btn icon v-on="on">
@@ -176,7 +164,7 @@ import { groupModule } from "@/modules/group";
 
 const routeGuardMain = async (to, from, next) => {
   if (to.path === "/main") {
-    next("/main/dashboard");
+    next("/main/groups");
   } else {
     next();
   }
@@ -189,7 +177,6 @@ export default class Main extends Vue {
   readonly groupContext = groupModule.context(this.$store);
 
   appName = appName;
-  views: string[] = ["workspace", "options"];
 
   beforeRouteEnter(to, from, next) {
     routeGuardMain(to, from, next);
@@ -197,22 +184,6 @@ export default class Main extends Vue {
 
   beforeRouteUpdate(to, from, next) {
     routeGuardMain(to, from, next);
-  }
-
-  @Watch("views")
-  viewsChanged(views: string[]) {
-    this.mainContext.mutations.setLayout({
-      showWorkspace: views.includes("workspace"),
-      showOptions: views.includes("options"),
-    });
-  }
-
-  get showWorkspace() {
-    return this.mainContext.getters.showWorkspace;
-  }
-
-  get showOptions() {
-    return this.mainContext.getters.showOptions;
   }
 
   get miniDrawer() {
@@ -268,11 +239,6 @@ export default class Main extends Vue {
 </script>
 
 <style scoped>
-.subheader {
-  font-size: 10px;
-  font-weight: bold;
-}
-
 .toolbar-title {
   cursor: pointer;
 }

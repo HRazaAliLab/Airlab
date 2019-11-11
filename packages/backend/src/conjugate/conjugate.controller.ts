@@ -18,9 +18,9 @@ export class ConjugateController {
     return this.conjugateService.findAll();
   }
 
-  @Get("getAllLabeledAntibodiesForGroup")
+  @Get("getAllConjugatesForGroup")
   @ApiCreatedResponse({ description: "Find all antibodies for the group.", type: ConjugateDto, isArray: true })
-  getAllLabeledAntibodiesForGroup(@Request() req) {
+  getAllConjugatesForGroup(@Request() req) {
     const user: JwtPayloadDto = req.user;
     return this.conjugateService.getAllConjugatesForGroup(user.userId);
   }
