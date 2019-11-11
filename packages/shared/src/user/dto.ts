@@ -1,4 +1,4 @@
-import { IsBoolean, IsEmail, IsInt, IsString, IsUrl } from "class-validator";
+import { IsBoolean, IsEmail, IsString } from "class-validator";
 import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 
 export class UserDto {
@@ -13,6 +13,9 @@ export class UserDto {
 
   @ApiModelProperty()
   readonly isActive: boolean;
+
+  @ApiModelProperty()
+  readonly isAdmin: boolean;
 
   @ApiModelProperty()
   readonly createdAt: string;
@@ -30,6 +33,9 @@ export class ProfileDto {
 
   @ApiModelProperty()
   readonly email: string;
+
+  @ApiModelProperty()
+  readonly isAdmin: boolean;
 }
 
 export class UpdateProfileDto {
@@ -68,6 +74,10 @@ export class UpdateUserDto {
   @IsBoolean()
   @ApiModelProperty()
   readonly isActive: boolean;
+
+  @IsBoolean()
+  @ApiModelProperty()
+  readonly isAdmin: boolean;
 
   @IsString()
   @ApiModelPropertyOptional()

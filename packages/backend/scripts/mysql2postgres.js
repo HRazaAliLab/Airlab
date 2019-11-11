@@ -40,6 +40,7 @@ async function migrateGroup() {
     ];
     await postgresPool.query(sql, values);
   }
+  await postgresPool.query("SELECT setval('public.group_id_seq', (SELECT MAX(id) FROM public.group), true);");
 }
 
 async function migrateUser() {
@@ -58,6 +59,7 @@ async function migrateUser() {
     ];
     await postgresPool.query(sql, values);
   }
+  await postgresPool.query("SELECT setval('public.user_id_seq', (SELECT MAX(id) FROM public.user), true);");
 }
 
 async function migrateGroupUser() {
@@ -75,14 +77,15 @@ async function migrateGroupUser() {
       [777777777, 8, 52, 0].includes(row["gpePersonId"]) ? 292 : row["gpePersonId"],
       row["gpeRole"],
       row["zetActKey"],
-      row["gpeActiveInGroup"],
-      row["gpeOrders"],
-      row["gpeErase"],
-      row["gpeFinances"],
-      row["gpeAllPanels"],
+      row["gpeActiveInGroup"] ? row["gpeActiveInGroup"] : false,
+      row["gpeOrders"] ? row["gpeOrders"] : false,
+      row["gpeErase"] ? row["gpeErase"] : false,
+      row["gpeFinances"] ? row["gpeFinances"] : false,
+      row["gpeAllPanels"] ? row["gpeAllPanels"] : false,
     ];
     await postgresPool.query(sql, values);
   }
+  await postgresPool.query("SELECT setval('public.group_user_id_seq', (SELECT MAX(id) FROM public.group_user), true);");
 }
 
 async function migrateSpecies() {
@@ -96,6 +99,7 @@ async function migrateSpecies() {
     const values = [row["spcSpeciesId"], row["spcName"], row["spcAcronym"]];
     await postgresPool.query(sql, values);
   }
+  await postgresPool.query("SELECT setval('public.species_id_seq', (SELECT MAX(id) FROM public.species), true);");
 }
 
 async function migrateTag() {
@@ -112,6 +116,7 @@ async function migrateTag() {
     ];
     await postgresPool.query(sql, values);
   }
+  await postgresPool.query("SELECT setval('public.tag_id_seq', (SELECT MAX(id) FROM public.tag), true);");
 }
 
 async function migrateProvider() {
@@ -128,6 +133,7 @@ async function migrateProvider() {
     const values = [row["proProviderId"], row["groupId"], row["createdBy"], row["proName"]];
     await postgresPool.query(sql, values);
   }
+  await postgresPool.query("SELECT setval('public.provider_id_seq', (SELECT MAX(id) FROM public.provider), true);");
 }
 
 async function migrateReagent() {
@@ -174,6 +180,7 @@ async function migrateReagent() {
     ];
     await postgresPool.query(sql, values);
   }
+  await postgresPool.query("SELECT setval('public.reagent_id_seq', (SELECT MAX(id) FROM public.reagent), true);");
 }
 
 async function migrateProtein() {
@@ -192,6 +199,7 @@ async function migrateProtein() {
     ];
     await postgresPool.query(sql, values);
   }
+  await postgresPool.query("SELECT setval('public.protein_id_seq', (SELECT MAX(id) FROM public.protein), true);");
 }
 
 async function migrateClone() {
@@ -264,6 +272,7 @@ async function migrateClone() {
     ];
     await postgresPool.query(sql, values);
   }
+  await postgresPool.query("SELECT setval('public.clone_id_seq', (SELECT MAX(id) FROM public.clone), true);");
 }
 
 async function migrateLot() {
@@ -309,11 +318,11 @@ async function migrateLot() {
       reagentId,
       [0, 26].includes(row["lotProviderId"]) ? null : row["lotProviderId"],
       row["lotCloneId"],
-      row["reiRequestedBy"],
-      row["reiApprovedBy"],
-      row["reiOrderedBy"],
-      row["reiReceivedBy"],
-      row["tubFinishedBy"],
+      row["reiRequestedBy"] === 0 || row["reiRequestedBy"] === 76 ? null : row["reiRequestedBy"],
+      row["reiApprovedBy"] === 0 || row["reiApprovedBy"] === 76 ? null : row["reiApprovedBy"],
+      row["reiOrderedBy"] === 0 || row["reiOrderedBy"] === 76 ? null : row["reiOrderedBy"],
+      row["reiReceivedBy"] === 0 || row["reiReceivedBy"] === 76 ? null : row["reiReceivedBy"],
+      row["tubFinishedBy"] === 0 || row["tubFinishedBy"] === 76 ? null : row["tubFinishedBy"],
       row["lotNumber"],
       row["reiStatus"],
       row["reiPurpose"],
@@ -339,6 +348,7 @@ async function migrateLot() {
     ];
     await postgresPool.query(sql, values);
   }
+  await postgresPool.query("SELECT setval('public.lot_id_seq', (SELECT MAX(id) FROM public.lot), true);");
 }
 
 async function migrateConjugate() {
@@ -384,6 +394,7 @@ async function migrateConjugate() {
     ];
     await postgresPool.query(sql, values);
   }
+  await postgresPool.query("SELECT setval('public.conjugate_id_seq', (SELECT MAX(id) FROM public.conjugate), true);");
 }
 
 async function migrateFile() {
@@ -416,6 +427,7 @@ async function migrateFile() {
     ];
     await postgresPool.query(sql, values);
   }
+  await postgresPool.query("SELECT setval('public.file_id_seq', (SELECT MAX(id) FROM public.file), true);");
 }
 
 async function migratePanel() {
@@ -453,6 +465,7 @@ async function migratePanel() {
     ];
     await postgresPool.query(sql, values);
   }
+  await postgresPool.query("SELECT setval('public.panel_id_seq', (SELECT MAX(id) FROM public.panel), true);");
 }
 
 async function migrate() {
@@ -470,9 +483,11 @@ async function migrate() {
   await migrateFile();
   await migratePanel();
 
-  await postgresPool.query(
-    "SELECT 'SELECT setval(''public.' || c.relname || ''',' || ' (SELECT MAX(ID) FROM PUBLIC.' || REPLACE(c.relname,'_id_seq','') || '), true);' FROM pg_class c WHERE c.relkind = 'S' ORDER BY C.RELNAME;"
-  );
+  // await postgresPool.query(
+  //   "SELECT 'SELECT setval(''public.' || c.relname || ''',' || ' (SELECT MAX(ID) FROM PUBLIC.' || REPLACE(c.relname,'_id_seq','') || '), true);' FROM pg_class c WHERE c.relkind = 'S' ORDER BY C.RELNAME;"
+  // );
 }
 
-migrate();
+migrate().then(() => {
+  console.log("Done.");
+});

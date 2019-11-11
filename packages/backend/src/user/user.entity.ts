@@ -41,6 +41,11 @@ export class UserEntity {
   isActive: boolean;
 
   @Column({
+    name: "is_admin",
+  })
+  isAdmin: boolean;
+
+  @Column({
     name: "meta",
     type: "jsonb",
   })

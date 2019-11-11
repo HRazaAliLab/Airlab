@@ -34,31 +34,26 @@ export class CreateGroupUser1573040991913 implements MigrationInterface {
             name: "is_active",
             type: "boolean",
             default: false,
-            isNullable: true,
           },
           {
             name: "can_order",
             type: "boolean",
             default: false,
-            isNullable: true,
           },
           {
             name: "can_erase",
             type: "boolean",
             default: false,
-            isNullable: true,
           },
           {
             name: "can_finances",
             type: "boolean",
             default: false,
-            isNullable: true,
           },
           {
             name: "can_panels",
             type: "boolean",
             default: false,
-            isNullable: true,
           },
           {
             name: "created_at",

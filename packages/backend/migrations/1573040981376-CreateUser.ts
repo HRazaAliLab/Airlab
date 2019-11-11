@@ -38,6 +38,11 @@ export class CreateUser1573040981376 implements MigrationInterface {
             default: false,
           },
           {
+            name: "is_admin",
+            type: "boolean",
+            default: false,
+          },
+          {
             name: "meta",
             type: "jsonb",
             isNullable: true,

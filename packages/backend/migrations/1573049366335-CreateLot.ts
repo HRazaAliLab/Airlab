@@ -164,6 +164,41 @@ export class CreateLot1573049366335 implements MigrationInterface {
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
+          {
+            name: "FK_lot_requested_by_2_group_user",
+            referencedTableName: "group_user",
+            columnNames: ["requested_by"],
+            referencedColumnNames: ["id"],
+            onDelete: "cascade",
+          },
+          {
+            name: "FK_lot_approved_by_2_group_user",
+            referencedTableName: "group_user",
+            columnNames: ["approved_by"],
+            referencedColumnNames: ["id"],
+            onDelete: "cascade",
+          },
+          {
+            name: "FK_lot_ordered_by_2_group_user",
+            referencedTableName: "group_user",
+            columnNames: ["ordered_by"],
+            referencedColumnNames: ["id"],
+            onDelete: "cascade",
+          },
+          {
+            name: "FK_lot_received_by_2_group_user",
+            referencedTableName: "group_user",
+            columnNames: ["received_by"],
+            referencedColumnNames: ["id"],
+            onDelete: "cascade",
+          },
+          {
+            name: "FK_lot_finished_by_2_group_user",
+            referencedTableName: "group_user",
+            columnNames: ["finished_by"],
+            referencedColumnNames: ["id"],
+            onDelete: "cascade",
+          },
         ],
         indices: [
           {
