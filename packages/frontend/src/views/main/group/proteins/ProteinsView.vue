@@ -51,7 +51,7 @@
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon @click="deleteProtein($event, item.id)">
+              <v-btn v-on="on" icon @click="deleteProtein(item.id)">
                 <v-icon color="red accent-1">mdi-delete</v-icon>
               </v-btn>
             </template>
@@ -118,7 +118,7 @@ export default class ProteinsView extends Vue {
       text: "Id",
       sortable: true,
       value: "id",
-      align: "right",
+      align: "end",
       filterable: false,
       width: "80",
     },
@@ -126,13 +126,11 @@ export default class ProteinsView extends Vue {
       text: "Name",
       sortable: true,
       value: "name",
-      align: "left",
     },
     {
       text: "Description",
       sortable: true,
       value: "description",
-      align: "left",
     },
     {
       text: "Actions",
@@ -162,7 +160,7 @@ export default class ProteinsView extends Vue {
     }
   }
 
-  async deleteProtein(event, id: number) {
+  async deleteProtein(id: number) {
     if (self.confirm("Are you sure you want to delete the protein?")) {
       await this.proteinContext.actions.deleteProtein(id);
     }

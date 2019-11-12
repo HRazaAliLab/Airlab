@@ -53,6 +53,16 @@ exports.ReagentDto = ReagentDto;
 class CreateReagentDto {
 }
 __decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], CreateReagentDto.prototype, "groupId", void 0);
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], CreateReagentDto.prototype, "providerId", void 0);
+__decorate([
     class_validator_1.IsString(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
@@ -66,6 +76,11 @@ exports.CreateReagentDto = CreateReagentDto;
 class UpdateReagentDto {
 }
 __decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], UpdateReagentDto.prototype, "providerId", void 0);
+__decorate([
     class_validator_1.IsString(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
@@ -75,10 +90,5 @@ __decorate([
     swagger_1.ApiModelPropertyOptional(),
     __metadata("design:type", String)
 ], UpdateReagentDto.prototype, "reference", void 0);
-__decorate([
-    class_validator_1.IsBoolean(),
-    swagger_1.ApiModelPropertyOptional(),
-    __metadata("design:type", Boolean)
-], UpdateReagentDto.prototype, "isDeleted", void 0);
 exports.UpdateReagentDto = UpdateReagentDto;
 //# sourceMappingURL=dto.js.map

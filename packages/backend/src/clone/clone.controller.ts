@@ -4,19 +4,14 @@ import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CloneDto, CreateCloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
 import { JwtPayloadDto } from "@airlab/shared/lib/auth/dto";
+import { GroupUserService } from "../groupUser/groupUser.service";
 
 @ApiUseTags("clone")
 @Controller("clone")
 @ApiBearerAuth()
 @UseGuards(AuthGuard("jwt"))
 export class CloneController {
-  constructor(private readonly cloneService: CloneService) {}
-
-  @Get()
-  @ApiCreatedResponse({ description: "Find all entities.", type: CloneDto, isArray: true })
-  findAll() {
-    return this.cloneService.findAll();
-  }
+  constructor(private readonly cloneService: CloneService, private readonly groupUserService: GroupUserService) {}
 
   @Get("getAllClonesForGroup")
   @ApiCreatedResponse({ description: "Find all clones for the user.", type: CloneDto, isArray: true })
@@ -33,8 +28,10 @@ export class CloneController {
 
   @Post()
   @ApiCreatedResponse({ description: "Create entity.", type: CloneDto })
-  async create(@Body() params: CreateCloneDto) {
-    return this.cloneService.create(params);
+  async create(@Request() req, @Body() params: CreateCloneDto) {
+    const user: JwtPayloadDto = req.user;
+    const groupUser = await this.groupUserService.findByUserIdAndGroupId(user.userId, params.groupId);
+    return this.cloneService.create({ ...params, createdBy: groupUser.id });
   }
 
   @Patch(":id")

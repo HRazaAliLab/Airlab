@@ -52,7 +52,7 @@
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon @click="deleteTag($event, item.id)">
+              <v-btn v-on="on" icon @click="deleteTag(item.id)">
                 <v-icon color="red accent-1">mdi-delete</v-icon>
               </v-btn>
             </template>
@@ -128,7 +128,7 @@ export default class AdminTags extends Vue {
     await this.tagContext.actions.getTags();
   }
 
-  async deleteTag(event, id: number) {
+  async deleteTag(id: number) {
     if (self.confirm("Are you sure you want to delete the tag?")) {
       await this.tagContext.actions.deleteTag(id);
     }

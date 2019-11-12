@@ -1,5 +1,5 @@
-import { IsString } from "class-validator";
-import { ApiModelProperty } from "@nestjs/swagger";
+import { IsInt, IsOptional, IsString, IsUrl } from "class-validator";
+import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 
 export class LotDto {
   @ApiModelProperty()
@@ -79,9 +79,38 @@ export class LotDto {
 }
 
 export class CreateLotDto {
+  readonly createdBy?: number;
+  readonly status?: string;
+
+  @IsInt()
+  @ApiModelProperty()
+  readonly groupId: number;
+
+  @IsInt()
+  @ApiModelProperty()
+  readonly cloneId: number;
+
+  @IsInt()
+  @ApiModelProperty()
+  readonly reagentId: number;
+
+  @IsInt()
+  @ApiModelProperty()
+  readonly providerId: number;
+
   @IsString()
   @ApiModelProperty()
-  readonly status: string;
+  readonly number: string;
+
+  @IsUrl()
+  @IsOptional()
+  @ApiModelPropertyOptional()
+  readonly url: string | null;
+
+  @IsString()
+  @IsOptional()
+  @ApiModelPropertyOptional()
+  readonly purpose: string | null;
 }
 
 export class UpdateLotDto {

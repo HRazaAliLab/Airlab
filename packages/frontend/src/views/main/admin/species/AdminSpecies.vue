@@ -46,7 +46,7 @@
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon @click="deleteSpecies($event, item.id)">
+              <v-btn v-on="on" icon @click="deleteSpecies(item.id)">
                 <v-icon color="red accent-1">mdi-delete</v-icon>
               </v-btn>
             </template>
@@ -106,7 +106,7 @@ export default class AdminSpecies extends Vue {
     await this.speciesContext.actions.getSpecies();
   }
 
-  async deleteSpecies(event, id: number) {
+  async deleteSpecies(id: number) {
     if (self.confirm("Are you sure you want to delete the species?")) {
       await this.speciesContext.actions.deleteSpecies(id);
     }

@@ -39,7 +39,7 @@ export class CreateClone1573048316364 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: "region",
+            name: "epitope",
             type: "varchar",
             isNullable: true,
           },

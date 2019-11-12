@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Not, Repository } from "typeorm";
+import { Repository } from "typeorm";
 import { LotEntity } from "./lot.entity";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
 import { CreateLotDto, UpdateLotDto } from "@airlab/shared/lib/lot/dto";
@@ -53,8 +53,12 @@ export class LotService {
       .createQueryBuilder("lot")
       .leftJoin(GroupUserEntity, "groupUser", "lot.groupId = groupUser.groupId")
       .where("groupUser.userId = :userId", { userId: userId })
-      .andWhere("lot.cloneId != 0")
-      .andWhere("lot.deleted = false")
+      .leftJoin("lot.clone", "clone")
+      .addSelect(["clone.name"])
+      .leftJoin("lot.reagent", "reagent")
+      .addSelect(["reagent.name"])
+      .andWhere("lot.isDeleted = false")
+      .orderBy("lot.id", "DESC")
       .getMany();
   }
 }

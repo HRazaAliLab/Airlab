@@ -3,7 +3,6 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { ReagentEntity } from "./reagent.entity";
 import { CreateReagentDto, UpdateReagentDto } from "@airlab/shared/lib/reagent/dto";
-import { GroupUserEntity } from "../groupUser/groupUser.entity";
 import { UserEntity } from "../user/user.entity";
 
 @Injectable()
@@ -13,10 +12,6 @@ export class ReagentService {
     private readonly repository: Repository<ReagentEntity>
   ) {}
 
-  async findAll() {
-    return this.repository.find();
-  }
-
   async create(params: CreateReagentDto) {
     return this.repository.save(params);
   }
@@ -24,31 +19,34 @@ export class ReagentService {
   async update(id: number, params: UpdateReagentDto) {
     await this.repository.update(id, params);
     return this.findById(id);
+    // return this.repository
+    //   .createQueryBuilder()
+    //   .update()
+    //   .set(params)
+    //   .where("id = :id", { id: id })
+    //   .returning("*")
+    //   .execute();
   }
 
   async findById(id: number) {
-    return this.repository.findOne(id);
+    return this.repository.findOne(id, {
+      select: ["id", "name", "reference", "providerId"],
+    });
   }
 
   async getAllReagentsForGroup(groupId: number) {
-    // const result = await this.repository.find({
-    //   relations: ["groupUser", "provider"],
-    //   where: {
-    //     groupId: groupId,
-    //     isDeleted: false,
-    //   },
-    // });
     const result = await this.repository
       .createQueryBuilder("reagent")
+      .select(["reagent.id", "reagent.name", "reagent.reference"])
       .leftJoin("reagent.provider", "provider")
-      .addSelect(["provider.name"])
+      .addSelect(["provider.id", "provider.name"])
       .leftJoin("reagent.groupUser", "groupUser")
-      .leftJoin("groupUser.user", "user")
-      .addSelect(["user.name"])
+      .leftJoinAndMapOne("reagent.user", UserEntity, "user", "groupUser.userId = user.id")
       .where({
         groupId: groupId,
         isDeleted: false,
       })
+      .orderBy("reagent.id", "DESC")
       .getMany();
     return result;
   }

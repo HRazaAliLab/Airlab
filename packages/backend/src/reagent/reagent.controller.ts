@@ -1,21 +1,17 @@
-import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { ReagentService } from "./reagent.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CreateReagentDto, ReagentDto, UpdateReagentDto } from "@airlab/shared/lib/reagent/dto";
+import { JwtPayloadDto } from "@airlab/shared/lib/auth/dto";
+import { GroupUserService } from "../groupUser/groupUser.service";
 
 @ApiUseTags("reagent")
 @Controller("reagent")
 @ApiBearerAuth()
 @UseGuards(AuthGuard("jwt"))
 export class ReagentController {
-  constructor(private readonly reagentService: ReagentService) {}
-
-  @Get()
-  @ApiCreatedResponse({ description: "Find all entities.", type: ReagentDto, isArray: true })
-  findAll() {
-    return this.reagentService.findAll();
-  }
+  constructor(private readonly reagentService: ReagentService, private readonly groupUserService: GroupUserService) {}
 
   @Get(":id")
   @ApiCreatedResponse({ description: "Find entity by Id.", type: ReagentDto })
@@ -25,8 +21,10 @@ export class ReagentController {
 
   @Post()
   @ApiCreatedResponse({ description: "Create entity.", type: ReagentDto })
-  async create(@Body() params: CreateReagentDto) {
-    return this.reagentService.create(params);
+  async create(@Request() req, @Body() params: CreateReagentDto) {
+    const user: JwtPayloadDto = req.user;
+    const groupUser = await this.groupUserService.findByUserIdAndGroupId(user.userId, params.groupId);
+    return this.reagentService.create({ ...params, createdBy: groupUser.id });
   }
 
   @Patch(":id")

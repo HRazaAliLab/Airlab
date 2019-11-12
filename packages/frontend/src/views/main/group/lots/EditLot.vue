@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-card class="ma-4 pa-4">
       <v-card-title primary-title>
-        <div class="headline primary--text">Edit Clone</div>
+        <div class="headline primary--text">Edit Lot</div>
       </v-card-title>
       <v-card-text>
         <template>
@@ -143,7 +143,7 @@ import { groupModule } from "@/modules/group";
 import { UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
 
 @Component
-export default class EditClone extends Vue {
+export default class EditLot extends Vue {
   readonly groupContext = groupModule.context(this.$store);
   readonly cloneContext = cloneModule.context(this.$store);
   readonly proteinContext = proteinModule.context(this.$store);

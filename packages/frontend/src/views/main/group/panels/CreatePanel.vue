@@ -216,8 +216,8 @@ export default class CreatePanel extends Vue {
 
   async mounted() {
     await Promise.all([
-      await this.proteinContext.actions.getAllProteinsForGroup(+this.$router.currentRoute.params.groupId),
-      await this.speciesContext.actions.getSpecies(),
+      this.proteinContext.actions.getAllProteinsForGroup(+this.$router.currentRoute.params.groupId),
+      this.speciesContext.actions.getSpecies(),
     ]);
   }
 

@@ -11,10 +11,6 @@ export class ProteinService {
     private readonly repository: Repository<ProteinEntity>
   ) {}
 
-  async findAll() {
-    return this.repository.find();
-  }
-
   async create(params: CreateProteinDto) {
     return this.repository.save(params);
   }
@@ -25,12 +21,14 @@ export class ProteinService {
   }
 
   async findById(id: number) {
-    return this.repository.findOne(id);
+    return this.repository.findOne(id, {
+      select: ["id", "name", "description"],
+    });
   }
 
   async getAllProteinsForGroup(groupId: number) {
     return this.repository.find({
-      // select: ["id", "name", "description"],
+      select: ["id", "name", "description"],
       where: {
         groupId: groupId,
       },

@@ -1,4 +1,4 @@
-import { IsBoolean, IsInt, IsJSON, IsString } from "class-validator";
+import { IsArray, IsBoolean, IsInt, IsJSON, IsString } from "class-validator";
 import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 
 export class CloneDto {
@@ -24,7 +24,7 @@ export class CloneDto {
   readonly isotype: string;
 
   @ApiModelProperty()
-  readonly region: string;
+  readonly epitope: string;
 
   @ApiModelProperty()
   readonly isPhospho: boolean;
@@ -55,13 +55,81 @@ export class CloneDto {
 }
 
 export class CreateCloneDto {
+  readonly createdBy?: number;
+
+  @IsInt()
+  @ApiModelProperty()
+  readonly groupId: number;
+
+  @IsInt()
+  @ApiModelProperty()
+  readonly proteinId: number;
+
+  @IsInt()
+  @ApiModelProperty()
+  readonly speciesId: number;
+
   @IsString()
   @ApiModelProperty()
   readonly name: string;
+
+  @IsString()
+  @ApiModelProperty()
+  readonly isotype: string;
+
+  @IsString()
+  @ApiModelProperty()
+  readonly epitope: string;
+
+  @IsBoolean()
+  @ApiModelProperty()
+  readonly isPhospho: boolean;
+
+  @IsBoolean()
+  @ApiModelProperty()
+  readonly isPolyclonal: boolean;
+
+  @IsArray()
+  @ApiModelProperty()
+  readonly reactivity: number[];
+
+  @ApiModelProperty()
+  readonly application: object;
 }
 
 export class UpdateCloneDto {
+  @IsInt()
+  @ApiModelProperty()
+  readonly proteinId: number;
+
+  @IsInt()
+  @ApiModelProperty()
+  readonly speciesId: number;
+
   @IsString()
   @ApiModelProperty()
   readonly name: string;
+
+  @IsString()
+  @ApiModelProperty()
+  readonly isotype: string;
+
+  @IsString()
+  @ApiModelProperty()
+  readonly epitope: string;
+
+  @IsBoolean()
+  @ApiModelProperty()
+  readonly isPhospho: boolean;
+
+  @IsBoolean()
+  @ApiModelProperty()
+  readonly isPolyclonal: boolean;
+
+  @IsArray()
+  @ApiModelProperty()
+  readonly reactivity: number[];
+
+  @ApiModelProperty()
+  readonly application: object;
 }

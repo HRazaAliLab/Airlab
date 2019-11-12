@@ -57,7 +57,7 @@
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon @click="deleteClone($event, item.id)">
+              <v-btn v-on="on" icon @click="deleteClone(item.id)">
                 <v-icon color="red accent-1">mdi-delete</v-icon>
               </v-btn>
             </template>
@@ -74,7 +74,7 @@
                 {{ item.name }}
               </v-card-title>
               <v-card-text>
-                {{ item.bindingRegion }}
+                {{ item.epitope }}
               </v-card-text>
               <v-card-actions>
                 <v-btn text color="primary" target="_blank" :href="citeAb(item)">CiteAb</v-btn>
@@ -129,51 +129,45 @@ export default class ClonesView extends Vue {
       text: "Id",
       sortable: true,
       value: "id",
-      align: "right",
+      align: "end",
       filterable: false,
+      width: "80",
     },
     {
       text: "Name",
       sortable: true,
       value: "name",
-      align: "left",
     },
     {
       text: "Protein",
       sortable: true,
       value: "protein.name",
-      align: "left",
     },
     {
       text: "Host",
       sortable: true,
       value: "species.name",
-      align: "left",
     },
     {
-      text: "Region",
+      text: "Epitope",
       sortable: true,
-      value: "region",
-      align: "left",
+      value: "epitope",
     },
     {
       text: "Isotype",
       sortable: true,
       value: "isotype",
-      align: "left",
     },
     {
-      text: "Phosphoantibody",
+      text: "Phospho",
       sortable: true,
       value: "isPhospho",
-      align: "left",
       filterable: false,
     },
     {
       text: "Polyclonal",
       sortable: true,
       value: "isPolyclonal",
-      align: "left",
       filterable: false,
     },
     {
@@ -181,6 +175,7 @@ export default class ClonesView extends Vue {
       value: "action",
       sortable: false,
       filterable: false,
+      width: "210",
     },
   ];
 
@@ -213,7 +208,7 @@ export default class ClonesView extends Vue {
     await this.cloneContext.actions.getAllClonesForUser();
   }
 
-  async deleteClone(event, id: number) {
+  async deleteClone(id: number) {
     if (self.confirm("Are you sure you want to delete the clone?")) {
       await this.cloneContext.actions.deleteClone(id);
     }

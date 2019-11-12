@@ -12,10 +12,6 @@ export class CloneService {
     private readonly repository: Repository<CloneEntity>
   ) {}
 
-  async findAll() {
-    return this.repository.find();
-  }
-
   async create(params: CreateCloneDto) {
     return this.repository.save(params);
   }
@@ -37,11 +33,14 @@ export class CloneService {
   async getAllClonesForGroupsWithProteinName(userId: number) {
     const result = await this.repository
       .createQueryBuilder("clone")
-      .leftJoinAndSelect("clone.protein", "protein")
-      .leftJoinAndSelect("clone.species", "species")
+      .leftJoin("clone.protein", "protein")
+      .addSelect(["protein.name"])
+      .leftJoin("clone.species", "species")
+      .addSelect(["species.name"])
       .leftJoin(GroupUserEntity, "groupUser", "clone.groupId = groupUser.groupId")
       .where("groupUser.userId = :userId", { userId: userId })
-      .andWhere("clone.is_deleted = false")
+      .andWhere("clone.isDeleted = false")
+      .orderBy("clone.id", "DESC")
       .getMany();
     return result;
   }

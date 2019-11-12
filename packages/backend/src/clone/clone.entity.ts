@@ -43,9 +43,9 @@ export class CloneEntity {
   isotype: string;
 
   @Column({
-    name: "region",
+    name: "epitope",
   })
-  region: string;
+  epitope: string;
 
   @Column({
     name: "is_phospho",
@@ -72,6 +72,7 @@ export class CloneEntity {
 
   @Column({
     name: "is_deleted",
+    select: false,
   })
   isDeleted: boolean;
 
@@ -83,16 +84,19 @@ export class CloneEntity {
   @Column({
     name: "meta",
     type: "jsonb",
+    select: false,
   })
   meta: object;
 
   @Column({
     name: "created_at",
+    select: false,
   })
   createdAt: string;
 
   @Column({
     name: "updated_at",
+    select: false,
   })
   updatedAt: string;
 

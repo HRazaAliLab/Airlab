@@ -224,9 +224,9 @@ export default class EditConjugate extends Vue {
 
   async mounted() {
     await Promise.all([
-      await this.cloneContext.actions.getClone(+this.$router.currentRoute.params.id),
-      await this.proteinContext.actions.getAllProteinsForGroup(+this.$router.currentRoute.params.groupId),
-      await this.speciesContext.actions.getSpecies(),
+      this.cloneContext.actions.getClone(+this.$router.currentRoute.params.id),
+      this.proteinContext.actions.getAllProteinsForGroup(+this.$router.currentRoute.params.groupId),
+      this.speciesContext.actions.getSpecies(),
     ]);
     this.reset();
   }

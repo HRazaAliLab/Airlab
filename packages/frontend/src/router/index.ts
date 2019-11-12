@@ -56,6 +56,22 @@ export default new Router({
                       /* webpackChunkName: "main-group-reagents" */ "@/views/main/group/reagents/ReagentsView.vue"
                     ),
                 },
+                {
+                  path: "reagents/create",
+                  name: "main-group-reagents-create",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-reagents-create" */ "@/views/main/group/reagents/CreateReagent.vue"
+                    ),
+                },
+                {
+                  path: "reagents/edit/:id",
+                  name: "main-group-reagents-edit",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-reagents-edit" */ "@/views/main/group/reagents/EditReagent.vue"
+                    ),
+                },
 
                 {
                   path: "proteins",
@@ -138,11 +154,26 @@ export default new Router({
                       /* webpackChunkName: "main-group-conjugates" */ "@/views/main/group/conjugates/ConjugatesView.vue"
                     ),
                 },
+
                 {
                   path: "lots",
                   name: "main-group-lots",
                   component: () =>
                     import(/* webpackChunkName: "main-group-lots" */ "@/views/main/group/lots/LotsView.vue"),
+                },
+                {
+                  path: "lots/create",
+                  name: "main-group-lots-create",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-lots-create" */ "@/views/main/group/lots/CreateLot.vue"
+                    ),
+                },
+                {
+                  path: "lots/edit/:id",
+                  name: "main-group-lots-edit",
+                  component: () =>
+                    import(/* webpackChunkName: "main-group-lots-edit" */ "@/views/main/group/lots/EditLot.vue"),
                 },
               ],
             },

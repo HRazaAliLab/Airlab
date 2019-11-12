@@ -1,13 +1,13 @@
 import { mainModule } from "@/modules/main";
 import { Store } from "vuex";
 import { Actions, Context } from "vuex-smart-module";
-import { CloneState } from ".";
+import { LotState } from ".";
 import { api } from "./api";
-import { CloneGetters } from "./getters";
-import { CloneMutations } from "./mutations";
-import { CreateCloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
+import { LotGetters } from "./getters";
+import { LotMutations } from "./mutations";
+import { CreateLotDto, UpdateLotDto } from "@airlab/shared/lib/lot/dto";
 
-export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutations, CloneActions> {
+export class LotActions extends Actions<LotState, LotGetters, LotMutations, LotActions> {
   // Declare context type
   main?: Context<typeof mainModule>;
 
@@ -17,72 +17,72 @@ export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutatio
     this.main = mainModule.context(store);
   }
 
-  async getClones() {
+  async getLots() {
     try {
-      const data = await api.getClones(this.main!.getters.token);
+      const data = await api.getLots(this.main!.getters.token);
       if (data) {
-        this.mutations.setClones(data);
+        this.mutations.setLots(data);
       }
     } catch (error) {
       await this.main!.actions.checkApiError(error);
     }
   }
 
-  async createClone(payload: CreateCloneDto) {
+  async createLot(payload: CreateLotDto) {
     try {
       const notification = { content: "saving", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = await api.createClone(this.main!.getters.token, payload);
-      this.mutations.setClone(data);
+      const data = await api.createLot(this.main!.getters.token, payload);
+      this.mutations.setLot(data);
       this.main!.mutations.removeNotification(notification);
-      this.main!.mutations.addNotification({ content: "Clone successfully created", color: "success" });
+      this.main!.mutations.addNotification({ content: "Lot successfully created", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
     }
   }
 
-  async getClone(id: number) {
+  async getLot(id: number) {
     try {
-      const data = await api.getClone(this.main!.getters.token, id);
+      const data = await api.getLot(this.main!.getters.token, id);
       if (data) {
-        this.mutations.setClone(data);
+        this.mutations.setLot(data);
       }
     } catch (error) {
       await this.main!.actions.checkApiError(error);
     }
   }
 
-  async updateClone(payload: { id: number; data: UpdateCloneDto }) {
+  async updateLot(payload: { id: number; data: UpdateLotDto }) {
     try {
       const notification = { content: "saving", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = await api.updateClone(this.main!.getters.token, payload.id, payload.data);
-      this.mutations.setClone(data);
+      const data = await api.updateLot(this.main!.getters.token, payload.id, payload.data);
+      this.mutations.setLot(data);
       this.main!.mutations.removeNotification(notification);
-      this.main!.mutations.addNotification({ content: "Clone successfully updated", color: "success" });
+      this.main!.mutations.addNotification({ content: "Lot successfully updated", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
     }
   }
 
-  async deleteClone(id: number) {
+  async deleteLot(id: number) {
     try {
       const notification = { content: "deleting", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = await api.deleteClone(this.main!.getters.token, id);
-      this.mutations.deleteCloneById(data);
+      const data = await api.deleteLot(this.main!.getters.token, id);
+      this.mutations.deleteLotById(data);
       this.main!.mutations.removeNotification(notification);
-      this.main!.mutations.addNotification({ content: "Clone successfully deleted", color: "success" });
+      this.main!.mutations.addNotification({ content: "Lot successfully deleted", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
     }
   }
 
-  async getAllClonesForUser() {
+  async getAllLotsForGroup() {
     try {
-      const data = await api.getAllClonesForUser(this.main!.getters.token);
+      const data = await api.getAllLotsForGroup(this.main!.getters.token);
       if (data) {
-        this.mutations.setClones(data);
+        this.mutations.setLots(data);
       }
     } catch (error) {
       await this.main!.actions.checkApiError(error);

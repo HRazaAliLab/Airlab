@@ -3,6 +3,8 @@ import { CloneController } from "./clone.controller";
 import { CloneService } from "./clone.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { CloneEntity } from "./clone.entity";
+import { GroupUserService } from "../groupUser/groupUser.service";
+import { GroupUserEntity } from "../groupUser/groupUser.entity";
 
 describe("CloneController", () => {
   let controller: CloneController;
@@ -10,9 +12,9 @@ describe("CloneController", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([CloneEntity])],
+      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([CloneEntity, GroupUserEntity])],
       controllers: [CloneController],
-      providers: [CloneService],
+      providers: [CloneService, GroupUserService],
     }).compile();
 
     controller = module.get<CloneController>(CloneController);

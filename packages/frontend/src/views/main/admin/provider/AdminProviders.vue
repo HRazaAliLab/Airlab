@@ -46,7 +46,7 @@
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon @click="deleteProvider($event, item.id)">
+              <v-btn v-on="on" icon @click="deleteProvider(item.id)">
                 <v-icon color="red accent-1">mdi-delete</v-icon>
               </v-btn>
             </template>
@@ -100,7 +100,7 @@ export default class AdminProviders extends Vue {
     await this.providerContext.actions.getProviders();
   }
 
-  async deleteProvider(event, id: number) {
+  async deleteProvider(id: number) {
     if (self.confirm("Are you sure you want to delete the provider?")) {
       await this.providerContext.actions.deleteProvider(id);
     }

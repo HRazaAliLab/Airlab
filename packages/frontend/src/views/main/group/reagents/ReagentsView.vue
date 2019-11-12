@@ -37,7 +37,7 @@
                 v-on="on"
                 icon
                 :to="{
-                  name: 'main-group-proteins-edit',
+                  name: 'main-group-reagents-edit',
                   params: {
                     groupId: activeGroupId,
                     id: item.id,
@@ -51,7 +51,7 @@
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon @click="deleteReagent($event, item.id)">
+              <v-btn v-on="on" icon @click="deleteReagent(item.id)">
                 <v-icon color="red accent-1">mdi-delete</v-icon>
               </v-btn>
             </template>
@@ -68,7 +68,7 @@
                 {{ item.name }}
               </v-card-title>
               <v-card-text>
-                {{ item.description }}
+                {{ item.reference }}
               </v-card-text>
             </v-card>
           </td>
@@ -118,7 +118,7 @@ export default class ReagentsView extends Vue {
       text: "Id",
       sortable: true,
       value: "id",
-      align: "right",
+      align: "end",
       filterable: false,
       width: "80",
     },
@@ -126,25 +126,21 @@ export default class ReagentsView extends Vue {
       text: "Name",
       sortable: true,
       value: "name",
-      align: "left",
     },
     {
       text: "Reference",
       sortable: true,
       value: "reference",
-      align: "left",
     },
     {
       text: "Provider",
       sortable: true,
-      value: "providerId",
-      align: "left",
+      value: "provider.name",
     },
     {
       text: "Created by",
       sortable: true,
-      value: "createdBy",
-      align: "left",
+      value: "user.name",
     },
     {
       text: "Actions",
@@ -174,7 +170,7 @@ export default class ReagentsView extends Vue {
     }
   }
 
-  async deleteReagent(event, id: number) {
+  async deleteReagent(id: number) {
     if (self.confirm("Are you sure you want to delete the reagent?")) {
       await this.reagentContext.actions.deleteReagent(id);
     }

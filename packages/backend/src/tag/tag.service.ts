@@ -12,7 +12,9 @@ export class TagService {
   ) {}
 
   async findAll() {
-    return this.repository.find();
+    return this.repository.find({
+      select: ["id", "name", "mw", "isFluorophore", "isMetal"],
+    });
   }
 
   async create(params: CreateTagDto) {
@@ -25,7 +27,9 @@ export class TagService {
   }
 
   async findById(id: number) {
-    return this.repository.findOne(id);
+    return this.repository.findOne(id, {
+      select: ["id", "name", "mw", "isFluorophore", "isMetal"],
+    });
   }
 
   async deleteById(id: number) {

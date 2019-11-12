@@ -117,10 +117,42 @@ exports.LotDto = LotDto;
 class CreateLotDto {
 }
 __decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], CreateLotDto.prototype, "groupId", void 0);
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], CreateLotDto.prototype, "cloneId", void 0);
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], CreateLotDto.prototype, "reagentId", void 0);
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], CreateLotDto.prototype, "providerId", void 0);
+__decorate([
     class_validator_1.IsString(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
-], CreateLotDto.prototype, "status", void 0);
+], CreateLotDto.prototype, "number", void 0);
+__decorate([
+    class_validator_1.IsUrl(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", String)
+], CreateLotDto.prototype, "url", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", String)
+], CreateLotDto.prototype, "purpose", void 0);
 exports.CreateLotDto = CreateLotDto;
 class UpdateLotDto {
 }

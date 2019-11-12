@@ -3,6 +3,8 @@ import { LotController } from "./lot.controller";
 import { LotService } from "./lot.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { LotEntity } from "./lot.entity";
+import { GroupUserService } from "../groupUser/groupUser.service";
+import { GroupUserEntity } from "../groupUser/groupUser.entity";
 
 describe("ReagentInstanceController", () => {
   let controller: LotController;
@@ -10,9 +12,9 @@ describe("ReagentInstanceController", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([LotEntity])],
+      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([LotEntity, GroupUserEntity])],
       controllers: [LotController],
-      providers: [LotService],
+      providers: [LotService, GroupUserService],
     }).compile();
 
     controller = module.get<LotController>(LotController);

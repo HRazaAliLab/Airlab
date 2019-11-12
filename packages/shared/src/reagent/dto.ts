@@ -31,6 +31,8 @@ export class ReagentDto {
 }
 
 export class CreateReagentDto {
+  readonly createdBy?: number;
+
   @IsInt()
   @ApiModelProperty()
   readonly groupId: number;
@@ -60,8 +62,4 @@ export class UpdateReagentDto {
   @IsString()
   @ApiModelPropertyOptional()
   readonly reference: string;
-
-  @IsBoolean()
-  @ApiModelPropertyOptional()
-  readonly isDeleted: boolean;
 }

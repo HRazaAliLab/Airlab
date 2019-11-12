@@ -6,7 +6,7 @@
       </v-card-title>
       <v-card-text>
         <template>
-          <v-form v-model="valid" ref="form" lazy-validation>
+          <v-form v-model="valid" ref="form">
             <v-text-field label="Name" v-model="name" :rules="nameRules" />
             <v-text-field label="Description" v-model="description" />
           </v-form>
@@ -36,7 +36,7 @@ export default class EditProtein extends Vue {
 
   readonly nameRules = [required];
 
-  valid = true;
+  valid = false;
   name = "";
   description = "";
 

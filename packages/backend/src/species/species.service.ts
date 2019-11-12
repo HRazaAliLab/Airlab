@@ -12,7 +12,9 @@ export class SpeciesService {
   ) {}
 
   async findAll() {
-    return this.repository.find();
+    return this.repository.find({
+      select: ["id", "name", "acronym"],
+    });
   }
 
   async create(params: CreateSpeciesDto) {
@@ -25,7 +27,9 @@ export class SpeciesService {
   }
 
   async findById(id: number) {
-    return this.repository.findOne(id);
+    return this.repository.findOne(id, {
+      select: ["id", "name", "acronym"],
+    });
   }
 
   async deleteById(id: number) {

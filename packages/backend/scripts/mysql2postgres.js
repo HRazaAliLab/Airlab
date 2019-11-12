@@ -208,7 +208,7 @@ async function migrateClone() {
       continue;
     }
     const sql =
-      'INSERT INTO "clone"(id, group_id, created_by, protein_id, species_id, name, isotype, region, is_phospho, is_polyclonal, reactivity, application, is_deleted, is_public, meta) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)';
+      'INSERT INTO "clone"(id, group_id, created_by, protein_id, species_id, name, isotype, epitope, is_phospho, is_polyclonal, reactivity, application, is_deleted, is_public, meta) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)';
 
     let reactivity = row["cloReactivity"];
     if (reactivity === "") {
@@ -324,7 +324,7 @@ async function migrateLot() {
       row["lotNumber"],
       row["reiStatus"],
       row["reiPurpose"],
-      row["lotDataSheetLink"],
+      row["lotDataSheetLink"] === "0" ? null : row["lotDataSheetLink"],
       row["reiRequestedAt"] === "" || row["reiRequestedAt"] === null || row["reiRequestedAt"] === "0"
         ? null
         : row["reiRequestedAt"].replace("0000", "").trim(),

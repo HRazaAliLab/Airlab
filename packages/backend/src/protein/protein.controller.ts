@@ -11,12 +11,6 @@ import { CreateProteinDto, ProteinDto, UpdateProteinDto } from "@airlab/shared/l
 export class ProteinController {
   constructor(private readonly proteinService: ProteinService) {}
 
-  @Get()
-  @ApiCreatedResponse({ description: "Find all entities.", type: ProteinDto, isArray: true })
-  findAll() {
-    return this.proteinService.findAll();
-  }
-
   @Get(":id")
   @ApiCreatedResponse({ description: "Find entity by Id.", type: ProteinDto })
   findById(@Param("id") id: number) {

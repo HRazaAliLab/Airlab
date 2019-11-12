@@ -49,7 +49,7 @@
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon @click="deleteGroup($event, item.id)">
+              <v-btn v-on="on" icon @click="deleteGroup(item.id)">
                 <v-icon color="red accent-1">mdi-delete</v-icon>
               </v-btn>
             </template>
@@ -117,7 +117,7 @@ export default class AdminGroups extends Vue {
     await this.groupContext.actions.getGroups();
   }
 
-  async deleteGroup(event, id: number) {
+  async deleteGroup(id: number) {
     if (self.confirm("Are you sure you want to delete the group?")) {
       await this.groupContext.actions.deleteGroup(id);
     }

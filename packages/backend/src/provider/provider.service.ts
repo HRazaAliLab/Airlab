@@ -12,7 +12,12 @@ export class ProviderService {
   ) {}
 
   async findAll() {
-    return this.repository.find();
+    return this.repository.find({
+      select: ["id", "name"],
+      order: {
+        name: "ASC",
+      },
+    });
   }
 
   async create(params: CreateProviderDto) {
@@ -25,6 +30,8 @@ export class ProviderService {
   }
 
   async findById(id: number) {
-    return this.repository.findOne(id);
+    return this.repository.findOne(id, {
+      select: ["id", "name"],
+    });
   }
 }

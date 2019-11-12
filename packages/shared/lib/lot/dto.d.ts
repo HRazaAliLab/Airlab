@@ -26,7 +26,15 @@ export declare class LotDto {
     readonly updatedAt: string;
 }
 export declare class CreateLotDto {
-    readonly status: string;
+    readonly createdBy?: number;
+    readonly status?: string;
+    readonly groupId: number;
+    readonly cloneId: number;
+    readonly reagentId: number;
+    readonly providerId: number;
+    readonly number: string;
+    readonly url: string | null;
+    readonly purpose: string | null;
 }
 export declare class UpdateLotDto {
     readonly status: string;

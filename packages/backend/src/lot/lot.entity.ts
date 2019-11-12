@@ -1,5 +1,8 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { GroupEntity } from "../group/group.entity";
+import { ReagentEntity } from "../reagent/reagent.entity";
+import { ProviderEntity } from "../provider/provider.entity";
+import { CloneEntity } from "../clone/clone.entity";
 
 @Entity({
   name: "lot",
@@ -112,26 +115,42 @@ export class LotEntity {
 
   @Column({
     name: "is_deleted",
+    select: false,
   })
   isDeleted: boolean;
 
   @Column({
     name: "meta",
     type: "jsonb",
+    select: false,
   })
   meta: object;
 
   @Column({
     name: "created_at",
+    select: false,
   })
   createdAt: string;
 
   @Column({
     name: "updated_at",
+    select: false,
   })
   updatedAt: string;
 
   @ManyToOne(type => GroupEntity, group => group.lots)
   @JoinColumn({ name: "group_id" })
   group: GroupEntity;
+
+  @ManyToOne(type => ReagentEntity)
+  @JoinColumn({ name: "reagent_id" })
+  reagent: ReagentEntity;
+
+  @ManyToOne(type => ProviderEntity)
+  @JoinColumn({ name: "provider_id" })
+  provider: ProviderEntity;
+
+  @ManyToOne(type => CloneEntity)
+  @JoinColumn({ name: "clone_id" })
+  clone: CloneEntity;
 }
