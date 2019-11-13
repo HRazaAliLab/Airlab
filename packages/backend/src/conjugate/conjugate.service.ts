@@ -4,6 +4,7 @@ import { Repository } from "typeorm";
 import { ConjugateEntity } from "./conjugate.entity";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
 import { CreateConjugateDto, UpdateConjugateDto } from "@airlab/shared/lib/conjugate/dto";
+import { UserEntity } from "../user/user.entity";
 
 @Injectable()
 export class ConjugateService {
@@ -37,17 +38,14 @@ export class ConjugateService {
   async getAllConjugatesForGroup(userId: number) {
     const result = await this.repository
       .createQueryBuilder("conjugate")
-      .leftJoinAndSelect("conjugate.tag", "tag")
-      .leftJoinAndSelect("conjugate.groupUser", "groupUser")
+      .leftJoin("conjugate.tag", "tag")
+      .addSelect(["tag.id", "tag.name", "tag.mw"])
+      .leftJoin("conjugate.lot", "lot")
+      .addSelect(["lot.id", "lot.number"])
+      .leftJoin("conjugate.groupUser", "groupUser")
+      .leftJoinAndMapOne("conjugate.user", UserEntity, "user", "groupUser.userId = user.id")
       .orderBy({ "conjugate.tubeNumber": "DESC" })
       .getMany();
-    // const result = await this.repository
-    //   .createQueryBuilder("conjugate")
-    //   .leftJoinAndSelect(TagEntity, "tag", "conjugate.tagId = tag.id")
-    //   .leftJoin(GroupUserEntity, "groupUser", "conjugate.groupId = groupUser.groupId")
-    //   .where("groupUser.userId = :userId", { userId: userId })
-    //   .orderBy({ "conjugate.tubeNumber": "DESC" })
-    //   .getMany();
     return result;
   }
 

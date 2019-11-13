@@ -1,29 +1,41 @@
 import { Mutations } from "vuex-smart-module";
-import { ProviderState } from ".";
+import { providerListSchema, ProviderState } from ".";
 import { ProviderDto } from "@airlab/shared/lib/provider/dto";
+import { normalize } from "normalizr";
 
 export class ProviderMutations extends Mutations<ProviderState> {
-  setProviders(payload: ProviderDto[]) {
-    this.state.providers = payload;
+  setEntities(payload: ProviderDto[]) {
+    const normalizedData = normalize<ProviderDto>(payload, providerListSchema);
+    this.state.ids = normalizedData.result;
+    this.state.entities = normalizedData.entities.species;
   }
 
-  setProvider(payload: ProviderDto) {
-    const items = this.state.providers.filter(item => item.id !== payload.id);
-    items.push(payload);
-    this.state.providers = items;
+  setEntity(payload: ProviderDto) {
+    const existingId = this.state.ids.find(id => id === payload.id);
+    if (!existingId) {
+      this.state.ids = this.state.ids.concat(payload.id);
+    }
+    this.state.entities[payload.id] = payload;
   }
 
-  deleteProvider(payload: ProviderDto) {
-    const items = this.state.providers.filter(item => item.id !== payload.id);
-    this.state.providers = items;
+  addEntity(payload: ProviderDto) {
+    this.state.ids = this.state.ids.concat(payload.id);
+    this.state.entities[payload.id] = payload;
   }
 
-  deleteProviderById(id: number) {
-    const items = this.state.providers.filter(item => item.id !== id);
-    this.state.providers = items;
+  updateEntity(payload: ProviderDto) {
+    this.state.entities[payload.id] = payload;
+  }
+
+  deleteEntity(id: number) {
+    this.state.ids = this.state.ids.filter(item => item !== id);
+    const entities = Object.assign({}, this.state.entities);
+    delete entities[id];
+    this.state.entities = entities;
   }
 
   reset() {
-    this.state.providers = [];
+    this.state.ids = [];
+    this.state.entities = {};
   }
 }

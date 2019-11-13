@@ -146,7 +146,7 @@ __decorate([
     class_validator_1.IsOptional(),
     swagger_1.ApiModelPropertyOptional(),
     __metadata("design:type", String)
-], CreateLotDto.prototype, "url", void 0);
+], CreateLotDto.prototype, "link", void 0);
 __decorate([
     class_validator_1.IsString(),
     class_validator_1.IsOptional(),
@@ -158,8 +158,41 @@ class UpdateLotDto {
 }
 __decorate([
     class_validator_1.IsString(),
-    swagger_1.ApiModelProperty(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiModelPropertyOptional(),
     __metadata("design:type", String)
 ], UpdateLotDto.prototype, "status", void 0);
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], UpdateLotDto.prototype, "cloneId", void 0);
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], UpdateLotDto.prototype, "reagentId", void 0);
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], UpdateLotDto.prototype, "providerId", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", String)
+], UpdateLotDto.prototype, "number", void 0);
+__decorate([
+    class_validator_1.IsUrl(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", String)
+], UpdateLotDto.prototype, "link", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", String)
+], UpdateLotDto.prototype, "purpose", void 0);
 exports.UpdateLotDto = UpdateLotDto;
 //# sourceMappingURL=dto.js.map

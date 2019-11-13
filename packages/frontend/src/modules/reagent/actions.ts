@@ -21,7 +21,7 @@ export class ReagentActions extends Actions<ReagentState, ReagentGetters, Reagen
     try {
       const data = await api.getReagents(this.main!.getters.token);
       if (data) {
-        this.mutations.setReagents(data);
+        this.mutations.setEntities(data);
       }
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -32,11 +32,8 @@ export class ReagentActions extends Actions<ReagentState, ReagentGetters, Reagen
     try {
       const notification = { content: "saving", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = (await Promise.all([
-        api.createReagent(this.main!.getters.token, payload),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
-      ]))[0];
-      this.mutations.setReagent(data);
+      const data = await api.createReagent(this.main!.getters.token, payload);
+      this.mutations.addEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Reagent successfully created", color: "success" });
     } catch (error) {
@@ -48,7 +45,7 @@ export class ReagentActions extends Actions<ReagentState, ReagentGetters, Reagen
     try {
       const data = await api.getReagent(this.main!.getters.token, id);
       if (data) {
-        this.mutations.setReagent(data);
+        this.mutations.setEntity(data);
       }
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -59,11 +56,8 @@ export class ReagentActions extends Actions<ReagentState, ReagentGetters, Reagen
     try {
       const notification = { content: "saving", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = (await Promise.all([
-        api.updateReagent(this.main!.getters.token, payload.id, payload.data),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
-      ]))[0];
-      this.mutations.setReagent(data);
+      const data = await api.updateReagent(this.main!.getters.token, payload.id, payload.data);
+      this.mutations.updateEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Reagent successfully updated", color: "success" });
     } catch (error) {
@@ -75,11 +69,8 @@ export class ReagentActions extends Actions<ReagentState, ReagentGetters, Reagen
     try {
       const notification = { content: "deleting", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = (await Promise.all([
-        api.deleteReagent(this.main!.getters.token, id),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
-      ]))[0];
-      this.mutations.deleteReagentById(data);
+      const data = await api.deleteReagent(this.main!.getters.token, id);
+      this.mutations.deleteEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Reagent successfully deleted", color: "success" });
     } catch (error) {
@@ -91,7 +82,7 @@ export class ReagentActions extends Actions<ReagentState, ReagentGetters, Reagen
     try {
       const data = await api.getAllReagentsForGroup(this.main!.getters.token, groupId);
       if (data) {
-        this.mutations.setReagents(data);
+        this.mutations.setEntities(data);
       }
     } catch (error) {
       await this.main!.actions.checkApiError(error);

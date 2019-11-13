@@ -21,7 +21,7 @@ export class ProteinActions extends Actions<ProteinState, ProteinGetters, Protei
     try {
       const data = await api.getProteins(this.main!.getters.token);
       if (data) {
-        this.mutations.setProteins(data);
+        this.mutations.setEntities(data);
       }
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -32,11 +32,8 @@ export class ProteinActions extends Actions<ProteinState, ProteinGetters, Protei
     try {
       const notification = { content: "saving", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = (await Promise.all([
-        api.createProtein(this.main!.getters.token, payload),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
-      ]))[0];
-      this.mutations.setProtein(data);
+      const data = await api.createProtein(this.main!.getters.token, payload);
+      this.mutations.addEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Protein successfully created", color: "success" });
     } catch (error) {
@@ -48,7 +45,7 @@ export class ProteinActions extends Actions<ProteinState, ProteinGetters, Protei
     try {
       const data = await api.getProtein(this.main!.getters.token, id);
       if (data) {
-        this.mutations.setProtein(data);
+        this.mutations.setEntity(data);
       }
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -59,11 +56,8 @@ export class ProteinActions extends Actions<ProteinState, ProteinGetters, Protei
     try {
       const notification = { content: "saving", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = (await Promise.all([
-        api.updateProtein(this.main!.getters.token, payload.id, payload.data),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
-      ]))[0];
-      this.mutations.setProtein(data);
+      const data = await api.updateProtein(this.main!.getters.token, payload.id, payload.data);
+      this.mutations.updateEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Protein successfully updated", color: "success" });
     } catch (error) {
@@ -75,11 +69,8 @@ export class ProteinActions extends Actions<ProteinState, ProteinGetters, Protei
     try {
       const notification = { content: "deleting", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = (await Promise.all([
-        api.deleteProtein(this.main!.getters.token, id),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
-      ]))[0];
-      this.mutations.deleteProteinById(data);
+      const data = await api.deleteProtein(this.main!.getters.token, id);
+      this.mutations.deleteEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Protein successfully deleted", color: "success" });
     } catch (error) {
@@ -91,7 +82,7 @@ export class ProteinActions extends Actions<ProteinState, ProteinGetters, Protei
     try {
       const data = await api.getAllProteinsForGroup(this.main!.getters.token, groupId);
       if (data) {
-        this.mutations.setProteins(data);
+        this.mutations.setEntities(data);
       }
     } catch (error) {
       await this.main!.actions.checkApiError(error);

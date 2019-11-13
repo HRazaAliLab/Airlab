@@ -3,10 +3,10 @@ import { PanelState } from ".";
 
 export class PanelGetters extends Getters<PanelState> {
   get panels() {
-    return this.state.panels;
+    return Object.values(this.state.entities);
   }
 
-  getPanel(id?: number) {
-    return this.panels.find(item => item.id === id);
+  getPanel(id: number) {
+    return this.state.entities[id];
   }
 }

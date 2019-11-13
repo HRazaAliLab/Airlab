@@ -30,11 +30,11 @@
         multi-sort
         show-expand
       >
-        <template v-slot:item.isPhospho="{ item }">
-          <v-icon v-if="item.isPhospho">mdi-check</v-icon>
+        <template v-slot:item.isFluor="{ item }">
+          <v-icon v-if="item.isFluor">mdi-check</v-icon>
         </template>
-        <template v-slot:item.isPolyclonal="{ item }">
-          <v-icon v-if="item.isPolyclonal">mdi-check</v-icon>
+        <template v-slot:item.isProduction="{ item }">
+          <v-icon v-if="item.isProduction">mdi-check</v-icon>
         </template>
         <template v-slot:item.action="{ item }">
           <v-tooltip bottom>
@@ -57,7 +57,7 @@
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon @click="deletePanel($event, item.id)">
+              <v-btn v-on="on" icon @click="deletePanel(item.id)">
                 <v-icon color="red accent-1">mdi-delete</v-icon>
               </v-btn>
             </template>
@@ -74,7 +74,7 @@
                 {{ item.name }}
               </v-card-title>
               <v-card-text>
-                {{ item.bindingRegion }}
+                {{ item.description }}
               </v-card-text>
             </v-card>
           </td>
@@ -124,51 +124,36 @@ export default class PanelsView extends Vue {
       text: "Id",
       sortable: true,
       value: "id",
-      align: "right",
+      align: "end",
       filterable: false,
+      width: "80",
     },
     {
       text: "Name",
       sortable: true,
       value: "name",
-      align: "left",
     },
     {
-      text: "Protein",
+      text: "Description",
       sortable: true,
-      value: "protein.name",
-      align: "left",
+      value: "description",
     },
     {
-      text: "Host Species",
+      text: "Fluor",
       sortable: true,
-      value: "hostSpecies.name",
-      align: "left",
-    },
-    {
-      text: "Epitope",
-      sortable: true,
-      value: "bindingRegion",
-      align: "left",
-    },
-    {
-      text: "Isotype",
-      sortable: true,
-      value: "isotype",
-      align: "left",
-    },
-    {
-      text: "Phosphoantibody",
-      sortable: true,
-      value: "isPhospho",
-      align: "left",
+      value: "isFluor",
       filterable: false,
     },
     {
-      text: "Polyclonal",
+      text: "Production",
       sortable: true,
-      value: "isPolyclonal",
-      align: "left",
+      value: "isProduction",
+      filterable: false,
+    },
+    {
+      text: "Application",
+      sortable: true,
+      value: "application",
       filterable: false,
     },
     {
@@ -176,6 +161,7 @@ export default class PanelsView extends Vue {
       value: "action",
       sortable: false,
       filterable: false,
+      width: "210",
     },
   ];
 
@@ -198,7 +184,7 @@ export default class PanelsView extends Vue {
     }
   }
 
-  async deletePanel(event, id: number) {
+  async deletePanel(id: number) {
     if (self.confirm("Are you sure you want to delete the panel?")) {
       await this.panelContext.actions.deletePanel(id);
     }

@@ -65,10 +65,36 @@ exports.PanelDto = PanelDto;
 class CreatePanelDto {
 }
 __decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], CreatePanelDto.prototype, "groupId", void 0);
+__decorate([
     class_validator_1.IsString(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], CreatePanelDto.prototype, "name", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", String)
+], CreatePanelDto.prototype, "description", void 0);
+__decorate([
+    class_validator_1.IsBoolean(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Boolean)
+], CreatePanelDto.prototype, "isFluor", void 0);
+__decorate([
+    class_validator_1.IsBoolean(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Boolean)
+], CreatePanelDto.prototype, "isProduction", void 0);
+__decorate([
+    class_validator_1.IsInt(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], CreatePanelDto.prototype, "application", void 0);
 exports.CreatePanelDto = CreatePanelDto;
 class UpdatePanelDto {
 }
@@ -77,5 +103,26 @@ __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], UpdatePanelDto.prototype, "name", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", String)
+], UpdatePanelDto.prototype, "description", void 0);
+__decorate([
+    class_validator_1.IsBoolean(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Boolean)
+], UpdatePanelDto.prototype, "isFluor", void 0);
+__decorate([
+    class_validator_1.IsBoolean(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Boolean)
+], UpdatePanelDto.prototype, "isProduction", void 0);
+__decorate([
+    class_validator_1.IsInt(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], UpdatePanelDto.prototype, "application", void 0);
 exports.UpdatePanelDto = UpdatePanelDto;
 //# sourceMappingURL=dto.js.map

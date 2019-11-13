@@ -1,29 +1,41 @@
 import { Mutations } from "vuex-smart-module";
-import { TagState } from ".";
+import { tagListSchema, TagState } from ".";
 import { TagDto } from "@airlab/shared/lib/tag/dto";
+import { normalize } from "normalizr";
 
 export class TagMutations extends Mutations<TagState> {
-  setTags(payload: TagDto[]) {
-    this.state.tags = payload;
+  setEntities(payload: TagDto[]) {
+    const normalizedData = normalize<TagDto>(payload, tagListSchema);
+    this.state.ids = normalizedData.result;
+    this.state.entities = normalizedData.entities.tags;
   }
 
-  setTag(payload: TagDto) {
-    const items = this.state.tags.filter(item => item.id !== payload.id);
-    items.push(payload);
-    this.state.tags = items;
+  setEntity(payload: TagDto) {
+    const existingId = this.state.ids.find(id => id === payload.id);
+    if (!existingId) {
+      this.state.ids = this.state.ids.concat(payload.id);
+    }
+    this.state.entities[payload.id] = payload;
   }
 
-  deleteTag(payload: TagDto) {
-    const items = this.state.tags.filter(item => item.id !== payload.id);
-    this.state.tags = items;
+  addEntity(payload: TagDto) {
+    this.state.ids = this.state.ids.concat(payload.id);
+    this.state.entities[payload.id] = payload;
   }
 
-  deleteTagById(id: number) {
-    const items = this.state.tags.filter(item => item.id !== id);
-    this.state.tags = items;
+  updateEntity(payload: TagDto) {
+    this.state.entities[payload.id] = payload;
+  }
+
+  deleteEntity(id: number) {
+    this.state.ids = this.state.ids.filter(item => item !== id);
+    const entities = Object.assign({}, this.state.entities);
+    delete entities[id];
+    this.state.entities = entities;
   }
 
   reset() {
-    this.state.tags = [];
+    this.state.ids = [];
+    this.state.entities = {};
   }
 }

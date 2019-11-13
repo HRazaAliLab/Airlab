@@ -146,12 +146,29 @@ export default new Router({
                   component: () =>
                     import(/* webpackChunkName: "main-group-shop" */ "@/views/main/group/shop/ShopView.vue"),
                 },
+
                 {
                   path: "conjugates",
                   name: "main-group-conjugates",
                   component: () =>
                     import(
                       /* webpackChunkName: "main-group-conjugates" */ "@/views/main/group/conjugates/ConjugatesView.vue"
+                    ),
+                },
+                {
+                  path: "conjugates/create",
+                  name: "main-group-conjugates-create",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-conjugates-create" */ "@/views/main/group/conjugates/CreateConjugate.vue"
+                    ),
+                },
+                {
+                  path: "conjugates/edit/:id",
+                  name: "main-group-conjugates-edit",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-conjugates-edit" */ "@/views/main/group/conjugates/EditConjugate.vue"
                     ),
                 },
 
@@ -165,9 +182,7 @@ export default new Router({
                   path: "lots/create",
                   name: "main-group-lots-create",
                   component: () =>
-                    import(
-                      /* webpackChunkName: "main-group-lots-create" */ "@/views/main/group/lots/CreateLot.vue"
-                    ),
+                    import(/* webpackChunkName: "main-group-lots-create" */ "@/views/main/group/lots/CreateLot.vue"),
                 },
                 {
                   path: "lots/edit/:id",

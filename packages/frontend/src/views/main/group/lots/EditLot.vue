@@ -8,116 +8,35 @@
         <template>
           <v-form v-model="valid" ref="form">
             <v-select
-              label="Protein"
-              v-model="proteinId"
-              :items="proteins"
+              label="Clone"
+              v-model="cloneId"
+              :items="clones"
               item-text="name"
               item-value="id"
-              :rules="proteinRules"
+              :rules="cloneRules"
               dense
             />
-            <v-text-field label="Clone Name" v-model="name" :rules="nameRules" />
-            <v-text-field label="Epitope" v-model="epitope" :rules="epitopeRules" />
-            <v-text-field label="Isotype" v-model="isotype" :rules="isotypeRules" />
-            <v-checkbox label="Polyclonal" v-model="isPolyclonal" />
-            <v-checkbox label="Phosphoantibody" v-model="isPhospho" />
             <v-select
-              label="Host"
-              v-model="speciesId"
-              :items="species"
+              label="Reagent"
+              v-model="reagentId"
+              :items="reagents"
               item-text="name"
               item-value="id"
-              :rules="hostRules"
+              :rules="reagentRules"
               dense
             />
-            <v-row>
-              <v-col>
-                <div class="subtitle-1">
-                  Reactivity
-                </div>
-                <v-chip-group v-model="reactivity" multiple column active-class="primary--text">
-                  <v-chip v-for="item in species" :key="item.id" :value="item.id" small>
-                    {{ item.name }}
-                  </v-chip>
-                </v-chip-group>
-              </v-col>
-              <v-col></v-col>
-              <v-col>
-                <div class="subtitle-1">
-                  Application
-                </div>
-                <div class="subtitle-3">
-                  sMC
-                </div>
-                <v-btn-toggle v-model="smcApplication">
-                  <v-btn small value="true">
-                    <v-icon small>mdi-checkbox-marked-outline</v-icon>
-                  </v-btn>
-                  <v-btn small value="false">
-                    <v-icon small>mdi-checkbox-blank-outline</v-icon>
-                  </v-btn>
-                  <v-btn small value="undefined">
-                    <v-icon small>mdi-minus-box-outline</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-                <div class="subtitle-3">
-                  iMC
-                </div>
-                <v-btn-toggle v-model="imcApplication">
-                  <v-btn small value="true">
-                    <v-icon small>mdi-checkbox-marked-outline</v-icon>
-                  </v-btn>
-                  <v-btn small value="false">
-                    <v-icon small>mdi-checkbox-blank-outline</v-icon>
-                  </v-btn>
-                  <v-btn small value="undefined">
-                    <v-icon small>mdi-minus-box-outline</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-                <div class="subtitle-3">
-                  FC
-                </div>
-                <v-btn-toggle v-model="fcApplication">
-                  <v-btn small value="true">
-                    <v-icon small>mdi-checkbox-marked-outline</v-icon>
-                  </v-btn>
-                  <v-btn small value="false">
-                    <v-icon small>mdi-checkbox-blank-outline</v-icon>
-                  </v-btn>
-                  <v-btn small value="undefined">
-                    <v-icon small>mdi-minus-box-outline</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-                <div class="subtitle-3">
-                  IF
-                </div>
-                <v-btn-toggle v-model="ifApplication">
-                  <v-btn small value="true">
-                    <v-icon small>mdi-checkbox-marked-outline</v-icon>
-                  </v-btn>
-                  <v-btn small value="false">
-                    <v-icon small>mdi-checkbox-blank-outline</v-icon>
-                  </v-btn>
-                  <v-btn small value="undefined">
-                    <v-icon small>mdi-minus-box-outline</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-                <div class="subtitle-3">
-                  IHC
-                </div>
-                <v-btn-toggle v-model="ihcApplication">
-                  <v-btn small value="true">
-                    <v-icon small>mdi-checkbox-marked-outline</v-icon>
-                  </v-btn>
-                  <v-btn small value="false">
-                    <v-icon small>mdi-checkbox-blank-outline</v-icon>
-                  </v-btn>
-                  <v-btn small value="undefined">
-                    <v-icon small>mdi-minus-box-outline</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-              </v-col>
-            </v-row>
+            <v-select
+              label="Provider"
+              v-model="providerId"
+              :items="providers"
+              item-text="name"
+              item-value="id"
+              :rules="providerRules"
+              dense
+            />
+            <v-text-field label="Lot Number" v-model="number" :rules="numberRules" />
+            <v-text-field label="Datasheet Link" v-model="link" :rules="linkRules" />
+            <v-text-field label="Purpose" v-model="purpose" :rules="purposeRules" />
           </v-form>
         </template>
       </v-card-text>
@@ -137,57 +56,53 @@
 import { required } from "@/utils/validators";
 import { Component, Vue } from "vue-property-decorator";
 import { cloneModule } from "@/modules/clone";
-import { proteinModule } from "@/modules/protein";
-import { speciesModule } from "@/modules/species";
 import { groupModule } from "@/modules/group";
-import { UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
+import { lotModule } from "@/modules/lot";
+import { reagentModule } from "@/modules/reagent";
+import { providerModule } from "@/modules/provider";
+import { UpdateLotDto } from "@airlab/shared/lib/lot/dto";
 
 @Component
 export default class EditLot extends Vue {
   readonly groupContext = groupModule.context(this.$store);
+  readonly lotContext = lotModule.context(this.$store);
   readonly cloneContext = cloneModule.context(this.$store);
-  readonly proteinContext = proteinModule.context(this.$store);
-  readonly speciesContext = speciesModule.context(this.$store);
+  readonly reagentContext = reagentModule.context(this.$store);
+  readonly providerContext = providerModule.context(this.$store);
 
-  readonly nameRules = [required];
-  readonly proteinRules = [required];
-  readonly epitopeRules = [required];
-  readonly isotypeRules = [required];
-  readonly hostRules = [required];
-
-  readonly applicationMap = {
-    sMC: 0,
-    iMC: 1,
-    FC: 2,
-    IF: 3,
-    IHC: 4,
-  };
+  readonly cloneRules = [required];
+  readonly reagentRules = [required];
+  readonly providerRules = [required];
+  readonly numberRules = [required];
+  readonly linkRules = [];
+  readonly purposeRules = [];
 
   valid = false;
-  name = "";
-  proteinId: number | null = null;
-  epitope = "";
-  isotype = "";
-  isPolyclonal = false;
-  isPhospho = false;
-  speciesId: number | null = null;
-  reactivity: number[] = [];
-  smcApplication = "undefined";
-  imcApplication = "undefined";
-  fcApplication = "undefined";
-  ifApplication = "undefined";
-  ihcApplication = "undefined";
+  cloneId: number | null = null;
+  reagentId: number | null = null;
+  providerId: number | null = null;
+  number = "Pending";
+  link: string | null = null;
+  purpose: string | null = null;
 
-  get proteins() {
-    return this.proteinContext.getters.proteins;
+  get activeGroupId() {
+    return this.groupContext.getters.activeGroupId;
   }
 
-  get species() {
-    return this.speciesContext.getters.species;
+  get clones() {
+    return this.cloneContext.getters.clones;
   }
 
-  get clone() {
-    return this.cloneContext.getters.getClone(+this.$router.currentRoute.params.id);
+  get reagents() {
+    return this.reagentContext.getters.reagents;
+  }
+
+  get providers() {
+    return this.providerContext.getters.providers;
+  }
+
+  get lot() {
+    return this.lotContext.getters.getLot(+this.$router.currentRoute.params.id);
   }
 
   cancel() {
@@ -198,64 +113,28 @@ export default class EditLot extends Vue {
     if (this.$refs.form) {
       (this.$refs.form as any).resetValidation();
     }
-    if (this.clone) {
-      this.name = this.clone.name;
-      this.proteinId = this.clone.proteinId;
-      this.epitope = this.clone.epitope;
-      this.isotype = this.clone.isotype;
-      this.isPolyclonal = this.clone.isPolyclonal;
-      this.isPhospho = this.clone.isPhospho;
-      this.speciesId = this.clone.speciesId;
-      this.reactivity = this.clone.reactivity;
-      if (this.clone.application.hasOwnProperty(this.applicationMap.sMC)) {
-        this.smcApplication = this.clone.application[this.applicationMap.sMC].toString();
-      }
-      if (this.clone.application.hasOwnProperty(this.applicationMap.iMC)) {
-        this.imcApplication = this.clone.application[this.applicationMap.iMC].toString();
-      }
-      if (this.clone.application.hasOwnProperty(this.applicationMap.FC)) {
-        this.fcApplication = this.clone.application[this.applicationMap.FC].toString();
-      }
-      if (this.clone.application.hasOwnProperty(this.applicationMap.IF)) {
-        this.ifApplication = this.clone.application[this.applicationMap.IF].toString();
-      }
-      if (this.clone.application.hasOwnProperty(this.applicationMap.IHC)) {
-        this.ihcApplication = this.clone.application[this.applicationMap.IHC].toString();
-      }
+    if (this.lot) {
+      this.cloneId = this.lot.cloneId;
+      this.reagentId = this.lot.reagentId;
+      this.providerId = this.lot.providerId;
+      this.number = this.lot.number;
+      this.link = this.lot.link;
+      this.purpose = this.lot.purpose;
     }
   }
 
   async submit() {
-    if ((this.$refs.form as any).validate() && this.clone) {
-      const application = {};
-      if (this.smcApplication !== "undefined") {
-        application[this.applicationMap.sMC] = this.smcApplication === "true";
-      }
-      if (this.imcApplication !== "undefined") {
-        application[this.applicationMap.iMC] = this.imcApplication === "true";
-      }
-      if (this.fcApplication !== "undefined") {
-        application[this.applicationMap.FC] = this.fcApplication === "true";
-      }
-      if (this.ifApplication !== "undefined") {
-        application[this.applicationMap.IF] = this.ifApplication === "true";
-      }
-      if (this.ihcApplication !== "undefined") {
-        application[this.applicationMap.IHC] = this.ihcApplication === "true";
-      }
-      const data: UpdateCloneDto = {
-        name: this.name,
-        proteinId: Number(this.proteinId),
-        epitope: this.epitope,
-        isotype: this.isotype,
-        isPhospho: this.isPhospho,
-        isPolyclonal: this.isPolyclonal,
-        speciesId: Number(this.speciesId),
-        reactivity: this.reactivity,
-        application: application,
+    if ((this.$refs.form as any).validate() && this.lot) {
+      const data: UpdateLotDto = {
+        cloneId: Number(this.cloneId),
+        reagentId: Number(this.reagentId),
+        providerId: Number(this.providerId),
+        number: this.number,
+        link: this.link,
+        purpose: this.purpose,
       };
-      await this.cloneContext.actions.updateClone({
-        id: this.clone.id,
+      await this.lotContext.actions.updateLot({
+        id: this.lot.id,
         data: data,
       });
       this.$router.back();
@@ -264,9 +143,10 @@ export default class EditLot extends Vue {
 
   async mounted() {
     await Promise.all([
-      this.cloneContext.actions.getClone(+this.$router.currentRoute.params.id),
-      this.proteinContext.actions.getAllProteinsForGroup(+this.$router.currentRoute.params.groupId),
-      this.speciesContext.actions.getSpecies(),
+      this.lotContext.actions.getLot(+this.$router.currentRoute.params.id),
+      this.cloneContext.actions.getAllClonesForUser(),
+      this.reagentContext.actions.getAllReagentsForGroup(+this.$router.currentRoute.params.groupId),
+      this.providerContext.actions.getProviders(),
     ]);
     this.reset();
   }

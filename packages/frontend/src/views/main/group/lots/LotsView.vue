@@ -78,13 +78,13 @@
                     <div v-if="item.finishedBy">by {{ item.finishedBy }}</div>
                   </div>
                 </v-timeline-item>
-                <v-timeline-item v-if="item.receivedAt" color="blue">
+                <v-timeline-item v-if="item.receivedAt" color="orange">
                   <div class="py-4">
                     <div class="font-weight-light mb-4">Received at {{ new Date(item.receivedAt).toUTCString() }}</div>
                     <div v-if="item.receivedBy">by {{ item.receivedBy }}</div>
                   </div>
                 </v-timeline-item>
-                <v-timeline-item v-if="item.orderedAt" color="orange">
+                <v-timeline-item v-if="item.orderedAt" color="blue">
                   <div class="py-4">
                     <div class="font-weight-light mb-4">Ordered at {{ new Date(item.orderedAt).toUTCString() }}</div>
                     <div v-if="item.orderedBy">by {{ item.orderedBy }}</div>

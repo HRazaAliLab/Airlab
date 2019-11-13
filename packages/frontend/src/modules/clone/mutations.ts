@@ -1,29 +1,41 @@
 import { Mutations } from "vuex-smart-module";
-import { CloneState } from ".";
+import { cloneListSchema, CloneState } from ".";
 import { CloneDto } from "@airlab/shared/lib/clone/dto";
+import { normalize } from "normalizr";
 
 export class CloneMutations extends Mutations<CloneState> {
-  setClones(payload: CloneDto[]) {
-    this.state.clones = payload;
+  setEntities(payload: CloneDto[]) {
+    const normalizedData = normalize<CloneDto>(payload, cloneListSchema);
+    this.state.ids = normalizedData.result;
+    this.state.entities = normalizedData.entities.clones;
   }
 
-  setClone(payload: CloneDto) {
-    const items = this.state.clones.filter(item => item.id !== payload.id);
-    items.push(payload);
-    this.state.clones = items;
+  setEntity(payload: CloneDto) {
+    const existingId = this.state.ids.find(id => id === payload.id);
+    if (!existingId) {
+      this.state.ids = this.state.ids.concat(payload.id);
+    }
+    this.state.entities[payload.id] = payload;
   }
 
-  deleteClone(payload: CloneDto) {
-    const items = this.state.clones.filter(item => item.id !== payload.id);
-    this.state.clones = items;
+  addEntity(payload: CloneDto) {
+    this.state.ids = this.state.ids.concat(payload.id);
+    this.state.entities[payload.id] = payload;
   }
 
-  deleteCloneById(id: number) {
-    const items = this.state.clones.filter(item => item.id !== id);
-    this.state.clones = items;
+  updateEntity(payload: CloneDto) {
+    this.state.entities[payload.id] = payload;
+  }
+
+  deleteEntity(id: number) {
+    this.state.ids = this.state.ids.filter(item => item !== id);
+    const entities = Object.assign({}, this.state.entities);
+    delete entities[id];
+    this.state.entities = entities;
   }
 
   reset() {
-    this.state.clones = [];
+    this.state.ids = [];
+    this.state.entities = {};
   }
 }

@@ -8,7 +8,7 @@
         <template>
           <v-form v-model="valid" ref="form" lazy-validation>
             <v-text-field label="Name" v-model="name" :rules="nameRules" />
-            <v-text-field label="MW" v-model="mw" :rules="mwRules" />
+            <v-text-field label="MW" v-model.number="mw" :rules="mwRules" type="number" />
             <v-checkbox label="Fluorophore" v-model="isFluorophore" />
             <v-checkbox label="Metal" v-model="isMetal" />
           </v-form>
@@ -37,11 +37,11 @@ export default class EditTag extends Vue {
   readonly tagContext = tagModule.context(this.$store);
 
   readonly nameRules = [required];
-  readonly mwRules = [required];
+  readonly mwRules = [];
 
   valid = true;
   name = "";
-  mw = "";
+  mw: number | null = null;
   isFluorophore = false;
   isMetal = false;
 
@@ -56,7 +56,7 @@ export default class EditTag extends Vue {
 
   reset() {
     this.name = "";
-    this.mw = "";
+    this.mw = null;
     this.isFluorophore = false;
     this.isMetal = false;
     if (this.$refs.form) {

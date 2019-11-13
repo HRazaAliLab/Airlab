@@ -7,110 +7,11 @@
       <v-card-text>
         <template>
           <v-form v-model="valid" ref="form" lazy-validation>
-            <v-combobox label="Protein" v-model="protein" :items="proteins" item-text="name" item-value="id" />
-            <v-text-field label="Clone Name" v-model="name" :rules="nameRules" />
-            <v-text-field label="Binding Region" v-model="bindingRegion" :rules="bindingRegionRules" />
-            <v-text-field label="Isotype" v-model="isotype" :rules="isotypeRules" />
-            <v-checkbox label="Polyclonal" v-model="isPolyclonal" />
-            <v-checkbox label="Phosphoantibody" v-model="isPhospho" />
-            <v-select
-              label="Host Species"
-              v-model="speciesHost"
-              :items="species"
-              item-text="name"
-              item-value="id"
-              :rules="speciesHostRules"
-            />
-            <div class="subtitle-1">
-              Reactivity
-            </div>
-            <v-chip-group v-model="reactivity" multiple column active-class="primary--text">
-              <v-chip v-for="item in species" :key="item.id" :value="item.id" small>
-                {{ item.name }}
-              </v-chip>
-            </v-chip-group>
-            <v-row>
-              <v-col>
-                <div class="subtitle-1">
-                  sMC
-                </div>
-                <v-btn-toggle v-model="smcApplication">
-                  <v-btn value="true">
-                    <v-icon>mdi-checkbox-marked-outline</v-icon>
-                  </v-btn>
-                  <v-btn value="false">
-                    <v-icon>mdi-checkbox-blank-outline</v-icon>
-                  </v-btn>
-                  <v-btn value="undefined">
-                    <v-icon>mdi-minus-box-outline</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-              </v-col>
-              <v-col>
-                <div class="subtitle-1">
-                  iMC
-                </div>
-                <v-btn-toggle v-model="imcApplication">
-                  <v-btn value="true">
-                    <v-icon>mdi-checkbox-marked-outline</v-icon>
-                  </v-btn>
-                  <v-btn value="false">
-                    <v-icon>mdi-checkbox-blank-outline</v-icon>
-                  </v-btn>
-                  <v-btn value="undefined">
-                    <v-icon>mdi-minus-box-outline</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-              </v-col>
-              <v-col>
-                <div class="subtitle-1">
-                  FC
-                </div>
-                <v-btn-toggle v-model="fcApplication">
-                  <v-btn value="true">
-                    <v-icon>mdi-checkbox-marked-outline</v-icon>
-                  </v-btn>
-                  <v-btn value="false">
-                    <v-icon>mdi-checkbox-blank-outline</v-icon>
-                  </v-btn>
-                  <v-btn value="undefined">
-                    <v-icon>mdi-minus-box-outline</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-              </v-col>
-              <v-col>
-                <div class="subtitle-1">
-                  IF
-                </div>
-                <v-btn-toggle v-model="ifApplication">
-                  <v-btn value="true">
-                    <v-icon>mdi-checkbox-marked-outline</v-icon>
-                  </v-btn>
-                  <v-btn value="false">
-                    <v-icon>mdi-checkbox-blank-outline</v-icon>
-                  </v-btn>
-                  <v-btn value="undefined">
-                    <v-icon>mdi-minus-box-outline</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-              </v-col>
-              <v-col>
-                <div class="subtitle-1">
-                  IHC
-                </div>
-                <v-btn-toggle v-model="ihcApplication">
-                  <v-btn value="true">
-                    <v-icon>mdi-checkbox-marked-outline</v-icon>
-                  </v-btn>
-                  <v-btn value="false">
-                    <v-icon>mdi-checkbox-blank-outline</v-icon>
-                  </v-btn>
-                  <v-btn value="undefined">
-                    <v-icon>mdi-minus-box-outline</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-              </v-col>
-            </v-row>
+            <v-text-field label="Name" v-model="name" :rules="nameRules" />
+            <v-text-field label="Description" v-model="description" :rules="descriptionRules" />
+            <v-text-field label="Application" v-model="application" :rules="applicationRules" />
+            <v-checkbox label="Fluor" v-model="isFluor" />
+            <v-checkbox label="Production" v-model="isProduction" />
           </v-form>
         </template>
       </v-card-text>
@@ -129,113 +30,55 @@
 <script lang="ts">
 import { required } from "@/utils/validators";
 import { Component, Vue } from "vue-property-decorator";
-import { cloneModule } from "@/modules/clone";
-import { CreateCloneDto } from "@airlab/shared/lib/clone/dto";
-import { proteinModule } from "@/modules/protein";
-import { speciesModule } from "@/modules/species";
+import { groupModule } from "@/modules/group";
+import { panelModule } from "@/modules/panel";
+import { CreatePanelDto } from "@airlab/shared/lib/panel/dto";
 
 @Component
 export default class CreatePanel extends Vue {
-  readonly cloneContext = cloneModule.context(this.$store);
-  readonly proteinContext = proteinModule.context(this.$store);
-  readonly speciesContext = speciesModule.context(this.$store);
+  readonly groupContext = groupModule.context(this.$store);
+  readonly panelContext = panelModule.context(this.$store);
 
   readonly nameRules = [required];
-  readonly bindingRegionRules = [required];
-  readonly isotypeRules = [required];
-  readonly speciesHostRules = [required];
+  readonly descriptionRules = [];
+  readonly applicationRules = [required];
 
-  readonly applications = [
-    {
-      name: "sMC",
-      value: 0,
-    },
-    {
-      name: "iMC",
-      value: 1,
-    },
-    {
-      name: "FC",
-      value: 2,
-    },
-    {
-      name: "IF",
-      value: 3,
-    },
-    {
-      name: "IHC",
-      value: 4,
-    },
-  ];
-
-  valid = true;
+  valid = false;
   name = "";
-  protein = "";
-  bindingRegion = "";
-  isotype = "";
-  isPolyclonal = false;
-  isPhospho = false;
-  speciesHost = "";
-  reactivity = [];
-  smcApplication = "undefined";
-  imcApplication = "undefined";
-  fcApplication = "undefined";
-  ifApplication = "undefined";
-  ihcApplication = "undefined";
-  application = [];
+  description = "";
+  application: number | null = null;
+  isFluor = false;
+  isProduction = false;
 
-  get proteins() {
-    return this.proteinContext.getters.proteins;
-  }
-
-  get species() {
-    return this.speciesContext.getters.species;
-  }
-
-  reset() {
-    this.name = "";
-    this.protein = "";
-    this.bindingRegion = "";
-    this.isotype = "";
-    this.isPolyclonal = false;
-    this.isPhospho = false;
-    this.speciesHost = "";
-    this.reactivity = [];
-    this.smcApplication = "undefined";
-    this.imcApplication = "undefined";
-    this.fcApplication = "undefined";
-    this.ifApplication = "undefined";
-    this.ihcApplication = "undefined";
-    this.application = [];
-    (this.$refs.form as any).resetValidation();
+  get activeGroupId() {
+    return this.groupContext.getters.activeGroupId;
   }
 
   cancel() {
     this.$router.back();
   }
 
-  async mounted() {
-    await Promise.all([
-      this.proteinContext.actions.getAllProteinsForGroup(+this.$router.currentRoute.params.groupId),
-      this.speciesContext.actions.getSpecies(),
-    ]);
+  reset() {
+    this.name = "";
+    this.description = "";
+    this.application = null;
+    this.isFluor = false;
+    this.isProduction = false;
+    (this.$refs.form as any).resetValidation();
   }
 
   async submit() {
-    if ((this.$refs.form as any).validate()) {
-      // const data: CreateCloneDto = {
-      //   name: this.name,
-      //   proteinId: parseInt(this.protein, 10),
-      //   bindingRegion: this.bindingRegion,
-      //   isotype: this.isotype,
-      //   isPhospho: this.isPhospho,
-      //   isPolyclonal: this.isPolyclonal,
-      //   speciesHost: parseInt(this.speciesHost, 10),
-      //   reactivity: this.reactivity,
-      //   application: this.application,
-      // };
-      // await this.cloneContext.actions.createClone(data);
-      // this.$router.back();
+    if ((this.$refs.form as any).validate() && this.activeGroupId) {
+      const data: CreatePanelDto = {
+        groupId: this.activeGroupId,
+        name: this.name,
+        description: this.description,
+        application: this.application,
+        isFluor: this.isFluor,
+        isProduction: this.isProduction,
+      };
+      await this.panelContext.actions.createPanel(data);
+      this.$router.back();
     }
   }
 }

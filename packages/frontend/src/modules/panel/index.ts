@@ -3,13 +3,18 @@ import { PanelGetters } from "./getters";
 import { PanelMutations } from "./mutations";
 import { PanelActions } from "./actions";
 import { PanelDto } from "@airlab/shared/lib/panel/dto";
+import { schema } from "normalizr";
+
+export const panelSchema = new schema.Entity("panels");
+export const panelListSchema = [panelSchema];
 
 export class PanelState {
-  panels: PanelDto[] = [];
+  ids: ReadonlyArray<number> = [];
+  entities: { [key: number]: PanelDto } = {};
 }
 
 export const panelModule = new Module({
-  namespaced: false,
+  namespaced: true,
 
   state: PanelState,
   getters: PanelGetters,

@@ -1,29 +1,41 @@
 import { Mutations } from "vuex-smart-module";
-import { ProteinState } from ".";
+import { proteinListSchema, ProteinState } from ".";
 import { ProteinDto } from "@airlab/shared/lib/protein/dto";
+import { normalize } from "normalizr";
 
 export class ProteinMutations extends Mutations<ProteinState> {
-  setProteins(payload: ProteinDto[]) {
-    this.state.proteins = payload;
+  setEntities(payload: ProteinDto[]) {
+    const normalizedData = normalize<ProteinDto>(payload, proteinListSchema);
+    this.state.ids = normalizedData.result;
+    this.state.entities = normalizedData.entities.proteins;
   }
 
-  setProtein(payload: ProteinDto) {
-    const items = this.state.proteins.filter(item => item.id !== payload.id);
-    items.push(payload);
-    this.state.proteins = items;
+  setEntity(payload: ProteinDto) {
+    const existingId = this.state.ids.find(id => id === payload.id);
+    if (!existingId) {
+      this.state.ids = this.state.ids.concat(payload.id);
+    }
+    this.state.entities[payload.id] = payload;
   }
 
-  deleteProtein(payload: ProteinDto) {
-    const items = this.state.proteins.filter(item => item.id !== payload.id);
-    this.state.proteins = items;
+  addEntity(payload: ProteinDto) {
+    this.state.ids = this.state.ids.concat(payload.id);
+    this.state.entities[payload.id] = payload;
   }
 
-  deleteProteinById(id: number) {
-    const items = this.state.proteins.filter(item => item.id !== id);
-    this.state.proteins = items;
+  updateEntity(payload: ProteinDto) {
+    this.state.entities[payload.id] = payload;
+  }
+
+  deleteEntity(id: number) {
+    this.state.ids = this.state.ids.filter(item => item !== id);
+    const entities = Object.assign({}, this.state.entities);
+    delete entities[id];
+    this.state.entities = entities;
   }
 
   reset() {
-    this.state.proteins = [];
+    this.state.ids = [];
+    this.state.entities = {};
   }
 }

@@ -6,111 +6,27 @@
       </v-card-title>
       <v-card-text>
         <template>
-          <v-form v-model="valid" ref="form" lazy-validation>
-            <v-combobox label="Protein" v-model="protein" :items="proteins" item-text="name" item-value="id" />
-            <v-text-field label="Clone Name" v-model="name" :rules="nameRules" />
-            <v-text-field label="Binding Region" v-model="bindingRegion" :rules="bindingRegionRules" />
-            <v-text-field label="Isotype" v-model="isotype" :rules="isotypeRules" />
-            <v-checkbox label="Polyclonal" v-model="isPolyclonal" />
-            <v-checkbox label="Phosphoantibody" v-model="isPhospho" />
+          <v-form v-model="valid" ref="form">
             <v-select
-              label="Host Species"
-              v-model="speciesHost"
-              :items="species"
+              label="Lot"
+              v-model="lotId"
+              :items="lots"
+              item-text="number"
+              item-value="id"
+              :rules="lotRules"
+              dense
+            />
+            <v-select
+              label="Tag"
+              v-model="tagId"
+              :items="tags"
               item-text="name"
               item-value="id"
-              :rules="speciesHostRules"
+              :rules="tagRules"
+              dense
             />
-            <div class="subtitle-1">
-              Reactivity
-            </div>
-            <v-chip-group v-model="reactivity" multiple column active-class="primary--text">
-              <v-chip v-for="item in species" :key="item.id" :value="item.id" small>
-                {{ item.name }}
-              </v-chip>
-            </v-chip-group>
-            <v-row>
-              <v-col>
-                <div class="subtitle-1">
-                  sMC
-                </div>
-                <v-btn-toggle v-model="smcApplication">
-                  <v-btn value="true">
-                    <v-icon>mdi-checkbox-marked-outline</v-icon>
-                  </v-btn>
-                  <v-btn value="false">
-                    <v-icon>mdi-checkbox-blank-outline</v-icon>
-                  </v-btn>
-                  <v-btn value="undefined">
-                    <v-icon>mdi-minus-box-outline</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-              </v-col>
-              <v-col>
-                <div class="subtitle-1">
-                  iMC
-                </div>
-                <v-btn-toggle v-model="imcApplication">
-                  <v-btn value="true">
-                    <v-icon>mdi-checkbox-marked-outline</v-icon>
-                  </v-btn>
-                  <v-btn value="false">
-                    <v-icon>mdi-checkbox-blank-outline</v-icon>
-                  </v-btn>
-                  <v-btn value="undefined">
-                    <v-icon>mdi-minus-box-outline</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-              </v-col>
-              <v-col>
-                <div class="subtitle-1">
-                  FC
-                </div>
-                <v-btn-toggle v-model="fcApplication">
-                  <v-btn value="true">
-                    <v-icon>mdi-checkbox-marked-outline</v-icon>
-                  </v-btn>
-                  <v-btn value="false">
-                    <v-icon>mdi-checkbox-blank-outline</v-icon>
-                  </v-btn>
-                  <v-btn value="undefined">
-                    <v-icon>mdi-minus-box-outline</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-              </v-col>
-              <v-col>
-                <div class="subtitle-1">
-                  IF
-                </div>
-                <v-btn-toggle v-model="ifApplication">
-                  <v-btn value="true">
-                    <v-icon>mdi-checkbox-marked-outline</v-icon>
-                  </v-btn>
-                  <v-btn value="false">
-                    <v-icon>mdi-checkbox-blank-outline</v-icon>
-                  </v-btn>
-                  <v-btn value="undefined">
-                    <v-icon>mdi-minus-box-outline</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-              </v-col>
-              <v-col>
-                <div class="subtitle-1">
-                  IHC
-                </div>
-                <v-btn-toggle v-model="ihcApplication">
-                  <v-btn value="true">
-                    <v-icon>mdi-checkbox-marked-outline</v-icon>
-                  </v-btn>
-                  <v-btn value="false">
-                    <v-icon>mdi-checkbox-blank-outline</v-icon>
-                  </v-btn>
-                  <v-btn value="undefined">
-                    <v-icon>mdi-minus-box-outline</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-              </v-col>
-            </v-row>
+            <v-text-field label="Concentration (in ug/ml)" v-model="concentration" :rules="concentrationRules" />
+            <v-text-field label="Description" v-model="description" :rules="descriptionRules" />
           </v-form>
         </template>
       </v-card-text>
@@ -129,123 +45,84 @@
 <script lang="ts">
 import { required } from "@/utils/validators";
 import { Component, Vue } from "vue-property-decorator";
-import { cloneModule } from "@/modules/clone";
-import { CreateCloneDto } from "@airlab/shared/lib/clone/dto";
-import { proteinModule } from "@/modules/protein";
-import { speciesModule } from "@/modules/species";
+import { groupModule } from "@/modules/group";
+import { lotModule } from "@/modules/lot";
+import { tagModule } from "@/modules/tag";
+import { conjugateModule } from "@/modules/conjugate";
+import { UpdateConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 
 @Component
 export default class EditConjugate extends Vue {
-  readonly cloneContext = cloneModule.context(this.$store);
-  readonly proteinContext = proteinModule.context(this.$store);
-  readonly speciesContext = speciesModule.context(this.$store);
+  readonly groupContext = groupModule.context(this.$store);
+  readonly lotContext = lotModule.context(this.$store);
+  readonly tagContext = tagModule.context(this.$store);
+  readonly conjugateContext = conjugateModule.context(this.$store);
 
-  readonly nameRules = [required];
-  readonly bindingRegionRules = [required];
-  readonly isotypeRules = [required];
-  readonly speciesHostRules = [required];
+  readonly lotRules = [required];
+  readonly tagRules = [required];
+  readonly concentrationRules = [required];
+  readonly descriptionRules = [];
 
-  readonly applications = [
-    {
-      name: "sMC",
-      value: 0,
-    },
-    {
-      name: "iMC",
-      value: 1,
-    },
-    {
-      name: "FC",
-      value: 2,
-    },
-    {
-      name: "IF",
-      value: 3,
-    },
-    {
-      name: "IHC",
-      value: 4,
-    },
-  ];
+  valid = false;
+  lotId: number | null = null;
+  tagId: number | null = null;
+  concentration = "";
+  description = "";
 
-  valid = true;
-  name = "";
-  protein = "";
-  bindingRegion = "";
-  isotype = "";
-  isPolyclonal = false;
-  isPhospho = false;
-  speciesHost = "";
-  reactivity = [];
-  smcApplication = "undefined";
-  imcApplication = "undefined";
-  fcApplication = "undefined";
-  ifApplication = "undefined";
-  ihcApplication = "undefined";
-  application = [];
-
-  get proteins() {
-    return this.proteinContext.getters.proteins;
+  get activeGroupId() {
+    return this.groupContext.getters.activeGroupId;
   }
 
-  get species() {
-    return this.speciesContext.getters.species;
+  get lots() {
+    return this.lotContext.getters.lots;
   }
 
-  get clone() {
-    return this.cloneContext.getters.getClone(+this.$router.currentRoute.params.id);
+  get tags() {
+    return this.tagContext.getters.tags;
   }
 
-  reset() {
-    if (this.$refs.form) {
-      (this.$refs.form as any).resetValidation();
-    }
-    if (this.clone) {
-      // this.name = this.clone.name;
-      // // this.protein = this.clone.;
-      // this.bindingRegion = this.clone.bindingRegion;
-      // this.isotype = this.clone.isotype;
-      // this.isPolyclonal = this.clone.isPolyclonal;
-      // this.isPhospho = this.clone.isPhospho;
-      // // this.speciesHost = "";
-      // // this.reactivity = [];
-      // // this.smcApplication = "undefined";
-      // // this.imcApplication = "undefined";
-      // // this.fcApplication = "undefined";
-      // // this.ifApplication = "undefined";
-      // // this.ihcApplication = "undefined";
-      // // this.application = [];
-    }
+  get conjugate() {
+    return this.conjugateContext.getters.getConjugate(+this.$router.currentRoute.params.id);
   }
 
   cancel() {
     this.$router.back();
   }
 
+  reset() {
+    if (this.$refs.form) {
+      (this.$refs.form as any).resetValidation();
+    }
+    if (this.conjugate) {
+      this.lotId = this.conjugate.lotId;
+      this.tagId = this.conjugate.tagId;
+      this.concentration = this.conjugate.concentration;
+      this.description = this.conjugate.description;
+    }
+  }
+
   async mounted() {
     await Promise.all([
-      this.cloneContext.actions.getClone(+this.$router.currentRoute.params.id),
-      this.proteinContext.actions.getAllProteinsForGroup(+this.$router.currentRoute.params.groupId),
-      this.speciesContext.actions.getSpecies(),
+      this.conjugateContext.actions.getConjugate(+this.$router.currentRoute.params.id),
+      this.lotContext.actions.getAllLotsForGroup(+this.$router.currentRoute.params.groupId),
+      this.tagContext.actions.getTags(),
     ]);
     this.reset();
   }
 
   async submit() {
-    if ((this.$refs.form as any).validate()) {
-      // const data: CreateCloneDto = {
-      //   name: this.name,
-      //   proteinId: parseInt(this.protein, 10),
-      //   bindingRegion: this.bindingRegion,
-      //   isotype: this.isotype,
-      //   isPhospho: this.isPhospho,
-      //   isPolyclonal: this.isPolyclonal,
-      //   speciesHost: parseInt(this.speciesHost, 10),
-      //   reactivity: this.reactivity,
-      //   application: this.application,
-      // };
-      // await this.cloneContext.actions.createClone(data);
-      // this.$router.back();
+    if ((this.$refs.form as any).validate() && this.conjugate) {
+      const data: UpdateConjugateDto = {
+        lotId: Number(this.lotId),
+        tagId: Number(this.tagId),
+        concentration: this.concentration,
+        description: this.description,
+      };
+      await this.conjugateContext.actions.updateConjugate({
+        id: this.conjugate.id,
+        data: data,
+      });
+      this.$router.back();
     }
   }
 }

@@ -21,7 +21,7 @@ export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, 
     try {
       const data = await api.getConjugates(this.main!.getters.token);
       if (data) {
-        this.mutations.setConjugates(data);
+        this.mutations.setEntities(data);
       }
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -32,11 +32,8 @@ export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, 
     try {
       const notification = { content: "saving", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = (await Promise.all([
-        api.createConjugate(this.main!.getters.token, payload),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
-      ]))[0];
-      this.mutations.setConjugate(data);
+      const data = await api.createConjugate(this.main!.getters.token, payload);
+      this.mutations.addEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Conjugate successfully created", color: "success" });
     } catch (error) {
@@ -48,7 +45,7 @@ export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, 
     try {
       const data = await api.getConjugate(this.main!.getters.token, id);
       if (data) {
-        this.mutations.setConjugate(data);
+        this.mutations.setEntity(data);
       }
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -59,11 +56,8 @@ export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, 
     try {
       const notification = { content: "saving", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = (await Promise.all([
-        api.updateConjugate(this.main!.getters.token, payload.id, payload.data),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
-      ]))[0];
-      this.mutations.setConjugate(data);
+      const data = await api.updateConjugate(this.main!.getters.token, payload.id, payload.data);
+      this.mutations.updateEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Conjugate successfully updated", color: "success" });
     } catch (error) {
@@ -75,11 +69,8 @@ export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, 
     try {
       const notification = { content: "deleting", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = (await Promise.all([
-        api.deleteConjugate(this.main!.getters.token, id),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
-      ]))[0];
-      this.mutations.deleteConjugateById(data);
+      const data = await api.deleteConjugate(this.main!.getters.token, id);
+      this.mutations.deleteEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Conjugate successfully deleted", color: "success" });
     } catch (error) {

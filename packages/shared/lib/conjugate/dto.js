@@ -77,6 +77,26 @@ exports.ConjugateDto = ConjugateDto;
 class CreateConjugateDto {
 }
 __decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], CreateConjugateDto.prototype, "groupId", void 0);
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], CreateConjugateDto.prototype, "lotId", void 0);
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], CreateConjugateDto.prototype, "tagId", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", String)
+], CreateConjugateDto.prototype, "concentration", void 0);
+__decorate([
     class_validator_1.IsString(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
@@ -84,6 +104,21 @@ __decorate([
 exports.CreateConjugateDto = CreateConjugateDto;
 class UpdateConjugateDto {
 }
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], UpdateConjugateDto.prototype, "lotId", void 0);
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], UpdateConjugateDto.prototype, "tagId", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", String)
+], UpdateConjugateDto.prototype, "concentration", void 0);
 __decorate([
     class_validator_1.IsString(),
     swagger_1.ApiModelProperty(),

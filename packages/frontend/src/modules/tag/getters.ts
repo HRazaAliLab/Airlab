@@ -3,10 +3,10 @@ import { TagState } from ".";
 
 export class TagGetters extends Getters<TagState> {
   get tags() {
-    return this.state.tags;
+    return Object.values(this.state.entities);
   }
 
-  getTag(id?: number) {
-    return this.tags.find(item => item.id === id);
+  getTag(id: number) {
+    return this.state.entities[id];
   }
 }

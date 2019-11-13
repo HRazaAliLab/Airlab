@@ -54,7 +54,7 @@
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon @click="deleteConjugate($event, item.id)">
+              <v-btn v-on="on" icon @click="deleteConjugate(item.id)">
                 <v-icon color="red accent-1">mdi-delete</v-icon>
               </v-btn>
             </template>
@@ -121,44 +121,48 @@ export default class ConjugatesViews extends Vue {
       text: "Id",
       sortable: true,
       value: "id",
-      align: "right",
+      align: "end",
       filterable: false,
+      width: "80",
     },
     {
       text: "Tube Number",
       sortable: true,
-      value: "bbTubeNumber",
-      align: "right",
+      value: "tubeNumber",
+      align: "end",
+    },
+    {
+      text: "Lot",
+      sortable: true,
+      value: "lot.number",
     },
     {
       text: "Label",
       sortable: true,
       value: "label",
-      align: "left",
     },
     {
       text: "Labeled by",
       sortable: true,
       value: "user.name",
-      align: "left",
     },
     {
       text: "Concentration",
       sortable: true,
       value: "concentration",
-      align: "right",
+      align: "end",
     },
     {
-      text: "Reactivity",
+      text: "Description",
       sortable: true,
-      value: "isotype",
-      align: "left",
+      value: "description",
     },
     {
       text: "Actions",
       value: "action",
       sortable: false,
       filterable: false,
+      width: "210",
     },
   ];
 
@@ -179,7 +183,7 @@ export default class ConjugatesViews extends Vue {
     await this.conjugateContext.actions.getConjugates();
   }
 
-  async deleteConjugate(event, id: number) {
+  async deleteConjugate(id: number) {
     if (self.confirm("Are you sure you want to delete the conjugate?")) {
       await this.conjugateContext.actions.deleteConjugate(id);
     }

@@ -21,7 +21,7 @@ export class GroupActions extends Actions<GroupState, GroupGetters, GroupMutatio
     try {
       const data = await api.getGroups(this.main!.getters.token);
       if (data) {
-        this.mutations.setGroups(data);
+        this.mutations.setEntities(data);
       }
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -32,11 +32,8 @@ export class GroupActions extends Actions<GroupState, GroupGetters, GroupMutatio
     try {
       const notification = { content: "saving", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = (await Promise.all([
-        api.createGroup(this.main!.getters.token, payload),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
-      ]))[0];
-      this.mutations.setGroup(data);
+      const data = await api.createGroup(this.main!.getters.token, payload);
+      this.mutations.addEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Group successfully created", color: "success" });
     } catch (error) {
@@ -48,7 +45,7 @@ export class GroupActions extends Actions<GroupState, GroupGetters, GroupMutatio
     try {
       const data = await api.getGroup(this.main!.getters.token, id);
       if (data) {
-        this.mutations.setGroup(data);
+        this.mutations.setEntity(data);
       }
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -59,11 +56,8 @@ export class GroupActions extends Actions<GroupState, GroupGetters, GroupMutatio
     try {
       const notification = { content: "saving", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = (await Promise.all([
-        api.updateGroup(this.main!.getters.token, payload.id, payload.data),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
-      ]))[0];
-      this.mutations.setGroup(data);
+      const data = await api.updateGroup(this.main!.getters.token, payload.id, payload.data);
+      this.mutations.updateEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Group successfully updated", color: "success" });
     } catch (error) {
@@ -75,11 +69,8 @@ export class GroupActions extends Actions<GroupState, GroupGetters, GroupMutatio
     try {
       const notification = { content: "deleting", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = (await Promise.all([
-        api.deleteGroup(this.main!.getters.token, id),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
-      ]))[0];
-      this.mutations.deleteGroup(data);
+      const data = await api.deleteGroup(this.main!.getters.token, id);
+      this.mutations.deleteEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Group successfully deleted", color: "success" });
     } catch (error) {

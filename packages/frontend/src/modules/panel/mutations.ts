@@ -1,29 +1,41 @@
 import { Mutations } from "vuex-smart-module";
-import { PanelState } from ".";
+import { panelListSchema, PanelState } from ".";
 import { PanelDto } from "@airlab/shared/lib/panel/dto";
+import { normalize } from "normalizr";
 
 export class PanelMutations extends Mutations<PanelState> {
-  setPanels(payload: PanelDto[]) {
-    this.state.panels = payload;
+  setEntities(payload: PanelDto[]) {
+    const normalizedData = normalize<PanelDto>(payload, panelListSchema);
+    this.state.ids = normalizedData.result;
+    this.state.entities = normalizedData.entities.panels;
   }
 
-  setPanel(payload: PanelDto) {
-    const items = this.state.panels.filter(item => item.id !== payload.id);
-    items.push(payload);
-    this.state.panels = items;
+  setEntity(payload: PanelDto) {
+    const existingId = this.state.ids.find(id => id === payload.id);
+    if (!existingId) {
+      this.state.ids = this.state.ids.concat(payload.id);
+    }
+    this.state.entities[payload.id] = payload;
   }
 
-  deletePanel(payload: PanelDto) {
-    const items = this.state.panels.filter(item => item.id !== payload.id);
-    this.state.panels = items;
+  addEntity(payload: PanelDto) {
+    this.state.ids = this.state.ids.concat(payload.id);
+    this.state.entities[payload.id] = payload;
   }
 
-  deletePanelById(id: number) {
-    const items = this.state.panels.filter(item => item.id !== id);
-    this.state.panels = items;
+  updateEntity(payload: PanelDto) {
+    this.state.entities[payload.id] = payload;
+  }
+
+  deleteEntity(id: number) {
+    this.state.ids = this.state.ids.filter(item => item !== id);
+    const entities = Object.assign({}, this.state.entities);
+    delete entities[id];
+    this.state.entities = entities;
   }
 
   reset() {
-    this.state.panels = [];
+    this.state.ids = [];
+    this.state.entities = {};
   }
 }

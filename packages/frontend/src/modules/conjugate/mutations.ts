@@ -1,29 +1,41 @@
 import { Mutations } from "vuex-smart-module";
-import { ConjugateState } from ".";
+import { conjugateListSchema, ConjugateState } from ".";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
+import { normalize } from "normalizr";
 
 export class ConjugateMutations extends Mutations<ConjugateState> {
-  setConjugates(payload: ConjugateDto[]) {
-    this.state.conjugates = payload;
+  setEntities(payload: ConjugateDto[]) {
+    const normalizedData = normalize<ConjugateDto>(payload, conjugateListSchema);
+    this.state.ids = normalizedData.result;
+    this.state.entities = normalizedData.entities.conjugates;
   }
 
-  setConjugate(payload: ConjugateDto) {
-    const items = this.state.conjugates.filter(item => item.id !== payload.id);
-    items.push(payload);
-    this.state.conjugates = items;
+  setEntity(payload: ConjugateDto) {
+    const existingId = this.state.ids.find(id => id === payload.id);
+    if (!existingId) {
+      this.state.ids = this.state.ids.concat(payload.id);
+    }
+    this.state.entities[payload.id] = payload;
   }
 
-  deleteConjugate(payload: ConjugateDto) {
-    const items = this.state.conjugates.filter(item => item.id !== payload.id);
-    this.state.conjugates = items;
+  addEntity(payload: ConjugateDto) {
+    this.state.ids = this.state.ids.concat(payload.id);
+    this.state.entities[payload.id] = payload;
   }
 
-  deleteConjugateById(id: number) {
-    const items = this.state.conjugates.filter(item => item.id !== id);
-    this.state.conjugates = items;
+  updateEntity(payload: ConjugateDto) {
+    this.state.entities[payload.id] = payload;
+  }
+
+  deleteEntity(id: number) {
+    this.state.ids = this.state.ids.filter(item => item !== id);
+    const entities = Object.assign({}, this.state.entities);
+    delete entities[id];
+    this.state.entities = entities;
   }
 
   reset() {
-    this.state.conjugates = [];
+    this.state.ids = [];
+    this.state.entities = {};
   }
 }

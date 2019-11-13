@@ -21,7 +21,7 @@ export class ProviderActions extends Actions<ProviderState, ProviderGetters, Pro
     try {
       const data = await api.getProviders(this.main!.getters.token);
       if (data) {
-        this.mutations.setProviders(data);
+        this.mutations.setEntities(data);
       }
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -32,11 +32,8 @@ export class ProviderActions extends Actions<ProviderState, ProviderGetters, Pro
     try {
       const notification = { content: "saving", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = (await Promise.all([
-        api.createProvider(this.main!.getters.token, payload),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
-      ]))[0];
-      this.mutations.setProvider(data);
+      const data = await api.createProvider(this.main!.getters.token, payload);
+      this.mutations.addEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Provider successfully created", color: "success" });
     } catch (error) {
@@ -48,7 +45,7 @@ export class ProviderActions extends Actions<ProviderState, ProviderGetters, Pro
     try {
       const data = await api.getProvider(this.main!.getters.token, id);
       if (data) {
-        this.mutations.setProvider(data);
+        this.mutations.setEntity(data);
       }
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -59,11 +56,8 @@ export class ProviderActions extends Actions<ProviderState, ProviderGetters, Pro
     try {
       const notification = { content: "saving", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = (await Promise.all([
-        api.updateProvider(this.main!.getters.token, payload.id, payload.data),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
-      ]))[0];
-      this.mutations.setProvider(data);
+      const data = await api.updateProvider(this.main!.getters.token, payload.id, payload.data);
+      this.mutations.updateEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Provider successfully updated", color: "success" });
     } catch (error) {
@@ -75,11 +69,8 @@ export class ProviderActions extends Actions<ProviderState, ProviderGetters, Pro
     try {
       const notification = { content: "deleting", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = (await Promise.all([
-        api.deleteProvider(this.main!.getters.token, id),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
-      ]))[0];
-      this.mutations.deleteProviderById(data);
+      const data = await api.deleteProvider(this.main!.getters.token, id);
+      this.mutations.deleteEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Provider successfully deleted", color: "success" });
     } catch (error) {

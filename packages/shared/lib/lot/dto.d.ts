@@ -33,10 +33,16 @@ export declare class CreateLotDto {
     readonly reagentId: number;
     readonly providerId: number;
     readonly number: string;
-    readonly url: string | null;
+    readonly link: string | null;
     readonly purpose: string | null;
 }
 export declare class UpdateLotDto {
-    readonly status: string;
+    readonly status?: string;
+    readonly cloneId: number;
+    readonly reagentId: number;
+    readonly providerId: number;
+    readonly number: string;
+    readonly link: string | null;
+    readonly purpose: string | null;
 }
 //# sourceMappingURL=dto.d.ts.map

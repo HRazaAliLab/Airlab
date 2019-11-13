@@ -13,9 +13,19 @@ export declare class PanelDto {
     readonly createdAt: string;
 }
 export declare class CreatePanelDto {
+    readonly createdBy?: number;
+    readonly groupId: number;
     readonly name: string;
+    readonly description: string;
+    readonly isFluor: boolean;
+    readonly isProduction: boolean;
+    readonly application: number | null;
 }
 export declare class UpdatePanelDto {
     readonly name: string;
+    readonly description: string;
+    readonly isFluor: boolean;
+    readonly isProduction: boolean;
+    readonly application: number | null;
 }
 //# sourceMappingURL=dto.d.ts.map

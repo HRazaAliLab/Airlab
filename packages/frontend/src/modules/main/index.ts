@@ -19,7 +19,7 @@ export class MainState {
 }
 
 export const mainModule = new Module({
-  namespaced: false,
+  namespaced: true,
 
   state: MainState,
   getters: MainGetters,

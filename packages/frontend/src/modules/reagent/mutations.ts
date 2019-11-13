@@ -1,24 +1,41 @@
 import { Mutations } from "vuex-smart-module";
-import { ReagentState } from ".";
+import { reagentListSchema, ReagentState } from ".";
 import { ReagentDto } from "@airlab/shared/lib/reagent/dto";
+import { normalize } from "normalizr";
 
 export class ReagentMutations extends Mutations<ReagentState> {
-  setReagents(payload: ReagentDto[]) {
-    this.state.reagents = payload;
+  setEntities(payload: ReagentDto[]) {
+    const normalizedData = normalize<ReagentDto>(payload, reagentListSchema);
+    this.state.ids = normalizedData.result;
+    this.state.entities = normalizedData.entities.reagents;
   }
 
-  setReagent(payload: ReagentDto) {
-    const items = this.state.reagents.filter(item => item.id !== payload.id);
-    items.push(payload);
-    this.state.reagents = items;
+  setEntity(payload: ReagentDto) {
+    const existingId = this.state.ids.find(id => id === payload.id);
+    if (!existingId) {
+      this.state.ids = this.state.ids.concat(payload.id);
+    }
+    this.state.entities[payload.id] = payload;
   }
 
-  deleteReagentById(id: number) {
-    const items = this.state.reagents.filter(item => item.id !== id);
-    this.state.reagents = items;
+  addEntity(payload: ReagentDto) {
+    this.state.ids = this.state.ids.concat(payload.id);
+    this.state.entities[payload.id] = payload;
+  }
+
+  updateEntity(payload: ReagentDto) {
+    this.state.entities[payload.id] = payload;
+  }
+
+  deleteEntity(id: number) {
+    this.state.ids = this.state.ids.filter(item => item !== id);
+    const entities = Object.assign({}, this.state.entities);
+    delete entities[id];
+    this.state.entities = entities;
   }
 
   reset() {
-    this.state.reagents = [];
+    this.state.ids = [];
+    this.state.entities = {};
   }
 }

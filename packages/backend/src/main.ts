@@ -3,6 +3,7 @@ import { AppModule } from "./app.module";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { ValidationPipe } from "@nestjs/common";
+import { LoggingInterceptor } from "./utils/logging.interceptor";
 
 const apiRoot = "api/v1";
 
@@ -11,6 +12,7 @@ async function bootstrap(): Promise<void> {
   app.enableCors();
   app.setGlobalPrefix(apiRoot);
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalInterceptors(new LoggingInterceptor());
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle("AirLab API")

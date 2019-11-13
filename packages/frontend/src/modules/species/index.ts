@@ -3,13 +3,18 @@ import { SpeciesGetters } from "./getters";
 import { SpeciesMutations } from "./mutations";
 import { SpeciesActions } from "./actions";
 import { SpeciesDto } from "@airlab/shared/lib/species/dto";
+import { schema } from "normalizr";
+
+export const speciesSchema = new schema.Entity("species");
+export const speciesListSchema = [speciesSchema];
 
 export class SpeciesState {
-  species: SpeciesDto[] = [];
+  ids: ReadonlyArray<number> = [];
+  entities: { [key: number]: SpeciesDto } = {};
 }
 
 export const speciesModule = new Module({
-  namespaced: false,
+  namespaced: true,
 
   state: SpeciesState,
   getters: SpeciesGetters,

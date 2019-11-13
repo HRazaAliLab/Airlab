@@ -41,7 +41,7 @@
                   </v-chip>
                 </v-chip-group>
               </v-col>
-              <v-col></v-col>
+              <v-col />
               <v-col>
                 <div class="subtitle-1">
                   Application
@@ -207,19 +207,19 @@ export default class EditClone extends Vue {
       this.isPhospho = this.clone.isPhospho;
       this.speciesId = this.clone.speciesId;
       this.reactivity = this.clone.reactivity;
-      if (this.clone.application.hasOwnProperty(this.applicationMap.sMC)) {
+      if (this.clone.application && this.clone.application.hasOwnProperty(this.applicationMap.sMC)) {
         this.smcApplication = this.clone.application[this.applicationMap.sMC].toString();
       }
-      if (this.clone.application.hasOwnProperty(this.applicationMap.iMC)) {
+      if (this.clone.application && this.clone.application.hasOwnProperty(this.applicationMap.iMC)) {
         this.imcApplication = this.clone.application[this.applicationMap.iMC].toString();
       }
-      if (this.clone.application.hasOwnProperty(this.applicationMap.FC)) {
+      if (this.clone.application && this.clone.application.hasOwnProperty(this.applicationMap.FC)) {
         this.fcApplication = this.clone.application[this.applicationMap.FC].toString();
       }
-      if (this.clone.application.hasOwnProperty(this.applicationMap.IF)) {
+      if (this.clone.application && this.clone.application.hasOwnProperty(this.applicationMap.IF)) {
         this.ifApplication = this.clone.application[this.applicationMap.IF].toString();
       }
-      if (this.clone.application.hasOwnProperty(this.applicationMap.IHC)) {
+      if (this.clone.application && this.clone.application.hasOwnProperty(this.applicationMap.IHC)) {
         this.ihcApplication = this.clone.application[this.applicationMap.IHC].toString();
       }
     }

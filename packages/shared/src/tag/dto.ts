@@ -1,4 +1,4 @@
-import { IsBoolean, IsString } from "class-validator";
+import { IsBoolean, IsInt, IsOptional, IsString } from "class-validator";
 import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 
 export class TagDto {
@@ -8,8 +8,8 @@ export class TagDto {
   @ApiModelProperty()
   readonly name: string;
 
-  @ApiModelProperty()
-  readonly mw: string;
+  @ApiModelPropertyOptional()
+  readonly mw: number | null;
 
   @ApiModelProperty()
   readonly isFluorophore: boolean;
@@ -29,9 +29,10 @@ export class CreateTagDto {
   @ApiModelProperty()
   readonly name: string;
 
-  @IsString()
-  @ApiModelProperty()
-  readonly mw: string;
+  @IsInt()
+  @IsOptional()
+  @ApiModelPropertyOptional()
+  readonly mw: number | null;
 
   @IsBoolean()
   @ApiModelProperty()
@@ -47,9 +48,10 @@ export class UpdateTagDto {
   @ApiModelProperty()
   readonly name: string;
 
-  @IsString()
-  @ApiModelProperty()
-  readonly mw: string;
+  @IsInt()
+  @IsOptional()
+  @ApiModelPropertyOptional()
+  readonly mw: number | null;
 
   @IsBoolean()
   @ApiModelProperty()

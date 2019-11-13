@@ -3,10 +3,10 @@ import { SpeciesState } from ".";
 
 export class SpeciesGetters extends Getters<SpeciesState> {
   get species() {
-    return this.state.species;
+    return Object.values(this.state.entities);
   }
 
-  getSpecies(id?: number) {
-    return this.species.find(item => item.id === id);
+  getSpecies(id: number) {
+    return this.state.entities[id];
   }
 }

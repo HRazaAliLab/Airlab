@@ -105,7 +105,7 @@ export class CreateLotDto {
   @IsUrl()
   @IsOptional()
   @ApiModelPropertyOptional()
-  readonly url: string | null;
+  readonly link: string | null;
 
   @IsString()
   @IsOptional()
@@ -115,6 +115,33 @@ export class CreateLotDto {
 
 export class UpdateLotDto {
   @IsString()
+  @IsOptional()
+  @ApiModelPropertyOptional()
+  readonly status?: string;
+
+  @IsInt()
   @ApiModelProperty()
-  readonly status: string;
+  readonly cloneId: number;
+
+  @IsInt()
+  @ApiModelProperty()
+  readonly reagentId: number;
+
+  @IsInt()
+  @ApiModelProperty()
+  readonly providerId: number;
+
+  @IsString()
+  @ApiModelProperty()
+  readonly number: string;
+
+  @IsUrl()
+  @IsOptional()
+  @ApiModelPropertyOptional()
+  readonly link: string | null;
+
+  @IsString()
+  @IsOptional()
+  @ApiModelPropertyOptional()
+  readonly purpose: string | null;
 }

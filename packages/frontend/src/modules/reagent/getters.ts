@@ -3,10 +3,10 @@ import { ReagentState } from ".";
 
 export class ReagentGetters extends Getters<ReagentState> {
   get reagents() {
-    return this.state.reagents;
+    return Object.values(this.state.entities);
   }
 
-  getReagent(id?: number) {
-    return this.reagents.find(item => item.id === id);
+  getReagent(id: number) {
+    return this.state.entities[id];
   }
 }

@@ -21,7 +21,7 @@ export class UserActions extends Actions<UserState, UserGetters, UserMutations, 
     try {
       const data = await api.getUsers(this.main!.getters.token);
       if (data) {
-        this.mutations.setUsers(data);
+        this.mutations.setEntities(data);
       }
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -32,11 +32,8 @@ export class UserActions extends Actions<UserState, UserGetters, UserMutations, 
     try {
       const notification = { content: "saving", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = (await Promise.all([
-        api.updateUser(this.main!.getters.token, payload.id, payload.user),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
-      ]))[0];
-      this.mutations.setUser(data);
+      const data = await api.updateUser(this.main!.getters.token, payload.id, payload.user);
+      this.mutations.updateEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "User successfully updated", color: "success" });
     } catch (error) {
@@ -48,11 +45,8 @@ export class UserActions extends Actions<UserState, UserGetters, UserMutations, 
     try {
       const notification = { content: "saving", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = (await Promise.all([
-        api.createUser(this.main!.getters.token, payload),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
-      ]))[0];
-      this.mutations.setUser(data);
+      const data = await api.createUser(this.main!.getters.token, payload);
+      this.mutations.addEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "User successfully created", color: "success" });
     } catch (error) {
@@ -64,7 +58,7 @@ export class UserActions extends Actions<UserState, UserGetters, UserMutations, 
     try {
       const data = await api.getUser(this.main!.getters.token, id);
       if (data) {
-        this.mutations.setUser(data);
+        this.mutations.setEntity(data);
       }
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -84,10 +78,7 @@ export class UserActions extends Actions<UserState, UserGetters, UserMutations, 
     try {
       const notification = { content: "signing up", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = (await Promise.all([
-        api.signUp(payload),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
-      ]))[0];
+      const data = await api.signUp(payload);
       this.main!.actions.routeLogOut();
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "User successfully signed up", color: "success" });

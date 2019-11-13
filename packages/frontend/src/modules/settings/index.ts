@@ -6,7 +6,7 @@ import { SettingsMutations } from "./mutations";
 export class SettingsState {}
 
 export const settingsModule = new Module({
-  namespaced: false,
+  namespaced: true,
 
   state: SettingsState,
   getters: SettingsGetters,

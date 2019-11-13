@@ -35,7 +35,7 @@
               dense
             />
             <v-text-field label="Lot Number" v-model="number" :rules="numberRules" />
-            <v-text-field label="Datasheet URL" v-model="url" :rules="urlRules" />
+            <v-text-field label="Datasheet Link" v-model="link" :rules="linkRules" />
             <v-text-field label="Purpose" v-model="purpose" :rules="purposeRules" />
           </v-form>
         </template>
@@ -74,7 +74,7 @@ export default class CreateLot extends Vue {
   readonly reagentRules = [required];
   readonly providerRules = [required];
   readonly numberRules = [required];
-  readonly urlRules = [];
+  readonly linkRules = [];
   readonly purposeRules = [];
 
   valid = false;
@@ -82,7 +82,7 @@ export default class CreateLot extends Vue {
   reagentId: number | null = null;
   providerId: number | null = null;
   number = "Pending";
-  url = null;
+  link = null;
   purpose = null;
 
   get activeGroupId() {
@@ -110,7 +110,7 @@ export default class CreateLot extends Vue {
     this.reagentId = null;
     this.providerId = null;
     this.number = "Pending";
-    this.url = null;
+    this.link = null;
     this.purpose = null;
     (this.$refs.form as any).resetValidation();
   }
@@ -131,7 +131,7 @@ export default class CreateLot extends Vue {
         reagentId: Number(this.reagentId),
         providerId: Number(this.providerId),
         number: this.number,
-        url: this.url,
+        link: this.link,
         purpose: this.purpose,
       };
       await this.lotContext.actions.createLot(data);

@@ -3,10 +3,10 @@ import { ProviderState } from ".";
 
 export class ProviderGetters extends Getters<ProviderState> {
   get providers() {
-    return this.state.providers;
+    return Object.values(this.state.entities);
   }
 
-  getProvider(id?: number) {
-    return this.providers.find(item => item.id === id);
+  getProvider(id: number) {
+    return this.state.entities[id];
   }
 }

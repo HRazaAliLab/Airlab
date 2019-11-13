@@ -1,5 +1,5 @@
-import { IsString } from "class-validator";
-import { ApiModelProperty } from "@nestjs/swagger";
+import { IsBoolean, IsInt, IsOptional, IsString } from "class-validator";
+import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 
 export class PanelDto {
   @ApiModelProperty()
@@ -40,13 +40,53 @@ export class PanelDto {
 }
 
 export class CreatePanelDto {
+  readonly createdBy?: number;
+
+  @IsInt()
+  @ApiModelProperty()
+  readonly groupId: number;
+
   @IsString()
   @ApiModelProperty()
   readonly name: string;
+
+  @IsString()
+  @ApiModelPropertyOptional()
+  readonly description: string;
+
+  @IsBoolean()
+  @ApiModelProperty()
+  readonly isFluor: boolean;
+
+  @IsBoolean()
+  @ApiModelProperty()
+  readonly isProduction: boolean;
+
+  @IsInt()
+  @IsOptional()
+  @ApiModelProperty()
+  readonly application: number | null;
 }
 
 export class UpdatePanelDto {
   @IsString()
   @ApiModelProperty()
   readonly name: string;
+
+  @IsString()
+  @ApiModelPropertyOptional()
+  readonly description: string;
+
+  @IsBoolean()
+  @ApiModelProperty()
+  readonly isFluor: boolean;
+
+  @IsBoolean()
+  @ApiModelProperty()
+  readonly isProduction: boolean;
+
+  @IsInt()
+  @IsOptional()
+  @ApiModelProperty()
+  readonly application: number | null;
 }

@@ -22,8 +22,8 @@ __decorate([
     __metadata("design:type", String)
 ], TagDto.prototype, "name", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", Number)
 ], TagDto.prototype, "mw", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
@@ -50,9 +50,10 @@ __decorate([
     __metadata("design:type", String)
 ], CreateTagDto.prototype, "name", void 0);
 __decorate([
-    class_validator_1.IsString(),
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
+    class_validator_1.IsInt(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", Number)
 ], CreateTagDto.prototype, "mw", void 0);
 __decorate([
     class_validator_1.IsBoolean(),
@@ -73,9 +74,10 @@ __decorate([
     __metadata("design:type", String)
 ], UpdateTagDto.prototype, "name", void 0);
 __decorate([
-    class_validator_1.IsString(),
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
+    class_validator_1.IsInt(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", Number)
 ], UpdateTagDto.prototype, "mw", void 0);
 __decorate([
     class_validator_1.IsBoolean(),

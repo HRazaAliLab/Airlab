@@ -44,7 +44,7 @@ services:
 
   rabbitmq:
     restart: always
-    image: rabbitmq:3.8.0-alpine
+    image: rabbitmq:3.8.1-alpine
     volumes:
       - rabbitmq-data:/var/lib/rabbitmq
 
@@ -70,7 +70,7 @@ services:
 
   portainer:
     restart: always
-    image: portainer/portainer:1.22.1
+    image: portainer/portainer:1.22.2
     command: -H unix:///var/run/docker.sock
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

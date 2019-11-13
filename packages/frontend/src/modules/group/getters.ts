@@ -3,11 +3,11 @@ import { GroupState } from ".";
 
 export class GroupGetters extends Getters<GroupState> {
   get groups() {
-    return this.state.groups;
+    return Object.values(this.state.entities);
   }
 
-  getGroup(id?: number) {
-    return this.groups.find(item => item.id === id);
+  getGroup(id: number) {
+    return this.state.entities[id];
   }
 
   get activeGroupId() {
@@ -15,6 +15,6 @@ export class GroupGetters extends Getters<GroupState> {
   }
 
   get activeGroup() {
-    return this.getGroup(this.activeGroupId);
+    return this.getters.activeGroupId ? this.getters.getGroup(this.getters.activeGroupId) : undefined;
   }
 }

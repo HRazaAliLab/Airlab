@@ -16,9 +16,17 @@ export declare class ConjugateDto {
     readonly updatedAt: string;
 }
 export declare class CreateConjugateDto {
+    readonly createdBy?: number;
+    readonly groupId: number;
+    readonly lotId: number;
+    readonly tagId: number;
+    readonly concentration: string;
     readonly description: string;
 }
 export declare class UpdateConjugateDto {
+    readonly lotId: number;
+    readonly tagId: number;
+    readonly concentration: string;
     readonly description: string;
 }
 //# sourceMappingURL=dto.d.ts.map

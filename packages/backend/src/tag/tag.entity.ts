@@ -17,7 +17,7 @@ export class TagEntity {
   @Column({
     name: "mw",
   })
-  mw: string;
+  mw: number;
 
   @Column({
     name: "is_fluorophore",

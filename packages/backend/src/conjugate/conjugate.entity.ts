@@ -2,6 +2,8 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "t
 import { GroupEntity } from "../group/group.entity";
 import { TagEntity } from "../tag/tag.entity";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
+import { LotEntity } from "../lot/lot.entity";
+import { UserEntity } from "../user/user.entity";
 
 @Entity({
   name: "conjugate",
@@ -91,7 +93,13 @@ export class ConjugateEntity {
   @JoinColumn({ name: "created_by" })
   groupUser: GroupUserEntity;
 
+  user: UserEntity;
+
   @ManyToOne(type => TagEntity)
   @JoinColumn({ name: "tag_id" })
   tag: TagEntity;
+
+  @ManyToOne(type => LotEntity)
+  @JoinColumn({ name: "lot_id" })
+  lot: LotEntity;
 }

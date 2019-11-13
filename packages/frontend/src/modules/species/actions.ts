@@ -21,7 +21,7 @@ export class SpeciesActions extends Actions<SpeciesState, SpeciesGetters, Specie
     try {
       const data = await api.getSpecies(this.main!.getters.token);
       if (data) {
-        this.mutations.setSpecies(data);
+        this.mutations.setEntities(data);
       }
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -32,11 +32,8 @@ export class SpeciesActions extends Actions<SpeciesState, SpeciesGetters, Specie
     try {
       const notification = { content: "saving", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = (await Promise.all([
-        api.createSpecies(this.main!.getters.token, payload),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
-      ]))[0];
-      this.mutations.setOneSpecies(data);
+      const data = await api.createSpecies(this.main!.getters.token, payload);
+      this.mutations.addEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Species successfully created", color: "success" });
     } catch (error) {
@@ -48,7 +45,7 @@ export class SpeciesActions extends Actions<SpeciesState, SpeciesGetters, Specie
     try {
       const data = await api.getOneSpecies(this.main!.getters.token, id);
       if (data) {
-        this.mutations.setOneSpecies(data);
+        this.mutations.setEntity(data);
       }
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -59,11 +56,8 @@ export class SpeciesActions extends Actions<SpeciesState, SpeciesGetters, Specie
     try {
       const notification = { content: "saving", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = (await Promise.all([
-        api.updateSpecies(this.main!.getters.token, payload.id, payload.data),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
-      ]))[0];
-      this.mutations.setOneSpecies(data);
+      const data = await api.updateSpecies(this.main!.getters.token, payload.id, payload.data);
+      this.mutations.updateEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Species successfully updated", color: "success" });
     } catch (error) {
@@ -75,11 +69,8 @@ export class SpeciesActions extends Actions<SpeciesState, SpeciesGetters, Specie
     try {
       const notification = { content: "deleting", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = (await Promise.all([
-        api.deleteSpecies(this.main!.getters.token, id),
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
-      ]))[0];
-      this.mutations.deleteSpeciesById(data);
+      const data = await api.deleteSpecies(this.main!.getters.token, id);
+      this.mutations.deleteEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Species successfully deleted", color: "success" });
     } catch (error) {

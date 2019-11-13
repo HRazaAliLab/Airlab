@@ -3,10 +3,10 @@ import { ConjugateState } from ".";
 
 export class ConjugateGetters extends Getters<ConjugateState> {
   get conjugates() {
-    return this.state.conjugates;
+    return Object.values(this.state.entities);
   }
 
-  getConjugate(id?: number) {
-    return this.conjugates.find(item => item.id === id);
+  getConjugate(id: number) {
+    return this.state.entities[id];
   }
 }
