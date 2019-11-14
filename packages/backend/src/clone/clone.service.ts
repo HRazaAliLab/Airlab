@@ -17,7 +17,7 @@ export class CloneService {
   }
 
   async update(id: number, params: UpdateCloneDto) {
-    await this.repository.update(id, params);
+    await this.repository.update(id, { ...params, updatedAt: new Date().toISOString() });
     return this.findById(id);
   }
 

@@ -64,10 +64,20 @@ export class PanelEntity {
 
   @Column({
     name: "created_at",
+    select: false,
   })
   createdAt: string;
 
-  @ManyToOne(type => GroupEntity, group => group.panels)
+  @Column({
+    name: "updated_at",
+    select: false,
+  })
+  updatedAt: string;
+
+  @ManyToOne(
+    type => GroupEntity,
+    group => group.panels
+  )
   @JoinColumn({ name: "group_id" })
   group: GroupEntity;
 }

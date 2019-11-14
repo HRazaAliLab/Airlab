@@ -86,7 +86,7 @@
         </template>
       </v-data-table>
     </v-card>
-    <v-navigation-drawer v-if="detailsItem" v-model="drawer" right absolute temporary width="400">
+    <v-navigation-drawer v-if="detailsItem" v-model="drawer" right fixed temporary width="400">
       <v-card flat>
         <v-list-item>
           <v-list-item-avatar>
@@ -197,11 +197,15 @@ export default class ClonesView extends Vue {
   }
 
   antibodyRegistry(clone: CloneDto) {
-    return `http://www.antibodyregistry.org/search?q=${(clone as any).protein.name}%20${clone.name}`;
+    return `http://www.antibodyregistry.org/search?q=${(clone as any).protein ? (clone as any).protein.name : ""}%20${
+      clone.name
+    }`;
   }
 
   antibodyPedia(clone: CloneDto) {
-    return `http://www.antibodypedia.com/explore/${(clone as any).protein.name}+${clone.name}`;
+    return `http://www.antibodypedia.com/explore/${(clone as any).protein ? (clone as any).protein.name : ""}+${
+      clone.name
+    }`;
   }
 
   async mounted() {

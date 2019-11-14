@@ -21,7 +21,7 @@ export class LotService {
   }
 
   async update(id: number, params: UpdateLotDto) {
-    await this.lotRepository.update(id, params);
+    await this.lotRepository.update(id, { ...params, updatedAt: new Date().toISOString() });
     return this.findById(id);
   }
 

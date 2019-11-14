@@ -58,19 +58,27 @@ export class GroupUserEntity {
 
   @Column({
     name: "created_at",
+    select: false,
   })
   createdAt: string;
 
   @Column({
     name: "updated_at",
+    select: false,
   })
   updatedAt: string;
 
-  @ManyToOne(type => GroupEntity, group => group.groupUsers)
+  @ManyToOne(
+    type => GroupEntity,
+    group => group.groupUsers
+  )
   @JoinColumn({ name: "group_id" })
   group!: GroupEntity;
 
-  @ManyToOne(type => UserEntity, user => user.groupUsers)
+  @ManyToOne(
+    type => UserEntity,
+    user => user.groupUsers
+  )
   @JoinColumn({ name: "user_id" })
   user!: UserEntity;
 }

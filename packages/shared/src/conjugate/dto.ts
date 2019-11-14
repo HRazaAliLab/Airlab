@@ -1,4 +1,4 @@
-import { IsInt, IsString } from "class-validator";
+import { IsBoolean, IsInt, IsString } from "class-validator";
 import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 
 export class ConjugateDto {
@@ -31,6 +31,9 @@ export class ConjugateDto {
 
   @ApiModelProperty()
   readonly description: string;
+
+  @ApiModelProperty()
+  readonly isLow: boolean;
 
   @ApiModelProperty()
   readonly isDeleted: boolean;
@@ -88,4 +91,8 @@ export class UpdateConjugateDto {
   @IsString()
   @ApiModelProperty()
   readonly description: string;
+
+  @IsBoolean()
+  @ApiModelProperty()
+  readonly isLow: boolean;
 }

@@ -30,14 +30,14 @@ export class ReagentService {
 
   async findById(id: number) {
     return this.repository.findOne(id, {
-      select: ["id", "name", "reference", "providerId"],
+      select: ["id", "name", "reference", "providerId", "meta"],
     });
   }
 
   async getAllReagentsForGroup(groupId: number) {
     const result = await this.repository
       .createQueryBuilder("reagent")
-      .select(["reagent.id", "reagent.name", "reagent.reference"])
+      .select(["reagent.id", "reagent.name", "reagent.reference", "reagent.meta"])
       .leftJoin("reagent.provider", "provider")
       .addSelect(["provider.id", "provider.name"])
       .leftJoin("reagent.groupUser", "groupUser")

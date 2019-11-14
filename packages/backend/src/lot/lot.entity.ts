@@ -1,8 +1,9 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { GroupEntity } from "../group/group.entity";
 import { ReagentEntity } from "../reagent/reagent.entity";
 import { ProviderEntity } from "../provider/provider.entity";
 import { CloneEntity } from "../clone/clone.entity";
+import { ConjugateEntity } from "../conjugate/conjugate.entity";
 
 @Entity({
   name: "lot",
@@ -138,7 +139,10 @@ export class LotEntity {
   })
   updatedAt: string;
 
-  @ManyToOne(type => GroupEntity, group => group.lots)
+  @ManyToOne(
+    type => GroupEntity,
+    group => group.lots
+  )
   @JoinColumn({ name: "group_id" })
   group: GroupEntity;
 
@@ -153,4 +157,10 @@ export class LotEntity {
   @ManyToOne(type => CloneEntity)
   @JoinColumn({ name: "clone_id" })
   clone: CloneEntity;
+
+  @OneToMany(
+    type => ConjugateEntity,
+    conjugate => conjugate.lot
+  )
+  conjugates: ConjugateEntity[];
 }

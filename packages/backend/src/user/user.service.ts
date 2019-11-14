@@ -29,7 +29,7 @@ export class UserService {
   }
 
   async update(id: number, params: UpdateUserDto | UpdateProfileDto) {
-    await this.userRepository.update(id, params);
+    await this.userRepository.update(id, { ...params, updatedAt: new Date().toISOString() });
     return this.findById(id);
   }
 

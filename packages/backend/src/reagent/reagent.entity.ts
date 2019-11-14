@@ -54,7 +54,10 @@ export class ReagentEntity {
   })
   createdAt: string;
 
-  @ManyToOne(type => GroupEntity, group => group.reagents)
+  @ManyToOne(
+    type => GroupEntity,
+    group => group.reagents
+  )
   @JoinColumn({ name: "group_id" })
   group: GroupEntity;
 

@@ -5,40 +5,38 @@
         <div class="headline primary--text">Edit Lot</div>
       </v-card-title>
       <v-card-text>
-        <template>
-          <v-form v-model="valid" ref="form">
-            <v-select
-              label="Clone"
-              v-model="cloneId"
-              :items="clones"
-              item-text="name"
-              item-value="id"
-              :rules="cloneRules"
-              dense
-            />
-            <v-select
-              label="Reagent"
-              v-model="reagentId"
-              :items="reagents"
-              item-text="name"
-              item-value="id"
-              :rules="reagentRules"
-              dense
-            />
-            <v-select
-              label="Provider"
-              v-model="providerId"
-              :items="providers"
-              item-text="name"
-              item-value="id"
-              :rules="providerRules"
-              dense
-            />
-            <v-text-field label="Lot Number" v-model="number" :rules="numberRules" />
-            <v-text-field label="Datasheet Link" v-model="link" :rules="linkRules" />
-            <v-text-field label="Purpose" v-model="purpose" :rules="purposeRules" />
-          </v-form>
-        </template>
+        <v-form v-model="valid" ref="form">
+          <v-autocomplete
+            label="Clone"
+            v-model="cloneId"
+            :items="clones"
+            item-text="name"
+            item-value="id"
+            :rules="cloneRules"
+            dense
+          />
+          <v-autocomplete
+            label="Reagent"
+            v-model="reagentId"
+            :items="reagents"
+            item-text="name"
+            item-value="id"
+            :rules="reagentRules"
+            dense
+          />
+          <v-autocomplete
+            label="Provider"
+            v-model="providerId"
+            :items="providers"
+            item-text="name"
+            item-value="id"
+            :rules="providerRules"
+            dense
+          />
+          <v-text-field label="Lot Number" v-model="number" :rules="numberRules" />
+          <v-text-field label="Datasheet Link" v-model="link" :rules="linkRules" />
+          <v-text-field label="Purpose" v-model="purpose" :rules="purposeRules" />
+        </v-form>
       </v-card-text>
       <v-card-actions>
         <v-spacer />

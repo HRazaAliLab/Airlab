@@ -54,6 +54,11 @@ export class CreateConjugate1573050643464 implements MigrationInterface {
             isNullable: true,
           },
           {
+            name: "is_low",
+            type: "boolean",
+            default: false,
+          },
+          {
             name: "is_deleted",
             type: "boolean",
             default: false,

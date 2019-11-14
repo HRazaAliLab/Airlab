@@ -66,6 +66,11 @@ export class CreatePanel1573210620363 implements MigrationInterface {
             type: "timestamptz",
             default: "NOW()",
           },
+          {
+            name: "updated_at",
+            type: "timestamptz",
+            default: "NOW()",
+          },
         ],
         foreignKeys: [
           {

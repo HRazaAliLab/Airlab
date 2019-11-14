@@ -1,7 +1,8 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { GroupEntity } from "../group/group.entity";
 import { ProteinEntity } from "../protein/protein.entity";
 import { SpeciesEntity } from "../species/species.entity";
+import { LotEntity } from "../lot/lot.entity";
 
 @Entity({
   name: "clone",
@@ -100,15 +101,27 @@ export class CloneEntity {
   })
   updatedAt: string;
 
-  @ManyToOne(type => GroupEntity, group => group.clones)
+  @ManyToOne(
+    type => GroupEntity,
+    group => group.clones
+  )
   @JoinColumn({ name: "group_id" })
   group: GroupEntity;
 
-  @ManyToOne(type => ProteinEntity, protein => protein.clones)
+  @ManyToOne(
+    type => ProteinEntity,
+    protein => protein.clones
+  )
   @JoinColumn({ name: "protein_id" })
   protein: ProteinEntity;
 
   @ManyToOne(type => SpeciesEntity)
   @JoinColumn({ name: "species_id" })
   species: SpeciesEntity;
+
+  @OneToMany(
+    type => LotEntity,
+    lot => lot.clone
+  )
+  lots: LotEntity[];
 }

@@ -56,6 +56,10 @@ __decorate([
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Boolean)
+], ConjugateDto.prototype, "isLow", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Boolean)
 ], ConjugateDto.prototype, "isDeleted", void 0);
 __decorate([
     swagger_1.ApiModelPropertyOptional(),
@@ -124,5 +128,10 @@ __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], UpdateConjugateDto.prototype, "description", void 0);
+__decorate([
+    class_validator_1.IsBoolean(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Boolean)
+], UpdateConjugateDto.prototype, "isLow", void 0);
 exports.UpdateConjugateDto = UpdateConjugateDto;
 //# sourceMappingURL=dto.js.map

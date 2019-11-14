@@ -9,6 +9,7 @@ export declare class ConjugateDto {
     readonly tubeNumber: number;
     readonly concentration: string;
     readonly description: string;
+    readonly isLow: boolean;
     readonly isDeleted: boolean;
     readonly meta: object;
     readonly labeledAt: string;
@@ -28,5 +29,6 @@ export declare class UpdateConjugateDto {
     readonly tagId: number;
     readonly concentration: string;
     readonly description: string;
+    readonly isLow: boolean;
 }
 //# sourceMappingURL=dto.d.ts.map

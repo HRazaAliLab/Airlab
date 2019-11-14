@@ -15,10 +15,12 @@ export declare class CreateReagentDto {
     readonly providerId: number;
     readonly name: string;
     readonly reference: string;
+    readonly meta: object | null;
 }
 export declare class UpdateReagentDto {
     readonly providerId: number;
     readonly name: string;
     readonly reference: string;
+    readonly meta: object | null;
 }
 //# sourceMappingURL=dto.d.ts.map

@@ -11,6 +11,7 @@ export declare class PanelDto {
     readonly meta: object;
     readonly isDeleted: boolean;
     readonly createdAt: string;
+    readonly updatedAt: string;
 }
 export declare class CreatePanelDto {
     readonly createdBy?: number;

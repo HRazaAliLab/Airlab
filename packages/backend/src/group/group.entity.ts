@@ -50,27 +50,51 @@ export class GroupEntity {
   })
   createdAt: string;
 
-  @OneToMany(type => ProteinEntity, protein => protein.group)
+  @OneToMany(
+    type => ProteinEntity,
+    protein => protein.group
+  )
   proteins: ProteinEntity[];
 
-  @OneToMany(type => ReagentEntity, reagent => reagent.group)
+  @OneToMany(
+    type => ReagentEntity,
+    reagent => reagent.group
+  )
   reagents: ReagentEntity[];
 
-  @OneToMany(type => CloneEntity, clone => clone.group)
+  @OneToMany(
+    type => CloneEntity,
+    clone => clone.group
+  )
   clones: CloneEntity[];
 
-  @OneToMany(type => LotEntity, lot => lot.group)
+  @OneToMany(
+    type => LotEntity,
+    lot => lot.group
+  )
   lots: LotEntity[];
 
-  @OneToMany(type => ConjugateEntity, conjugate => conjugate.group)
+  @OneToMany(
+    type => ConjugateEntity,
+    conjugate => conjugate.group
+  )
   conjugates: ConjugateEntity[];
 
-  @OneToMany(type => FileEntity, file => file.group)
+  @OneToMany(
+    type => FileEntity,
+    file => file.group
+  )
   files: FileEntity[];
 
-  @OneToMany(type => PanelEntity, panel => panel.group)
+  @OneToMany(
+    type => PanelEntity,
+    panel => panel.group
+  )
   panels: PanelEntity[];
 
-  @OneToMany(type => GroupUserEntity, groupUser => groupUser.group)
+  @OneToMany(
+    type => GroupUserEntity,
+    groupUser => groupUser.group
+  )
   groupUsers!: GroupUserEntity[];
 }

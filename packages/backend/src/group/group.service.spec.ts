@@ -13,10 +13,7 @@ describe("GroupService", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        TypeOrmModule.forRoot(),
-        TypeOrmModule.forFeature([GroupEntity, GroupUserEntity, UserEntity]),
-      ],
+      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([GroupEntity, GroupUserEntity, UserEntity])],
       providers: [GroupService, GroupUserService, UtilsService, ConfigService],
     }).compile();
 

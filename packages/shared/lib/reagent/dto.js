@@ -72,6 +72,11 @@ __decorate([
     swagger_1.ApiModelPropertyOptional(),
     __metadata("design:type", String)
 ], CreateReagentDto.prototype, "reference", void 0);
+__decorate([
+    class_validator_1.IsOptional(),
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", Object)
+], CreateReagentDto.prototype, "meta", void 0);
 exports.CreateReagentDto = CreateReagentDto;
 class UpdateReagentDto {
 }
@@ -90,5 +95,10 @@ __decorate([
     swagger_1.ApiModelPropertyOptional(),
     __metadata("design:type", String)
 ], UpdateReagentDto.prototype, "reference", void 0);
+__decorate([
+    class_validator_1.IsOptional(),
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", Object)
+], UpdateReagentDto.prototype, "meta", void 0);
 exports.UpdateReagentDto = UpdateReagentDto;
 //# sourceMappingURL=dto.js.map

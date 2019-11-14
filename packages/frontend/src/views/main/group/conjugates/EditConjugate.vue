@@ -5,30 +5,29 @@
         <div class="headline primary--text">Edit Conjugate</div>
       </v-card-title>
       <v-card-text>
-        <template>
-          <v-form v-model="valid" ref="form">
-            <v-select
-              label="Lot"
-              v-model="lotId"
-              :items="lots"
-              item-text="number"
-              item-value="id"
-              :rules="lotRules"
-              dense
-            />
-            <v-select
-              label="Tag"
-              v-model="tagId"
-              :items="tags"
-              item-text="name"
-              item-value="id"
-              :rules="tagRules"
-              dense
-            />
-            <v-text-field label="Concentration (in ug/ml)" v-model="concentration" :rules="concentrationRules" />
-            <v-text-field label="Description" v-model="description" :rules="descriptionRules" />
-          </v-form>
-        </template>
+        <v-form v-model="valid" ref="form">
+          <v-autocomplete
+            label="Lot"
+            v-model="lotId"
+            :items="lots"
+            item-text="number"
+            item-value="id"
+            :rules="lotRules"
+            dense
+          />
+          <v-autocomplete
+            label="Tag"
+            v-model="tagId"
+            :items="tags"
+            item-text="name"
+            item-value="id"
+            :rules="tagRules"
+            dense
+          />
+          <v-text-field label="Concentration (in ug/ml)" v-model="concentration" :rules="concentrationRules" />
+          <v-text-field label="Description" v-model="description" :rules="descriptionRules" />
+          <v-checkbox label="Is Low" v-model="isLow" />
+        </v-form>
       </v-card-text>
       <v-card-actions>
         <v-spacer />
@@ -68,6 +67,7 @@ export default class EditConjugate extends Vue {
   tagId: number | null = null;
   concentration = "";
   description = "";
+  isLow = false;
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
@@ -78,7 +78,10 @@ export default class EditConjugate extends Vue {
   }
 
   get tags() {
-    return this.tagContext.getters.tags;
+    return this.tagContext.getters.tags.map(item => ({
+      id: item.id,
+      name: item.mw ? item.name + item.mw : item.name,
+    }));
   }
 
   get conjugate() {
@@ -98,6 +101,7 @@ export default class EditConjugate extends Vue {
       this.tagId = this.conjugate.tagId;
       this.concentration = this.conjugate.concentration;
       this.description = this.conjugate.description;
+      this.isLow = this.conjugate.isLow;
     }
   }
 
@@ -117,6 +121,7 @@ export default class EditConjugate extends Vue {
         tagId: Number(this.tagId),
         concentration: this.concentration,
         description: this.description,
+        isLow: this.isLow,
       };
       await this.conjugateContext.actions.updateConjugate({
         id: this.conjugate.id,

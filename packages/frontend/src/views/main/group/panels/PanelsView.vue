@@ -81,7 +81,7 @@
         </template>
       </v-data-table>
     </v-card>
-    <v-navigation-drawer v-if="detailsItem" v-model="drawer" right absolute temporary width="400">
+    <v-navigation-drawer v-if="detailsItem" v-model="drawer" right fixed temporary width="400">
       <v-card flat>
         <v-list-item>
           <v-list-item-avatar>

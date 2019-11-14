@@ -3,7 +3,7 @@ import { SpeciesState } from ".";
 
 export class SpeciesGetters extends Getters<SpeciesState> {
   get species() {
-    return Object.values(this.state.entities);
+    return Object.values(this.state.entities).sort((a, b) => a.name.localeCompare(b.name));
   }
 
   getSpecies(id: number) {

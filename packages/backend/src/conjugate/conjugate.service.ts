@@ -22,7 +22,7 @@ export class ConjugateService {
   }
 
   async update(id: number, params: UpdateConjugateDto) {
-    await this.repository.update(id, params);
+    await this.repository.update(id, { ...params, updatedAt: new Date().toISOString() });
     return this.findById(id);
   }
 

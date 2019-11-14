@@ -60,6 +60,11 @@ export class ConjugateEntity {
   description: string;
 
   @Column({
+    name: "is_low",
+  })
+  isLow: boolean;
+
+  @Column({
     name: "is_deleted",
   })
   isDeleted: boolean;
@@ -85,7 +90,10 @@ export class ConjugateEntity {
   })
   updatedAt: string;
 
-  @ManyToOne(type => GroupEntity, group => group.conjugates)
+  @ManyToOne(
+    type => GroupEntity,
+    group => group.conjugates
+  )
   @JoinColumn({ name: "group_id" })
   group: GroupEntity;
 

@@ -51,7 +51,10 @@ export class FileEntity {
   })
   createdAt: string;
 
-  @ManyToOne(type => GroupEntity, group => group.files)
+  @ManyToOne(
+    type => GroupEntity,
+    group => group.files
+  )
   @JoinColumn({ name: "group_id" })
   group: GroupEntity;
 }

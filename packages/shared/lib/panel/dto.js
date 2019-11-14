@@ -61,6 +61,10 @@ __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], PanelDto.prototype, "createdAt", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", String)
+], PanelDto.prototype, "updatedAt", void 0);
 exports.PanelDto = PanelDto;
 class CreatePanelDto {
 }

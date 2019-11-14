@@ -61,6 +61,10 @@ export class UserEntity {
   })
   updatedAt: string;
 
-  @OneToMany(type => GroupUserEntity, groupUser => groupUser.user, { eager: true })
+  @OneToMany(
+    type => GroupUserEntity,
+    groupUser => groupUser.user,
+    { eager: true }
+  )
   groupUsers!: GroupUserEntity[];
 }

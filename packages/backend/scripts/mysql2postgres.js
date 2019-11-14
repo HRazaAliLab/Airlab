@@ -4,6 +4,8 @@ const mysql = require("mysql2/promise");
 const { Pool } = require("pg");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const dJSON = require("dirty-json");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { Storage } = require("@google-cloud/storage");
 
 const mysqlPool = mysql.createPool({
   host: "localhost",
@@ -363,7 +365,7 @@ async function migrateConjugate() {
     }
 
     const sql =
-      'INSERT INTO "conjugate"(id, group_id, created_by, lot_id, tag_id, finished_by, finished_at, tube_number, concentration, is_deleted, description, labeled_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)';
+      'INSERT INTO "conjugate"(id, group_id, created_by, lot_id, tag_id, finished_by, finished_at, tube_number, concentration, is_low, is_deleted, description, labeled_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)';
     const values = [
       row["labLabeledAntibodyId"],
       row["groupId"],
@@ -380,6 +382,7 @@ async function migrateConjugate() {
             .trim(),
       row["labBBTubeNumber"],
       row["labConcentration"],
+      row["tubIsLow"] === 0 ? false : true,
       row["deleted"],
       row["catchedInfo"],
       row["labDateOfLabeling"] === "" || row["labDateOfLabeling"] === null || row["labDateOfLabeling"] === "0"
@@ -466,6 +469,27 @@ async function migratePanel() {
   await postgresPool.query("SELECT setval('public.panel_id_seq', (SELECT MAX(id) FROM public.panel), true);");
 }
 
+async function downloadFiles() {
+  const bucketName = "bblab_airlab_files";
+  const storage = new Storage({ keyFilename: "/home/anton/Documents/key.json", projectId: "api-project-209144424908" });
+  const bucket = await storage.bucket(bucketName);
+
+  const [files] = await storage.bucket(bucketName).getFiles();
+
+  console.log("Files:");
+  files.forEach(file => {
+    console.log(file.name);
+  });
+
+  await storage
+    .bucket(bucketName)
+    .file("files/" + "H9_hQka9x3nPIXR6SNVFK5X.pdf".replace("_", "/"))
+    .download({
+      // The path to which the file should be downloaded, e.g. "./file.txt"
+      destination: "./file.pdf",
+    });
+}
+
 async function migrate() {
   await migrateGroup();
   await migrateUser();
@@ -480,6 +504,8 @@ async function migrate() {
   await migrateConjugate();
   await migrateFile();
   await migratePanel();
+
+  // await downloadFiles();
 
   // await postgresPool.query(
   //   "SELECT 'SELECT setval(''public.' || c.relname || ''',' || ' (SELECT MAX(ID) FROM PUBLIC.' || REPLACE(c.relname,'_id_seq','') || '), true);' FROM pg_class c WHERE c.relkind = 'S' ORDER BY C.RELNAME;"

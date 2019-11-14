@@ -37,6 +37,9 @@ export class PanelDto {
 
   @ApiModelProperty()
   readonly createdAt: string;
+
+  @ApiModelProperty()
+  readonly updatedAt: string;
 }
 
 export class CreatePanelDto {

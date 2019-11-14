@@ -15,21 +15,21 @@ export class PanelMutations extends Mutations<PanelState> {
     if (!existingId) {
       this.state.ids = this.state.ids.concat(payload.id);
     }
-    this.state.entities[payload.id] = payload;
+    this.state.entities = { ...this.state.entities, [payload.id]: payload };
   }
 
   addEntity(payload: PanelDto) {
     this.state.ids = this.state.ids.concat(payload.id);
-    this.state.entities[payload.id] = payload;
+    this.state.entities = { ...this.state.entities, [payload.id]: payload };
   }
 
   updateEntity(payload: PanelDto) {
-    this.state.entities[payload.id] = payload;
+    this.state.entities = { ...this.state.entities, [payload.id]: payload };
   }
 
   deleteEntity(id: number) {
     this.state.ids = this.state.ids.filter(item => item !== id);
-    const entities = Object.assign({}, this.state.entities);
+    const entities = { ...this.state.entities };
     delete entities[id];
     this.state.entities = entities;
   }

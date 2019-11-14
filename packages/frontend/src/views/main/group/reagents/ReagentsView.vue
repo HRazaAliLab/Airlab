@@ -75,7 +75,7 @@
         </template>
       </v-data-table>
     </v-card>
-    <v-navigation-drawer v-if="detailsItem" v-model="drawer" right absolute temporary width="400">
+    <v-navigation-drawer v-if="detailsItem" v-model="drawer" right fixed temporary width="400">
       <v-card flat>
         <v-list-item>
           <v-list-item-avatar>
@@ -86,7 +86,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-card-text>
-          {{ detailsItem }}
+          <InfoView :item="detailsItem" />
         </v-card-text>
       </v-card>
     </v-navigation-drawer>
@@ -99,9 +99,11 @@ import { Component, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
 import { reagentModule } from "@/modules/reagent";
 import { ReagentDto } from "@airlab/shared/lib/reagent/dto";
+import InfoView from "@/components/InfoView.vue";
 
 @Component({
   components: {
+    InfoView,
     LoadingView,
   },
 })

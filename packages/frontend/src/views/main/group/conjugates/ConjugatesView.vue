@@ -30,8 +30,8 @@
         multi-sort
         show-expand
       >
-        <template v-slot:item.label="{ item }">
-          {{ item.tag.mw + item.tag.name }}
+        <template v-slot:item.isLow="{ item }">
+          <v-icon v-if="item.isLow">mdi-check</v-icon>
         </template>
         <template v-slot:item.action="{ item }">
           <v-tooltip bottom>
@@ -78,7 +78,7 @@
         </template>
       </v-data-table>
     </v-card>
-    <v-navigation-drawer v-if="detailsItem" v-model="drawer" right absolute temporary width="400">
+    <v-navigation-drawer v-if="detailsItem" v-model="drawer" right fixed temporary width="400">
       <v-card flat>
         <v-list-item>
           <v-list-item-avatar>
@@ -137,7 +137,7 @@ export default class ConjugatesViews extends Vue {
       value: "lot.number",
     },
     {
-      text: "Label",
+      text: "Tag",
       sortable: true,
       value: "label",
     },
@@ -158,6 +158,12 @@ export default class ConjugatesViews extends Vue {
       value: "description",
     },
     {
+      text: "Is Low",
+      sortable: true,
+      value: "isLow",
+      filterable: false,
+    },
+    {
       text: "Actions",
       value: "action",
       sortable: false,
@@ -171,7 +177,14 @@ export default class ConjugatesViews extends Vue {
   search = "";
 
   get items() {
-    return this.conjugateContext.getters.conjugates;
+    return this.conjugateContext.getters.conjugates.map(item => ({
+      ...item,
+      label: (item as any).tag
+        ? (item as any).tag.mw
+          ? (item as any).tag.name + (item as any).tag.mw
+          : (item as any).tag.name
+        : "unknown",
+    }));
   }
 
   showDetails(item: ConjugateDto) {

@@ -5,121 +5,116 @@
         <div class="headline primary--text">Edit Clone</div>
       </v-card-title>
       <v-card-text>
-        <template>
-          <v-form v-model="valid" ref="form">
-            <v-select
-              label="Protein"
-              v-model="proteinId"
-              :items="proteins"
-              item-text="name"
-              item-value="id"
-              :rules="proteinRules"
-              dense
-            />
-            <v-text-field label="Clone Name" v-model="name" :rules="nameRules" />
-            <v-text-field label="Epitope" v-model="epitope" :rules="epitopeRules" />
-            <v-text-field label="Isotype" v-model="isotype" :rules="isotypeRules" />
-            <v-checkbox label="Polyclonal" v-model="isPolyclonal" />
-            <v-checkbox label="Phosphoantibody" v-model="isPhospho" />
-            <v-select
-              label="Host"
-              v-model="speciesId"
-              :items="species"
-              item-text="name"
-              item-value="id"
-              :rules="hostRules"
-              dense
-            />
-            <v-row>
-              <v-col>
-                <div class="subtitle-1">
-                  Reactivity
-                </div>
-                <v-chip-group v-model="reactivity" multiple column active-class="primary--text">
-                  <v-chip v-for="item in species" :key="item.id" :value="item.id" small>
-                    {{ item.name }}
-                  </v-chip>
-                </v-chip-group>
-              </v-col>
-              <v-col />
-              <v-col>
-                <div class="subtitle-1">
-                  Application
-                </div>
-                <div class="subtitle-3">
-                  sMC
-                </div>
-                <v-btn-toggle v-model="smcApplication">
-                  <v-btn small value="true">
-                    <v-icon small>mdi-checkbox-marked-outline</v-icon>
-                  </v-btn>
-                  <v-btn small value="false">
-                    <v-icon small>mdi-checkbox-blank-outline</v-icon>
-                  </v-btn>
-                  <v-btn small value="undefined">
-                    <v-icon small>mdi-minus-box-outline</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-                <div class="subtitle-3">
-                  iMC
-                </div>
-                <v-btn-toggle v-model="imcApplication">
-                  <v-btn small value="true">
-                    <v-icon small>mdi-checkbox-marked-outline</v-icon>
-                  </v-btn>
-                  <v-btn small value="false">
-                    <v-icon small>mdi-checkbox-blank-outline</v-icon>
-                  </v-btn>
-                  <v-btn small value="undefined">
-                    <v-icon small>mdi-minus-box-outline</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-                <div class="subtitle-3">
-                  FC
-                </div>
-                <v-btn-toggle v-model="fcApplication">
-                  <v-btn small value="true">
-                    <v-icon small>mdi-checkbox-marked-outline</v-icon>
-                  </v-btn>
-                  <v-btn small value="false">
-                    <v-icon small>mdi-checkbox-blank-outline</v-icon>
-                  </v-btn>
-                  <v-btn small value="undefined">
-                    <v-icon small>mdi-minus-box-outline</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-                <div class="subtitle-3">
-                  IF
-                </div>
-                <v-btn-toggle v-model="ifApplication">
-                  <v-btn small value="true">
-                    <v-icon small>mdi-checkbox-marked-outline</v-icon>
-                  </v-btn>
-                  <v-btn small value="false">
-                    <v-icon small>mdi-checkbox-blank-outline</v-icon>
-                  </v-btn>
-                  <v-btn small value="undefined">
-                    <v-icon small>mdi-minus-box-outline</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-                <div class="subtitle-3">
-                  IHC
-                </div>
-                <v-btn-toggle v-model="ihcApplication">
-                  <v-btn small value="true">
-                    <v-icon small>mdi-checkbox-marked-outline</v-icon>
-                  </v-btn>
-                  <v-btn small value="false">
-                    <v-icon small>mdi-checkbox-blank-outline</v-icon>
-                  </v-btn>
-                  <v-btn small value="undefined">
-                    <v-icon small>mdi-minus-box-outline</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-              </v-col>
-            </v-row>
-          </v-form>
-        </template>
+        <v-form v-model="valid" ref="form">
+          <v-text-field label="Clone Name" v-model="name" :rules="nameRules" />
+          <v-autocomplete
+            label="Protein"
+            v-model="proteinId"
+            :items="proteins"
+            item-text="name"
+            item-value="id"
+            :rules="proteinRules"
+            dense
+          />
+          <v-autocomplete
+            label="Host"
+            v-model="speciesId"
+            :items="species"
+            item-text="name"
+            item-value="id"
+            :rules="hostRules"
+            dense
+          />
+          <v-text-field label="Epitope" v-model="epitope" :rules="epitopeRules" />
+          <v-text-field label="Isotype" v-model="isotype" :rules="isotypeRules" />
+          <v-checkbox label="Polyclonal" v-model="isPolyclonal" />
+          <v-checkbox label="Phosphoantibody" v-model="isPhospho" />
+          <v-row>
+            <v-col cols="4">
+              <div class="subtitle-1">
+                Reactivity
+              </div>
+              <v-chip-group v-model="reactivity" multiple column active-class="primary--text">
+                <v-chip v-for="item in species" :key="item.id" :value="item.id" small>
+                  {{ item.name }}
+                </v-chip>
+              </v-chip-group>
+            </v-col>
+            <v-col />
+            <v-col cols="7">
+              <div class="subtitle-1">
+                Application
+              </div>
+              <v-row>
+                <v-col>
+                  <div class="subtitle-3">
+                    SMC
+                  </div>
+                  <v-btn-toggle v-model="smcApplication">
+                    <v-btn small value="true">
+                      <v-icon small>mdi-checkbox-marked-outline</v-icon>
+                    </v-btn>
+                    <v-btn small value="false">
+                      <v-icon small>mdi-checkbox-blank-outline</v-icon>
+                    </v-btn>
+                  </v-btn-toggle>
+                </v-col>
+                <v-col>
+                  <div class="subtitle-3">
+                    IMC
+                  </div>
+                  <v-btn-toggle v-model="imcApplication">
+                    <v-btn small value="true">
+                      <v-icon small>mdi-checkbox-marked-outline</v-icon>
+                    </v-btn>
+                    <v-btn small value="false">
+                      <v-icon small>mdi-checkbox-blank-outline</v-icon>
+                    </v-btn>
+                  </v-btn-toggle>
+                </v-col>
+                <v-col>
+                  <div class="subtitle-3">
+                    FC
+                  </div>
+                  <v-btn-toggle v-model="fcApplication">
+                    <v-btn small value="true">
+                      <v-icon small>mdi-checkbox-marked-outline</v-icon>
+                    </v-btn>
+                    <v-btn small value="false">
+                      <v-icon small>mdi-checkbox-blank-outline</v-icon>
+                    </v-btn>
+                  </v-btn-toggle>
+                </v-col>
+                <v-col>
+                  <div class="subtitle-3">
+                    IF
+                  </div>
+                  <v-btn-toggle v-model="ifApplication">
+                    <v-btn small value="true">
+                      <v-icon small>mdi-checkbox-marked-outline</v-icon>
+                    </v-btn>
+                    <v-btn small value="false">
+                      <v-icon small>mdi-checkbox-blank-outline</v-icon>
+                    </v-btn>
+                  </v-btn-toggle>
+                </v-col>
+                <v-col>
+                  <div class="subtitle-3">
+                    IHC
+                  </div>
+                  <v-btn-toggle v-model="ihcApplication">
+                    <v-btn small value="true">
+                      <v-icon small>mdi-checkbox-marked-outline</v-icon>
+                    </v-btn>
+                    <v-btn small value="false">
+                      <v-icon small>mdi-checkbox-blank-outline</v-icon>
+                    </v-btn>
+                  </v-btn-toggle>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-form>
       </v-card-text>
       <v-card-actions>
         <v-spacer />
@@ -172,11 +167,11 @@ export default class EditClone extends Vue {
   isPhospho = false;
   speciesId: number | null = null;
   reactivity: number[] = [];
-  smcApplication = "undefined";
-  imcApplication = "undefined";
-  fcApplication = "undefined";
-  ifApplication = "undefined";
-  ihcApplication = "undefined";
+  smcApplication = null;
+  imcApplication = null;
+  fcApplication = null;
+  ifApplication = null;
+  ihcApplication = null;
 
   get proteins() {
     return this.proteinContext.getters.proteins;
@@ -228,19 +223,19 @@ export default class EditClone extends Vue {
   async submit() {
     if ((this.$refs.form as any).validate() && this.clone) {
       const application = {};
-      if (this.smcApplication !== "undefined") {
+      if (this.smcApplication) {
         application[this.applicationMap.sMC] = this.smcApplication === "true";
       }
-      if (this.imcApplication !== "undefined") {
+      if (this.imcApplication) {
         application[this.applicationMap.iMC] = this.imcApplication === "true";
       }
-      if (this.fcApplication !== "undefined") {
+      if (this.fcApplication) {
         application[this.applicationMap.FC] = this.fcApplication === "true";
       }
-      if (this.ifApplication !== "undefined") {
+      if (this.ifApplication) {
         application[this.applicationMap.IF] = this.ifApplication === "true";
       }
-      if (this.ihcApplication !== "undefined") {
+      if (this.ihcApplication) {
         application[this.applicationMap.IHC] = this.ihcApplication === "true";
       }
       const data: UpdateCloneDto = {

@@ -5,30 +5,28 @@
         <div class="headline primary--text">Create Conjugate</div>
       </v-card-title>
       <v-card-text>
-        <template>
-          <v-form v-model="valid" ref="form" lazy-validation>
-            <v-select
-              label="Lot"
-              v-model="lotId"
-              :items="lots"
-              item-text="number"
-              item-value="id"
-              :rules="lotRules"
-              dense
-            />
-            <v-select
-              label="Tag"
-              v-model="tagId"
-              :items="tags"
-              item-text="name"
-              item-value="id"
-              :rules="tagRules"
-              dense
-            />
-            <v-text-field label="Concentration (in ug/ml)" v-model="concentration" :rules="concentrationRules" />
-            <v-text-field label="Description" v-model="description" :rules="descriptionRules" />
-          </v-form>
-        </template>
+        <v-form v-model="valid" ref="form" lazy-validation>
+          <v-autocomplete
+            label="Lot"
+            v-model="lotId"
+            :items="lots"
+            item-text="number"
+            item-value="id"
+            :rules="lotRules"
+            dense
+          />
+          <v-autocomplete
+            label="Tag"
+            v-model="tagId"
+            :items="tags"
+            item-text="name"
+            item-value="id"
+            :rules="tagRules"
+            dense
+          />
+          <v-text-field label="Concentration (in ug/ml)" v-model="concentration" :rules="concentrationRules" />
+          <v-text-field label="Description" v-model="description" :rules="descriptionRules" />
+        </v-form>
       </v-card-text>
       <v-card-actions>
         <v-spacer />
@@ -78,7 +76,10 @@ export default class CreateConjugate extends Vue {
   }
 
   get tags() {
-    return this.tagContext.getters.tags;
+    return this.tagContext.getters.tags.map(item => ({
+      id: item.id,
+      name: item.mw ? item.name + item.mw : item.name,
+    }));
   }
 
   cancel() {
