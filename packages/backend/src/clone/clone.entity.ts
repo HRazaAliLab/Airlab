@@ -85,7 +85,6 @@ export class CloneEntity {
   @Column({
     name: "meta",
     type: "jsonb",
-    select: false,
   })
   meta: object;
 

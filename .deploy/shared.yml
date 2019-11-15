@@ -1,6 +1,5 @@
-version: '3.7'
+version: "3.7"
 services:
-
   backend:
     env_file:
       - env-postgres.env
@@ -42,6 +41,18 @@ services:
     ports:
       - 5432:5432
 
+  pgadmin:
+    restart: always
+    image: dpage/pgadmin4:4.15
+    depends_on:
+      - db
+    env_file:
+      - env-pgadmin.env
+    ports:
+      - 5050:5050
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
   rabbitmq:
     restart: always
     image: rabbitmq:3.8.1-alpine
@@ -56,17 +67,15 @@ services:
     volumes:
       - redis-data:/data
 
-  pgadmin:
+  redisinsight:
     restart: always
-    image: dpage/pgadmin4:4.14
+    image: redislabs/redisinsight:1.0.2
     depends_on:
-      - db
-    env_file:
-      - env-pgadmin.env
+      - redis
     ports:
-      - 5050:5050
+      - 8001:8001
     volumes:
-      - pgadmin-data:/var/lib/pgadmin
+      - redisinsight-data:/db
 
   portainer:
     restart: always
@@ -80,7 +89,7 @@ services:
 
   proxy:
     restart: always
-    image: traefik:2.0.4
+    image: traefik:2.0.5
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
@@ -93,5 +102,6 @@ volumes:
   postgres-data:
   portainer-data:
   redis-data:
+  redisinsight-data:
   rabbitmq-data:
   pgadmin-data:

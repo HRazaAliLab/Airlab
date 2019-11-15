@@ -1,6 +1,8 @@
 FROM node:12.13.0-alpine
 LABEL maintainer="Anton Rau <anton.rau@gmail.com>"
 
+RUN yarn global add pm2@4.1.2
+
 WORKDIR /app
 
 COPY package.json lerna.json yarn.lock ./

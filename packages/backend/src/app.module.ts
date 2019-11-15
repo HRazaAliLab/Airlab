@@ -19,6 +19,7 @@ import { ReagentModule } from "./reagent/reagent.module";
 import { ConjugateModule } from "./conjugate/conjugate.module";
 import { LotModule } from "./lot/lot.module";
 import { PanelModule } from "./panel/panel.module";
+import { ValidationModule } from "./validation/validation.module";
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { PanelModule } from "./panel/panel.module";
     ConjugateModule,
     PanelModule,
     LotModule,
+    ValidationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

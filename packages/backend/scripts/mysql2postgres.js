@@ -469,6 +469,98 @@ async function migratePanel() {
   await postgresPool.query("SELECT setval('public.panel_id_seq', (SELECT MAX(id) FROM public.panel), true);");
 }
 
+async function migrateValidation() {
+  const input = await postgresPool.query("SELECT * FROM clone");
+  for (row of input.rows) {
+    // console.log(row);
+    const sql =
+      'INSERT INTO "validation"(group_id, created_by, clone_id, lot_id, conjugate_id, species_id, file_id, application, positive_control, negative_control, incubation_conditions, concentration, concentration_unit, tissue, fixation, embedding, notes, status, antigen_retrieval_type, antigen_retrieval_time, antigen_retrieval_temperature, saponin, saponin_concentration, methanol_treatment, methanol_treatment_concentration, surface_staining, surface_staining_concentration, meta, created_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29)';
+
+    if (!row["meta"]) {
+      continue;
+    }
+
+    for (item of row["meta"]) {
+      console.log(item);
+
+      if (item["app"] === undefined) {
+        continue;
+      }
+
+      let saponin = null;
+      if (item["saponin"] === "0") {
+        saponin = true;
+      } else if (item["saponin"] === "1") {
+        saponin = false;
+      }
+
+      let methanolTreatment = null;
+      if (item["metoh"] === "0") {
+        methanolTreatment = true;
+      } else if (item["metoh"] === "1") {
+        methanolTreatment = false;
+      }
+
+      let surfaceStaining = null;
+      if (item["surface"] === "0") {
+        surfaceStaining = true;
+      } else if (item["surface"] === "1") {
+        surfaceStaining = false;
+      }
+
+      let createdAt = "now()";
+      if (item["date"]) {
+        const date = new Date(item["date"].replace("0000", "").trim());
+        createdAt = date.toISOString();
+      }
+
+      let createdBy = null;
+      if (item["personId"]) {
+        const groupUser = await postgresPool.query(
+          `SELECT * FROM group_user WHERE group_id=${row["group_id"]} AND user_id=${Number(item["personId"])}`
+        );
+        createdBy = groupUser.rows[0].id;
+      }
+      if (!createdBy) {
+        createdBy = row["created_by"];
+      }
+
+      const values = [
+        row["group_id"],
+        createdBy,
+        row["id"],
+        item["lot"],
+        item["conjugate"],
+        item["speciesTested"],
+        ["undefined"].includes(item["file"]) ? null : item["file"],
+        item["app"],
+        item["sample"],
+        item["negSample"],
+        item["incConditions"],
+        item["abConc"],
+        item["concUnitType"],
+        item["tissue"],
+        item["fixation"],
+        item["fixationNotes"],
+        item["note"],
+        item["val"],
+        item["antigenRetrievalType"],
+        item["antigenRetrievalTime"],
+        item["antigenRetrievalTemp"],
+        saponin,
+        item["saponinConc"],
+        methanolTreatment,
+        item["metohConc"],
+        surfaceStaining,
+        item["surfaceConc"],
+        item,
+        createdAt,
+      ];
+      await postgresPool.query(sql, values);
+    }
+  }
+}
+
 async function downloadFiles() {
   const bucketName = "bblab_airlab_files";
   const storage = new Storage({ keyFilename: "/home/anton/Documents/key.json", projectId: "api-project-209144424908" });
@@ -491,19 +583,21 @@ async function downloadFiles() {
 }
 
 async function migrate() {
-  await migrateGroup();
-  await migrateUser();
-  await migrateGroupUser();
-  await migrateSpecies();
-  await migrateTag();
-  await migrateProvider();
-  await migrateReagent();
-  await migrateProtein();
-  await migrateClone();
-  await migrateLot();
-  await migrateConjugate();
-  await migrateFile();
-  await migratePanel();
+  // await migrateGroup();
+  // await migrateUser();
+  // await migrateGroupUser();
+  // await migrateSpecies();
+  // await migrateTag();
+  // await migrateProvider();
+  // await migrateReagent();
+  // await migrateProtein();
+  // await migrateClone();
+  // await migrateLot();
+  // await migrateConjugate();
+  // await migrateFile();
+  // await migratePanel();
+
+  await migrateValidation();
 
   // await downloadFiles();
 

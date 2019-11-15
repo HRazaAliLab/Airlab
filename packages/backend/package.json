@@ -7,7 +7,7 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug 0.0.0.0:9229 --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "pm2-runtime ecosystem.config.js",
     "lint": "eslint --ext .ts,.js .",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -53,8 +53,8 @@
   },
   "devDependencies": {
     "@google-cloud/storage": "4.1.2",
-    "@nestjs/cli": "6.11.5",
-    "@nestjs/schematics": "6.7.0",
+    "@nestjs/cli": "6.12.1",
+    "@nestjs/schematics": "6.7.2",
     "@nestjs/testing": "6.9.0",
     "@types/bcryptjs": "2.4.2",
     "@types/dotenv": "8.2.0",
@@ -71,7 +71,7 @@
     "supertest": "4.0.2",
     "ts-jest": "24.1.0",
     "ts-loader": "6.2.1",
-    "ts-node": "8.5.0",
+    "ts-node": "8.5.2",
     "tsconfig-paths": "3.9.0"
   }
 }

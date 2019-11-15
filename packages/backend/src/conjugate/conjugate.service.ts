@@ -2,7 +2,6 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { ConjugateEntity } from "./conjugate.entity";
-import { GroupUserEntity } from "../groupUser/groupUser.entity";
 import { CreateConjugateDto, UpdateConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 import { UserEntity } from "../user/user.entity";
 

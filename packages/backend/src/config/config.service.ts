@@ -14,6 +14,7 @@ import { ReagentEntity } from "../reagent/reagent.entity";
 import { ConjugateEntity } from "../conjugate/conjugate.entity";
 import { LotEntity } from "../lot/lot.entity";
 import { PanelEntity } from "../panel/panel.entity";
+import { ValidationEntity } from "../validation/validation.entity";
 
 export class ConfigService {
   constructor() {
@@ -59,6 +60,7 @@ export class ConfigService {
         ConjugateEntity,
         PanelEntity,
         LotEntity,
+        ValidationEntity,
       ],
 
       migrationsTableName: "migrations",
