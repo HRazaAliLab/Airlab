@@ -1,4 +1,4 @@
-import { IsArray, IsBoolean, IsInt, IsJSON, IsString } from "class-validator";
+import { IsArray, IsBoolean, IsInt, IsString } from "class-validator";
 import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 
 export class CloneDto {

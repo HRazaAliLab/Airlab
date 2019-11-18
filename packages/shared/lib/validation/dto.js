@@ -80,7 +80,7 @@ __decorate([
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
-], ValidationDto.prototype, "embedding", void 0);
+], ValidationDto.prototype, "fixationNotes", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
@@ -226,7 +226,7 @@ __decorate([
     class_validator_1.IsOptional(),
     swagger_1.ApiModelPropertyOptional(),
     __metadata("design:type", String)
-], CreateValidationDto.prototype, "embedding", void 0);
+], CreateValidationDto.prototype, "fixationNotes", void 0);
 __decorate([
     class_validator_1.IsString(),
     class_validator_1.IsOptional(),
@@ -376,7 +376,7 @@ __decorate([
     class_validator_1.IsOptional(),
     swagger_1.ApiModelPropertyOptional(),
     __metadata("design:type", String)
-], UpdateValidationDto.prototype, "embedding", void 0);
+], UpdateValidationDto.prototype, "fixationNotes", void 0);
 __decorate([
     class_validator_1.IsString(),
     class_validator_1.IsOptional(),

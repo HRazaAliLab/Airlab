@@ -86,7 +86,7 @@ export class CreateValidation1573815240744 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: "embedding",
+            name: "fixation_notes",
             type: "varchar",
             isNullable: true,
           },
@@ -98,7 +98,7 @@ export class CreateValidation1573815240744 implements MigrationInterface {
           {
             name: "status",
             type: "int",
-            isNullable: true,
+            default: 3,
           },
           {
             name: "antigen_retrieval_type",

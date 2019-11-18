@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import { FileService } from "./file.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CreateFileDto, FileDto, UpdateFileDto } from "@airlab/shared/lib/file/dto";
+import { FileInterceptor } from "@nestjs/platform-express";
 
 @ApiUseTags("file")
 @Controller("file")
@@ -27,6 +28,12 @@ export class FileController {
   @ApiCreatedResponse({ description: "Create entity.", type: FileDto })
   async create(@Body() params: CreateFileDto) {
     return this.fileService.create(params);
+  }
+
+  @Post("upload")
+  @UseInterceptors(FileInterceptor("file"))
+  uploadFile(@UploadedFile() file) {
+    console.log(file);
   }
 
   @Patch(":id")

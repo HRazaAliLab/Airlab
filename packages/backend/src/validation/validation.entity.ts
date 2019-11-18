@@ -93,9 +93,9 @@ export class ValidationEntity {
   fixation: number;
 
   @Column({
-    name: "embedding",
+    name: "fixation_notes",
   })
-  embedding: string;
+  fixationNotes: string;
 
   @Column({
     name: "notes",

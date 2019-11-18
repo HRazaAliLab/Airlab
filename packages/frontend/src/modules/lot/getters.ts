@@ -3,7 +3,7 @@ import { LotState } from ".";
 
 export class LotGetters extends Getters<LotState> {
   get lots() {
-    return Object.values(this.state.entities);
+    return this.state.ids.map(id => this.state.entities[id]);
   }
 
   getLot(id: number) {

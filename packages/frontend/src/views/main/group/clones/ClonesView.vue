@@ -7,6 +7,7 @@
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
+        <v-btn text @click="exportCsv()">Export CSV</v-btn>
         <v-btn text :to="`/main/group/${activeGroupId}/clones/create`">Create Clone</v-btn>
       </v-toolbar-items>
     </v-toolbar>
@@ -216,6 +217,10 @@ export default class ClonesView extends Vue {
     if (self.confirm("Are you sure you want to delete the clone?")) {
       await this.cloneContext.actions.deleteClone(id);
     }
+  }
+
+  async exportCsv() {
+    this.cloneContext.actions.saveCsv();
   }
 }
 </script>

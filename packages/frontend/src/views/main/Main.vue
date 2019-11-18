@@ -40,6 +40,12 @@
               </v-list-item-action>
               <v-list-item-title>Conjugates</v-list-item-title>
             </v-list-item>
+            <v-list-item :to="`/main/group/${activeGroupId}/validations`">
+              <v-list-item-action>
+                <v-icon>mdi-ab-testing</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Validations</v-list-item-title>
+            </v-list-item>
             <v-list-item :to="`/main/group/${activeGroupId}/panels`">
               <v-list-item-action>
                 <v-icon>mdi-clipboard-outline</v-icon>

@@ -3,7 +3,7 @@ import { ProteinState } from ".";
 
 export class ProteinGetters extends Getters<ProteinState> {
   get proteins() {
-    return Object.values(this.state.entities);
+    return this.state.ids.map(id => this.state.entities[id]);
   }
 
   getProtein(id: number) {

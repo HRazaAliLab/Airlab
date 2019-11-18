@@ -17,6 +17,7 @@ import { panelModule } from "@/modules/panel";
 import { providerModule } from "@/modules/provider";
 import { reagentModule } from "@/modules/reagent";
 import { lotModule } from "@/modules/lot";
+import { validationModule } from "@/modules/validation";
 
 Vue.use(Vuex);
 
@@ -33,6 +34,7 @@ const rootModule = new Module({
     clone: cloneModule,
     lot: lotModule,
     conjugate: conjugateModule,
+    validation: validationModule,
     panel: panelModule,
     species: speciesModule,
     provider: providerModule,

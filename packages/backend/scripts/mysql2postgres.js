@@ -474,7 +474,7 @@ async function migrateValidation() {
   for (row of input.rows) {
     // console.log(row);
     const sql =
-      'INSERT INTO "validation"(group_id, created_by, clone_id, lot_id, conjugate_id, species_id, file_id, application, positive_control, negative_control, incubation_conditions, concentration, concentration_unit, tissue, fixation, embedding, notes, status, antigen_retrieval_type, antigen_retrieval_time, antigen_retrieval_temperature, saponin, saponin_concentration, methanol_treatment, methanol_treatment_concentration, surface_staining, surface_staining_concentration, meta, created_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29)';
+      'INSERT INTO "validation"(group_id, created_by, clone_id, lot_id, conjugate_id, species_id, file_id, application, positive_control, negative_control, incubation_conditions, concentration, concentration_unit, tissue, fixation, fixation_notes, notes, status, antigen_retrieval_type, antigen_retrieval_time, antigen_retrieval_temperature, saponin, saponin_concentration, methanol_treatment, methanol_treatment_concentration, surface_staining, surface_staining_concentration, meta, created_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29)';
 
     if (!row["meta"]) {
       continue;
@@ -583,19 +583,19 @@ async function downloadFiles() {
 }
 
 async function migrate() {
-  // await migrateGroup();
-  // await migrateUser();
-  // await migrateGroupUser();
-  // await migrateSpecies();
-  // await migrateTag();
-  // await migrateProvider();
-  // await migrateReagent();
-  // await migrateProtein();
-  // await migrateClone();
-  // await migrateLot();
-  // await migrateConjugate();
-  // await migrateFile();
-  // await migratePanel();
+  await migrateGroup();
+  await migrateUser();
+  await migrateGroupUser();
+  await migrateSpecies();
+  await migrateTag();
+  await migrateProvider();
+  await migrateReagent();
+  await migrateProtein();
+  await migrateClone();
+  await migrateLot();
+  await migrateConjugate();
+  await migrateFile();
+  await migratePanel();
 
   await migrateValidation();
 

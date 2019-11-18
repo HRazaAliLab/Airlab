@@ -173,6 +173,31 @@ export default new Router({
                 },
 
                 {
+                  path: "validations",
+                  name: "main-group-validations",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-validations" */ "@/views/main/group/validations/ValidationsView.vue"
+                    ),
+                },
+                {
+                  path: "validations/create",
+                  name: "main-group-validations-create",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-validations-create" */ "@/views/main/group/validations/CreateValidation.vue"
+                    ),
+                },
+                {
+                  path: "validations/edit/:id",
+                  name: "main-group-validations-edit",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-validations-edit" */ "@/views/main/group/validations/EditValidation.vue"
+                    ),
+                },
+
+                {
                   path: "lots",
                   name: "main-group-lots",
                   component: () =>

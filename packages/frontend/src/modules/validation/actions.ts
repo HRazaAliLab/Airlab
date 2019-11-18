@@ -1,14 +1,18 @@
 import { mainModule } from "@/modules/main";
 import { Store } from "vuex";
 import { Actions, Context } from "vuex-smart-module";
-import { CloneState } from ".";
+import { ValidationState } from ".";
 import { api } from "./api";
-import { CloneGetters } from "./getters";
-import { CloneMutations } from "./mutations";
-import { CreateCloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
-import { saveAs } from "file-saver";
+import { ValidationGetters } from "./getters";
+import { ValidationMutations } from "./mutations";
+import { CreateValidationDto, UpdateValidationDto } from "@airlab/shared/lib/validation/dto";
 
-export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutations, CloneActions> {
+export class ValidationActions extends Actions<
+  ValidationState,
+  ValidationGetters,
+  ValidationMutations,
+  ValidationActions
+> {
   // Declare context type
   main?: Context<typeof mainModule>;
 
@@ -18,9 +22,9 @@ export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutatio
     this.main = mainModule.context(store);
   }
 
-  async getClones() {
+  async getValidations() {
     try {
-      const data = await api.getClones(this.main!.getters.token);
+      const data = await api.getValidations(this.main!.getters.token);
       if (data) {
         this.mutations.setEntities(data);
       }
@@ -29,22 +33,22 @@ export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutatio
     }
   }
 
-  async createClone(payload: CreateCloneDto) {
+  async createValidation(payload: CreateValidationDto) {
     try {
       const notification = { content: "saving", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = await api.createClone(this.main!.getters.token, payload);
+      const data = await api.createValidation(this.main!.getters.token, payload);
       this.mutations.addEntity(data);
       this.main!.mutations.removeNotification(notification);
-      this.main!.mutations.addNotification({ content: "Clone successfully created", color: "success" });
+      this.main!.mutations.addNotification({ content: "Validation successfully created", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
     }
   }
 
-  async getClone(id: number) {
+  async getValidation(id: number) {
     try {
-      const data = await api.getClone(this.main!.getters.token, id);
+      const data = await api.getValidation(this.main!.getters.token, id);
       if (data) {
         this.mutations.setEntity(data);
       }
@@ -53,46 +57,29 @@ export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutatio
     }
   }
 
-  async updateClone(payload: { id: number; data: UpdateCloneDto }) {
+  async updateValidation(payload: { id: number; data: UpdateValidationDto }) {
     try {
       const notification = { content: "saving", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = await api.updateClone(this.main!.getters.token, payload.id, payload.data);
+      const data = await api.updateValidation(this.main!.getters.token, payload.id, payload.data);
       this.mutations.updateEntity(data);
       this.main!.mutations.removeNotification(notification);
-      this.main!.mutations.addNotification({ content: "Clone successfully updated", color: "success" });
+      this.main!.mutations.addNotification({ content: "Validation successfully updated", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
     }
   }
 
-  async deleteClone(id: number) {
+  async deleteValidation(id: number) {
     try {
       const notification = { content: "deleting", showProgress: true };
       this.main!.mutations.addNotification(notification);
-      const data = await api.deleteClone(this.main!.getters.token, id);
+      const data = await api.deleteValidation(this.main!.getters.token, id);
       this.mutations.deleteEntity(data);
       this.main!.mutations.removeNotification(notification);
-      this.main!.mutations.addNotification({ content: "Clone successfully deleted", color: "success" });
+      this.main!.mutations.addNotification({ content: "Validation successfully deleted", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
     }
-  }
-
-  async getAllClonesForUser() {
-    try {
-      const data = await api.getAllClonesForUser(this.main!.getters.token);
-      if (data) {
-        this.mutations.setEntities(data);
-      }
-    } catch (error) {
-      await this.main!.actions.checkApiError(error);
-    }
-  }
-
-  saveCsv() {
-    const csv = this.getters.csv;
-    const blob = new Blob([csv], { type: "text/csv" });
-    saveAs(blob, "clones.csv");
   }
 }
