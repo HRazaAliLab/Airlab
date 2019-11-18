@@ -12,7 +12,7 @@
     "@airlab/shared": "*",
     "core-js": "3.4.1",
     "file-saver": "2.0.2",
-    "ky": "0.16.0",
+    "ky": "0.15.0",
     "localforage": "1.7.3",
     "normalizr": "3.4.1",
     "rambda": "4.1.0",
