@@ -40,10 +40,10 @@ export class ValidationFileEntity {
   })
   extension: string;
 
-  // @Column({
-  //   name: "description",
-  // })
-  // description: string;
+  @Column({
+    name: "description",
+  })
+  description: string;
 
   @Column({
     name: "meta",

@@ -43,6 +43,10 @@ __decorate([
 ], ValidationFileDto.prototype, "extension", void 0);
 __decorate([
     swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", String)
+], ValidationFileDto.prototype, "description", void 0);
+__decorate([
+    swagger_1.ApiModelPropertyOptional(),
     __metadata("design:type", Object)
 ], ValidationFileDto.prototype, "meta", void 0);
 __decorate([

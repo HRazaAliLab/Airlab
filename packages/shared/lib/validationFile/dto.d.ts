@@ -6,6 +6,7 @@ export declare class ValidationFileDto {
     readonly size: number;
     readonly name: string;
     readonly extension: string;
+    readonly description: string;
     readonly meta: object;
     readonly createdAt: string;
 }

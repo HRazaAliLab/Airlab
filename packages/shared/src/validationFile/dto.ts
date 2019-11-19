@@ -24,6 +24,9 @@ export class ValidationFileDto {
   readonly extension: string;
 
   @ApiModelPropertyOptional()
+  readonly description: string;
+
+  @ApiModelPropertyOptional()
   readonly meta: object;
 
   @ApiModelPropertyOptional()

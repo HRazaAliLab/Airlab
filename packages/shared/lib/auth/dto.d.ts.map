@@ -1,1 +1,1 @@
-{"version":3,"file":"dto.d.ts","sourceRoot":"","sources":["../../src/auth/dto.ts"],"names":[],"mappings":"AAAA,qBAAa,aAAa;IACxB,MAAM,EAAE,MAAM,CAAC;CAChB"}
+{"version":3,"file":"dto.d.ts","sourceRoot":"","sources":["../../src/auth/dto.ts"],"names":[],"mappings":"AAAA,qBAAa,aAAa;IACxB,MAAM,EAAE,MAAM,CAAC;IACf,OAAO,EAAE,OAAO,CAAC;CAClB"}

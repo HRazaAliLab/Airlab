@@ -32,6 +32,9 @@ export class ProteinService {
       where: {
         groupId: groupId,
       },
+      order: {
+        id: "DESC",
+      },
     });
   }
 }
