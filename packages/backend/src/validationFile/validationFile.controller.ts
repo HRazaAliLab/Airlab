@@ -1,32 +1,36 @@
 import { Body, Controller, Get, Param, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
-import { FileService } from "./file.service";
+import { ValidationFileService } from "./validationFile.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
-import { CreateFileDto, FileDto, UpdateFileDto } from "@airlab/shared/lib/file/dto";
+import {
+  CreateValidationFileDto,
+  ValidationFileDto,
+  UpdateValidationFileDto,
+} from "@airlab/shared/lib/validationFile/dto";
 import { FileInterceptor } from "@nestjs/platform-express";
 
-@ApiUseTags("file")
-@Controller("file")
+@ApiUseTags("validationFile")
+@Controller("validationFile")
 @ApiBearerAuth()
 @UseGuards(AuthGuard("jwt"))
-export class FileController {
-  constructor(private readonly fileService: FileService) {}
+export class ValidationFileController {
+  constructor(private readonly fileService: ValidationFileService) {}
 
   @Get()
-  @ApiCreatedResponse({ description: "Find all entities.", type: FileDto, isArray: true })
+  @ApiCreatedResponse({ description: "Find all entities.", type: ValidationFileDto, isArray: true })
   findAll() {
     return this.fileService.findAll();
   }
 
   @Get(":id")
-  @ApiCreatedResponse({ description: "Find entity by Id.", type: FileDto })
+  @ApiCreatedResponse({ description: "Find entity by Id.", type: ValidationFileDto })
   findById(@Param("id") id: number) {
     return this.fileService.findById(id);
   }
 
   @Post()
-  @ApiCreatedResponse({ description: "Create entity.", type: FileDto })
-  async create(@Body() params: CreateFileDto) {
+  @ApiCreatedResponse({ description: "Create entity.", type: ValidationFileDto })
+  async create(@Body() params: CreateValidationFileDto) {
     return this.fileService.create(params);
   }
 
@@ -37,19 +41,19 @@ export class FileController {
   }
 
   @Patch(":id")
-  @ApiCreatedResponse({ description: "Updated entity.", type: FileDto })
-  async update(@Param("id") id: number, @Body() params: UpdateFileDto) {
+  @ApiCreatedResponse({ description: "Updated entity.", type: ValidationFileDto })
+  async update(@Param("id") id: number, @Body() params: UpdateValidationFileDto) {
     return this.fileService.update(id, params);
   }
 
   @Get("group/:groupId")
-  @ApiCreatedResponse({ description: "Find all files for the group.", type: FileDto, isArray: true })
+  @ApiCreatedResponse({ description: "Find all files for the group.", type: ValidationFileDto, isArray: true })
   getAllFilesForGroup(@Param("groupId") groupId: number) {
     return this.fileService.getAllFilesForGroup(groupId);
   }
 
   @Get("groupUser/:groupUserId")
-  @ApiCreatedResponse({ description: "Find all files for the group user.", type: FileDto, isArray: true })
+  @ApiCreatedResponse({ description: "Find all files for the group user.", type: ValidationFileDto, isArray: true })
   getAllFilesForGroupUser(@Param("groupUserId") groupUserId: number) {
     return this.fileService.getAllFilesForGroupUser(groupUserId);
   }

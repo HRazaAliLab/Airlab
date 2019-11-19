@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const mysql = require("mysql2/promise");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { Pool } = require("pg");
@@ -6,6 +5,10 @@ const { Pool } = require("pg");
 const dJSON = require("dirty-json");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { Storage } = require("@google-cloud/storage");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const mkdirp = require("mkdirp");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const fs = require("fs");
 
 const mysqlPool = mysql.createPool({
   host: "localhost",
@@ -398,39 +401,6 @@ async function migrateConjugate() {
   await postgresPool.query("SELECT setval('public.conjugate_id_seq', (SELECT MAX(id) FROM public.conjugate), true);");
 }
 
-async function migrateFile() {
-  const input = await mysqlPool.query("SELECT * FROM tblFile");
-  for (row of input[0]) {
-    console.log(row);
-    if (row["groupId"] !== 2) {
-      continue;
-    }
-    const sql =
-      'INSERT INTO "file"(id, group_id, created_by, name, extension, size, hash) VALUES($1, $2, $3, $4, $5, $6, $7)';
-
-    const name =
-      row["catchedInfo"] === "" || row["catchedInfo"] === null
-        ? null
-        : row["catchedInfo"].replace("||", "|").split("|")[0];
-    const size =
-      row["catchedInfo"] === "" || row["catchedInfo"] === null
-        ? null
-        : row["catchedInfo"].replace("||", "|").split("|")[1];
-
-    const values = [
-      row["filFileId"],
-      row["groupId"],
-      row["createdBy"],
-      name,
-      row["filExtension"],
-      size,
-      row["filHash"],
-    ];
-    await postgresPool.query(sql, values);
-  }
-  await postgresPool.query("SELECT setval('public.file_id_seq', (SELECT MAX(id) FROM public.file), true);");
-}
-
 async function migratePanel() {
   const input = await mysqlPool.query("SELECT * FROM tblPanel");
   for (row of input[0]) {
@@ -561,25 +531,91 @@ async function migrateValidation() {
   }
 }
 
+async function migrateValidationFile() {
+  const input = await mysqlPool.query("SELECT * FROM tblFile");
+  for (row of input[0]) {
+    console.log(row);
+    if (row["groupId"] !== 2) {
+      continue;
+    }
+
+    const sql =
+      'INSERT INTO "validation_file"(id, validation_id, created_by, name, extension, size, hash) VALUES($1, $2, $3, $4, $5, $6, $7)';
+
+    const name =
+      row["catchedInfo"] === "" || row["catchedInfo"] === null
+        ? null
+        : row["catchedInfo"].replace("||", "|").split("|")[0];
+    const size =
+      row["catchedInfo"] === "" || row["catchedInfo"] === null
+        ? null
+        : row["catchedInfo"].replace("||", "|").split("|")[1];
+
+    const validation = await postgresPool.query(`SELECT * FROM validation WHERE file_id=${row["filFileId"]}`);
+    if (!validation.rows[0]) {
+      console.log("Validation not found: ", row);
+      continue;
+    }
+
+    const values = [
+      row["filFileId"],
+      validation.rows[0].id,
+      row["createdBy"],
+      name,
+      row["filExtension"],
+      size,
+      row["filHash"],
+    ];
+    await postgresPool.query(sql, values);
+  }
+  await postgresPool.query(
+    "SELECT setval('public.validation_file_id_seq', (SELECT MAX(id) FROM public.validation_file), true);"
+  );
+}
+
 async function downloadFiles() {
+  const input = await postgresPool.query("SELECT * FROM validation_file");
+
   const bucketName = "bblab_airlab_files";
   const storage = new Storage({ keyFilename: "/home/anton/Documents/key.json", projectId: "api-project-209144424908" });
   const bucket = await storage.bucket(bucketName);
 
-  const [files] = await storage.bucket(bucketName).getFiles();
+  // const [files] = await storage.bucket(bucketName).getFiles();
+  // files.forEach(async file => {
+  //   console.log(file.name);
+  // });
 
-  console.log("Files:");
-  files.forEach(file => {
-    console.log(file.name);
-  });
-
-  await storage
-    .bucket(bucketName)
-    .file("files/" + "H9_hQka9x3nPIXR6SNVFK5X.pdf".replace("_", "/"))
-    .download({
-      // The path to which the file should be downloaded, e.g. "./file.txt"
-      destination: "./file.pdf",
-    });
+  for (row of input.rows) {
+    const source = row["hash"].replace("_", "/") + "." + row["extension"];
+    const destinationDir = "/home/anton/Downloads/airlab/uploads/validation/" + row["validation_id"] + "/";
+    const destination = destinationDir + row["hash"] + "." + row["extension"];
+    let file = await bucket.file("files/" + source);
+    let exists = await file.exists();
+    if (exists[0]) {
+      if (!fs.existsSync(destinationDir)) {
+        mkdirp.sync(destinationDir);
+      }
+      await file.download({
+        // The path to which the file should be downloaded, e.g. "./file.txt"
+        destination: destination,
+      });
+    } else {
+      file = await bucket.file("temp/" + source);
+      exists = await file.exists();
+      if (exists[0]) {
+        if (!fs.existsSync(destinationDir)) {
+          mkdirp.sync(destinationDir);
+        }
+        await file.download({
+          // The path to which the file should be downloaded, e.g. "./file.txt"
+          destination: destination,
+        });
+      }
+    }
+    if (!exists[0]) {
+      console.log("Missing: ", row);
+    }
+  }
 }
 
 async function migrate() {
@@ -594,16 +630,11 @@ async function migrate() {
   await migrateClone();
   await migrateLot();
   await migrateConjugate();
-  await migrateFile();
   await migratePanel();
-
   await migrateValidation();
+  await migrateValidationFile();
 
-  // await downloadFiles();
-
-  // await postgresPool.query(
-  //   "SELECT 'SELECT setval(''public.' || c.relname || ''',' || ' (SELECT MAX(ID) FROM PUBLIC.' || REPLACE(c.relname,'_id_seq','') || '), true);' FROM pg_class c WHERE c.relkind = 'S' ORDER BY C.RELNAME;"
-  // );
+  await downloadFiles();
 }
 
 migrate().then(() => {

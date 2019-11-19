@@ -82,4 +82,31 @@ export class ValidationActions extends Actions<
       await this.main!.actions.checkApiError(error);
     }
   }
+
+  async uploadValidationFile(payload: { validationId: number; formData: FormData }) {
+    try {
+      await api.uploadValidationFile(
+        this.main!.getters.token,
+        payload.validationId,
+        payload.formData,
+        () => {
+          console.log("Upload has started.");
+          this.main!.mutations.setProcessing(true);
+        },
+        () => {
+          console.log("Upload completed successfully.");
+          this.main!.mutations.setProcessing(false);
+          this.main!.mutations.setProcessingProgress(0);
+          this.main!.mutations.addNotification({ content: "File successfully uploaded", color: "success" });
+        },
+        event => {
+          const percent = Math.round((100 * event.loaded) / event.total);
+          this.main!.mutations.setProcessingProgress(percent);
+        },
+        () => {}
+      );
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
 }

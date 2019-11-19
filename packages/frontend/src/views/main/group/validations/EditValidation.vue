@@ -212,6 +212,46 @@
         </v-btn>
       </v-card-actions>
     </v-card>
+    <v-card class="ma-4 pa-4">
+      <v-card-title primary-title>
+        <div class="headline primary--text">Validation Files</div>
+      </v-card-title>
+      <v-card-text>
+        <v-list dense>
+          <template v-for="(file, index) in validationFiles">
+            <v-list-item dense two-line :key="index">
+              <v-col cols="3">
+                {{ file.id }}
+              </v-col>
+              <v-col>
+                {{ file.name }}
+              </v-col>
+              <v-col cols="1">
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn v-on="on" fab x-small color="secondary lighten-3" @click.stop="deleteFile(file)">
+                      <v-icon>mdi-minus</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Delete file</span>
+                </v-tooltip>
+              </v-col>
+            </v-list-item>
+          </template>
+        </v-list>
+      </v-card-text>
+      <v-card-text>
+        <v-form>
+          <v-file-input v-model="file" label="File upload" show-size />
+        </v-form>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer />
+        <v-btn @click="upload" :disabled="!file">
+          Upload
+        </v-btn>
+      </v-card-actions>
+    </v-card>
   </v-container>
 </template>
 
@@ -277,6 +317,8 @@ export default class EditValidation extends Vue {
   surfaceStaining = "null";
   surfaceStainingConcentration: string | null = null;
 
+  file: File | null = null;
+
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
   }
@@ -299,6 +341,10 @@ export default class EditValidation extends Vue {
 
   get validation() {
     return this.validationContext.getters.getValidation(+this.$router.currentRoute.params.id);
+  }
+
+  get validationFiles() {
+    return this.validation && (this.validation as any).validationFiles ? (this.validation as any).validationFiles : [];
   }
 
   cancel() {
@@ -383,6 +429,22 @@ export default class EditValidation extends Vue {
       });
       this.$router.back();
     }
+  }
+
+  async upload() {
+    if (this.activeGroupId && this.validation && this.file) {
+      const formData = new FormData();
+      formData.append("groupId", this.activeGroupId.toString());
+      formData.append("file", this.file);
+      await this.validationContext.actions.uploadValidationFile({
+        validationId: this.validation.id,
+        formData: formData,
+      });
+    }
+  }
+
+  async deleteFile(file) {
+    console.log(file);
   }
 
   async mounted() {

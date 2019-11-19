@@ -1,11 +1,11 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { GroupEntity } from "../group/group.entity";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
 import { LotEntity } from "../lot/lot.entity";
 import { UserEntity } from "../user/user.entity";
 import { ConjugateEntity } from "../conjugate/conjugate.entity";
 import { SpeciesEntity } from "../species/species.entity";
-import { FileEntity } from "../file/file.entity";
+import { ValidationFileEntity } from "../validationFile/validationFile.entity";
 import { CloneEntity } from "../clone/clone.entity";
 
 @Entity({
@@ -194,7 +194,13 @@ export class ValidationEntity {
   @JoinColumn({ name: "species_id" })
   species: SpeciesEntity;
 
-  @ManyToOne(type => FileEntity)
+  @ManyToOne(type => ValidationFileEntity)
   @JoinColumn({ name: "file_id" })
-  file: FileEntity;
+  file: ValidationFileEntity;
+
+  @OneToMany(
+    type => ValidationFileEntity,
+    validationFile => validationFile.validation
+  )
+  validationFiles: ValidationFileEntity[];
 }

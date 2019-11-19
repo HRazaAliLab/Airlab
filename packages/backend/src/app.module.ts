@@ -13,7 +13,7 @@ import { ProteinModule } from "./protein/protein.module";
 import { ProviderModule } from "./provider/provider.module";
 import { SpeciesModule } from "./species/species.module";
 import { TagModule } from "./tag/tag.module";
-import { FileModule } from "./file/file.module";
+import { ValidationFileModule } from "./validationFile/validationFile.module";
 import { CloneModule } from "./clone/clone.module";
 import { ReagentModule } from "./reagent/reagent.module";
 import { ConjugateModule } from "./conjugate/conjugate.module";
@@ -37,7 +37,7 @@ import { ValidationModule } from "./validation/validation.module";
     ProviderModule,
     SpeciesModule,
     TagModule,
-    FileModule,
+    ValidationFileModule,
     CloneModule,
     ReagentModule,
     ConjugateModule,

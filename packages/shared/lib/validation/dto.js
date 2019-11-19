@@ -443,4 +443,12 @@ __decorate([
     __metadata("design:type", String)
 ], UpdateValidationDto.prototype, "surfaceStainingConcentration", void 0);
 exports.UpdateValidationDto = UpdateValidationDto;
+class UploadValidationDto {
+}
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", String)
+], UploadValidationDto.prototype, "groupId", void 0);
+exports.UploadValidationDto = UploadValidationDto;
 //# sourceMappingURL=dto.js.map

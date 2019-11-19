@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class CreateFile1573207197186 implements MigrationInterface {
+export class CreateValidationFile1574171528003 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.createTable(
       new Table({
-        name: "file",
+        name: "validation_file",
         columns: [
           {
             name: "id",
@@ -13,12 +13,21 @@ export class CreateFile1573207197186 implements MigrationInterface {
             isGenerated: true,
           },
           {
-            name: "group_id",
+            name: "validation_id",
             type: "int",
           },
           {
             name: "created_by",
             type: "int",
+          },
+          {
+            name: "hash",
+            type: "varchar",
+          },
+          {
+            name: "size",
+            type: "int",
+            isNullable: true,
           },
           {
             name: "name",
@@ -28,16 +37,11 @@ export class CreateFile1573207197186 implements MigrationInterface {
           {
             name: "extension",
             type: "varchar",
-            isNullable: true,
           },
           {
-            name: "size",
-            type: "int",
-            isNullable: true,
-          },
-          {
-            name: "hash",
+            name: "description",
             type: "varchar",
+            isNullable: true,
           },
           {
             name: "meta",
@@ -52,14 +56,14 @@ export class CreateFile1573207197186 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: "FK_file_2_group",
-            referencedTableName: "group",
-            columnNames: ["group_id"],
+            name: "FK_validation_file_2_validation",
+            referencedTableName: "validation",
+            columnNames: ["validation_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
-            name: "FK_file_2_group_user",
+            name: "FK_validation_file_2_group_user",
             referencedTableName: "group_user",
             columnNames: ["created_by"],
             referencedColumnNames: ["id"],
@@ -68,30 +72,24 @@ export class CreateFile1573207197186 implements MigrationInterface {
         ],
         indices: [
           {
-            name: "IDX_file_group_id",
-            columnNames: ["group_id"],
+            name: "IDX_validation_file_validation_id",
+            columnNames: ["validation_id"],
           },
           {
-            name: "IDX_file_created_by",
+            name: "IDX_validation_file_created_by",
             columnNames: ["created_by"],
           },
           {
-            name: "IDX_file_hash",
+            name: "IDX_validation_file_hash",
             columnNames: ["hash"],
           },
         ],
-        // uniques: [
-        //   {
-        //     name: "UQ_file_hash",
-        //     columnNames: ["hash"],
-        //   },
-        // ],
       }),
       true
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
-    await queryRunner.dropTable("file", true);
+    await queryRunner.dropTable("validation_file", true);
   }
 }

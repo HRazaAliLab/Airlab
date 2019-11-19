@@ -207,13 +207,6 @@ export class CreateValidation1573815240744 implements MigrationInterface {
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
-          {
-            name: "FK_validation_2_file",
-            referencedTableName: "file",
-            columnNames: ["file_id"],
-            referencedColumnNames: ["id"],
-            onDelete: "cascade",
-          },
         ],
         indices: [
           {
@@ -239,10 +232,6 @@ export class CreateValidation1573815240744 implements MigrationInterface {
           {
             name: "IDX_validation_species_id",
             columnNames: ["species_id"],
-          },
-          {
-            name: "IDX_validation_file_id",
-            columnNames: ["file_id"],
           },
           {
             name: "IDX_validation_application",

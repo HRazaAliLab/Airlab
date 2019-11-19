@@ -8,7 +8,7 @@ import { ProteinEntity } from "../protein/protein.entity";
 import { ProviderEntity } from "../provider/provider.entity";
 import { SpeciesEntity } from "../species/species.entity";
 import { TagEntity } from "../tag/tag.entity";
-import { FileEntity } from "../file/file.entity";
+import { ValidationFileEntity } from "../validationFile/validationFile.entity";
 import { CloneEntity } from "../clone/clone.entity";
 import { ReagentEntity } from "../reagent/reagent.entity";
 import { ConjugateEntity } from "../conjugate/conjugate.entity";
@@ -54,7 +54,7 @@ export class ConfigService {
         ProviderEntity,
         SpeciesEntity,
         TagEntity,
-        FileEntity,
+        ValidationFileEntity,
         CloneEntity,
         ReagentEntity,
         ConjugateEntity,

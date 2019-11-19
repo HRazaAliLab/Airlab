@@ -3,11 +3,8 @@ import { ProteinEntity } from "../protein/protein.entity";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
 import { CloneEntity } from "../clone/clone.entity";
 import { ConjugateEntity } from "../conjugate/conjugate.entity";
-import { TagEntity } from "../tag/tag.entity";
-import { FileEntity } from "../file/file.entity";
 import { LotEntity } from "../lot/lot.entity";
 import { PanelEntity } from "../panel/panel.entity";
-import { ProviderEntity } from "../provider/provider.entity";
 import { ReagentEntity } from "../reagent/reagent.entity";
 
 @Entity({
@@ -79,12 +76,6 @@ export class GroupEntity {
     conjugate => conjugate.group
   )
   conjugates: ConjugateEntity[];
-
-  @OneToMany(
-    type => FileEntity,
-    file => file.group
-  )
-  files: FileEntity[];
 
   @OneToMany(
     type => PanelEntity,

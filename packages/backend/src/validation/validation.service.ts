@@ -26,7 +26,9 @@ export class ValidationService {
   }
 
   async findById(id: number) {
-    return this.repository.findOne(id);
+    return this.repository.findOne(id, {
+      relations: ["validationFiles"],
+    });
   }
 
   async deleteById(id: number) {
@@ -52,6 +54,8 @@ export class ValidationService {
       .addSelect(["conjugate.id", "conjugate.tubeNumber"])
       .leftJoin("validation.species", "species")
       .addSelect(["species.id", "species.name"])
+      .leftJoin("validation.validationFiles", "validationFiles")
+      .addSelect(["validationFiles.id", "validationFiles.name"])
       .leftJoin("validation.groupUser", "groupUser")
       .leftJoinAndMapOne("validation.user", UserEntity, "user", "groupUser.userId = user.id")
       .orderBy({ "validation.id": "DESC" })

@@ -1,10 +1,81 @@
-import { Body, Controller, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Request,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
+} from "@nestjs/common";
 import { ValidationService } from "./validation.service";
-import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiConsumes, ApiCreatedResponse, ApiImplicitFile, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
-import { CreateValidationDto, UpdateValidationDto, ValidationDto } from "@airlab/shared/lib/validation/dto";
+import {
+  CreateValidationDto,
+  UpdateValidationDto,
+  UploadValidationDto,
+  ValidationDto,
+} from "@airlab/shared/lib/validation/dto";
 import { JwtPayloadDto } from "@airlab/shared/lib/auth/dto";
 import { GroupUserService } from "../groupUser/groupUser.service";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { existsSync } from "fs";
+import { pseudoRandomBytes } from "crypto";
+import { extname } from "path";
+import { ValidationFileService } from "../validationFile/validationFile.service";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const multer = require("multer");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const mkdirp = require("mkdirp");
+
+const storage = multer.diskStorage({
+  destination: function(
+    req,
+    file: {
+      fieldname: string;
+      originalname: string;
+      encoding: string;
+      mimetype: string;
+      size: number;
+      destination: string;
+      filename: string;
+      path: string;
+      buffer: Buffer;
+    },
+    cb: (error: Error | null, destination: string) => void
+  ) {
+    const groupId = req.body.groupId;
+    const validationId = req.params.id;
+    const destination = `/data/groups/${groupId}/uploads/validation/${validationId}`;
+    if (!existsSync(destination)) {
+      mkdirp.sync(destination);
+    }
+    cb(null, destination);
+  },
+  filename: function(
+    req,
+    file: {
+      fieldname: string;
+      originalname: string;
+      encoding: string;
+      mimetype: string;
+      size: number;
+      destination: string;
+      filename: string;
+      path: string;
+      buffer: Buffer;
+    },
+    cb: (error: Error | null, filename: string) => void
+  ) {
+    const ext = extname(file.originalname);
+    pseudoRandomBytes(16, function(err, raw) {
+      cb(err, err ? undefined : raw.toString("hex") + ext);
+    });
+  },
+});
 
 @ApiUseTags("validation")
 @Controller("validation")
@@ -13,7 +84,8 @@ import { GroupUserService } from "../groupUser/groupUser.service";
 export class ValidationController {
   constructor(
     private readonly validationService: ValidationService,
-    private readonly groupUserService: GroupUserService
+    private readonly groupUserService: GroupUserService,
+    private readonly validationFileService: ValidationFileService
   ) {}
 
   @Get()
@@ -47,5 +119,50 @@ export class ValidationController {
   @ApiCreatedResponse({ description: "Updated entity.", type: ValidationDto })
   async update(@Param("id") id: number, @Body() params: UpdateValidationDto) {
     return this.validationService.update(id, params);
+  }
+
+  @Post(":id/upload")
+  @ApiConsumes("multipart/form-data")
+  @ApiImplicitFile({ name: "file", required: true })
+  @UseInterceptors(
+    FileInterceptor("file", {
+      storage: storage,
+      preservePath: true,
+      fileFilter(
+        req,
+        file: {
+          fieldname: string;
+          originalname: string;
+          encoding: string;
+          mimetype: string;
+          size: number;
+          destination: string;
+          filename: string;
+          path: string;
+          buffer: Buffer;
+        },
+        cb: (error: Error | null, acceptFile: boolean) => void
+      ): void {
+        cb(null, true);
+      },
+      limits: {
+        fileSize: 1000000 * 100, // in bytes
+      },
+    })
+  )
+  async upload(@Param("id") id: number, @Request() req, @UploadedFile() file, @Body() params: UploadValidationDto) {
+    console.log(file);
+    const groupId = Number(params.groupId);
+    const user: JwtPayloadDto = req.user;
+    const groupUser = await this.groupUserService.findByUserIdAndGroupId(user.userId, groupId);
+    const extension = extname(file.originalname);
+    const fileEntity = await this.validationFileService.create({
+      validationId: id,
+      createdBy: groupUser.id,
+      name: file.originalname,
+      extension: extension,
+      size: file.size,
+      hash: file.filename,
+    });
   }
 }

@@ -87,4 +87,7 @@ export declare class UpdateValidationDto {
     readonly surfaceStaining: boolean | null;
     readonly surfaceStainingConcentration: string | null;
 }
+export declare class UploadValidationDto {
+    readonly groupId: string;
+}
 //# sourceMappingURL=dto.d.ts.map

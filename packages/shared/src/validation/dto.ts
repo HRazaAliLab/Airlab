@@ -349,3 +349,9 @@ export class UpdateValidationDto {
   @ApiModelPropertyOptional()
   readonly surfaceStainingConcentration: string | null;
 }
+
+export class UploadValidationDto {
+  @IsString()
+  @ApiModelProperty()
+  readonly groupId: string;
+}

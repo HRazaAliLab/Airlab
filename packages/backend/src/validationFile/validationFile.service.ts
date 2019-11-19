@@ -1,25 +1,25 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { FileEntity } from "./file.entity";
-import { CreateFileDto, UpdateFileDto } from "@airlab/shared/lib/file/dto";
+import { ValidationFileEntity } from "./validationFile.entity";
+import { CreateValidationFileDto, UpdateValidationFileDto } from "@airlab/shared/lib/validationFile/dto";
 
 @Injectable()
-export class FileService {
+export class ValidationFileService {
   constructor(
-    @InjectRepository(FileEntity)
-    private readonly repository: Repository<FileEntity>
+    @InjectRepository(ValidationFileEntity)
+    private readonly repository: Repository<ValidationFileEntity>
   ) {}
 
   async findAll() {
     return this.repository.find();
   }
 
-  async create(params: CreateFileDto) {
+  async create(params: CreateValidationFileDto) {
     return this.repository.save(params);
   }
 
-  async update(id: number, params: UpdateFileDto) {
+  async update(id: number, params: UpdateValidationFileDto) {
     await this.repository.update(id, params);
     return this.findById(id);
   }

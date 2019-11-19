@@ -11,59 +11,79 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const class_validator_1 = require("class-validator");
 const swagger_1 = require("@nestjs/swagger");
-class FileDto {
+class ValidationFileDto {
 }
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Number)
-], FileDto.prototype, "id", void 0);
+], ValidationFileDto.prototype, "id", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Number)
-], FileDto.prototype, "groupId", void 0);
+], ValidationFileDto.prototype, "validationId", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Number)
-], FileDto.prototype, "createdBy", void 0);
+], ValidationFileDto.prototype, "createdBy", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
-], FileDto.prototype, "name", void 0);
-__decorate([
-    swagger_1.ApiModelProperty(),
-    __metadata("design:type", String)
-], FileDto.prototype, "extension", void 0);
+], ValidationFileDto.prototype, "hash", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Number)
-], FileDto.prototype, "size", void 0);
+], ValidationFileDto.prototype, "size", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
-], FileDto.prototype, "hash", void 0);
+], ValidationFileDto.prototype, "name", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", String)
+], ValidationFileDto.prototype, "extension", void 0);
 __decorate([
     swagger_1.ApiModelPropertyOptional(),
     __metadata("design:type", Object)
-], FileDto.prototype, "meta", void 0);
+], ValidationFileDto.prototype, "meta", void 0);
 __decorate([
     swagger_1.ApiModelPropertyOptional(),
     __metadata("design:type", String)
-], FileDto.prototype, "createdAt", void 0);
-exports.FileDto = FileDto;
-class CreateFileDto {
+], ValidationFileDto.prototype, "createdAt", void 0);
+exports.ValidationFileDto = ValidationFileDto;
+class CreateValidationFileDto {
 }
 __decorate([
     class_validator_1.IsString(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
-], CreateFileDto.prototype, "name", void 0);
-exports.CreateFileDto = CreateFileDto;
-class UpdateFileDto {
+], CreateValidationFileDto.prototype, "hash", void 0);
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], CreateValidationFileDto.prototype, "validationId", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", String)
+], CreateValidationFileDto.prototype, "name", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", String)
+], CreateValidationFileDto.prototype, "extension", void 0);
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], CreateValidationFileDto.prototype, "size", void 0);
+exports.CreateValidationFileDto = CreateValidationFileDto;
+class UpdateValidationFileDto {
 }
 __decorate([
     class_validator_1.IsString(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
-], UpdateFileDto.prototype, "name", void 0);
-exports.UpdateFileDto = UpdateFileDto;
+], UpdateValidationFileDto.prototype, "name", void 0);
+exports.UpdateValidationFileDto = UpdateValidationFileDto;
 //# sourceMappingURL=dto.js.map

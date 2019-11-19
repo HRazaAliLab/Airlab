@@ -5,6 +5,8 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { ValidationEntity } from "./validation.entity";
 import { GroupUserService } from "../groupUser/groupUser.service";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
+import { ValidationFileService } from "../validationFile/validationFile.service";
+import { ValidationFileEntity } from "../validationFile/validationFile.entity";
 
 describe("ValidationController", () => {
   let controller: ValidationController;
@@ -12,9 +14,12 @@ describe("ValidationController", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([ValidationEntity, GroupUserEntity])],
+      imports: [
+        TypeOrmModule.forRoot(),
+        TypeOrmModule.forFeature([ValidationEntity, GroupUserEntity, ValidationFileEntity]),
+      ],
       controllers: [ValidationController],
-      providers: [ValidationService, GroupUserService],
+      providers: [ValidationService, GroupUserService, ValidationFileService],
     }).compile();
 
     controller = module.get<ValidationController>(ValidationController);
