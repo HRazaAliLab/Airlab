@@ -12,7 +12,7 @@ services:
       - rabbitmq
       - redis
     volumes:
-      - app-data:/data
+      - app_data:/data
     labels:
       - "traefik.enable=true"
       - "traefik.port=3000"
@@ -31,13 +31,13 @@ services:
 
   db:
     restart: always
-    image: postgres:12.0-alpine
+    image: postgres:12.1-alpine
     env_file:
       - env-postgres.env
     environment:
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     ports:
       - 5432:5432
 
@@ -51,13 +51,13 @@ services:
     ports:
       - 5050:5050
     volumes:
-      - pgadmin-data:/var/lib/pgadmin
+      - pgadmin_data:/var/lib/pgadmin
 
   rabbitmq:
     restart: always
     image: rabbitmq:3.8.1-alpine
     volumes:
-      - rabbitmq-data:/var/lib/rabbitmq
+      - rabbitmq_data:/var/lib/rabbitmq
 
   redis:
     restart: always
@@ -65,7 +65,7 @@ services:
     env_file:
       - env-redis.env
     volumes:
-      - redis-data:/data
+      - redis_data:/data
 
   redisinsight:
     restart: always
@@ -75,7 +75,7 @@ services:
     ports:
       - 8001:8001
     volumes:
-      - redisinsight-data:/db
+      - redisinsight_data:/db
 
   portainer:
     restart: always
@@ -83,7 +83,7 @@ services:
     command: -H unix:///var/run/docker.sock
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer-data:/data
+      - portainer_data:/data
     ports:
       - 9000:9000
 
@@ -98,10 +98,10 @@ services:
       - 8080:8080
 
 volumes:
-  app-data:
-  postgres-data:
-  portainer-data:
-  redis-data:
-  redisinsight-data:
-  rabbitmq-data:
-  pgadmin-data:
+  app_data:
+  postgres_data:
+  portainer_data:
+  redis_data:
+  redisinsight_data:
+  rabbitmq_data:
+  pgadmin_data:

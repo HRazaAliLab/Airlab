@@ -34,6 +34,11 @@ export class CloneEntity {
   speciesId: number;
 
   @Column({
+    name: "preffered_tag_id",
+  })
+  prefferedTagId: number;
+
+  @Column({
     name: "name",
   })
   name: string;

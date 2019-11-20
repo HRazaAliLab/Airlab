@@ -30,6 +30,11 @@ export class CreateClone1573048316364 implements MigrationInterface {
             isNullable: true,
           },
           {
+            name: "preffered_tag_id",
+            type: "int",
+            isNullable: true,
+          },
+          {
             name: "name",
             type: "varchar",
           },
@@ -106,6 +111,13 @@ export class CreateClone1573048316364 implements MigrationInterface {
             onDelete: "cascade",
           },
           {
+            name: "FK_clone_2_protein",
+            referencedTableName: "protein",
+            columnNames: ["protein_id"],
+            referencedColumnNames: ["id"],
+            onDelete: "cascade",
+          },
+          {
             name: "FK_clone_2_species",
             referencedTableName: "species",
             columnNames: ["species_id"],
@@ -113,9 +125,9 @@ export class CreateClone1573048316364 implements MigrationInterface {
             onDelete: "cascade",
           },
           {
-            name: "FK_clone_2_protein",
-            referencedTableName: "protein",
-            columnNames: ["protein_id"],
+            name: "FK_clone_2_tag",
+            referencedTableName: "tag",
+            columnNames: ["preffered_tag_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },

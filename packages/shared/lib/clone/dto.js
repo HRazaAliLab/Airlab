@@ -35,6 +35,10 @@ __decorate([
 ], CloneDto.prototype, "speciesId", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], CloneDto.prototype, "prefferedTagId", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], CloneDto.prototype, "name", void 0);
 __decorate([

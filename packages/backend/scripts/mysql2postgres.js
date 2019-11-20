@@ -634,7 +634,7 @@ async function migrate() {
   await migrateValidation();
   await migrateValidationFile();
 
-  await downloadFiles();
+  // await downloadFiles();
 }
 
 migrate().then(() => {

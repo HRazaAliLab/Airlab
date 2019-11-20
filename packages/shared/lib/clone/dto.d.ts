@@ -4,6 +4,7 @@ export declare class CloneDto {
     readonly createdBy: number;
     readonly proteinId: number;
     readonly speciesId: number;
+    readonly prefferedTagId: number;
     readonly name: string;
     readonly isotype: string;
     readonly epitope: string;

@@ -18,6 +18,9 @@ export class CloneDto {
   readonly speciesId: number;
 
   @ApiModelProperty()
+  readonly prefferedTagId: number;
+
+  @ApiModelProperty()
   readonly name: string;
 
   @ApiModelProperty()
