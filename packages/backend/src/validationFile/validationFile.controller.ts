@@ -1,4 +1,15 @@
-import { Body, Controller, Get, Param, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Res,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
+} from "@nestjs/common";
 import { ValidationFileService } from "./validationFile.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
@@ -8,11 +19,12 @@ import {
   UpdateValidationFileDto,
 } from "@airlab/shared/lib/validationFile/dto";
 import { FileInterceptor } from "@nestjs/platform-express";
+import { Response } from "express";
 
 @ApiUseTags("validationFile")
 @Controller("validationFile")
 @ApiBearerAuth()
-@UseGuards(AuthGuard("jwt"))
+// @UseGuards(AuthGuard("jwt"))
 export class ValidationFileController {
   constructor(private readonly fileService: ValidationFileService) {}
 
@@ -26,6 +38,24 @@ export class ValidationFileController {
   @ApiCreatedResponse({ description: "Find entity by Id.", type: ValidationFileDto })
   findById(@Param("id") id: number) {
     return this.fileService.findById(id);
+  }
+
+  @Get(":id/serve")
+  @ApiCreatedResponse({ description: "Find entity by Id." })
+  async serve(@Param("id") id: number, @Res() res: Response) {
+    const file = await this.fileService.findById(id);
+    const dir = `/data/groups/${file.validation.groupId}/uploads/validation/${file.validation.id}/`;
+    const path = `${dir}/${file.hash}.${file.extension}`;
+
+    const buffer = await this.fileService.getFileBuffer(path);
+    const stream = this.fileService.getReadableStream(buffer);
+
+    res.set({
+      "Content-Type": "application/pdf",
+      "Content-Length": buffer.length,
+    });
+
+    stream.pipe(res);
   }
 
   @Post()

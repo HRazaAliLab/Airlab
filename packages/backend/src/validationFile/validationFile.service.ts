@@ -3,6 +3,8 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { ValidationFileEntity } from "./validationFile.entity";
 import { CreateValidationFileDto, UpdateValidationFileDto } from "@airlab/shared/lib/validationFile/dto";
+import { Readable } from "stream";
+const fs = require("fs").promises;
 
 @Injectable()
 export class ValidationFileService {
@@ -25,7 +27,9 @@ export class ValidationFileService {
   }
 
   async findById(id: number) {
-    return this.repository.findOne(id);
+    return this.repository.findOne(id, {
+      relations: ["validation"],
+    });
   }
 
   async getAllFilesForGroup(groupId: number) {
@@ -51,5 +55,17 @@ export class ValidationFileService {
         id: fileId,
       },
     });
+  }
+
+  async getFileBuffer(path: string): Promise<Buffer> {
+    const content = await fs.readFile(path);
+    return content;
+  }
+
+  getReadableStream(buffer: Buffer): Readable {
+    const stream = new Readable();
+    stream.push(buffer);
+    stream.push(null);
+    return stream;
   }
 }

@@ -173,13 +173,23 @@
         </template>
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length">
-            <v-card flat tile class="my-2">
+            <v-card flat tile class="my-2" style="width:100%; height:600px;">
               <v-card-title>
                 {{ item.id }}
               </v-card-title>
               <v-card-text>
                 <div><strong>Positive control:</strong> {{ item.positiveControl }}</div>
                 <div><strong>Negative control:</strong> {{ item.negativeControl }}</div>
+                <div v-for="file in item.validationFiles" :key="file.id">
+                  <iframe
+                    :src="'http://localhost/api/v1/validationFile/' + file.id + '/serve'"
+                    allowfullscreen
+                    style="width:100%;height:400px;"
+                  />
+                  <a target="_blank" :href="'http://localhost/api/v1/validationFile/' + file.id + '/serve'">{{
+                    "http://localhost/api/v1/validationFile/" + file.id + "/serve"
+                  }}</a>
+                </div>
               </v-card-text>
             </v-card>
           </td>
