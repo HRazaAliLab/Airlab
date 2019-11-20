@@ -6,7 +6,6 @@ import { api } from "./api";
 import { CloneGetters } from "./getters";
 import { CloneMutations } from "./mutations";
 import { CreateCloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
-import { saveAs } from "file-saver";
 
 export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutations, CloneActions> {
   // Declare context type
@@ -88,11 +87,5 @@ export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutatio
     } catch (error) {
       await this.main!.actions.checkApiError(error);
     }
-  }
-
-  saveCsv() {
-    const csv = this.getters.csv;
-    const blob = new Blob([csv], { type: "text/csv" });
-    saveAs(blob, "clones.csv");
   }
 }

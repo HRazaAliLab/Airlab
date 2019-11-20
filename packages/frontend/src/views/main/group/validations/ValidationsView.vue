@@ -7,6 +7,7 @@
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
+        <v-btn text @click="exportCsv()">Export CSV</v-btn>
         <v-btn text :to="`/main/group/${activeGroupId}/validations/create`">Create Validation</v-btn>
       </v-toolbar-items>
     </v-toolbar>
@@ -63,6 +64,30 @@
               </v-chip>
             </template>
           </v-select>
+          <v-select
+            v-model="statusFilter"
+            :items="statuses"
+            item-text="name"
+            item-value="id"
+            chips
+            clearable
+            label="Status"
+            multiple
+            prepend-icon="mdi-filter-outline"
+            solo
+          >
+            <template v-slot:selection="{ attrs, item, select, selected }">
+              <v-chip
+                v-bind="attrs"
+                :input-value="selected"
+                close
+                @click="select"
+                @click:close="removeStatusFilter(item)"
+              >
+                {{ item.name }}
+              </v-chip>
+            </template>
+          </v-select>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -87,7 +112,7 @@
         show-expand
       >
         <template v-slot:item.application="{ item }">
-          {{ item.application | convertApplicationNumberToString }}
+          {{ item.application | applicationToString }}
         </template>
         <template v-slot:item.status="{ item }">
           <v-tooltip v-if="item.status === 0" bottom>
@@ -186,6 +211,7 @@ import { groupModule } from "@/modules/group";
 import { validationModule } from "@/modules/validation";
 import { ValidationDto } from "@airlab/shared/lib/validation/dto";
 import { speciesModule } from "@/modules/species";
+import { saveAs } from "file-saver";
 
 @Component({
   components: {
@@ -203,6 +229,13 @@ export default class ValidationsViews extends Vue {
     { id: 2, name: "FC" },
     { id: 3, name: "IF" },
     { id: 4, name: "IHC" },
+  ];
+
+  readonly statuses = [
+    { id: 0, name: "Yes" },
+    { id: 1, name: "So-So" },
+    { id: 2, name: "No" },
+    { id: 3, name: "Undefined" },
   ];
 
   get activeGroupId() {
@@ -229,6 +262,10 @@ export default class ValidationsViews extends Vue {
     {
       text: "Clone",
       value: "clone.name",
+    },
+    {
+      text: "Protein",
+      value: "clone.protein.name",
     },
     {
       text: "Lot",
@@ -262,6 +299,7 @@ export default class ValidationsViews extends Vue {
 
   speciesFilter: number[] = [];
   applicationFilter: number[] = [];
+  statusFilter: number[] = [];
 
   get items() {
     let items = this.validationContext.getters.validations;
@@ -272,6 +310,9 @@ export default class ValidationsViews extends Vue {
     }
     if (this.applicationFilter.length > 0) {
       items = items.filter(item => this.applicationFilter.includes(item.application));
+    }
+    if (this.statusFilter.length > 0) {
+      items = items.filter(item => this.statusFilter.includes(item.status));
     }
     return items;
   }
@@ -295,6 +336,11 @@ export default class ValidationsViews extends Vue {
     this.applicationFilter = [...this.applicationFilter];
   }
 
+  removeStatusFilter(item) {
+    this.statusFilter.splice(this.statusFilter.indexOf(item), 1);
+    this.statusFilter = [...this.statusFilter];
+  }
+
   async mounted() {
     await Promise.all([this.validationContext.actions.getValidations(), this.speciesContext.actions.getSpecies()]);
   }
@@ -303,6 +349,12 @@ export default class ValidationsViews extends Vue {
     if (self.confirm("Are you sure you want to delete the validation?")) {
       await this.validationContext.actions.deleteValidation(id);
     }
+  }
+
+  async exportCsv() {
+    const csv = this.validationContext.getters.getCsv(this.items);
+    const blob = new Blob([csv], { type: "text/csv" });
+    saveAs(blob, "validations.csv");
   }
 }
 </script>

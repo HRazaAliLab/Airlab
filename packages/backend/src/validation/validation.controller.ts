@@ -146,12 +146,11 @@ export class ValidationController {
         cb(null, true);
       },
       limits: {
-        fileSize: 1000000 * 100, // in bytes
+        fileSize: 1000000 * 100, // 100 MB in bytes
       },
     })
   )
   async upload(@Param("id") id: number, @Request() req, @UploadedFile() file, @Body() params: UploadValidationDto) {
-    console.log(file);
     const groupId = Number(params.groupId);
     const user: JwtPayloadDto = req.user;
     const groupUser = await this.groupUserService.findByUserIdAndGroupId(user.userId, groupId);

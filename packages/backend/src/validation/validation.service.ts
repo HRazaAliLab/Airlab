@@ -48,6 +48,8 @@ export class ValidationService {
       ])
       .leftJoin("validation.clone", "clone")
       .addSelect(["clone.id", "clone.name"])
+      .leftJoin("clone.protein", "protein")
+      .addSelect(["protein.id", "protein.name"])
       .leftJoin("validation.lot", "lot")
       .addSelect(["lot.id", "lot.number"])
       .leftJoin("validation.conjugate", "conjugate")

@@ -36,7 +36,7 @@ export class CloneService {
       .leftJoin("clone.protein", "protein")
       .addSelect(["protein.name"])
       .leftJoin("clone.species", "species")
-      .addSelect(["species.name"])
+      .addSelect(["species.id", "species.name"])
       .leftJoin(GroupUserEntity, "groupUser", "clone.groupId = groupUser.groupId")
       .where("groupUser.userId = :userId", { userId: userId })
       .andWhere("clone.isDeleted = false")

@@ -6,16 +6,17 @@ const applicationMap = {
   4: "IHC",
 };
 
-const validationStatusMap = {
-  0: true,
-  1: false,
-  2: undefined,
-};
-
-export function convertApplicationNumberToString(value: number): string {
+export function applicationToString(value: number): string {
   return applicationMap[value];
 }
 
-export function convertValidationStatusToBoolean(value: number): boolean | undefined {
+const validationStatusMap = {
+  0: "Yes",
+  1: "So-So",
+  2: "No",
+  3: "Undefined",
+};
+
+export function validationStatusToString(value: number): string {
   return validationStatusMap[value];
 }

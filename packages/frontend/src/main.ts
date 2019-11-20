@@ -8,12 +8,11 @@ import router from "@/router";
 import store from "@/store";
 import Vue from "vue";
 import "@mdi/font/css/materialdesignicons.css";
-import { convertApplicationNumberToString, convertValidationStatusToBoolean } from "@/utils/filters"; // Ensure you are using css-loader
+import { applicationToString } from "@/utils/filters"; // Ensure you are using css-loader
 
 Vue.config.productionTip = false;
 
-Vue.filter("convertApplicationNumberToString", convertApplicationNumberToString);
-Vue.filter("convertValidationStatusToBoolean", convertValidationStatusToBoolean);
+Vue.filter("applicationToString", applicationToString);
 
 new Vue({
   router: router,

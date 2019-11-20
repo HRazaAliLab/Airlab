@@ -12,6 +12,38 @@
       </v-toolbar-items>
     </v-toolbar>
 
+    <v-expansion-panels>
+      <v-expansion-panel>
+        <v-expansion-panel-header>Filter</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <v-select
+            v-model="speciesFilter"
+            :items="species"
+            item-text="name"
+            item-value="id"
+            chips
+            clearable
+            label="Species"
+            multiple
+            prepend-icon="mdi-filter-outline"
+            solo
+          >
+            <template v-slot:selection="{ attrs, item, select, selected }">
+              <v-chip
+                v-bind="attrs"
+                :input-value="selected"
+                close
+                @click="select"
+                @click:close="removeSpeciesFilter(item)"
+              >
+                {{ item.name }}
+              </v-chip>
+            </template>
+          </v-select>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
+
     <v-card>
       <v-card-title>
         <v-spacer />
@@ -111,6 +143,8 @@ import { Component, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
 import { cloneModule } from "@/modules/clone";
 import { CloneDto } from "@airlab/shared/lib/clone/dto";
+import { saveAs } from "file-saver";
+import { speciesModule } from "@/modules/species";
 
 @Component({
   components: {
@@ -120,6 +154,7 @@ import { CloneDto } from "@airlab/shared/lib/clone/dto";
 export default class ClonesView extends Vue {
   readonly groupContext = groupModule.context(this.$store);
   readonly cloneContext = cloneModule.context(this.$store);
+  readonly speciesContext = speciesModule.context(this.$store);
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
@@ -184,8 +219,20 @@ export default class ClonesView extends Vue {
   detailsItem: CloneDto | null = null;
   search = "";
 
+  speciesFilter: number[] = [];
+
   get items() {
-    return this.cloneContext.getters.clones;
+    let items = this.cloneContext.getters.clones;
+    if (this.speciesFilter.length > 0) {
+      items = items.filter(item =>
+        (item as any).species ? this.speciesFilter.includes((item as any).species.id) : false
+      );
+    }
+    return items;
+  }
+
+  get species() {
+    return this.speciesContext.getters.species;
   }
 
   showDetails(item: CloneDto) {
@@ -210,7 +257,7 @@ export default class ClonesView extends Vue {
   }
 
   async mounted() {
-    await this.cloneContext.actions.getAllClonesForUser();
+    await Promise.all([this.cloneContext.actions.getAllClonesForUser(), this.speciesContext.actions.getSpecies()]);
   }
 
   async deleteClone(id: number) {
@@ -219,8 +266,15 @@ export default class ClonesView extends Vue {
     }
   }
 
+  removeSpeciesFilter(item) {
+    this.speciesFilter.splice(this.speciesFilter.indexOf(item), 1);
+    this.speciesFilter = [...this.speciesFilter];
+  }
+
   async exportCsv() {
-    this.cloneContext.actions.saveCsv();
+    const csv = this.cloneContext.getters.getCsv(this.items);
+    const blob = new Blob([csv], { type: "text/csv" });
+    saveAs(blob, "clones.csv");
   }
 }
 </script>

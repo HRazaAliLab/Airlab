@@ -10,16 +10,15 @@ export class CloneGetters extends Getters<CloneState> {
     return this.state.entities[id];
   }
 
-  get csv() {
+  getCsv(items: any[]) {
     const separator = ",";
-    const items = this.getters.clones;
-    const header = ["id", "Clone", "Protein", "Host", "Isotype", "Epitope", "Phospho", "Polyclonal"];
+    const header = ["Id", "Clone", "Protein", "Host", "Isotype", "Epitope", "Phospho", "Polyclonal"];
     const lines = items.map(item => {
       const line = [
         item.id,
         item.name,
-        (item as any).protein.name,
-        (item as any).species && (item as any).species.name,
+        item.protein.name,
+        item.species && item.species.name,
         item.isotype,
         item.epitope,
         item.isPhospho,
