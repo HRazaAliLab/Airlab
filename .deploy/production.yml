@@ -3,6 +3,8 @@ services:
   backend:
     restart: always
     image: ${DOCKER_IMAGE_BACKEND}:${TAG-latest}
+    ports:
+      - 3000:3000
     environment:
       - SMTP_PASSWORD
     command: ["yarn", "run", "start:backend:prod"]
