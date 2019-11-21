@@ -182,12 +182,12 @@
                 <div><strong>Negative control:</strong> {{ item.negativeControl }}</div>
                 <div v-for="file in item.validationFiles" :key="file.id">
                   <iframe
-                    :src="'http://localhost/api/v1/validationFile/' + file.id + '/serve'"
+                    :src="`${apiUrl}/validationFile/${file.id}/serve`"
                     allowfullscreen
                     style="width:100%;height:400px;"
                   />
-                  <a target="_blank" :href="'http://localhost/api/v1/validationFile/' + file.id + '/serve'">{{
-                    "http://localhost/api/v1/validationFile/" + file.id + "/serve"
+                  <a target="_blank" :href="`${apiUrl}/validationFile/${file.id}/serve`">{{
+                    apiUrl + "/validationFile/" + file.id + "/serve"
                   }}</a>
                 </div>
               </v-card-text>
@@ -222,6 +222,7 @@ import { validationModule } from "@/modules/validation";
 import { ValidationDto } from "@airlab/shared/lib/validation/dto";
 import { speciesModule } from "@/modules/species";
 import { saveAs } from "file-saver";
+import { apiUrl } from "@/env";
 
 @Component({
   components: {
@@ -232,6 +233,8 @@ export default class ValidationsViews extends Vue {
   readonly groupContext = groupModule.context(this.$store);
   readonly validationContext = validationModule.context(this.$store);
   readonly speciesContext = speciesModule.context(this.$store);
+
+  readonly apiUrl = apiUrl;
 
   readonly applications = [
     { id: 0, name: "SMC" },
