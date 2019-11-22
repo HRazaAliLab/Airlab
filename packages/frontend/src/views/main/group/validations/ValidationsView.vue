@@ -181,11 +181,7 @@
                 <div><strong>Positive control:</strong> {{ item.positiveControl }}</div>
                 <div><strong>Negative control:</strong> {{ item.negativeControl }}</div>
                 <div v-for="file in item.validationFiles" :key="file.id">
-                  <iframe
-                    :src="`${apiUrl}/validationFile/${file.id}/serve`"
-                    allowfullscreen
-                    style="width:100%;height:400px;"
-                  />
+                  <iframe :src="`${apiUrl}/validationFile/${file.id}/serve`" allowfullscreen class="iframe" />
                   <a target="_blank" :href="`${apiUrl}/validationFile/${file.id}/serve`">{{
                     apiUrl + "/validationFile/" + file.id + "/serve"
                   }}</a>
@@ -375,5 +371,10 @@ export default class ValidationsViews extends Vue {
 <style scoped>
 .toolbar {
   margin-bottom: 10px;
+}
+.iframe {
+  width: 100%;
+  height: 400px;
+  border: 0;
 }
 </style>

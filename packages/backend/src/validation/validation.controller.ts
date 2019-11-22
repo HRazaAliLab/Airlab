@@ -159,9 +159,9 @@ export class ValidationController {
       validationId: id,
       createdBy: groupUser.id,
       name: file.originalname,
-      extension: extension,
+      extension: extension.substring(1),
       size: file.size,
-      hash: file.filename,
+      hash: file.filename.replace(extension, ""),
     });
   }
 }

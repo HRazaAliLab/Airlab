@@ -44,14 +44,14 @@ export class ValidationFileController {
   @ApiCreatedResponse({ description: "Find entity by Id." })
   async serve(@Param("id") id: number, @Res() res: Response) {
     const file = await this.fileService.findById(id);
-    const dir = `/data/groups/${file.validation.groupId}/uploads/validation/${file.validation.id}/`;
+    const dir = `/data/groups/${file.validation.groupId}/uploads/validation/${file.validation.id}`;
     const path = `${dir}/${file.hash}.${file.extension}`;
 
     const buffer = await this.fileService.getFileBuffer(path);
     const stream = this.fileService.getReadableStream(buffer);
 
     res.set({
-      "Content-Type": "application/pdf",
+      "Content-Type": file.extension === "pdf" ? "application/pdf" : `image/${file.extension}`,
       "Content-Length": buffer.length,
     });
 
