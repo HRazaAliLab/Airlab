@@ -27,6 +27,7 @@
             multiple
             prepend-icon="mdi-filter-outline"
             solo
+            dense
           >
             <template v-slot:selection="{ attrs, item, select, selected }">
               <v-chip
@@ -51,6 +52,7 @@
             multiple
             prepend-icon="mdi-filter-outline"
             solo
+            dense
           >
             <template v-slot:selection="{ attrs, item, select, selected }">
               <v-chip
@@ -75,6 +77,7 @@
             multiple
             prepend-icon="mdi-filter-outline"
             solo
+            dense
           >
             <template v-slot:selection="{ attrs, item, select, selected }">
               <v-chip
@@ -102,15 +105,103 @@
         :items="items"
         :loading="!items"
         :search="search"
+        :custom-filter="filter"
         :items-per-page="15"
         :footer-props="{
-          itemsPerPageOptions: [10, 15, 20, -1],
+          itemsPerPageOptions: [10, 15, 20, 100],
           showFirstLastPage: true,
           showCurrentPage: true,
         }"
         multi-sort
         show-expand
       >
+        <template v-slot:item.species="{ item }">
+          <router-link
+            v-if="item.species"
+            class="link"
+            :to="{
+              name: 'main-admin-species-edit',
+              params: {
+                groupId: activeGroupId,
+                id: item.species.id,
+              },
+            }"
+          >
+            {{ item.species.name }}
+          </router-link>
+        </template>
+        <template v-slot:item.clone="{ item }">
+          <router-link
+            class="link"
+            :to="{
+              name: 'main-group-clones-edit',
+              params: {
+                groupId: activeGroupId,
+                id: item.clone.id,
+              },
+            }"
+          >
+            {{ item.clone.name }}
+          </router-link>
+        </template>
+        <template v-slot:item.clone.protein="{ item }">
+          <router-link
+            class="link"
+            :to="{
+              name: 'main-group-proteins-edit',
+              params: {
+                groupId: activeGroupId,
+                id: item.clone.protein.id,
+              },
+            }"
+          >
+            {{ item.clone.protein.name }}
+          </router-link>
+        </template>
+        <template v-slot:item.lot="{ item }">
+          <router-link
+            v-if="item.lot"
+            class="link"
+            :to="{
+              name: 'main-group-lots-edit',
+              params: {
+                groupId: activeGroupId,
+                id: item.lot.id,
+              },
+            }"
+          >
+            {{ item.lot.number }}
+          </router-link>
+        </template>
+        <template v-slot:item.conjugate="{ item }">
+          <router-link
+            v-if="item.conjugate"
+            class="link"
+            :to="{
+              name: 'main-group-conjugates-edit',
+              params: {
+                groupId: activeGroupId,
+                id: item.conjugate.id,
+              },
+            }"
+          >
+            {{ item.conjugate.tubeNumber }}
+          </router-link>
+        </template>
+        <template v-slot:item.user="{ item }">
+          <router-link
+            class="link"
+            :to="{
+              name: 'main-admin-user-edit',
+              params: {
+                groupId: activeGroupId,
+                id: item.user.id,
+              },
+            }"
+          >
+            {{ item.user.name }}
+          </router-link>
+        </template>
         <template v-slot:item.application="{ item }">
           {{ item.application | applicationToString }}
         </template>
@@ -266,27 +357,57 @@ export default class ValidationsViews extends Vue {
     },
     {
       text: "Species",
-      value: "species.name",
+      value: "species",
+      sort: (a, b) => {
+        if (a === null) {
+          return 1;
+        }
+        if (b === null) {
+          return -1;
+        }
+        return a.name.localeCompare(b.name);
+      },
     },
     {
       text: "Clone",
-      value: "clone.name",
+      value: "clone",
+      sort: (a, b) => a.name.localeCompare(b.name),
     },
     {
       text: "Protein",
-      value: "clone.protein.name",
+      value: "clone.protein",
+      sort: (a, b) => a.name.localeCompare(b.name),
     },
     {
       text: "Lot",
-      value: "lot.id",
+      value: "lot",
+      sort: (a, b) => {
+        if (a === null) {
+          return 1;
+        }
+        if (b === null) {
+          return -1;
+        }
+        return a.number.localeCompare(b.number);
+      },
     },
     {
       text: "Conjugate",
-      value: "conjugate.id",
+      value: "conjugate",
+      sort: (a, b) => {
+        if (a === null) {
+          return 1;
+        }
+        if (b === null) {
+          return -1;
+        }
+        return a.tubeNumber > b.tubeNumber ? 1 : -1;
+      },
     },
     {
       text: "Created by",
-      value: "user.name",
+      value: "user",
+      sort: (a, b) => a.name.localeCompare(b.name),
     },
     {
       text: "Status",
@@ -330,6 +451,21 @@ export default class ValidationsViews extends Vue {
     return this.speciesContext.getters.species;
   }
 
+  filter(value, search, item) {
+    if (!search) {
+      return true;
+    }
+    const normalizedSearchTerm = search.toLowerCase().trim();
+    return (
+      (item.species ? item.species.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
+      (item.clone ? item.clone.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
+      (item.lot ? item.lot.number.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
+      (item.conjugate ? item.conjugate.tubeNumber.toString().indexOf(normalizedSearchTerm) !== -1 : false) ||
+      (item.user ? item.user.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
+      (item.clone ? item.clone.protein.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false)
+    );
+  }
+
   showDetails(item: ValidationDto) {
     this.detailsItem = item;
     this.drawer = !this.drawer;
@@ -371,6 +507,9 @@ export default class ValidationsViews extends Vue {
 <style scoped>
 .toolbar {
   margin-bottom: 10px;
+}
+.link {
+  text-decoration: none;
 }
 .iframe {
   width: 100%;

@@ -23,7 +23,7 @@
         :search="search"
         :items-per-page="15"
         :footer-props="{
-          itemsPerPageOptions: [10, 15, 20, -1],
+          itemsPerPageOptions: [10, 15, 20, 100],
           showFirstLastPage: true,
           showCurrentPage: true,
         }"
@@ -122,7 +122,6 @@ export default class PanelsView extends Vue {
   readonly headers = [
     {
       text: "Id",
-      sortable: true,
       value: "id",
       align: "end",
       filterable: false,
@@ -130,29 +129,24 @@ export default class PanelsView extends Vue {
     },
     {
       text: "Name",
-      sortable: true,
       value: "name",
     },
     {
       text: "Description",
-      sortable: true,
       value: "description",
     },
     {
       text: "Fluor",
-      sortable: true,
       value: "isFluor",
       filterable: false,
     },
     {
       text: "Production",
-      sortable: true,
       value: "isProduction",
       filterable: false,
     },
     {
       text: "Application",
-      sortable: true,
       value: "application",
       filterable: false,
     },

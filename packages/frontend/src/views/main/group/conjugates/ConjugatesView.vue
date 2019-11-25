@@ -21,15 +21,58 @@
         :items="items"
         :loading="!items"
         :search="search"
+        :custom-filter="filter"
         :items-per-page="15"
         :footer-props="{
-          itemsPerPageOptions: [10, 15, 20, -1],
+          itemsPerPageOptions: [10, 15, 20, 100],
           showFirstLastPage: true,
           showCurrentPage: true,
         }"
         multi-sort
         show-expand
       >
+        <template v-slot:item.lot="{ item }">
+          <router-link
+            class="link"
+            :to="{
+              name: 'main-group-lots-edit',
+              params: {
+                groupId: activeGroupId,
+                id: item.lot.id,
+              },
+            }"
+          >
+            {{ item.lot.number }}
+          </router-link>
+        </template>
+        <template v-slot:item.label="{ item }">
+          <router-link
+            class="link"
+            :to="{
+              name: 'main-admin-tag-edit',
+              params: {
+                groupId: activeGroupId,
+                id: item.tag.id,
+              },
+            }"
+          >
+            {{ item.label }}
+          </router-link>
+        </template>
+        <template v-slot:item.user="{ item }">
+          <router-link
+            class="link"
+            :to="{
+              name: 'main-admin-user-edit',
+              params: {
+                groupId: activeGroupId,
+                id: item.user.id,
+              },
+            }"
+          >
+            {{ item.user.name }}
+          </router-link>
+        </template>
         <template v-slot:item.isLow="{ item }">
           <v-icon v-if="item.isLow">mdi-check</v-icon>
         </template>
@@ -119,7 +162,6 @@ export default class ConjugatesViews extends Vue {
   readonly headers = [
     {
       text: "Id",
-      sortable: true,
       value: "id",
       align: "end",
       filterable: false,
@@ -127,39 +169,50 @@ export default class ConjugatesViews extends Vue {
     },
     {
       text: "Tube Number",
-      sortable: true,
       value: "tubeNumber",
       align: "end",
     },
     {
       text: "Lot",
-      sortable: true,
-      value: "lot.number",
+      value: "lot",
+      sort: (a, b) => {
+        if (a === null) {
+          return 1;
+        }
+        if (b === null) {
+          return -1;
+        }
+        return a.number.localeCompare(b.number);
+      },
     },
     {
       text: "Tag",
-      sortable: true,
       value: "label",
     },
     {
       text: "Labeled by",
-      sortable: true,
-      value: "user.name",
+      value: "user",
+      sort: (a, b) => {
+        if (a === null) {
+          return 1;
+        }
+        if (b === null) {
+          return -1;
+        }
+        return a.name.localeCompare(b.name);
+      },
     },
     {
       text: "Concentration",
-      sortable: true,
       value: "concentration",
       align: "end",
     },
     {
       text: "Description",
-      sortable: true,
       value: "description",
     },
     {
       text: "Is Low",
-      sortable: true,
       value: "isLow",
       filterable: false,
     },
@@ -187,6 +240,21 @@ export default class ConjugatesViews extends Vue {
     }));
   }
 
+  filter(value, search, item) {
+    if (!search) {
+      return true;
+    }
+    const normalizedSearchTerm = search.toLowerCase().trim();
+    return (
+      item.tubeNumber.toString().indexOf(normalizedSearchTerm) !== -1 ||
+      (item.lot ? item.lot.number.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
+      (item.tag ? item.tag.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
+      (item.user ? item.user.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
+      item.concentration.toLowerCase().indexOf(normalizedSearchTerm) !== -1 ||
+      (item.description ? item.description.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false)
+    );
+  }
+
   showDetails(item: ConjugateDto) {
     this.detailsItem = item;
     this.drawer = !this.drawer;
@@ -207,5 +275,8 @@ export default class ConjugatesViews extends Vue {
 <style scoped>
 .toolbar {
   margin-bottom: 10px;
+}
+.link {
+  text-decoration: none;
 }
 </style>

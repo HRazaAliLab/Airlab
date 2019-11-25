@@ -54,9 +54,9 @@ export class LotService {
       .leftJoin(GroupUserEntity, "groupUser", "lot.groupId = groupUser.groupId")
       .where("groupUser.userId = :userId", { userId: userId })
       .leftJoin("lot.clone", "clone")
-      .addSelect(["clone.name"])
+      .addSelect(["clone.id", "clone.name"])
       .leftJoin("lot.reagent", "reagent")
-      .addSelect(["reagent.name"])
+      .addSelect(["reagent.id", "reagent.name"])
       .andWhere("lot.isDeleted = false")
       .orderBy("lot.id", "DESC")
       .getMany();

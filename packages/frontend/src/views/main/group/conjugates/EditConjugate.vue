@@ -24,6 +24,7 @@
             :rules="tagRules"
             dense
           />
+          <v-text-field label="Tube Number" v-model.number="tubeNumber" :rules="tubeNumberRules" />
           <v-text-field label="Concentration (in ug/ml)" v-model="concentration" :rules="concentrationRules" />
           <v-text-field label="Description" v-model="description" :rules="descriptionRules" />
           <v-checkbox label="Is Low" v-model="isLow" />
@@ -59,12 +60,14 @@ export default class EditConjugate extends Vue {
 
   readonly lotRules = [required];
   readonly tagRules = [required];
+  readonly tubeNumberRules = [required];
   readonly concentrationRules = [required];
   readonly descriptionRules = [];
 
   valid = false;
   lotId: number | null = null;
   tagId: number | null = null;
+  tubeNumber: number | null = null;
   concentration = "";
   description = "";
   isLow = false;
@@ -99,6 +102,7 @@ export default class EditConjugate extends Vue {
     if (this.conjugate) {
       this.lotId = this.conjugate.lotId;
       this.tagId = this.conjugate.tagId;
+      this.tubeNumber = this.conjugate.tubeNumber;
       this.concentration = this.conjugate.concentration;
       this.description = this.conjugate.description;
       this.isLow = this.conjugate.isLow;
@@ -119,6 +123,7 @@ export default class EditConjugate extends Vue {
       const data: UpdateConjugateDto = {
         lotId: Number(this.lotId),
         tagId: Number(this.tagId),
+        tubeNumber: Number(this.tubeNumber),
         concentration: this.concentration,
         description: this.description,
         isLow: this.isLow,

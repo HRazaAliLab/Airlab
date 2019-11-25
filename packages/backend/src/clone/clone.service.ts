@@ -34,7 +34,7 @@ export class CloneService {
     const result = await this.repository
       .createQueryBuilder("clone")
       .leftJoin("clone.protein", "protein")
-      .addSelect(["protein.name"])
+      .addSelect(["protein.id", "protein.name"])
       .leftJoin("clone.species", "species")
       .addSelect(["species.id", "species.name"])
       .leftJoin(GroupUserEntity, "groupUser", "clone.groupId = groupUser.groupId")

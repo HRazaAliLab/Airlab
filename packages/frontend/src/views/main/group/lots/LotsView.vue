@@ -11,6 +11,37 @@
       </v-toolbar-items>
     </v-toolbar>
 
+    <v-expansion-panels>
+      <v-expansion-panel>
+        <v-expansion-panel-header>Filter</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <v-select
+            v-model="statusFilter"
+            :items="statuses"
+            chips
+            clearable
+            label="Status"
+            multiple
+            prepend-icon="mdi-filter-outline"
+            solo
+            dense
+          >
+            <template v-slot:selection="{ attrs, item, select, selected }">
+              <v-chip
+                v-bind="attrs"
+                :input-value="selected"
+                close
+                @click="select"
+                @click:close="removeStatusFilter(item)"
+              >
+                {{ item }}
+              </v-chip>
+            </template>
+          </v-select>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
+
     <v-card>
       <v-card-title>
         <v-spacer />
@@ -21,15 +52,44 @@
         :items="items"
         :loading="!items"
         :search="search"
+        :custom-filter="filter"
         :items-per-page="15"
         :footer-props="{
-          itemsPerPageOptions: [10, 15, 20, -1],
+          itemsPerPageOptions: [10, 15, 20, 100],
           showFirstLastPage: true,
           showCurrentPage: true,
         }"
         multi-sort
         show-expand
       >
+        <template v-slot:item.reagent="{ item }">
+          <router-link
+            class="link"
+            :to="{
+              name: 'main-group-reagents-edit',
+              params: {
+                groupId: activeGroupId,
+                id: item.reagent.id,
+              },
+            }"
+          >
+            {{ item.reagent.name }}
+          </router-link>
+        </template>
+        <template v-slot:item.clone="{ item }">
+          <router-link
+            class="link"
+            :to="{
+              name: 'main-group-clones-edit',
+              params: {
+                groupId: activeGroupId,
+                id: item.clone.id,
+              },
+            }"
+          >
+            {{ item.clone.name }}
+          </router-link>
+        </template>
         <template v-slot:item.isLow="{ item }">
           <v-icon v-if="item.isLow">mdi-check</v-icon>
         </template>
@@ -98,7 +158,9 @@
                 </v-timeline-item>
                 <v-timeline-item v-if="item.requestedAt" color="yellow">
                   <div class="py-4">
-                    <div class="font-weight-light mb-4">Requested at {{ new Date(item.requestedAt).toUTCString() }}</div>
+                    <div class="font-weight-light mb-4">
+                      Requested at {{ new Date(item.requestedAt).toUTCString() }}
+                    </div>
                     <div v-if="item.requestedBy">by {{ item.requestedBy }}</div>
                   </div>
                 </v-timeline-item>
@@ -149,7 +211,6 @@ export default class LotsView extends Vue {
   readonly headers = [
     {
       text: "Id",
-      sortable: true,
       value: "id",
       align: "end",
       filterable: false,
@@ -157,32 +218,44 @@ export default class LotsView extends Vue {
     },
     {
       text: "Lot Number",
-      sortable: true,
       value: "number",
     },
     {
       text: "Reagent",
-      sortable: true,
-      value: "reagent.name",
+      value: "reagent",
+      sort: (a, b) => {
+        if (a === null) {
+          return 1;
+        }
+        if (b === null) {
+          return -1;
+        }
+        return a.name.localeCompare(b.name);
+      },
     },
     {
       text: "Clone",
-      sortable: true,
-      value: "clone.name",
+      value: "clone",
+      sort: (a, b) => {
+        if (a === null) {
+          return 1;
+        }
+        if (b === null) {
+          return -1;
+        }
+        return a.name.localeCompare(b.name);
+      },
     },
     {
       text: "Status",
-      sortable: true,
       value: "status",
     },
     {
       text: "Purpose",
-      sortable: true,
       value: "purpose",
     },
     {
       text: "Is Low",
-      sortable: true,
       value: "isLow",
       filterable: false,
     },
@@ -199,8 +272,32 @@ export default class LotsView extends Vue {
   detailsItem: LotDto | null = null;
   search = "";
 
+  statusFilter: string[] = [];
+
+  get statuses() {
+    return [...new Set(this.lotContext.getters.lots.map(item => item.status))];
+  }
+
   get items() {
-    return this.lotContext.getters.lots;
+    let items = this.lotContext.getters.lots;
+    if (this.statusFilter.length > 0) {
+      items = items.filter(item => this.statusFilter.includes(item.status));
+    }
+    return items;
+  }
+
+  filter(value, search, item) {
+    if (!search) {
+      return true;
+    }
+    const normalizedSearchTerm = search.toLowerCase().trim();
+    return (
+      (item.number ? item.number.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
+      (item.reagent ? item.reagent.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
+      (item.clone ? item.clone.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
+      item.status.toLowerCase().indexOf(normalizedSearchTerm) !== -1 ||
+      (item.purpose ? item.purpose.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false)
+    );
   }
 
   showDetails(item: LotDto) {
@@ -217,11 +314,19 @@ export default class LotsView extends Vue {
       await this.lotContext.actions.deleteLot(id);
     }
   }
+
+  removeStatusFilter(item) {
+    this.statusFilter.splice(this.statusFilter.indexOf(item), 1);
+    this.statusFilter = [...this.statusFilter];
+  }
 }
 </script>
 
 <style scoped>
 .toolbar {
   margin-bottom: 10px;
+}
+.link {
+  text-decoration: none;
 }
 </style>

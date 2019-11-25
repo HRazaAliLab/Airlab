@@ -23,7 +23,7 @@
         :search="search"
         :items-per-page="15"
         :footer-props="{
-          itemsPerPageOptions: [10, 15, 20, -1],
+          itemsPerPageOptions: [10, 15, 20, 100],
           showFirstLastPage: true,
           showCurrentPage: true,
         }"
@@ -116,7 +116,6 @@ export default class ProteinsView extends Vue {
   readonly headers = [
     {
       text: "Id",
-      sortable: true,
       value: "id",
       align: "end",
       filterable: false,
@@ -124,12 +123,10 @@ export default class ProteinsView extends Vue {
     },
     {
       text: "Name",
-      sortable: true,
       value: "name",
     },
     {
       text: "Description",
-      sortable: true,
       value: "description",
     },
     {

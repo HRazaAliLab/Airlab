@@ -24,6 +24,7 @@
             :rules="tagRules"
             dense
           />
+          <v-text-field label="Tube Number" v-model.number="tubeNumber" :rules="tubeNumberRules" />
           <v-text-field label="Concentration (in ug/ml)" v-model="concentration" :rules="concentrationRules" />
           <v-text-field label="Description" v-model="description" :rules="descriptionRules" />
         </v-form>
@@ -59,11 +60,13 @@ export default class CreateConjugate extends Vue {
   readonly lotRules = [required];
   readonly tagRules = [required];
   readonly concentrationRules = [required];
+  readonly tubeNumberRules = [required];
   readonly descriptionRules = [];
 
   valid = false;
   lotId: number | null = null;
   tagId: number | null = null;
+  tubeNumber: number | null = null;
   concentration = "";
   description = "";
 
@@ -89,6 +92,7 @@ export default class CreateConjugate extends Vue {
   reset() {
     this.lotId = null;
     this.tagId = null;
+    this.tubeNumber = null;
     this.concentration = "";
     this.description = "";
     (this.$refs.form as any).resetValidation();
@@ -107,6 +111,7 @@ export default class CreateConjugate extends Vue {
         groupId: this.activeGroupId,
         lotId: Number(this.lotId),
         tagId: Number(this.tagId),
+        tubeNumber: Number(this.tubeNumber),
         concentration: this.concentration,
         description: this.description,
       };

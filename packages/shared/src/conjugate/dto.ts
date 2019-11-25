@@ -66,6 +66,10 @@ export class CreateConjugateDto {
   @ApiModelProperty()
   readonly tagId: number;
 
+  @IsInt()
+  @ApiModelProperty()
+  readonly tubeNumber: number;
+
   @IsString()
   @ApiModelProperty()
   readonly concentration: string;
@@ -83,6 +87,10 @@ export class UpdateConjugateDto {
   @IsInt()
   @ApiModelProperty()
   readonly tagId: number;
+
+  @IsInt()
+  @ApiModelProperty()
+  readonly tubeNumber: number;
 
   @IsString()
   @ApiModelProperty()

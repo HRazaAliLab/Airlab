@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Logger,
   Param,
   Patch,
   Post,
@@ -27,6 +28,8 @@ import { Response } from "express";
 // @UseGuards(AuthGuard("jwt"))
 export class ValidationFileController {
   constructor(private readonly fileService: ValidationFileService) {}
+
+  private readonly logger = new Logger(ValidationFileController.name);
 
   @Get()
   @ApiCreatedResponse({ description: "Find all entities.", type: ValidationFileDto, isArray: true })
@@ -67,7 +70,7 @@ export class ValidationFileController {
   @Post("upload")
   @UseInterceptors(FileInterceptor("file"))
   uploadFile(@UploadedFile() file) {
-    console.log(file);
+    this.logger.log(file);
   }
 
   @Patch(":id")

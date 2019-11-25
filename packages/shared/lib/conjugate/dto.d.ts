@@ -21,12 +21,14 @@ export declare class CreateConjugateDto {
     readonly groupId: number;
     readonly lotId: number;
     readonly tagId: number;
+    readonly tubeNumber: number;
     readonly concentration: string;
     readonly description: string;
 }
 export declare class UpdateConjugateDto {
     readonly lotId: number;
     readonly tagId: number;
+    readonly tubeNumber: number;
     readonly concentration: string;
     readonly description: string;
     readonly isLow: boolean;

@@ -23,10 +23,11 @@
             item-value="id"
             chips
             clearable
-            label="Species"
+            label="Host"
             multiple
             prepend-icon="mdi-filter-outline"
             solo
+            dense
           >
             <template v-slot:selection="{ attrs, item, select, selected }">
               <v-chip
@@ -54,15 +55,44 @@
         :items="items"
         :loading="!items"
         :search="search"
+        :custom-filter="filter"
         :items-per-page="15"
         :footer-props="{
-          itemsPerPageOptions: [10, 15, 20, -1],
+          itemsPerPageOptions: [10, 15, 20, 100],
           showFirstLastPage: true,
           showCurrentPage: true,
         }"
         multi-sort
         show-expand
       >
+        <template v-slot:item.protein="{ item }">
+          <router-link
+            class="link"
+            :to="{
+              name: 'main-group-proteins-edit',
+              params: {
+                groupId: activeGroupId,
+                id: item.protein.id,
+              },
+            }"
+          >
+            {{ item.protein.name }}
+          </router-link>
+        </template>
+        <template v-slot:item.species="{ item }">
+          <router-link
+            v-if="item.species"
+            class="link"
+            :to="{
+              name: 'main-admin-species-edit',
+              params: {
+                id: item.species.id,
+              },
+            }"
+          >
+            {{ item.species.name }}
+          </router-link>
+        </template>
         <template v-slot:item.isPhospho="{ item }">
           <v-icon v-if="item.isPhospho">mdi-check</v-icon>
         </template>
@@ -163,7 +193,6 @@ export default class ClonesView extends Vue {
   readonly headers = [
     {
       text: "Id",
-      sortable: true,
       value: "id",
       align: "end",
       filterable: false,
@@ -171,38 +200,41 @@ export default class ClonesView extends Vue {
     },
     {
       text: "Name",
-      sortable: true,
       value: "name",
     },
     {
       text: "Protein",
-      sortable: true,
-      value: "protein.name",
+      value: "protein",
+      sort: (a, b) => a.name.localeCompare(b.name),
     },
     {
       text: "Host",
-      sortable: true,
-      value: "species.name",
+      value: "species",
+      sort: (a, b) => {
+        if (a === null) {
+          return 1;
+        }
+        if (b === null) {
+          return -1;
+        }
+        return a.name.localeCompare(b.name);
+      },
     },
     {
       text: "Epitope",
-      sortable: true,
       value: "epitope",
     },
     {
       text: "Isotype",
-      sortable: true,
       value: "isotype",
     },
     {
       text: "Phospho",
-      sortable: true,
       value: "isPhospho",
       filterable: false,
     },
     {
       text: "Polyclonal",
-      sortable: true,
       value: "isPolyclonal",
       filterable: false,
     },
@@ -221,6 +253,10 @@ export default class ClonesView extends Vue {
 
   speciesFilter: number[] = [];
 
+  get species() {
+    return this.speciesContext.getters.species;
+  }
+
   get items() {
     let items = this.cloneContext.getters.clones;
     if (this.speciesFilter.length > 0) {
@@ -231,8 +267,18 @@ export default class ClonesView extends Vue {
     return items;
   }
 
-  get species() {
-    return this.speciesContext.getters.species;
+  filter(value, search, item) {
+    if (!search) {
+      return true;
+    }
+    const normalizedSearchTerm = search.toLowerCase().trim();
+    return (
+      item.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 ||
+      (item.protein ? item.protein.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
+      (item.species ? item.species.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
+      (item.epitope ? item.epitope.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
+      (item.isotype ? item.isotype.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false)
+    );
   }
 
   showDetails(item: CloneDto) {
@@ -282,5 +328,8 @@ export default class ClonesView extends Vue {
 <style scoped>
 .toolbar {
   margin-bottom: 10px;
+}
+.link {
+  text-decoration: none;
 }
 </style>

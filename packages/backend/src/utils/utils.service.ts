@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "../config/config.service";
 import * as nodemailer from "nodemailer";
 import * as Mailgen from "mailgen";
@@ -8,6 +8,7 @@ import { Content } from "mailgen";
 export class UtilsService {
   constructor(private readonly configService: ConfigService) {}
 
+  private readonly logger = new Logger(UtilsService.name);
   private readonly transporter = nodemailer.createTransport(this.configService.emailConfig);
 
   private readonly mailGenerator = new Mailgen({
@@ -32,6 +33,6 @@ export class UtilsService {
       subject: "Hello", // Subject line
       html: emailBody, // html body
     });
-    console.debug(info);
+    this.logger.debug(info);
   }
 }

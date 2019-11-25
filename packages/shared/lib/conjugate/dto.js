@@ -96,6 +96,11 @@ __decorate([
     __metadata("design:type", Number)
 ], CreateConjugateDto.prototype, "tagId", void 0);
 __decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], CreateConjugateDto.prototype, "tubeNumber", void 0);
+__decorate([
     class_validator_1.IsString(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
@@ -118,6 +123,11 @@ __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Number)
 ], UpdateConjugateDto.prototype, "tagId", void 0);
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], UpdateConjugateDto.prototype, "tubeNumber", void 0);
 __decorate([
     class_validator_1.IsString(),
     swagger_1.ApiModelProperty(),
