@@ -9,4 +9,8 @@ export class ConjugateGetters extends Getters<ConjugateState> {
   getConjugate(id: number) {
     return this.state.entities[id];
   }
+
+  getConjugatesForTag(tagId: number) {
+    return this.getters.conjugates.filter(item => item.tagId === tagId);
+  }
 }

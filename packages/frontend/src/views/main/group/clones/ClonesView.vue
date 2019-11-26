@@ -7,7 +7,7 @@
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text @click="exportCsv()">Export CSV</v-btn>
+        <v-btn text @click="exportFile()">Export CSV</v-btn>
         <v-btn text :to="`/main/group/${activeGroupId}/clones/create`">Create Clone</v-btn>
       </v-toolbar-items>
     </v-toolbar>
@@ -173,8 +173,8 @@ import { Component, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
 import { cloneModule } from "@/modules/clone";
 import { CloneDto } from "@airlab/shared/lib/clone/dto";
-import { saveAs } from "file-saver";
 import { speciesModule } from "@/modules/species";
+import { exportCsv } from "@/utils/exporters";
 
 @Component({
   components: {
@@ -317,10 +317,9 @@ export default class ClonesView extends Vue {
     this.speciesFilter = [...this.speciesFilter];
   }
 
-  async exportCsv() {
+  exportFile() {
     const csv = this.cloneContext.getters.getCsv(this.items);
-    const blob = new Blob([csv], { type: "text/csv" });
-    saveAs(blob, "clones.csv");
+    exportCsv(csv, "clones.csv");
   }
 }
 </script>

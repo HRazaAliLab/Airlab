@@ -7,7 +7,7 @@
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text @click="exportCsv()">Export CSV</v-btn>
+        <v-btn text @click="exportFile()">Export CSV</v-btn>
         <v-btn text :to="`/main/group/${activeGroupId}/validations/create`">Create Validation</v-btn>
       </v-toolbar-items>
     </v-toolbar>
@@ -308,8 +308,8 @@ import { groupModule } from "@/modules/group";
 import { validationModule } from "@/modules/validation";
 import { ValidationDto } from "@airlab/shared/lib/validation/dto";
 import { speciesModule } from "@/modules/species";
-import { saveAs } from "file-saver";
 import { apiUrl } from "@/env";
+import { exportCsv } from "@/utils/exporters";
 
 @Component({
   components: {
@@ -496,10 +496,9 @@ export default class ValidationsViews extends Vue {
     }
   }
 
-  async exportCsv() {
+  exportFile() {
     const csv = this.validationContext.getters.getCsv(this.items);
-    const blob = new Blob([csv], { type: "text/csv" });
-    saveAs(blob, "validations.csv");
+    exportCsv(csv, "validations.csv");
   }
 }
 </script>

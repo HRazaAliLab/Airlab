@@ -14,6 +14,9 @@ export class TagService {
   async findAll() {
     return this.repository.find({
       select: ["id", "name", "mw", "isFluorophore", "isMetal"],
+      order: {
+        mw: "ASC",
+      },
     });
   }
 
