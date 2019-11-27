@@ -35,7 +35,7 @@ __decorate([
 ], PanelDto.prototype, "description", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
-    __metadata("design:type", Object)
+    __metadata("design:type", Array)
 ], PanelDto.prototype, "details", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
@@ -99,6 +99,11 @@ __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Number)
 ], CreatePanelDto.prototype, "application", void 0);
+__decorate([
+    class_validator_1.IsOptional(),
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", Array)
+], CreatePanelDto.prototype, "details", void 0);
 exports.CreatePanelDto = CreatePanelDto;
 class UpdatePanelDto {
 }
@@ -128,5 +133,10 @@ __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Number)
 ], UpdatePanelDto.prototype, "application", void 0);
+__decorate([
+    class_validator_1.IsOptional(),
+    swagger_1.ApiModelPropertyOptional(),
+    __metadata("design:type", Array)
+], UpdatePanelDto.prototype, "details", void 0);
 exports.UpdatePanelDto = UpdatePanelDto;
 //# sourceMappingURL=dto.js.map

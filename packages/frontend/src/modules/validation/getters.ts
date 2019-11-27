@@ -1,6 +1,6 @@
 import { Getters } from "vuex-smart-module";
 import { ValidationState } from ".";
-import { applicationToString, validationStatusToString } from "@/utils/filters";
+import { applicationToString, validationStatusToString } from "@/utils/converters";
 
 export class ValidationGetters extends Getters<ValidationState> {
   get validations() {

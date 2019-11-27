@@ -18,7 +18,7 @@ export class PanelDto {
   readonly description: string;
 
   @ApiModelProperty()
-  readonly details: object;
+  readonly details: object[];
 
   @ApiModelProperty()
   readonly isFluor: boolean;
@@ -69,6 +69,10 @@ export class CreatePanelDto {
   @IsOptional()
   @ApiModelProperty()
   readonly application: number | null;
+
+  @IsOptional()
+  @ApiModelPropertyOptional()
+  readonly details: object[] | null;
 }
 
 export class UpdatePanelDto {
@@ -92,4 +96,8 @@ export class UpdatePanelDto {
   @IsOptional()
   @ApiModelProperty()
   readonly application: number | null;
+
+  @IsOptional()
+  @ApiModelPropertyOptional()
+  readonly details: object[] | null;
 }

@@ -310,6 +310,8 @@ import { ValidationDto } from "@airlab/shared/lib/validation/dto";
 import { speciesModule } from "@/modules/species";
 import { apiUrl } from "@/env";
 import { exportCsv } from "@/utils/exporters";
+import { applicationEnum, statusEnum } from "@/utils/enums";
+import { applicationToString } from "@/utils/converters";
 
 @Component({
   components: {
@@ -322,21 +324,8 @@ export default class ValidationsViews extends Vue {
   readonly speciesContext = speciesModule.context(this.$store);
 
   readonly apiUrl = apiUrl;
-
-  readonly applications = [
-    { id: 0, name: "SMC" },
-    { id: 1, name: "IMC" },
-    { id: 2, name: "FC" },
-    { id: 3, name: "IF" },
-    { id: 4, name: "IHC" },
-  ];
-
-  readonly statuses = [
-    { id: 0, name: "Yes" },
-    { id: 1, name: "So-So" },
-    { id: 2, name: "No" },
-    { id: 3, name: "Undefined" },
-  ];
+  readonly applications = applicationEnum;
+  readonly statuses = statusEnum;
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
@@ -354,6 +343,15 @@ export default class ValidationsViews extends Vue {
       text: "Application",
       value: "application",
       filterable: false,
+      sort: (a, b) => {
+        if (a === null) {
+          return 1;
+        }
+        if (b === null) {
+          return -1;
+        }
+        return applicationToString(a).localeCompare(applicationToString(b));
+      },
     },
     {
       text: "Species",

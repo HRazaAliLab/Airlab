@@ -14,6 +14,7 @@
         :custom-filter="filter"
         hide-default-footer
         disable-pagination
+        @item-selected="itemSelected"
       >
         <template v-slot:header>
           <v-toolbar dense class="mb-2">
@@ -63,13 +64,8 @@
               outlined
               width="180"
               class="ma-1 pa-0"
-              @click.passive="
-                e => {
-                  select(item);
-                  onSelected(tag, item);
-                }
-              "
-              :color="isSelected(item) ? 'blue lighten-5' : 'default'"
+              @click.prevent="isSelected(item) ? select(item, false) : select(item, true)"
+              :color="getConjugateColor(item, isSelected(item))"
             >
               <v-card-text class="header"> <span class="subheader">Lot:</span> {{ item.lot.number }} </v-card-text>
               <v-card-text class="content">
@@ -103,19 +99,17 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
-import { panelModule } from "@/modules/panel";
 import { conjugateModule } from "@/modules/conjugate";
-import { tagModule } from "@/modules/tag";
 import { TagDto } from "@airlab/shared/lib/tag/dto";
+import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 
 @Component
 export default class CreatePanel extends Vue {
   readonly groupContext = groupModule.context(this.$store);
-  readonly panelContext = panelModule.context(this.$store);
   readonly conjugateContext = conjugateModule.context(this.$store);
-  readonly tagContext = tagModule.context(this.$store);
 
   @Prop(Object) tag!: TagDto;
+  @Prop(Object) initialSelectedConjugate?: object;
   @Prop(Function) onSelected;
 
   readonly keys = [
@@ -124,7 +118,7 @@ export default class CreatePanel extends Vue {
     { id: "description", title: "Description" },
   ];
 
-  selected = [];
+  selected = this.initialSelectedConjugate ? [this.initialSelectedConjugate] : [];
   search = "";
   sortBy = "tubeNumber";
   sortDesc = false;
@@ -133,16 +127,38 @@ export default class CreatePanel extends Vue {
   get conjugates() {
     let items = this.conjugateContext.getters.getConjugatesForTag(this.tag.id);
     if (!this.showEmpty) {
-      items = items.filter(item => item.finishedBy > 0);
+      items = items.filter(item => !item.finishedBy);
     }
     return items;
   }
 
-  get selectedConjugationId() {
-    return this.selected.length > 0 ? this.selected[0] : undefined;
+  itemSelected({ item, value }) {
+    this.onSelected(this.tag.id, value ? item.id : undefined);
+  }
+
+  getConjugateColor(conjugate: ConjugateDto, isSelected: boolean) {
+    const isOver = Number(conjugate.finishedBy) > 0;
+    const isLow = conjugate.isLow;
+    if (isSelected) {
+      if (isOver) {
+        return "red";
+      }
+      if (isLow) {
+        return "yellow";
+      }
+      return "blue lighten-2";
+    }
+    if (isOver) {
+      return "red lighten-5";
+    }
+    if (isLow) {
+      return "yellow lighten-5";
+    }
+    return "default";
   }
 
   filter(items: any[], search: string) {
+    console.log(this.initialSelectedConjugate)
     if (!search) {
       return items;
     }

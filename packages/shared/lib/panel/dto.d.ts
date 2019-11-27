@@ -4,7 +4,7 @@ export declare class PanelDto {
     readonly createdBy: number;
     readonly name: string;
     readonly description: string;
-    readonly details: object;
+    readonly details: object[];
     readonly isFluor: boolean;
     readonly isProduction: boolean;
     readonly application: number;
@@ -21,6 +21,7 @@ export declare class CreatePanelDto {
     readonly isFluor: boolean;
     readonly isProduction: boolean;
     readonly application: number | null;
+    readonly details: object[] | null;
 }
 export declare class UpdatePanelDto {
     readonly name: string;
@@ -28,5 +29,6 @@ export declare class UpdatePanelDto {
     readonly isFluor: boolean;
     readonly isProduction: boolean;
     readonly application: number | null;
+    readonly details: object[] | null;
 }
 //# sourceMappingURL=dto.d.ts.map

@@ -30,6 +30,9 @@
         multi-sort
         show-expand
       >
+        <template v-slot:item.application="{ item }">
+          {{ item.application | applicationToString }}
+        </template>
         <template v-slot:item.isFluor="{ item }">
           <v-icon v-if="item.isFluor">mdi-check</v-icon>
         </template>
@@ -105,6 +108,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
 import { panelModule } from "@/modules/panel";
 import { PanelDto } from "@airlab/shared/lib/panel/dto";
+import { applicationToString } from "@/utils/converters";
 
 @Component({
   components: {
@@ -149,6 +153,15 @@ export default class PanelsView extends Vue {
       text: "Application",
       value: "application",
       filterable: false,
+      sort: (a, b) => {
+        if (a === null) {
+          return 1;
+        }
+        if (b === null) {
+          return -1;
+        }
+        return applicationToString(a).localeCompare(applicationToString(b));
+      },
     },
     {
       text: "Actions",

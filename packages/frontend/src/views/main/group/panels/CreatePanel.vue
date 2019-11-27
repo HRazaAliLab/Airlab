@@ -8,7 +8,26 @@
         <v-form v-model="valid" ref="form" lazy-validation>
           <v-text-field label="Name" v-model="name" :rules="nameRules" />
           <v-text-field label="Description" v-model="description" :rules="descriptionRules" />
-          <v-text-field label="Application" v-model="application" :rules="applicationRules" />
+          <div class="subtitle-1">
+            Application
+          </div>
+          <v-btn-toggle v-model="application">
+            <v-btn small value="0">
+              SMC
+            </v-btn>
+            <v-btn small value="1">
+              IMC
+            </v-btn>
+            <v-btn small value="2">
+              FC
+            </v-btn>
+            <v-btn small value="3">
+              IF
+            </v-btn>
+            <v-btn small value="4">
+              IHC
+            </v-btn>
+          </v-btn-toggle>
           <v-checkbox label="Fluor" v-model="isFluor" />
           <v-checkbox label="Production" v-model="isProduction" />
           <v-expansion-panels v-model="expanded" multiple>
@@ -54,9 +73,10 @@ export default class CreatePanel extends Vue {
   valid = false;
   name = "";
   description = "";
-  application: number | null = null;
+  application = "";
   isFluor = false;
   isProduction = false;
+  tagConjugates = new Map();
 
   expanded = []; // this.metals.map((k, i) => i);
 
@@ -72,9 +92,12 @@ export default class CreatePanel extends Vue {
     return this.tagContext.getters.metals;
   }
 
-  congugateSelected(tag, conjugate) {
-    console.log(tag.name);
-    console.log(conjugate);
+  congugateSelected(tagId: number, conjugateId?: number) {
+    if (conjugateId !== undefined) {
+      this.tagConjugates.set(tagId, conjugateId);
+    } else {
+      this.tagConjugates.delete(tagId);
+    }
   }
 
   cancel() {
@@ -84,7 +107,7 @@ export default class CreatePanel extends Vue {
   reset() {
     this.name = "";
     this.description = "";
-    this.application = null;
+    this.application = "";
     this.isFluor = false;
     this.isProduction = false;
     (this.$refs.form as any).resetValidation();
@@ -92,13 +115,21 @@ export default class CreatePanel extends Vue {
 
   async submit() {
     if ((this.$refs.form as any).validate() && this.activeGroupId) {
+      const details: any[] = [];
+      this.tagConjugates.forEach((item, key, map) => {
+        details.push({
+          plaLabeledAntibodyId: item,
+          plaActualConc: undefined,
+        });
+      });
       const data: CreatePanelDto = {
         groupId: this.activeGroupId,
         name: this.name,
         description: this.description,
-        application: this.application,
+        application: this.application ? Number(this.application) : null,
         isFluor: this.isFluor,
         isProduction: this.isProduction,
+        details: details,
       };
       await this.panelContext.actions.createPanel(data);
       this.$router.back();

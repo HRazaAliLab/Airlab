@@ -27,8 +27,10 @@ export class PanelController {
 
   @Post()
   @ApiCreatedResponse({ description: "Create entity.", type: PanelDto })
-  async create(@Body() params: CreatePanelDto) {
-    return this.panelService.create(params);
+  async create(@Request() req, @Body() params: CreatePanelDto) {
+    const user: JwtPayloadDto = req.user;
+    const groupUser = await this.groupUserService.findByUserIdAndGroupId(user.userId, params.groupId);
+    return this.panelService.create({ ...params, createdBy: groupUser.id });
   }
 
   @Patch(":id")
