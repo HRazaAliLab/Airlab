@@ -1,10 +1,6 @@
 import ky from "ky";
 import { apiUrl } from "@/env";
-import {
-  CreateValidationDto,
-  UpdateValidationDto,
-  ValidationDto,
-} from "@airlab/shared/lib/validation/dto";
+import { CreateValidationDto, UpdateValidationDto, ValidationDto } from "@airlab/shared/lib/validation/dto";
 
 export const api = {
   async getValidations(token: string) {
@@ -54,33 +50,43 @@ export const api = {
       })
       .json<number>();
   },
-  async uploadValidationFile(
-    token: string,
-    validationId: number,
-    formData: FormData,
-    onLoadStart: () => void,
-    onLoad: () => void,
-    onProgress: (event: ProgressEvent) => void,
-    onError: () => void
-  ) {
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", `${apiUrl}/validation/${validationId}/upload`);
-    xhr.setRequestHeader("Authorization", `Bearer ${token}`);
-    xhr.upload.onloadstart = onLoadStart;
-    xhr.upload.onprogress = onProgress;
-    xhr.upload.onload = onLoad;
-    xhr.upload.onerror = function() {
-      console.log(`Error during file upload: ${xhr.status}.`);
-      onError();
-    };
-    xhr.send(formData);
-
-    // return ky.post(`${apiUrl}/api/v1/experiments/${id}/upload`, {
-    //   body: data,
-    //   headers: {
-    //     Authorization: `Bearer ${token}`
-    //   },
-    //   timeout: false
-    // });
+  // async uploadValidationFile(
+  //   token: string,
+  //   validationId: number,
+  //   formData: FormData,
+  //   onLoadStart: () => void,
+  //   onLoad: () => void,
+  //   onProgress: (event: ProgressEvent) => void,
+  //   onError: () => void
+  // ) {
+  //   const xhr = new XMLHttpRequest();
+  //   xhr.open("POST", `${apiUrl}/validation/${validationId}/upload`);
+  //   xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+  //   xhr.upload.onloadstart = onLoadStart;
+  //   xhr.upload.onprogress = onProgress;
+  //   xhr.upload.onload = onLoad;
+  //   xhr.upload.onerror = function() {
+  //     console.log(`Error during file upload: ${xhr.status}.`);
+  //     onError();
+  //   };
+  //   xhr.send(formData);
+  // },
+  async uploadValidationFile(token: string, validationId: number, formData: FormData) {
+    return ky.post(`${apiUrl}/validation/${validationId}/upload`, {
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      timeout: false,
+    });
+  },
+  async deleteValidationFile(token: string, fileId: number) {
+    return ky
+      .delete(`${apiUrl}/validationFile/${fileId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .json<number>();
   },
 };

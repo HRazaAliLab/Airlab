@@ -440,11 +440,16 @@ export default class EditValidation extends Vue {
         validationId: this.validation.id,
         formData: formData,
       });
+      await this.validationContext.actions.getValidation(+this.$router.currentRoute.params.id);
+      this.file = null;
     }
   }
 
   async deleteFile(file) {
-    console.log(file);
+    if (self.confirm("Are you sure you want to delete the validation file?")) {
+      await this.validationContext.actions.deleteValidationFile(file.id);
+      await this.validationContext.actions.getValidation(+this.$router.currentRoute.params.id);
+    }
   }
 
   async mounted() {

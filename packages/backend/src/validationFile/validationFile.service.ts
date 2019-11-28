@@ -32,6 +32,17 @@ export class ValidationFileService {
     });
   }
 
+  async deleteById(id: number) {
+    const file = await this.findById(id);
+    if (file) {
+      const dir = `/data/groups/${file.validation.groupId}/uploads/validation/${file.validation.id}`;
+      const path = `${dir}/${file.hash}.${file.extension}`;
+      await fs.unlink(path);
+    }
+    const result = await this.repository.delete(id);
+    return result.affected === 1 ? id : undefined;
+  }
+
   async getAllFilesForGroup(groupId: number) {
     return this.repository.find({
       where: {

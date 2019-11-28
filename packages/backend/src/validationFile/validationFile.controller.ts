@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Logger,
   Param,
@@ -19,7 +20,6 @@ import {
   ValidationFileDto,
   UpdateValidationFileDto,
 } from "@airlab/shared/lib/validationFile/dto";
-import { FileInterceptor } from "@nestjs/platform-express";
 import { Response } from "express";
 
 @ApiUseTags("validationFile")
@@ -43,6 +43,12 @@ export class ValidationFileController {
     return this.fileService.findById(id);
   }
 
+  @Delete(":id")
+  @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
+  deleteById(@Param("id") id: number) {
+    return this.fileService.deleteById(id);
+  }
+
   @Get(":id/serve")
   @ApiCreatedResponse({ description: "Find entity by Id." })
   async serve(@Param("id") id: number, @Res() res: Response) {
@@ -64,12 +70,6 @@ export class ValidationFileController {
   @ApiCreatedResponse({ description: "Create entity.", type: ValidationFileDto })
   async create(@Body() params: CreateValidationFileDto) {
     return this.fileService.create(params);
-  }
-
-  @Post("upload")
-  @UseInterceptors(FileInterceptor("file"))
-  uploadFile(@UploadedFile() file) {
-    this.logger.log(file);
   }
 
   @Patch(":id")

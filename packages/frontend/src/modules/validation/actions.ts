@@ -85,26 +85,44 @@ export class ValidationActions extends Actions<
 
   async uploadValidationFile(payload: { validationId: number; formData: FormData }) {
     try {
-      await api.uploadValidationFile(
-        this.main!.getters.token,
-        payload.validationId,
-        payload.formData,
-        () => {
-          console.log("Upload has started.");
-          this.main!.mutations.setProcessing(true);
-        },
-        () => {
-          console.log("Upload completed successfully.");
-          this.main!.mutations.setProcessing(false);
-          this.main!.mutations.setProcessingProgress(0);
-          this.main!.mutations.addNotification({ content: "File successfully uploaded", color: "success" });
-        },
-        event => {
-          const percent = Math.round((100 * event.loaded) / event.total);
-          this.main!.mutations.setProcessingProgress(percent);
-        },
-        () => {}
-      );
+      // await api.uploadValidationFile(
+      //   this.main!.getters.token,
+      //   payload.validationId,
+      //   payload.formData,
+      //   () => {
+      //     console.log("Upload has started.");
+      //     this.main!.mutations.setProcessing(true);
+      //   },
+      //   () => {
+      //     console.log("Upload completed successfully.");
+      //     this.main!.mutations.setProcessing(false);
+      //     this.main!.mutations.setProcessingProgress(0);
+      //     this.main!.mutations.addNotification({ content: "File successfully uploaded", color: "success" });
+      //   },
+      //   event => {
+      //     const percent = Math.round((100 * event.loaded) / event.total);
+      //     this.main!.mutations.setProcessingProgress(percent);
+      //   },
+      //   () => {}
+      // );
+
+      const notification = { content: "uploading", showProgress: true };
+      this.main!.mutations.addNotification(notification);
+      const data = await api.uploadValidationFile(this.main!.getters.token, payload.validationId, payload.formData);
+      this.main!.mutations.removeNotification(notification);
+      this.main!.mutations.addNotification({ content: "Validation file successfully uploaded", color: "success" });
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
+
+  async deleteValidationFile(fileId: number) {
+    try {
+      const notification = { content: "deleting", showProgress: true };
+      this.main!.mutations.addNotification(notification);
+      const data = await api.deleteValidationFile(this.main!.getters.token, fileId);
+      this.main!.mutations.removeNotification(notification);
+      this.main!.mutations.addNotification({ content: "Validation file successfully deleted", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
     }

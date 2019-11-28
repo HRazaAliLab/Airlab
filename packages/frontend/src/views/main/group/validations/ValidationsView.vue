@@ -291,9 +291,7 @@
           {{ detailsItem }}
           <div v-for="file in detailsItem.validationFiles" :key="file.id">
             <iframe :src="`${apiUrl}/validationFile/${file.id}/serve`" allowfullscreen class="iframe" />
-            <a target="_blank" :href="`${apiUrl}/validationFile/${file.id}/serve`">{{
-              apiUrl + "/validationFile/" + file.id + "/serve"
-            }}</a>
+            <a target="_blank" :href="`${apiUrl}/validationFile/${file.id}/serve`">{{ file.name }}</a>
           </div>
         </v-card-text>
       </v-card>
