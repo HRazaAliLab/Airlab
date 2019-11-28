@@ -54,7 +54,6 @@ export class ValidationFileController {
     const stream = this.fileService.getReadableStream(buffer);
 
     res.set({
-      "Content-Type": file.extension === "pdf" ? "application/pdf" : `image/${file.extension}`,
       "Content-Length": buffer.length,
     });
 

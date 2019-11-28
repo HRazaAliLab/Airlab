@@ -264,26 +264,20 @@
         </template>
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length">
-            <v-card flat tile class="my-2" style="width:100%; height:600px;">
+            <v-card flat tile class="my-2">
               <v-card-title>
                 {{ item.id }}
               </v-card-title>
               <v-card-text>
                 <div><strong>Positive control:</strong> {{ item.positiveControl }}</div>
                 <div><strong>Negative control:</strong> {{ item.negativeControl }}</div>
-                <div v-for="file in item.validationFiles" :key="file.id">
-                  <iframe :src="`${apiUrl}/validationFile/${file.id}/serve`" allowfullscreen class="iframe" />
-                  <a target="_blank" :href="`${apiUrl}/validationFile/${file.id}/serve`">{{
-                    apiUrl + "/validationFile/" + file.id + "/serve"
-                  }}</a>
-                </div>
               </v-card-text>
             </v-card>
           </td>
         </template>
       </v-data-table>
     </v-card>
-    <v-navigation-drawer v-if="detailsItem" v-model="drawer" right fixed temporary width="400">
+    <v-navigation-drawer v-if="detailsItem" v-model="drawer" right fixed temporary width="600">
       <v-card flat>
         <v-list-item>
           <v-list-item-avatar>
@@ -295,6 +289,12 @@
         </v-list-item>
         <v-card-text>
           {{ detailsItem }}
+          <div v-for="file in detailsItem.validationFiles" :key="file.id">
+            <iframe :src="`${apiUrl}/validationFile/${file.id}/serve`" allowfullscreen class="iframe" />
+            <a target="_blank" :href="`${apiUrl}/validationFile/${file.id}/serve`">{{
+              apiUrl + "/validationFile/" + file.id + "/serve"
+            }}</a>
+          </div>
         </v-card-text>
       </v-card>
     </v-navigation-drawer>
