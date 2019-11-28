@@ -1,5 +1,13 @@
 <template>
   <v-container fluid>
+    <v-tooltip left>
+      <template v-slot:activator="{ on }">
+        <v-btn v-on="on" v-scroll="onScroll" v-show="fab" fab fixed bottom right color="primary" @click="toTop">
+          <v-icon>mdi-chevron-up</v-icon>
+        </v-btn>
+      </template>
+      <span>Scroll to top</span>
+    </v-tooltip>
     <v-card class="ma-4 pa-4">
       <v-card-title primary-title>
         <div class="headline primary--text">Edit Panel</div>
@@ -30,27 +38,25 @@
           </v-btn-toggle>
           <v-checkbox label="Fluor" v-model="isFluor" />
           <v-checkbox label="Production" v-model="isProduction" />
-          <v-expansion-panels v-model="expanded" multiple>
-            <MetalExpansionPanel
-              v-for="metal in metals"
-              :key="metal.id"
-              :tag="metal"
-              :onSelected="congugateSelected"
-              :initialSelectedConjugate="
-                tagConjugates.has(metal.id) ? getConjugate(tagConjugates.get(metal.id)) : undefined
-              "
-            />
-          </v-expansion-panels>
         </v-form>
       </v-card-text>
       <v-card-actions>
         <v-spacer />
         <v-btn @click="cancel">Cancel</v-btn>
         <v-btn @click="reset">Reset</v-btn>
-        <v-btn @click="submit" :disabled="!valid">
-          Save
-        </v-btn>
+        <v-btn @click="submit" :disabled="!valid">Save</v-btn>
       </v-card-actions>
+      <v-card-text>
+        <v-expansion-panels v-model="expanded" multiple>
+          <MetalExpansionPanel
+            v-for="metal in metals"
+            :key="metal.id"
+            :tag="metal"
+            :on-selected="congugateSelected"
+            :initial-state="initialState"
+          />
+        </v-expansion-panels>
+      </v-card-text>
     </v-card>
   </v-container>
 </template>
@@ -76,7 +82,14 @@ export default class EditPanel extends Vue {
 
   readonly nameRules = [required];
   readonly descriptionRules = [];
-  readonly applicationRules = [];
+
+  readonly keys = [
+    { id: "tubeNumber", title: "Tube Number" },
+    { id: "concentration", title: "Concentration" },
+    { id: "description", title: "Description" },
+  ];
+
+  fab = false;
 
   valid = false;
   name = "";
@@ -85,19 +98,12 @@ export default class EditPanel extends Vue {
   isFluor = false;
   isProduction = false;
   tagConjugates = new Map<number, number>();
+  initialState = {};
 
-  expanded = []; // this.metals.map((k, i) => i);
+  expanded: number[] = []; // this.metals.map((k, i) => i);
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
-  }
-
-  get conjugates() {
-    return this.conjugateContext.getters.conjugates;
-  }
-
-  getConjugate(id: number) {
-    return this.conjugateContext.getters.getConjugate(id);
   }
 
   get metals() {
@@ -106,6 +112,16 @@ export default class EditPanel extends Vue {
 
   get panel() {
     return this.panelContext.getters.getPanel(+this.$router.currentRoute.params.id);
+  }
+
+  onScroll(e) {
+    if (typeof window === "undefined") return;
+    const top = window.pageYOffset || e.target.scrollTop || 0;
+    this.fab = top > 20;
+  }
+
+  toTop() {
+    this.$vuetify.goTo(0);
   }
 
   congugateSelected(tagId: number, conjugateId?: number) {
@@ -132,11 +148,18 @@ export default class EditPanel extends Vue {
       this.isProduction = this.panel.isProduction;
       this.tagConjugates = new Map<number, number>();
       if (this.panel.details) {
+        const newExpanded: any[] = [];
+        const initialState = {};
         for (const item of this.panel.details) {
           const conjugateId = Number(item["plaLabeledAntibodyId"]);
           const conjugate = this.conjugateContext.getters.getConjugate(conjugateId);
           this.tagConjugates.set(conjugate.tagId, conjugateId);
+          initialState[conjugate.tagId] = conjugate;
+          const tag = this.tagContext.getters.getTag(conjugate.tagId);
+          newExpanded.push(this.metals.indexOf(tag));
         }
+        this.expanded = newExpanded;
+        this.initialState = initialState;
       }
     }
   }

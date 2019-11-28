@@ -1,5 +1,13 @@
 <template>
   <v-container fluid>
+    <v-tooltip left>
+      <template v-slot:activator="{ on }">
+        <v-btn v-on="on" v-scroll="onScroll" v-show="fab" fab fixed bottom right color="primary" @click="toTop">
+          <v-icon>mdi-chevron-up</v-icon>
+        </v-btn>
+      </template>
+      <span>Scroll to top</span>
+    </v-tooltip>
     <v-card class="ma-4 pa-4">
       <v-card-title primary-title>
         <div class="headline primary--text">Create Panel</div>
@@ -30,9 +38,6 @@
           </v-btn-toggle>
           <v-checkbox label="Fluor" v-model="isFluor" />
           <v-checkbox label="Production" v-model="isProduction" />
-          <v-expansion-panels v-model="expanded" multiple>
-            <MetalExpansionPanel v-for="metal in metals" :key="metal.id" :tag="metal" :onSelected="congugateSelected" />
-          </v-expansion-panels>
         </v-form>
       </v-card-text>
       <v-card-actions>
@@ -43,6 +48,17 @@
           Save
         </v-btn>
       </v-card-actions>
+      <v-card-text>
+        <v-expansion-panels v-model="expanded" multiple>
+          <MetalExpansionPanel
+            v-for="metal in metals"
+            :key="metal.id"
+            :tag="metal"
+            :initial-state="initialState"
+            :on-selected="congugateSelected"
+          />
+        </v-expansion-panels>
+      </v-card-text>
     </v-card>
   </v-container>
 </template>
@@ -68,7 +84,8 @@ export default class CreatePanel extends Vue {
 
   readonly nameRules = [required];
   readonly descriptionRules = [];
-  readonly applicationRules = [];
+
+  fab = false;
 
   valid = false;
   name = "";
@@ -76,20 +93,27 @@ export default class CreatePanel extends Vue {
   application = "";
   isFluor = false;
   isProduction = false;
-  tagConjugates = new Map();
+  tagConjugates = new Map<number, number>();
+  initialState = {};
 
-  expanded = []; // this.metals.map((k, i) => i);
+  expanded: number[] = []; // this.metals.map((k, i) => i);
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
   }
 
-  get conjugates() {
-    return this.conjugateContext.getters.conjugates;
-  }
-
   get metals() {
     return this.tagContext.getters.metals;
+  }
+
+  onScroll(e) {
+    if (typeof window === "undefined") return;
+    const top = window.pageYOffset || e.target.scrollTop || 0;
+    this.fab = top > 20;
+  }
+
+  toTop() {
+    this.$vuetify.goTo(0);
   }
 
   congugateSelected(tagId: number, conjugateId?: number) {
@@ -110,6 +134,8 @@ export default class CreatePanel extends Vue {
     this.application = "";
     this.isFluor = false;
     this.isProduction = false;
+    this.tagConjugates = new Map<number, number>();
+    this.initialState = {};
     (this.$refs.form as any).resetValidation();
   }
 

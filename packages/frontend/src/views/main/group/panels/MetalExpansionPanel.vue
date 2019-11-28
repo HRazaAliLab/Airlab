@@ -17,7 +17,7 @@
         @item-selected="itemSelected"
       >
         <template v-slot:header>
-          <v-toolbar dense class="mb-2">
+          <v-toolbar dense class="mb-2" elevation="1">
             <v-text-field
               v-model="search"
               clearable
@@ -28,7 +28,7 @@
               label="Search"
               dense
             />
-            <template v-if="$vuetify.breakpoint.mdAndUp">
+            <template>
               <v-spacer />
               <v-select
                 v-model="sortBy"
@@ -97,7 +97,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
 import { conjugateModule } from "@/modules/conjugate";
 import { TagDto } from "@airlab/shared/lib/tag/dto";
@@ -109,16 +109,16 @@ export default class CreatePanel extends Vue {
   readonly conjugateContext = conjugateModule.context(this.$store);
 
   @Prop(Object) tag!: TagDto;
-  @Prop(Object) initialSelectedConjugate?: object;
+  @Prop(Object) initialState?: object;
   @Prop(Function) onSelected;
 
   readonly keys = [
-    { id: "tubeNumber", title: "Tube" },
+    { id: "tubeNumber", title: "Tube Number" },
     { id: "concentration", title: "Concentration" },
     { id: "description", title: "Description" },
   ];
 
-  selected = this.initialSelectedConjugate ? [this.initialSelectedConjugate] : [];
+  selected: any[] = [];
   search = "";
   sortBy = "tubeNumber";
   sortDesc = false;
@@ -134,6 +134,11 @@ export default class CreatePanel extends Vue {
 
   itemSelected({ item, value }) {
     this.onSelected(this.tag.id, value ? item.id : undefined);
+  }
+
+  @Watch("initialState")
+  initialStateChanged(state) {
+    this.selected = state && state[this.tag.id] ? [state[this.tag.id]] : [];
   }
 
   getConjugateColor(conjugate: ConjugateDto, isSelected: boolean) {
@@ -158,7 +163,6 @@ export default class CreatePanel extends Vue {
   }
 
   filter(items: any[], search: string) {
-    console.log(this.initialSelectedConjugate)
     if (!search) {
       return items;
     }
