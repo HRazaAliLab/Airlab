@@ -132,6 +132,7 @@
         </template>
         <template v-slot:item.clone="{ item }">
           <router-link
+            v-if="item.clone"
             class="link"
             :to="{
               name: 'main-group-clones-edit',
@@ -146,6 +147,7 @@
         </template>
         <template v-slot:item.clone.protein="{ item }">
           <router-link
+            v-if="item.clone"
             class="link"
             :to="{
               name: 'main-group-proteins-edit',
@@ -190,6 +192,7 @@
         </template>
         <template v-slot:item.user="{ item }">
           <router-link
+            v-if="item.user"
             class="link"
             :to="{
               name: 'main-admin-user-edit',
@@ -245,7 +248,7 @@
                   },
                 }"
               >
-                <v-icon>mdi-pencil</v-icon>
+                <v-icon color="grey">mdi-pencil</v-icon>
               </v-btn>
             </template>
             <span>Edit</span>

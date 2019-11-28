@@ -1,8 +1,8 @@
-import { Body, Controller, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Request, UseGuards } from "@nestjs/common";
 import { PanelService } from "./panel.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
-import { CreatePanelDto, PanelDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
+import { CreatePanelDto, DuplicatePanelDto, PanelDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
 import { JwtPayloadDto } from "@airlab/shared/lib/auth/dto";
 import { GroupUserService } from "../groupUser/groupUser.service";
 
@@ -37,6 +37,20 @@ export class PanelController {
   @ApiCreatedResponse({ description: "Updated entity.", type: PanelDto })
   async update(@Param("id") id: number, @Body() params: UpdatePanelDto) {
     return this.panelService.update(id, params);
+  }
+
+  @Put(":id")
+  @ApiCreatedResponse({ description: "Duplicate entity.", type: PanelDto })
+  async duplicate(@Request() req, @Param("id") id: number, @Body() params: DuplicatePanelDto) {
+    const user: JwtPayloadDto = req.user;
+    const groupUser = await this.groupUserService.findByUserIdAndGroupId(user.userId, params.groupId);
+    return this.panelService.duplicate(id, { ...params, createdBy: groupUser.id });
+  }
+
+  @Delete(":id")
+  @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
+  deleteById(@Param("id") id: number) {
+    return this.panelService.deleteById(id);
   }
 
   @Get("group/:groupId")

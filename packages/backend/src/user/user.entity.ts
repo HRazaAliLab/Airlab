@@ -13,6 +13,7 @@ export class UserEntity {
 
   @Column({
     name: "email",
+    select: false,
   })
   email: string;
 
@@ -37,27 +38,32 @@ export class UserEntity {
 
   @Column({
     name: "is_active",
+    select: false,
   })
   isActive: boolean;
 
   @Column({
     name: "is_admin",
+    select: false,
   })
   isAdmin: boolean;
 
   @Column({
     name: "meta",
     type: "jsonb",
+    select: false,
   })
   meta: object;
 
   @Column({
     name: "created_at",
+    select: false,
   })
   createdAt: string;
 
   @Column({
     name: "updated_at",
+    select: false,
   })
   updatedAt: string;
 

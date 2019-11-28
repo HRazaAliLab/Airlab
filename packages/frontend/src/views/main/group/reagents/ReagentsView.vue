@@ -81,6 +81,7 @@
         </template>
         <template v-slot:item.user="{ item }">
           <router-link
+            v-if="item.user"
             class="link"
             :to="{
               name: 'main-admin-user-edit',
@@ -107,7 +108,7 @@
                   },
                 }"
               >
-                <v-icon>mdi-pencil</v-icon>
+                <v-icon color="grey">mdi-pencil</v-icon>
               </v-btn>
             </template>
             <span>Edit</span>

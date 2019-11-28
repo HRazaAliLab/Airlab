@@ -31,4 +31,9 @@ export declare class UpdatePanelDto {
     readonly application: number | null;
     readonly details: object[] | null;
 }
+export declare class DuplicatePanelDto {
+    readonly createdBy?: number;
+    readonly groupId: number;
+    readonly name: string;
+}
 //# sourceMappingURL=dto.d.ts.map

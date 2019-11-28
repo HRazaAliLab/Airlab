@@ -21,7 +21,12 @@ export class UserService {
   ) {}
 
   async findAll() {
-    return this.userRepository.find();
+    return this.userRepository.find({
+      select: ["id", "name", "email", "isActive", "isAdmin", "meta", "createdAt", "updatedAt"],
+      order: {
+        id: "DESC",
+      },
+    });
   }
 
   async create(params: CreateUserDto) {
@@ -34,7 +39,9 @@ export class UserService {
   }
 
   async findById(id: number) {
-    return this.userRepository.findOne(id);
+    return this.userRepository.findOne(id, {
+      select: ["id", "name", "email", "isActive", "isAdmin", "meta", "createdAt", "updatedAt"],
+    });
   }
 
   async findByEmail(email: string) {

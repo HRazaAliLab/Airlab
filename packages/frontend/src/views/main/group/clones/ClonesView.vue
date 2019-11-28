@@ -67,6 +67,7 @@
       >
         <template v-slot:item.protein="{ item }">
           <router-link
+            v-if="item.protein"
             class="link"
             :to="{
               name: 'main-group-proteins-edit',
@@ -113,7 +114,7 @@
                   },
                 }"
               >
-                <v-icon>mdi-pencil</v-icon>
+                <v-icon color="grey">mdi-pencil</v-icon>
               </v-btn>
             </template>
             <span>Edit</span>

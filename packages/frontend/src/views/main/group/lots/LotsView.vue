@@ -64,6 +64,7 @@
       >
         <template v-slot:item.reagent="{ item }">
           <router-link
+            v-if="item.reagent"
             class="link"
             :to="{
               name: 'main-group-reagents-edit',
@@ -78,6 +79,7 @@
         </template>
         <template v-slot:item.clone="{ item }">
           <router-link
+            v-if="item.clone"
             class="link"
             :to="{
               name: 'main-group-clones-edit',
@@ -107,7 +109,7 @@
                   },
                 }"
               >
-                <v-icon>mdi-pencil</v-icon>
+                <v-icon color="grey">mdi-pencil</v-icon>
               </v-btn>
             </template>
             <span>Edit</span>

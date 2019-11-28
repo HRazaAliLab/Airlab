@@ -5,7 +5,7 @@ import { PanelState } from ".";
 import { api } from "./api";
 import { PanelGetters } from "./getters";
 import { PanelMutations } from "./mutations";
-import { CreatePanelDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
+import { CreatePanelDto, DuplicatePanelDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
 
 export class PanelActions extends Actions<PanelState, PanelGetters, PanelMutations, PanelActions> {
   // Declare context type
@@ -36,6 +36,19 @@ export class PanelActions extends Actions<PanelState, PanelGetters, PanelMutatio
       this.mutations.addEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Panel successfully created", color: "success" });
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
+
+  async duplicatePanel(payload: { id: number; data: DuplicatePanelDto }) {
+    try {
+      const notification = { content: "duplicating", showProgress: true };
+      this.main!.mutations.addNotification(notification);
+      const data = await api.duplicatePanel(this.main!.getters.token, payload.id, payload.data);
+      this.mutations.addEntity(data);
+      this.main!.mutations.removeNotification(notification);
+      this.main!.mutations.addNotification({ content: "Panel successfully duplicated", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
     }

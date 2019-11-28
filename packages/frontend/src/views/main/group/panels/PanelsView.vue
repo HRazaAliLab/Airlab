@@ -39,6 +39,21 @@
         <template v-slot:item.isProduction="{ item }">
           <v-icon v-if="item.isProduction">mdi-check</v-icon>
         </template>
+        <template v-slot:item.user="{ item }">
+          <router-link
+            v-if="item.user"
+            class="link"
+            :to="{
+              name: 'main-admin-user-edit',
+              params: {
+                groupId: activeGroupId,
+                id: item.user.id,
+              },
+            }"
+          >
+            {{ item.user.name }}
+          </router-link>
+        </template>
         <template v-slot:item.action="{ item }">
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
@@ -53,10 +68,18 @@
                   },
                 }"
               >
-                <v-icon>mdi-pencil</v-icon>
+                <v-icon color="grey">mdi-pencil</v-icon>
               </v-btn>
             </template>
             <span>Edit</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn v-on="on" icon @click="duplicatePanel(item.id)">
+                <v-icon color="grey">mdi-content-duplicate</v-icon>
+              </v-btn>
+            </template>
+            <span>Duplicate</span>
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
@@ -107,7 +130,7 @@ import LoadingView from "@/components/LoadingView.vue";
 import { Component, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
 import { panelModule } from "@/modules/panel";
-import { PanelDto } from "@airlab/shared/lib/panel/dto";
+import { DuplicatePanelDto, PanelDto } from "@airlab/shared/lib/panel/dto";
 import { applicationToString } from "@/utils/converters";
 
 @Component({
@@ -164,11 +187,16 @@ export default class PanelsView extends Vue {
       },
     },
     {
+      text: "Created by",
+      value: "user",
+      sort: (a, b) => a.name.localeCompare(b.name),
+    },
+    {
       text: "Actions",
       value: "action",
       sortable: false,
       filterable: false,
-      width: "210",
+      width: "240",
     },
   ];
 
@@ -191,6 +219,17 @@ export default class PanelsView extends Vue {
     }
   }
 
+  async duplicatePanel(id: number) {
+    const name = self.prompt("New Panel Name", "My Panel");
+    if (name && this.activeGroupId) {
+      const data: DuplicatePanelDto = {
+        groupId: this.activeGroupId,
+        name: name,
+      };
+      await this.panelContext.actions.duplicatePanel({ id: id, data: data });
+    }
+  }
+
   async deletePanel(id: number) {
     if (self.confirm("Are you sure you want to delete the panel?")) {
       await this.panelContext.actions.deletePanel(id);
@@ -202,5 +241,8 @@ export default class PanelsView extends Vue {
 <style scoped>
 .toolbar {
   margin-bottom: 10px;
+}
+.link {
+  text-decoration: none;
 }
 </style>

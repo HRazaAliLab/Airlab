@@ -1,6 +1,6 @@
 import ky from "ky";
 import { apiUrl } from "@/env";
-import { CreatePanelDto, PanelDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
+import { CreatePanelDto, DuplicatePanelDto, PanelDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
 
 export const api = {
   async getPanels(token: string) {
@@ -34,6 +34,16 @@ export const api = {
   async updatePanel(token: string, id: number, data: UpdatePanelDto) {
     return ky
       .patch(`${apiUrl}/panel/${id}`, {
+        json: data,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .json<PanelDto>();
+  },
+  async duplicatePanel(token: string, id: number, data: DuplicatePanelDto) {
+    return ky
+      .put(`${apiUrl}/panel/${id}`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,

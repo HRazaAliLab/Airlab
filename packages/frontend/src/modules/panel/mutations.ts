@@ -19,7 +19,7 @@ export class PanelMutations extends Mutations<PanelState> {
   }
 
   addEntity(payload: PanelDto) {
-    this.state.ids = this.state.ids.concat(payload.id);
+    this.state.ids = [payload.id].concat(this.state.ids);
     this.state.entities = { ...this.state.entities, [payload.id]: payload };
   }
 

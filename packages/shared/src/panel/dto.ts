@@ -101,3 +101,15 @@ export class UpdatePanelDto {
   @ApiModelPropertyOptional()
   readonly details: object[] | null;
 }
+
+export class DuplicatePanelDto {
+  readonly createdBy?: number;
+
+  @IsInt()
+  @ApiModelProperty()
+  readonly groupId: number;
+
+  @IsString()
+  @ApiModelProperty()
+  readonly name: string;
+}

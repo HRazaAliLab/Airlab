@@ -1,5 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { GroupEntity } from "../group/group.entity";
+import { GroupUserEntity } from "../groupUser/groupUser.entity";
+import { UserEntity } from "../user/user.entity";
 
 @Entity({
   name: "panel",
@@ -80,4 +82,10 @@ export class PanelEntity {
   )
   @JoinColumn({ name: "group_id" })
   group: GroupEntity;
+
+  @ManyToOne(type => GroupUserEntity)
+  @JoinColumn({ name: "created_by" })
+  groupUser: GroupUserEntity;
+
+  user: UserEntity;
 }

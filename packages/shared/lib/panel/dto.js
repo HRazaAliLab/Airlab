@@ -139,4 +139,17 @@ __decorate([
     __metadata("design:type", Array)
 ], UpdatePanelDto.prototype, "details", void 0);
 exports.UpdatePanelDto = UpdatePanelDto;
+class DuplicatePanelDto {
+}
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], DuplicatePanelDto.prototype, "groupId", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", String)
+], DuplicatePanelDto.prototype, "name", void 0);
+exports.DuplicatePanelDto = DuplicatePanelDto;
 //# sourceMappingURL=dto.js.map
