@@ -7,32 +7,32 @@ import { RolesGuard } from "../auth/roles.guard";
 import { CreateGroupDto, GroupDto, InviteDto, RequestJoinGroupDto, UpdateGroupDto } from "@airlab/shared/lib/group/dto";
 import { UserDto } from "@airlab/shared/lib/user/dto";
 
-@ApiUseTags("group")
-@Controller("group")
+@Controller()
+@ApiUseTags("groups")
 @ApiBearerAuth()
 @UseGuards(AuthGuard("jwt"))
 export class GroupController {
   constructor(private readonly groupService: GroupService) {}
 
-  @Get()
+  @Get("groups")
   @ApiCreatedResponse({ description: "Find all entities.", type: GroupDto, isArray: true })
   findAll() {
     return this.groupService.findAll();
   }
 
-  @Get(":id")
+  @Get("groups/:id")
   @ApiCreatedResponse({ description: "Find entity by Id.", type: GroupDto })
   findById(@Param("id") id: number) {
     return this.groupService.findById(id);
   }
 
-  @Patch(":id")
+  @Patch("groups/:id")
   @ApiCreatedResponse({ description: "Updated entity.", type: GroupDto })
   async update(@Param("id") id: number, @Body() params: UpdateGroupDto) {
     return this.groupService.update(id, params);
   }
 
-  @Post()
+  @Post("groups")
   @Roles("admin")
   @UseGuards(RolesGuard)
   @ApiCreatedResponse({ description: "Create entity.", type: GroupDto })
@@ -40,21 +40,21 @@ export class GroupController {
     return this.groupService.create(params);
   }
 
-  @Post("join")
+  @Post("groups/join")
   @ApiCreatedResponse({ description: "Send request to join the group.", type: Boolean })
   async requestJoinGroup(@Body() params: RequestJoinGroupDto) {
     return this.groupService.requestJoinGroup(params.userId, params.groupId);
   }
 
-  @Post("invite")
+  @Post("groups/invite")
   @ApiCreatedResponse({ description: "Invite user to join the group.", type: Boolean })
   async invite(@Body() params: InviteDto) {
     return this.groupService.invite(params);
   }
 
-  @Get(":groupId/users")
+  @Get("groups/:id/users")
   @ApiCreatedResponse({ description: "Find users in the group.", type: UserDto, isArray: true })
-  getUsersInGroup(@Param("groupId") groupId: number) {
-    return this.groupService.getUsersInGroup(groupId);
+  getUsersInGroup(@Param("id") id: number) {
+    return this.groupService.getUsersInGroup(id);
   }
 }

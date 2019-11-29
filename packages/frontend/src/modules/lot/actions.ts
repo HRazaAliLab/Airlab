@@ -78,9 +78,9 @@ export class LotActions extends Actions<LotState, LotGetters, LotMutations, LotA
     }
   }
 
-  async getAllLotsForGroup() {
+  async getAccessibleLots() {
     try {
-      const data = await api.getAllLotsForGroup(this.main!.getters.token);
+      const data = await api.getAccessibleLots(this.main!.getters.token);
       if (data) {
         this.mutations.setEntities(data);
       }

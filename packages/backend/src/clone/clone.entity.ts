@@ -3,6 +3,7 @@ import { GroupEntity } from "../group/group.entity";
 import { ProteinEntity } from "../protein/protein.entity";
 import { SpeciesEntity } from "../species/species.entity";
 import { LotEntity } from "../lot/lot.entity";
+import { GroupUserEntity } from "../groupUser/groupUser.entity";
 
 @Entity({
   name: "clone",
@@ -111,6 +112,10 @@ export class CloneEntity {
   )
   @JoinColumn({ name: "group_id" })
   group: GroupEntity;
+
+  @ManyToOne(type => GroupUserEntity)
+  @JoinColumn({ name: "created_by" })
+  groupUser: GroupUserEntity;
 
   @ManyToOne(
     type => ProteinEntity,

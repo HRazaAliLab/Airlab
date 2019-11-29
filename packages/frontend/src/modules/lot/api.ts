@@ -5,7 +5,7 @@ import { CreateLotDto, LotDto, UpdateLotDto } from "@airlab/shared/lib/lot/dto";
 export const api = {
   async getLots(token: string) {
     return ky
-      .get(`${apiUrl}/lot/`, {
+      .get(`${apiUrl}/lots/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -14,7 +14,7 @@ export const api = {
   },
   async createLot(token: string, data: CreateLotDto) {
     return ky
-      .post(`${apiUrl}/lot/`, {
+      .post(`${apiUrl}/lots/`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -24,7 +24,7 @@ export const api = {
   },
   async getLot(token: string, id: number) {
     return ky
-      .get(`${apiUrl}/lot/${id}`, {
+      .get(`${apiUrl}/lots/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -33,7 +33,7 @@ export const api = {
   },
   async updateLot(token: string, id: number, data: UpdateLotDto) {
     return ky
-      .patch(`${apiUrl}/lot/${id}`, {
+      .patch(`${apiUrl}/lots/${id}`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -43,16 +43,16 @@ export const api = {
   },
   async deleteLot(token: string, id: number) {
     return ky
-      .delete(`${apiUrl}/lot/${id}`, {
+      .delete(`${apiUrl}/lots/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .json<number>();
   },
-  async getAllLotsForGroup(token: string) {
+  async getAccessibleLots(token: string) {
     return ky
-      .get(`${apiUrl}/lot/getAllLotsForGroup`, {
+      .get(`${apiUrl}/lots/accessible`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -5,7 +5,7 @@ import { CreateProteinDto, ProteinDto, UpdateProteinDto } from "@airlab/shared/l
 export const api = {
   async getProteins(token: string) {
     return ky
-      .get(`${apiUrl}/protein/`, {
+      .get(`${apiUrl}/proteins/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -14,7 +14,7 @@ export const api = {
   },
   async createProtein(token: string, data: CreateProteinDto) {
     return ky
-      .post(`${apiUrl}/protein/`, {
+      .post(`${apiUrl}/proteins/`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -24,7 +24,7 @@ export const api = {
   },
   async getProtein(token: string, id: number) {
     return ky
-      .get(`${apiUrl}/protein/${id}`, {
+      .get(`${apiUrl}/proteins/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -33,7 +33,7 @@ export const api = {
   },
   async updateProtein(token: string, id: number, data: UpdateProteinDto) {
     return ky
-      .patch(`${apiUrl}/protein/${id}`, {
+      .patch(`${apiUrl}/proteins/${id}`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -43,7 +43,7 @@ export const api = {
   },
   async deleteProtein(token: string, id: number) {
     return ky
-      .delete(`${apiUrl}/protein/${id}`, {
+      .delete(`${apiUrl}/proteins/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -52,7 +52,7 @@ export const api = {
   },
   async getAllProteinsForGroup(token: string, groupId: number) {
     return ky
-      .get(`${apiUrl}/protein/group/${groupId}`, {
+      .get(`${apiUrl}/group/${groupId}/proteins`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

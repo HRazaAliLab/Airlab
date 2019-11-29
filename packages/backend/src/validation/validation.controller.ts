@@ -77,8 +77,8 @@ const storage = multer.diskStorage({
   },
 });
 
-@ApiUseTags("validation")
-@Controller("validation")
+@Controller()
+@ApiUseTags("validations")
 @ApiBearerAuth()
 @UseGuards(AuthGuard("jwt"))
 export class ValidationController {
@@ -88,26 +88,30 @@ export class ValidationController {
     private readonly validationFileService: ValidationFileService
   ) {}
 
-  @Get()
+  @Get("validations")
   @ApiCreatedResponse({ description: "Find all entities.", type: ValidationDto, isArray: true })
   findAll() {
     return this.validationService.findAll();
   }
 
-  @Get("getAllValidationsForGroup")
-  @ApiCreatedResponse({ description: "Find all validations for the group.", type: ValidationDto, isArray: true })
-  getAllValidationsForGroup(@Request() req) {
+  @Get("validations/accessible")
+  @ApiCreatedResponse({
+    description: "Find all validations accessible for the user.",
+    type: ValidationDto,
+    isArray: true,
+  })
+  getAccessibleValidations(@Request() req) {
     const user: JwtPayloadDto = req.user;
-    return this.validationService.getAllValidationsForGroup(user.userId);
+    return this.validationService.getAccessibleValidations(user.userId);
   }
 
-  @Get(":id")
+  @Get("validations/:id")
   @ApiCreatedResponse({ description: "Find entity by Id.", type: ValidationDto })
   findById(@Param("id") id: number) {
     return this.validationService.findById(id);
   }
 
-  @Post()
+  @Post("validations")
   @ApiCreatedResponse({ description: "Create entity.", type: ValidationDto })
   async create(@Request() req, @Body() params: CreateValidationDto) {
     const user: JwtPayloadDto = req.user;
@@ -115,13 +119,13 @@ export class ValidationController {
     return this.validationService.create({ ...params, createdBy: groupUser.id });
   }
 
-  @Patch(":id")
+  @Patch("validations/:id")
   @ApiCreatedResponse({ description: "Updated entity.", type: ValidationDto })
   async update(@Param("id") id: number, @Body() params: UpdateValidationDto) {
     return this.validationService.update(id, params);
   }
 
-  @Post(":id/upload")
+  @Post("validations/:id/upload")
   @ApiConsumes("multipart/form-data")
   @ApiImplicitFile({ name: "file", required: true })
   @UseInterceptors(

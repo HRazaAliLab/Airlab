@@ -7,7 +7,7 @@
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text :to="`/main/group/${activeGroupId}/panels/create`">Create Panel</v-btn>
+        <v-btn text :to="`/main/groups/${activeGroupId}/panels/create`">Create Panel</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -44,7 +44,7 @@
             v-if="item.user"
             class="link"
             :to="{
-              name: 'main-admin-user-edit',
+              name: 'main-admin-users-edit',
               params: {
                 groupId: activeGroupId,
                 id: item.user.id,

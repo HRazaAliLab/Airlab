@@ -6,37 +6,37 @@ import { CreateLotDto, LotDto, UpdateLotDto } from "@airlab/shared/lib/lot/dto";
 import { JwtPayloadDto } from "@airlab/shared/lib/auth/dto";
 import { GroupUserService } from "../groupUser/groupUser.service";
 
-@ApiUseTags("lot")
-@Controller("lot")
+@Controller()
+@ApiUseTags("lots")
 @ApiBearerAuth()
 @UseGuards(AuthGuard("jwt"))
 export class LotController {
   constructor(private readonly lotService: LotService, private readonly groupUserService: GroupUserService) {}
 
-  @Get()
+  @Get("lots")
   @ApiCreatedResponse({ description: "Find all entities.", type: LotDto, isArray: true })
   findAll() {
     return this.lotService.findAll();
   }
 
-  @Get("getAllLotsForGroup")
+  @Get("lots/accessible")
   @ApiCreatedResponse({
-    description: "Find all lots for the group.",
+    description: "Find all lots accessible for the user.",
     type: LotDto,
     isArray: true,
   })
-  getAllLotsForGroup(@Request() req) {
+  getAccessibleLots(@Request() req) {
     const user: JwtPayloadDto = req.user;
-    return this.lotService.getAllLotsForGroup(user.userId);
+    return this.lotService.getAccessibleLots(user.userId);
   }
 
-  @Get(":id")
+  @Get("lots/:id")
   @ApiCreatedResponse({ description: "Find entity by Id.", type: LotDto })
   findById(@Param("id") id: number) {
     return this.lotService.findById(id);
   }
 
-  @Post()
+  @Post("lots")
   @ApiCreatedResponse({ description: "Create entity.", type: LotDto })
   async create(@Request() req, @Body() params: CreateLotDto) {
     const user: JwtPayloadDto = req.user;
@@ -44,29 +44,19 @@ export class LotController {
     return this.lotService.create({ ...params, createdBy: groupUser.id, status: "requested" });
   }
 
-  @Patch(":id")
+  @Patch("lots/:id")
   @ApiCreatedResponse({ description: "Updated entity.", type: LotDto })
   async update(@Param("id") id: number, @Body() params: UpdateLotDto) {
     return this.lotService.update(id, params);
   }
 
-  @Get("group/:groupId")
+  @Get("group/:id/lots")
   @ApiCreatedResponse({
     description: "Find all lots for the group.",
     type: LotDto,
     isArray: true,
   })
-  getAllReagentInstancesForGroup(@Param("groupId") groupId: number) {
-    return this.lotService.getAllReagentInstancesForGroup(groupId);
-  }
-
-  @Get("group/:groupId/lots")
-  @ApiCreatedResponse({
-    description: "Find all lots with lots for the group.",
-    type: LotDto,
-    isArray: true,
-  })
-  getAllReagentInstancesWithLotsForGroup(@Param("groupId") groupId: number) {
-    return this.lotService.getAllReagentInstancesWithLotsForGroup(groupId);
+  getAllLotsForGroup(@Param("id") id: number) {
+    return this.lotService.getAllLotsForGroup(id);
   }
 }

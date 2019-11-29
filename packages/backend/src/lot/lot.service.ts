@@ -29,7 +29,7 @@ export class LotService {
     return this.lotRepository.findOne(id);
   }
 
-  async getAllReagentInstancesForGroup(groupId: number) {
+  async getAllLotsForGroup(groupId: number) {
     return this.lotRepository.find({
       where: {
         groupId: groupId,
@@ -48,7 +48,7 @@ export class LotService {
     });
   }
 
-  async getAllLotsForGroup(userId: number) {
+  async getAccessibleLots(userId: number) {
     return this.lotRepository
       .createQueryBuilder("lot")
       .leftJoin(GroupUserEntity, "groupUser", "lot.groupId = groupUser.groupId")

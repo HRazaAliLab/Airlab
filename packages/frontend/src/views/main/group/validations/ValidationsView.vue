@@ -8,7 +8,7 @@
       <v-spacer />
       <v-toolbar-items>
         <v-btn text @click="exportFile()">Export CSV</v-btn>
-        <v-btn text :to="`/main/group/${activeGroupId}/validations/create`">Create Validation</v-btn>
+        <v-btn text :to="`/main/groups/${activeGroupId}/validations/create`">Create Validation</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -195,7 +195,7 @@
             v-if="item.user"
             class="link"
             :to="{
-              name: 'main-admin-user-edit',
+              name: 'main-admin-users-edit',
               params: {
                 groupId: activeGroupId,
                 id: item.user.id,

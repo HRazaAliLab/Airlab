@@ -4,32 +4,32 @@ import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CreateProteinDto, ProteinDto, UpdateProteinDto } from "@airlab/shared/lib/protein/dto";
 
-@ApiUseTags("protein")
-@Controller("protein")
+@Controller()
+@ApiUseTags("proteins")
 @ApiBearerAuth()
 @UseGuards(AuthGuard("jwt"))
 export class ProteinController {
   constructor(private readonly proteinService: ProteinService) {}
 
-  @Get(":id")
+  @Get("proteins/:id")
   @ApiCreatedResponse({ description: "Find entity by Id.", type: ProteinDto })
   findById(@Param("id") id: number) {
     return this.proteinService.findById(id);
   }
 
-  @Post()
+  @Post("proteins")
   @ApiCreatedResponse({ description: "Create entity.", type: ProteinDto })
   async create(@Body() params: CreateProteinDto) {
     return this.proteinService.create(params);
   }
 
-  @Patch(":id")
+  @Patch("proteins/:id")
   @ApiCreatedResponse({ description: "Updated entity.", type: ProteinDto })
   async update(@Param("id") id: number, @Body() params: UpdateProteinDto) {
     return this.proteinService.update(id, params);
   }
 
-  @Get("group/:groupId")
+  @Get("group/:groupId/proteins")
   @ApiCreatedResponse({ description: "Find all proteins for the group.", type: ProteinDto, isArray: true })
   getAllProteinsForGroup(@Param("groupId") groupId: number) {
     return this.proteinService.getAllProteinsForGroup(groupId);

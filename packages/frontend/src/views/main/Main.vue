@@ -22,49 +22,49 @@
           </v-list>
           <v-list dense subheader v-if="activeGroupId">
             <v-subheader class="grey--text text--darken-1">Group</v-subheader>
-            <v-list-item :to="`/main/group/${activeGroupId}/clones`">
+            <v-list-item :to="`/main/groups/${activeGroupId}/clones`">
               <v-list-item-action>
                 <v-icon>mdi-content-duplicate</v-icon>
               </v-list-item-action>
               <v-list-item-title>Clones</v-list-item-title>
             </v-list-item>
-            <v-list-item :to="`/main/group/${activeGroupId}/lots`">
+            <v-list-item :to="`/main/groups/${activeGroupId}/lots`">
               <v-list-item-action>
                 <v-icon>mdi-pound-box-outline</v-icon>
               </v-list-item-action>
               <v-list-item-title>Lots</v-list-item-title>
             </v-list-item>
-            <v-list-item :to="`/main/group/${activeGroupId}/conjugates`">
+            <v-list-item :to="`/main/groups/${activeGroupId}/conjugates`">
               <v-list-item-action>
                 <v-icon>mdi-set-center</v-icon>
               </v-list-item-action>
               <v-list-item-title>Conjugates</v-list-item-title>
             </v-list-item>
-            <v-list-item :to="`/main/group/${activeGroupId}/validations`">
+            <v-list-item :to="`/main/groups/${activeGroupId}/validations`">
               <v-list-item-action>
                 <v-icon>mdi-ab-testing</v-icon>
               </v-list-item-action>
               <v-list-item-title>Validations</v-list-item-title>
             </v-list-item>
-            <v-list-item :to="`/main/group/${activeGroupId}/panels`">
+            <v-list-item :to="`/main/groups/${activeGroupId}/panels`">
               <v-list-item-action>
                 <v-icon>mdi-clipboard-outline</v-icon>
               </v-list-item-action>
               <v-list-item-title>Panels</v-list-item-title>
             </v-list-item>
-            <v-list-item :to="`/main/group/${activeGroupId}/reagents`">
+            <v-list-item :to="`/main/groups/${activeGroupId}/reagents`">
               <v-list-item-action>
                 <v-icon>mdi-test-tube</v-icon>
               </v-list-item-action>
               <v-list-item-title>Reagents</v-list-item-title>
             </v-list-item>
-            <v-list-item :to="`/main/group/${activeGroupId}/proteins`">
+            <v-list-item :to="`/main/groups/${activeGroupId}/proteins`">
               <v-list-item-action>
                 <v-icon>mdi-dna</v-icon>
               </v-list-item-action>
               <v-list-item-title>Proteins</v-list-item-title>
             </v-list-item>
-            <v-list-item :to="`/main/group/${activeGroupId}/shop`">
+            <v-list-item :to="`/main/groups/${activeGroupId}/shop`">
               <v-list-item-action>
                 <v-icon>mdi-cart-outline</v-icon>
               </v-list-item-action>
@@ -74,31 +74,31 @@
           <v-divider v-if="hasAdminAccess" />
           <v-list dense subheader v-if="hasAdminAccess">
             <v-subheader class="grey--text text--darken-1">Admin</v-subheader>
-            <v-list-item to="/main/admin/user/all">
+            <v-list-item to="/main/admin/users">
               <v-list-item-action>
                 <v-icon>mdi-account-outline</v-icon>
               </v-list-item-action>
               <v-list-item-title>Manage Users</v-list-item-title>
             </v-list-item>
-            <v-list-item to="/main/admin/group/all">
+            <v-list-item to="/main/admin/groups">
               <v-list-item-action>
                 <v-icon>mdi-account-multiple-outline</v-icon>
               </v-list-item-action>
               <v-list-item-title>Manage Groups</v-list-item-title>
             </v-list-item>
-            <v-list-item to="/main/admin/tag/all">
+            <v-list-item to="/main/admin/tags">
               <v-list-item-action>
                 <v-icon>mdi-tag-outline</v-icon>
               </v-list-item-action>
               <v-list-item-title>Manage Tags</v-list-item-title>
             </v-list-item>
-            <v-list-item to="/main/admin/provider/all">
+            <v-list-item to="/main/admin/providers">
               <v-list-item-action>
                 <v-icon>mdi-domain</v-icon>
               </v-list-item-action>
               <v-list-item-title>Manage Providers</v-list-item-title>
             </v-list-item>
-            <v-list-item to="/main/admin/species/all">
+            <v-list-item to="/main/admin/species">
               <v-list-item-action>
                 <v-icon>mdi-rabbit</v-icon>
               </v-list-item-action>
@@ -165,7 +165,7 @@ import { appName } from "@/env";
 import { mainModule } from "@/modules/main";
 import { BroadcastManager } from "@/utils/BroadcastManager";
 import { WebSocketManager } from "@/utils/WebSocketManager";
-import { Component, Vue, Watch } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
 
 const routeGuardMain = async (to, from, next) => {

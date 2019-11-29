@@ -8,7 +8,7 @@
       <v-spacer />
       <v-toolbar-items>
         <v-btn text @click="exportFile()">Export CSV</v-btn>
-        <v-btn text :to="`/main/group/${activeGroupId}/clones/create`">Create Clone</v-btn>
+        <v-btn text :to="`/main/groups/${activeGroupId}/clones/create`">Create Clone</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 

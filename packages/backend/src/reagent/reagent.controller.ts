@@ -6,20 +6,20 @@ import { CreateReagentDto, ReagentDto, UpdateReagentDto } from "@airlab/shared/l
 import { JwtPayloadDto } from "@airlab/shared/lib/auth/dto";
 import { GroupUserService } from "../groupUser/groupUser.service";
 
-@ApiUseTags("reagent")
-@Controller("reagent")
+@Controller()
+@ApiUseTags("reagents")
 @ApiBearerAuth()
 @UseGuards(AuthGuard("jwt"))
 export class ReagentController {
   constructor(private readonly reagentService: ReagentService, private readonly groupUserService: GroupUserService) {}
 
-  @Get(":id")
+  @Get("reagents/:id")
   @ApiCreatedResponse({ description: "Find entity by Id.", type: ReagentDto })
   findById(@Param("id") id: number) {
     return this.reagentService.findById(id);
   }
 
-  @Post()
+  @Post("reagents")
   @ApiCreatedResponse({ description: "Create entity.", type: ReagentDto })
   async create(@Request() req, @Body() params: CreateReagentDto) {
     const user: JwtPayloadDto = req.user;
@@ -27,13 +27,13 @@ export class ReagentController {
     return this.reagentService.create({ ...params, createdBy: groupUser.id });
   }
 
-  @Patch(":id")
+  @Patch("reagents/:id")
   @ApiCreatedResponse({ description: "Updated entity.", type: ReagentDto })
   async update(@Param("id") id: number, @Body() params: UpdateReagentDto) {
     return this.reagentService.update(id, params);
   }
 
-  @Get("group/:groupId")
+  @Get("group/:groupId/reagents")
   @ApiCreatedResponse({
     description: "Find all reagents for the group.",
     type: ReagentDto,

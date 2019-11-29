@@ -7,7 +7,7 @@
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text :to="`/main/group/${activeGroupId}/proteins/create`">Create Protein</v-btn>
+        <v-btn text :to="`/main/groups/${activeGroupId}/proteins/create`">Create Protein</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 

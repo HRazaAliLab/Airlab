@@ -22,8 +22,8 @@ import {
 } from "@airlab/shared/lib/validationFile/dto";
 import { Response } from "express";
 
-@ApiUseTags("validationFile")
-@Controller("validationFile")
+@ApiUseTags("validationFiles")
+@Controller("validationFiles")
 @ApiBearerAuth()
 // @UseGuards(AuthGuard("jwt"))
 export class ValidationFileController {

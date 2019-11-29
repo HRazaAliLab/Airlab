@@ -7,7 +7,7 @@
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text :to="`/main/group/${activeGroupId}/lots/create`">Create Lot</v-btn>
+        <v-btn text :to="`/main/groups/${activeGroupId}/lots/create`">Create Lot</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -308,7 +308,7 @@ export default class LotsView extends Vue {
   }
 
   async mounted() {
-    await this.lotContext.actions.getAllLotsForGroup();
+    await this.lotContext.actions.getAccessibleLots();
   }
 
   async deleteLot(id: number) {

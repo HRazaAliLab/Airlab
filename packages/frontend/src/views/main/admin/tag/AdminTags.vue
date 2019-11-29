@@ -6,7 +6,7 @@
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text to="/main/admin/tag/create">Create Tag</v-btn>
+        <v-btn text to="/main/admin/tags/create">Create Tag</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -41,7 +41,7 @@
                 v-on="on"
                 icon
                 :to="{
-                  name: 'main-admin-tag-edit',
+                  name: 'main-admin-tags-edit',
                   params: { id: item.id },
                 }"
               >

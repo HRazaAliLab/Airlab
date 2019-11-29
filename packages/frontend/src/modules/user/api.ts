@@ -12,7 +12,7 @@ export const api = {
   },
   async getMe(token: string) {
     return ky
-      .get(`${apiUrl}/user/profile`, {
+      .get(`${apiUrl}/users/profile`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -21,7 +21,7 @@ export const api = {
   },
   async updateMe(token: string, data: UpdateProfileDto) {
     return ky
-      .patch(`${apiUrl}/user/profile`, {
+      .patch(`${apiUrl}/users/profile`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -31,7 +31,7 @@ export const api = {
   },
   async getUsers(token: string) {
     return ky
-      .get(`${apiUrl}/user`, {
+      .get(`${apiUrl}/users`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -40,7 +40,7 @@ export const api = {
   },
   async getUser(token: string, id: number) {
     return ky
-      .get(`${apiUrl}/user/${id}`, {
+      .get(`${apiUrl}/users/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -49,7 +49,7 @@ export const api = {
   },
   async updateUser(token: string, id: number, data: UpdateUserDto) {
     return ky
-      .patch(`${apiUrl}/user/${id}`, {
+      .patch(`${apiUrl}/users/${id}`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -59,7 +59,7 @@ export const api = {
   },
   async createUser(token: string, data: CreateUserDto) {
     return ky
-      .post(`${apiUrl}/user`, {
+      .post(`${apiUrl}/users`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,

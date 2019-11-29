@@ -5,7 +5,7 @@ import { CreateReagentDto, ReagentDto, UpdateReagentDto } from "@airlab/shared/l
 export const api = {
   async getReagents(token: string) {
     return ky
-      .get(`${apiUrl}/reagent/`, {
+      .get(`${apiUrl}/reagents/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -14,7 +14,7 @@ export const api = {
   },
   async createReagent(token: string, data: CreateReagentDto) {
     return ky
-      .post(`${apiUrl}/reagent/`, {
+      .post(`${apiUrl}/reagents/`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -24,7 +24,7 @@ export const api = {
   },
   async getReagent(token: string, id: number) {
     return ky
-      .get(`${apiUrl}/reagent/${id}`, {
+      .get(`${apiUrl}/reagents/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -33,7 +33,7 @@ export const api = {
   },
   async updateReagent(token: string, id: number, data: UpdateReagentDto) {
     return ky
-      .patch(`${apiUrl}/reagent/${id}`, {
+      .patch(`${apiUrl}/reagents/${id}`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -43,7 +43,7 @@ export const api = {
   },
   async deleteReagent(token: string, id: number) {
     return ky
-      .delete(`${apiUrl}/reagent/${id}`, {
+      .delete(`${apiUrl}/reagents/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -52,7 +52,7 @@ export const api = {
   },
   async getAllReagentsForGroup(token: string, groupId: number) {
     return ky
-      .get(`${apiUrl}/reagent/group/${groupId}`, {
+      .get(`${apiUrl}/group/${groupId}/reagents`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

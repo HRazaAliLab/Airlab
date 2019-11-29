@@ -5,7 +5,7 @@ import { CreateValidationDto, UpdateValidationDto, ValidationDto } from "@airlab
 export const api = {
   async getValidations(token: string) {
     return ky
-      .get(`${apiUrl}/validation/getAllValidationsForGroup`, {
+      .get(`${apiUrl}/validations/accessible`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -14,7 +14,7 @@ export const api = {
   },
   async createValidation(token: string, data: CreateValidationDto) {
     return ky
-      .post(`${apiUrl}/validation/`, {
+      .post(`${apiUrl}/validations/`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -24,7 +24,7 @@ export const api = {
   },
   async getValidation(token: string, id: number) {
     return ky
-      .get(`${apiUrl}/validation/${id}`, {
+      .get(`${apiUrl}/validations/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -33,7 +33,7 @@ export const api = {
   },
   async updateValidation(token: string, id: number, data: UpdateValidationDto) {
     return ky
-      .patch(`${apiUrl}/validation/${id}`, {
+      .patch(`${apiUrl}/validations/${id}`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -72,7 +72,7 @@ export const api = {
   //   xhr.send(formData);
   // },
   async uploadValidationFile(token: string, validationId: number, formData: FormData) {
-    return ky.post(`${apiUrl}/validation/${validationId}/upload`, {
+    return ky.post(`${apiUrl}/validations/${validationId}/upload`, {
       body: formData,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -82,7 +82,7 @@ export const api = {
   },
   async deleteValidationFile(token: string, fileId: number) {
     return ky
-      .delete(`${apiUrl}/validationFile/${fileId}`, {
+      .delete(`${apiUrl}/validationFiles/${fileId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

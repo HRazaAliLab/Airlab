@@ -5,7 +5,7 @@ import { CreateProviderDto, ProviderDto, UpdateProviderDto } from "@airlab/share
 export const api = {
   async getProviders(token: string) {
     return ky
-      .get(`${apiUrl}/provider/`, {
+      .get(`${apiUrl}/providers/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -14,7 +14,7 @@ export const api = {
   },
   async createProvider(token: string, data: CreateProviderDto) {
     return ky
-      .post(`${apiUrl}/provider/`, {
+      .post(`${apiUrl}/providers/`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -24,7 +24,7 @@ export const api = {
   },
   async getProvider(token: string, id: number) {
     return ky
-      .get(`${apiUrl}/provider/${id}`, {
+      .get(`${apiUrl}/providers/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -33,7 +33,7 @@ export const api = {
   },
   async updateProvider(token: string, id: number, data: UpdateProviderDto) {
     return ky
-      .patch(`${apiUrl}/provider/${id}`, {
+      .patch(`${apiUrl}/providers/${id}`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -43,7 +43,7 @@ export const api = {
   },
   async deleteProvider(token: string, id: number) {
     return ky
-      .delete(`${apiUrl}/provider/${id}`, {
+      .delete(`${apiUrl}/providers/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

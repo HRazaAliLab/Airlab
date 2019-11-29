@@ -5,7 +5,7 @@ import { ConjugateDto, CreateConjugateDto, UpdateConjugateDto } from "@airlab/sh
 export const api = {
   async getConjugates(token: string) {
     return ky
-      .get(`${apiUrl}/conjugate/getAllConjugatesForGroup`, {
+      .get(`${apiUrl}/conjugates/accessible`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -14,7 +14,7 @@ export const api = {
   },
   async createConjugate(token: string, data: CreateConjugateDto) {
     return ky
-      .post(`${apiUrl}/conjugate/`, {
+      .post(`${apiUrl}/conjugates/`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -24,7 +24,7 @@ export const api = {
   },
   async getConjugate(token: string, id: number) {
     return ky
-      .get(`${apiUrl}/conjugate/${id}`, {
+      .get(`${apiUrl}/conjugates/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -33,7 +33,7 @@ export const api = {
   },
   async updateConjugate(token: string, id: number, data: UpdateConjugateDto) {
     return ky
-      .patch(`${apiUrl}/conjugate/${id}`, {
+      .patch(`${apiUrl}/conjugates/${id}`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -43,7 +43,7 @@ export const api = {
   },
   async deleteConjugate(token: string, id: number) {
     return ky
-      .delete(`${apiUrl}/conjugate/${id}`, {
+      .delete(`${apiUrl}/conjugates/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -4,6 +4,7 @@ import { Repository } from "typeorm";
 import { ValidationEntity } from "./validation.entity";
 import { CreateValidationDto, UpdateValidationDto } from "@airlab/shared/lib/validation/dto";
 import { UserEntity } from "../user/user.entity";
+import { GroupUserEntity } from "../groupUser/groupUser.entity";
 
 @Injectable()
 export class ValidationService {
@@ -36,7 +37,7 @@ export class ValidationService {
     return result.affected === 1 ? id : undefined;
   }
 
-  async getAllValidationsForGroup(userId: number) {
+  async getAccessibleValidations(userId: number) {
     const result = await this.repository
       .createQueryBuilder("validation")
       .select([
@@ -58,7 +59,8 @@ export class ValidationService {
       .addSelect(["species.id", "species.name"])
       .leftJoin("validation.validationFiles", "validationFiles")
       .addSelect(["validationFiles.id", "validationFiles.name"])
-      .leftJoin("validation.groupUser", "groupUser")
+      .leftJoin(GroupUserEntity, "groupUser", "validation.groupId = groupUser.groupId")
+      .where("groupUser.userId = :userId", { userId: userId })
       .leftJoinAndMapOne("validation.user", UserEntity, "user", "groupUser.userId = user.id")
       .orderBy({ "validation.id": "DESC" })
       .getMany();

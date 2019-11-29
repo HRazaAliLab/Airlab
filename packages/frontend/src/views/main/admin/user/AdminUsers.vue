@@ -6,7 +6,7 @@
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text to="/main/admin/user/create">Create User</v-btn>
+        <v-btn text to="/main/admin/users/create">Create User</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -37,7 +37,7 @@
         <template v-slot:item.action="{ item }">
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon :to="{ name: 'main-admin-user-edit', params: { id: item.id } }">
+              <v-btn v-on="on" icon :to="{ name: 'main-admin-users-edit', params: { id: item.id } }">
                 <v-icon color="grey">mdi-pencil</v-icon>
               </v-btn>
             </template>

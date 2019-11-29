@@ -333,7 +333,7 @@ export default class CreateValidation extends Vue {
   async mounted() {
     await Promise.all([
       this.cloneContext.actions.getAllClonesForUser(),
-      this.lotContext.actions.getAllLotsForGroup(+this.$router.currentRoute.params.groupId),
+      this.lotContext.actions.getAccessibleLots(),
       this.conjugateContext.actions.getConjugates(),
       this.speciesContext.actions.getSpecies(),
     ]);

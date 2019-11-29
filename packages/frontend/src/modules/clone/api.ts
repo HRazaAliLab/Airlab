@@ -5,7 +5,7 @@ import { CreateCloneDto, CloneDto, UpdateCloneDto } from "@airlab/shared/lib/clo
 export const api = {
   async getClones(token: string) {
     return ky
-      .get(`${apiUrl}/clone/`, {
+      .get(`${apiUrl}/clones/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -14,7 +14,7 @@ export const api = {
   },
   async createClone(token: string, data: CreateCloneDto) {
     return ky
-      .post(`${apiUrl}/clone/`, {
+      .post(`${apiUrl}/clones/`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -24,7 +24,7 @@ export const api = {
   },
   async getClone(token: string, id: number) {
     return ky
-      .get(`${apiUrl}/clone/${id}`, {
+      .get(`${apiUrl}/clones/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -33,7 +33,7 @@ export const api = {
   },
   async updateClone(token: string, id: number, data: UpdateCloneDto) {
     return ky
-      .patch(`${apiUrl}/clone/${id}`, {
+      .patch(`${apiUrl}/clones/${id}`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -43,7 +43,7 @@ export const api = {
   },
   async deleteClone(token: string, id: number) {
     return ky
-      .delete(`${apiUrl}/clone/${id}`, {
+      .delete(`${apiUrl}/clones/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -52,7 +52,7 @@ export const api = {
   },
   async getAllClonesForUser(token: string) {
     return ky
-      .get(`${apiUrl}/clone/getAllClonesForGroup`, {
+      .get(`${apiUrl}/clones/accessible`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

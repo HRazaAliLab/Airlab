@@ -6,7 +6,7 @@
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text to="/main/admin/group/create">Create Group</v-btn>
+        <v-btn text to="/main/admin/groups/create">Create Group</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -38,7 +38,7 @@
                 v-on="on"
                 icon
                 :to="{
-                  name: 'main-admin-group-edit',
+                  name: 'main-admin-groups-edit',
                   params: { id: item.id },
                 }"
               >

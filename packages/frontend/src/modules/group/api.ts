@@ -5,7 +5,7 @@ import { CreateGroupDto, GroupDto, UpdateGroupDto } from "@airlab/shared/lib/gro
 export const api = {
   async getGroups(token: string) {
     return ky
-      .get(`${apiUrl}/group/`, {
+      .get(`${apiUrl}/groups/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -14,7 +14,7 @@ export const api = {
   },
   async createGroup(token: string, data: CreateGroupDto) {
     return ky
-      .post(`${apiUrl}/group/`, {
+      .post(`${apiUrl}/groups/`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -24,7 +24,7 @@ export const api = {
   },
   async getGroup(token: string, id: number) {
     return ky
-      .get(`${apiUrl}/group/${id}`, {
+      .get(`${apiUrl}/groups/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -33,7 +33,7 @@ export const api = {
   },
   async updateGroup(token: string, id: number, data: UpdateGroupDto) {
     return ky
-      .patch(`${apiUrl}/group/${id}`, {
+      .patch(`${apiUrl}/groups/${id}`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -43,7 +43,7 @@ export const api = {
   },
   async deleteGroup(token: string, id: number) {
     return ky
-      .delete(`${apiUrl}/group/${id}`, {
+      .delete(`${apiUrl}/groups/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

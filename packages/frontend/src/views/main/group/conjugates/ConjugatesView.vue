@@ -7,7 +7,7 @@
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text :to="`/main/group/${activeGroupId}/conjugates/create`">Create Conjugate</v-btn>
+        <v-btn text :to="`/main/groups/${activeGroupId}/conjugates/create`">Create Conjugate</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -51,7 +51,7 @@
             v-if="item.tag"
             class="link"
             :to="{
-              name: 'main-admin-tag-edit',
+              name: 'main-admin-tags-edit',
               params: {
                 groupId: activeGroupId,
                 id: item.tag.id,
@@ -66,7 +66,7 @@
             v-if="item.user"
             class="link"
             :to="{
-              name: 'main-admin-user-edit',
+              name: 'main-admin-users-edit',
               params: {
                 groupId: activeGroupId,
                 id: item.user.id,

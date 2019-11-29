@@ -5,7 +5,7 @@ import { CreatePanelDto, DuplicatePanelDto, PanelDto, UpdatePanelDto } from "@ai
 export const api = {
   async getPanels(token: string) {
     return ky
-      .get(`${apiUrl}/panel/`, {
+      .get(`${apiUrl}/panels/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -14,7 +14,7 @@ export const api = {
   },
   async createPanel(token: string, data: CreatePanelDto) {
     return ky
-      .post(`${apiUrl}/panel/`, {
+      .post(`${apiUrl}/panels/`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -24,7 +24,7 @@ export const api = {
   },
   async getPanel(token: string, id: number) {
     return ky
-      .get(`${apiUrl}/panel/${id}`, {
+      .get(`${apiUrl}/panels/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -33,7 +33,7 @@ export const api = {
   },
   async updatePanel(token: string, id: number, data: UpdatePanelDto) {
     return ky
-      .patch(`${apiUrl}/panel/${id}`, {
+      .patch(`${apiUrl}/panels/${id}`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -43,7 +43,7 @@ export const api = {
   },
   async duplicatePanel(token: string, id: number, data: DuplicatePanelDto) {
     return ky
-      .put(`${apiUrl}/panel/${id}`, {
+      .put(`${apiUrl}/panels/${id}`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -53,7 +53,7 @@ export const api = {
   },
   async deletePanel(token: string, id: number) {
     return ky
-      .delete(`${apiUrl}/panel/${id}`, {
+      .delete(`${apiUrl}/panels/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -62,7 +62,7 @@ export const api = {
   },
   async getAllPanelsForGroup(token: string, groupId: number) {
     return ky
-      .get(`${apiUrl}/panel/group/${groupId}`, {
+      .get(`${apiUrl}/group/${groupId}/panels`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -30,7 +30,7 @@ export class CloneService {
     return result.affected === 1 ? id : undefined;
   }
 
-  async getAllClonesForGroupsWithProteinName(userId: number) {
+  async getAccessibleClones(userId: number) {
     const result = await this.repository
       .createQueryBuilder("clone")
       .leftJoin("clone.protein", "protein")
