@@ -114,7 +114,7 @@
                   },
                 }"
               >
-                <v-icon color="grey">mdi-pencil</v-icon>
+                <v-icon color="grey">mdi-pencil-outline</v-icon>
               </v-btn>
             </template>
             <span>Edit</span>
@@ -122,7 +122,7 @@
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
               <v-btn v-on="on" icon @click="deleteClone(item.id)">
-                <v-icon color="red accent-1">mdi-delete</v-icon>
+                <v-icon color="red accent-1">mdi-delete-outline</v-icon>
               </v-btn>
             </template>
             <span>Delete</span>

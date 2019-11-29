@@ -24,12 +24,12 @@ export declare class CreatePanelDto {
     readonly details: object[] | null;
 }
 export declare class UpdatePanelDto {
-    readonly name: string;
-    readonly description: string;
-    readonly isFluor: boolean;
-    readonly isProduction: boolean;
-    readonly application: number | null;
-    readonly details: object[] | null;
+    readonly name?: string;
+    readonly description?: string;
+    readonly isFluor?: boolean;
+    readonly isProduction?: boolean;
+    readonly application?: number | null;
+    readonly details?: object[] | null;
 }
 export declare class DuplicatePanelDto {
     readonly createdBy?: number;

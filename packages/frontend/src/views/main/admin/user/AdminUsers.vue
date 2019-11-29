@@ -38,7 +38,7 @@
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
               <v-btn v-on="on" icon :to="{ name: 'main-admin-users-edit', params: { id: item.id } }">
-                <v-icon color="grey">mdi-pencil</v-icon>
+                <v-icon color="grey">mdi-pencil-outline</v-icon>
               </v-btn>
             </template>
             <span>Edit</span>

@@ -77,29 +77,33 @@ export class CreatePanelDto {
 
 export class UpdatePanelDto {
   @IsString()
+  @IsOptional()
   @ApiModelProperty()
-  readonly name: string;
+  readonly name?: string;
 
   @IsString()
+  @IsOptional()
   @ApiModelPropertyOptional()
-  readonly description: string;
+  readonly description?: string;
 
   @IsBoolean()
+  @IsOptional()
   @ApiModelProperty()
-  readonly isFluor: boolean;
+  readonly isFluor?: boolean;
 
   @IsBoolean()
+  @IsOptional()
   @ApiModelProperty()
-  readonly isProduction: boolean;
+  readonly isProduction?: boolean;
 
   @IsInt()
   @IsOptional()
   @ApiModelProperty()
-  readonly application: number | null;
+  readonly application?: number | null;
 
   @IsOptional()
   @ApiModelPropertyOptional()
-  readonly details: object[] | null;
+  readonly details?: object[] | null;
 }
 
 export class DuplicatePanelDto {

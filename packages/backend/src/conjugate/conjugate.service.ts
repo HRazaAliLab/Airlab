@@ -43,7 +43,7 @@ export class ConjugateService {
       .leftJoin("conjugate.lot", "lot")
       .addSelect(["lot.id", "lot.number"])
       .leftJoin("lot.clone", "clone")
-      .addSelect(["clone.name"])
+      .addSelect(["clone.id", "clone.name"])
       .leftJoin("clone.protein", "protein")
       .addSelect(["protein.name"])
       .leftJoin(GroupUserEntity, "groupUser", "conjugate.groupId = groupUser.groupId")

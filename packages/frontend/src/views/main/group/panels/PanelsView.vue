@@ -68,7 +68,7 @@
                   },
                 }"
               >
-                <v-icon color="grey">mdi-pencil</v-icon>
+                <v-icon color="grey">mdi-pencil-outline</v-icon>
               </v-btn>
             </template>
             <span>Edit</span>
@@ -83,8 +83,26 @@
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
+              <v-btn
+                v-on="on"
+                icon
+                :to="{
+                  name: 'main-group-panels-view',
+                  params: {
+                    groupId: activeGroupId,
+                    id: item.id,
+                  },
+                }"
+              >
+                <v-icon color="grey">mdi-eyedropper</v-icon>
+              </v-btn>
+            </template>
+            <span>Refine</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
               <v-btn v-on="on" icon @click="deletePanel(item.id)">
-                <v-icon color="red accent-1">mdi-delete</v-icon>
+                <v-icon color="red accent-1">mdi-delete-outline</v-icon>
               </v-btn>
             </template>
             <span>Delete</span>
@@ -196,7 +214,7 @@ export default class PanelsView extends Vue {
       value: "action",
       sortable: false,
       filterable: false,
-      width: "240",
+      width: "275",
     },
   ];
 

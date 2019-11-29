@@ -139,6 +139,12 @@ export default new Router({
                   component: () =>
                     import(/* webpackChunkName: "main-group-panels-edit" */ "@/views/main/group/panels/EditPanel.vue"),
                 },
+                {
+                  path: "panels/:id",
+                  name: "main-group-panels-view",
+                  component: () =>
+                    import(/* webpackChunkName: "main-group-panels-view" */ "@/views/main/group/panels/ViewPanel.vue"),
+                },
 
                 {
                   path: "shop",

@@ -109,21 +109,25 @@ class UpdatePanelDto {
 }
 __decorate([
     class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], UpdatePanelDto.prototype, "name", void 0);
 __decorate([
     class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
     swagger_1.ApiModelPropertyOptional(),
     __metadata("design:type", String)
 ], UpdatePanelDto.prototype, "description", void 0);
 __decorate([
     class_validator_1.IsBoolean(),
+    class_validator_1.IsOptional(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Boolean)
 ], UpdatePanelDto.prototype, "isFluor", void 0);
 __decorate([
     class_validator_1.IsBoolean(),
+    class_validator_1.IsOptional(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", Boolean)
 ], UpdatePanelDto.prototype, "isProduction", void 0);

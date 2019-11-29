@@ -171,6 +171,8 @@ export default class EditPanel extends Vue {
         details.push({
           plaLabeledAntibodyId: item,
           plaActualConc: undefined,
+          plaPipet: undefined,
+          dilutionType: undefined,
         });
       });
       const data: UpdatePanelDto = {
