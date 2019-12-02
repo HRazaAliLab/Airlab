@@ -288,7 +288,7 @@ export default class ClonesView extends Vue {
   }
 
   citeAb(clone: CloneDto) {
-    return `http://www.citeab.com/search?q=${clone.name}`;
+    return `https://www.citeab.com/antibodies/search?q=${clone.name}`;
   }
 
   antibodyRegistry(clone: CloneDto) {

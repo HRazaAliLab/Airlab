@@ -273,7 +273,6 @@ export default class ViewPanel extends Vue {
       item.pipet = res;
       return res;
     }
-    console.log(item.concentration)
     const res = this.totalVolume * (parseFloat(item.actualConcentration) / parseFloat(item.concentration));
     item.pipet = res;
     return res;
@@ -293,7 +292,6 @@ export default class ViewPanel extends Vue {
   }
 
   closeEditDialog() {
-    console.log(this.totalVolume);
   }
 
   onScroll(e) {
