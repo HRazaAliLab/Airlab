@@ -7,14 +7,14 @@ WORKDIR /app
 
 COPY package.json lerna.json yarn.lock ./
 COPY packages/shared/package.json ./packages/shared/
-COPY packages/backend/package.json ./packages/backend/
+COPY packages/worker/package.json ./packages/worker/
 
 RUN yarn install --non-interactive
 
 COPY packages/shared ./packages/shared/
-COPY packages/backend ./packages/backend/
+COPY packages/worker ./packages/worker/
 
 # Comment out the next line to disable tests
-# RUN yarn test:backend
+# RUN yarn test:worker
 
-RUN yarn build:backend
+RUN yarn build:worker

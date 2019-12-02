@@ -23,6 +23,14 @@ services:
         aliases:
           - ${DOMAIN}
 
+  worker:
+    depends_on:
+      - rabbitmq
+    volumes:
+      - worker_data:/data
+    labels:
+      - "traefik.enable=true"
+
   frontend:
     labels:
       - "traefik.enable=true"
@@ -99,6 +107,7 @@ services:
 
 volumes:
   app_data:
+  worker_data:
   postgres_data:
   portainer_data:
   redis_data:

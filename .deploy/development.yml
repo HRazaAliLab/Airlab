@@ -19,6 +19,23 @@ services:
       - /app/packages/shared/node_modules/
 #      - /app/packages/backend/dist/
 
+  worker:
+    restart: "no"
+    build:
+      context: ../
+      dockerfile: packages/worker/Dockerfile
+      args:
+        BACKEND_ENV: development
+    command: ["yarn", "run", "start:worker:debug"]
+    ports:
+      - 9230:9230
+    volumes:
+      - ../packages/worker:/app/packages/worker
+      - ../packages/shared:/app/packages/shared
+      - /app/packages/worker/node_modules/
+      - /app/packages/shared/node_modules/
+#      - /app/packages/worker/dist/
+
   frontend:
     restart: "no"
     build:

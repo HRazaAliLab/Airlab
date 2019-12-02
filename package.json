@@ -22,6 +22,7 @@
   "workspaces": [
     "packages/shared",
     "packages/backend",
+    "packages/worker",
     "packages/frontend"
   ],
   "scripts": {
@@ -29,20 +30,25 @@
     "build": "lerna run build",
     "build:frontend": "yarn workspace @airlab/frontend run build",
     "build:backend": "yarn workspace @airlab/backend run build",
+    "build:worker": "yarn workspace @airlab/worker run build",
     "lint": "lerna run lint",
     "lint:frontend": "yarn workspace @airlab/frontend run lint",
     "lint:backend": "yarn workspace @airlab/backend run lint",
+    "lint:worker": "yarn workspace @airlab/worker run lint",
     "test": "lerna run test",
     "test:frontend": "yarn workspace @airlab/frontend run test",
     "test:backend": "yarn workspace @airlab/backend run test",
+    "test:worker": "yarn workspace @airlab/worker run test",
     "start:backend:debug": "yarn workspace @airlab/backend run start:debug",
-    "start:backend:prod": "yarn workspace @airlab/backend run start:prod"
+    "start:backend:prod": "yarn workspace @airlab/backend run start:prod",
+    "start:worker:debug": "yarn workspace @airlab/worker run start:debug",
+    "start:worker:prod": "yarn workspace @airlab/worker run start:prod"
   },
   "devDependencies": {
     "@types/jest": "24.0.23",
     "@typescript-eslint/eslint-plugin": "2.9.0",
     "@typescript-eslint/parser": "2.9.0",
-    "eslint": "6.7.1",
+    "eslint": "6.7.2",
     "eslint-config-prettier": "6.7.0",
     "eslint-plugin-prettier": "3.1.1",
     "jest": "24.9.0",

@@ -1,15 +1,18 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Inject, Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "../config/config.service";
-import * as nodemailer from "nodemailer";
 import * as Mailgen from "mailgen";
-import { Content } from "mailgen";
+import { ClientProxy } from "@nestjs/microservices";
+import { SEND_EMAIL_MESSAGE } from "@airlab/shared/lib/constants";
+import { SendEmailEvent } from "@airlab/shared/lib/events";
 
 @Injectable()
 export class UtilsService {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    @Inject("WORKER_SERVICE") private readonly worker: ClientProxy
+  ) {}
 
   private readonly logger = new Logger(UtilsService.name);
-  private readonly transporter = nodemailer.createTransport(this.configService.emailConfig);
 
   private readonly mailGenerator = new Mailgen({
     theme: "default",
@@ -22,17 +25,15 @@ export class UtilsService {
     },
   });
 
-  async sendEmail(from: string, to: string, subject: string, content: Content) {
+  async sendEmail(from: string, to: string, subject: string, content: Mailgen.Content) {
     // Generate an HTML email with the provided contents
     const emailBody = this.mailGenerator.generate(content);
 
-    // send mail with defined transport object
-    const info = await this.transporter.sendMail({
-      from: this.configService.fromEmail, // sender address
-      to: "anton.rau@gmail.com", // list of receivers
-      subject: "Hello", // Subject line
-      html: emailBody, // html body
-    });
-    this.logger.debug(info);
+    this.worker.emit(SEND_EMAIL_MESSAGE, {
+      from: "anton.rau@uzh.ch",
+      to: "anton.rau@gmail.com",
+      subject: "AirLab Test",
+      body: "test message",
+    } as SendEmailEvent);
   }
 }

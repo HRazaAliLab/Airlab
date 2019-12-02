@@ -321,7 +321,7 @@ export default class ViewPanel extends Vue {
           plaLabeledAntibodyId: item.id,
           plaActualConc: item.actualConcentration ? Number(item.actualConcentration) : null,
           dilutionType: item.dilutionType ? Number(item.dilutionType) : null,
-          plaPipet: undefined,
+          plaPipet: item.pipet ? Number(item.pipet) : null,
         };
       });
       const data: UpdatePanelDto = {
