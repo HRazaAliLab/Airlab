@@ -5,9 +5,12 @@ services:
     image: ${DOCKER_IMAGE_BACKEND}:${TAG-latest}
     ports:
       - 3000:3000
-    environment:
-      - SMTP_PASSWORD
     command: ["yarn", "run", "start:backend:prod"]
+
+  worker:
+    restart: always
+    image: ${DOCKER_IMAGE_WORKER}:${TAG-latest}
+    command: ["yarn", "run", "start:worker:prod"]
 
   frontend:
     restart: always

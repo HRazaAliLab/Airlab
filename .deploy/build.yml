@@ -8,6 +8,14 @@ services:
       args:
         BACKEND_ENV: production
 
+  worker:
+    image: '${DOCKER_IMAGE_WORKER}:${TAG-latest}'
+    build:
+      context: ../
+      dockerfile: packages/worker/Dockerfile
+      args:
+        BACKEND_ENV: production
+
   frontend:
     image: '${DOCKER_IMAGE_FRONTEND}:${TAG-latest}'
     build:

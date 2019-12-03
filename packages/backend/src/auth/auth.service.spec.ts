@@ -5,6 +5,12 @@ import { UserModule } from "../user/user.module";
 import { PassportModule } from "@nestjs/passport";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserEntity } from "../user/user.entity";
+import { ClientsModule, Transport } from "@nestjs/microservices";
+import { WORKER_QUEUE_NAME } from "@airlab/shared/lib/constants";
+import { ConfigService } from "../config/config.service";
+import { UtilsService } from "../utils/utils.service";
+import { LocalStrategy } from "./local.strategy";
+import { JwtStrategy } from "./jwt.strategy";
 
 describe("AuthService", () => {
   let service: AuthService;
@@ -17,8 +23,20 @@ describe("AuthService", () => {
         JwtModule.register({}),
         UserModule,
         PassportModule,
+        ClientsModule.register([
+          {
+            name: "WORKER_SERVICE",
+            transport: Transport.RMQ,
+            options: {
+              urls: [`amqp://rabbitmq:5672`],
+              prefetchCount: 1,
+              queue: WORKER_QUEUE_NAME,
+              queueOptions: { durable: false },
+            },
+          },
+        ]),
       ],
-      providers: [AuthService],
+      providers: [AuthService, ConfigService, UtilsService, LocalStrategy, JwtStrategy],
     }).compile();
 
     service = module.get<AuthService>(AuthService);

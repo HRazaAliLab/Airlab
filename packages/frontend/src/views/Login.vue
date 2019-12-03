@@ -13,9 +13,10 @@
                 <v-text-field
                   v-model="email"
                   prepend-icon="mdi-account"
-                  name="login"
-                  label="Login"
+                  name="email"
+                  label="Email"
                   type="text"
+                  :rules="emailRules"
                   @keyup.enter="submit"
                 />
                 <v-text-field
@@ -65,10 +66,13 @@
 import { appName } from "@/env";
 import { mainModule } from "@/modules/main";
 import { Component, Vue } from "vue-property-decorator";
+import { email, required } from "@/utils/validators";
 
 @Component
 export default class Login extends Vue {
   readonly mainContext = mainModule.context(this.$store);
+
+  readonly emailRules = [required, email];
 
   email = "";
   password = "";

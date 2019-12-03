@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@airlab/shared": "*",
-    "core-js": "3.4.5",
+    "core-js": "3.4.7",
     "file-saver": "2.0.2",
     "ky": "0.16.1",
     "localforage": "1.7.3",

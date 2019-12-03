@@ -5,8 +5,6 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { GroupEntity } from "./group.entity";
 import { GroupUserService } from "../groupUser/groupUser.service";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
-import { UtilsService } from "../utils/utils.service";
-import { ConfigService } from "../config/config.service";
 import { UserEntity } from "../user/user.entity";
 
 describe("GroupController", () => {
@@ -17,7 +15,7 @@ describe("GroupController", () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([GroupEntity, GroupUserEntity, UserEntity])],
       controllers: [GroupController],
-      providers: [GroupService, GroupUserService, UtilsService, ConfigService],
+      providers: [GroupService, GroupUserService],
     }).compile();
 
     controller = module.get<GroupController>(GroupController);

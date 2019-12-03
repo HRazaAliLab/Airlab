@@ -19,21 +19,16 @@ export class UtilsService {
     product: {
       // Appears in header & footer of e-mails
       name: "AirLab",
-      link: "http://bodenmillerlab.airlaboratory.ch/",
+      link: this.configService.domainLink,
       // Optional product logo
       logo: "http://bodenmillerlab.airlaboratory.ch/pictures/airlablogo.png",
     },
   });
 
-  async sendEmail(from: string, to: string, subject: string, content: Mailgen.Content) {
+  sendEmail(from: string, to: string, subject: string, content: Mailgen.Content) {
     // Generate an HTML email with the provided contents
     const emailBody = this.mailGenerator.generate(content);
 
-    this.worker.emit(SEND_EMAIL_MESSAGE, {
-      from: "anton.rau@uzh.ch",
-      to: "anton.rau@gmail.com",
-      subject: "AirLab Test",
-      body: "test message",
-    } as SendEmailEvent);
+    this.worker.emit(SEND_EMAIL_MESSAGE, new SendEmailEvent(from, to, subject, emailBody));
   }
 }

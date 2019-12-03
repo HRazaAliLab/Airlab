@@ -12,7 +12,6 @@ export class WorkerController {
 
   @EventPattern(SEND_EMAIL_MESSAGE)
   async handleSendMail(data: SendEmailEvent) {
-    this.logger.debug(data);
     await this.workerService.sendEmail(data);
   }
 }

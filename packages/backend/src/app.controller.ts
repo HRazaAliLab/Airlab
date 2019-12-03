@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Request, UseGuards } from "@nestjs/common";
+import { Controller, Get, Param, Post, Request, UseGuards } from "@nestjs/common";
 import { AppService } from "./app.service";
 import { AuthGuard } from "@nestjs/passport";
 import { AuthService } from "./auth/auth.service";
@@ -13,6 +13,11 @@ export class AppController {
   @Post("auth/login")
   async login(@Request() req) {
     return this.authService.login(req.user);
+  }
+
+  @Post("auth/password-recovery/:email")
+  async passwordRecovery(@Param("email") email: string) {
+    return this.authService.passwordRecovery(email);
   }
 
   @Get()

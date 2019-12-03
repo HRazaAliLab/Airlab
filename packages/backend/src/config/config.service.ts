@@ -3,7 +3,6 @@ import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { UserEntity } from "../user/user.entity";
 import { GroupEntity } from "../group/group.entity";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
-import * as SMTPConnection from "nodemailer/lib/smtp-connection";
 import { ProteinEntity } from "../protein/protein.entity";
 import { ProviderEntity } from "../provider/provider.entity";
 import { SpeciesEntity } from "../species/species.entity";
@@ -74,19 +73,13 @@ export class ConfigService {
     };
   }
 
-  get emailConfig(): SMTPConnection.Options {
-    return {
-      host: this.get("SMTP_HOST"),
-      port: parseInt(this.get("SMTP_PORT"), 10),
-      auth: {
-        user: this.get("SMTP_USER"),
-        pass: this.get("SMTP_PASSWORD"),
-      },
-      ignoreTLS: true,
-    };
-  }
-
   get fromEmail() {
     return this.get("EMAILS_FROM_EMAIL");
+  }
+
+  get domainLink() {
+    const protocol = this.get("PROTOCOL");
+    const domain = this.get("DOMAIN");
+    return `${protocol}://${domain}`;
   }
 }

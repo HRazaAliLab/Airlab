@@ -8,8 +8,15 @@ services:
       args:
         BACKEND_ENV: staging
     command: ["yarn", "run", "start:backend:prod"]
-    environment:
-      - SMTP_PASSWORD
+
+  worker:
+    restart: "no"
+    build:
+      context: ../
+      dockerfile: packages/worker/Dockerfile
+      args:
+        BACKEND_ENV: staging
+    command: ["yarn", "run", "start:worker:prod"]
 
   frontend:
     restart: "no"

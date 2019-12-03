@@ -7,6 +7,10 @@ import { UserEntity } from "./user/user.entity";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 import { AuthService } from "./auth/auth.service";
+import { ConfigService } from "./config/config.service";
+import { UtilsService } from "./utils/utils.service";
+import { ClientsModule, Transport } from "@nestjs/microservices";
+import { WORKER_QUEUE_NAME } from "@airlab/shared/lib/constants";
 
 describe("AppController", () => {
   let controller: AppController;
@@ -20,9 +24,21 @@ describe("AppController", () => {
         JwtModule.register({}),
         UserModule,
         PassportModule,
+        ClientsModule.register([
+          {
+            name: "WORKER_SERVICE",
+            transport: Transport.RMQ,
+            options: {
+              urls: [`amqp://rabbitmq:5672`],
+              prefetchCount: 1,
+              queue: WORKER_QUEUE_NAME,
+              queueOptions: { durable: false },
+            },
+          },
+        ]),
       ],
       controllers: [AppController],
-      providers: [AuthService, AppService],
+      providers: [AppService, AuthService, ConfigService, UtilsService],
     }).compile();
 
     controller = module.get<AppController>(AppController);

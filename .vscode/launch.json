@@ -7,12 +7,23 @@
       {
         "type": "node",
         "request": "attach",
-        "name": "Docker: Attach to Node",
+        "name": "Docker: Attach to backend",
         "port": 9229,
         "restart": true,
         "sourceMaps": true,
         "localRoot": "${workspaceFolder}/packages/backend",
         "remoteRoot": "/app/packages/backend",
+        "protocol": "inspector"
+      },
+      {
+        "type": "node",
+        "request": "attach",
+        "name": "Docker: Attach to worker",
+        "port": 9230,
+        "restart": true,
+        "sourceMaps": true,
+        "localRoot": "${workspaceFolder}/packages/worker",
+        "remoteRoot": "/app/packages/worker",
         "protocol": "inspector"
       }
     ]

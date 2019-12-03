@@ -14,11 +14,11 @@
               <v-form @keyup.enter="submit" v-model="valid" ref="form" @submit.prevent="" lazy-validation>
                 <v-text-field
                   @keyup.enter="submit"
-                  label="Username"
+                  label="Email"
                   type="text"
                   prepend-icon="mdi-account"
-                  v-model="username"
-                  :rules="usernameRules"
+                  v-model="email"
+                  :rules="emailRules"
                 />
               </v-form>
             </v-card-text>
@@ -46,10 +46,10 @@ import { Component, Vue } from "vue-property-decorator";
 export default class Login extends Vue {
   readonly mainContext = mainModule.context(this.$store);
 
-  readonly usernameRules = [required, email];
+  readonly emailRules = [required, email];
 
   valid = true;
-  username = "";
+  email = "";
   appName = appName;
 
   cancel() {
@@ -57,7 +57,7 @@ export default class Login extends Vue {
   }
 
   submit() {
-    this.mainContext.actions.passwordRecovery({ username: this.username });
+    this.mainContext.actions.passwordRecovery({ username: this.email });
   }
 }
 </script>

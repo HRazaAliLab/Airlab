@@ -1,12 +1,39 @@
 version: "3.7"
 services:
   backend:
-    env_file:
-      - env-postgres.env
-      - env-backend.env
     environment:
-      - SERVER_NAME=${DOMAIN}
-      - SERVER_HOST=${PROTOCOL}://${DOMAIN}
+      - NODE_ENV
+      - PROTOCOL
+      - DOMAIN
+      - POSTGRES_SERVER
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+      - BACKEND_CORS_ORIGINS
+      - PROJECT_NAME
+      - SECRET_KEY
+      - FIRST_SUPERUSER
+      - FIRST_SUPERUSER_PASSWORD
+      - EMAILS_FROM_EMAIL
+      - USERS_OPEN_REGISTRATION
+      - DB_TYPE
+      - DB_HOST
+      - DB_PORT
+      - DB_USERNAME
+      - DB_PASSWORD
+      - DB_DATABASE
+      - TYPEORM_CONNECTION
+      - TYPEORM_HOST
+      - TYPEORM_USERNAME
+      - TYPEORM_PASSWORD
+      - TYPEORM_DATABASE
+      - TYPEORM_PORT
+      - TYPEORM_SYNCHRONIZE
+      - TYPEORM_ENTITIES
+      - TYPEORM_MIGRATIONS_TABLE_NAME
+      - TYPEORM_MIGRATIONS_DIR
+      - TYPEORM_MIGRATIONS
+      - JWT_SECRET
     depends_on:
       - db
       - rabbitmq
@@ -21,9 +48,15 @@ services:
     networks:
       default:
         aliases:
-          - ${DOMAIN}
+          - DOMAIN
 
   worker:
+    environment:
+      - NODE_ENV
+      - SMTP_HOST
+      - SMTP_PORT
+      - SMTP_USER
+      - SMTP_PASSWORD
     depends_on:
       - rabbitmq
     volumes:
@@ -32,6 +65,12 @@ services:
       - "traefik.enable=true"
 
   frontend:
+    environment:
+      - VUE_APP_DOMAIN_DEV
+      - VUE_APP_DOMAIN_STAG
+      - VUE_APP_DOMAIN_PROD
+      - VUE_APP_NAME
+      - VUE_APP_ENV
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.frontend.rule=PathPrefix(`/`)"
@@ -40,9 +79,11 @@ services:
   db:
     restart: always
     image: postgres:12.1-alpine
-    env_file:
-      - env-postgres.env
     environment:
+      - POSTGRES_SERVER
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -54,8 +95,10 @@ services:
     image: dpage/pgadmin4:4.15
     depends_on:
       - db
-    env_file:
-      - env-pgadmin.env
+    environment:
+      - PGADMIN_LISTEN_PORT
+      - PGADMIN_DEFAULT_EMAIL
+      - PGADMIN_DEFAULT_PASSWORD
     ports:
       - 5050:5050
     volumes:
@@ -70,8 +113,9 @@ services:
   redis:
     restart: always
     image: redis:5.0.7-alpine3.10
-    env_file:
-      - env-redis.env
+    environment:
+      - REDIS_HOST
+      - REDIS_PORT
     volumes:
       - redis_data:/data
 

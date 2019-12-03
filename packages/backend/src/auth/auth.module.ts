@@ -6,6 +6,9 @@ import { JwtModule } from "@nestjs/jwt";
 import { ConfigService } from "../config/config.service";
 import { LocalStrategy } from "./local.strategy";
 import { JwtStrategy } from "./jwt.strategy";
+import { UtilsService } from "../utils/utils.service";
+import { ClientsModule, Transport } from "@nestjs/microservices";
+import { WORKER_QUEUE_NAME } from "@airlab/shared/lib/constants";
 
 @Module({
   imports: [
@@ -16,9 +19,21 @@ import { JwtStrategy } from "./jwt.strategy";
       }),
       inject: [ConfigService],
     }),
+    ClientsModule.register([
+      {
+        name: "WORKER_SERVICE",
+        transport: Transport.RMQ,
+        options: {
+          urls: [`amqp://rabbitmq:5672`],
+          prefetchCount: 1,
+          queue: WORKER_QUEUE_NAME,
+          queueOptions: { durable: false },
+        },
+      },
+    ]),
     UserModule,
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [AuthService, ConfigService, UtilsService, LocalStrategy, JwtStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}

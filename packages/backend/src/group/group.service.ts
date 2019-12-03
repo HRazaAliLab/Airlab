@@ -4,7 +4,6 @@ import { Repository } from "typeorm";
 import { GroupEntity } from "./group.entity";
 import { GroupUserService } from "../groupUser/groupUser.service";
 import * as crypto from "crypto";
-import { UtilsService } from "../utils/utils.service";
 import { CreateGroupDto, InviteDto, UpdateGroupDto } from "@airlab/shared/lib/group/dto";
 import { UserEntity } from "../user/user.entity";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
@@ -18,26 +17,10 @@ export class GroupService {
     private readonly groupRepository: Repository<GroupEntity>,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-    private readonly groupUserService: GroupUserService,
-    private readonly utilsService: UtilsService
+    private readonly groupUserService: GroupUserService
   ) {}
 
   async findAll() {
-    // await this.utilsService.sendEmail("anton.rau@uzh.ch", "anton.rau@gmail.com", "Test", {
-    //   body: {
-    //     name: "John Appleseed",
-    //     intro: "Welcome to Mailgen! We're very excited to have you on board.",
-    //     action: {
-    //       instructions: "To get started with Mailgen, please click here:",
-    //       button: {
-    //         color: "#22BC66", // Optional action button color
-    //         text: "Confirm your account",
-    //         link: "https://mailgen.js/confirm?s=d9729feb74992cc3482b350163a1a010",
-    //       },
-    //     },
-    //     outro: "Need help, or have questions? Just reply to this email, we'd love to help.",
-    //   },
-    // });
     return this.groupRepository.find({ relations: ["groupUsers", "groupUsers.group", "groupUsers.user"] });
   }
 

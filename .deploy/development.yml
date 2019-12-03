@@ -43,6 +43,7 @@ services:
       dockerfile: packages/frontend/Dockerfile
       args:
         FRONTEND_ENV: development
+        VUE_APP_NAME: AirLab
 
   proxy:
     command:
