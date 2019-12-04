@@ -9,6 +9,7 @@ import { JwtStrategy } from "./jwt.strategy";
 import { UtilsService } from "../utils/utils.service";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { WORKER_QUEUE_NAME } from "@airlab/shared/lib/constants";
+import { AuthController } from "./auth.controller";
 
 @Module({
   imports: [
@@ -35,5 +36,6 @@ import { WORKER_QUEUE_NAME } from "@airlab/shared/lib/constants";
   ],
   providers: [AuthService, ConfigService, UtilsService, LocalStrategy, JwtStrategy],
   exports: [AuthService],
+  controllers: [AuthController],
 })
 export class AuthModule {}

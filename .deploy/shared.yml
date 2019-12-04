@@ -11,17 +11,10 @@ services:
       - POSTGRES_DB
       - BACKEND_CORS_ORIGINS
       - PROJECT_NAME
-      - SECRET_KEY
       - FIRST_SUPERUSER
       - FIRST_SUPERUSER_PASSWORD
       - EMAILS_FROM_EMAIL
       - USERS_OPEN_REGISTRATION
-      - DB_TYPE
-      - DB_HOST
-      - DB_PORT
-      - DB_USERNAME
-      - DB_PASSWORD
-      - DB_DATABASE
       - TYPEORM_CONNECTION
       - TYPEORM_HOST
       - TYPEORM_USERNAME
@@ -106,7 +99,7 @@ services:
 
   rabbitmq:
     restart: always
-    image: rabbitmq:3.8.1-alpine
+    image: rabbitmq:3.8.2-alpine
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
 
@@ -121,7 +114,7 @@ services:
 
   redisinsight:
     restart: always
-    image: redislabs/redisinsight:1.0.2
+    image: redislabs/redisinsight:1.1.0
     depends_on:
       - redis
     ports:
@@ -131,7 +124,7 @@ services:
 
   portainer:
     restart: always
-    image: portainer/portainer:1.22.2
+    image: portainer/portainer:1.23.0
     command: -H unix:///var/run/docker.sock
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -141,7 +134,7 @@ services:
 
   proxy:
     restart: always
-    image: traefik:2.0.5
+    image: traefik:2.0.6
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:

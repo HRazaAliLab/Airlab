@@ -48,6 +48,12 @@ export class UpdateProfileDto {
   readonly name: string;
 }
 
+export class UpdatePasswordDto {
+  @IsString()
+  @ApiModelProperty()
+  readonly password: string;
+}
+
 export class CreateUserDto {
   @IsEmail()
   @ApiModelProperty()

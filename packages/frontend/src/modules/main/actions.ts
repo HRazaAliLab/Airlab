@@ -8,7 +8,7 @@ import { MainState } from ".";
 import { MainGetters } from "./getters";
 import { AppNotification } from "./models";
 import { MainMutations } from "./mutations";
-import { UpdateProfileDto } from "@airlab/shared/lib/user/dto";
+import { UpdatePasswordDto, UpdateProfileDto } from "@airlab/shared/lib/user/dto";
 
 export class MainActions extends Actions<MainState, MainGetters, MainMutations, MainActions> {
   // Declare context type
@@ -59,6 +59,19 @@ export class MainActions extends Actions<MainState, MainGetters, MainMutations, 
       this.mutations.setUserProfile(data);
       this.mutations.removeNotification(loadingNotification);
       this.mutations.addNotification({ content: "Profile successfully updated", color: "success" });
+    } catch (error) {
+      await this.actions.checkApiError(error);
+    }
+  }
+
+  async updatePassword(payload: UpdatePasswordDto) {
+    try {
+      const loadingNotification = { content: "saving", showProgress: true };
+      this.mutations.addNotification(loadingNotification);
+      const data = await api.updatePassword(this.getters.token, payload);
+      this.mutations.setUserProfile(data);
+      this.mutations.removeNotification(loadingNotification);
+      this.mutations.addNotification({ content: "Password successfully updated", color: "success" });
     } catch (error) {
       await this.actions.checkApiError(error);
     }
@@ -136,11 +149,12 @@ export class MainActions extends Actions<MainState, MainGetters, MainMutations, 
     const loadingNotification = { content: "Sending password recovery email", showProgress: true };
     try {
       this.mutations.addNotification(loadingNotification);
-      const response = await api.passwordRecovery(payload.username);
+      await api.passwordRecovery(payload.username);
       this.mutations.removeNotification(loadingNotification);
       this.mutations.addNotification({ content: "Password recovery email sent", color: "success" });
       await this.actions.logOut();
     } catch (error) {
+      console.log(error)
       this.mutations.removeNotification(loadingNotification);
       this.mutations.addNotification({ color: "error", content: "Incorrect username" });
     }

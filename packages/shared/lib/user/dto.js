@@ -74,6 +74,14 @@ __decorate([
     __metadata("design:type", String)
 ], UpdateProfileDto.prototype, "name", void 0);
 exports.UpdateProfileDto = UpdateProfileDto;
+class UpdatePasswordDto {
+}
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", String)
+], UpdatePasswordDto.prototype, "password", void 0);
+exports.UpdatePasswordDto = UpdatePasswordDto;
 class CreateUserDto {
 }
 __decorate([

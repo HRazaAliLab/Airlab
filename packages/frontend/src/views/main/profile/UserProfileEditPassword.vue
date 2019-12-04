@@ -34,6 +34,7 @@
 import { mainModule } from "@/modules/main";
 import { required } from "@/utils/validators";
 import { Component, Vue } from "vue-property-decorator";
+import { UpdatePasswordDto } from "@airlab/shared/lib/user/dto";
 
 @Component
 export default class UserProfileEdit extends Vue {
@@ -66,11 +67,11 @@ export default class UserProfileEdit extends Vue {
 
   async submit() {
     if ((this.$refs.form as any).validate()) {
-      // TODO: fix this
-      // const updatedProfile: UpdateUserDto = {};
-      // updatedProfile.password = this.password1;
-      // await this.mainContext.actions.updateUserProfile(updatedProfile);
-      // this.$router.push("/main/profile");
+      const data: UpdatePasswordDto = {
+        password: this.password1,
+      };
+      await this.mainContext.actions.updatePassword(data);
+      this.$router.back();
     }
   }
 }

@@ -2,10 +2,11 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { UserEntity } from "./user.entity";
-import { CreateUserDto, UpdateProfileDto, UpdateUserDto } from "@airlab/shared/lib/user/dto";
+import { CreateUserDto, UpdatePasswordDto, UpdateProfileDto, UpdateUserDto } from "@airlab/shared/lib/user/dto";
 import { GroupEntity } from "../group/group.entity";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
 import { LotEntity } from "../lot/lot.entity";
+import { getPasswordHash } from "../auth/helpers";
 
 @Injectable()
 export class UserService {
@@ -30,11 +31,18 @@ export class UserService {
   }
 
   async create(params: CreateUserDto) {
-    return this.userRepository.save(params);
+    const passwordHash = await getPasswordHash(params.password);
+    return this.userRepository.save({ ...params, password: passwordHash, isActive: true });
   }
 
   async update(id: number, params: UpdateUserDto | UpdateProfileDto) {
     await this.userRepository.update(id, { ...params, updatedAt: new Date().toISOString() });
+    return this.findById(id);
+  }
+
+  async updatePassword(id: number, params: UpdatePasswordDto) {
+    const passwordHash = await getPasswordHash(params.password);
+    await this.userRepository.update(id, { password: passwordHash, updatedAt: new Date().toISOString() });
     return this.findById(id);
   }
 

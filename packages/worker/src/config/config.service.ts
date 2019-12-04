@@ -6,10 +6,6 @@ export class ConfigService {
     dotenv.config();
   }
 
-  get isProduction() {
-    return this.get("NODE_ENV") === "production";
-  }
-
   get emailConfig(): SMTPConnection.Options {
     return {
       host: this.get("SMTP_HOST"),

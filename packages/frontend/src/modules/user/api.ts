@@ -1,6 +1,13 @@
 import ky from "ky";
 import { apiUrl } from "@/env";
-import { CreateUserDto, ProfileDto, UpdateProfileDto, UpdateUserDto, UserDto } from "@airlab/shared/lib/user/dto";
+import {
+  CreateUserDto,
+  ProfileDto,
+  UpdatePasswordDto,
+  UpdateProfileDto,
+  UpdateUserDto,
+  UserDto,
+} from "@airlab/shared/lib/user/dto";
 
 export const api = {
   async logInGetToken(username: string, password: string) {
@@ -22,6 +29,16 @@ export const api = {
   async updateMe(token: string, data: UpdateProfileDto) {
     return ky
       .patch(`${apiUrl}/users/profile`, {
+        json: data,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .json<ProfileDto>();
+  },
+  async updatePassword(token: string, data: UpdatePasswordDto) {
+    return ky
+      .patch(`${apiUrl}/users/profile/password`, {
         json: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -68,17 +85,17 @@ export const api = {
       .json<UserDto>();
   },
   async passwordRecovery(email: string) {
-    return ky.post(`${apiUrl}/auth/password-recovery/${email}`).json();
+    return ky.post(`${apiUrl}/auth/password-recovery/${email}`);
   },
   async checkUserExists(email: string) {
-    return ky.get(`${apiUrl}/users/check/${email}`).json<{ exists: boolean }>();
+    return ky.get(`${apiUrl}/auth/check/${email}`).json<{ exists: boolean }>();
   },
   async signUp(data: CreateUserDto) {
     return ky
-      .post(`${apiUrl}/api/v1/users/signup`, {
+      .post(`${apiUrl}/auth/signup`, {
         json: data,
       })
-      .json();
+      .json<UserDto>();
   },
   async resetPassword(password: string, token: string) {
     return ky

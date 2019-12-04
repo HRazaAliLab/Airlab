@@ -3,6 +3,7 @@
 # Exit in case of error
 set -e
 
+NODE_ENV=production \
 BACKEND_ENV=production \
 FRONTEND_ENV=production \
 VUE_APP_ENV=production \

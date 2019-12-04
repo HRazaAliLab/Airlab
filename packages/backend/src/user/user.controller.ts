@@ -14,7 +14,14 @@ import {
   UseInterceptors,
 } from "@nestjs/common";
 import { JwtPayloadDto } from "@airlab/shared/lib/auth/dto";
-import { CreateUserDto, ProfileDto, UpdateProfileDto, UpdateUserDto, UserDto } from "@airlab/shared/lib/user/dto";
+import {
+  CreateUserDto,
+  ProfileDto,
+  UpdatePasswordDto,
+  UpdateProfileDto,
+  UpdateUserDto,
+  UserDto,
+} from "@airlab/shared/lib/user/dto";
 import { GroupDto } from "@airlab/shared/lib/group/dto";
 import { LotDto } from "@airlab/shared/lib/lot/dto";
 
@@ -38,6 +45,13 @@ export class UserController {
   async updateProfile(@Request() req, @Body() params: UpdateProfileDto) {
     const user: JwtPayloadDto = req.user;
     return this.userService.update(user.userId, params);
+  }
+
+  @Patch("users/profile/password")
+  @ApiCreatedResponse({ description: "Update personal password.", type: ProfileDto })
+  async updatePassword(@Request() req, @Body() params: UpdatePasswordDto) {
+    const user: JwtPayloadDto = req.user;
+    return this.userService.updatePassword(user.userId, params);
   }
 
   @Get("users")

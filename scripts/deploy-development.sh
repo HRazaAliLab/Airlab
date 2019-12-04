@@ -3,6 +3,7 @@
 # Exit in case of error
 set -e
 
+NODE_ENV=development \
 DOMAIN=localhost \
 BACKEND_ENV=development \
 FRONTEND_ENV=development \

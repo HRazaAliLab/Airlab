@@ -1,24 +1,11 @@
-import { Controller, Get, Param, Post, Request, UseGuards } from "@nestjs/common";
+import { Controller, Get } from "@nestjs/common";
 import { AppService } from "./app.service";
-import { AuthGuard } from "@nestjs/passport";
-import { AuthService } from "./auth/auth.service";
 import { ApiUseTags } from "@nestjs/swagger";
 
 @ApiUseTags("app")
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService, private readonly authService: AuthService) {}
-
-  @UseGuards(AuthGuard("local"))
-  @Post("auth/login")
-  async login(@Request() req) {
-    return this.authService.login(req.user);
-  }
-
-  @Post("auth/password-recovery/:email")
-  async passwordRecovery(@Param("email") email: string) {
-    return this.authService.passwordRecovery(email);
-  }
+  constructor(private readonly appService: AppService) {}
 
   @Get()
   getHello(): string {

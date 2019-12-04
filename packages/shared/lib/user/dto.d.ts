@@ -17,6 +17,9 @@ export declare class UpdateProfileDto {
     readonly email: string;
     readonly name: string;
 }
+export declare class UpdatePasswordDto {
+    readonly password: string;
+}
 export declare class CreateUserDto {
     readonly email: string;
     readonly name: string;

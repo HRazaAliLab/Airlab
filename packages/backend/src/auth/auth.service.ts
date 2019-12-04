@@ -1,11 +1,12 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { HttpException, Injectable, NotFoundException } from "@nestjs/common";
 import { UserService } from "../user/user.service";
 import { JwtService } from "@nestjs/jwt";
-import * as crypto from "crypto";
 import { UserEntity } from "../user/user.entity";
-import { JwtPayloadDto } from "@airlab/shared/lib/auth/dto";
+import { JwtPayloadDto, ResetPasswordDto } from "@airlab/shared/lib/auth/dto";
 import { UtilsService } from "../utils/utils.service";
 import { ConfigService } from "../config/config.service";
+import { comparePasswordHash } from "./helpers";
+import { CreateUserDto } from "@airlab/shared/lib/user/dto";
 
 @Injectable()
 export class AuthService {
@@ -19,11 +20,8 @@ export class AuthService {
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.userService.findByEmail(username);
     if (user) {
-      const hash = crypto
-        .createHash("sha1")
-        .update(pass)
-        .digest("hex");
-      if (user.password === hash) {
+      const same = await comparePasswordHash(pass, user.password);
+      if (same) {
         const { password, ...result } = user;
         return result;
       }
@@ -66,7 +64,7 @@ export class AuthService {
           button: {
             color: "#DC4D2F",
             text: "Reset your password",
-            link: `${this.configService.domainLink}/auth/reset-password?token=${passwordResetToken}`,
+            link: `${this.configService.domainLink}/reset-password?token=${passwordResetToken}`,
           },
         },
         outro: "If you did not request a password reset, no further action is required on your part.",
@@ -74,5 +72,33 @@ export class AuthService {
     };
     this.utilsService.sendEmail(this.configService.fromEmail, email, "AirLab Password Recovery", content);
     return "Password recovery email sent";
+  }
+
+  async resetPassword(params: ResetPasswordDto) {
+    const payload = this.jwtService.decode(params.token);
+    if (payload.sub !== "PasswordReset" || !payload["email"]) {
+      throw new HttpException("Invalid token", 400);
+    }
+    const user = await this.userService.findByEmail(payload["email"]);
+    if (!user || !user.isActive) {
+      throw new NotFoundException("User not found");
+    }
+    return this.userService.updatePassword(user.id, { password: params.newPassword });
+  }
+
+  async check(email: string) {
+    const user = await this.userService.findByEmail(email);
+    return { exists: !!user };
+  }
+
+  async signup(params: CreateUserDto) {
+    if (!this.configService.openUserRegistration) {
+      throw new HttpException("Open user resgistration is forbidden on this server", 403);
+    }
+    const user = await this.userService.findByEmail(params.email);
+    if (user) {
+      throw new HttpException("The user with this email already exists in the system", 400);
+    }
+    return this.userService.create(params);
   }
 }
