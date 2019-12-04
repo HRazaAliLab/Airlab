@@ -30,16 +30,16 @@ export class CloneService {
     return result.affected === 1 ? id : undefined;
   }
 
-  async getAccessibleClones(userId: number) {
+  async getGroupClones(groupId: number) {
     const result = await this.repository
       .createQueryBuilder("clone")
+      .where("clone.groupId = :groupId", { groupId: groupId })
+      .andWhere("clone.isDeleted = false")
       .leftJoin("clone.protein", "protein")
       .addSelect(["protein.id", "protein.name"])
       .leftJoin("clone.species", "species")
       .addSelect(["species.id", "species.name"])
       .leftJoin(GroupUserEntity, "groupUser", "clone.groupId = groupUser.groupId")
-      .where("groupUser.userId = :userId", { userId: userId })
-      .andWhere("clone.isDeleted = false")
       .orderBy("clone.id", "DESC")
       .getMany();
     return result;

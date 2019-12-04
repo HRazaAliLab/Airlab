@@ -17,17 +17,6 @@ export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutatio
     this.main = mainModule.context(store);
   }
 
-  async getClones() {
-    try {
-      const data = await api.getClones(this.main!.getters.token);
-      if (data) {
-        this.mutations.setEntities(data);
-      }
-    } catch (error) {
-      await this.main!.actions.checkApiError(error);
-    }
-  }
-
   async createClone(payload: CreateCloneDto) {
     try {
       const notification = { content: "saving", showProgress: true };
@@ -78,9 +67,9 @@ export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutatio
     }
   }
 
-  async getAllClonesForUser() {
+  async getGroupClones(groupId: number) {
     try {
-      const data = await api.getAllClonesForUser(this.main!.getters.token);
+      const data = await api.getGroupClones(this.main!.getters.token, groupId);
       if (data) {
         this.mutations.setEntities(data);
       }

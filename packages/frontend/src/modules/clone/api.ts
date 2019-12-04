@@ -3,15 +3,6 @@ import { apiUrl } from "@/env";
 import { CreateCloneDto, CloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
 
 export const api = {
-  async getClones(token: string) {
-    return ky
-      .get(`${apiUrl}/clones/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<CloneDto[]>();
-  },
   async createClone(token: string, data: CreateCloneDto) {
     return ky
       .post(`${apiUrl}/clones/`, {
@@ -50,9 +41,9 @@ export const api = {
       })
       .json<number>();
   },
-  async getAllClonesForUser(token: string) {
+  async getGroupClones(token: string, groupId: number) {
     return ky
-      .get(`${apiUrl}/clones/accessible`, {
+      .get(`${apiUrl}/groups/${groupId}/clones`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

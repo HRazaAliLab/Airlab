@@ -142,7 +142,7 @@ export default class EditLot extends Vue {
   async mounted() {
     await Promise.all([
       this.lotContext.actions.getLot(+this.$router.currentRoute.params.id),
-      this.cloneContext.actions.getAllClonesForUser(),
+      this.cloneContext.actions.getGroupClones(+this.$router.currentRoute.params.groupId),
       this.reagentContext.actions.getAllReagentsForGroup(+this.$router.currentRoute.params.groupId),
       this.providerContext.actions.getProviders(),
     ]);

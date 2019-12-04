@@ -123,10 +123,13 @@ export class MainActions extends Actions<MainState, MainGetters, MainMutations, 
     }
   }
 
-  async checkApiError(payload) {
-    console.log("API error: ", payload);
-    if (payload.response && payload.response.status === 401) {
-      await this.actions.logOut();
+  async checkApiError(error) {
+    this.mutations.addNotification({ content: `${error.name}: ${error.message}`, color: "error" });
+    if (error.response) {
+      console.log("API error: ", error.response);
+      if (error.response.status === 401) {
+        // await this.actions.logOut();
+      }
     }
   }
 
@@ -154,7 +157,7 @@ export class MainActions extends Actions<MainState, MainGetters, MainMutations, 
       this.mutations.addNotification({ content: "Password recovery email sent", color: "success" });
       await this.actions.logOut();
     } catch (error) {
-      console.log(error)
+      console.log(error);
       this.mutations.removeNotification(loadingNotification);
       this.mutations.addNotification({ color: "error", content: "Incorrect username" });
     }

@@ -35,4 +35,10 @@ export class GroupUserService {
       userId: userId,
     });
   }
+
+  async findByUserId(userId: number) {
+    return this.groupUserRepository.find({
+      userId: userId,
+    });
+  }
 }

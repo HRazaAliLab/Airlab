@@ -1,48 +1,78 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Request,
+  UnauthorizedException,
+  UseGuards,
+} from "@nestjs/common";
 import { CloneService } from "./clone.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CloneDto, CreateCloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
-import { JwtPayloadDto } from "@airlab/shared/lib/auth/dto";
 import { GroupUserService } from "../groupUser/groupUser.service";
 
 @Controller()
+@UseGuards(AuthGuard("jwt"))
 @ApiUseTags("clones")
 @ApiBearerAuth()
-@UseGuards(AuthGuard("jwt"))
 export class CloneController {
   constructor(private readonly cloneService: CloneService, private readonly groupUserService: GroupUserService) {}
-
-  @Get("clones/accessible")
-  @ApiCreatedResponse({ description: "Find all clones accessible for the user.", type: CloneDto, isArray: true })
-  getAccessibleClones(@Request() req) {
-    const user: JwtPayloadDto = req.user;
-    return this.cloneService.getAccessibleClones(user.userId);
-  }
-
-  @Get("clones/:id")
-  @ApiCreatedResponse({ description: "Find entity by Id.", type: CloneDto })
-  findById(@Param("id") id: number) {
-    return this.cloneService.findById(id);
-  }
 
   @Post("clones")
   @ApiCreatedResponse({ description: "Create entity.", type: CloneDto })
   async create(@Request() req, @Body() params: CreateCloneDto) {
-    const user: JwtPayloadDto = req.user;
-    const groupUser = await this.groupUserService.findByUserIdAndGroupId(user.userId, params.groupId);
+    const groupUser = await this.groupUserService.findByUserIdAndGroupId(req.user.userId, params.groupId);
+    if (!groupUser) {
+      throw new UnauthorizedException();
+    }
     return this.cloneService.create({ ...params, createdBy: groupUser.id });
+  }
+
+  @Get("clones/:id")
+  @ApiCreatedResponse({ description: "Find entity by Id.", type: CloneDto })
+  async findById(@Request() req, @Param("id") id: number) {
+    const item = await this.cloneService.findById(id);
+    const groupUser = await this.groupUserService.findByUserIdAndGroupId(req.user.userId, item.groupId);
+    if (!groupUser) {
+      throw new UnauthorizedException();
+    }
+    return item;
   }
 
   @Patch("clones/:id")
   @ApiCreatedResponse({ description: "Updated entity.", type: CloneDto })
-  async update(@Param("id") id: number, @Body() params: UpdateCloneDto) {
+  async update(@Request() req, @Param("id") id: number, @Body() params: UpdateCloneDto) {
+    const item = await this.cloneService.findById(id);
+    const groupUser = await this.groupUserService.findByUserIdAndGroupId(req.user.userId, item.groupId);
+    if (!groupUser) {
+      throw new UnauthorizedException();
+    }
     return this.cloneService.update(id, params);
   }
 
   @Delete("clones/:id")
   @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
-  deleteById(@Param("id") id: number) {
+  async deleteById(@Request() req, @Param("id") id: number) {
+    const item = await this.cloneService.findById(id);
+    const groupUser = await this.groupUserService.findByUserIdAndGroupId(req.user.userId, item.groupId);
+    if (!groupUser) {
+      throw new UnauthorizedException();
+    }
     return this.cloneService.deleteById(id);
+  }
+
+  @Get("groups/:groupId/clones")
+  @ApiCreatedResponse({ description: "Find all clones belonging to the group.", type: CloneDto, isArray: true })
+  async getGroupClones(@Request() req, @Param("groupId") groupId: number) {
+    const groupUser = await this.groupUserService.findByUserIdAndGroupId(req.user.userId, groupId);
+    if (!groupUser) {
+      throw new UnauthorizedException();
+    }
+    return this.cloneService.getGroupClones(groupId);
   }
 }

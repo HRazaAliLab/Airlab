@@ -1,18 +1,7 @@
 import { UserService } from "./user.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
-import {
-  Body,
-  ClassSerializerInterceptor,
-  Controller,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Request,
-  UseGuards,
-  UseInterceptors,
-} from "@nestjs/common";
+import { Body, Controller, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { JwtPayloadDto } from "@airlab/shared/lib/auth/dto";
 import {
   CreateUserDto,
@@ -23,11 +12,9 @@ import {
   UserDto,
 } from "@airlab/shared/lib/user/dto";
 import { GroupDto } from "@airlab/shared/lib/group/dto";
-import { LotDto } from "@airlab/shared/lib/lot/dto";
 
 @Controller()
 @ApiUseTags("users")
-@UseInterceptors(ClassSerializerInterceptor)
 @ApiBearerAuth()
 @UseGuards(AuthGuard("jwt"))
 export class UserController {
@@ -82,11 +69,5 @@ export class UserController {
   @ApiCreatedResponse({ description: "Find groups for the user.", type: GroupDto, isArray: true })
   getGroupsForUser(@Param("id") id: number) {
     return this.userService.getGroupsForUser(id);
-  }
-
-  @Get("users/:id/lots")
-  @ApiCreatedResponse({ description: "Find all lots for the user.", type: LotDto, isArray: true })
-  getAllLotsForUser(@Param("id") id: number) {
-    return this.userService.getAllLotsForUser(id);
   }
 }

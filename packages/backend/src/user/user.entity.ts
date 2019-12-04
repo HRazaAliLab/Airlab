@@ -44,7 +44,7 @@ export class UserEntity {
 
   @Column({
     name: "is_admin",
-    select: false,
+    select: true,
   })
   isAdmin: boolean;
 
