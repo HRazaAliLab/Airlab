@@ -13,43 +13,46 @@ export class ConjugateService {
   ) {}
 
   async create(params: CreateConjugateDto) {
+    await this.repository.manager.connection.queryResultCache.remove([`group_${params.groupId}_conjugates`]);
     return this.repository.save(params);
-  }
-
-  async update(id: number, params: UpdateConjugateDto) {
-    await this.repository.update(id, { ...params, updatedAt: new Date().toISOString() });
-    return this.findById(id);
   }
 
   async findById(id: number) {
     return this.repository.findOne(id);
   }
 
+  async update(id: number, params: UpdateConjugateDto) {
+    await this.repository.update(id, { ...params, updatedAt: new Date().toISOString() });
+    const item = await this.findById(id);
+    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_conjugates`]);
+    return item;
+  }
+
   async deleteById(id: number) {
+    const item = await this.findById(id);
+    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_conjugates`]);
     const result = await this.repository.delete(id);
     return result.affected === 1 ? id : undefined;
   }
 
   async getGroupConjugates(groupId: number) {
-    return (
-      this.repository
-        .createQueryBuilder("conjugate")
-        .where("conjugate.groupId = :groupId", { groupId: groupId })
-        .andWhere("conjugate.isDeleted = false")
-        .leftJoin("conjugate.tag", "tag")
-        .addSelect(["tag.id", "tag.name", "tag.mw"])
-        .leftJoin("conjugate.lot", "lot")
-        .addSelect(["lot.id", "lot.number"])
-        .leftJoin("lot.clone", "clone")
-        .addSelect(["clone.id", "clone.name"])
-        .leftJoin("clone.protein", "protein")
-        .addSelect(["protein.name"])
-        .leftJoin("conjugate.groupUser", "groupUser")
-        .leftJoinAndMapOne("conjugate.user", UserEntity, "user", "groupUser.userId = user.id")
-        .orderBy({ "conjugate.tubeNumber": "DESC" })
-        // .cache("group_conjugates", 1000 * 60 * 60)
-        .getMany()
-    );
+    return this.repository
+      .createQueryBuilder("conjugate")
+      .where("conjugate.groupId = :groupId", { groupId: groupId })
+      .andWhere("conjugate.isDeleted = false")
+      .leftJoin("conjugate.tag", "tag")
+      .addSelect(["tag.id", "tag.name", "tag.mw"])
+      .leftJoin("conjugate.lot", "lot")
+      .addSelect(["lot.id", "lot.number"])
+      .leftJoin("lot.clone", "clone")
+      .addSelect(["clone.id", "clone.name"])
+      .leftJoin("clone.protein", "protein")
+      .addSelect(["protein.name"])
+      .leftJoin("conjugate.groupUser", "groupUser")
+      .leftJoinAndMapOne("conjugate.user", UserEntity, "user", "groupUser.userId = user.id")
+      .orderBy({ "conjugate.tubeNumber": "DESC" })
+      .cache(`group_${groupId}_conjugates`, 1000 * 60 * 60)
+      .getMany();
   }
 
   async lastConjugateForGroup(groupId: number) {

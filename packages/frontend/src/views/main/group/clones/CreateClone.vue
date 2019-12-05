@@ -25,8 +25,8 @@
             :rules="hostRules"
             dense
           />
-          <v-text-field label="Epitope" v-model="epitope" :rules="epitopeRules" />
-          <v-text-field label="Isotype" v-model="isotype" :rules="isotypeRules" />
+          <v-text-field label="Epitope" v-model="epitope" />
+          <v-text-field label="Isotype" v-model="isotype" />
           <v-checkbox label="Polyclonal" v-model="isPolyclonal" />
           <v-checkbox label="Phosphoantibody" v-model="isPhospho" />
           <v-row>
@@ -146,8 +146,6 @@ export default class CreateClone extends Vue {
 
   readonly nameRules = [required];
   readonly proteinRules = [required];
-  readonly epitopeRules = [required];
-  readonly isotypeRules = [required];
   readonly hostRules = [required];
 
   readonly applicationMap = {

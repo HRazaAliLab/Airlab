@@ -12,19 +12,26 @@ export class ProteinService {
   ) {}
 
   async create(params: CreateProteinDto) {
+    await this.repository.manager.connection.queryResultCache.remove([`group_${params.groupId}_proteins`]);
     return this.repository.save(params);
+  }
+
+  async findById(id: number) {
+    return this.repository.findOne(id, {
+      select: ["id", "groupId", "name", "description"],
+    });
   }
 
   async update(id: number, params: UpdateProteinDto) {
     await this.repository.update(id, params);
-    return this.findById(id);
-  }
-
-  async findById(id: number) {
-    return this.repository.findOne(id);
+    const item = await this.findById(id);
+    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_proteins`]);
+    return item;
   }
 
   async deleteById(id: number) {
+    const item = await this.findById(id);
+    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_proteins`]);
     const result = await this.repository.delete(id);
     return result.affected === 1 ? id : undefined;
   }
@@ -37,6 +44,10 @@ export class ProteinService {
       },
       order: {
         id: "DESC",
+      },
+      cache: {
+        id: `group_${groupId}_proteins`,
+        milliseconds: 1000 * 60 * 60,
       },
     });
   }

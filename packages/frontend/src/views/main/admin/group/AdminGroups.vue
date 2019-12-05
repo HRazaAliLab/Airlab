@@ -2,7 +2,7 @@
   <v-col>
     <v-toolbar class="toolbar">
       <v-toolbar-title>
-        Manage Groups
+        Groups
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>

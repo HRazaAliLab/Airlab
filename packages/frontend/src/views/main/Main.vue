@@ -96,13 +96,13 @@
               <v-list-item-action>
                 <v-icon>mdi-account-outline</v-icon>
               </v-list-item-action>
-              <v-list-item-title>Manage Users</v-list-item-title>
+              <v-list-item-title>Users</v-list-item-title>
             </v-list-item>
             <v-list-item to="/main/admin/groups">
               <v-list-item-action>
                 <v-icon>mdi-account-multiple-outline</v-icon>
               </v-list-item-action>
-              <v-list-item-title>Manage Groups</v-list-item-title>
+              <v-list-item-title>Groups</v-list-item-title>
             </v-list-item>
           </v-list>
           <v-divider />

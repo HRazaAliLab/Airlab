@@ -12,7 +12,7 @@ export class ProviderService {
   ) {}
 
   async create(params: CreateProviderDto) {
-    await this.repository.manager.connection.queryResultCache.remove(["providers"]);
+    await this.repository.manager.connection.queryResultCache.remove([`group_${params.groupId}_providers`]);
     return this.repository.save(params);
   }
 
@@ -24,19 +24,21 @@ export class ProviderService {
 
   async update(id: number, params: UpdateProviderDto) {
     await this.repository.update(id, params);
-    await this.repository.manager.connection.queryResultCache.remove(["providers"]);
-    return this.findById(id);
+    const item = await this.findById(id);
+    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_providers`]);
+    return item;
   }
 
   async deleteById(id: number) {
+    const item = await this.findById(id);
+    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_providers`]);
     const result = await this.repository.delete(id);
-    await this.repository.manager.connection.queryResultCache.remove(["providers"]);
     return result.affected === 1 ? id : undefined;
   }
 
   async getGroupProviders(groupId: number) {
     return this.repository.find({
-      select: ["id", "groupId", "name"],
+      select: ["id", "name"],
       where: {
         groupId: groupId,
       },
@@ -44,7 +46,7 @@ export class ProviderService {
         id: "DESC",
       },
       cache: {
-        id: "providers",
+        id: `group_${groupId}_providers`,
         milliseconds: 1000 * 60 * 60,
       },
     });

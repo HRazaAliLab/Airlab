@@ -72,12 +72,15 @@ async function migrateGroupUser() {
     if (row["gpeGroupId"] !== 2) {
       continue;
     }
+    if ([777777777, 8, 52, 0].includes(row["gpePersonId"])) {
+      continue;
+    }
     const sql =
       'INSERT INTO "group_user"(id, group_id, user_id, role, activation_key, is_active, can_order, can_erase, can_finances, can_panels) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)';
     const values = [
       row["gpeGroupPersonId"],
-      [21].includes(row["gpeGroupId"]) ? 3 : row["gpeGroupId"],
-      [777777777, 8, 52, 0].includes(row["gpePersonId"]) ? 292 : row["gpePersonId"],
+      row["gpeGroupId"],
+      row["gpePersonId"],
       row["gpeRole"],
       row["zetActKey"],
       row["gpeActiveInGroup"] ? row["gpeActiveInGroup"] : false,
@@ -320,11 +323,11 @@ async function migrateLot() {
       reagentId,
       [0, 26].includes(row["lotProviderId"]) ? null : row["lotProviderId"],
       row["lotCloneId"],
-      row["reiRequestedBy"] === 0 || row["reiRequestedBy"] === 76 ? null : row["reiRequestedBy"],
-      row["reiApprovedBy"] === 0 || row["reiApprovedBy"] === 76 ? null : row["reiApprovedBy"],
-      row["reiOrderedBy"] === 0 || row["reiOrderedBy"] === 76 ? null : row["reiOrderedBy"],
-      row["reiReceivedBy"] === 0 || row["reiReceivedBy"] === 76 ? null : row["reiReceivedBy"],
-      row["tubFinishedBy"] === 0 || row["tubFinishedBy"] === 76 ? null : row["tubFinishedBy"],
+      [0, 76, 90].includes(row["reiRequestedBy"]) ? null : row["reiRequestedBy"],
+      [0, 76, 90].includes(row["reiApprovedBy"]) ? null : row["reiApprovedBy"],
+      [0, 76, 90].includes(row["reiOrderedBy"]) ? null : row["reiOrderedBy"],
+      [0, 76, 90].includes(row["reiReceivedBy"]) ? null : row["reiReceivedBy"],
+      [0, 76, 90].includes(row["tubFinishedBy"]) ? null : row["tubFinishedBy"],
       row["lotNumber"],
       row["reiStatus"],
       row["reiPurpose"],
@@ -374,7 +377,7 @@ async function migrateConjugate() {
       [0].includes(row["createdBy"]) ? 5 : row["createdBy"],
       row["labLotId"],
       row["labTagId"],
-      [0].includes(row["tubFinishedBy"]) ? null : row["tubFinishedBy"],
+      [0, 76, 90].includes(row["tubFinishedBy"]) ? null : row["tubFinishedBy"],
       row["tubFinishedAt"] === "" || row["tubFinishedAt"] === null || row["tubFinishedAt"] === "0"
         ? null
         : row["tubFinishedAt"]

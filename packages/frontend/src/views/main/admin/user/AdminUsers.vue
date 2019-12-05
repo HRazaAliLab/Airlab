@@ -2,7 +2,7 @@
   <v-col>
     <v-toolbar class="toolbar">
       <v-toolbar-title>
-        Manage Users
+        Users
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>

@@ -13,12 +13,8 @@ export class ValidationService {
   ) {}
 
   async create(params: CreateValidationDto) {
+    await this.repository.manager.connection.queryResultCache.remove([`group_${params.groupId}_validations`]);
     return this.repository.save(params);
-  }
-
-  async update(id: number, params: UpdateValidationDto) {
-    await this.repository.update(id, { ...params, updatedAt: new Date().toISOString() });
-    return this.findById(id);
   }
 
   async findById(id: number) {
@@ -27,7 +23,16 @@ export class ValidationService {
     });
   }
 
+  async update(id: number, params: UpdateValidationDto) {
+    await this.repository.update(id, { ...params, updatedAt: new Date().toISOString() });
+    const item = await this.findById(id);
+    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_validations`]);
+    return item;
+  }
+
   async deleteById(id: number) {
+    const item = await this.findById(id);
+    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_validations`]);
     const result = await this.repository.delete(id);
     return result.affected === 1 ? id : undefined;
   }
@@ -58,6 +63,7 @@ export class ValidationService {
       .leftJoin("validation.groupUser", "groupUser")
       .leftJoinAndMapOne("validation.user", UserEntity, "user", "groupUser.userId = user.id")
       .orderBy({ "validation.id": "DESC" })
+      .cache(`group_${groupId}_validations`, 1000 * 60 * 60)
       .getMany();
   }
 }

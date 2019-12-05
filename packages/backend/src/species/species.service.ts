@@ -12,7 +12,7 @@ export class SpeciesService {
   ) {}
 
   async create(params: CreateSpeciesDto) {
-    await this.repository.manager.connection.queryResultCache.remove(["species"]);
+    await this.repository.manager.connection.queryResultCache.remove([`group_${params.groupId}_species`]);
     return this.repository.save(params);
   }
 
@@ -24,19 +24,21 @@ export class SpeciesService {
 
   async update(id: number, params: UpdateSpeciesDto) {
     await this.repository.update(id, params);
-    await this.repository.manager.connection.queryResultCache.remove(["species"]);
-    return this.findById(id);
+    const item = await this.findById(id);
+    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_species`]);
+    return item;
   }
 
   async deleteById(id: number) {
+    const item = await this.findById(id);
+    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_species`]);
     const result = await this.repository.delete(id);
-    await this.repository.manager.connection.queryResultCache.remove(["species"]);
     return result.affected === 1 ? id : undefined;
   }
 
   async getGroupSpecies(groupId: number) {
     return this.repository.find({
-      select: ["id", "groupId", "name", "acronym"],
+      select: ["id", "name", "acronym"],
       where: {
         groupId: groupId,
       },
@@ -44,7 +46,7 @@ export class SpeciesService {
         id: "DESC",
       },
       cache: {
-        id: "species",
+        id: `group_${groupId}_species`,
         milliseconds: 1000 * 60 * 60,
       },
     });

@@ -100,6 +100,12 @@ export class CreateGroupUser1573040991913 implements MigrationInterface {
             columnNames: ["is_active"],
           },
         ],
+        uniques: [
+          {
+            name: "UQ_group_user_group_id_and_user_id",
+            columnNames: ["group_id", "user_id"],
+          },
+        ],
       }),
       true
     );
