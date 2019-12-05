@@ -85,7 +85,7 @@
             v-if="item.species"
             class="link"
             :to="{
-              name: 'main-admin-species-edit',
+              name: 'main-group-species-edit',
               params: {
                 id: item.species.id,
               },

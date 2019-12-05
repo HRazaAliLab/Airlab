@@ -51,7 +51,7 @@
             v-if="item.tag"
             class="link"
             :to="{
-              name: 'main-admin-tags-edit',
+              name: 'main-group-tags-edit',
               params: {
                 groupId: activeGroupId,
                 id: item.tag.id,

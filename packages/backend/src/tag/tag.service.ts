@@ -12,6 +12,7 @@ export class TagService {
   ) {}
 
   async create(params: CreateTagDto) {
+    await this.repository.manager.connection.queryResultCache.remove(["tags"]);
     return this.repository.save(params);
   }
 
@@ -23,11 +24,13 @@ export class TagService {
 
   async update(id: number, params: UpdateTagDto) {
     await this.repository.update(id, params);
+    await this.repository.manager.connection.queryResultCache.remove(["tags"]);
     return this.findById(id);
   }
 
   async deleteById(id: number) {
     const result = await this.repository.delete(id);
+    await this.repository.manager.connection.queryResultCache.remove(["tags"]);
     return result.affected === 1 ? id : undefined;
   }
 
@@ -40,10 +43,10 @@ export class TagService {
       order: {
         mw: "ASC",
       },
-      // cache: {
-      //   id: "tags",
-      //   milliseconds: 1000 * 60 * 60,
-      // },
+      cache: {
+        id: "tags",
+        milliseconds: 1000 * 60 * 60,
+      },
     });
   }
 }

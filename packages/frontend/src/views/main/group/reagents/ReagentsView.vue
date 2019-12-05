@@ -69,7 +69,7 @@
             v-if="item.provider"
             class="link"
             :to="{
-              name: 'main-admin-providers-edit',
+              name: 'main-group-providers-edit',
               params: {
                 groupId: activeGroupId,
                 id: item.provider.id,

@@ -68,19 +68,19 @@
               <v-list-item-action>
                 <v-icon>mdi-tag-outline</v-icon>
               </v-list-item-action>
-              <v-list-item-title>Manage Tags</v-list-item-title>
+              <v-list-item-title>Tags</v-list-item-title>
             </v-list-item>
             <v-list-item :to="`/main/groups/${activeGroupId}/providers`">
               <v-list-item-action>
                 <v-icon>mdi-domain</v-icon>
               </v-list-item-action>
-              <v-list-item-title>Manage Providers</v-list-item-title>
+              <v-list-item-title>Providers</v-list-item-title>
             </v-list-item>
             <v-list-item :to="`/main/groups/${activeGroupId}/species`">
               <v-list-item-action>
                 <v-icon>mdi-rabbit</v-icon>
               </v-list-item-action>
-              <v-list-item-title>Manage Species</v-list-item-title>
+              <v-list-item-title>Species</v-list-item-title>
             </v-list-item>
             <v-list-item :to="`/main/groups/${activeGroupId}/shop`">
               <v-list-item-action>

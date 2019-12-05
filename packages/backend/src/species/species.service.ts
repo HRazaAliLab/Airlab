@@ -12,6 +12,7 @@ export class SpeciesService {
   ) {}
 
   async create(params: CreateSpeciesDto) {
+    await this.repository.manager.connection.queryResultCache.remove(["species"]);
     return this.repository.save(params);
   }
 
@@ -23,11 +24,13 @@ export class SpeciesService {
 
   async update(id: number, params: UpdateSpeciesDto) {
     await this.repository.update(id, params);
+    await this.repository.manager.connection.queryResultCache.remove(["species"]);
     return this.findById(id);
   }
 
   async deleteById(id: number) {
     const result = await this.repository.delete(id);
+    await this.repository.manager.connection.queryResultCache.remove(["species"]);
     return result.affected === 1 ? id : undefined;
   }
 
@@ -39,6 +42,10 @@ export class SpeciesService {
       },
       order: {
         id: "DESC",
+      },
+      cache: {
+        id: "species",
+        milliseconds: 1000 * 60 * 60,
       },
     });
   }

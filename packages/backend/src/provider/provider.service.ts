@@ -12,6 +12,7 @@ export class ProviderService {
   ) {}
 
   async create(params: CreateProviderDto) {
+    await this.repository.manager.connection.queryResultCache.remove(["providers"]);
     return this.repository.save(params);
   }
 
@@ -23,11 +24,13 @@ export class ProviderService {
 
   async update(id: number, params: UpdateProviderDto) {
     await this.repository.update(id, params);
+    await this.repository.manager.connection.queryResultCache.remove(["providers"]);
     return this.findById(id);
   }
 
   async deleteById(id: number) {
     const result = await this.repository.delete(id);
+    await this.repository.manager.connection.queryResultCache.remove(["providers"]);
     return result.affected === 1 ? id : undefined;
   }
 
@@ -39,6 +42,10 @@ export class ProviderService {
       },
       order: {
         id: "DESC",
+      },
+      cache: {
+        id: "providers",
+        milliseconds: 1000 * 60 * 60,
       },
     });
   }
