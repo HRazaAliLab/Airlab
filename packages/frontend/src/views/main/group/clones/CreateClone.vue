@@ -209,7 +209,7 @@ export default class CreateClone extends Vue {
   async mounted() {
     await Promise.all([
       this.proteinContext.actions.getGroupProteins(+this.$router.currentRoute.params.groupId),
-      this.speciesContext.actions.getSpecies(),
+      this.speciesContext.actions.getGroupSpecies(+this.$router.currentRoute.params.groupId),
     ]);
   }
 

@@ -144,7 +144,7 @@ export default class EditLot extends Vue {
       this.lotContext.actions.getLot(+this.$router.currentRoute.params.id),
       this.cloneContext.actions.getGroupClones(+this.$router.currentRoute.params.groupId),
       this.reagentContext.actions.getGroupReagents(+this.$router.currentRoute.params.groupId),
-      this.providerContext.actions.getProviders(),
+      this.providerContext.actions.getGroupProviders(+this.$router.currentRoute.params.groupId),
     ]);
     this.reset();
   }

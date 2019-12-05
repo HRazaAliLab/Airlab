@@ -263,12 +263,10 @@ export default class ReagentsView extends Vue {
   }
 
   async mounted() {
-    if (this.activeGroupId) {
-      await Promise.all([
-        this.reagentContext.actions.getGroupReagents(this.activeGroupId),
-        this.providerContext.actions.getProviders(),
-      ]);
-    }
+    await Promise.all([
+      this.reagentContext.actions.getGroupReagents(+this.$router.currentRoute.params.groupId),
+      this.providerContext.actions.getGroupProviders(+this.$router.currentRoute.params.groupId),
+    ]);
   }
 
   async deleteReagent(id: number) {

@@ -28,11 +28,6 @@ export class CreateUser1573040981376 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: "activation_key",
-            type: "varchar",
-            isNullable: true,
-          },
-          {
             name: "is_active",
             type: "boolean",
             default: false,
@@ -68,10 +63,6 @@ export class CreateUser1573040981376 implements MigrationInterface {
           {
             name: "IDX_user_email",
             columnNames: ["email"],
-          },
-          {
-            name: "IDX_user_activation_key",
-            columnNames: ["activation_key"],
           },
           {
             name: "IDX_user_is_active",

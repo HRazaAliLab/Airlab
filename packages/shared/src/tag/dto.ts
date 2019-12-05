@@ -6,6 +6,9 @@ export class TagDto {
   readonly id: number;
 
   @ApiModelProperty()
+  readonly groupId: number;
+
+  @ApiModelProperty()
   readonly name: string;
 
   @ApiModelPropertyOptional()
@@ -25,6 +28,10 @@ export class TagDto {
 }
 
 export class CreateTagDto {
+  @IsInt()
+  @ApiModelProperty()
+  readonly groupId: number;
+
   @IsString()
   @ApiModelProperty()
   readonly name: string;

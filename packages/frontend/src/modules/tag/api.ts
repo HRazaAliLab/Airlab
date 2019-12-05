@@ -3,15 +3,6 @@ import { apiUrl } from "@/env";
 import { CreateTagDto, TagDto, UpdateTagDto } from "@airlab/shared/lib/tag/dto";
 
 export const api = {
-  async getTags(token: string) {
-    return ky
-      .get(`${apiUrl}/tags/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<TagDto[]>();
-  },
   async createTag(token: string, data: CreateTagDto) {
     return ky
       .post(`${apiUrl}/tags/`, {
@@ -49,5 +40,14 @@ export const api = {
         },
       })
       .json<number>();
+  },
+  async getGroupTags(token: string, groupId: number) {
+    return ky
+      .get(`${apiUrl}/groups/${groupId}/tags`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .json<TagDto[]>();
   },
 };

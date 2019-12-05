@@ -42,14 +42,14 @@ export class CreateProtein1573041856423 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: "FK_protein_2_group",
+            name: "FK_protein_to_group",
             referencedTableName: "group",
             columnNames: ["group_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
-            name: "FK_protein_2_group_user",
+            name: "FK_protein_to_group_user",
             referencedTableName: "group_user",
             columnNames: ["created_by"],
             referencedColumnNames: ["id"],

@@ -31,9 +31,11 @@ import { required } from "@/utils/validators";
 import { Component, Vue } from "vue-property-decorator";
 import { tagModule } from "@/modules/tag";
 import { CreateTagDto } from "@airlab/shared/lib/tag/dto";
+import { groupModule } from "@/modules/group";
 
 @Component
 export default class CreateTag extends Vue {
+  readonly groupContext = groupModule.context(this.$store);
   readonly tagContext = tagModule.context(this.$store);
 
   readonly nameRules = [required];
@@ -44,6 +46,10 @@ export default class CreateTag extends Vue {
   mw: number | null = null;
   isFluorophore = false;
   isMetal = false;
+
+  get activeGroupId() {
+    return this.groupContext.getters.activeGroupId;
+  }
 
   reset() {
     this.name = "";
@@ -58,8 +64,9 @@ export default class CreateTag extends Vue {
   }
 
   async submit() {
-    if ((this.$refs.form as any).validate()) {
+    if ((this.$refs.form as any).validate() && this.activeGroupId) {
       const data: CreateTagDto = {
+        groupId: this.activeGroupId,
         name: this.name,
         mw: this.mw,
         isFluorophore: this.isFluorophore,

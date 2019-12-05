@@ -17,17 +17,6 @@ export class SpeciesActions extends Actions<SpeciesState, SpeciesGetters, Specie
     this.main = mainModule.context(store);
   }
 
-  async getSpecies() {
-    try {
-      const data = await api.getSpecies(this.main!.getters.token);
-      if (data) {
-        this.mutations.setEntities(data);
-      }
-    } catch (error) {
-      await this.main!.actions.checkApiError(error);
-    }
-  }
-
   async createSpecies(payload: CreateSpeciesDto) {
     try {
       const notification = { content: "saving", showProgress: true };
@@ -41,9 +30,9 @@ export class SpeciesActions extends Actions<SpeciesState, SpeciesGetters, Specie
     }
   }
 
-  async getOneSpecies(id: number) {
+  async getSpecies(id: number) {
     try {
-      const data = await api.getOneSpecies(this.main!.getters.token, id);
+      const data = await api.getSpecies(this.main!.getters.token, id);
       if (data) {
         this.mutations.setEntity(data);
       }
@@ -73,6 +62,17 @@ export class SpeciesActions extends Actions<SpeciesState, SpeciesGetters, Specie
       this.mutations.deleteEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Species successfully deleted", color: "success" });
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
+
+  async getGroupSpecies(groupId: number) {
+    try {
+      const data = await api.getGroupSpecies(this.main!.getters.token, groupId);
+      if (data) {
+        this.mutations.setEntities(data);
+      }
     } catch (error) {
       await this.main!.actions.checkApiError(error);
     }

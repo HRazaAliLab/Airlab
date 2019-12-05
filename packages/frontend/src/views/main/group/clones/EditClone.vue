@@ -261,7 +261,7 @@ export default class EditClone extends Vue {
     await Promise.all([
       this.cloneContext.actions.getClone(+this.$router.currentRoute.params.id),
       this.proteinContext.actions.getGroupProteins(+this.$router.currentRoute.params.groupId),
-      this.speciesContext.actions.getSpecies(),
+      this.speciesContext.actions.getGroupSpecies(+this.$router.currentRoute.params.groupId),
     ]);
     this.reset();
   }

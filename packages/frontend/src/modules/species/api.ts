@@ -3,15 +3,6 @@ import { apiUrl } from "@/env";
 import { CreateSpeciesDto, SpeciesDto, UpdateSpeciesDto } from "@airlab/shared/lib/species/dto";
 
 export const api = {
-  async getSpecies(token: string) {
-    return ky
-      .get(`${apiUrl}/species/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<SpeciesDto[]>();
-  },
   async createSpecies(token: string, data: CreateSpeciesDto) {
     return ky
       .post(`${apiUrl}/species/`, {
@@ -22,7 +13,7 @@ export const api = {
       })
       .json<SpeciesDto>();
   },
-  async getOneSpecies(token: string, id: number) {
+  async getSpecies(token: string, id: number) {
     return ky
       .get(`${apiUrl}/species/${id}`, {
         headers: {
@@ -49,5 +40,14 @@ export const api = {
         },
       })
       .json<number>();
+  },
+  async getGroupSpecies(token: string, groupId: number) {
+    return ky
+      .get(`${apiUrl}/groups/${groupId}/species`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .json<SpeciesDto[]>();
   },
 };

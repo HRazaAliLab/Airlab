@@ -1,5 +1,6 @@
 export declare class TagDto {
     readonly id: number;
+    readonly groupId: number;
     readonly name: string;
     readonly mw: number | null;
     readonly isFluorophore: boolean;
@@ -8,6 +9,7 @@ export declare class TagDto {
     readonly createdAt: string;
 }
 export declare class CreateTagDto {
+    readonly groupId: number;
     readonly name: string;
     readonly mw: number | null;
     readonly isFluorophore: boolean;

@@ -339,7 +339,7 @@ export default class ViewPanel extends Vue {
     await Promise.all([
       this.panelContext.actions.getPanel(+this.$router.currentRoute.params.id),
       this.conjugateContext.actions.getGroupConjugates(+this.$router.currentRoute.params.groupId),
-      this.tagContext.actions.getTags(),
+      this.tagContext.actions.getGroupTags(+this.$router.currentRoute.params.groupId),
       this.validationContext.actions.getGroupValidations(+this.$router.currentRoute.params.groupId),
     ]);
     this.reset();

@@ -11,17 +11,14 @@ export class ProviderService {
     private readonly repository: Repository<ProviderEntity>
   ) {}
 
-  async findAll() {
-    return this.repository.find({
-      select: ["id", "name"],
-      order: {
-        name: "ASC",
-      },
-    });
-  }
-
   async create(params: CreateProviderDto) {
     return this.repository.save(params);
+  }
+
+  async findById(id: number) {
+    return this.repository.findOne(id, {
+      select: ["id", "groupId", "name"],
+    });
   }
 
   async update(id: number, params: UpdateProviderDto) {
@@ -29,9 +26,20 @@ export class ProviderService {
     return this.findById(id);
   }
 
-  async findById(id: number) {
-    return this.repository.findOne(id, {
-      select: ["id", "name"],
+  async deleteById(id: number) {
+    const result = await this.repository.delete(id);
+    return result.affected === 1 ? id : undefined;
+  }
+
+  async getGroupProviders(groupId: number) {
+    return this.repository.find({
+      select: ["id", "groupId", "name"],
+      where: {
+        groupId: groupId,
+      },
+      order: {
+        id: "DESC",
+      },
     });
   }
 }

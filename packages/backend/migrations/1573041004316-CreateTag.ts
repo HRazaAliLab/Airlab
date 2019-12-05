@@ -13,6 +13,10 @@ export class CreateTag1573041004316 implements MigrationInterface {
             isGenerated: true,
           },
           {
+            name: "group_id",
+            type: "int",
+          },
+          {
             name: "name",
             type: "varchar",
           },
@@ -41,6 +45,21 @@ export class CreateTag1573041004316 implements MigrationInterface {
             name: "created_at",
             type: "timestamptz",
             default: "NOW()",
+          },
+        ],
+        foreignKeys: [
+          {
+            name: "FK_tag_to_group",
+            referencedTableName: "group",
+            columnNames: ["group_id"],
+            referencedColumnNames: ["id"],
+            onDelete: "cascade",
+          },
+        ],
+        indices: [
+          {
+            name: "IDX_tag_group_id",
+            columnNames: ["group_id"],
           },
         ],
         uniques: [

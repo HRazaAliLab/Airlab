@@ -1,9 +1,12 @@
-import { IsString } from "class-validator";
+import { IsInt, IsString } from "class-validator";
 import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 
 export class SpeciesDto {
   @ApiModelProperty()
   readonly id: number;
+
+  @ApiModelProperty()
+  readonly groupId: number;
 
   @ApiModelProperty()
   readonly name: string;
@@ -19,6 +22,10 @@ export class SpeciesDto {
 }
 
 export class CreateSpeciesDto {
+  @IsInt()
+  @ApiModelProperty()
+  readonly groupId: number;
+
   @IsString()
   @ApiModelProperty()
   readonly name: string;

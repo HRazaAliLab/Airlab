@@ -11,9 +11,32 @@ export class TagService {
     private readonly repository: Repository<TagEntity>
   ) {}
 
-  async findAll() {
+  async create(params: CreateTagDto) {
+    return this.repository.save(params);
+  }
+
+  async findById(id: number) {
+    return this.repository.findOne(id, {
+      select: ["id", "groupId", "name", "mw", "isFluorophore", "isMetal"],
+    });
+  }
+
+  async update(id: number, params: UpdateTagDto) {
+    await this.repository.update(id, params);
+    return this.findById(id);
+  }
+
+  async deleteById(id: number) {
+    const result = await this.repository.delete(id);
+    return result.affected === 1 ? id : undefined;
+  }
+
+  async getGroupTags(groupId: number) {
     return this.repository.find({
-      select: ["id", "name", "mw", "isFluorophore", "isMetal"],
+      select: ["id", "groupId", "name", "mw", "isFluorophore", "isMetal"],
+      where: {
+        groupId: groupId,
+      },
       order: {
         mw: "ASC",
       },
@@ -22,25 +45,5 @@ export class TagService {
       //   milliseconds: 1000 * 60 * 60,
       // },
     });
-  }
-
-  async create(params: CreateTagDto) {
-    return this.repository.save(params);
-  }
-
-  async update(id: number, params: UpdateTagDto) {
-    await this.repository.update(id, params);
-    return this.findById(id);
-  }
-
-  async findById(id: number) {
-    return this.repository.findOne(id, {
-      select: ["id", "name", "mw", "isFluorophore", "isMetal"],
-    });
-  }
-
-  async deleteById(id: number) {
-    const result = await this.repository.delete(id);
-    return result.affected === 1 ? id : undefined;
   }
 }

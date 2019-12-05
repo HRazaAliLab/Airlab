@@ -64,6 +64,24 @@
               </v-list-item-action>
               <v-list-item-title>Proteins</v-list-item-title>
             </v-list-item>
+            <v-list-item :to="`/main/groups/${activeGroupId}/tags`">
+              <v-list-item-action>
+                <v-icon>mdi-tag-outline</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Manage Tags</v-list-item-title>
+            </v-list-item>
+            <v-list-item :to="`/main/groups/${activeGroupId}/providers`">
+              <v-list-item-action>
+                <v-icon>mdi-domain</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Manage Providers</v-list-item-title>
+            </v-list-item>
+            <v-list-item :to="`/main/groups/${activeGroupId}/species`">
+              <v-list-item-action>
+                <v-icon>mdi-rabbit</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Manage Species</v-list-item-title>
+            </v-list-item>
             <v-list-item :to="`/main/groups/${activeGroupId}/shop`">
               <v-list-item-action>
                 <v-icon>mdi-cart-outline</v-icon>
@@ -85,24 +103,6 @@
                 <v-icon>mdi-account-multiple-outline</v-icon>
               </v-list-item-action>
               <v-list-item-title>Manage Groups</v-list-item-title>
-            </v-list-item>
-            <v-list-item to="/main/admin/tags">
-              <v-list-item-action>
-                <v-icon>mdi-tag-outline</v-icon>
-              </v-list-item-action>
-              <v-list-item-title>Manage Tags</v-list-item-title>
-            </v-list-item>
-            <v-list-item to="/main/admin/providers">
-              <v-list-item-action>
-                <v-icon>mdi-domain</v-icon>
-              </v-list-item-action>
-              <v-list-item-title>Manage Providers</v-list-item-title>
-            </v-list-item>
-            <v-list-item to="/main/admin/species">
-              <v-list-item-action>
-                <v-icon>mdi-rabbit</v-icon>
-              </v-list-item-action>
-              <v-list-item-title>Manage Species</v-list-item-title>
             </v-list-item>
           </v-list>
           <v-divider />

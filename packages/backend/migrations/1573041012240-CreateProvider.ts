@@ -13,6 +13,10 @@ export class CreateProvider1573041012240 implements MigrationInterface {
             isGenerated: true,
           },
           {
+            name: "group_id",
+            type: "int",
+          },
+          {
             name: "name",
             type: "varchar",
           },
@@ -27,7 +31,20 @@ export class CreateProvider1573041012240 implements MigrationInterface {
             default: "NOW()",
           },
         ],
+        foreignKeys: [
+          {
+            name: "FK_provider_to_group",
+            referencedTableName: "group",
+            columnNames: ["group_id"],
+            referencedColumnNames: ["id"],
+            onDelete: "cascade",
+          },
+        ],
         indices: [
+          {
+            name: "IDX_provider_group_id",
+            columnNames: ["group_id"],
+          },
           {
             name: "IDX_provider_name",
             columnNames: ["name"],

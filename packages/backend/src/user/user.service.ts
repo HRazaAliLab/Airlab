@@ -59,12 +59,6 @@ export class UserService {
     });
   }
 
-  async findByActivationKey(key: string) {
-    return this.userRepository.findOne({
-      where: { activationKey: key },
-    });
-  }
-
   async getGroupsForUser(userId: number) {
     return this.groupRepository
       .createQueryBuilder("group")
@@ -78,18 +72,6 @@ export class UserService {
         return "group.id IN " + subQuery;
       })
       .getMany();
-  }
-
-  async activate(key: string) {
-    await this.userRepository.update(
-      {
-        activationKey: key,
-      },
-      {
-        isActive: true,
-      }
-    );
-    return this.findByActivationKey(key);
   }
 
   async getAllLotsForUser(userId: number) {

@@ -6,6 +6,9 @@ import { ConjugateEntity } from "../conjugate/conjugate.entity";
 import { LotEntity } from "../lot/lot.entity";
 import { PanelEntity } from "../panel/panel.entity";
 import { ReagentEntity } from "../reagent/reagent.entity";
+import { SpeciesEntity } from "../species/species.entity";
+import { TagEntity } from "../tag/tag.entity";
+import { ProviderEntity } from "../provider/provider.entity";
 
 @Entity({
   name: "group",
@@ -46,6 +49,24 @@ export class GroupEntity {
     name: "created_at",
   })
   createdAt: string;
+
+  @OneToMany(
+    type => SpeciesEntity,
+    species => species.group
+  )
+  species: SpeciesEntity[];
+
+  @OneToMany(
+    type => TagEntity,
+    tag => tag.group
+  )
+  tags: TagEntity[];
+
+  @OneToMany(
+    type => ProviderEntity,
+    provider => provider.group
+  )
+  providers: ProviderEntity[];
 
   @OneToMany(
     type => ProteinEntity,

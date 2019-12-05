@@ -2,11 +2,11 @@
   <v-col>
     <v-toolbar class="toolbar">
       <v-toolbar-title>
-        Manage Species
+        Manage Providers
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text to="/main/admin/species/create">Create Species</v-btn>
+        <v-btn text :to="`/main/groups/${activeGroupId}/providers/create`">Create Provider</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -35,7 +35,7 @@
                 v-on="on"
                 icon
                 :to="{
-                  name: 'main-admin-species-edit',
+                  name: 'main-group-providers-edit',
                   params: { id: item.id },
                 }"
               >
@@ -46,7 +46,7 @@
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon @click="deleteSpecies(item.id)">
+              <v-btn v-on="on" icon @click="deleteProvider(item.id)">
                 <v-icon color="red accent-1">mdi-delete-outline</v-icon>
               </v-btn>
             </template>
@@ -60,11 +60,13 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { speciesModule } from "@/modules/species";
+import { providerModule } from "@/modules/provider";
+import { groupModule } from "@/modules/group";
 
 @Component
-export default class AdminSpecies extends Vue {
-  readonly speciesContext = speciesModule.context(this.$store);
+export default class ProvidersView extends Vue {
+  readonly groupContext = groupModule.context(this.$store);
+  readonly providerContext = providerModule.context(this.$store);
 
   readonly headers = [
     {
@@ -82,12 +84,6 @@ export default class AdminSpecies extends Vue {
       align: "left",
     },
     {
-      text: "Acronym",
-      sortable: true,
-      value: "acronym",
-      align: "left",
-    },
-    {
       text: "Actions",
       value: "action",
       sortable: false,
@@ -98,17 +94,21 @@ export default class AdminSpecies extends Vue {
 
   search = "";
 
+  get activeGroupId() {
+    return this.groupContext.getters.activeGroupId;
+  }
+
   get items() {
-    return this.speciesContext.getters.species;
+    return this.providerContext.getters.providers;
   }
 
   async mounted() {
-    await this.speciesContext.actions.getSpecies();
+    await this.providerContext.actions.getGroupProviders(+this.$router.currentRoute.params.groupId);
   }
 
-  async deleteSpecies(id: number) {
-    if (self.confirm("Are you sure you want to delete the species?")) {
-      await this.speciesContext.actions.deleteSpecies(id);
+  async deleteProvider(id: number) {
+    if (self.confirm("Are you sure you want to delete the provider?")) {
+      await this.providerContext.actions.deleteProvider(id);
     }
   }
 }

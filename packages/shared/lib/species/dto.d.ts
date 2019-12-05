@@ -1,11 +1,13 @@
 export declare class SpeciesDto {
     readonly id: number;
+    readonly groupId: number;
     readonly name: string;
     readonly acronym: string;
     readonly meta: object;
     readonly createdAt: object;
 }
 export declare class CreateSpeciesDto {
+    readonly groupId: number;
     readonly name: string;
     readonly acronym: string;
 }

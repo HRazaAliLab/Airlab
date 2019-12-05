@@ -17,17 +17,6 @@ export class TagActions extends Actions<TagState, TagGetters, TagMutations, TagA
     this.main = mainModule.context(store);
   }
 
-  async getTags() {
-    try {
-      const data = await api.getTags(this.main!.getters.token);
-      if (data) {
-        this.mutations.setEntities(data);
-      }
-    } catch (error) {
-      await this.main!.actions.checkApiError(error);
-    }
-  }
-
   async createTag(payload: CreateTagDto) {
     try {
       const notification = { content: "saving", showProgress: true };
@@ -73,6 +62,17 @@ export class TagActions extends Actions<TagState, TagGetters, TagMutations, TagA
       this.mutations.deleteEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Tag successfully deleted", color: "success" });
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
+
+  async getGroupTags(groupId: number) {
+    try {
+      const data = await api.getGroupTags(this.main!.getters.token, groupId);
+      if (data) {
+        this.mutations.setEntities(data);
+      }
     } catch (error) {
       await this.main!.actions.checkApiError(error);
     }

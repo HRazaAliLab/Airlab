@@ -56,14 +56,14 @@ export class CreateValidationFile1574171528003 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: "FK_validation_file_2_validation",
+            name: "FK_validation_file_to_validation",
             referencedTableName: "validation",
             columnNames: ["validation_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
-            name: "FK_validation_file_2_group_user",
+            name: "FK_validation_file_to_group_user",
             referencedTableName: "group_user",
             columnNames: ["created_by"],
             referencedColumnNames: ["id"],

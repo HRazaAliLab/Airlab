@@ -488,7 +488,7 @@ export default class ValidationsViews extends Vue {
   async mounted() {
     await Promise.all([
       this.validationContext.actions.getGroupValidations(+this.$router.currentRoute.params.groupId),
-      this.speciesContext.actions.getSpecies(),
+      this.speciesContext.actions.getGroupSpecies(+this.$router.currentRoute.params.groupId),
     ]);
   }
 

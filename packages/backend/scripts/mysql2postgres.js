@@ -52,14 +52,12 @@ async function migrateUser() {
   const input = await mysqlPool.query("SELECT * FROM tblPerson");
   for (row of input[0]) {
     console.log(row);
-    const sql =
-      'INSERT INTO "user"(id, name, email, password, activation_key, is_active) VALUES($1, $2, $3, $4, $5, $6)';
+    const sql = 'INSERT INTO "user"(id, name, email, password, is_active) VALUES($1, $2, $3, $4, $5)';
     const values = [
       row["perPersonId"],
       `${row["perName"]} ${row["perLastname"]}`,
       row["perEmail"],
       row["perPassword"],
-      row["zetActivationKey"],
       row["zetActive"],
     ];
     await postgresPool.query(sql, values);
@@ -100,8 +98,8 @@ async function migrateSpecies() {
       continue;
     }
     console.log(row);
-    const sql = 'INSERT INTO "species"(id, name, acronym) VALUES($1, $2, $3)';
-    const values = [row["spcSpeciesId"], row["spcName"], row["spcAcronym"]];
+    const sql = 'INSERT INTO "species"(id, group_id, name, acronym) VALUES($1, $2, $3, $4)';
+    const values = [row["spcSpeciesId"], 2, row["spcName"], row["spcAcronym"]];
     await postgresPool.query(sql, values);
   }
   await postgresPool.query("SELECT setval('public.species_id_seq', (SELECT MAX(id) FROM public.species), true);");
@@ -111,9 +109,10 @@ async function migrateTag() {
   const input = await mysqlPool.query("SELECT * FROM tblTag");
   for (row of input[0]) {
     console.log(row);
-    const sql = 'INSERT INTO "tag"(id, name, mw, is_fluorophore, is_metal) VALUES($1, $2, $3, $4, $5)';
+    const sql = 'INSERT INTO "tag"(id, group_id, name, mw, is_fluorophore, is_metal) VALUES($1, $2, $3, $4, $5, $6)';
     const values = [
       row["tagTagId"],
+      2,
       row["tagName"],
       row["tagMW"] !== "" ? row["tagMW"] : null,
       row["tagIsFluorphore"],
@@ -131,8 +130,8 @@ async function migrateProvider() {
     if ([87, 97].includes(row["proProviderId"])) {
       continue;
     }
-    const sql = 'INSERT INTO "provider"(id, name) VALUES($1, $2)';
-    const values = [row["proProviderId"], row["proName"]];
+    const sql = 'INSERT INTO "provider"(id, group_id, name) VALUES($1, $2, $3)';
+    const values = [row["proProviderId"], 2, row["proName"]];
     await postgresPool.query(sql, values);
   }
   await postgresPool.query("SELECT setval('public.provider_id_seq', (SELECT MAX(id) FROM public.provider), true);");

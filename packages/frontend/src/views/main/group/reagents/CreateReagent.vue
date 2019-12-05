@@ -140,7 +140,7 @@ export default class CreateReagent extends Vue {
   }
 
   async mounted() {
-    await this.providerContext.actions.getProviders();
+    await this.providerContext.actions.getGroupProviders(+this.$router.currentRoute.params.groupId);
   }
 }
 </script>

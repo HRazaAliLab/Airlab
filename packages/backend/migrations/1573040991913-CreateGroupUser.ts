@@ -68,14 +68,14 @@ export class CreateGroupUser1573040991913 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: "FK_group_user_2_group",
+            name: "FK_group_user_to_group",
             referencedTableName: "group",
             columnNames: ["group_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
-            name: "FK_group_user_2_user",
+            name: "FK_group_user_to_user",
             referencedTableName: "user",
             columnNames: ["user_id"],
             referencedColumnNames: ["id"],

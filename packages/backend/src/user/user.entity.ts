@@ -29,13 +29,6 @@ export class UserEntity {
   })
   password: string;
 
-  @Exclude()
-  @Column({
-    name: "activation_key",
-    select: false,
-  })
-  activationKey: string;
-
   @Column({
     name: "is_active",
     select: false,

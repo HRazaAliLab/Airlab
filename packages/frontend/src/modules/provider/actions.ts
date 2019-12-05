@@ -17,17 +17,6 @@ export class ProviderActions extends Actions<ProviderState, ProviderGetters, Pro
     this.main = mainModule.context(store);
   }
 
-  async getProviders() {
-    try {
-      const data = await api.getProviders(this.main!.getters.token);
-      if (data) {
-        this.mutations.setEntities(data);
-      }
-    } catch (error) {
-      await this.main!.actions.checkApiError(error);
-    }
-  }
-
   async createProvider(payload: CreateProviderDto) {
     try {
       const notification = { content: "saving", showProgress: true };
@@ -73,6 +62,17 @@ export class ProviderActions extends Actions<ProviderState, ProviderGetters, Pro
       this.mutations.deleteEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Provider successfully deleted", color: "success" });
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
+
+  async getGroupProviders(groupId: number) {
+    try {
+      const data = await api.getGroupProviders(this.main!.getters.token, groupId);
+      if (data) {
+        this.mutations.setEntities(data);
+      }
     } catch (error) {
       await this.main!.actions.checkApiError(error);
     }

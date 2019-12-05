@@ -1,43 +1,52 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { TagService } from "./tag.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CreateTagDto, TagDto, UpdateTagDto } from "@airlab/shared/lib/tag/dto";
+import { GroupUserService } from "../groupUser/groupUser.service";
 
 @Controller()
+@UseGuards(AuthGuard("jwt"))
 @ApiUseTags("tags")
 @ApiBearerAuth()
-@UseGuards(AuthGuard("jwt"))
 export class TagController {
-  constructor(private readonly tagService: TagService) {}
+  constructor(private readonly tagService: TagService, private readonly groupUserService: GroupUserService) {}
 
-  @Get("tags")
-  @ApiCreatedResponse({ description: "Find all entities.", type: TagDto, isArray: true })
-  findAll() {
-    return this.tagService.findAll();
+  @Post("tags")
+  @ApiCreatedResponse({ description: "Create entity.", type: TagDto })
+  async create(@Request() req, @Body() params: CreateTagDto) {
+    await this.groupUserService.checkGroupUserPermissions(req.user.userId, params.groupId);
+    return this.tagService.create({ ...params });
   }
 
   @Get("tags/:id")
   @ApiCreatedResponse({ description: "Find entity by Id.", type: TagDto })
-  findById(@Param("id") id: number) {
-    return this.tagService.findById(id);
-  }
-
-  @Delete("tags/:id")
-  @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
-  deleteById(@Param("id") id: number) {
-    return this.tagService.deleteById(id);
-  }
-
-  @Post("tags")
-  @ApiCreatedResponse({ description: "Create entity.", type: TagDto })
-  async create(@Body() params: CreateTagDto) {
-    return this.tagService.create(params);
+  async findById(@Request() req, @Param("id") id: number) {
+    const item = await this.tagService.findById(id);
+    await this.groupUserService.checkGroupUserPermissions(req.user.userId, item.groupId);
+    return item;
   }
 
   @Patch("tags/:id")
   @ApiCreatedResponse({ description: "Updated entity.", type: TagDto })
-  async update(@Param("id") id: number, @Body() params: UpdateTagDto) {
+  async update(@Request() req, @Param("id") id: number, @Body() params: UpdateTagDto) {
+    const item = await this.tagService.findById(id);
+    await this.groupUserService.checkGroupUserPermissions(req.user.userId, item.groupId);
     return this.tagService.update(id, params);
+  }
+
+  @Delete("tags/:id")
+  @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
+  async deleteById(@Request() req, @Param("id") id: number) {
+    const item = await this.tagService.findById(id);
+    await this.groupUserService.checkGroupUserPermissions(req.user.userId, item.groupId);
+    return this.tagService.deleteById(id);
+  }
+
+  @Get("groups/:groupId/tags")
+  @ApiCreatedResponse({ description: "Find all tags for the group.", type: TagDto, isArray: true })
+  async getGroupTags(@Request() req, @Param("groupId") groupId: number) {
+    await this.groupUserService.checkGroupUserPermissions(req.user.userId, groupId);
+    return this.tagService.getGroupTags(groupId);
   }
 }

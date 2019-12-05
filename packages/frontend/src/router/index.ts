@@ -221,6 +221,73 @@ export default new Router({
                   component: () =>
                     import(/* webpackChunkName: "main-group-lots-edit" */ "@/views/main/group/lots/EditLot.vue"),
                 },
+
+                {
+                  path: "tags",
+                  name: "main-group-tags",
+                  component: () =>
+                    import(/* webpackChunkName: "main-group-tags" */ "@/views/main/group/tag/TagsView.vue"),
+                },
+                {
+                  path: "tags/create",
+                  name: "main-group-tags-create",
+                  component: () =>
+                    import(/* webpackChunkName: "main-group-tags-create" */ "@/views/main/group/tag/CreateTag.vue"),
+                },
+                {
+                  path: "tags/:id/edit",
+                  name: "main-group-tags-edit",
+                  component: () =>
+                    import(/* webpackChunkName: "main-group-tags-edit" */ "@/views/main/group/tag/EditTag.vue"),
+                },
+
+                {
+                  path: "species",
+                  name: "main-group-species",
+                  component: () =>
+                    import(/* webpackChunkName: "main-group-species" */ "@/views/main/group/species/SpeciesView.vue"),
+                },
+                {
+                  path: "species/create",
+                  name: "main-group-species-create",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-species-create" */ "@/views/main/group/species/CreateSpecies.vue"
+                    ),
+                },
+                {
+                  path: "species/:id/edit",
+                  name: "main-group-species-edit",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-species-edit" */ "@/views/main/group/species/EditSpecies.vue"
+                    ),
+                },
+
+                {
+                  path: "providers",
+                  name: "main-group-providers",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-providers" */ "@/views/main/group/provider/ProvidersView.vue"
+                    ),
+                },
+                {
+                  path: "providers/create",
+                  name: "main-group-providers-create",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-providers-create" */ "@/views/main/group/provider/CreateProvider.vue"
+                    ),
+                },
+                {
+                  path: "providers/:id/edit",
+                  name: "main-group-providers-edit",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-providers-edit" */ "@/views/main/group/provider/EditProvider.vue"
+                    ),
+                },
               ],
             },
             {
@@ -288,70 +355,6 @@ export default new Router({
                   name: "main-admin-groups-edit",
                   component: () =>
                     import(/* webpackChunkName: "main-admin-groups-edit" */ "@/views/main/admin/group/EditGroup.vue"),
-                },
-
-                {
-                  path: "tags",
-                  component: () =>
-                    import(/* webpackChunkName: "main-admin-tags" */ "@/views/main/admin/tag/AdminTags.vue"),
-                },
-                {
-                  path: "tags/create",
-                  name: "main-admin-tags-create",
-                  component: () =>
-                    import(/* webpackChunkName: "main-admin-tags-create" */ "@/views/main/admin/tag/CreateTag.vue"),
-                },
-                {
-                  path: "tags/:id/edit",
-                  name: "main-admin-tags-edit",
-                  component: () =>
-                    import(/* webpackChunkName: "main-admin-tags-edit" */ "@/views/main/admin/tag/EditTag.vue"),
-                },
-
-                {
-                  path: "species",
-                  component: () =>
-                    import(/* webpackChunkName: "main-admin-species" */ "@/views/main/admin/species/AdminSpecies.vue"),
-                },
-                {
-                  path: "species/create",
-                  name: "main-admin-species-create",
-                  component: () =>
-                    import(
-                      /* webpackChunkName: "main-admin-species-create" */ "@/views/main/admin/species/CreateSpecies.vue"
-                    ),
-                },
-                {
-                  path: "species/:id/edit",
-                  name: "main-admin-species-edit",
-                  component: () =>
-                    import(
-                      /* webpackChunkName: "main-admin-species-edit" */ "@/views/main/admin/species/EditSpecies.vue"
-                    ),
-                },
-
-                {
-                  path: "providers",
-                  component: () =>
-                    import(
-                      /* webpackChunkName: "main-admin-providers" */ "@/views/main/admin/provider/AdminProviders.vue"
-                    ),
-                },
-                {
-                  path: "providers/create",
-                  name: "main-admin-providers-create",
-                  component: () =>
-                    import(
-                      /* webpackChunkName: "main-admin-providers-create" */ "@/views/main/admin/provider/CreateProvider.vue"
-                    ),
-                },
-                {
-                  path: "providers/:id/edit",
-                  name: "main-admin-providers-edit",
-                  component: () =>
-                    import(
-                      /* webpackChunkName: "main-admin-providers-edit" */ "@/views/main/admin/provider/EditProvider.vue"
-                    ),
                 },
               ],
             },

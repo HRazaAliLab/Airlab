@@ -13,6 +13,10 @@ export class CreateSpecies1573040998741 implements MigrationInterface {
             isGenerated: true,
           },
           {
+            name: "group_id",
+            type: "int",
+          },
+          {
             name: "name",
             type: "varchar",
           },
@@ -29,6 +33,21 @@ export class CreateSpecies1573040998741 implements MigrationInterface {
             name: "created_at",
             type: "timestamptz",
             default: "NOW()",
+          },
+        ],
+        foreignKeys: [
+          {
+            name: "FK_species_to_group",
+            referencedTableName: "group",
+            columnNames: ["group_id"],
+            referencedColumnNames: ["id"],
+            onDelete: "cascade",
+          },
+        ],
+        indices: [
+          {
+            name: "IDX_species_group_id",
+            columnNames: ["group_id"],
           },
         ],
         uniques: [

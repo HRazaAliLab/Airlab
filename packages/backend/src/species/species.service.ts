@@ -11,14 +11,14 @@ export class SpeciesService {
     private readonly repository: Repository<SpeciesEntity>
   ) {}
 
-  async findAll() {
-    return this.repository.find({
-      select: ["id", "name", "acronym"],
-    });
-  }
-
   async create(params: CreateSpeciesDto) {
     return this.repository.save(params);
+  }
+
+  async findById(id: number) {
+    return this.repository.findOne(id, {
+      select: ["id", "groupId", "name", "acronym"],
+    });
   }
 
   async update(id: number, params: UpdateSpeciesDto) {
@@ -26,14 +26,20 @@ export class SpeciesService {
     return this.findById(id);
   }
 
-  async findById(id: number) {
-    return this.repository.findOne(id, {
-      select: ["id", "name", "acronym"],
-    });
-  }
-
   async deleteById(id: number) {
     const result = await this.repository.delete(id);
     return result.affected === 1 ? id : undefined;
+  }
+
+  async getGroupSpecies(groupId: number) {
+    return this.repository.find({
+      select: ["id", "groupId", "name", "acronym"],
+      where: {
+        groupId: groupId,
+      },
+      order: {
+        id: "DESC",
+      },
+    });
   }
 }

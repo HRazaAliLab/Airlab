@@ -28,15 +28,21 @@ import { required } from "@/utils/validators";
 import { Component, Vue } from "vue-property-decorator";
 import { providerModule } from "@/modules/provider";
 import { CreateProviderDto } from "@airlab/shared/lib/provider/dto";
+import { groupModule } from "@/modules/group";
 
 @Component
 export default class CreateProvider extends Vue {
+  readonly groupContext = groupModule.context(this.$store);
   readonly providerContext = providerModule.context(this.$store);
 
   readonly nameRules = [required];
 
   valid = true;
   name = "";
+
+  get activeGroupId() {
+    return this.groupContext.getters.activeGroupId;
+  }
 
   reset() {
     this.name = "";
@@ -48,8 +54,9 @@ export default class CreateProvider extends Vue {
   }
 
   async submit() {
-    if ((this.$refs.form as any).validate()) {
+    if ((this.$refs.form as any).validate() && this.activeGroupId) {
       const data: CreateProviderDto = {
+        groupId: this.activeGroupId,
         name: this.name,
       };
       await this.providerContext.actions.createProvider(data);

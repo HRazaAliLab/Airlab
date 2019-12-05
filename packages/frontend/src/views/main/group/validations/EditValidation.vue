@@ -458,7 +458,7 @@ export default class EditValidation extends Vue {
       this.cloneContext.actions.getGroupClones(+this.$router.currentRoute.params.groupId),
       this.lotContext.actions.getGroupLots(+this.$router.currentRoute.params.groupId),
       this.conjugateContext.actions.getGroupConjugates(+this.$router.currentRoute.params.groupId),
-      this.speciesContext.actions.getSpecies(),
+      this.speciesContext.actions.getGroupSpecies(+this.$router.currentRoute.params.groupId),
     ]);
     this.reset();
   }

@@ -19,6 +19,10 @@ __decorate([
 ], SpeciesDto.prototype, "id", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], SpeciesDto.prototype, "groupId", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], SpeciesDto.prototype, "name", void 0);
 __decorate([
@@ -36,6 +40,11 @@ __decorate([
 exports.SpeciesDto = SpeciesDto;
 class CreateSpeciesDto {
 }
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], CreateSpeciesDto.prototype, "groupId", void 0);
 __decorate([
     class_validator_1.IsString(),
     swagger_1.ApiModelProperty(),

@@ -29,9 +29,11 @@ import { required } from "@/utils/validators";
 import { Component, Vue } from "vue-property-decorator";
 import { speciesModule } from "@/modules/species";
 import { CreateSpeciesDto } from "@airlab/shared/lib/species/dto";
+import { groupModule } from "@/modules/group";
 
 @Component
 export default class CreateSpecies extends Vue {
+  readonly groupContext = groupModule.context(this.$store);
   readonly speciesContext = speciesModule.context(this.$store);
 
   readonly nameRules = [required];
@@ -40,6 +42,10 @@ export default class CreateSpecies extends Vue {
   valid = true;
   name = "";
   acronym = "";
+
+  get activeGroupId() {
+    return this.groupContext.getters.activeGroupId;
+  }
 
   reset() {
     this.name = "";
@@ -52,8 +58,9 @@ export default class CreateSpecies extends Vue {
   }
 
   async submit() {
-    if ((this.$refs.form as any).validate()) {
+    if ((this.$refs.form as any).validate() && this.activeGroupId) {
       const data: CreateSpeciesDto = {
+        groupId: this.activeGroupId,
         name: this.name,
         acronym: this.acronym,
       };

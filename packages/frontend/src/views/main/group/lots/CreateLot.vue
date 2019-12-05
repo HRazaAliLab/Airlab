@@ -117,7 +117,7 @@ export default class CreateLot extends Vue {
     await Promise.all([
       this.cloneContext.actions.getGroupClones(+this.$router.currentRoute.params.groupId),
       this.reagentContext.actions.getGroupReagents(+this.$router.currentRoute.params.groupId),
-      this.providerContext.actions.getProviders(),
+      this.providerContext.actions.getGroupProviders(+this.$router.currentRoute.params.groupId),
     ]);
   }
 

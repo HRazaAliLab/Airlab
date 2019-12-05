@@ -2,11 +2,11 @@
   <v-col>
     <v-toolbar class="toolbar">
       <v-toolbar-title>
-        Manage Tags
+        Manage Species
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text to="/main/admin/tags/create">Create Tag</v-btn>
+        <v-btn text :to="`/main/groups/${activeGroupId}/species/create`">Create Species</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -28,12 +28,6 @@
         }"
         multi-sort
       >
-        <template v-slot:item.isFluorophore="{ item }">
-          <v-icon v-if="item.isFluorophore">mdi-check</v-icon>
-        </template>
-        <template v-slot:item.isMetal="{ item }">
-          <v-icon v-if="item.isMetal">mdi-check</v-icon>
-        </template>
         <template v-slot:item.action="{ item }">
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
@@ -41,7 +35,7 @@
                 v-on="on"
                 icon
                 :to="{
-                  name: 'main-admin-tags-edit',
+                  name: 'main-group-species-edit',
                   params: { id: item.id },
                 }"
               >
@@ -52,7 +46,7 @@
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon @click="deleteTag(item.id)">
+              <v-btn v-on="on" icon @click="deleteSpecies(item.id)">
                 <v-icon color="red accent-1">mdi-delete-outline</v-icon>
               </v-btn>
             </template>
@@ -66,11 +60,13 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { tagModule } from "@/modules/tag";
+import { speciesModule } from "@/modules/species";
+import { groupModule } from "@/modules/group";
 
 @Component
-export default class AdminTags extends Vue {
-  readonly tagContext = tagModule.context(this.$store);
+export default class SpeciesView extends Vue {
+  readonly groupContext = groupModule.context(this.$store);
+  readonly speciesContext = speciesModule.context(this.$store);
 
   readonly headers = [
     {
@@ -88,26 +84,10 @@ export default class AdminTags extends Vue {
       align: "left",
     },
     {
-      text: "MW",
+      text: "Acronym",
       sortable: true,
-      value: "mw",
-      align: "right",
-    },
-    {
-      text: "Fluorophore",
-      sortable: true,
-      value: "isFluorophore",
+      value: "acronym",
       align: "left",
-      filterable: false,
-      width: "140",
-    },
-    {
-      text: "Metal",
-      sortable: true,
-      value: "isMetal",
-      align: "left",
-      filterable: false,
-      width: "100",
     },
     {
       text: "Actions",
@@ -120,17 +100,21 @@ export default class AdminTags extends Vue {
 
   search = "";
 
+  get activeGroupId() {
+    return this.groupContext.getters.activeGroupId;
+  }
+
   get items() {
-    return this.tagContext.getters.tags;
+    return this.speciesContext.getters.species;
   }
 
   async mounted() {
-    await this.tagContext.actions.getTags();
+    await this.speciesContext.actions.getGroupSpecies(+this.$router.currentRoute.params.groupId);
   }
 
-  async deleteTag(id: number) {
-    if (self.confirm("Are you sure you want to delete the tag?")) {
-      await this.tagContext.actions.deleteTag(id);
+  async deleteSpecies(id: number) {
+    if (self.confirm("Are you sure you want to delete the species?")) {
+      await this.speciesContext.actions.deleteSpecies(id);
     }
   }
 }

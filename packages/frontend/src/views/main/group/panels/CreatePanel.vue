@@ -165,7 +165,7 @@ export default class CreatePanel extends Vue {
   async mounted() {
     await Promise.all([
       this.conjugateContext.actions.getGroupConjugates(+this.$router.currentRoute.params.groupId),
-      this.tagContext.actions.getTags(),
+      this.tagContext.actions.getGroupTags(+this.$router.currentRoute.params.groupId),
     ]);
   }
 }

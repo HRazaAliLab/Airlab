@@ -19,6 +19,10 @@ __decorate([
 ], TagDto.prototype, "id", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], TagDto.prototype, "groupId", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], TagDto.prototype, "name", void 0);
 __decorate([
@@ -44,6 +48,11 @@ __decorate([
 exports.TagDto = TagDto;
 class CreateTagDto {
 }
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], CreateTagDto.prototype, "groupId", void 0);
 __decorate([
     class_validator_1.IsString(),
     swagger_1.ApiModelProperty(),

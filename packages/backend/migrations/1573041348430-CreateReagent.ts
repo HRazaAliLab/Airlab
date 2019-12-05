@@ -52,21 +52,21 @@ export class CreateReagent1573041348430 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: "FK_reagent_2_group",
+            name: "FK_reagent_to_group",
             referencedTableName: "group",
             columnNames: ["group_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
-            name: "FK_reagent_2_group_user",
+            name: "FK_reagent_to_group_user",
             referencedTableName: "group_user",
             columnNames: ["created_by"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
-            name: "FK_reagent_2_provider",
+            name: "FK_reagent_to_provider",
             referencedTableName: "provider",
             columnNames: ["provider_id"],
             referencedColumnNames: ["id"],

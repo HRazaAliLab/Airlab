@@ -74,14 +74,14 @@ export class CreatePanel1573210620363 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: "FK_panel_2_group",
+            name: "FK_panel_to_group",
             referencedTableName: "group",
             columnNames: ["group_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
-            name: "FK_panel_2_group_user",
+            name: "FK_panel_to_group_user",
             referencedTableName: "group_user",
             columnNames: ["created_by"],
             referencedColumnNames: ["id"],

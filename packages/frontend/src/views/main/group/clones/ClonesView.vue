@@ -306,7 +306,7 @@ export default class ClonesView extends Vue {
   async mounted() {
     await Promise.all([
       this.cloneContext.actions.getGroupClones(+this.$router.currentRoute.params.groupId),
-      this.speciesContext.actions.getSpecies(),
+      this.speciesContext.actions.getGroupSpecies(+this.$router.currentRoute.params.groupId),
     ]);
   }
 

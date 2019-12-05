@@ -101,7 +101,7 @@ export default class CreateConjugate extends Vue {
   async mounted() {
     await Promise.all([
       this.lotContext.actions.getGroupLots(+this.$router.currentRoute.params.groupId),
-      this.tagContext.actions.getTags(),
+      this.tagContext.actions.getGroupTags(+this.$router.currentRoute.params.groupId),
     ]);
   }
 

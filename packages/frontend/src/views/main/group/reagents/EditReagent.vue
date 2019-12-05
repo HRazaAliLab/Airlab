@@ -161,7 +161,7 @@ export default class EditReagent extends Vue {
   async mounted() {
     await Promise.all([
       this.reagentContext.actions.getReagent(+this.$router.currentRoute.params.id),
-      this.providerContext.actions.getProviders(),
+      this.providerContext.actions.getGroupProviders(+this.$router.currentRoute.params.groupId),
     ]);
     this.reset();
   }
