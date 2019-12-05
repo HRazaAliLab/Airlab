@@ -17,6 +17,10 @@ export class TagService {
       order: {
         mw: "ASC",
       },
+      // cache: {
+      //   id: "tags",
+      //   milliseconds: 1000 * 60 * 60,
+      // },
     });
   }
 

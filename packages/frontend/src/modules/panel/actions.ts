@@ -17,17 +17,6 @@ export class PanelActions extends Actions<PanelState, PanelGetters, PanelMutatio
     this.main = mainModule.context(store);
   }
 
-  async getPanels() {
-    try {
-      const data = await api.getPanels(this.main!.getters.token);
-      if (data) {
-        this.mutations.setEntities(data);
-      }
-    } catch (error) {
-      await this.main!.actions.checkApiError(error);
-    }
-  }
-
   async createPanel(payload: CreatePanelDto) {
     try {
       const notification = { content: "saving", showProgress: true };
@@ -91,9 +80,9 @@ export class PanelActions extends Actions<PanelState, PanelGetters, PanelMutatio
     }
   }
 
-  async getAllPanelsForGroup(groupId: number) {
+  async getGroupPanels(groupId: number) {
     try {
-      const data = await api.getAllPanelsForGroup(this.main!.getters.token, groupId);
+      const data = await api.getGroupPanels(this.main!.getters.token, groupId);
       if (data) {
         this.mutations.setEntities(data);
       }

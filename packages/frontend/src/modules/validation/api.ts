@@ -3,15 +3,6 @@ import { apiUrl } from "@/env";
 import { CreateValidationDto, UpdateValidationDto, ValidationDto } from "@airlab/shared/lib/validation/dto";
 
 export const api = {
-  async getValidations(token: string) {
-    return ky
-      .get(`${apiUrl}/validations/accessible`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<ValidationDto[]>();
-  },
   async createValidation(token: string, data: CreateValidationDto) {
     return ky
       .post(`${apiUrl}/validations/`, {
@@ -49,6 +40,15 @@ export const api = {
         },
       })
       .json<number>();
+  },
+  async getGroupValidations(token: string, groupId: number) {
+    return ky
+      .get(`${apiUrl}/groups/${groupId}/validations`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .json<ValidationDto[]>();
   },
   // async uploadValidationFile(
   //   token: string,

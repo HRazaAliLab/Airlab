@@ -114,10 +114,10 @@
           <td :colspan="headers.length">
             <v-card flat tile class="my-2">
               <v-card-title>
-                {{ item.name }}
+                {{ item.tubeNumber }}
               </v-card-title>
               <v-card-text>
-                {{ item.bindingRegion }}
+                {{ item.description }}
               </v-card-text>
             </v-card>
           </td>
@@ -211,10 +211,6 @@ export default class ConjugatesViews extends Vue {
       align: "end",
     },
     {
-      text: "Description",
-      value: "description",
-    },
-    {
       text: "Is Low",
       value: "isLow",
       filterable: false,
@@ -264,7 +260,7 @@ export default class ConjugatesViews extends Vue {
   }
 
   async mounted() {
-    await this.conjugateContext.actions.getConjugates();
+    await this.conjugateContext.actions.getGroupConjugates(+this.$router.currentRoute.params.groupId);
   }
 
   async deleteConjugate(id: number) {

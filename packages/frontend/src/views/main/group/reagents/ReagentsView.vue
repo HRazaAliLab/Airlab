@@ -265,7 +265,7 @@ export default class ReagentsView extends Vue {
   async mounted() {
     if (this.activeGroupId) {
       await Promise.all([
-        this.reagentContext.actions.getAllReagentsForGroup(this.activeGroupId),
+        this.reagentContext.actions.getGroupReagents(this.activeGroupId),
         this.providerContext.actions.getProviders(),
       ]);
     }

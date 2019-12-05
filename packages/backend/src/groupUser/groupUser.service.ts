@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { GroupUserEntity } from "./groupUser.entity";
@@ -40,5 +40,13 @@ export class GroupUserService {
     return this.groupUserRepository.find({
       userId: userId,
     });
+  }
+
+  async checkGroupUserPermissions(userId: number, groupId: number) {
+    const groupUser = await this.findByUserIdAndGroupId(userId, groupId);
+    if (!groupUser || !groupUser.isActive) {
+      throw new UnauthorizedException();
+    }
+    return groupUser;
   }
 }

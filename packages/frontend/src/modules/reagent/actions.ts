@@ -17,17 +17,6 @@ export class ReagentActions extends Actions<ReagentState, ReagentGetters, Reagen
     this.main = mainModule.context(store);
   }
 
-  async getReagents() {
-    try {
-      const data = await api.getReagents(this.main!.getters.token);
-      if (data) {
-        this.mutations.setEntities(data);
-      }
-    } catch (error) {
-      await this.main!.actions.checkApiError(error);
-    }
-  }
-
   async createReagent(payload: CreateReagentDto) {
     try {
       const notification = { content: "saving", showProgress: true };
@@ -78,9 +67,9 @@ export class ReagentActions extends Actions<ReagentState, ReagentGetters, Reagen
     }
   }
 
-  async getAllReagentsForGroup(groupId: number) {
+  async getGroupReagents(groupId: number) {
     try {
-      const data = await api.getAllReagentsForGroup(this.main!.getters.token, groupId);
+      const data = await api.getGroupReagents(this.main!.getters.token, groupId);
       if (data) {
         this.mutations.setEntities(data);
       }

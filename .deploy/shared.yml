@@ -27,6 +27,8 @@ services:
       - TYPEORM_MIGRATIONS_DIR
       - TYPEORM_MIGRATIONS
       - JWT_SECRET
+      - REDIS_HOST
+      - REDIS_PORT
     depends_on:
       - db
       - rabbitmq

@@ -3,6 +3,8 @@ import { ProteinController } from "./protein.controller";
 import { ProteinService } from "./protein.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ProteinEntity } from "./protein.entity";
+import { GroupUserEntity } from "../groupUser/groupUser.entity";
+import { GroupUserService } from "../groupUser/groupUser.service";
 
 describe("ProteinController", () => {
   let controller: ProteinController;
@@ -10,9 +12,9 @@ describe("ProteinController", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([ProteinEntity])],
+      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([ProteinEntity, GroupUserEntity])],
       controllers: [ProteinController],
-      providers: [ProteinService],
+      providers: [ProteinService, GroupUserService],
     }).compile();
 
     controller = module.get<ProteinController>(ProteinController);

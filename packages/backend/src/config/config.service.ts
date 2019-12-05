@@ -62,6 +62,13 @@ export class ConfigService {
 
       ssl: this.isProduction,
       synchronize: false,
+      cache: {
+        type: "redis",
+        options: {
+          host: this.get("REDIS_HOST"),
+          port: Number(this.get("REDIS_PORT")),
+        },
+      },
     };
   }
 

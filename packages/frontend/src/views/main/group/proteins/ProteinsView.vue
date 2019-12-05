@@ -152,9 +152,7 @@ export default class ProteinsView extends Vue {
   }
 
   async mounted() {
-    if (this.activeGroupId) {
-      await this.proteinContext.actions.getAllProteinsForGroup(this.activeGroupId);
-    }
+    await this.proteinContext.actions.getGroupProteins(+this.$router.currentRoute.params.groupId);
   }
 
   async deleteProtein(id: number) {

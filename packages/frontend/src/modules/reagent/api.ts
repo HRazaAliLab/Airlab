@@ -3,15 +3,6 @@ import { apiUrl } from "@/env";
 import { CreateReagentDto, ReagentDto, UpdateReagentDto } from "@airlab/shared/lib/reagent/dto";
 
 export const api = {
-  async getReagents(token: string) {
-    return ky
-      .get(`${apiUrl}/reagents/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<ReagentDto[]>();
-  },
   async createReagent(token: string, data: CreateReagentDto) {
     return ky
       .post(`${apiUrl}/reagents/`, {
@@ -50,9 +41,9 @@ export const api = {
       })
       .json<number>();
   },
-  async getAllReagentsForGroup(token: string, groupId: number) {
+  async getGroupReagents(token: string, groupId: number) {
     return ky
-      .get(`${apiUrl}/group/${groupId}/reagents`, {
+      .get(`${apiUrl}/groups/${groupId}/reagents`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

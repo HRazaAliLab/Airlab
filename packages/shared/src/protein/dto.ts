@@ -1,4 +1,4 @@
-import { IsString } from "class-validator";
+import { IsInt, IsString } from "class-validator";
 import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 
 export class ProteinDto {
@@ -25,6 +25,12 @@ export class ProteinDto {
 }
 
 export class CreateProteinDto {
+  readonly createdBy?: number;
+
+  @IsInt()
+  @ApiModelProperty()
+  readonly groupId: number;
+
   @IsString()
   @ApiModelProperty()
   readonly name: string;

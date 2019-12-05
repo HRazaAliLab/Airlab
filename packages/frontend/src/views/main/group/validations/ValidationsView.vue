@@ -486,7 +486,10 @@ export default class ValidationsViews extends Vue {
   }
 
   async mounted() {
-    await Promise.all([this.validationContext.actions.getValidations(), this.speciesContext.actions.getSpecies()]);
+    await Promise.all([
+      this.validationContext.actions.getGroupValidations(+this.$router.currentRoute.params.groupId),
+      this.speciesContext.actions.getSpecies(),
+    ]);
   }
 
   async deleteValidation(id: number) {

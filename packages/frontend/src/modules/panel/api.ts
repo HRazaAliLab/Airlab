@@ -3,15 +3,6 @@ import { apiUrl } from "@/env";
 import { CreatePanelDto, DuplicatePanelDto, PanelDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
 
 export const api = {
-  async getPanels(token: string) {
-    return ky
-      .get(`${apiUrl}/panels/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<PanelDto[]>();
-  },
   async createPanel(token: string, data: CreatePanelDto) {
     return ky
       .post(`${apiUrl}/panels/`, {
@@ -60,9 +51,9 @@ export const api = {
       })
       .json<number>();
   },
-  async getAllPanelsForGroup(token: string, groupId: number) {
+  async getGroupPanels(token: string, groupId: number) {
     return ky
-      .get(`${apiUrl}/group/${groupId}/panels`, {
+      .get(`${apiUrl}/groups/${groupId}/panels`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

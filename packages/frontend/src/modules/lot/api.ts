@@ -3,15 +3,6 @@ import { apiUrl } from "@/env";
 import { CreateLotDto, LotDto, UpdateLotDto } from "@airlab/shared/lib/lot/dto";
 
 export const api = {
-  async getLots(token: string) {
-    return ky
-      .get(`${apiUrl}/lots/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<LotDto[]>();
-  },
   async createLot(token: string, data: CreateLotDto) {
     return ky
       .post(`${apiUrl}/lots/`, {
@@ -50,9 +41,9 @@ export const api = {
       })
       .json<number>();
   },
-  async getAccessibleLots(token: string) {
+  async getGroupLots(token: string, groupId: number) {
     return ky
-      .get(`${apiUrl}/lots/accessible`, {
+      .get(`${apiUrl}/groups/${groupId}/lots`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

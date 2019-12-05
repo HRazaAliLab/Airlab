@@ -1,15 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Request,
-  UnauthorizedException,
-  UseGuards,
-} from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { CloneService } from "./clone.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
@@ -26,10 +15,7 @@ export class CloneController {
   @Post("clones")
   @ApiCreatedResponse({ description: "Create entity.", type: CloneDto })
   async create(@Request() req, @Body() params: CreateCloneDto) {
-    const groupUser = await this.groupUserService.findByUserIdAndGroupId(req.user.userId, params.groupId);
-    if (!groupUser) {
-      throw new UnauthorizedException();
-    }
+    const groupUser = await this.groupUserService.checkGroupUserPermissions(req.user.userId, params.groupId);
     return this.cloneService.create({ ...params, createdBy: groupUser.id });
   }
 
@@ -37,10 +23,7 @@ export class CloneController {
   @ApiCreatedResponse({ description: "Find entity by Id.", type: CloneDto })
   async findById(@Request() req, @Param("id") id: number) {
     const item = await this.cloneService.findById(id);
-    const groupUser = await this.groupUserService.findByUserIdAndGroupId(req.user.userId, item.groupId);
-    if (!groupUser) {
-      throw new UnauthorizedException();
-    }
+    await this.groupUserService.checkGroupUserPermissions(req.user.userId, item.groupId);
     return item;
   }
 
@@ -48,10 +31,7 @@ export class CloneController {
   @ApiCreatedResponse({ description: "Updated entity.", type: CloneDto })
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdateCloneDto) {
     const item = await this.cloneService.findById(id);
-    const groupUser = await this.groupUserService.findByUserIdAndGroupId(req.user.userId, item.groupId);
-    if (!groupUser) {
-      throw new UnauthorizedException();
-    }
+    await this.groupUserService.checkGroupUserPermissions(req.user.userId, item.groupId);
     return this.cloneService.update(id, params);
   }
 
@@ -59,20 +39,14 @@ export class CloneController {
   @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.cloneService.findById(id);
-    const groupUser = await this.groupUserService.findByUserIdAndGroupId(req.user.userId, item.groupId);
-    if (!groupUser) {
-      throw new UnauthorizedException();
-    }
+    await this.groupUserService.checkGroupUserPermissions(req.user.userId, item.groupId);
     return this.cloneService.deleteById(id);
   }
 
   @Get("groups/:groupId/clones")
   @ApiCreatedResponse({ description: "Find all clones belonging to the group.", type: CloneDto, isArray: true })
   async getGroupClones(@Request() req, @Param("groupId") groupId: number) {
-    const groupUser = await this.groupUserService.findByUserIdAndGroupId(req.user.userId, groupId);
-    if (!groupUser) {
-      throw new UnauthorizedException();
-    }
+    await this.groupUserService.checkGroupUserPermissions(req.user.userId, groupId);
     return this.cloneService.getGroupClones(groupId);
   }
 }

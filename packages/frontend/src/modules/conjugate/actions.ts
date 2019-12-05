@@ -17,17 +17,6 @@ export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, 
     this.main = mainModule.context(store);
   }
 
-  async getConjugates() {
-    try {
-      const data = await api.getConjugates(this.main!.getters.token);
-      if (data) {
-        this.mutations.setEntities(data);
-      }
-    } catch (error) {
-      await this.main!.actions.checkApiError(error);
-    }
-  }
-
   async createConjugate(payload: CreateConjugateDto) {
     try {
       const notification = { content: "saving", showProgress: true };
@@ -73,6 +62,17 @@ export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, 
       this.mutations.deleteEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Conjugate successfully deleted", color: "success" });
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
+
+  async getGroupConjugates(groupId: number) {
+    try {
+      const data = await api.getGroupConjugates(this.main!.getters.token, groupId);
+      if (data) {
+        this.mutations.setEntities(data);
+      }
     } catch (error) {
       await this.main!.actions.checkApiError(error);
     }

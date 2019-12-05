@@ -4,7 +4,6 @@ import { Repository } from "typeorm";
 import { ConjugateEntity } from "./conjugate.entity";
 import { CreateConjugateDto, UpdateConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 import { UserEntity } from "../user/user.entity";
-import { GroupUserEntity } from "../groupUser/groupUser.entity";
 
 @Injectable()
 export class ConjugateService {
@@ -12,10 +11,6 @@ export class ConjugateService {
     @InjectRepository(ConjugateEntity)
     private readonly repository: Repository<ConjugateEntity>
   ) {}
-
-  async findAll() {
-    return this.repository.find();
-  }
 
   async create(params: CreateConjugateDto) {
     return this.repository.save(params);
@@ -35,23 +30,26 @@ export class ConjugateService {
     return result.affected === 1 ? id : undefined;
   }
 
-  async getAccessibleConjugates(userId: number) {
-    const result = await this.repository
-      .createQueryBuilder("conjugate")
-      .leftJoin("conjugate.tag", "tag")
-      .addSelect(["tag.id", "tag.name", "tag.mw"])
-      .leftJoin("conjugate.lot", "lot")
-      .addSelect(["lot.id", "lot.number"])
-      .leftJoin("lot.clone", "clone")
-      .addSelect(["clone.id", "clone.name"])
-      .leftJoin("clone.protein", "protein")
-      .addSelect(["protein.name"])
-      .leftJoin(GroupUserEntity, "groupUser", "conjugate.groupId = groupUser.groupId")
-      .where("groupUser.userId = :userId", { userId: userId })
-      .leftJoinAndMapOne("conjugate.user", UserEntity, "user", "groupUser.userId = user.id")
-      .orderBy({ "conjugate.tubeNumber": "DESC" })
-      .getMany();
-    return result;
+  async getGroupConjugates(groupId: number) {
+    return (
+      this.repository
+        .createQueryBuilder("conjugate")
+        .where("conjugate.groupId = :groupId", { groupId: groupId })
+        .andWhere("conjugate.isDeleted = false")
+        .leftJoin("conjugate.tag", "tag")
+        .addSelect(["tag.id", "tag.name", "tag.mw"])
+        .leftJoin("conjugate.lot", "lot")
+        .addSelect(["lot.id", "lot.number"])
+        .leftJoin("lot.clone", "clone")
+        .addSelect(["clone.id", "clone.name"])
+        .leftJoin("clone.protein", "protein")
+        .addSelect(["protein.name"])
+        .leftJoin("conjugate.groupUser", "groupUser")
+        .leftJoinAndMapOne("conjugate.user", UserEntity, "user", "groupUser.userId = user.id")
+        .orderBy({ "conjugate.tubeNumber": "DESC" })
+        // .cache("group_conjugates", 1000 * 60 * 60)
+        .getMany()
+    );
   }
 
   async lastConjugateForGroup(groupId: number) {

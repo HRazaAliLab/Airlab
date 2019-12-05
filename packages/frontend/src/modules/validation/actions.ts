@@ -22,17 +22,6 @@ export class ValidationActions extends Actions<
     this.main = mainModule.context(store);
   }
 
-  async getValidations() {
-    try {
-      const data = await api.getValidations(this.main!.getters.token);
-      if (data) {
-        this.mutations.setEntities(data);
-      }
-    } catch (error) {
-      await this.main!.actions.checkApiError(error);
-    }
-  }
-
   async createValidation(payload: CreateValidationDto) {
     try {
       const notification = { content: "saving", showProgress: true };
@@ -78,6 +67,17 @@ export class ValidationActions extends Actions<
       this.mutations.deleteEntity(data);
       this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Validation successfully deleted", color: "success" });
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
+
+  async getGroupValidations(groupId: number) {
+    try {
+      const data = await api.getGroupValidations(this.main!.getters.token, groupId);
+      if (data) {
+        this.mutations.setEntities(data);
+      }
     } catch (error) {
       await this.main!.actions.checkApiError(error);
     }

@@ -19,23 +19,19 @@ export class ReagentService {
   async update(id: number, params: UpdateReagentDto) {
     await this.repository.update(id, params);
     return this.findById(id);
-    // return this.repository
-    //   .createQueryBuilder()
-    //   .update()
-    //   .set(params)
-    //   .where("id = :id", { id: id })
-    //   .returning("*")
-    //   .execute();
   }
 
   async findById(id: number) {
-    return this.repository.findOne(id, {
-      select: ["id", "name", "reference", "providerId", "meta"],
-    });
+    return this.repository.findOne(id);
   }
 
-  async getAllReagentsForGroup(groupId: number) {
-    const result = await this.repository
+  async deleteById(id: number) {
+    const result = await this.repository.delete(id);
+    return result.affected === 1 ? id : undefined;
+  }
+
+  async getGroupReagents(groupId: number) {
+    return this.repository
       .createQueryBuilder("reagent")
       .select(["reagent.id", "reagent.name", "reagent.reference", "reagent.meta"])
       .leftJoin("reagent.provider", "provider")
@@ -48,6 +44,5 @@ export class ReagentService {
       })
       .orderBy("reagent.id", "DESC")
       .getMany();
-    return result;
   }
 }

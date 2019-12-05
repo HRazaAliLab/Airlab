@@ -308,7 +308,7 @@ export default class LotsView extends Vue {
   }
 
   async mounted() {
-    await this.lotContext.actions.getAccessibleLots();
+    await this.lotContext.actions.getGroupLots(+this.$router.currentRoute.params.groupId);
   }
 
   async deleteLot(id: number) {

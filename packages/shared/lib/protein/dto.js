@@ -45,6 +45,11 @@ exports.ProteinDto = ProteinDto;
 class CreateProteinDto {
 }
 __decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", Number)
+], CreateProteinDto.prototype, "groupId", void 0);
+__decorate([
     class_validator_1.IsString(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)

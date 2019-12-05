@@ -4,7 +4,6 @@ import { Repository } from "typeorm";
 import { ValidationEntity } from "./validation.entity";
 import { CreateValidationDto, UpdateValidationDto } from "@airlab/shared/lib/validation/dto";
 import { UserEntity } from "../user/user.entity";
-import { GroupUserEntity } from "../groupUser/groupUser.entity";
 
 @Injectable()
 export class ValidationService {
@@ -12,10 +11,6 @@ export class ValidationService {
     @InjectRepository(ValidationEntity)
     private readonly repository: Repository<ValidationEntity>
   ) {}
-
-  async findAll() {
-    return this.repository.find();
-  }
 
   async create(params: CreateValidationDto) {
     return this.repository.save(params);
@@ -37,9 +32,10 @@ export class ValidationService {
     return result.affected === 1 ? id : undefined;
   }
 
-  async getAccessibleValidations(userId: number) {
-    const result = await this.repository
+  async getGroupValidations(groupId: number) {
+    return this.repository
       .createQueryBuilder("validation")
+      .where("validation.groupId = :groupId", { groupId: groupId })
       .select([
         "validation.id",
         "validation.application",
@@ -59,11 +55,9 @@ export class ValidationService {
       .addSelect(["species.id", "species.name"])
       .leftJoin("validation.validationFiles", "validationFiles")
       .addSelect(["validationFiles.id", "validationFiles.name"])
-      .leftJoin(GroupUserEntity, "groupUser", "validation.groupId = groupUser.groupId")
-      .where("groupUser.userId = :userId", { userId: userId })
+      .leftJoin("validation.groupUser", "groupUser")
       .leftJoinAndMapOne("validation.user", UserEntity, "user", "groupUser.userId = user.id")
       .orderBy({ "validation.id": "DESC" })
       .getMany();
-    return result;
   }
 }

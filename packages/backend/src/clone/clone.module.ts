@@ -5,12 +5,11 @@ import { CloneEntity } from "./clone.entity";
 import { CloneController } from "./clone.controller";
 import { GroupUserService } from "../groupUser/groupUser.service";
 import { GroupUserEntity } from "../groupUser/groupUser.entity";
-import { RolesGuard } from "../auth/roles.guard";
 import { UserEntity } from "../user/user.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([CloneEntity, GroupUserEntity, UserEntity])],
-  providers: [CloneService, GroupUserService, RolesGuard],
+  providers: [CloneService, GroupUserService],
   controllers: [CloneController],
 })
 export class CloneModule {}

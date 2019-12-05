@@ -17,17 +17,6 @@ export class LotActions extends Actions<LotState, LotGetters, LotMutations, LotA
     this.main = mainModule.context(store);
   }
 
-  async getLots() {
-    try {
-      const data = await api.getLots(this.main!.getters.token);
-      if (data) {
-        this.mutations.setEntities(data);
-      }
-    } catch (error) {
-      await this.main!.actions.checkApiError(error);
-    }
-  }
-
   async createLot(payload: CreateLotDto) {
     try {
       const notification = { content: "saving", showProgress: true };
@@ -78,9 +67,9 @@ export class LotActions extends Actions<LotState, LotGetters, LotMutations, LotA
     }
   }
 
-  async getAccessibleLots() {
+  async getGroupLots(groupId: number) {
     try {
-      const data = await api.getAccessibleLots(this.main!.getters.token);
+      const data = await api.getGroupLots(this.main!.getters.token, groupId);
       if (data) {
         this.mutations.setEntities(data);
       }

@@ -232,9 +232,7 @@ export default class PanelsView extends Vue {
   }
 
   async mounted() {
-    if (this.activeGroupId) {
-      await this.panelContext.actions.getAllPanelsForGroup(this.activeGroupId);
-    }
+    await this.panelContext.actions.getGroupPanels(+this.$router.currentRoute.params.groupId);
   }
 
   async duplicatePanel(id: number) {

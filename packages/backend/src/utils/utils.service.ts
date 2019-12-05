@@ -1,7 +1,7 @@
 import { Inject, Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "../config/config.service";
 import * as Mailgen from "mailgen";
-import { ClientProxy, ClientRedis } from "@nestjs/microservices";
+import { ClientProxy } from "@nestjs/microservices";
 import { SEND_EMAIL_MESSAGE } from "@airlab/shared/lib/constants";
 import { SendEmailEvent } from "@airlab/shared/lib/events";
 
@@ -13,7 +13,6 @@ export class UtilsService {
   ) {}
 
   private readonly logger = new Logger(UtilsService.name);
-  private readonly redis = new ClientRedis()
 
   private readonly mailGenerator = new Mailgen({
     theme: "default",

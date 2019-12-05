@@ -2,7 +2,6 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CloneEntity } from "./clone.entity";
-import { GroupUserEntity } from "../groupUser/groupUser.entity";
 import { CreateCloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
 
 @Injectable()
@@ -31,17 +30,18 @@ export class CloneService {
   }
 
   async getGroupClones(groupId: number) {
-    const result = await this.repository
-      .createQueryBuilder("clone")
-      .where("clone.groupId = :groupId", { groupId: groupId })
-      .andWhere("clone.isDeleted = false")
-      .leftJoin("clone.protein", "protein")
-      .addSelect(["protein.id", "protein.name"])
-      .leftJoin("clone.species", "species")
-      .addSelect(["species.id", "species.name"])
-      .leftJoin(GroupUserEntity, "groupUser", "clone.groupId = groupUser.groupId")
-      .orderBy("clone.id", "DESC")
-      .getMany();
-    return result;
+    return (
+      this.repository
+        .createQueryBuilder("clone")
+        .where("clone.groupId = :groupId", { groupId: groupId })
+        .andWhere("clone.isDeleted = false")
+        .leftJoin("clone.protein", "protein")
+        .addSelect(["protein.id", "protein.name"])
+        .leftJoin("clone.species", "species")
+        .addSelect(["species.id", "species.name"])
+        .orderBy("clone.id", "DESC")
+        // .cache("group_clones", 1000 * 60 * 60)
+        .getMany()
+    );
   }
 }

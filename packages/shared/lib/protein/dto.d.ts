@@ -8,6 +8,8 @@ export declare class ProteinDto {
     readonly createdAt: string;
 }
 export declare class CreateProteinDto {
+    readonly createdBy?: number;
+    readonly groupId: number;
     readonly name: string;
     readonly description: string;
 }

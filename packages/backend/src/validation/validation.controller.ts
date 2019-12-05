@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -19,7 +20,6 @@ import {
   UploadValidationDto,
   ValidationDto,
 } from "@airlab/shared/lib/validation/dto";
-import { JwtPayloadDto } from "@airlab/shared/lib/auth/dto";
 import { GroupUserService } from "../groupUser/groupUser.service";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { existsSync } from "fs";
@@ -78,9 +78,9 @@ const storage = multer.diskStorage({
 });
 
 @Controller()
+@UseGuards(AuthGuard("jwt"))
 @ApiUseTags("validations")
 @ApiBearerAuth()
-@UseGuards(AuthGuard("jwt"))
 export class ValidationController {
   constructor(
     private readonly validationService: ValidationService,
@@ -88,41 +88,46 @@ export class ValidationController {
     private readonly validationFileService: ValidationFileService
   ) {}
 
-  @Get("validations")
-  @ApiCreatedResponse({ description: "Find all entities.", type: ValidationDto, isArray: true })
-  findAll() {
-    return this.validationService.findAll();
-  }
-
-  @Get("validations/accessible")
-  @ApiCreatedResponse({
-    description: "Find all validations accessible for the user.",
-    type: ValidationDto,
-    isArray: true,
-  })
-  getAccessibleValidations(@Request() req) {
-    const user: JwtPayloadDto = req.user;
-    return this.validationService.getAccessibleValidations(user.userId);
+  @Post("validations")
+  @ApiCreatedResponse({ description: "Create entity.", type: ValidationDto })
+  async create(@Request() req, @Body() params: CreateValidationDto) {
+    const groupUser = await this.groupUserService.checkGroupUserPermissions(req.user.userId, params.groupId);
+    return this.validationService.create({ ...params, createdBy: groupUser.id });
   }
 
   @Get("validations/:id")
   @ApiCreatedResponse({ description: "Find entity by Id.", type: ValidationDto })
-  findById(@Param("id") id: number) {
-    return this.validationService.findById(id);
-  }
-
-  @Post("validations")
-  @ApiCreatedResponse({ description: "Create entity.", type: ValidationDto })
-  async create(@Request() req, @Body() params: CreateValidationDto) {
-    const user: JwtPayloadDto = req.user;
-    const groupUser = await this.groupUserService.findByUserIdAndGroupId(user.userId, params.groupId);
-    return this.validationService.create({ ...params, createdBy: groupUser.id });
+  async findById(@Request() req, @Param("id") id: number) {
+    const item = await this.validationService.findById(id);
+    await this.groupUserService.checkGroupUserPermissions(req.user.userId, item.groupId);
+    return item;
   }
 
   @Patch("validations/:id")
   @ApiCreatedResponse({ description: "Updated entity.", type: ValidationDto })
-  async update(@Param("id") id: number, @Body() params: UpdateValidationDto) {
+  async update(@Request() req, @Param("id") id: number, @Body() params: UpdateValidationDto) {
+    const item = await this.validationService.findById(id);
+    await this.groupUserService.checkGroupUserPermissions(req.user.userId, item.groupId);
     return this.validationService.update(id, params);
+  }
+
+  @Delete("validations/:id")
+  @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
+  async deleteById(@Request() req, @Param("id") id: number) {
+    const item = await this.validationService.findById(id);
+    await this.groupUserService.checkGroupUserPermissions(req.user.userId, item.groupId);
+    return this.validationService.deleteById(id);
+  }
+
+  @Get("groups/:groupId/validations")
+  @ApiCreatedResponse({
+    description: "Find all validations belonging to the group.",
+    type: ValidationDto,
+    isArray: true,
+  })
+  async getGroupValidations(@Request() req, @Param("groupId") groupId: number) {
+    await this.groupUserService.checkGroupUserPermissions(req.user.userId, groupId);
+    return this.validationService.getGroupValidations(groupId);
   }
 
   @Post("validations/:id/upload")
@@ -155,9 +160,7 @@ export class ValidationController {
     })
   )
   async upload(@Param("id") id: number, @Request() req, @UploadedFile() file, @Body() params: UploadValidationDto) {
-    const groupId = Number(params.groupId);
-    const user: JwtPayloadDto = req.user;
-    const groupUser = await this.groupUserService.findByUserIdAndGroupId(user.userId, groupId);
+    const groupUser = await this.groupUserService.checkGroupUserPermissions(req.user.userId, Number(params.groupId));
     const extension = extname(file.originalname);
     const fileEntity = await this.validationFileService.create({
       validationId: id,

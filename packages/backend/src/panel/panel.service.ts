@@ -12,14 +12,6 @@ export class PanelService {
     private readonly repository: Repository<PanelEntity>
   ) {}
 
-  async findAll() {
-    return this.repository.find({
-      order: {
-        id: "DESC",
-      },
-    });
-  }
-
   async create(params: CreatePanelDto) {
     return this.repository.save(params);
   }
@@ -27,12 +19,6 @@ export class PanelService {
   async update(id: number, params: UpdatePanelDto) {
     await this.repository.update(id, params);
     return this.findById(id);
-  }
-
-  async duplicate(id: number, params: DuplicatePanelDto) {
-    const item = await this.findById(id);
-    delete item.id;
-    return this.repository.save({ ...item, name: params.name, createdBy: params.createdBy });
   }
 
   async findById(id: number) {
@@ -44,8 +30,14 @@ export class PanelService {
     return result.affected === 1 ? id : undefined;
   }
 
-  async getAllPanelsForGroup(groupId: number) {
-    const result = await this.repository
+  async duplicate(id: number, params: DuplicatePanelDto) {
+    const item = await this.findById(id);
+    delete item.id;
+    return this.repository.save({ ...item, name: params.name, createdBy: params.createdBy });
+  }
+
+  async getGroupPanels(groupId: number) {
+    return this.repository
       .createQueryBuilder("panel")
       .leftJoin("panel.groupUser", "groupUser")
       .leftJoinAndMapOne("panel.user", UserEntity, "user", "groupUser.userId = user.id")
@@ -55,20 +47,19 @@ export class PanelService {
       })
       .orderBy({ "panel.id": "DESC" })
       .getMany();
-    return result;
   }
 
-  async getAllPanelsForGroupUser(groupUserId: number) {
-    const result = await this.repository
+  async getPersonalGroupPanels(groupId: number, groupUserId: number) {
+    return this.repository
       .createQueryBuilder("panel")
       .leftJoin("panel.groupUser", "groupUser")
       .leftJoinAndMapOne("panel.user", UserEntity, "user", "groupUser.userId = user.id")
       .where({
+        groupId: groupId,
         createdBy: groupUserId,
         isDeleted: false,
       })
       .orderBy({ "panel.id": "DESC" })
       .getMany();
-    return result;
   }
 }

@@ -21,12 +21,15 @@ export class ProteinService {
   }
 
   async findById(id: number) {
-    return this.repository.findOne(id, {
-      select: ["id", "name", "description"],
-    });
+    return this.repository.findOne(id);
   }
 
-  async getAllProteinsForGroup(groupId: number) {
+  async deleteById(id: number) {
+    const result = await this.repository.delete(id);
+    return result.affected === 1 ? id : undefined;
+  }
+
+  async getGroupProteins(groupId: number) {
     return this.repository.find({
       select: ["id", "name", "description"],
       where: {

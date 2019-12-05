@@ -27,9 +27,11 @@ import { required } from "@/utils/validators";
 import { Component, Vue } from "vue-property-decorator";
 import { proteinModule } from "@/modules/protein";
 import { CreateProteinDto } from "@airlab/shared/lib/protein/dto";
+import { groupModule } from "@/modules/group";
 
 @Component
 export default class CreateProtein extends Vue {
+  readonly groupContext = groupModule.context(this.$store);
   readonly proteinContext = proteinModule.context(this.$store);
 
   readonly nameRules = [required];
@@ -37,6 +39,10 @@ export default class CreateProtein extends Vue {
   valid = true;
   name = "";
   description = "";
+
+  get activeGroupId() {
+    return this.groupContext.getters.activeGroupId;
+  }
 
   reset() {
     this.name = "";
@@ -49,8 +55,9 @@ export default class CreateProtein extends Vue {
   }
 
   async submit() {
-    if ((this.$refs.form as any).validate()) {
+    if ((this.$refs.form as any).validate() && this.activeGroupId) {
       const data: CreateProteinDto = {
+        groupId: this.activeGroupId,
         name: this.name,
         description: this.description,
       };

@@ -17,17 +17,6 @@ export class ProteinActions extends Actions<ProteinState, ProteinGetters, Protei
     this.main = mainModule.context(store);
   }
 
-  async getProteins() {
-    try {
-      const data = await api.getProteins(this.main!.getters.token);
-      if (data) {
-        this.mutations.setEntities(data);
-      }
-    } catch (error) {
-      await this.main!.actions.checkApiError(error);
-    }
-  }
-
   async createProtein(payload: CreateProteinDto) {
     try {
       const notification = { content: "saving", showProgress: true };
@@ -78,9 +67,9 @@ export class ProteinActions extends Actions<ProteinState, ProteinGetters, Protei
     }
   }
 
-  async getAllProteinsForGroup(groupId: number) {
+  async getGroupProteins(groupId: number) {
     try {
-      const data = await api.getAllProteinsForGroup(this.main!.getters.token, groupId);
+      const data = await api.getGroupProteins(this.main!.getters.token, groupId);
       if (data) {
         this.mutations.setEntities(data);
       }
