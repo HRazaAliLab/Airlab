@@ -56,6 +56,7 @@ __decorate([
 ], CreateGroupDto.prototype, "institution", void 0);
 __decorate([
     class_validator_1.IsUrl(),
+    class_validator_1.IsOptional(),
     swagger_1.ApiModelPropertyOptional(),
     __metadata("design:type", String)
 ], CreateGroupDto.prototype, "url", void 0);
@@ -79,6 +80,7 @@ __decorate([
 ], UpdateGroupDto.prototype, "institution", void 0);
 __decorate([
     class_validator_1.IsUrl(),
+    class_validator_1.IsOptional(),
     swagger_1.ApiModelPropertyOptional(),
     __metadata("design:type", String)
 ], UpdateGroupDto.prototype, "url", void 0);

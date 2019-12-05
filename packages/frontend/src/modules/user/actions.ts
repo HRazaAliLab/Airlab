@@ -30,11 +30,8 @@ export class UserActions extends Actions<UserState, UserGetters, UserMutations, 
 
   async updateUser(payload: { id: number; user: UpdateUserDto }) {
     try {
-      const notification = { content: "saving", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.updateUser(this.main!.getters.token, payload.id, payload.user);
       this.mutations.updateEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "User successfully updated", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -43,11 +40,8 @@ export class UserActions extends Actions<UserState, UserGetters, UserMutations, 
 
   async createUser(payload: CreateUserDto) {
     try {
-      const notification = { content: "saving", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.createUser(this.main!.getters.token, payload);
       this.mutations.addEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "User successfully created", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -76,11 +70,8 @@ export class UserActions extends Actions<UserState, UserGetters, UserMutations, 
 
   async signUp(payload: CreateUserDto) {
     try {
-      const notification = { content: "signing up", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.signUp(payload);
       this.main!.actions.routeLogOut();
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "User successfully signed up", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);

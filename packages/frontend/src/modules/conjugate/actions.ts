@@ -19,11 +19,8 @@ export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, 
 
   async createConjugate(payload: CreateConjugateDto) {
     try {
-      const notification = { content: "saving", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.createConjugate(this.main!.getters.token, payload);
       this.mutations.addEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Conjugate successfully created", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -43,11 +40,8 @@ export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, 
 
   async updateConjugate(payload: { id: number; data: UpdateConjugateDto }) {
     try {
-      const notification = { content: "saving", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.updateConjugate(this.main!.getters.token, payload.id, payload.data);
       this.mutations.updateEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Conjugate successfully updated", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -56,11 +50,8 @@ export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, 
 
   async deleteConjugate(id: number) {
     try {
-      const notification = { content: "deleting", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.deleteConjugate(this.main!.getters.token, id);
       this.mutations.deleteEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Conjugate successfully deleted", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);

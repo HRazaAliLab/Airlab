@@ -19,11 +19,8 @@ export class LotActions extends Actions<LotState, LotGetters, LotMutations, LotA
 
   async createLot(payload: CreateLotDto) {
     try {
-      const notification = { content: "saving", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.createLot(this.main!.getters.token, payload);
       this.mutations.addEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Lot successfully created", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -43,11 +40,8 @@ export class LotActions extends Actions<LotState, LotGetters, LotMutations, LotA
 
   async updateLot(payload: { id: number; data: UpdateLotDto }) {
     try {
-      const notification = { content: "saving", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.updateLot(this.main!.getters.token, payload.id, payload.data);
       this.mutations.updateEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Lot successfully updated", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -56,11 +50,8 @@ export class LotActions extends Actions<LotState, LotGetters, LotMutations, LotA
 
   async deleteLot(id: number) {
     try {
-      const notification = { content: "deleting", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.deleteLot(this.main!.getters.token, id);
       this.mutations.deleteEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Lot successfully deleted", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);

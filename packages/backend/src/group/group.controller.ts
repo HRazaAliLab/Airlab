@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { GroupService } from "./group.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
@@ -8,11 +8,19 @@ import { CreateGroupDto, GroupDto, InviteDto, RequestJoinGroupDto, UpdateGroupDt
 import { UserDto } from "@airlab/shared/lib/user/dto";
 
 @Controller()
+@UseGuards(AuthGuard("jwt"))
 @ApiUseTags("groups")
 @ApiBearerAuth()
-@UseGuards(AuthGuard("jwt"))
 export class GroupController {
   constructor(private readonly groupService: GroupService) {}
+
+  @Post("groups")
+  @Roles("admin")
+  @UseGuards(RolesGuard)
+  @ApiCreatedResponse({ description: "Create entity.", type: GroupDto })
+  async create(@Body() params: CreateGroupDto) {
+    return this.groupService.create(params);
+  }
 
   @Get("groups")
   @ApiCreatedResponse({ description: "Find all entities.", type: GroupDto, isArray: true })
@@ -27,17 +35,19 @@ export class GroupController {
   }
 
   @Patch("groups/:id")
+  @Roles("admin")
+  @UseGuards(RolesGuard)
   @ApiCreatedResponse({ description: "Updated entity.", type: GroupDto })
   async update(@Param("id") id: number, @Body() params: UpdateGroupDto) {
     return this.groupService.update(id, params);
   }
 
-  @Post("groups")
+  @Delete("groups/:id")
   @Roles("admin")
   @UseGuards(RolesGuard)
-  @ApiCreatedResponse({ description: "Create entity.", type: GroupDto })
-  async create(@Body() params: CreateGroupDto) {
-    return this.groupService.create(params);
+  @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
+  async deleteById(@Request() req, @Param("id") id: number) {
+    return this.groupService.deleteById(id);
   }
 
   @Post("groups/join")

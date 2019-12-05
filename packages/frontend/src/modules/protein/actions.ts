@@ -19,11 +19,8 @@ export class ProteinActions extends Actions<ProteinState, ProteinGetters, Protei
 
   async createProtein(payload: CreateProteinDto) {
     try {
-      const notification = { content: "saving", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.createProtein(this.main!.getters.token, payload);
       this.mutations.addEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Protein successfully created", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -43,11 +40,8 @@ export class ProteinActions extends Actions<ProteinState, ProteinGetters, Protei
 
   async updateProtein(payload: { id: number; data: UpdateProteinDto }) {
     try {
-      const notification = { content: "saving", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.updateProtein(this.main!.getters.token, payload.id, payload.data);
       this.mutations.updateEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Protein successfully updated", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -56,11 +50,8 @@ export class ProteinActions extends Actions<ProteinState, ProteinGetters, Protei
 
   async deleteProtein(id: number) {
     try {
-      const notification = { content: "deleting", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.deleteProtein(this.main!.getters.token, id);
       this.mutations.deleteEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Protein successfully deleted", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);

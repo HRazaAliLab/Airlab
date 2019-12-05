@@ -19,11 +19,8 @@ export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutatio
 
   async createClone(payload: CreateCloneDto) {
     try {
-      const notification = { content: "saving", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.createClone(this.main!.getters.token, payload);
       this.mutations.addEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Clone successfully created", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -43,11 +40,8 @@ export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutatio
 
   async updateClone(payload: { id: number; data: UpdateCloneDto }) {
     try {
-      const notification = { content: "saving", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.updateClone(this.main!.getters.token, payload.id, payload.data);
       this.mutations.updateEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Clone successfully updated", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -56,11 +50,8 @@ export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutatio
 
   async deleteClone(id: number) {
     try {
-      const notification = { content: "deleting", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.deleteClone(this.main!.getters.token, id);
       this.mutations.deleteEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Clone successfully deleted", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);

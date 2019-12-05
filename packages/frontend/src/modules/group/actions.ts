@@ -30,11 +30,8 @@ export class GroupActions extends Actions<GroupState, GroupGetters, GroupMutatio
 
   async createGroup(payload: CreateGroupDto) {
     try {
-      const notification = { content: "saving", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.createGroup(this.main!.getters.token, payload);
       this.mutations.addEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Group successfully created", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -54,11 +51,8 @@ export class GroupActions extends Actions<GroupState, GroupGetters, GroupMutatio
 
   async updateGroup(payload: { id: number; data: UpdateGroupDto }) {
     try {
-      const notification = { content: "saving", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.updateGroup(this.main!.getters.token, payload.id, payload.data);
       this.mutations.updateEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Group successfully updated", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -67,11 +61,8 @@ export class GroupActions extends Actions<GroupState, GroupGetters, GroupMutatio
 
   async deleteGroup(id: number) {
     try {
-      const notification = { content: "deleting", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.deleteGroup(this.main!.getters.token, id);
       this.mutations.deleteEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Group successfully deleted", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);

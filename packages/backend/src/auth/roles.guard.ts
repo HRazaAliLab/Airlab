@@ -34,18 +34,6 @@ export class RolesGuard implements CanActivate {
       }
     }
 
-    if (roles.includes("member")) {
-      const groupId = Number(request.params.groupId);
-      if (!groupId) {
-        return false;
-      }
-      for (const groupUser of user.groupUsers) {
-        if (groupUser.groupId === groupId) {
-          return true;
-        }
-      }
-    }
-
     return false;
   }
 }

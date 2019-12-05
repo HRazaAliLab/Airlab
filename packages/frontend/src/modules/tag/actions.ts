@@ -19,11 +19,8 @@ export class TagActions extends Actions<TagState, TagGetters, TagMutations, TagA
 
   async createTag(payload: CreateTagDto) {
     try {
-      const notification = { content: "saving", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.createTag(this.main!.getters.token, payload);
       this.mutations.addEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Tag successfully created", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -43,11 +40,8 @@ export class TagActions extends Actions<TagState, TagGetters, TagMutations, TagA
 
   async updateTag(payload: { id: number; data: UpdateTagDto }) {
     try {
-      const notification = { content: "saving", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.updateTag(this.main!.getters.token, payload.id, payload.data);
       this.mutations.updateEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Tag successfully updated", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -56,11 +50,8 @@ export class TagActions extends Actions<TagState, TagGetters, TagMutations, TagA
 
   async deleteTag(id: number) {
     try {
-      const notification = { content: "deleting", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.deleteTag(this.main!.getters.token, id);
       this.mutations.deleteEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Tag successfully deleted", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);

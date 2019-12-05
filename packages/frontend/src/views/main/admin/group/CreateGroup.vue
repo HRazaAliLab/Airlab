@@ -41,13 +41,13 @@ export default class CreateGroup extends Vue {
   valid = true;
   name = "";
   institution = "";
-  url = "";
+  url = null;
   isOpen = false;
 
   reset() {
     this.name = "";
     this.institution = "";
-    this.url = "";
+    this.url = null;
     this.isOpen = false;
     (this.$refs.form as any).resetValidation();
   }

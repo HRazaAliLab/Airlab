@@ -19,11 +19,8 @@ export class SpeciesActions extends Actions<SpeciesState, SpeciesGetters, Specie
 
   async createSpecies(payload: CreateSpeciesDto) {
     try {
-      const notification = { content: "saving", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.createSpecies(this.main!.getters.token, payload);
       this.mutations.addEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Species successfully created", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -43,11 +40,8 @@ export class SpeciesActions extends Actions<SpeciesState, SpeciesGetters, Specie
 
   async updateSpecies(payload: { id: number; data: UpdateSpeciesDto }) {
     try {
-      const notification = { content: "saving", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.updateSpecies(this.main!.getters.token, payload.id, payload.data);
       this.mutations.updateEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Species successfully updated", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -56,11 +50,8 @@ export class SpeciesActions extends Actions<SpeciesState, SpeciesGetters, Specie
 
   async deleteSpecies(id: number) {
     try {
-      const notification = { content: "deleting", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.deleteSpecies(this.main!.getters.token, id);
       this.mutations.deleteEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Species successfully deleted", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);

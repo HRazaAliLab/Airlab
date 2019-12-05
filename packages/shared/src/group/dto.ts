@@ -1,4 +1,4 @@
-import { IsBoolean, IsInt, IsString, IsUrl } from "class-validator";
+import { IsBoolean, IsInt, IsOptional, IsString, IsUrl } from "class-validator";
 import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 
 export class GroupDto {
@@ -34,8 +34,9 @@ export class CreateGroupDto {
   readonly institution: string;
 
   @IsUrl()
+  @IsOptional()
   @ApiModelPropertyOptional()
-  readonly url: string;
+  readonly url: string | null;
 
   @IsBoolean()
   @ApiModelProperty()
@@ -52,8 +53,9 @@ export class UpdateGroupDto {
   readonly institution: string;
 
   @IsUrl()
+  @IsOptional()
   @ApiModelPropertyOptional()
-  readonly url: string;
+  readonly url: string | null;
 
   @IsBoolean()
   @ApiModelProperty()

@@ -24,11 +24,8 @@ export class ValidationActions extends Actions<
 
   async createValidation(payload: CreateValidationDto) {
     try {
-      const notification = { content: "saving", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.createValidation(this.main!.getters.token, payload);
       this.mutations.addEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Validation successfully created", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -48,11 +45,8 @@ export class ValidationActions extends Actions<
 
   async updateValidation(payload: { id: number; data: UpdateValidationDto }) {
     try {
-      const notification = { content: "saving", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.updateValidation(this.main!.getters.token, payload.id, payload.data);
       this.mutations.updateEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Validation successfully updated", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -61,11 +55,8 @@ export class ValidationActions extends Actions<
 
   async deleteValidation(id: number) {
     try {
-      const notification = { content: "deleting", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.deleteValidation(this.main!.getters.token, id);
       this.mutations.deleteEntity(data);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Validation successfully deleted", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -106,10 +97,7 @@ export class ValidationActions extends Actions<
       //   () => {}
       // );
 
-      const notification = { content: "uploading", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.uploadValidationFile(this.main!.getters.token, payload.validationId, payload.formData);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Validation file successfully uploaded", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -118,10 +106,7 @@ export class ValidationActions extends Actions<
 
   async deleteValidationFile(fileId: number) {
     try {
-      const notification = { content: "deleting", showProgress: true };
-      this.main!.mutations.addNotification(notification);
       const data = await api.deleteValidationFile(this.main!.getters.token, fileId);
-      this.main!.mutations.removeNotification(notification);
       this.main!.mutations.addNotification({ content: "Validation file successfully deleted", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);

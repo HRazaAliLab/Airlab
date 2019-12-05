@@ -10,13 +10,13 @@ export declare class GroupDto {
 export declare class CreateGroupDto {
     readonly name: string;
     readonly institution: string;
-    readonly url: string;
+    readonly url: string | null;
     readonly isOpen: boolean;
 }
 export declare class UpdateGroupDto {
     readonly name: string;
     readonly institution: string;
-    readonly url: string;
+    readonly url: string | null;
     readonly isOpen: boolean;
 }
 export declare class RequestJoinGroupDto {

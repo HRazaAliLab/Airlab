@@ -20,31 +20,36 @@ export class GroupService {
     private readonly groupUserService: GroupUserService
   ) {}
 
-  async findAll() {
-    return this.groupRepository.find({ relations: ["groupUsers", "groupUsers.group", "groupUsers.user"] });
-  }
-
   async create(params: CreateGroupDto) {
+    await this.groupRepository.manager.connection.queryResultCache.remove([`groups`]);
     return this.groupRepository.save(params);
-  }
-
-  async update(id: number, params: UpdateGroupDto) {
-    await this.groupRepository.update(id, params);
-    return this.findById(id);
-  }
-
-  async checkLabIsOpen(id: number) {
-    const count = await this.groupRepository.count({
-      where: {
-        id: id,
-        isOpen: true,
-      },
-    });
-    return count > 0;
   }
 
   async findById(id: number) {
     return this.groupRepository.findOne(id);
+  }
+
+  async update(id: number, params: UpdateGroupDto) {
+    await this.groupRepository.update(id, params);
+    await this.groupRepository.manager.connection.queryResultCache.remove([`groups`]);
+    return this.findById(id);
+  }
+
+  async deleteById(id: number) {
+    await this.groupRepository.manager.connection.queryResultCache.remove([`groups`]);
+    const result = await this.groupRepository.delete(id);
+    return result.affected === 1 ? id : undefined;
+  }
+
+  async findAll() {
+    return this.groupRepository.find({
+      relations: ["groupUsers", "groupUsers.group", "groupUsers.user"],
+      order: { id: "DESC" },
+      cache: {
+        id: `groups`,
+        milliseconds: 1000 * 60 * 60,
+      },
+    });
   }
 
   async requestJoinGroup(userId: number, groupId: number) {
