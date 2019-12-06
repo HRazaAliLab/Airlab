@@ -7,7 +7,7 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug 0.0.0.0:9230 --watch",
-    "start:prod": "pm2-runtime ecosystem.config.js",
+    "start:prod": "nest start",
     "lint": "eslint --ext .ts,.js .",
     "test": "jest",
     "test:watch": "jest --watch",

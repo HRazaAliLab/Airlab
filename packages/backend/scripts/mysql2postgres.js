@@ -637,6 +637,10 @@ async function migrate() {
   await migrateValidationFile();
 
   // await downloadFiles();
+
+  // await postgresPool.query(
+  //   "SELECT 'SELECT setval(''public.' || c.relname || ''',' || ' (SELECT MAX(ID) FROM PUBLIC.' || REPLACE(c.relname,'_id_seq','') || '), true);' FROM pg_class c WHERE c.relkind = 'S' ORDER BY C.RELNAME;"
+  // );
 }
 
 migrate().then(() => {
