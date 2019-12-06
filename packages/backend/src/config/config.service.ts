@@ -60,7 +60,7 @@ export class ConfigService {
         migrationsDir: "src/migrations",
       },
 
-      ssl: this.isProduction,
+      ssl: false,
       synchronize: false,
       cache: {
         type: "redis",
