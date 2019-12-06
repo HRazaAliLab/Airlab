@@ -18,6 +18,7 @@ import { providerModule } from "@/modules/provider";
 import { reagentModule } from "@/modules/reagent";
 import { lotModule } from "@/modules/lot";
 import { validationModule } from "@/modules/validation";
+import { memberModule } from "@/modules/member";
 
 Vue.use(Vuex);
 
@@ -28,6 +29,7 @@ const rootModule = new Module({
     main: mainModule,
     user: userModule,
     group: groupModule,
+    member: memberModule,
     tag: tagModule,
     protein: proteinModule,
     reagent: reagentModule,

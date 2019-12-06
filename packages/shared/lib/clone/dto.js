@@ -110,11 +110,13 @@ __decorate([
 ], CreateCloneDto.prototype, "name", void 0);
 __decorate([
     class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], CreateCloneDto.prototype, "isotype", void 0);
 __decorate([
     class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], CreateCloneDto.prototype, "epitope", void 0);
@@ -157,11 +159,13 @@ __decorate([
 ], UpdateCloneDto.prototype, "name", void 0);
 __decorate([
     class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], UpdateCloneDto.prototype, "isotype", void 0);
 __decorate([
     class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], UpdateCloneDto.prototype, "epitope", void 0);

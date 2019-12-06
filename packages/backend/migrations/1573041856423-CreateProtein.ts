@@ -49,8 +49,8 @@ export class CreateProtein1573041856423 implements MigrationInterface {
             onDelete: "cascade",
           },
           {
-            name: "FK_protein_to_group_user",
-            referencedTableName: "group_user",
+            name: "FK_protein_to_member",
+            referencedTableName: "member",
             columnNames: ["created_by"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",

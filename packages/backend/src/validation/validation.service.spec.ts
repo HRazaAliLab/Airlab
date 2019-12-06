@@ -2,8 +2,8 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { ValidationService } from "./validation.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ValidationEntity } from "./validation.entity";
-import { GroupUserService } from "../groupUser/groupUser.service";
-import { GroupUserEntity } from "../groupUser/groupUser.entity";
+import { MemberService } from "../member/member.service";
+import { MemberEntity } from "../member/member.entity";
 import { ValidationFileService } from "../validationFile/validationFile.service";
 import { ValidationFileEntity } from "../validationFile/validationFile.entity";
 
@@ -14,9 +14,9 @@ describe("ValidationService", () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         TypeOrmModule.forRoot(),
-        TypeOrmModule.forFeature([ValidationEntity, GroupUserEntity, ValidationFileEntity]),
+        TypeOrmModule.forFeature([ValidationEntity, MemberEntity, ValidationFileEntity]),
       ],
-      providers: [ValidationService, GroupUserService, ValidationFileService],
+      providers: [ValidationService, MemberService, ValidationFileService],
     }).compile();
 
     service = module.get<ValidationService>(ValidationService);

@@ -1,11 +1,12 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { GroupEntity } from "../group/group.entity";
 import { UserEntity } from "../user/user.entity";
+import { Exclude } from "class-transformer";
 
 @Entity({
-  name: "group_user",
+  name: "member",
 })
-export class GroupUserEntity {
+export class MemberEntity {
   @PrimaryGeneratedColumn({
     name: "id",
   })
@@ -26,8 +27,10 @@ export class GroupUserEntity {
   })
   role: number;
 
+  @Exclude()
   @Column({
     name: "activation_key",
+    select: false,
   })
   activationKey: string;
 
@@ -70,14 +73,14 @@ export class GroupUserEntity {
 
   @ManyToOne(
     type => GroupEntity,
-    group => group.groupUsers
+    group => group.members
   )
   @JoinColumn({ name: "group_id" })
   group!: GroupEntity;
 
   @ManyToOne(
     type => UserEntity,
-    user => user.groupUsers
+    user => user.members
   )
   @JoinColumn({ name: "user_id" })
   user!: UserEntity;

@@ -3,12 +3,12 @@ import { ConjugateService } from "./conjugate.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConjugateEntity } from "./conjugate.entity";
 import { ConjugateController } from "./conjugate.controller";
-import { GroupUserService } from "../groupUser/groupUser.service";
-import { GroupUserEntity } from "../groupUser/groupUser.entity";
+import { MemberService } from "../member/member.service";
+import { MemberEntity } from "../member/member.entity";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ConjugateEntity, GroupUserEntity])],
-  providers: [ConjugateService, GroupUserService],
+  imports: [TypeOrmModule.forFeature([ConjugateEntity, MemberEntity])],
+  providers: [ConjugateService, MemberService],
   controllers: [ConjugateController],
 })
 export class ConjugateModule {}

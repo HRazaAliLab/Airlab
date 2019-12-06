@@ -19,7 +19,7 @@ export class ProviderActions extends Actions<ProviderState, ProviderGetters, Pro
 
   async createProvider(payload: CreateProviderDto) {
     try {
-      const data = await api.createProvider(this.main!.getters.token, payload);
+      const data = await api.createProvider(payload);
       this.mutations.addEntity(data);
       this.main!.mutations.addNotification({ content: "Provider successfully created", color: "success" });
     } catch (error) {
@@ -29,7 +29,7 @@ export class ProviderActions extends Actions<ProviderState, ProviderGetters, Pro
 
   async getProvider(id: number) {
     try {
-      const data = await api.getProvider(this.main!.getters.token, id);
+      const data = await api.getProvider(id);
       if (data) {
         this.mutations.setEntity(data);
       }
@@ -40,7 +40,7 @@ export class ProviderActions extends Actions<ProviderState, ProviderGetters, Pro
 
   async updateProvider(payload: { id: number; data: UpdateProviderDto }) {
     try {
-      const data = await api.updateProvider(this.main!.getters.token, payload.id, payload.data);
+      const data = await api.updateProvider(payload.id, payload.data);
       this.mutations.updateEntity(data);
       this.main!.mutations.addNotification({ content: "Provider successfully updated", color: "success" });
     } catch (error) {
@@ -50,7 +50,7 @@ export class ProviderActions extends Actions<ProviderState, ProviderGetters, Pro
 
   async deleteProvider(id: number) {
     try {
-      const data = await api.deleteProvider(this.main!.getters.token, id);
+      const data = await api.deleteProvider(id);
       this.mutations.deleteEntity(data);
       this.main!.mutations.addNotification({ content: "Provider successfully deleted", color: "success" });
     } catch (error) {
@@ -60,7 +60,7 @@ export class ProviderActions extends Actions<ProviderState, ProviderGetters, Pro
 
   async getGroupProviders(groupId: number) {
     try {
-      const data = await api.getGroupProviders(this.main!.getters.token, groupId);
+      const data = await api.getGroupProviders(groupId);
       if (data) {
         this.mutations.setEntities(data);
       }

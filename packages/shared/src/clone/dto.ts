@@ -1,4 +1,4 @@
-import { IsArray, IsBoolean, IsInt, IsString } from "class-validator";
+import { IsArray, IsBoolean, IsInt, IsOptional, IsString } from "class-validator";
 import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
 
 export class CloneDto {
@@ -77,10 +77,12 @@ export class CreateCloneDto {
   readonly name: string;
 
   @IsString()
+  @IsOptional()
   @ApiModelProperty()
   readonly isotype: string;
 
   @IsString()
+  @IsOptional()
   @ApiModelProperty()
   readonly epitope: string;
 
@@ -114,10 +116,12 @@ export class UpdateCloneDto {
   readonly name: string;
 
   @IsString()
+  @IsOptional()
   @ApiModelProperty()
   readonly isotype: string;
 
   @IsString()
+  @IsOptional()
   @ApiModelProperty()
   readonly epitope: string;
 

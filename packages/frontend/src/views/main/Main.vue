@@ -88,6 +88,12 @@
               </v-list-item-action>
               <v-list-item-title>Shop</v-list-item-title>
             </v-list-item>
+            <v-list-item :to="`/main/groups/${activeGroupId}/members`">
+              <v-list-item-action>
+                <v-icon>mdi-account-multiple-outline</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Members</v-list-item-title>
+            </v-list-item>
           </v-list>
           <v-divider v-if="hasAdminAccess" />
           <v-list dense subheader v-if="hasAdminAccess">

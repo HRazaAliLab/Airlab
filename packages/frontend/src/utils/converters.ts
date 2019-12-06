@@ -20,3 +20,19 @@ const validationStatusMap = {
 export function validationStatusToString(value: number): string {
   return validationStatusMap[value];
 }
+
+const roleMap = {
+  0: "PI",
+  1: "Manager",
+  2: "Postdoc",
+  3: "Ph.D. Student",
+  4: "Visiting",
+  5: "Other",
+};
+
+export function roleToString(value: number): string {
+  if (value === -1) {
+    return "";
+  }
+  return roleMap[value];
+}

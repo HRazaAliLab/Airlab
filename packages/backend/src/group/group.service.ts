@@ -2,11 +2,11 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { GroupEntity } from "./group.entity";
-import { GroupUserService } from "../groupUser/groupUser.service";
+import { MemberService } from "../member/member.service";
 import * as crypto from "crypto";
 import { CreateGroupDto, InviteDto, UpdateGroupDto } from "@airlab/shared/lib/group/dto";
 import { UserEntity } from "../user/user.entity";
-import { GroupUserEntity } from "../groupUser/groupUser.entity";
+import { MemberEntity } from "../member/member.entity";
 
 const privateKey = "fsdfC987XXasdf979werl$#";
 
@@ -17,7 +17,7 @@ export class GroupService {
     private readonly groupRepository: Repository<GroupEntity>,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-    private readonly groupUserService: GroupUserService
+    private readonly memberService: MemberService
   ) {}
 
   async create(params: CreateGroupDto) {
@@ -43,7 +43,7 @@ export class GroupService {
 
   async findAll() {
     return this.groupRepository.find({
-      relations: ["groupUsers", "groupUsers.group", "groupUsers.user"],
+      relations: ["members", "members.group", "members.user"],
       order: { id: "DESC" },
       cache: {
         id: `groups`,
@@ -58,9 +58,9 @@ export class GroupService {
       throw new NotFoundException("Group not found");
     }
     if (group.isOpen) {
-      const requestExists = await this.groupUserService.checkRequest(userId, groupId);
+      const requestExists = await this.memberService.checkRequest(userId, groupId);
       if (!requestExists) {
-        await this.groupUserService.createJoinRequest(userId, groupId);
+        await this.memberService.createJoinRequest(userId, groupId);
         return true;
       }
     }
@@ -85,8 +85,8 @@ export class GroupService {
   async getUsersInGroup(groupId: number) {
     return this.userRepository
       .createQueryBuilder("user")
-      .leftJoin(GroupUserEntity, "groupUser", "user.id = groupUser.userId")
-      .where("groupUser.groupId = :groupId", { groupId: groupId })
+      .leftJoin(MemberEntity, "member", "user.id = member.userId")
+      .where("member.groupId = :groupId", { groupId: groupId })
       .getMany();
   }
 }

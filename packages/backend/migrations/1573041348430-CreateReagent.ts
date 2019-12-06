@@ -59,8 +59,8 @@ export class CreateReagent1573041348430 implements MigrationInterface {
             onDelete: "cascade",
           },
           {
-            name: "FK_reagent_to_group_user",
-            referencedTableName: "group_user",
+            name: "FK_reagent_to_member",
+            referencedTableName: "member",
             columnNames: ["created_by"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",

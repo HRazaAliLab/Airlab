@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class CreateGroupUser1573040991913 implements MigrationInterface {
+export class CreateMember1573040991913 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.createTable(
       new Table({
-        name: "group_user",
+        name: "member",
         columns: [
           {
             name: "id",
@@ -68,14 +68,14 @@ export class CreateGroupUser1573040991913 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: "FK_group_user_to_group",
+            name: "FK_member_to_group",
             referencedTableName: "group",
             columnNames: ["group_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
-            name: "FK_group_user_to_user",
+            name: "FK_member_to_user",
             referencedTableName: "user",
             columnNames: ["user_id"],
             referencedColumnNames: ["id"],
@@ -84,25 +84,25 @@ export class CreateGroupUser1573040991913 implements MigrationInterface {
         ],
         indices: [
           {
-            name: "IDX_group_user_group_id",
+            name: "IDX_member_group_id",
             columnNames: ["group_id"],
           },
           {
-            name: "IDX_group_user_user_id",
+            name: "IDX_member_user_id",
             columnNames: ["user_id"],
           },
           {
-            name: "IDX_group_user_activation_key",
+            name: "IDX_member_activation_key",
             columnNames: ["activation_key"],
           },
           {
-            name: "IDX_group_user_is_active",
+            name: "IDX_member_is_active",
             columnNames: ["is_active"],
           },
         ],
         uniques: [
           {
-            name: "UQ_group_user_group_id_and_user_id",
+            name: "UQ_member_group_id_and_user_id",
             columnNames: ["group_id", "user_id"],
           },
         ],
@@ -112,6 +112,6 @@ export class CreateGroupUser1573040991913 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
-    await queryRunner.dropTable("group_user", true);
+    await queryRunner.dropTable("member", true);
   }
 }

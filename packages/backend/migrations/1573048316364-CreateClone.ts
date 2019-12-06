@@ -104,8 +104,8 @@ export class CreateClone1573048316364 implements MigrationInterface {
             onDelete: "cascade",
           },
           {
-            name: "FK_clone_to_group_user",
-            referencedTableName: "group_user",
+            name: "FK_clone_to_member",
+            referencedTableName: "member",
             columnNames: ["created_by"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",

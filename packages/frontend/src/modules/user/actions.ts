@@ -19,7 +19,7 @@ export class UserActions extends Actions<UserState, UserGetters, UserMutations, 
 
   async getUsers() {
     try {
-      const data = await api.getUsers(this.main!.getters.token);
+      const data = await api.getUsers();
       if (data) {
         this.mutations.setEntities(data);
       }
@@ -30,7 +30,7 @@ export class UserActions extends Actions<UserState, UserGetters, UserMutations, 
 
   async updateUser(payload: { id: number; user: UpdateUserDto }) {
     try {
-      const data = await api.updateUser(this.main!.getters.token, payload.id, payload.user);
+      const data = await api.updateUser(payload.id, payload.user);
       this.mutations.updateEntity(data);
       this.main!.mutations.addNotification({ content: "User successfully updated", color: "success" });
     } catch (error) {
@@ -40,7 +40,7 @@ export class UserActions extends Actions<UserState, UserGetters, UserMutations, 
 
   async createUser(payload: CreateUserDto) {
     try {
-      const data = await api.createUser(this.main!.getters.token, payload);
+      const data = await api.createUser(payload);
       this.mutations.addEntity(data);
       this.main!.mutations.addNotification({ content: "User successfully created", color: "success" });
     } catch (error) {
@@ -50,7 +50,7 @@ export class UserActions extends Actions<UserState, UserGetters, UserMutations, 
 
   async getUser(id: number) {
     try {
-      const data = await api.getUser(this.main!.getters.token, id);
+      const data = await api.getUser(id);
       if (data) {
         this.mutations.setEntity(data);
       }

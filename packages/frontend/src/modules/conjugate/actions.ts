@@ -19,7 +19,7 @@ export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, 
 
   async createConjugate(payload: CreateConjugateDto) {
     try {
-      const data = await api.createConjugate(this.main!.getters.token, payload);
+      const data = await api.createConjugate(payload);
       this.mutations.addEntity(data);
       this.main!.mutations.addNotification({ content: "Conjugate successfully created", color: "success" });
     } catch (error) {
@@ -29,7 +29,7 @@ export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, 
 
   async getConjugate(id: number) {
     try {
-      const data = await api.getConjugate(this.main!.getters.token, id);
+      const data = await api.getConjugate(id);
       if (data) {
         this.mutations.setEntity(data);
       }
@@ -40,7 +40,7 @@ export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, 
 
   async updateConjugate(payload: { id: number; data: UpdateConjugateDto }) {
     try {
-      const data = await api.updateConjugate(this.main!.getters.token, payload.id, payload.data);
+      const data = await api.updateConjugate(payload.id, payload.data);
       this.mutations.updateEntity(data);
       this.main!.mutations.addNotification({ content: "Conjugate successfully updated", color: "success" });
     } catch (error) {
@@ -50,7 +50,7 @@ export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, 
 
   async deleteConjugate(id: number) {
     try {
-      const data = await api.deleteConjugate(this.main!.getters.token, id);
+      const data = await api.deleteConjugate(id);
       this.mutations.deleteEntity(data);
       this.main!.mutations.addNotification({ content: "Conjugate successfully deleted", color: "success" });
     } catch (error) {
@@ -60,7 +60,7 @@ export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, 
 
   async getGroupConjugates(groupId: number) {
     try {
-      const data = await api.getGroupConjugates(this.main!.getters.token, groupId);
+      const data = await api.getGroupConjugates(groupId);
       if (data) {
         this.mutations.setEntities(data);
       }

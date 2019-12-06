@@ -84,9 +84,9 @@ export class ValidationFileController {
     return this.fileService.getAllFilesForGroup(groupId);
   }
 
-  @Get("groupUser/:groupUserId")
-  @ApiCreatedResponse({ description: "Find all files for the group user.", type: ValidationFileDto, isArray: true })
-  getAllFilesForGroupUser(@Param("groupUserId") groupUserId: number) {
-    return this.fileService.getAllFilesForGroupUser(groupUserId);
+  @Get("memberId/:memberId")
+  @ApiCreatedResponse({ description: "Find all files for the group member.", type: ValidationFileDto, isArray: true })
+  getAllFilesForMember(@Param("memberId") memberId: number) {
+    return this.fileService.getAllFilesForMember(memberId);
   }
 }

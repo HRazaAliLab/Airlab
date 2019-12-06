@@ -19,7 +19,7 @@ export class PanelActions extends Actions<PanelState, PanelGetters, PanelMutatio
 
   async createPanel(payload: CreatePanelDto) {
     try {
-      const data = await api.createPanel(this.main!.getters.token, payload);
+      const data = await api.createPanel(payload);
       this.mutations.addEntity(data);
       this.main!.mutations.addNotification({ content: "Panel successfully created", color: "success" });
     } catch (error) {
@@ -29,7 +29,7 @@ export class PanelActions extends Actions<PanelState, PanelGetters, PanelMutatio
 
   async duplicatePanel(payload: { id: number; data: DuplicatePanelDto }) {
     try {
-      const data = await api.duplicatePanel(this.main!.getters.token, payload.id, payload.data);
+      const data = await api.duplicatePanel(payload.id, payload.data);
       this.mutations.addEntity(data);
       this.main!.mutations.addNotification({ content: "Panel successfully duplicated", color: "success" });
     } catch (error) {
@@ -39,7 +39,7 @@ export class PanelActions extends Actions<PanelState, PanelGetters, PanelMutatio
 
   async getPanel(id: number) {
     try {
-      const data = await api.getPanel(this.main!.getters.token, id);
+      const data = await api.getPanel(id);
       if (data) {
         this.mutations.setEntity(data);
       }
@@ -50,7 +50,7 @@ export class PanelActions extends Actions<PanelState, PanelGetters, PanelMutatio
 
   async updatePanel(payload: { id: number; data: UpdatePanelDto }) {
     try {
-      const data = await api.updatePanel(this.main!.getters.token, payload.id, payload.data);
+      const data = await api.updatePanel(payload.id, payload.data);
       this.mutations.updateEntity(data);
       this.main!.mutations.addNotification({ content: "Panel successfully updated", color: "success" });
     } catch (error) {
@@ -60,7 +60,7 @@ export class PanelActions extends Actions<PanelState, PanelGetters, PanelMutatio
 
   async deletePanel(id: number) {
     try {
-      const data = await api.deletePanel(this.main!.getters.token, id);
+      const data = await api.deletePanel(id);
       this.mutations.deleteEntity(data);
       this.main!.mutations.addNotification({ content: "Panel successfully deleted", color: "success" });
     } catch (error) {
@@ -70,7 +70,7 @@ export class PanelActions extends Actions<PanelState, PanelGetters, PanelMutatio
 
   async getGroupPanels(groupId: number) {
     try {
-      const data = await api.getGroupPanels(this.main!.getters.token, groupId);
+      const data = await api.getGroupPanels(groupId);
       if (data) {
         this.mutations.setEntities(data);
       }

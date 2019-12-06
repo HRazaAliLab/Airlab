@@ -7,7 +7,7 @@ import { ConfigModule } from "./config/config.module";
 import { ConfigService } from "./config/config.service";
 import { AuthModule } from "./auth/auth.module";
 import { GroupModule } from "./group/group.module";
-import { GroupUserModule } from "./groupUser/groupUser.module";
+import { MemberModule } from "./member/member.module";
 import { UtilsModule } from "./utils/utils.module";
 import { ProteinModule } from "./protein/protein.module";
 import { ProviderModule } from "./provider/provider.module";
@@ -30,7 +30,7 @@ import { ValidationModule } from "./validation/validation.module";
     ConfigModule,
     UserModule,
     GroupModule,
-    GroupUserModule,
+    MemberModule,
     AuthModule,
     UtilsModule,
     ProteinModule,

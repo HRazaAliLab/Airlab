@@ -94,8 +94,8 @@ export class CreateConjugate1573050643464 implements MigrationInterface {
             onDelete: "cascade",
           },
           {
-            name: "FK_conjugate_to_group_user",
-            referencedTableName: "group_user",
+            name: "FK_conjugate_to_member",
+            referencedTableName: "member",
             columnNames: ["created_by"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
@@ -115,8 +115,8 @@ export class CreateConjugate1573050643464 implements MigrationInterface {
             onDelete: "cascade",
           },
           {
-            name: "FK_conjugate_finished_by_to_group_user",
-            referencedTableName: "group_user",
+            name: "FK_conjugate_finished_by_to_member",
+            referencedTableName: "member",
             columnNames: ["finished_by"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",

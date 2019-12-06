@@ -19,7 +19,7 @@ export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutatio
 
   async createClone(payload: CreateCloneDto) {
     try {
-      const data = await api.createClone(this.main!.getters.token, payload);
+      const data = await api.createClone(payload);
       this.mutations.addEntity(data);
       this.main!.mutations.addNotification({ content: "Clone successfully created", color: "success" });
     } catch (error) {
@@ -29,7 +29,7 @@ export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutatio
 
   async getClone(id: number) {
     try {
-      const data = await api.getClone(this.main!.getters.token, id);
+      const data = await api.getClone(id);
       if (data) {
         this.mutations.setEntity(data);
       }
@@ -40,7 +40,7 @@ export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutatio
 
   async updateClone(payload: { id: number; data: UpdateCloneDto }) {
     try {
-      const data = await api.updateClone(this.main!.getters.token, payload.id, payload.data);
+      const data = await api.updateClone(payload.id, payload.data);
       this.mutations.updateEntity(data);
       this.main!.mutations.addNotification({ content: "Clone successfully updated", color: "success" });
     } catch (error) {
@@ -50,7 +50,7 @@ export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutatio
 
   async deleteClone(id: number) {
     try {
-      const data = await api.deleteClone(this.main!.getters.token, id);
+      const data = await api.deleteClone(id);
       this.mutations.deleteEntity(data);
       this.main!.mutations.addNotification({ content: "Clone successfully deleted", color: "success" });
     } catch (error) {
@@ -60,7 +60,7 @@ export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutatio
 
   async getGroupClones(groupId: number) {
     try {
-      const data = await api.getGroupClones(this.main!.getters.token, groupId);
+      const data = await api.getGroupClones(groupId);
       if (data) {
         this.mutations.setEntities(data);
       }

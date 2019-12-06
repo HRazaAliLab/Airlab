@@ -45,8 +45,8 @@ export class PanelService {
   async getGroupPanels(groupId: number) {
     return this.repository
       .createQueryBuilder("panel")
-      .leftJoin("panel.groupUser", "groupUser")
-      .leftJoinAndMapOne("panel.user", UserEntity, "user", "groupUser.userId = user.id")
+      .leftJoin("panel.member", "member")
+      .leftJoinAndMapOne("panel.user", UserEntity, "user", "member.userId = user.id")
       .where({
         groupId: groupId,
         isDeleted: false,
@@ -56,14 +56,14 @@ export class PanelService {
       .getMany();
   }
 
-  async getPersonalGroupPanels(groupId: number, groupUserId: number) {
+  async getPersonalGroupPanels(groupId: number, memberId: number) {
     return this.repository
       .createQueryBuilder("panel")
-      .leftJoin("panel.groupUser", "groupUser")
-      .leftJoinAndMapOne("panel.user", UserEntity, "user", "groupUser.userId = user.id")
+      .leftJoin("panel.member", "member")
+      .leftJoinAndMapOne("panel.user", UserEntity, "user", "member.userId = user.id")
       .where({
         groupId: groupId,
-        createdBy: groupUserId,
+        createdBy: memberId,
         isDeleted: false,
       })
       .orderBy({ "panel.id": "DESC" })

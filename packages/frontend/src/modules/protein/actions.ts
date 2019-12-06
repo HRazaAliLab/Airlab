@@ -19,7 +19,7 @@ export class ProteinActions extends Actions<ProteinState, ProteinGetters, Protei
 
   async createProtein(payload: CreateProteinDto) {
     try {
-      const data = await api.createProtein(this.main!.getters.token, payload);
+      const data = await api.createProtein(payload);
       this.mutations.addEntity(data);
       this.main!.mutations.addNotification({ content: "Protein successfully created", color: "success" });
     } catch (error) {
@@ -29,7 +29,7 @@ export class ProteinActions extends Actions<ProteinState, ProteinGetters, Protei
 
   async getProtein(id: number) {
     try {
-      const data = await api.getProtein(this.main!.getters.token, id);
+      const data = await api.getProtein(id);
       if (data) {
         this.mutations.setEntity(data);
       }
@@ -40,7 +40,7 @@ export class ProteinActions extends Actions<ProteinState, ProteinGetters, Protei
 
   async updateProtein(payload: { id: number; data: UpdateProteinDto }) {
     try {
-      const data = await api.updateProtein(this.main!.getters.token, payload.id, payload.data);
+      const data = await api.updateProtein(payload.id, payload.data);
       this.mutations.updateEntity(data);
       this.main!.mutations.addNotification({ content: "Protein successfully updated", color: "success" });
     } catch (error) {
@@ -50,7 +50,7 @@ export class ProteinActions extends Actions<ProteinState, ProteinGetters, Protei
 
   async deleteProtein(id: number) {
     try {
-      const data = await api.deleteProtein(this.main!.getters.token, id);
+      const data = await api.deleteProtein(id);
       this.mutations.deleteEntity(data);
       this.main!.mutations.addNotification({ content: "Protein successfully deleted", color: "success" });
     } catch (error) {
@@ -60,7 +60,7 @@ export class ProteinActions extends Actions<ProteinState, ProteinGetters, Protei
 
   async getGroupProteins(groupId: number) {
     try {
-      const data = await api.getGroupProteins(this.main!.getters.token, groupId);
+      const data = await api.getGroupProteins(groupId);
       if (data) {
         this.mutations.setEntities(data);
       }

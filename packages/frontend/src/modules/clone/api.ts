@@ -1,53 +1,28 @@
-import ky from "ky";
-import { apiUrl } from "@/env";
+import { ApiManager } from "@/utils/api";
 import { CreateCloneDto, CloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
 
 export const api = {
-  async createClone(token: string, data: CreateCloneDto) {
-    return ky
-      .post(`${apiUrl}/clones/`, {
+  async createClone(data: CreateCloneDto) {
+    return ApiManager.api
+      .post(`clones`, {
         json: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       })
       .json<CloneDto>();
   },
-  async getClone(token: string, id: number) {
-    return ky
-      .get(`${apiUrl}/clones/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<CloneDto>();
+  async getClone(id: number) {
+    return ApiManager.api.get(`clones/${id}`).json<CloneDto>();
   },
-  async updateClone(token: string, id: number, data: UpdateCloneDto) {
-    return ky
-      .patch(`${apiUrl}/clones/${id}`, {
+  async updateClone(id: number, data: UpdateCloneDto) {
+    return ApiManager.api
+      .patch(`clones/${id}`, {
         json: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       })
       .json<CloneDto>();
   },
-  async deleteClone(token: string, id: number) {
-    return ky
-      .delete(`${apiUrl}/clones/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<number>();
+  async deleteClone(id: number) {
+    return ApiManager.api.delete(`clones/${id}`).json<number>();
   },
-  async getGroupClones(token: string, groupId: number) {
-    return ky
-      .get(`${apiUrl}/groups/${groupId}/clones`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<CloneDto[]>();
+  async getGroupClones(groupId: number) {
+    return ApiManager.api.get(`groups/${groupId}/clones`).json<CloneDto[]>();
   },
 };

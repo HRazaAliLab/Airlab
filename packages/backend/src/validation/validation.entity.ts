@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { GroupEntity } from "../group/group.entity";
-import { GroupUserEntity } from "../groupUser/groupUser.entity";
+import { MemberEntity } from "../member/member.entity";
 import { LotEntity } from "../lot/lot.entity";
 import { UserEntity } from "../user/user.entity";
 import { ConjugateEntity } from "../conjugate/conjugate.entity";
@@ -172,9 +172,9 @@ export class ValidationEntity {
   @JoinColumn({ name: "group_id" })
   group: GroupEntity;
 
-  @ManyToOne(type => GroupUserEntity)
+  @ManyToOne(type => MemberEntity)
   @JoinColumn({ name: "created_by" })
-  groupUser: GroupUserEntity;
+  member: MemberEntity;
 
   user: UserEntity;
 

@@ -1,7 +1,7 @@
 import { settingsModule } from "@/modules/settings";
 import { api } from "@/modules/user/api";
 import router from "@/router";
-import { getLocalToken, removeLocalToken, saveLocalToken } from "@/utils";
+import { getLocalToken, removeLocalToken, saveLocalToken } from "@/utils/auth";
 import { Store } from "vuex";
 import { Actions, Context } from "vuex-smart-module";
 import { MainState } from ".";
@@ -42,7 +42,7 @@ export class MainActions extends Actions<MainState, MainGetters, MainMutations, 
 
   async getUserProfile() {
     try {
-      const data = await api.getMe(this.getters.token);
+      const data = await api.getMe();
       if (data) {
         this.mutations.setUserProfile(data);
       }
@@ -53,7 +53,7 @@ export class MainActions extends Actions<MainState, MainGetters, MainMutations, 
 
   async updateUserProfile(payload: UpdateProfileDto) {
     try {
-      const data = await api.updateMe(this.getters.token, payload);
+      const data = await api.updateMe(payload);
       this.mutations.setUserProfile(data);
       this.mutations.addNotification({ content: "Profile successfully updated", color: "success" });
     } catch (error) {
@@ -63,7 +63,7 @@ export class MainActions extends Actions<MainState, MainGetters, MainMutations, 
 
   async updatePassword(payload: UpdatePasswordDto) {
     try {
-      const data = await api.updatePassword(this.getters.token, payload);
+      const data = await api.updatePassword(payload);
       this.mutations.setUserProfile(data);
       this.mutations.addNotification({ content: "Password successfully updated", color: "success" });
     } catch (error) {
@@ -83,7 +83,7 @@ export class MainActions extends Actions<MainState, MainGetters, MainMutations, 
       }
       if (token) {
         try {
-          const data = await api.getMe(token);
+          const data = await api.getMe();
           this.mutations.setLoggedIn(true);
           this.mutations.setUserProfile(data);
         } catch (error) {
@@ -118,9 +118,9 @@ export class MainActions extends Actions<MainState, MainGetters, MainMutations, 
   }
 
   async checkApiError(error) {
-    this.mutations.addNotification({ content: `${error.name}: ${error.message}`, color: "error" });
+    this.mutations.addNotification({ content: error.message, color: "error" });
     if (error.response) {
-      console.log("API error: ", error.response);
+      console.error("API error: ", error.response);
       if (error.response.status === 401) {
         // await this.actions.logOut();
       }

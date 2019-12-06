@@ -3,8 +3,8 @@ import { ProviderController } from "./provider.controller";
 import { ProviderService } from "./provider.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ProviderEntity } from "./provider.entity";
-import { GroupUserService } from "../groupUser/groupUser.service";
-import { GroupUserEntity } from "../groupUser/groupUser.entity";
+import { MemberService } from "../member/member.service";
+import { MemberEntity } from "../member/member.entity";
 
 describe("ProviderController", () => {
   let controller: ProviderController;
@@ -12,9 +12,9 @@ describe("ProviderController", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([ProviderEntity,GroupUserEntity])],
+      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([ProviderEntity,MemberEntity])],
       controllers: [ProviderController],
-      providers: [ProviderService, GroupUserService],
+      providers: [ProviderService, MemberService],
     }).compile();
 
     controller = module.get<ProviderController>(ProviderController);

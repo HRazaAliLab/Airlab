@@ -19,7 +19,7 @@ export class GroupActions extends Actions<GroupState, GroupGetters, GroupMutatio
 
   async getGroups() {
     try {
-      const data = await api.getGroups(this.main!.getters.token);
+      const data = await api.getGroups();
       if (data) {
         this.mutations.setEntities(data);
       }
@@ -30,7 +30,7 @@ export class GroupActions extends Actions<GroupState, GroupGetters, GroupMutatio
 
   async createGroup(payload: CreateGroupDto) {
     try {
-      const data = await api.createGroup(this.main!.getters.token, payload);
+      const data = await api.createGroup(payload);
       this.mutations.addEntity(data);
       this.main!.mutations.addNotification({ content: "Group successfully created", color: "success" });
     } catch (error) {
@@ -40,7 +40,7 @@ export class GroupActions extends Actions<GroupState, GroupGetters, GroupMutatio
 
   async getGroup(id: number) {
     try {
-      const data = await api.getGroup(this.main!.getters.token, id);
+      const data = await api.getGroup(id);
       if (data) {
         this.mutations.setEntity(data);
       }
@@ -51,7 +51,7 @@ export class GroupActions extends Actions<GroupState, GroupGetters, GroupMutatio
 
   async updateGroup(payload: { id: number; data: UpdateGroupDto }) {
     try {
-      const data = await api.updateGroup(this.main!.getters.token, payload.id, payload.data);
+      const data = await api.updateGroup(payload.id, payload.data);
       this.mutations.updateEntity(data);
       this.main!.mutations.addNotification({ content: "Group successfully updated", color: "success" });
     } catch (error) {
@@ -61,7 +61,7 @@ export class GroupActions extends Actions<GroupState, GroupGetters, GroupMutatio
 
   async deleteGroup(id: number) {
     try {
-      const data = await api.deleteGroup(this.main!.getters.token, id);
+      const data = await api.deleteGroup(id);
       this.mutations.deleteEntity(data);
       this.main!.mutations.addNotification({ content: "Group successfully deleted", color: "success" });
     } catch (error) {

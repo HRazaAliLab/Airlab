@@ -65,7 +65,7 @@ async function migrateUser() {
   await postgresPool.query("SELECT setval('public.user_id_seq', (SELECT MAX(id) FROM public.user), true);");
 }
 
-async function migrateGroupUser() {
+async function migrateMember() {
   const input = await mysqlPool.query("SELECT * FROM tblZGroupPerson");
   for (row of input[0]) {
     console.log(row);
@@ -76,7 +76,7 @@ async function migrateGroupUser() {
       continue;
     }
     const sql =
-      'INSERT INTO "group_user"(id, group_id, user_id, role, activation_key, is_active, can_order, can_erase, can_finances, can_panels) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)';
+      'INSERT INTO "member"(id, group_id, user_id, role, activation_key, is_active, can_order, can_erase, can_finances, can_panels) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)';
     const values = [
       row["gpeGroupPersonId"],
       row["gpeGroupId"],
@@ -91,7 +91,7 @@ async function migrateGroupUser() {
     ];
     await postgresPool.query(sql, values);
   }
-  await postgresPool.query("SELECT setval('public.group_user_id_seq', (SELECT MAX(id) FROM public.group_user), true);");
+  await postgresPool.query("SELECT setval('public.member_id_seq', (SELECT MAX(id) FROM public.member), true);");
 }
 
 async function migrateSpecies() {
@@ -488,10 +488,10 @@ async function migrateValidation() {
 
       let createdBy = null;
       if (item["personId"]) {
-        const groupUser = await postgresPool.query(
-          `SELECT * FROM group_user WHERE group_id=${row["group_id"]} AND user_id=${Number(item["personId"])}`
+        const member = await postgresPool.query(
+          `SELECT * FROM member WHERE group_id=${row["group_id"]} AND user_id=${Number(item["personId"])}`
         );
-        createdBy = groupUser.rows[0].id;
+        createdBy = member.rows[0].id;
       }
       if (!createdBy) {
         createdBy = row["created_by"];
@@ -623,7 +623,7 @@ async function downloadFiles() {
 async function migrate() {
   await migrateGroup();
   await migrateUser();
-  await migrateGroupUser();
+  await migrateMember();
   await migrateSpecies();
   await migrateTag();
   await migrateProvider();

@@ -63,8 +63,8 @@ export class CreateValidationFile1574171528003 implements MigrationInterface {
             onDelete: "cascade",
           },
           {
-            name: "FK_validation_file_to_group_user",
-            referencedTableName: "group_user",
+            name: "FK_validation_file_to_member",
+            referencedTableName: "member",
             columnNames: ["created_by"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",

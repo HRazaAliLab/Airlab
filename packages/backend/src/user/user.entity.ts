@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Exclude } from "class-transformer";
-import { GroupUserEntity } from "../groupUser/groupUser.entity";
+import { MemberEntity } from "../member/member.entity";
 
 @Entity({
   name: "user",
@@ -61,9 +61,9 @@ export class UserEntity {
   updatedAt: string;
 
   @OneToMany(
-    type => GroupUserEntity,
-    groupUser => groupUser.user,
+    type => MemberEntity,
+    member => member.user,
     { eager: true }
   )
-  groupUsers!: GroupUserEntity[];
+  members!: MemberEntity[];
 }

@@ -81,8 +81,8 @@ export class CreatePanel1573210620363 implements MigrationInterface {
             onDelete: "cascade",
           },
           {
-            name: "FK_panel_to_group_user",
-            referencedTableName: "group_user",
+            name: "FK_panel_to_member",
+            referencedTableName: "member",
             columnNames: ["created_by"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",

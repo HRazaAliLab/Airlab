@@ -43,8 +43,8 @@ export class ReagentService {
       .select(["reagent.id", "reagent.name", "reagent.reference", "reagent.meta"])
       .leftJoin("reagent.provider", "provider")
       .addSelect(["provider.id", "provider.name"])
-      .leftJoin("reagent.groupUser", "groupUser")
-      .leftJoinAndMapOne("reagent.user", UserEntity, "user", "groupUser.userId = user.id")
+      .leftJoin("reagent.member", "member")
+      .leftJoinAndMapOne("reagent.user", UserEntity, "user", "member.userId = user.id")
       .where({
         groupId: groupId,
         isDeleted: false,

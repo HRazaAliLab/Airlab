@@ -60,8 +60,8 @@ export class ValidationService {
       .addSelect(["species.id", "species.name"])
       .leftJoin("validation.validationFiles", "validationFiles")
       .addSelect(["validationFiles.id", "validationFiles.name"])
-      .leftJoin("validation.groupUser", "groupUser")
-      .leftJoinAndMapOne("validation.user", UserEntity, "user", "groupUser.userId = user.id")
+      .leftJoin("validation.member", "member")
+      .leftJoinAndMapOne("validation.user", UserEntity, "user", "member.userId = user.id")
       .orderBy({ "validation.id": "DESC" })
       .cache(`group_${groupId}_validations`, 1000 * 60 * 60)
       .getMany();

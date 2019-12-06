@@ -19,7 +19,7 @@ export class TagActions extends Actions<TagState, TagGetters, TagMutations, TagA
 
   async createTag(payload: CreateTagDto) {
     try {
-      const data = await api.createTag(this.main!.getters.token, payload);
+      const data = await api.createTag(payload);
       this.mutations.addEntity(data);
       this.main!.mutations.addNotification({ content: "Tag successfully created", color: "success" });
     } catch (error) {
@@ -29,7 +29,7 @@ export class TagActions extends Actions<TagState, TagGetters, TagMutations, TagA
 
   async getTag(id: number) {
     try {
-      const data = await api.getTag(this.main!.getters.token, id);
+      const data = await api.getTag(id);
       if (data) {
         this.mutations.setEntity(data);
       }
@@ -40,7 +40,7 @@ export class TagActions extends Actions<TagState, TagGetters, TagMutations, TagA
 
   async updateTag(payload: { id: number; data: UpdateTagDto }) {
     try {
-      const data = await api.updateTag(this.main!.getters.token, payload.id, payload.data);
+      const data = await api.updateTag(payload.id, payload.data);
       this.mutations.updateEntity(data);
       this.main!.mutations.addNotification({ content: "Tag successfully updated", color: "success" });
     } catch (error) {
@@ -50,7 +50,7 @@ export class TagActions extends Actions<TagState, TagGetters, TagMutations, TagA
 
   async deleteTag(id: number) {
     try {
-      const data = await api.deleteTag(this.main!.getters.token, id);
+      const data = await api.deleteTag(id);
       this.mutations.deleteEntity(data);
       this.main!.mutations.addNotification({ content: "Tag successfully deleted", color: "success" });
     } catch (error) {
@@ -60,7 +60,7 @@ export class TagActions extends Actions<TagState, TagGetters, TagMutations, TagA
 
   async getGroupTags(groupId: number) {
     try {
-      const data = await api.getGroupTags(this.main!.getters.token, groupId);
+      const data = await api.getGroupTags(groupId);
       if (data) {
         this.mutations.setEntities(data);
       }

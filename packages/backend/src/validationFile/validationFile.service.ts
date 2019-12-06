@@ -51,10 +51,10 @@ export class ValidationFileService {
     });
   }
 
-  async getAllFilesForGroupUser(groupUserId: number) {
+  async getAllFilesForMember(memberId: number) {
     return this.repository.find({
       where: {
-        createdBy: groupUserId,
+        createdBy: memberId,
       },
     });
   }

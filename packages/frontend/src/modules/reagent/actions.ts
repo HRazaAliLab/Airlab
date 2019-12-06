@@ -19,7 +19,7 @@ export class ReagentActions extends Actions<ReagentState, ReagentGetters, Reagen
 
   async createReagent(payload: CreateReagentDto) {
     try {
-      const data = await api.createReagent(this.main!.getters.token, payload);
+      const data = await api.createReagent(payload);
       this.mutations.addEntity(data);
       this.main!.mutations.addNotification({ content: "Reagent successfully created", color: "success" });
     } catch (error) {
@@ -29,7 +29,7 @@ export class ReagentActions extends Actions<ReagentState, ReagentGetters, Reagen
 
   async getReagent(id: number) {
     try {
-      const data = await api.getReagent(this.main!.getters.token, id);
+      const data = await api.getReagent(id);
       if (data) {
         this.mutations.setEntity(data);
       }
@@ -40,7 +40,7 @@ export class ReagentActions extends Actions<ReagentState, ReagentGetters, Reagen
 
   async updateReagent(payload: { id: number; data: UpdateReagentDto }) {
     try {
-      const data = await api.updateReagent(this.main!.getters.token, payload.id, payload.data);
+      const data = await api.updateReagent(payload.id, payload.data);
       this.mutations.updateEntity(data);
       this.main!.mutations.addNotification({ content: "Reagent successfully updated", color: "success" });
     } catch (error) {
@@ -50,7 +50,7 @@ export class ReagentActions extends Actions<ReagentState, ReagentGetters, Reagen
 
   async deleteReagent(id: number) {
     try {
-      const data = await api.deleteReagent(this.main!.getters.token, id);
+      const data = await api.deleteReagent(id);
       this.mutations.deleteEntity(data);
       this.main!.mutations.addNotification({ content: "Reagent successfully deleted", color: "success" });
     } catch (error) {
@@ -60,7 +60,7 @@ export class ReagentActions extends Actions<ReagentState, ReagentGetters, Reagen
 
   async getGroupReagents(groupId: number) {
     try {
-      const data = await api.getGroupReagents(this.main!.getters.token, groupId);
+      const data = await api.getGroupReagents(groupId);
       if (data) {
         this.mutations.setEntities(data);
       }

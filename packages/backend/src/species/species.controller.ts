@@ -3,19 +3,19 @@ import { SpeciesService } from "./species.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CreateSpeciesDto, SpeciesDto, UpdateSpeciesDto } from "@airlab/shared/lib/species/dto";
-import { GroupUserService } from "../groupUser/groupUser.service";
+import { MemberService } from "../member/member.service";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
 @ApiUseTags("species")
 @ApiBearerAuth()
 export class SpeciesController {
-  constructor(private readonly speciesService: SpeciesService, private readonly groupUserService: GroupUserService) {}
+  constructor(private readonly speciesService: SpeciesService, private readonly memberService: MemberService) {}
 
   @Post("species")
   @ApiCreatedResponse({ description: "Create entity.", type: SpeciesDto })
   async create(@Request() req, @Body() params: CreateSpeciesDto) {
-    await this.groupUserService.checkGroupUserPermissions(req.user.userId, params.groupId);
+    await this.memberService.checkMemberPermissions(req.user.userId, params.groupId);
     return this.speciesService.create({ ...params });
   }
 
@@ -23,7 +23,7 @@ export class SpeciesController {
   @ApiCreatedResponse({ description: "Find entity by Id.", type: SpeciesDto })
   async findById(@Request() req, @Param("id") id: number) {
     const item = await this.speciesService.findById(id);
-    await this.groupUserService.checkGroupUserPermissions(req.user.userId, item.groupId);
+    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
     return item;
   }
 
@@ -31,7 +31,7 @@ export class SpeciesController {
   @ApiCreatedResponse({ description: "Updated entity.", type: SpeciesDto })
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdateSpeciesDto) {
     const item = await this.speciesService.findById(id);
-    await this.groupUserService.checkGroupUserPermissions(req.user.userId, item.groupId);
+    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
     return this.speciesService.update(id, params);
   }
 
@@ -39,14 +39,14 @@ export class SpeciesController {
   @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.speciesService.findById(id);
-    await this.groupUserService.checkGroupUserPermissions(req.user.userId, item.groupId);
+    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
     return this.speciesService.deleteById(id);
   }
 
   @Get("groups/:groupId/species")
   @ApiCreatedResponse({ description: "Find all species for the group.", type: SpeciesDto, isArray: true })
   async getGroupSpecies(@Request() req, @Param("groupId") groupId: number) {
-    await this.groupUserService.checkGroupUserPermissions(req.user.userId, groupId);
+    await this.memberService.checkMemberPermissions(req.user.userId, groupId);
     return this.speciesService.getGroupSpecies(groupId);
   }
 }

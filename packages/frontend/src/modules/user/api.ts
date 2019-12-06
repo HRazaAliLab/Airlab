@@ -1,5 +1,6 @@
 import ky from "ky";
 import { apiUrl } from "@/env";
+import { ApiManager } from "@/utils/api";
 import {
   CreateUserDto,
   ProfileDto,
@@ -17,70 +18,40 @@ export const api = {
 
     return ky.post(`${apiUrl}/auth/login`, { body: params }).json();
   },
-  async getMe(token: string) {
-    return ky
-      .get(`${apiUrl}/users/profile`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<ProfileDto>();
+  async getMe() {
+    return ApiManager.api.get(`users/profile`).json<ProfileDto>();
   },
-  async updateMe(token: string, data: UpdateProfileDto) {
-    return ky
-      .patch(`${apiUrl}/users/profile`, {
+  async updateMe(data: UpdateProfileDto) {
+    return ApiManager.api
+      .patch(`users/profile`, {
         json: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       })
       .json<ProfileDto>();
   },
-  async updatePassword(token: string, data: UpdatePasswordDto) {
-    return ky
-      .patch(`${apiUrl}/users/profile/password`, {
+  async updatePassword(data: UpdatePasswordDto) {
+    return ApiManager.api
+      .patch(`users/profile/password`, {
         json: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       })
       .json<ProfileDto>();
   },
-  async getUsers(token: string) {
-    return ky
-      .get(`${apiUrl}/users`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<UserDto[]>();
+  async getUsers() {
+    return ApiManager.api.get(`users`).json<UserDto[]>();
   },
-  async getUser(token: string, id: number) {
-    return ky
-      .get(`${apiUrl}/users/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+  async getUser(id: number) {
+    return ApiManager.api.get(`users/${id}`).json<UserDto>();
+  },
+  async updateUser(id: number, data: UpdateUserDto) {
+    return ApiManager.api
+      .patch(`users/${id}`, {
+        json: data,
       })
       .json<UserDto>();
   },
-  async updateUser(token: string, id: number, data: UpdateUserDto) {
-    return ky
-      .patch(`${apiUrl}/users/${id}`, {
+  async createUser(data: CreateUserDto) {
+    return ApiManager.api
+      .post(`users`, {
         json: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<UserDto>();
-  },
-  async createUser(token: string, data: CreateUserDto) {
-    return ky
-      .post(`${apiUrl}/users`, {
-        json: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       })
       .json<UserDto>();
   },

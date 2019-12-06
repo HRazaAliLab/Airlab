@@ -2,7 +2,7 @@ import * as dotenv from "dotenv";
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { UserEntity } from "../user/user.entity";
 import { GroupEntity } from "../group/group.entity";
-import { GroupUserEntity } from "../groupUser/groupUser.entity";
+import { MemberEntity } from "../member/member.entity";
 import { ProteinEntity } from "../protein/protein.entity";
 import { ProviderEntity } from "../provider/provider.entity";
 import { SpeciesEntity } from "../species/species.entity";
@@ -40,7 +40,7 @@ export class ConfigService {
       entities: [
         UserEntity,
         GroupEntity,
-        GroupUserEntity,
+        MemberEntity,
         ProteinEntity,
         ProviderEntity,
         SpeciesEntity,

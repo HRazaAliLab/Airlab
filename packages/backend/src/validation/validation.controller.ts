@@ -20,7 +20,7 @@ import {
   UploadValidationDto,
   ValidationDto,
 } from "@airlab/shared/lib/validation/dto";
-import { GroupUserService } from "../groupUser/groupUser.service";
+import { MemberService } from "../member/member.service";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { existsSync } from "fs";
 import { pseudoRandomBytes } from "crypto";
@@ -84,22 +84,22 @@ const storage = multer.diskStorage({
 export class ValidationController {
   constructor(
     private readonly validationService: ValidationService,
-    private readonly groupUserService: GroupUserService,
+    private readonly memberService: MemberService,
     private readonly validationFileService: ValidationFileService
   ) {}
 
   @Post("validations")
   @ApiCreatedResponse({ description: "Create entity.", type: ValidationDto })
   async create(@Request() req, @Body() params: CreateValidationDto) {
-    const groupUser = await this.groupUserService.checkGroupUserPermissions(req.user.userId, params.groupId);
-    return this.validationService.create({ ...params, createdBy: groupUser.id });
+    const member = await this.memberService.checkMemberPermissions(req.user.userId, params.groupId);
+    return this.validationService.create({ ...params, createdBy: member.id });
   }
 
   @Get("validations/:id")
   @ApiCreatedResponse({ description: "Find entity by Id.", type: ValidationDto })
   async findById(@Request() req, @Param("id") id: number) {
     const item = await this.validationService.findById(id);
-    await this.groupUserService.checkGroupUserPermissions(req.user.userId, item.groupId);
+    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
     return item;
   }
 
@@ -107,7 +107,7 @@ export class ValidationController {
   @ApiCreatedResponse({ description: "Updated entity.", type: ValidationDto })
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdateValidationDto) {
     const item = await this.validationService.findById(id);
-    await this.groupUserService.checkGroupUserPermissions(req.user.userId, item.groupId);
+    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
     return this.validationService.update(id, params);
   }
 
@@ -115,7 +115,7 @@ export class ValidationController {
   @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.validationService.findById(id);
-    await this.groupUserService.checkGroupUserPermissions(req.user.userId, item.groupId);
+    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
     return this.validationService.deleteById(id);
   }
 
@@ -126,7 +126,7 @@ export class ValidationController {
     isArray: true,
   })
   async getGroupValidations(@Request() req, @Param("groupId") groupId: number) {
-    await this.groupUserService.checkGroupUserPermissions(req.user.userId, groupId);
+    await this.memberService.checkMemberPermissions(req.user.userId, groupId);
     return this.validationService.getGroupValidations(groupId);
   }
 
@@ -160,11 +160,11 @@ export class ValidationController {
     })
   )
   async upload(@Param("id") id: number, @Request() req, @UploadedFile() file, @Body() params: UploadValidationDto) {
-    const groupUser = await this.groupUserService.checkGroupUserPermissions(req.user.userId, Number(params.groupId));
+    const member = await this.memberService.checkMemberPermissions(req.user.userId, Number(params.groupId));
     const extension = extname(file.originalname);
     const fileEntity = await this.validationFileService.create({
       validationId: id,
-      createdBy: groupUser.id,
+      createdBy: member.id,
       name: file.originalname,
       extension: extension.substring(1),
       size: file.size,

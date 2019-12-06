@@ -1,53 +1,28 @@
-import ky from "ky";
-import { apiUrl } from "@/env";
+import { ApiManager } from "@/utils/api";
 import { CreateLotDto, LotDto, UpdateLotDto } from "@airlab/shared/lib/lot/dto";
 
 export const api = {
-  async createLot(token: string, data: CreateLotDto) {
-    return ky
-      .post(`${apiUrl}/lots/`, {
+  async createLot(data: CreateLotDto) {
+    return ApiManager.api
+      .post(`lots`, {
         json: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       })
       .json<LotDto>();
   },
-  async getLot(token: string, id: number) {
-    return ky
-      .get(`${apiUrl}/lots/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<LotDto>();
+  async getLot(id: number) {
+    return ApiManager.api.get(`lots/${id}`).json<LotDto>();
   },
-  async updateLot(token: string, id: number, data: UpdateLotDto) {
-    return ky
-      .patch(`${apiUrl}/lots/${id}`, {
+  async updateLot(id: number, data: UpdateLotDto) {
+    return ApiManager.api
+      .patch(`lots/${id}`, {
         json: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       })
       .json<LotDto>();
   },
-  async deleteLot(token: string, id: number) {
-    return ky
-      .delete(`${apiUrl}/lots/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<number>();
+  async deleteLot(id: number) {
+    return ApiManager.api.delete(`lots/${id}`).json<number>();
   },
-  async getGroupLots(token: string, groupId: number) {
-    return ky
-      .get(`${apiUrl}/groups/${groupId}/lots`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<LotDto[]>();
+  async getGroupLots(groupId: number) {
+    return ApiManager.api.get(`groups/${groupId}/lots`).json<LotDto[]>();
   },
 };

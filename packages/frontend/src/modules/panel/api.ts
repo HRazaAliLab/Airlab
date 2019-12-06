@@ -1,63 +1,35 @@
-import ky from "ky";
-import { apiUrl } from "@/env";
+import { ApiManager } from "@/utils/api";
 import { CreatePanelDto, DuplicatePanelDto, PanelDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
 
 export const api = {
-  async createPanel(token: string, data: CreatePanelDto) {
-    return ky
-      .post(`${apiUrl}/panels/`, {
+  async createPanel(data: CreatePanelDto) {
+    return ApiManager.api
+      .post(`panels`, {
         json: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       })
       .json<PanelDto>();
   },
-  async getPanel(token: string, id: number) {
-    return ky
-      .get(`${apiUrl}/panels/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<PanelDto>();
+  async getPanel(id: number) {
+    return ApiManager.api.get(`panels/${id}`).json<PanelDto>();
   },
-  async updatePanel(token: string, id: number, data: UpdatePanelDto) {
-    return ky
-      .patch(`${apiUrl}/panels/${id}`, {
+  async updatePanel(id: number, data: UpdatePanelDto) {
+    return ApiManager.api
+      .patch(`panels/${id}`, {
         json: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       })
       .json<PanelDto>();
   },
-  async duplicatePanel(token: string, id: number, data: DuplicatePanelDto) {
-    return ky
-      .put(`${apiUrl}/panels/${id}`, {
+  async duplicatePanel(id: number, data: DuplicatePanelDto) {
+    return ApiManager.api
+      .put(`panels/${id}`, {
         json: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       })
       .json<PanelDto>();
   },
-  async deletePanel(token: string, id: number) {
-    return ky
-      .delete(`${apiUrl}/panels/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<number>();
+  async deletePanel(id: number) {
+    return ApiManager.api.delete(`panels/${id}`).json<number>();
   },
-  async getGroupPanels(token: string, groupId: number) {
-    return ky
-      .get(`${apiUrl}/groups/${groupId}/panels`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<PanelDto[]>();
+  async getGroupPanels(groupId: number) {
+    return ApiManager.api.get(`groups/${groupId}/panels`).json<PanelDto[]>();
   },
 };

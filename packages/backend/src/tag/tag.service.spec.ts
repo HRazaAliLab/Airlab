@@ -2,16 +2,16 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { TagService } from "./tag.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { TagEntity } from "./tag.entity";
-import { GroupUserEntity } from "../groupUser/groupUser.entity";
-import { GroupUserService } from "../groupUser/groupUser.service";
+import { MemberEntity } from "../member/member.entity";
+import { MemberService } from "../member/member.service";
 
 describe("TagService", () => {
   let service: TagService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([TagEntity, GroupUserEntity])],
-      providers: [TagService, GroupUserService],
+      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([TagEntity, MemberEntity])],
+      providers: [TagService, MemberService],
     }).compile();
 
     service = module.get<TagService>(TagService);

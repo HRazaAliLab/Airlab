@@ -226,19 +226,19 @@ export default new Router({
                   path: "tags",
                   name: "main-group-tags",
                   component: () =>
-                    import(/* webpackChunkName: "main-group-tags" */ "@/views/main/group/tag/TagsView.vue"),
+                    import(/* webpackChunkName: "main-group-tags" */ "@/views/main/group/tags/TagsView.vue"),
                 },
                 {
                   path: "tags/create",
                   name: "main-group-tags-create",
                   component: () =>
-                    import(/* webpackChunkName: "main-group-tags-create" */ "@/views/main/group/tag/CreateTag.vue"),
+                    import(/* webpackChunkName: "main-group-tags-create" */ "@/views/main/group/tags/CreateTag.vue"),
                 },
                 {
                   path: "tags/:id/edit",
                   name: "main-group-tags-edit",
                   component: () =>
-                    import(/* webpackChunkName: "main-group-tags-edit" */ "@/views/main/group/tag/EditTag.vue"),
+                    import(/* webpackChunkName: "main-group-tags-edit" */ "@/views/main/group/tags/EditTag.vue"),
                 },
 
                 {
@@ -269,7 +269,7 @@ export default new Router({
                   name: "main-group-providers",
                   component: () =>
                     import(
-                      /* webpackChunkName: "main-group-providers" */ "@/views/main/group/provider/ProvidersView.vue"
+                      /* webpackChunkName: "main-group-providers" */ "@/views/main/group/providers/ProvidersView.vue"
                     ),
                 },
                 {
@@ -277,7 +277,7 @@ export default new Router({
                   name: "main-group-providers-create",
                   component: () =>
                     import(
-                      /* webpackChunkName: "main-group-providers-create" */ "@/views/main/group/provider/CreateProvider.vue"
+                      /* webpackChunkName: "main-group-providers-create" */ "@/views/main/group/providers/CreateProvider.vue"
                     ),
                 },
                 {
@@ -285,7 +285,30 @@ export default new Router({
                   name: "main-group-providers-edit",
                   component: () =>
                     import(
-                      /* webpackChunkName: "main-group-providers-edit" */ "@/views/main/group/provider/EditProvider.vue"
+                      /* webpackChunkName: "main-group-providers-edit" */ "@/views/main/group/providers/EditProvider.vue"
+                    ),
+                },
+
+                {
+                  path: "members",
+                  name: "main-group-members",
+                  component: () =>
+                    import(/* webpackChunkName: "main-group-members" */ "@/views/main/group/members/MembersView.vue"),
+                },
+                {
+                  path: "members/create",
+                  name: "main-group-members-create",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-members-create" */ "@/views/main/group/members/CreateMember.vue"
+                    ),
+                },
+                {
+                  path: "members/:id/edit",
+                  name: "main-group-members-edit",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-members-edit" */ "@/views/main/group/members/EditMember.vue"
                     ),
                 },
               ],

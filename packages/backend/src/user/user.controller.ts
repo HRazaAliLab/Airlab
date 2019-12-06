@@ -29,6 +29,27 @@ export class UserController {
     return this.userService.create(params);
   }
 
+  @Get("users/profile")
+  @ApiCreatedResponse({ description: "Get personal profile.", type: ProfileDto })
+  profile(@Request() req) {
+    const user: JwtPayloadDto = req.user;
+    return this.userService.findById(user.userId);
+  }
+
+  @Patch("users/profile")
+  @ApiCreatedResponse({ description: "Update personal profile.", type: ProfileDto })
+  async updateProfile(@Request() req, @Body() params: UpdateProfileDto) {
+    const user: JwtPayloadDto = req.user;
+    return this.userService.update(user.userId, params);
+  }
+
+  @Patch("users/profile/password")
+  @ApiCreatedResponse({ description: "Update personal password.", type: ProfileDto })
+  async updatePassword(@Request() req, @Body() params: UpdatePasswordDto) {
+    const user: JwtPayloadDto = req.user;
+    return this.userService.updatePassword(user.userId, params);
+  }
+
   @Get("users/:id")
   @ApiCreatedResponse({ description: "Find entity by Id.", type: UserDto })
   findById(@Param("id") id: number) {
@@ -49,27 +70,6 @@ export class UserController {
   @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     return this.userService.deleteById(id);
-  }
-
-  @Get("users/profile")
-  @ApiCreatedResponse({ description: "Get personal profile.", type: ProfileDto })
-  profile(@Request() req) {
-    const user: JwtPayloadDto = req.user;
-    return this.userService.findById(user.userId);
-  }
-
-  @Patch("users/profile")
-  @ApiCreatedResponse({ description: "Update personal profile.", type: ProfileDto })
-  async updateProfile(@Request() req, @Body() params: UpdateProfileDto) {
-    const user: JwtPayloadDto = req.user;
-    return this.userService.update(user.userId, params);
-  }
-
-  @Patch("users/profile/password")
-  @ApiCreatedResponse({ description: "Update personal password.", type: ProfileDto })
-  async updatePassword(@Request() req, @Body() params: UpdatePasswordDto) {
-    const user: JwtPayloadDto = req.user;
-    return this.userService.updatePassword(user.userId, params);
   }
 
   @Get("users")

@@ -48,8 +48,8 @@ export class ConjugateService {
       .addSelect(["clone.id", "clone.name"])
       .leftJoin("clone.protein", "protein")
       .addSelect(["protein.name"])
-      .leftJoin("conjugate.groupUser", "groupUser")
-      .leftJoinAndMapOne("conjugate.user", UserEntity, "user", "groupUser.userId = user.id")
+      .leftJoin("conjugate.member", "member")
+      .leftJoinAndMapOne("conjugate.user", UserEntity, "user", "member.userId = user.id")
       .orderBy({ "conjugate.tubeNumber": "DESC" })
       .cache(`group_${groupId}_conjugates`, 1000 * 60 * 60)
       .getMany();

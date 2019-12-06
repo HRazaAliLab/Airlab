@@ -1,53 +1,28 @@
-import ky from "ky";
-import { apiUrl } from "@/env";
+import { ApiManager } from "@/utils/api";
 import { CreateProteinDto, ProteinDto, UpdateProteinDto } from "@airlab/shared/lib/protein/dto";
 
 export const api = {
-  async createProtein(token: string, data: CreateProteinDto) {
-    return ky
-      .post(`${apiUrl}/proteins/`, {
+  async createProtein(data: CreateProteinDto) {
+    return ApiManager.api
+      .post(`proteins`, {
         json: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       })
       .json<ProteinDto>();
   },
-  async getProtein(token: string, id: number) {
-    return ky
-      .get(`${apiUrl}/proteins/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<ProteinDto>();
+  async getProtein(id: number) {
+    return ApiManager.api.get(`proteins/${id}`).json<ProteinDto>();
   },
-  async updateProtein(token: string, id: number, data: UpdateProteinDto) {
-    return ky
-      .patch(`${apiUrl}/proteins/${id}`, {
+  async updateProtein(id: number, data: UpdateProteinDto) {
+    return ApiManager.api
+      .patch(`proteins/${id}`, {
         json: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       })
       .json<ProteinDto>();
   },
-  async deleteProtein(token: string, id: number) {
-    return ky
-      .delete(`${apiUrl}/proteins/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<number>();
+  async deleteProtein(id: number) {
+    return ApiManager.api.delete(`proteins/${id}`).json<number>();
   },
-  async getGroupProteins(token: string, groupId: number) {
-    return ky
-      .get(`${apiUrl}/groups/${groupId}/proteins`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<ProteinDto[]>();
+  async getGroupProteins(groupId: number) {
+    return ApiManager.api.get(`groups/${groupId}/proteins`).json<ProteinDto[]>();
   },
 };

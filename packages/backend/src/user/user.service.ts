@@ -4,7 +4,7 @@ import { Repository } from "typeorm";
 import { UserEntity } from "./user.entity";
 import { CreateUserDto, UpdatePasswordDto, UpdateProfileDto, UpdateUserDto } from "@airlab/shared/lib/user/dto";
 import { GroupEntity } from "../group/group.entity";
-import { GroupUserEntity } from "../groupUser/groupUser.entity";
+import { MemberEntity } from "../member/member.entity";
 import { LotEntity } from "../lot/lot.entity";
 import { getPasswordHash } from "../auth/helpers";
 
@@ -15,8 +15,8 @@ export class UserService {
     private readonly repository: Repository<UserEntity>,
     @InjectRepository(GroupEntity)
     private readonly groupRepository: Repository<GroupEntity>,
-    @InjectRepository(GroupUserEntity)
-    private readonly groupUserRepository: Repository<GroupUserEntity>,
+    @InjectRepository(MemberEntity)
+    private readonly memberRepository: Repository<MemberEntity>,
     @InjectRepository(LotEntity)
     private readonly lotRepository: Repository<LotEntity>
   ) {}

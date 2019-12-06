@@ -1,54 +1,29 @@
-import ky from "ky";
-import { apiUrl } from "@/env";
+import { ApiManager } from "@/utils/api";
 import { CreateValidationDto, UpdateValidationDto, ValidationDto } from "@airlab/shared/lib/validation/dto";
 
 export const api = {
-  async createValidation(token: string, data: CreateValidationDto) {
-    return ky
-      .post(`${apiUrl}/validations/`, {
+  async createValidation(data: CreateValidationDto) {
+    return ApiManager.api
+      .post(`validations`, {
         json: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       })
       .json<ValidationDto>();
   },
-  async getValidation(token: string, id: number) {
-    return ky
-      .get(`${apiUrl}/validations/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<ValidationDto>();
+  async getValidation(id: number) {
+    return ApiManager.api.get(`validations/${id}`).json<ValidationDto>();
   },
-  async updateValidation(token: string, id: number, data: UpdateValidationDto) {
-    return ky
-      .patch(`${apiUrl}/validations/${id}`, {
+  async updateValidation(id: number, data: UpdateValidationDto) {
+    return ApiManager.api
+      .patch(`validations/${id}`, {
         json: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       })
       .json<ValidationDto>();
   },
-  async deleteValidation(token: string, id: number) {
-    return ky
-      .delete(`${apiUrl}/validation/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<number>();
+  async deleteValidation(id: number) {
+    return ApiManager.api.delete(`validation/${id}`).json<number>();
   },
-  async getGroupValidations(token: string, groupId: number) {
-    return ky
-      .get(`${apiUrl}/groups/${groupId}/validations`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<ValidationDto[]>();
+  async getGroupValidations(groupId: number) {
+    return ApiManager.api.get(`groups/${groupId}/validations`).json<ValidationDto[]>();
   },
   // async uploadValidationFile(
   //   token: string,
@@ -71,22 +46,13 @@ export const api = {
   //   };
   //   xhr.send(formData);
   // },
-  async uploadValidationFile(token: string, validationId: number, formData: FormData) {
-    return ky.post(`${apiUrl}/validations/${validationId}/upload`, {
+  async uploadValidationFile(validationId: number, formData: FormData) {
+    return ApiManager.api.post(`validations/${validationId}/upload`, {
       body: formData,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
       timeout: false,
     });
   },
-  async deleteValidationFile(token: string, fileId: number) {
-    return ky
-      .delete(`${apiUrl}/validationFiles/${fileId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<number>();
+  async deleteValidationFile(fileId: number) {
+    return ApiManager.api.delete(`validationFiles/${fileId}`).json<number>();
   },
 };

@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ProteinEntity } from "../protein/protein.entity";
-import { GroupUserEntity } from "../groupUser/groupUser.entity";
+import { MemberEntity } from "../member/member.entity";
 import { CloneEntity } from "../clone/clone.entity";
 import { ConjugateEntity } from "../conjugate/conjugate.entity";
 import { LotEntity } from "../lot/lot.entity";
@@ -105,8 +105,8 @@ export class GroupEntity {
   panels: PanelEntity[];
 
   @OneToMany(
-    type => GroupUserEntity,
-    groupUser => groupUser.group
+    type => MemberEntity,
+    member => member.group
   )
-  groupUsers!: GroupUserEntity[];
+  members!: MemberEntity[];
 }

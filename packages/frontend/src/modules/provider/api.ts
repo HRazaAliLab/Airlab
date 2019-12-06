@@ -1,53 +1,28 @@
-import ky from "ky";
-import { apiUrl } from "@/env";
+import { ApiManager } from "@/utils/api";
 import { CreateProviderDto, ProviderDto, UpdateProviderDto } from "@airlab/shared/lib/provider/dto";
 
 export const api = {
-  async createProvider(token: string, data: CreateProviderDto) {
-    return ky
-      .post(`${apiUrl}/providers/`, {
+  async createProvider(data: CreateProviderDto) {
+    return ApiManager.api
+      .post(`providers`, {
         json: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       })
       .json<ProviderDto>();
   },
-  async getProvider(token: string, id: number) {
-    return ky
-      .get(`${apiUrl}/providers/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<ProviderDto>();
+  async getProvider(id: number) {
+    return ApiManager.api.get(`providers/${id}`).json<ProviderDto>();
   },
-  async updateProvider(token: string, id: number, data: UpdateProviderDto) {
-    return ky
-      .patch(`${apiUrl}/providers/${id}`, {
+  async updateProvider(id: number, data: UpdateProviderDto) {
+    return ApiManager.api
+      .patch(`providers/${id}`, {
         json: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       })
       .json<ProviderDto>();
   },
-  async deleteProvider(token: string, id: number) {
-    return ky
-      .delete(`${apiUrl}/providers/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<number>();
+  async deleteProvider(id: number) {
+    return ApiManager.api.delete(`providers/${id}`).json<number>();
   },
-  async getGroupProviders(token: string, groupId: number) {
-    return ky
-      .get(`${apiUrl}/groups/${groupId}/providers`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json<ProviderDto[]>();
+  async getGroupProviders(groupId: number) {
+    return ApiManager.api.get(`groups/${groupId}/providers`).json<ProviderDto[]>();
   },
 };

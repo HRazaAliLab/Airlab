@@ -24,7 +24,7 @@ export class ValidationActions extends Actions<
 
   async createValidation(payload: CreateValidationDto) {
     try {
-      const data = await api.createValidation(this.main!.getters.token, payload);
+      const data = await api.createValidation(payload);
       this.mutations.addEntity(data);
       this.main!.mutations.addNotification({ content: "Validation successfully created", color: "success" });
     } catch (error) {
@@ -34,7 +34,7 @@ export class ValidationActions extends Actions<
 
   async getValidation(id: number) {
     try {
-      const data = await api.getValidation(this.main!.getters.token, id);
+      const data = await api.getValidation(id);
       if (data) {
         this.mutations.setEntity(data);
       }
@@ -45,7 +45,7 @@ export class ValidationActions extends Actions<
 
   async updateValidation(payload: { id: number; data: UpdateValidationDto }) {
     try {
-      const data = await api.updateValidation(this.main!.getters.token, payload.id, payload.data);
+      const data = await api.updateValidation(payload.id, payload.data);
       this.mutations.updateEntity(data);
       this.main!.mutations.addNotification({ content: "Validation successfully updated", color: "success" });
     } catch (error) {
@@ -55,7 +55,7 @@ export class ValidationActions extends Actions<
 
   async deleteValidation(id: number) {
     try {
-      const data = await api.deleteValidation(this.main!.getters.token, id);
+      const data = await api.deleteValidation(id);
       this.mutations.deleteEntity(data);
       this.main!.mutations.addNotification({ content: "Validation successfully deleted", color: "success" });
     } catch (error) {
@@ -65,7 +65,7 @@ export class ValidationActions extends Actions<
 
   async getGroupValidations(groupId: number) {
     try {
-      const data = await api.getGroupValidations(this.main!.getters.token, groupId);
+      const data = await api.getGroupValidations(groupId);
       if (data) {
         this.mutations.setEntities(data);
       }
@@ -97,7 +97,7 @@ export class ValidationActions extends Actions<
       //   () => {}
       // );
 
-      const data = await api.uploadValidationFile(this.main!.getters.token, payload.validationId, payload.formData);
+      const data = await api.uploadValidationFile(payload.validationId, payload.formData);
       this.main!.mutations.addNotification({ content: "Validation file successfully uploaded", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
@@ -106,7 +106,7 @@ export class ValidationActions extends Actions<
 
   async deleteValidationFile(fileId: number) {
     try {
-      const data = await api.deleteValidationFile(this.main!.getters.token, fileId);
+      const data = await api.deleteValidationFile(fileId);
       this.main!.mutations.addNotification({ content: "Validation file successfully deleted", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
