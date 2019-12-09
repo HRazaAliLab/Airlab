@@ -110,7 +110,7 @@
           </v-edit-dialog>
         </template>
         <template v-slot:item.pipet="{ item }">
-          <span v-if="item.pipet">{{ item.pipet.toFixed(2) }}</span>
+          <span v-if="item.actualConcentration">{{ getAmountAntibody(item).toFixed(2) }}</span>
         </template>
       </v-data-table>
     </v-card>
@@ -267,22 +267,17 @@ export default class ViewPanel extends Vue {
     }
   }
 
-  getAmountAntibody(item, dilution: boolean) {
-    if (dilution) {
-      const res = this.totalVolume / parseFloat(item.actualConcentration);
-      item.pipet = res;
-      return res;
-    }
-    const res = this.totalVolume * (parseFloat(item.actualConcentration) / parseFloat(item.concentration));
-    item.pipet = res;
-    return res;
+  getAmountAntibody(item) {
+    return item.dilutionType === 1
+      ? this.totalVolume / parseFloat(item.actualConcentration)
+      : this.totalVolume * (parseFloat(item.actualConcentration) / parseFloat(item.concentration));
   }
 
   get diluentVolume() {
     let cum = 0.0;
     for (const item of this.items) {
       if (!item.actualConcentration) continue;
-      const add = this.getAmountAntibody(item, item.dilutionType === 1);
+      const add = this.getAmountAntibody(item);
       if (this.excludeEmpty && Number(item.finishedBy) > 0) continue;
       if (!isNaN(add)) {
         cum = cum + add;
@@ -292,6 +287,9 @@ export default class ViewPanel extends Vue {
   }
 
   closeEditDialog() {
+    // TODO: hack to force update diluted volume. Should be refactored.
+    this.excludeEmpty = !this.excludeEmpty;
+    this.excludeEmpty = !this.excludeEmpty;
   }
 
   onScroll(e) {

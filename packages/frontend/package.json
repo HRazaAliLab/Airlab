@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@airlab/shared": "*",
-    "core-js": "3.4.7",
+    "core-js": "3.4.8",
     "file-saver": "2.0.2",
     "ky": "0.16.1",
     "localforage": "1.7.3",
@@ -27,7 +27,7 @@
     "vuex-smart-module": "0.3.2"
   },
   "devDependencies": {
-    "@mdi/font": "4.6.95",
+    "@mdi/font": "4.7.95",
     "@types/file-saver": "2.0.1",
     "@vue/cli-plugin-babel": "4.1.1",
     "@vue/cli-plugin-pwa": "4.1.1",

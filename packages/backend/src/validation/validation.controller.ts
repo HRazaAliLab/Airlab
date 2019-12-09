@@ -162,6 +162,7 @@ export class ValidationController {
   async upload(@Param("id") id: number, @Request() req, @UploadedFile() file, @Body() params: UploadValidationDto) {
     const member = await this.memberService.checkMemberPermissions(req.user.userId, Number(params.groupId));
     const extension = extname(file.originalname);
+    await this.validationService.clearCache(Number(params.groupId));
     const fileEntity = await this.validationFileService.create({
       validationId: id,
       createdBy: member.id,
