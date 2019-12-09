@@ -5,6 +5,8 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { CloneEntity } from "./clone.entity";
 import { MemberService } from "../member/member.service";
 import { MemberEntity } from "../member/member.entity";
+import { LotService } from "../lot/lot.service";
+import { LotEntity } from "../lot/lot.entity";
 
 describe("CloneController", () => {
   let controller: CloneController;
@@ -12,9 +14,9 @@ describe("CloneController", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([CloneEntity, MemberEntity])],
+      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([CloneEntity, MemberEntity, LotEntity])],
       controllers: [CloneController],
-      providers: [CloneService, MemberService],
+      providers: [CloneService, MemberService, LotService],
     }).compile();
 
     controller = module.get<CloneController>(CloneController);

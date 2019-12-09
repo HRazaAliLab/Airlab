@@ -47,4 +47,15 @@ export class LotService {
       .cache(`group_${groupId}_lots`, 1000 * 60 * 60)
       .getMany();
   }
+
+  async getCloneLots(cloneId: number) {
+    return this.repository
+      .createQueryBuilder("lot")
+      .where("lot.cloneId = :cloneId", { cloneId: cloneId })
+      .andWhere("lot.isDeleted = false")
+      .leftJoin("lot.reagent", "reagent")
+      .addSelect(["reagent.id", "reagent.name"])
+      .orderBy("lot.id", "DESC")
+      .getMany();
+  }
 }

@@ -4,13 +4,19 @@ import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CreateLotDto, LotDto, UpdateLotDto } from "@airlab/shared/lib/lot/dto";
 import { MemberService } from "../member/member.service";
+import { ConjugateService } from "../conjugate/conjugate.service";
+import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
 @ApiUseTags("lots")
 @ApiBearerAuth()
 export class LotController {
-  constructor(private readonly lotService: LotService, private readonly memberService: MemberService) {}
+  constructor(
+    private readonly lotService: LotService,
+    private readonly memberService: MemberService,
+    private readonly conjugateService: ConjugateService
+  ) {}
 
   @Post("lots")
   @ApiCreatedResponse({ description: "Create entity.", type: LotDto })
@@ -52,5 +58,17 @@ export class LotController {
   async getGroupLots(@Request() req, @Param("groupId") groupId: number) {
     await this.memberService.checkMemberPermissions(req.user.userId, groupId);
     return this.lotService.getGroupLots(groupId);
+  }
+
+  @Get("lots/:id/conjugates")
+  @ApiCreatedResponse({
+    description: "Find all conjugates belonging to the lot.",
+    type: ConjugateDto,
+    isArray: true,
+  })
+  async getLotConjugates(@Request() req, @Param("id") id: number) {
+    const lot = await this.lotService.findById(id);
+    await this.memberService.checkMemberPermissions(req.user.userId, lot.groupId);
+    return this.conjugateService.getLotConjugates(id);
   }
 }

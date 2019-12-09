@@ -150,20 +150,8 @@
         </template>
       </v-data-table>
     </v-card>
-    <v-navigation-drawer v-if="detailsItem" v-model="drawer" right fixed temporary width="400">
-      <v-card flat>
-        <v-list-item>
-          <v-list-item-avatar>
-            <v-icon>mdi-information-outline</v-icon>
-          </v-list-item-avatar>
-          <v-list-item-content>
-            <v-list-item-title>{{ detailsItem.name }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-card-text>
-          {{ detailsItem }}
-        </v-card-text>
-      </v-card>
+    <v-navigation-drawer v-model="drawer" right fixed temporary width="600">
+      <CloneDetailsView v-if="drawer" :item="detailsItem" />
     </v-navigation-drawer>
   </v-col>
 </template>
@@ -176,9 +164,11 @@ import { cloneModule } from "@/modules/clone";
 import { CloneDto } from "@airlab/shared/lib/clone/dto";
 import { speciesModule } from "@/modules/species";
 import { exportCsv } from "@/utils/exporters";
+import CloneDetailsView from "@/views/main/group/clones/CloneDetailsView.vue";
 
 @Component({
   components: {
+    CloneDetailsView,
     LoadingView,
   },
 })

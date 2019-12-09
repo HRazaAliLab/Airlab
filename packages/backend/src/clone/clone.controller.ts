@@ -4,13 +4,19 @@ import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CloneDto, CreateCloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
 import { MemberService } from "../member/member.service";
+import { LotDto } from "@airlab/shared/lib/lot/dto";
+import { LotService } from "../lot/lot.service";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
 @ApiUseTags("clones")
 @ApiBearerAuth()
 export class CloneController {
-  constructor(private readonly cloneService: CloneService, private readonly memberService: MemberService) {}
+  constructor(
+    private readonly cloneService: CloneService,
+    private readonly memberService: MemberService,
+    private readonly lotService: LotService
+  ) {}
 
   @Post("clones")
   @ApiCreatedResponse({ description: "Create entity.", type: CloneDto })
@@ -48,5 +54,13 @@ export class CloneController {
   async getGroupClones(@Request() req, @Param("groupId") groupId: number) {
     await this.memberService.checkMemberPermissions(req.user.userId, groupId);
     return this.cloneService.getGroupClones(groupId);
+  }
+
+  @Get("clones/:id/lots")
+  @ApiCreatedResponse({ description: "Find all lots belonging to the clone.", type: LotDto })
+  async findCloneLots(@Request() req, @Param("id") id: number) {
+    const clone = await this.cloneService.findById(id);
+    await this.memberService.checkMemberPermissions(req.user.userId, clone.groupId);
+    return this.lotService.getCloneLots(id);
   }
 }

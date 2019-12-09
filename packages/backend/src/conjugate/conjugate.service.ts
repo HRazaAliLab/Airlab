@@ -55,6 +55,25 @@ export class ConjugateService {
       .getMany();
   }
 
+  async getLotConjugates(lotId: number) {
+    return this.repository
+      .createQueryBuilder("conjugate")
+      .where("conjugate.lotId = :lotId", { lotId: lotId })
+      .andWhere("conjugate.isDeleted = false")
+      .leftJoin("conjugate.tag", "tag")
+      .addSelect(["tag.id", "tag.name", "tag.mw"])
+      .leftJoin("conjugate.lot", "lot")
+      .addSelect(["lot.id", "lot.number"])
+      .leftJoin("lot.clone", "clone")
+      .addSelect(["clone.id", "clone.name"])
+      .leftJoin("clone.protein", "protein")
+      .addSelect(["protein.name"])
+      .leftJoin("conjugate.member", "member")
+      .leftJoinAndMapOne("conjugate.user", UserEntity, "user", "member.userId = user.id")
+      .orderBy({ "conjugate.tubeNumber": "DESC" })
+      .getMany();
+  }
+
   async lastConjugateForGroup(groupId: number) {
     const entity = await this.repository.findOne({
       select: ["tubeNumber"],

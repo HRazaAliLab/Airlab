@@ -68,4 +68,12 @@ export class LotActions extends Actions<LotState, LotGetters, LotMutations, LotA
       await this.main!.actions.checkApiError(error);
     }
   }
+
+  async getLotConjugates(lotId: number) {
+    try {
+      return api.getLotConjugates(lotId);
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
 }
