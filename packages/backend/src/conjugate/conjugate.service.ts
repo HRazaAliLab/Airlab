@@ -13,7 +13,7 @@ export class ConjugateService {
   ) {}
 
   async create(params: CreateConjugateDto) {
-    await this.repository.manager.connection.queryResultCache.remove([`group_${params.groupId}_conjugates`]);
+    await this.clearCache(params.groupId);
     return this.repository.save(params);
   }
 
@@ -24,13 +24,13 @@ export class ConjugateService {
   async update(id: number, params: UpdateConjugateDto) {
     await this.repository.update(id, { ...params, updatedAt: new Date().toISOString() });
     const item = await this.findById(id);
-    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_conjugates`]);
+    await this.clearCache(item.groupId);
     return item;
   }
 
   async deleteById(id: number) {
     const item = await this.findById(id);
-    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_conjugates`]);
+    await this.clearCache(item.groupId);
     const result = await this.repository.delete(id);
     return result.affected === 1 ? id : undefined;
   }
@@ -47,7 +47,7 @@ export class ConjugateService {
       .leftJoin("lot.clone", "clone")
       .addSelect(["clone.id", "clone.name"])
       .leftJoin("clone.protein", "protein")
-      .addSelect(["protein.name"])
+      .addSelect(["protein.id", "protein.name"])
       .leftJoin("conjugate.member", "member")
       .leftJoinAndMapOne("conjugate.user", UserEntity, "user", "member.userId = user.id")
       .orderBy({ "conjugate.tubeNumber": "DESC" })
@@ -62,12 +62,6 @@ export class ConjugateService {
       .andWhere("conjugate.isDeleted = false")
       .leftJoin("conjugate.tag", "tag")
       .addSelect(["tag.id", "tag.name", "tag.mw"])
-      .leftJoin("conjugate.lot", "lot")
-      .addSelect(["lot.id", "lot.number"])
-      .leftJoin("lot.clone", "clone")
-      .addSelect(["clone.id", "clone.name"])
-      .leftJoin("clone.protein", "protein")
-      .addSelect(["protein.name"])
       .leftJoin("conjugate.member", "member")
       .leftJoinAndMapOne("conjugate.user", UserEntity, "user", "member.userId = user.id")
       .orderBy({ "conjugate.tubeNumber": "DESC" })
@@ -85,5 +79,9 @@ export class ConjugateService {
       },
     });
     return entity.tubeNumber + 1;
+  }
+
+  private async clearCache(groupId: number) {
+    await this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_conjugates`]);
   }
 }

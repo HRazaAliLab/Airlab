@@ -11,6 +11,33 @@
       </v-toolbar-items>
     </v-toolbar>
 
+    <v-expansion-panels>
+      <v-expansion-panel>
+        <v-expansion-panel-header>Filter</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <v-select
+            v-model="tagFilter"
+            :items="tags"
+            item-text="name"
+            item-value="id"
+            chips
+            clearable
+            label="Tags"
+            multiple
+            prepend-icon="mdi-filter-outline"
+            solo
+            dense
+          >
+            <template v-slot:selection="{ attrs, item, select, selected }">
+              <v-chip v-bind="attrs" :input-value="selected" close @click="select" @click:close="removeTagFilter(item)">
+                {{ item.name }}
+              </v-chip>
+            </template>
+          </v-select>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
+
     <v-card>
       <v-card-title>
         <v-spacer />
@@ -31,6 +58,36 @@
         multi-sort
         show-expand
       >
+        <template v-slot:item.lot.clone.protein="{ item }">
+          <router-link
+            v-if="item.lot.clone.protein"
+            class="link"
+            :to="{
+              name: 'main-group-proteins-edit',
+              params: {
+                groupId: activeGroupId,
+                id: item.lot.clone.protein.id,
+              },
+            }"
+          >
+            {{ item.lot.clone.protein.name }}
+          </router-link>
+        </template>
+        <template v-slot:item.lot.clone="{ item }">
+          <router-link
+            v-if="item.lot.clone"
+            class="link"
+            :to="{
+              name: 'main-group-clones-edit',
+              params: {
+                groupId: activeGroupId,
+                id: item.lot.clone.id,
+              },
+            }"
+          >
+            {{ item.lot.clone.name }}
+          </router-link>
+        </template>
         <template v-slot:item.lot="{ item }">
           <router-link
             v-if="item.lot"
@@ -148,6 +205,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
 import { conjugateModule } from "@/modules/conjugate";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
+import { tagModule } from "@/modules/tag";
 
 @Component({
   components: {
@@ -156,6 +214,7 @@ import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 })
 export default class ConjugatesViews extends Vue {
   readonly groupContext = groupModule.context(this.$store);
+  readonly tagContext = tagModule.context(this.$store);
   readonly conjugateContext = conjugateModule.context(this.$store);
 
   get activeGroupId() {
@@ -174,6 +233,32 @@ export default class ConjugatesViews extends Vue {
       text: "Tube Number",
       value: "tubeNumber",
       align: "end",
+    },
+    {
+      text: "Protein",
+      value: "lot.clone.protein",
+      sort: (a, b) => {
+        if (a === null) {
+          return 1;
+        }
+        if (b === null) {
+          return -1;
+        }
+        return a.name.localeCompare(b.name);
+      },
+    },
+    {
+      text: "Clone",
+      value: "lot.clone",
+      sort: (a, b) => {
+        if (a === null) {
+          return 1;
+        }
+        if (b === null) {
+          return -1;
+        }
+        return a.name.localeCompare(b.name);
+      },
     },
     {
       text: "Lot",
@@ -228,8 +313,17 @@ export default class ConjugatesViews extends Vue {
   detailsItem: ConjugateDto | null = null;
   search = "";
 
+  tagFilter: number[] = [];
+
+  get tags() {
+    return this.tagContext.getters.tags.map(item => ({
+      id: item.id,
+      name: item.mw ? item.name + item.mw : item.name,
+    }));
+  }
+
   get items() {
-    return this.conjugateContext.getters.conjugates.map(item => ({
+    let items = this.conjugateContext.getters.conjugates.map(item => ({
       ...item,
       label: (item as any).tag
         ? (item as any).tag.mw
@@ -237,6 +331,10 @@ export default class ConjugatesViews extends Vue {
           : (item as any).tag.name
         : "unknown",
     }));
+    if (this.tagFilter.length > 0) {
+      items = items.filter(item => ((item as any).tag ? this.tagFilter.includes((item as any).tag.id) : false));
+    }
+    return items;
   }
 
   filter(value, search, item) {
@@ -246,6 +344,8 @@ export default class ConjugatesViews extends Vue {
     const normalizedSearchTerm = search.toLowerCase().trim();
     return (
       item.tubeNumber.toString().indexOf(normalizedSearchTerm) !== -1 ||
+      (item.lot ? item.lot.clone.protein.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
+      (item.lot ? item.lot.clone.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
       (item.lot ? item.lot.number.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
       (item.tag ? item.tag.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
       (item.user ? item.user.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
@@ -260,13 +360,21 @@ export default class ConjugatesViews extends Vue {
   }
 
   async mounted() {
-    await this.conjugateContext.actions.getGroupConjugates(+this.$router.currentRoute.params.groupId);
+    await Promise.all([
+      this.conjugateContext.actions.getGroupConjugates(+this.$router.currentRoute.params.groupId),
+      this.tagContext.actions.getGroupTags(+this.$router.currentRoute.params.groupId),
+    ]);
   }
 
   async deleteConjugate(id: number) {
     if (self.confirm("Are you sure you want to delete the conjugate?")) {
       await this.conjugateContext.actions.deleteConjugate(id);
     }
+  }
+
+  removeTagFilter(item) {
+    this.tagFilter.splice(this.tagFilter.indexOf(item), 1);
+    this.tagFilter = [...this.tagFilter];
   }
 }
 </script>

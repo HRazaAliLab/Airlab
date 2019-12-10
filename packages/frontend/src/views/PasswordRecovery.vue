@@ -46,11 +46,11 @@ import { Component, Vue } from "vue-property-decorator";
 export default class Login extends Vue {
   readonly mainContext = mainModule.context(this.$store);
 
+  readonly appName = appName;
   readonly emailRules = [required, email];
 
   valid = true;
   email = "";
-  appName = appName;
 
   cancel() {
     this.$router.back();

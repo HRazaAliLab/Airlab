@@ -28,8 +28,8 @@ import { groupModule } from "@/modules/group";
   components: { GroupCard },
 })
 export default class GroupsView extends Vue {
-  mainContext = mainModule.context(this.$store);
-  groupContext = groupModule.context(this.$store);
+  readonly mainContext = mainModule.context(this.$store);
+  readonly groupContext = groupModule.context(this.$store);
 
   search = "";
 

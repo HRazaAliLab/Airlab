@@ -72,11 +72,12 @@ import { email, required } from "@/utils/validators";
 export default class Login extends Vue {
   readonly mainContext = mainModule.context(this.$store);
 
+  readonly appName = appName;
+
   readonly emailRules = [required, email];
 
   email = "";
   password = "";
-  appName = appName;
 
   get loginError() {
     return this.mainContext.getters.loginError;

@@ -12,7 +12,7 @@ export class MemberService {
   ) {}
 
   async create(params: CreateMemberDto) {
-    await this.repository.manager.connection.queryResultCache.remove([`group_${params.groupId}_members`]);
+    await this.clearCache(params.groupId);
     return this.repository.save(params);
   }
 
@@ -25,13 +25,13 @@ export class MemberService {
   async update(id: number, params: UpdateMemberDto) {
     await this.repository.update(id, params);
     const item = await this.findById(id);
-    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_members`]);
+    await this.clearCache(item.groupId);
     return item;
   }
 
   async deleteById(id: number) {
     const item = await this.findById(id);
-    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_members`]);
+    await this.clearCache(item.groupId);
     const result = await this.repository.delete(id);
     return result.affected === 1 ? id : undefined;
   }
@@ -94,5 +94,12 @@ export class MemberService {
       .orderBy("member.id", "DESC")
       .cache(`group_${groupId}_members`, 1000 * 60 * 60)
       .getMany();
+  }
+
+  private async clearCache(groupId: number) {
+    await Promise.all([
+      this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_members`]),
+      this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_panels`]),
+    ]);
   }
 }

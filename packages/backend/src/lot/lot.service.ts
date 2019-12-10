@@ -12,7 +12,7 @@ export class LotService {
   ) {}
 
   async create(params: CreateLotDto) {
-    await this.repository.manager.connection.queryResultCache.remove([`group_${params.groupId}_lots`]);
+    await this.clearCache(params.groupId);
     return this.repository.save(params);
   }
 
@@ -23,13 +23,13 @@ export class LotService {
   async update(id: number, params: UpdateLotDto) {
     await this.repository.update(id, { ...params, updatedAt: new Date().toISOString() });
     const item = await this.findById(id);
-    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_lots`]);
+    await this.clearCache(item.groupId);
     return item;
   }
 
   async deleteById(id: number) {
     const item = await this.findById(id);
-    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_lots`]);
+    await this.clearCache(item.groupId);
     const result = await this.repository.delete(id);
     return result.affected === 1 ? id : undefined;
   }
@@ -57,5 +57,9 @@ export class LotService {
       .addSelect(["reagent.id", "reagent.name"])
       .orderBy("lot.id", "DESC")
       .getMany();
+  }
+
+  private async clearCache(groupId: number) {
+    await this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_lots`]);
   }
 }

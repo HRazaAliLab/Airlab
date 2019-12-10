@@ -4,6 +4,7 @@ import { ProteinEntity } from "../protein/protein.entity";
 import { SpeciesEntity } from "../species/species.entity";
 import { LotEntity } from "../lot/lot.entity";
 import { MemberEntity } from "../member/member.entity";
+import { ValidationEntity } from "../validation/validation.entity";
 
 @Entity({
   name: "clone",
@@ -133,4 +134,10 @@ export class CloneEntity {
     lot => lot.clone
   )
   lots: LotEntity[];
+
+  @OneToMany(
+    type => ValidationEntity,
+    validation => validation.clone
+  )
+  validations: ValidationEntity[];
 }

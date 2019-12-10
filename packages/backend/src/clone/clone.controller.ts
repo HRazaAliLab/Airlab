@@ -6,6 +6,8 @@ import { CloneDto, CreateCloneDto, UpdateCloneDto } from "@airlab/shared/lib/clo
 import { MemberService } from "../member/member.service";
 import { LotDto } from "@airlab/shared/lib/lot/dto";
 import { LotService } from "../lot/lot.service";
+import { ValidationService } from "../validation/validation.service";
+import { ValidationDto } from "@airlab/shared/lib/validation/dto";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
@@ -15,7 +17,8 @@ export class CloneController {
   constructor(
     private readonly cloneService: CloneService,
     private readonly memberService: MemberService,
-    private readonly lotService: LotService
+    private readonly lotService: LotService,
+    private readonly validationService: ValidationService
   ) {}
 
   @Post("clones")
@@ -62,5 +65,13 @@ export class CloneController {
     const clone = await this.cloneService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, clone.groupId);
     return this.lotService.getCloneLots(id);
+  }
+
+  @Get("clones/:id/validations")
+  @ApiCreatedResponse({ description: "Find all validations belonging to the clone.", type: ValidationDto })
+  async findCloneValidations(@Request() req, @Param("id") id: number) {
+    const clone = await this.cloneService.findById(id);
+    await this.memberService.checkMemberPermissions(req.user.userId, clone.groupId);
+    return this.validationService.getCloneValidations(id);
   }
 }

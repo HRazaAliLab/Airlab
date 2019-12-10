@@ -21,7 +21,7 @@ export class GroupService {
   ) {}
 
   async create(params: CreateGroupDto) {
-    await this.groupRepository.manager.connection.queryResultCache.remove([`groups`]);
+    await this.clearCache();
     return this.groupRepository.save(params);
   }
 
@@ -31,12 +31,12 @@ export class GroupService {
 
   async update(id: number, params: UpdateGroupDto) {
     await this.groupRepository.update(id, params);
-    await this.groupRepository.manager.connection.queryResultCache.remove([`groups`]);
+    await this.clearCache();
     return this.findById(id);
   }
 
   async deleteById(id: number) {
-    await this.groupRepository.manager.connection.queryResultCache.remove([`groups`]);
+    await this.clearCache();
     const result = await this.groupRepository.delete(id);
     return result.affected === 1 ? id : undefined;
   }
@@ -88,5 +88,9 @@ export class GroupService {
       .leftJoin(MemberEntity, "member", "user.id = member.userId")
       .where("member.groupId = :groupId", { groupId: groupId })
       .getMany();
+  }
+
+  private async clearCache() {
+    await this.groupRepository.manager.connection.queryResultCache.remove([`groups`]);
   }
 }

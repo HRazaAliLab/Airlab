@@ -100,6 +100,9 @@
         <template v-slot:item.isPolyclonal="{ item }">
           <v-icon v-if="item.isPolyclonal">mdi-check</v-icon>
         </template>
+        <template v-slot:item.validations="{ item }">
+          {{ item.validations.length }}
+        </template>
         <template v-slot:item.action="{ item }">
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
@@ -227,6 +230,11 @@ export default class ClonesView extends Vue {
     {
       text: "Polyclonal",
       value: "isPolyclonal",
+      filterable: false,
+    },
+    {
+      text: "Validations",
+      value: "validations",
       filterable: false,
     },
     {

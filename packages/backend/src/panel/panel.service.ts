@@ -13,7 +13,7 @@ export class PanelService {
   ) {}
 
   async create(params: CreatePanelDto) {
-    await this.repository.manager.connection.queryResultCache.remove([`group_${params.groupId}_panels`]);
+    await this.clearCache(params.groupId);
     return this.repository.save(params);
   }
 
@@ -24,13 +24,13 @@ export class PanelService {
   async update(id: number, params: UpdatePanelDto) {
     await this.repository.update(id, { ...params, updatedAt: new Date().toISOString() });
     const item = await this.findById(id);
-    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_panels`]);
+    await this.clearCache(item.groupId);
     return item;
   }
 
   async deleteById(id: number) {
     const item = await this.findById(id);
-    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_panels`]);
+    await this.clearCache(item.groupId);
     const result = await this.repository.delete(id);
     return result.affected === 1 ? id : undefined;
   }
@@ -38,7 +38,7 @@ export class PanelService {
   async duplicate(id: number, params: DuplicatePanelDto) {
     const item = await this.findById(id);
     delete item.id;
-    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_panels`]);
+    await this.clearCache(item.groupId);
     return this.repository.save({ ...item, name: params.name, createdBy: params.createdBy });
   }
 
@@ -68,5 +68,9 @@ export class PanelService {
       })
       .orderBy({ "panel.id": "DESC" })
       .getMany();
+  }
+
+  private async clearCache(groupId: number) {
+    await this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_panels`]);
   }
 }

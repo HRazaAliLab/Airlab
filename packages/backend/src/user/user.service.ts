@@ -23,7 +23,7 @@ export class UserService {
 
   async create(params: CreateUserDto) {
     const passwordHash = await getPasswordHash(params.password);
-    await this.repository.manager.connection.queryResultCache.remove([`users`]);
+    await this.clearCache();
     return this.repository.save({ ...params, password: passwordHash, isActive: true });
   }
 
@@ -42,19 +42,19 @@ export class UserService {
 
   async update(id: number, params: UpdateUserDto | UpdateProfileDto) {
     await this.repository.update(id, { ...params, updatedAt: new Date().toISOString() });
-    await this.repository.manager.connection.queryResultCache.remove([`users`]);
+    await this.clearCache();
     return this.findById(id);
   }
 
   async updatePassword(id: number, params: UpdatePasswordDto) {
     const passwordHash = await getPasswordHash(params.password);
     await this.repository.update(id, { password: passwordHash, updatedAt: new Date().toISOString() });
-    await this.repository.manager.connection.queryResultCache.remove([`users`]);
+    await this.clearCache();
     return this.findById(id);
   }
 
   async deleteById(id: number) {
-    await this.repository.manager.connection.queryResultCache.remove([`users`]);
+    await this.clearCache();
     const result = await this.repository.delete(id);
     return result.affected === 1 ? id : undefined;
   }
@@ -70,5 +70,9 @@ export class UserService {
         milliseconds: 1000 * 60 * 60,
       },
     });
+  }
+
+  private async clearCache() {
+    await this.repository.manager.connection.queryResultCache.remove([`users`]);
   }
 }

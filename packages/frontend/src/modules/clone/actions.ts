@@ -76,4 +76,12 @@ export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutatio
       await this.main!.actions.checkApiError(error);
     }
   }
+
+  async getCloneValidations(cloneId: number) {
+    try {
+      return api.getCloneValidations(cloneId);
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
 }

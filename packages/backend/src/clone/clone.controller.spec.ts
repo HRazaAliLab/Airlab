@@ -7,6 +7,8 @@ import { MemberService } from "../member/member.service";
 import { MemberEntity } from "../member/member.entity";
 import { LotService } from "../lot/lot.service";
 import { LotEntity } from "../lot/lot.entity";
+import { ValidationService } from "../validation/validation.service";
+import { ValidationEntity } from "../validation/validation.entity";
 
 describe("CloneController", () => {
   let controller: CloneController;
@@ -14,9 +16,12 @@ describe("CloneController", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([CloneEntity, MemberEntity, LotEntity])],
+      imports: [
+        TypeOrmModule.forRoot(),
+        TypeOrmModule.forFeature([CloneEntity, MemberEntity, LotEntity, ValidationEntity]),
+      ],
       controllers: [CloneController],
-      providers: [CloneService, MemberService, LotService],
+      providers: [CloneService, MemberService, LotService, ValidationService],
     }).compile();
 
     controller = module.get<CloneController>(CloneController);

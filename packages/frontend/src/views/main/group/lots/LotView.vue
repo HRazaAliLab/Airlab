@@ -1,60 +1,60 @@
 <template>
   <v-card tile elevation="1" class="mb-3">
-    <v-card-title>Lot Number: {{ item.number }}</v-card-title>
+    <v-card-title>Lot Number: {{ lot.number }}</v-card-title>
     <v-card-text>
-      <div class="subtitle-1">Status: {{ item.status }}</div>
-      <div class="grey--text">Reagent: {{ item.reagent.name }}</div>
+      <div class="subtitle-1">Status: {{ lot.status }}</div>
+      <div class="grey--text">Reagent: {{ lot.reagent.name }}</div>
       <div>
-        <a target="_blank" :href="item.link">{{ item.link }}</a>
+        <a target="_blank" :href="lot.link">{{ lot.link }}</a>
       </div>
     </v-card-text>
 
     <v-divider class="mx-4" />
 
     <v-list dense flat>
-      <v-list-item v-if="item.requestedAt">
+      <v-list-item v-if="lot.requestedAt">
         <v-list-item-icon>
           <v-icon color="blue">mdi-calendar</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>{{ `Requested ${new Date(item.requestedAt).toUTCString()}` }}</v-list-item-title>
-          <v-list-item-subtitle v-if="item.requestedBy">{{ `by ${item.requestedBy}` }}</v-list-item-subtitle>
+          <v-list-item-title>{{ `Requested ${new Date(lot.requestedAt).toUTCString()}` }}</v-list-item-title>
+          <v-list-item-subtitle v-if="lot.requestedBy">{{ `by ${lot.requestedBy}` }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item v-if="item.approvedAt">
+      <v-list-item v-if="lot.approvedAt">
         <v-list-item-icon>
           <v-icon color="purple">mdi-calendar</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>{{ `Approved ${new Date(item.approvedAt).toUTCString()}` }}</v-list-item-title>
-          <v-list-item-subtitle v-if="item.approvedBy">{{ `by ${item.approvedBy}` }}</v-list-item-subtitle>
+          <v-list-item-title>{{ `Approved ${new Date(lot.approvedAt).toUTCString()}` }}</v-list-item-title>
+          <v-list-item-subtitle v-if="lot.approvedBy">{{ `by ${lot.approvedBy}` }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item v-if="item.orderedAt">
+      <v-list-item v-if="lot.orderedAt">
         <v-list-item-icon>
           <v-icon color="green">mdi-calendar</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>{{ `Ordered ${new Date(item.orderedAt).toUTCString()}` }}</v-list-item-title>
-          <v-list-item-subtitle v-if="item.orderedBy">{{ `by ${item.orderedBy}` }}</v-list-item-subtitle>
+          <v-list-item-title>{{ `Ordered ${new Date(lot.orderedAt).toUTCString()}` }}</v-list-item-title>
+          <v-list-item-subtitle v-if="lot.orderedBy">{{ `by ${lot.orderedBy}` }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item v-if="item.receivedAt">
+      <v-list-item v-if="lot.receivedAt">
         <v-list-item-icon>
           <v-icon color="orange">mdi-calendar</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>{{ `Received ${new Date(item.receivedAt).toUTCString()}` }}</v-list-item-title>
-          <v-list-item-subtitle v-if="item.receivedBy">{{ `by ${item.receivedBy}` }}</v-list-item-subtitle>
+          <v-list-item-title>{{ `Received ${new Date(lot.receivedAt).toUTCString()}` }}</v-list-item-title>
+          <v-list-item-subtitle v-if="lot.receivedBy">{{ `by ${lot.receivedBy}` }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item v-if="item.finishedAt">
+      <v-list-item v-if="lot.finishedAt">
         <v-list-item-icon>
           <v-icon color="red">mdi-calendar</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>{{ `Finished ${new Date(item.finishedAt).toUTCString()}` }}</v-list-item-title>
-          <v-list-item-subtitle v-if="item.finishedBy">{{ `by ${item.finishedBy}` }}</v-list-item-subtitle>
+          <v-list-item-title>{{ `Finished ${new Date(lot.finishedAt).toUTCString()}` }}</v-list-item-title>
+          <v-list-item-subtitle v-if="lot.finishedBy">{{ `by ${lot.finishedBy}` }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -70,15 +70,14 @@
         </v-list-item-icon>
         <v-list-item-content :class="conjugate.isLow && 'low'">
           <v-list-item-title>
+            {{ conjugate.tag.name + conjugate.tag.mw }} by {{ conjugate.user.name }}
+          </v-list-item-title>
+          <v-list-item-subtitle>
             <v-row>
-              <v-col>Id: {{ conjugate.id }}</v-col>
               <v-col>Tube: {{ conjugate.tubeNumber }}</v-col>
               <v-col>Concentration: {{ conjugate.concentration }}</v-col>
             </v-row>
-          </v-list-item-title>
-          <v-list-item-subtitle v-if="conjugate.description"
-            >Description: {{ conjugate.description }}</v-list-item-subtitle
-          >
+          </v-list-item-subtitle>
         </v-list-item-content>
         <v-list-item-action>
           <v-tooltip bottom>
@@ -111,7 +110,7 @@
           name: 'main-group-lots-edit',
           params: {
             groupId: groupId,
-            id: item.id,
+            id: lot.id,
           },
         }"
       >
@@ -131,13 +130,13 @@ import { lotModule } from "@/modules/lot";
 export default class LotView extends Vue {
   readonly lotContext = lotModule.context(this.$store);
 
-  @Prop(Number) groupId!: number;
-  @Prop(Object) item!: LotDto;
+  @Prop(Number) readonly groupId!: number;
+  @Prop(Object) readonly lot!: LotDto;
 
   conjugates: ConjugateDto[] = [];
 
   async mounted() {
-    this.conjugates = await this.lotContext.actions.getLotConjugates(this.item.id);
+    this.conjugates = await this.lotContext.actions.getLotConjugates(this.lot.id);
   }
 }
 </script>

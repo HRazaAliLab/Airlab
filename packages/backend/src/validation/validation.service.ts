@@ -67,6 +67,35 @@ export class ValidationService {
       .getMany();
   }
 
+  async getCloneValidations(cloneId: number) {
+    return this.repository
+      .createQueryBuilder("validation")
+      .where("validation.cloneId = :cloneId", { cloneId: cloneId })
+      .select([
+        "validation.id",
+        "validation.application",
+        "validation.positiveControl",
+        "validation.negativeControl",
+        "validation.status",
+      ])
+      .leftJoin("validation.clone", "clone")
+      .addSelect(["clone.id", "clone.name"])
+      .leftJoin("clone.protein", "protein")
+      .addSelect(["protein.id", "protein.name"])
+      .leftJoin("validation.lot", "lot")
+      .addSelect(["lot.id", "lot.number"])
+      .leftJoin("validation.conjugate", "conjugate")
+      .addSelect(["conjugate.id", "conjugate.tubeNumber"])
+      .leftJoin("validation.species", "species")
+      .addSelect(["species.id", "species.name"])
+      .leftJoin("validation.validationFiles", "validationFiles")
+      .addSelect(["validationFiles.id", "validationFiles.name"])
+      .leftJoin("validation.member", "member")
+      .leftJoinAndMapOne("validation.user", UserEntity, "user", "member.userId = user.id")
+      .orderBy({ "validation.id": "DESC" })
+      .getMany();
+  }
+
   async clearCache(groupId: number) {
     await this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_validations`]);
   }

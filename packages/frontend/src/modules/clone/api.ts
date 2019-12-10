@@ -1,6 +1,7 @@
 import { ApiManager } from "@/utils/api";
 import { CreateCloneDto, CloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
 import { LotDto } from "@airlab/shared/lib/lot/dto";
+import { ValidationDto } from "@airlab/shared/lib/validation/dto";
 
 export const api = {
   async createClone(data: CreateCloneDto) {
@@ -28,5 +29,8 @@ export const api = {
   },
   async getCloneLots(cloneId: number) {
     return ApiManager.api.get(`clones/${cloneId}/lots`).json<LotDto[]>();
+  },
+  async getCloneValidations(cloneId: number) {
+    return ApiManager.api.get(`clones/${cloneId}/validations`).json<ValidationDto[]>();
   },
 };

@@ -188,7 +188,7 @@ export default class Main extends Vue {
   readonly mainContext = mainModule.context(this.$store);
   readonly groupContext = groupModule.context(this.$store);
 
-  appName = appName;
+  readonly appName = appName;
 
   beforeRouteEnter(to, from, next) {
     routeGuardMain(to, from, next);

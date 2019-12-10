@@ -1,3 +1,5 @@
+import { ValidationDto } from "@airlab/shared/lib/validation/dto";
+
 const applicationMap = {
   0: "SMC",
   1: "IMC",
@@ -35,4 +37,17 @@ export function roleToString(value: number): string {
     return "";
   }
   return roleMap[value];
+}
+
+export function getStatusColor(validation: ValidationDto) {
+  switch (validation.status) {
+    case 0:
+      return "green lighten-1";
+    case 1:
+      return "orange lighten-1";
+    case 2:
+      return "red lighten-1";
+    default:
+      return "grey";
+  }
 }

@@ -12,7 +12,7 @@ export class SpeciesService {
   ) {}
 
   async create(params: CreateSpeciesDto) {
-    await this.repository.manager.connection.queryResultCache.remove([`group_${params.groupId}_species`]);
+    await this.clearCache(params.groupId);
     return this.repository.save(params);
   }
 
@@ -25,13 +25,13 @@ export class SpeciesService {
   async update(id: number, params: UpdateSpeciesDto) {
     await this.repository.update(id, params);
     const item = await this.findById(id);
-    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_species`]);
+    await this.clearCache(item.groupId);
     return item;
   }
 
   async deleteById(id: number) {
     const item = await this.findById(id);
-    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_species`]);
+    await this.clearCache(item.groupId);
     const result = await this.repository.delete(id);
     return result.affected === 1 ? id : undefined;
   }
@@ -50,5 +50,9 @@ export class SpeciesService {
         milliseconds: 1000 * 60 * 60,
       },
     });
+  }
+
+  private async clearCache(groupId: number) {
+    await this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_species`]);
   }
 }

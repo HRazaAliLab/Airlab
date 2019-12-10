@@ -13,7 +13,7 @@ export class ReagentService {
   ) {}
 
   async create(params: CreateReagentDto) {
-    await this.repository.manager.connection.queryResultCache.remove([`group_${params.groupId}_reagents`]);
+    await this.clearCache(params.groupId);
     return this.repository.save(params);
   }
 
@@ -26,13 +26,13 @@ export class ReagentService {
   async update(id: number, params: UpdateReagentDto) {
     await this.repository.update(id, params);
     const item = await this.findById(id);
-    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_reagents`]);
+    await this.clearCache(item.groupId);
     return item;
   }
 
   async deleteById(id: number) {
     const item = await this.findById(id);
-    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_reagents`]);
+    await this.clearCache(item.groupId);
     const result = await this.repository.delete(id);
     return result.affected === 1 ? id : undefined;
   }
@@ -52,5 +52,9 @@ export class ReagentService {
       .orderBy("reagent.id", "DESC")
       .cache(`group_${groupId}_reagents`, 1000 * 60 * 60)
       .getMany();
+  }
+
+  private async clearCache(groupId: number) {
+    await this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_reagents`]);
   }
 }

@@ -126,7 +126,7 @@ import MetalExpansionPanel from "@/views/main/group/panels/MetalExpansionPanel.v
 import { conjugateModule } from "@/modules/conjugate";
 import { tagModule } from "@/modules/tag";
 import { validationModule } from "@/modules/validation";
-import { ValidationDto } from "@airlab/shared/lib/validation/dto";
+import { getStatusColor } from "@/utils/converters";
 
 @Component({
   components: { MetalExpansionPanel },
@@ -137,6 +137,8 @@ export default class ViewPanel extends Vue {
   readonly conjugateContext = conjugateModule.context(this.$store);
   readonly validationContext = validationModule.context(this.$store);
   readonly tagContext = tagModule.context(this.$store);
+
+  readonly getStatusColor = getStatusColor;
 
   readonly headers = [
     {
@@ -252,19 +254,6 @@ export default class ViewPanel extends Vue {
       return items;
     }
     return [];
-  }
-
-  getStatusColor(validation: ValidationDto) {
-    switch (validation.status) {
-      case 0:
-        return "green lighten-1";
-      case 1:
-        return "orange lighten-1";
-      case 2:
-        return "red lighten-1";
-      default:
-        return "grey";
-    }
   }
 
   getAmountAntibody(item) {

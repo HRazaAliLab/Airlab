@@ -73,6 +73,8 @@ export default class SignUp extends Vue {
   readonly mainContext = mainModule.context(this.$store);
   readonly userContext = userModule.context(this.$store);
 
+  readonly appName = appName;
+
   readonly emailRules = [required, email];
   readonly password1Rules = [required];
   readonly password2Rules = [required, this.passwordIsEqual];
@@ -86,7 +88,6 @@ export default class SignUp extends Vue {
   name = "";
   password1 = "";
   password2 = "";
-  appName = appName;
 
   reset() {
     this.email = "";

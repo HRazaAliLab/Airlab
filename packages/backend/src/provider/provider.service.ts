@@ -12,7 +12,7 @@ export class ProviderService {
   ) {}
 
   async create(params: CreateProviderDto) {
-    await this.repository.manager.connection.queryResultCache.remove([`group_${params.groupId}_providers`]);
+    await this.clearCache(params.groupId);
     return this.repository.save(params);
   }
 
@@ -25,13 +25,13 @@ export class ProviderService {
   async update(id: number, params: UpdateProviderDto) {
     await this.repository.update(id, params);
     const item = await this.findById(id);
-    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_providers`]);
+    await this.clearCache(item.groupId);
     return item;
   }
 
   async deleteById(id: number) {
     const item = await this.findById(id);
-    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_providers`]);
+    await this.clearCache(item.groupId);
     const result = await this.repository.delete(id);
     return result.affected === 1 ? id : undefined;
   }
@@ -50,5 +50,9 @@ export class ProviderService {
         milliseconds: 1000 * 60 * 60,
       },
     });
+  }
+
+  private async clearCache(groupId: number) {
+    await this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_providers`]);
   }
 }

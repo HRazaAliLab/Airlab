@@ -43,6 +43,8 @@ import { Component, Vue } from "vue-property-decorator";
 export default class UserProfileEdit extends Vue {
   readonly mainContext = mainModule.context(this.$store);
 
+  readonly appName = appName;
+
   readonly password1Rules = [required];
   readonly password2Rules = [required, this.passwordIsEqual];
 
@@ -50,7 +52,6 @@ export default class UserProfileEdit extends Vue {
     return v === this.password1 || "Password should be the same";
   }
 
-  appName = appName;
   valid = true;
   password1 = "";
   password2 = "";

@@ -12,7 +12,7 @@ export class CloneService {
   ) {}
 
   async create(params: CreateCloneDto) {
-    await this.repository.manager.connection.queryResultCache.remove([`group_${params.groupId}_clones`]);
+    await this.clearCache(params.groupId);
     return this.repository.save(params);
   }
 
@@ -23,13 +23,13 @@ export class CloneService {
   async update(id: number, params: UpdateCloneDto) {
     await this.repository.update(id, { ...params, updatedAt: new Date().toISOString() });
     const item = await this.findById(id);
-    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_clones`]);
+    await this.clearCache(item.groupId);
     return item;
   }
 
   async deleteById(id: number) {
     const item = await this.findById(id);
-    await this.repository.manager.connection.queryResultCache.remove([`group_${item.groupId}_clones`]);
+    await this.clearCache(item.groupId);
     const result = await this.repository.delete(id);
     return result.affected === 1 ? id : undefined;
   }
@@ -43,8 +43,14 @@ export class CloneService {
       .addSelect(["protein.id", "protein.name"])
       .leftJoin("clone.species", "species")
       .addSelect(["species.id", "species.name"])
+      .leftJoin("clone.validations", "validations")
+      .addSelect(["validations.id", "validations.application", "validations.status"])
       .orderBy("clone.id", "DESC")
       .cache(`group_${groupId}_clones`, 1000 * 60 * 60)
       .getMany();
+  }
+
+  private async clearCache(groupId: number) {
+    await this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_clones`]);
   }
 }
