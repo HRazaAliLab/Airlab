@@ -14,7 +14,7 @@
     <v-list dense flat>
       <v-list-item v-if="item.requestedAt">
         <v-list-item-icon>
-          <v-icon color="blue">mdi-calendar-blank-outline</v-icon>
+          <v-icon color="blue">mdi-calendar</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>{{ `Requested ${new Date(item.requestedAt).toUTCString()}` }}</v-list-item-title>
@@ -23,7 +23,7 @@
       </v-list-item>
       <v-list-item v-if="item.approvedAt">
         <v-list-item-icon>
-          <v-icon color="purple">mdi-calendar-blank-outline</v-icon>
+          <v-icon color="purple">mdi-calendar</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>{{ `Approved ${new Date(item.approvedAt).toUTCString()}` }}</v-list-item-title>
@@ -32,7 +32,7 @@
       </v-list-item>
       <v-list-item v-if="item.orderedAt">
         <v-list-item-icon>
-          <v-icon color="green">mdi-calendar-blank-outline</v-icon>
+          <v-icon color="green">mdi-calendar</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>{{ `Ordered ${new Date(item.orderedAt).toUTCString()}` }}</v-list-item-title>
@@ -41,7 +41,7 @@
       </v-list-item>
       <v-list-item v-if="item.receivedAt">
         <v-list-item-icon>
-          <v-icon color="orange">mdi-calendar-blank-outline</v-icon>
+          <v-icon color="orange">mdi-calendar</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>{{ `Received ${new Date(item.receivedAt).toUTCString()}` }}</v-list-item-title>
@@ -50,7 +50,7 @@
       </v-list-item>
       <v-list-item v-if="item.finishedAt">
         <v-list-item-icon>
-          <v-icon color="red">mdi-calendar-blank-outline</v-icon>
+          <v-icon color="red">mdi-calendar</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>{{ `Finished ${new Date(item.finishedAt).toUTCString()}` }}</v-list-item-title>
@@ -63,14 +63,22 @@
 
     <v-card-subtitle v-if="conjugates && conjugates.length > 0">Conjugates</v-card-subtitle>
 
-    <v-list dense flat>
+    <v-list dense flat two-line>
       <v-list-item v-for="conjugate in conjugates" :key="conjugate.id">
         <v-list-item-icon>
           <v-icon>mdi-set-center</v-icon>
         </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>{{ conjugate.id }}</v-list-item-title>
-          <v-list-item-subtitle>{{ conjugate.concentration }}</v-list-item-subtitle>
+        <v-list-item-content :class="conjugate.isLow && 'low'">
+          <v-list-item-title>
+            <v-row>
+              <v-col>Id: {{ conjugate.id }}</v-col>
+              <v-col>Tube: {{ conjugate.tubeNumber }}</v-col>
+              <v-col>Concentration: {{ conjugate.concentration }}</v-col>
+            </v-row>
+          </v-list-item-title>
+          <v-list-item-subtitle v-if="conjugate.description"
+            >Description: {{ conjugate.description }}</v-list-item-subtitle
+          >
         </v-list-item-content>
         <v-list-item-action>
           <v-tooltip bottom>
@@ -133,3 +141,9 @@ export default class LotView extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.low {
+  color: palevioletred;
+}
+</style>
