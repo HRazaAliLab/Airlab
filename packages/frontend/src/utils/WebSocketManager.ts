@@ -24,20 +24,26 @@ export class WebSocketManager {
     WebSocketManager.protocol = self.location.protocol === "https:" ? "wss:" : "ws:";
   }
 
-  static connect(experimentId: number) {
+  static connect(groupId: number) {
     // Dispose previous connections due to login/logout
     WebSocketManager.close();
-    const url = `${WebSocketManager.protocol}//${location.hostname}/ws/${experimentId}?token=${WebSocketManager.token}`;
+    const url = `${WebSocketManager.protocol}//${location.hostname}/ws/${groupId}?token=${WebSocketManager.token}`;
 
     WebSocketManager.socket = new WebSocket(url);
     WebSocketManager.socket.onopen = (event: Event) => {
       console.log("WebSocket connection opened");
+      // WebSocketManager.socket.send(
+      //   JSON.stringify({
+      //     event: "events",
+      //     data: "test",
+      //   })
+      // );
     };
 
     WebSocketManager.socket.onclose = (event: CloseEvent) => {
       console.log("WebSocket is closed. Reconnecting...", event.reason);
       setTimeout(() => {
-        WebSocketManager.connect(experimentId);
+        WebSocketManager.connect(groupId);
       }, 1000);
     };
 

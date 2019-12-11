@@ -19,5 +19,6 @@ import { WORKER_QUEUE_NAME } from "@airlab/shared/lib/constants";
     ]),
   ],
   providers: [UtilsService],
+  exports: [UtilsService],
 })
 export class UtilsModule {}

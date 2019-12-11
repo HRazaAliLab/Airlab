@@ -14,6 +14,7 @@ import { ConjugateEntity } from "../conjugate/conjugate.entity";
 import { LotEntity } from "../lot/lot.entity";
 import { PanelEntity } from "../panel/panel.entity";
 import { ValidationEntity } from "../validation/validation.entity";
+import { ClientOpts } from "redis";
 
 export class ConfigService {
   constructor() {
@@ -69,6 +70,13 @@ export class ConfigService {
           port: Number(this.get("REDIS_PORT")),
         },
       },
+    };
+  }
+
+  get redisConfig(): ClientOpts {
+    return {
+      host: this.get("REDIS_HOST"),
+      port: Number(this.get("REDIS_PORT")),
     };
   }
 

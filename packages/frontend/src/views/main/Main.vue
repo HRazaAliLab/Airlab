@@ -239,12 +239,12 @@ export default class Main extends Vue {
   }
 
   mounted() {
-    // WebSocketManager.init(this.$store);
+    WebSocketManager.init(this.$store);
     BroadcastManager.init(this.$store);
   }
 
   beforeDestroy() {
-    // WebSocketManager.close();
+    WebSocketManager.close();
     BroadcastManager.close();
   }
 }

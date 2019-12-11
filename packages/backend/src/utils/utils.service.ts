@@ -7,12 +7,12 @@ import { SendEmailEvent } from "@airlab/shared/lib/events";
 
 @Injectable()
 export class UtilsService {
+  private readonly logger = new Logger(UtilsService.name);
+
   constructor(
     private readonly configService: ConfigService,
     @Inject("WORKER_SERVICE") private readonly worker: ClientProxy
   ) {}
-
-  private readonly logger = new Logger(UtilsService.name);
 
   private readonly mailGenerator = new Mailgen({
     theme: "default",
@@ -28,7 +28,6 @@ export class UtilsService {
   sendEmail(from: string, to: string, subject: string, content: Mailgen.Content) {
     // Generate an HTML email with the provided contents
     const emailBody = this.mailGenerator.generate(content);
-
     this.worker.emit(SEND_EMAIL_MESSAGE, new SendEmailEvent(from, to, subject, emailBody));
   }
 }

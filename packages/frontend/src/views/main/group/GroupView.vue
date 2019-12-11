@@ -29,11 +29,11 @@ export default class GroupView extends Vue {
     const groupId = parseInt(this.$router.currentRoute.params.groupId, 10);
     this.groupContext.mutations.setActiveGroupId(groupId);
     await this.groupContext.actions.getGroup(groupId);
-    // WebSocketManager.connect(groupId);
+    WebSocketManager.connect(groupId);
   }
 
   beforeDestroy() {
-    // WebSocketManager.close();
+    WebSocketManager.close();
     // if (process.env.VUE_APP_ENV !== "development") {
     //   this.groupContext.mutations.reset();
     // }

@@ -8,7 +8,6 @@ import { ConfigService } from "./config/config.service";
 import { AuthModule } from "./auth/auth.module";
 import { GroupModule } from "./group/group.module";
 import { MemberModule } from "./member/member.module";
-import { UtilsModule } from "./utils/utils.module";
 import { ProteinModule } from "./protein/protein.module";
 import { ProviderModule } from "./provider/provider.module";
 import { SpeciesModule } from "./species/species.module";
@@ -20,6 +19,7 @@ import { ConjugateModule } from "./conjugate/conjugate.module";
 import { LotModule } from "./lot/lot.module";
 import { PanelModule } from "./panel/panel.module";
 import { ValidationModule } from "./validation/validation.module";
+import { EventsModule } from "./events/events.module";
 
 @Module({
   imports: [
@@ -32,7 +32,6 @@ import { ValidationModule } from "./validation/validation.module";
     GroupModule,
     MemberModule,
     AuthModule,
-    UtilsModule,
     ProteinModule,
     ProviderModule,
     SpeciesModule,
@@ -44,6 +43,7 @@ import { ValidationModule } from "./validation/validation.module";
     PanelModule,
     LotModule,
     ValidationModule,
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

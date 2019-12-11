@@ -34,7 +34,7 @@ import { AuthController } from "./auth.controller";
     ]),
     UserModule,
   ],
-  providers: [AuthService, ConfigService, UtilsService, LocalStrategy, JwtStrategy],
+  providers: [AuthService, UtilsService, LocalStrategy, JwtStrategy],
   exports: [AuthService],
   controllers: [AuthController],
 })

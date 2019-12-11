@@ -7,6 +7,8 @@ import * as crypto from "crypto";
 import { CreateGroupDto, InviteDto, UpdateGroupDto } from "@airlab/shared/lib/group/dto";
 import { UserEntity } from "../user/user.entity";
 import { MemberEntity } from "../member/member.entity";
+import { UPDATES_CHANNEL_NAME } from "@airlab/shared/lib/events/channels";
+import { PubSubService } from "../pubsub/pubsub.service";
 
 const privateKey = "fsdfC987XXasdf979werl$#";
 
@@ -17,7 +19,8 @@ export class GroupService {
     private readonly groupRepository: Repository<GroupEntity>,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-    private readonly memberService: MemberService
+    private readonly memberService: MemberService,
+    private readonly pubSubService: PubSubService
   ) {}
 
   async create(params: CreateGroupDto) {
@@ -42,6 +45,7 @@ export class GroupService {
   }
 
   async findAll() {
+    this.pubSubService.broadcastMessage(UPDATES_CHANNEL_NAME, "HELLOOOO");
     return this.groupRepository.find({
       relations: ["members", "members.group", "members.user"],
       order: { id: "DESC" },
