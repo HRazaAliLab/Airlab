@@ -173,19 +173,7 @@
       </v-data-table>
     </v-card>
     <v-navigation-drawer v-if="detailsItem" v-model="drawer" right fixed temporary width="400">
-      <v-card flat>
-        <v-list-item>
-          <v-list-item-avatar>
-            <v-icon>mdi-information-outline</v-icon>
-          </v-list-item-avatar>
-          <v-list-item-content>
-            <v-list-item-title>{{ detailsItem.name }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-card-text>
-          {{ detailsItem }}
-        </v-card-text>
-      </v-card>
+      <LotDetailsView :item="detailsItem" />
     </v-navigation-drawer>
   </v-col>
 </template>
@@ -196,9 +184,11 @@ import { Component, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
 import { lotModule } from "@/modules/lot";
 import { LotDto } from "@airlab/shared/lib/lot/dto";
+import LotDetailsView from "@/views/main/group/lots/LotDetailsView.vue";
 
 @Component({
   components: {
+    LotDetailsView,
     LoadingView,
   },
 })

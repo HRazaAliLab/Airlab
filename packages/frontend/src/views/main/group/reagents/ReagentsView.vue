@@ -140,19 +140,7 @@
       </v-data-table>
     </v-card>
     <v-navigation-drawer v-if="detailsItem" v-model="drawer" right fixed temporary width="400">
-      <v-card flat>
-        <v-list-item>
-          <v-list-item-avatar>
-            <v-icon>mdi-information-outline</v-icon>
-          </v-list-item-avatar>
-          <v-list-item-content>
-            <v-list-item-title>{{ detailsItem.name }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-card-text>
-          <InfoView :item="detailsItem" />
-        </v-card-text>
-      </v-card>
+      <ReagentDetailsView :item="detailsItem" />
     </v-navigation-drawer>
   </v-col>
 </template>
@@ -165,9 +153,11 @@ import { reagentModule } from "@/modules/reagent";
 import { ReagentDto } from "@airlab/shared/lib/reagent/dto";
 import InfoView from "@/components/InfoView.vue";
 import { providerModule } from "@/modules/provider";
+import ReagentDetailsView from "@/views/main/group/reagents/ReagentDetailsView.vue";
 
 @Component({
   components: {
+    ReagentDetailsView,
     InfoView,
     LoadingView,
   },

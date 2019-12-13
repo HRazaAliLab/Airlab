@@ -280,24 +280,8 @@
         </template>
       </v-data-table>
     </v-card>
-    <v-navigation-drawer v-if="detailsItem" v-model="drawer" right fixed temporary width="600">
-      <v-card flat>
-        <v-list-item>
-          <v-list-item-avatar>
-            <v-icon>mdi-information-outline</v-icon>
-          </v-list-item-avatar>
-          <v-list-item-content>
-            <v-list-item-title>{{ detailsItem.name }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-card-text>
-          {{ detailsItem }}
-          <div v-for="file in detailsItem.validationFiles" :key="file.id">
-            <iframe :src="`${apiUrl}/validationFiles/${file.id}/serve`" allowfullscreen class="iframe" />
-            <a target="_blank" :href="`${apiUrl}/validationFiles/${file.id}/serve`">{{ file.name }}</a>
-          </div>
-        </v-card-text>
-      </v-card>
+    <v-navigation-drawer v-model="drawer" right fixed temporary width="600">
+      <ValidationDetailsView v-if="drawer" :item="detailsItem" :apiUrl="apiUrl" />
     </v-navigation-drawer>
   </v-col>
 </template>
@@ -309,13 +293,15 @@ import { groupModule } from "@/modules/group";
 import { validationModule } from "@/modules/validation";
 import { ValidationDto } from "@airlab/shared/lib/validation/dto";
 import { speciesModule } from "@/modules/species";
-import { apiUrl } from "@/env";
 import { exportCsv } from "@/utils/exporters";
 import { applicationEnum, statusEnum } from "@/utils/enums";
 import { applicationToString } from "@/utils/converters";
+import ValidationDetailsView from "@/views/main/group/validations/ValidationDetailsView.vue";
+import { apiUrl } from "@/env";
 
 @Component({
   components: {
+    ValidationDetailsView,
     LoadingView,
   },
 })
@@ -511,10 +497,5 @@ export default class ValidationsViews extends Vue {
 }
 .link {
   text-decoration: none;
-}
-.iframe {
-  width: 100%;
-  height: 400px;
-  border: 0;
 }
 </style>

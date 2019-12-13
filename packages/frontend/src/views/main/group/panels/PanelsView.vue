@@ -126,19 +126,7 @@
       </v-data-table>
     </v-card>
     <v-navigation-drawer v-if="detailsItem" v-model="drawer" right fixed temporary width="400">
-      <v-card flat>
-        <v-list-item>
-          <v-list-item-avatar>
-            <v-icon>mdi-information-outline</v-icon>
-          </v-list-item-avatar>
-          <v-list-item-content>
-            <v-list-item-title>{{ detailsItem.name }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-card-text>
-          {{ detailsItem }}
-        </v-card-text>
-      </v-card>
+      <PanelDetailsView :item="detailsItem" />
     </v-navigation-drawer>
   </v-col>
 </template>
@@ -150,9 +138,11 @@ import { groupModule } from "@/modules/group";
 import { panelModule } from "@/modules/panel";
 import { DuplicatePanelDto, PanelDto } from "@airlab/shared/lib/panel/dto";
 import { applicationToString } from "@/utils/converters";
+import PanelDetailsView from "@/views/main/group/panels/PanelDetailsView.vue";
 
 @Component({
   components: {
+    PanelDetailsView,
     LoadingView,
   },
 })

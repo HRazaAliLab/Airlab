@@ -76,19 +76,7 @@
       </v-data-table>
     </v-card>
     <v-navigation-drawer v-if="detailsItem" v-model="drawer" right fixed temporary width="400">
-      <v-card flat>
-        <v-list-item>
-          <v-list-item-avatar>
-            <v-icon>mdi-information-outline</v-icon>
-          </v-list-item-avatar>
-          <v-list-item-content>
-            <v-list-item-title>{{ detailsItem.name }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-card-text>
-          {{ detailsItem }}
-        </v-card-text>
-      </v-card>
+      <ProteinDetailsView :item="detailsItem" />
     </v-navigation-drawer>
   </v-col>
 </template>
@@ -99,9 +87,11 @@ import { Component, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
 import { proteinModule } from "@/modules/protein";
 import { ProteinDto } from "@airlab/shared/lib/protein/dto";
+import ProteinDetailsView from "@/views/main/group/proteins/ProteinDetailsView.vue";
 
 @Component({
   components: {
+    ProteinDetailsView,
     LoadingView,
   },
 })

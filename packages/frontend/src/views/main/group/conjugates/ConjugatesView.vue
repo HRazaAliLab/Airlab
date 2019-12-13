@@ -182,19 +182,7 @@
       </v-data-table>
     </v-card>
     <v-navigation-drawer v-if="detailsItem" v-model="drawer" right fixed temporary width="400">
-      <v-card flat>
-        <v-list-item>
-          <v-list-item-avatar>
-            <v-icon>mdi-information-outline</v-icon>
-          </v-list-item-avatar>
-          <v-list-item-content>
-            <v-list-item-title>{{ detailsItem.name }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-card-text>
-          {{ detailsItem }}
-        </v-card-text>
-      </v-card>
+      <ConjugateDetailsView :item="detailsItem" />
     </v-navigation-drawer>
   </v-col>
 </template>
@@ -206,9 +194,11 @@ import { groupModule } from "@/modules/group";
 import { conjugateModule } from "@/modules/conjugate";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 import { tagModule } from "@/modules/tag";
+import ConjugateDetailsView from "@/views/main/group/conjugates/ConjugateDetailsView.vue";
 
 @Component({
   components: {
+    ConjugateDetailsView,
     LoadingView,
   },
 })
