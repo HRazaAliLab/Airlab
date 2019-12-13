@@ -1,59 +1,59 @@
 import { IsArray, IsBoolean, IsInt, IsOptional, IsString } from "class-validator";
-import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class CloneDto {
-  @ApiModelProperty()
+  @ApiProperty()
   readonly id: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly groupId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly createdBy: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly proteinId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly speciesId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly prefferedTagId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isotype: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly epitope: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isPhospho: boolean;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isPolyclonal: boolean;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly reactivity: number[];
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly application: object;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isDeleted: boolean;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isPublic: boolean;
 
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly meta: object;
 
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly createdAt: string;
 
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly updatedAt: string;
 }
 
@@ -61,82 +61,82 @@ export class CreateCloneDto {
   readonly createdBy?: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly groupId: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly proteinId: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly speciesId: number;
 
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 
   @IsString()
   @IsOptional()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isotype: string;
 
   @IsString()
   @IsOptional()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly epitope: string;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isPhospho: boolean;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isPolyclonal: boolean;
 
   @IsArray()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly reactivity: number[];
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly application: object;
 }
 
 export class UpdateCloneDto {
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly proteinId: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly speciesId: number;
 
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 
   @IsString()
   @IsOptional()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isotype: string;
 
   @IsString()
   @IsOptional()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly epitope: string;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isPhospho: boolean;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isPolyclonal: boolean;
 
   @IsArray()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly reactivity: number[];
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly application: object;
 }

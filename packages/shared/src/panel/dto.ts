@@ -1,44 +1,44 @@
 import { IsBoolean, IsInt, IsOptional, IsString } from "class-validator";
-import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class PanelDto {
-  @ApiModelProperty()
+  @ApiProperty()
   readonly id: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly groupId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly createdBy: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly description: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly details: object[];
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isFluor: boolean;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isProduction: boolean;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly application: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly meta: object;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isDeleted: boolean;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly createdAt: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly updatedAt: string;
 }
 
@@ -46,63 +46,63 @@ export class CreatePanelDto {
   readonly createdBy?: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly groupId: number;
 
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 
   @IsString()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly description: string;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isFluor: boolean;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isProduction: boolean;
 
   @IsInt()
   @IsOptional()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly application: number | null;
 
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly details: object[] | null;
 }
 
 export class UpdatePanelDto {
   @IsString()
   @IsOptional()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name?: string;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly description?: string;
 
   @IsBoolean()
   @IsOptional()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isFluor?: boolean;
 
   @IsBoolean()
   @IsOptional()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isProduction?: boolean;
 
   @IsInt()
   @IsOptional()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly application?: number | null;
 
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly details?: object[] | null;
 }
 
@@ -110,10 +110,10 @@ export class DuplicatePanelDto {
   readonly createdBy?: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly groupId: number;
 
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 }

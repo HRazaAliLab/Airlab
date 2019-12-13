@@ -1,35 +1,35 @@
 import { IsInt, IsString } from "class-validator";
-import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class ProviderDto {
-  @ApiModelProperty()
+  @ApiProperty()
   readonly id: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly groupId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly meta: object;
 
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly createdAt: string;
 }
 
 export class CreateProviderDto {
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly groupId: number;
 
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 }
 
 export class UpdateProviderDto {
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 }

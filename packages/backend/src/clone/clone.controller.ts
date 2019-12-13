@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { CloneService } from "./clone.service";
-import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CloneDto, CreateCloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
 import { MemberService } from "../member/member.service";
@@ -11,7 +11,7 @@ import { ValidationDto } from "@airlab/shared/lib/validation/dto";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
-@ApiUseTags("clones")
+@ApiTags("clones")
 @ApiBearerAuth()
 export class CloneController {
   constructor(

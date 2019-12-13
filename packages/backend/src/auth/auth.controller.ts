@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Param, Post, Request, UseGuards } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiUseTags } from "@nestjs/swagger";
+import { ApiTags } from "@nestjs/swagger";
 import { ResetPasswordDto } from "@airlab/shared/lib/auth/dto";
 import { CreateUserDto } from "@airlab/shared/lib/user/dto";
 
 @Controller()
-@ApiUseTags("auth")
+@ApiTags("auth")
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 

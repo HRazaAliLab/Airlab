@@ -20,7 +20,7 @@ import { Message } from "@airlab/shared/lib/events/message";
 @WebSocketGateway()
 export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   constructor(private readonly jwtService: JwtService) {
-    console.log("EventsGateway")
+    console.log("EventsGateway");
   }
 
   private readonly logger = new Logger(EventsGateway.name);

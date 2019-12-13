@@ -1,13 +1,13 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { SpeciesService } from "./species.service";
-import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CreateSpeciesDto, SpeciesDto, UpdateSpeciesDto } from "@airlab/shared/lib/species/dto";
 import { MemberService } from "../member/member.service";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
-@ApiUseTags("species")
+@ApiTags("species")
 @ApiBearerAuth()
 export class SpeciesController {
   constructor(private readonly speciesService: SpeciesService, private readonly memberService: MemberService) {}

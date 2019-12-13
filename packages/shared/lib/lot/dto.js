@@ -14,103 +14,103 @@ const swagger_1 = require("@nestjs/swagger");
 class LotDto {
 }
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], LotDto.prototype, "id", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], LotDto.prototype, "groupId", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], LotDto.prototype, "createdBy", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], LotDto.prototype, "reagentId", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], LotDto.prototype, "providerId", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], LotDto.prototype, "cloneId", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], LotDto.prototype, "requestedBy", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], LotDto.prototype, "approvedBy", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], LotDto.prototype, "orderedBy", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], LotDto.prototype, "receivedBy", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], LotDto.prototype, "finishedBy", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], LotDto.prototype, "number", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], LotDto.prototype, "status", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], LotDto.prototype, "purpose", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], LotDto.prototype, "link", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], LotDto.prototype, "requestedAt", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], LotDto.prototype, "approvedAt", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], LotDto.prototype, "orderedAt", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], LotDto.prototype, "receivedAt", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], LotDto.prototype, "finishedAt", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Boolean)
 ], LotDto.prototype, "isLow", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Boolean)
 ], LotDto.prototype, "isDeleted", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Object)
 ], LotDto.prototype, "meta", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], LotDto.prototype, "createdAt", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], LotDto.prototype, "updatedAt", void 0);
 exports.LotDto = LotDto;
@@ -118,39 +118,39 @@ class CreateLotDto {
 }
 __decorate([
     class_validator_1.IsInt(),
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], CreateLotDto.prototype, "groupId", void 0);
 __decorate([
     class_validator_1.IsInt(),
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], CreateLotDto.prototype, "cloneId", void 0);
 __decorate([
     class_validator_1.IsInt(),
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], CreateLotDto.prototype, "reagentId", void 0);
 __decorate([
     class_validator_1.IsInt(),
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], CreateLotDto.prototype, "providerId", void 0);
 __decorate([
     class_validator_1.IsString(),
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], CreateLotDto.prototype, "number", void 0);
 __decorate([
     class_validator_1.IsUrl(),
     class_validator_1.IsOptional(),
-    swagger_1.ApiModelPropertyOptional(),
+    swagger_1.ApiPropertyOptional(),
     __metadata("design:type", String)
 ], CreateLotDto.prototype, "link", void 0);
 __decorate([
     class_validator_1.IsString(),
     class_validator_1.IsOptional(),
-    swagger_1.ApiModelPropertyOptional(),
+    swagger_1.ApiPropertyOptional(),
     __metadata("design:type", String)
 ], CreateLotDto.prototype, "purpose", void 0);
 exports.CreateLotDto = CreateLotDto;
@@ -159,39 +159,39 @@ class UpdateLotDto {
 __decorate([
     class_validator_1.IsString(),
     class_validator_1.IsOptional(),
-    swagger_1.ApiModelPropertyOptional(),
+    swagger_1.ApiPropertyOptional(),
     __metadata("design:type", String)
 ], UpdateLotDto.prototype, "status", void 0);
 __decorate([
     class_validator_1.IsInt(),
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], UpdateLotDto.prototype, "cloneId", void 0);
 __decorate([
     class_validator_1.IsInt(),
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], UpdateLotDto.prototype, "reagentId", void 0);
 __decorate([
     class_validator_1.IsInt(),
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], UpdateLotDto.prototype, "providerId", void 0);
 __decorate([
     class_validator_1.IsString(),
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], UpdateLotDto.prototype, "number", void 0);
 __decorate([
     class_validator_1.IsUrl(),
     class_validator_1.IsOptional(),
-    swagger_1.ApiModelPropertyOptional(),
+    swagger_1.ApiPropertyOptional(),
     __metadata("design:type", String)
 ], UpdateLotDto.prototype, "link", void 0);
 __decorate([
     class_validator_1.IsString(),
     class_validator_1.IsOptional(),
-    swagger_1.ApiModelPropertyOptional(),
+    swagger_1.ApiPropertyOptional(),
     __metadata("design:type", String)
 ], UpdateLotDto.prototype, "purpose", void 0);
 exports.UpdateLotDto = UpdateLotDto;

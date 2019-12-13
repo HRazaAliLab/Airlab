@@ -1,100 +1,100 @@
-import { IsBoolean, IsInt, IsOptional, IsString } from "class-validator";
-import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
+import { IsBoolean, IsInt } from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class MemberDto {
-  @ApiModelProperty()
+  @ApiProperty()
   readonly id: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly groupId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly userId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly role: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly activationKey: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isActive: boolean;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly canOrder: boolean;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly canErase: boolean;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly canFinances: boolean;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly canPanels: boolean;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly createdAt: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly updatedAt: string;
 }
 
 export class CreateMemberDto {
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly groupId: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly userId: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly role: number;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isActive: boolean;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly canOrder: boolean;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly canErase: boolean;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly canFinances: boolean;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly canPanels: boolean;
 }
 
 export class UpdateMemberDto {
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly role: number;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isActive: boolean;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly canOrder: boolean;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly canErase: boolean;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly canFinances: boolean;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly canPanels: boolean;
 }

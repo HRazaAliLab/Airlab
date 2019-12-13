@@ -1,91 +1,91 @@
 import { IsBoolean, IsEmail, IsString } from "class-validator";
-import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class UserDto {
-  @ApiModelProperty()
+  @ApiProperty()
   readonly id: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly email: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isActive: boolean;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isAdmin: boolean;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly createdAt: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly updatedAt: string;
 }
 
 export class ProfileDto {
-  @ApiModelProperty()
+  @ApiProperty()
   readonly id: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly email: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isAdmin: boolean;
 }
 
 export class UpdateProfileDto {
   @IsEmail()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly email: string;
 
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 }
 
 export class UpdatePasswordDto {
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly password: string;
 }
 
 export class CreateUserDto {
   @IsEmail()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly email: string;
 
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly password: string;
 }
 
 export class UpdateUserDto {
   @IsEmail()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly email: string;
 
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isActive: boolean;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isAdmin: boolean;
 
   @IsString()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly password: string;
 }

@@ -1,80 +1,80 @@
 import { IsInt, IsOptional, IsString, IsUrl } from "class-validator";
-import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class LotDto {
-  @ApiModelProperty()
+  @ApiProperty()
   readonly id: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly groupId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly createdBy: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly reagentId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly providerId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly cloneId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly requestedBy: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly approvedBy: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly orderedBy: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly receivedBy: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly finishedBy: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly number: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly status: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly purpose: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly link: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly requestedAt: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly approvedAt: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly orderedAt: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly receivedAt: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly finishedAt: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isLow: boolean;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isDeleted: boolean;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly meta: object;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly createdAt: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly updatedAt: string;
 }
 
@@ -83,65 +83,65 @@ export class CreateLotDto {
   readonly status?: string;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly groupId: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly cloneId: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly reagentId: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly providerId: number;
 
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly number: string;
 
   @IsUrl()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly link: string | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly purpose: string | null;
 }
 
 export class UpdateLotDto {
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly status?: string;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly cloneId: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly reagentId: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly providerId: number;
 
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly number: string;
 
   @IsUrl()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly link: string | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly purpose: string | null;
 }

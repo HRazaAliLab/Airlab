@@ -14,23 +14,23 @@ const swagger_1 = require("@nestjs/swagger");
 class ProviderDto {
 }
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], ProviderDto.prototype, "id", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], ProviderDto.prototype, "groupId", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], ProviderDto.prototype, "name", void 0);
 __decorate([
-    swagger_1.ApiModelPropertyOptional(),
+    swagger_1.ApiPropertyOptional(),
     __metadata("design:type", Object)
 ], ProviderDto.prototype, "meta", void 0);
 __decorate([
-    swagger_1.ApiModelPropertyOptional(),
+    swagger_1.ApiPropertyOptional(),
     __metadata("design:type", String)
 ], ProviderDto.prototype, "createdAt", void 0);
 exports.ProviderDto = ProviderDto;
@@ -38,12 +38,12 @@ class CreateProviderDto {
 }
 __decorate([
     class_validator_1.IsInt(),
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], CreateProviderDto.prototype, "groupId", void 0);
 __decorate([
     class_validator_1.IsString(),
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], CreateProviderDto.prototype, "name", void 0);
 exports.CreateProviderDto = CreateProviderDto;
@@ -51,7 +51,7 @@ class UpdateProviderDto {
 }
 __decorate([
     class_validator_1.IsString(),
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], UpdateProviderDto.prototype, "name", void 0);
 exports.UpdateProviderDto = UpdateProviderDto;

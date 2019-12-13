@@ -1,5 +1,5 @@
 import { IsString } from "class-validator";
-import { ApiModelProperty } from "@nestjs/swagger";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class JwtPayloadDto {
   userId: number;
@@ -7,10 +7,10 @@ export class JwtPayloadDto {
 
 export class ResetPasswordDto {
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly newPassword: string;
 
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly token: string;
 }

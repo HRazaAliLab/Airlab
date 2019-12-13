@@ -1,13 +1,13 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { ProteinService } from "./protein.service";
-import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CreateProteinDto, ProteinDto, UpdateProteinDto } from "@airlab/shared/lib/protein/dto";
 import { MemberService } from "../member/member.service";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
-@ApiUseTags("proteins")
+@ApiTags("proteins")
 @ApiBearerAuth()
 export class ProteinController {
   constructor(private readonly proteinService: ProteinService, private readonly memberService: MemberService) {}

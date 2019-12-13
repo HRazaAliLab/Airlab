@@ -1,53 +1,53 @@
 import { IsBoolean, IsInt, IsString } from "class-validator";
-import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class ConjugateDto {
-  @ApiModelProperty()
+  @ApiProperty()
   readonly id: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly groupId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly createdBy: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly lotId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly tagId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly finishedBy: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly finishedAt: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly tubeNumber: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly concentration: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly description: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isLow: boolean;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isDeleted: boolean;
 
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly meta: object;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly labeledAt: string;
 
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly createdAt: string;
 
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly updatedAt: string;
 }
 
@@ -55,52 +55,52 @@ export class CreateConjugateDto {
   readonly createdBy?: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly groupId: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly lotId: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly tagId: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly tubeNumber: number;
 
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly concentration: string;
 
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly description: string;
 }
 
 export class UpdateConjugateDto {
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly lotId: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly tagId: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly tubeNumber: number;
 
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly concentration: string;
 
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly description: string;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isLow: boolean;
 }

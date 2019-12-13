@@ -1,32 +1,32 @@
 import { IsInt, IsOptional, IsString } from "class-validator";
-import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class ReagentDto {
-  @ApiModelProperty()
+  @ApiProperty()
   readonly id: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly groupId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly createdBy: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly providerId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly reference: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isDeleted: boolean;
 
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly meta: object;
 
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly createdAt: string;
 }
 
@@ -34,40 +34,40 @@ export class CreateReagentDto {
   readonly createdBy?: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly groupId: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly providerId: number;
 
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 
   @IsString()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly reference: string;
 
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly meta: object | null;
 }
 
 export class UpdateReagentDto {
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly providerId: number;
 
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 
   @IsString()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly reference: string;
 
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly meta: object | null;
 }

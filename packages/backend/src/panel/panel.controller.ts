@@ -1,13 +1,13 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Request, UseGuards } from "@nestjs/common";
 import { PanelService } from "./panel.service";
-import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CreatePanelDto, DuplicatePanelDto, PanelDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
 import { MemberService } from "../member/member.service";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
-@ApiUseTags("panels")
+@ApiTags("panels")
 @ApiBearerAuth()
 export class PanelController {
   constructor(private readonly panelService: PanelService, private readonly memberService: MemberService) {}

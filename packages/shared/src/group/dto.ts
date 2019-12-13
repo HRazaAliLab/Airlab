@@ -1,87 +1,87 @@
 import { IsBoolean, IsInt, IsOptional, IsString, IsUrl } from "class-validator";
-import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class GroupDto {
-  @ApiModelProperty()
+  @ApiProperty()
   readonly id: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly institution: string;
 
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly url: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isOpen: boolean;
 
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly meta: object;
 
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly createdAt: string;
 }
 
 export class CreateGroupDto {
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 
   @IsString()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly institution: string;
 
   @IsUrl()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly url: string | null;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isOpen: boolean;
 }
 
 export class UpdateGroupDto {
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 
   @IsString()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly institution: string;
 
   @IsUrl()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly url: string | null;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isOpen: boolean;
 }
 
 export class RequestJoinGroupDto {
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly groupId: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly userId: number;
 }
 
 export class InviteDto {
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly groupId: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly userId: number;
 
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly token: string;
 }

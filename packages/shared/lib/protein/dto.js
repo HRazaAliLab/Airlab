@@ -14,31 +14,31 @@ const swagger_1 = require("@nestjs/swagger");
 class ProteinDto {
 }
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], ProteinDto.prototype, "id", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], ProteinDto.prototype, "groupId", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], ProteinDto.prototype, "createdBy", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], ProteinDto.prototype, "name", void 0);
 __decorate([
-    swagger_1.ApiModelPropertyOptional(),
+    swagger_1.ApiPropertyOptional(),
     __metadata("design:type", String)
 ], ProteinDto.prototype, "description", void 0);
 __decorate([
-    swagger_1.ApiModelPropertyOptional(),
+    swagger_1.ApiPropertyOptional(),
     __metadata("design:type", Object)
 ], ProteinDto.prototype, "meta", void 0);
 __decorate([
-    swagger_1.ApiModelPropertyOptional(),
+    swagger_1.ApiPropertyOptional(),
     __metadata("design:type", String)
 ], ProteinDto.prototype, "createdAt", void 0);
 exports.ProteinDto = ProteinDto;
@@ -46,17 +46,17 @@ class CreateProteinDto {
 }
 __decorate([
     class_validator_1.IsInt(),
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], CreateProteinDto.prototype, "groupId", void 0);
 __decorate([
     class_validator_1.IsString(),
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], CreateProteinDto.prototype, "name", void 0);
 __decorate([
     class_validator_1.IsString(),
-    swagger_1.ApiModelPropertyOptional(),
+    swagger_1.ApiPropertyOptional(),
     __metadata("design:type", String)
 ], CreateProteinDto.prototype, "description", void 0);
 exports.CreateProteinDto = CreateProteinDto;
@@ -64,12 +64,12 @@ class UpdateProteinDto {
 }
 __decorate([
     class_validator_1.IsString(),
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], UpdateProteinDto.prototype, "name", void 0);
 __decorate([
     class_validator_1.IsString(),
-    swagger_1.ApiModelPropertyOptional(),
+    swagger_1.ApiPropertyOptional(),
     __metadata("design:type", String)
 ], UpdateProteinDto.prototype, "description", void 0);
 exports.UpdateProteinDto = UpdateProteinDto;

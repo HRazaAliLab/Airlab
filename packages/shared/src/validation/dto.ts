@@ -1,98 +1,98 @@
 import { IsBoolean, IsInt, IsOptional, IsString } from "class-validator";
-import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class ValidationDto {
-  @ApiModelProperty()
+  @ApiProperty()
   readonly id: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly groupId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly createdBy: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly cloneId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly lotId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly conjugateId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly speciesId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly fileId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly application: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly positiveControl: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly negativeControl: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly incubationConditions: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly concentration: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly concentrationUnit: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly tissue: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly fixation: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly fixationNotes: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly notes: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly status: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly antigenRetrievalType: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly antigenRetrievalTime: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly antigenRetrievalTemperature: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly saponin: boolean | null;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly saponinConcentration: string | null;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly methanolTreatment: boolean | null;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly methanolTreatmentConcentration: string | null;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly surfaceStaining: boolean | null;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly surfaceStainingConcentration: string | null;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly meta: object;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly createdAt: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly updatedAt: string;
 }
 
@@ -100,258 +100,258 @@ export class CreateValidationDto {
   readonly createdBy?: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly groupId: number;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly cloneId: number | null;
 
   @IsInt()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly lotId: number | null;
 
   @IsInt()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly conjugateId: number | null;
 
   @IsInt()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly speciesId: number | null;
 
   @IsInt()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly fileId: number | null;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly application: number | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly positiveControl: string | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly negativeControl: string | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly incubationConditions: string | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly concentration: string | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly concentrationUnit: string | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly tissue: string | null;
 
   @IsInt()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly fixation: number | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly fixationNotes: string | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly notes: string | null;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly status: number;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly antigenRetrievalType: string | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly antigenRetrievalTime: string | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly antigenRetrievalTemperature: string | null;
 
   @IsBoolean()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly saponin: boolean | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly saponinConcentration: string | null;
 
   @IsBoolean()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly methanolTreatment: boolean | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly methanolTreatmentConcentration: string | null;
 
   @IsBoolean()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly surfaceStaining: boolean | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly surfaceStainingConcentration: string | null;
 }
 
 export class UpdateValidationDto {
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly cloneId: number | null;
 
   @IsInt()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly lotId: number | null;
 
   @IsInt()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly conjugateId: number | null;
 
   @IsInt()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly speciesId: number | null;
 
   @IsInt()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly fileId: number | null;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly application: number | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly positiveControl: string | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly negativeControl: string | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly incubationConditions: string | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly concentration: string | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly concentrationUnit: string | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly tissue: string | null;
 
   @IsInt()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly fixation: number | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly fixationNotes: string | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly notes: string | null;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly status: number;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly antigenRetrievalType: string | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly antigenRetrievalTime: string | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly antigenRetrievalTemperature: string | null;
 
   @IsBoolean()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly saponin: boolean | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly saponinConcentration: string | null;
 
   @IsBoolean()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly methanolTreatment: boolean | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly methanolTreatmentConcentration: string | null;
 
   @IsBoolean()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly surfaceStaining: boolean | null;
 
   @IsString()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly surfaceStainingConcentration: string | null;
 }
 
 export class UploadValidationDto {
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly groupId: string;
 }

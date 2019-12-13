@@ -14,39 +14,39 @@ const swagger_1 = require("@nestjs/swagger");
 class ReagentDto {
 }
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], ReagentDto.prototype, "id", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], ReagentDto.prototype, "groupId", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], ReagentDto.prototype, "createdBy", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], ReagentDto.prototype, "providerId", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], ReagentDto.prototype, "name", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], ReagentDto.prototype, "reference", void 0);
 __decorate([
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Boolean)
 ], ReagentDto.prototype, "isDeleted", void 0);
 __decorate([
-    swagger_1.ApiModelPropertyOptional(),
+    swagger_1.ApiPropertyOptional(),
     __metadata("design:type", Object)
 ], ReagentDto.prototype, "meta", void 0);
 __decorate([
-    swagger_1.ApiModelPropertyOptional(),
+    swagger_1.ApiPropertyOptional(),
     __metadata("design:type", String)
 ], ReagentDto.prototype, "createdAt", void 0);
 exports.ReagentDto = ReagentDto;
@@ -54,27 +54,27 @@ class CreateReagentDto {
 }
 __decorate([
     class_validator_1.IsInt(),
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], CreateReagentDto.prototype, "groupId", void 0);
 __decorate([
     class_validator_1.IsInt(),
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], CreateReagentDto.prototype, "providerId", void 0);
 __decorate([
     class_validator_1.IsString(),
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], CreateReagentDto.prototype, "name", void 0);
 __decorate([
     class_validator_1.IsString(),
-    swagger_1.ApiModelPropertyOptional(),
+    swagger_1.ApiPropertyOptional(),
     __metadata("design:type", String)
 ], CreateReagentDto.prototype, "reference", void 0);
 __decorate([
     class_validator_1.IsOptional(),
-    swagger_1.ApiModelPropertyOptional(),
+    swagger_1.ApiPropertyOptional(),
     __metadata("design:type", Object)
 ], CreateReagentDto.prototype, "meta", void 0);
 exports.CreateReagentDto = CreateReagentDto;
@@ -82,22 +82,22 @@ class UpdateReagentDto {
 }
 __decorate([
     class_validator_1.IsInt(),
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], UpdateReagentDto.prototype, "providerId", void 0);
 __decorate([
     class_validator_1.IsString(),
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], UpdateReagentDto.prototype, "name", void 0);
 __decorate([
     class_validator_1.IsString(),
-    swagger_1.ApiModelPropertyOptional(),
+    swagger_1.ApiPropertyOptional(),
     __metadata("design:type", String)
 ], UpdateReagentDto.prototype, "reference", void 0);
 __decorate([
     class_validator_1.IsOptional(),
-    swagger_1.ApiModelPropertyOptional(),
+    swagger_1.ApiPropertyOptional(),
     __metadata("design:type", Object)
 ], UpdateReagentDto.prototype, "meta", void 0);
 exports.UpdateReagentDto = UpdateReagentDto;

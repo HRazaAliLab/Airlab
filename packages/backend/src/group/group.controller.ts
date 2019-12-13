@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { GroupService } from "./group.service";
-import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { Roles } from "../auth/roles.decorator";
 import { RolesGuard } from "../auth/roles.guard";
@@ -9,7 +9,7 @@ import { UserDto } from "@airlab/shared/lib/user/dto";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
-@ApiUseTags("groups")
+@ApiTags("groups")
 @ApiBearerAuth()
 export class GroupController {
   constructor(private readonly groupService: GroupService) {}

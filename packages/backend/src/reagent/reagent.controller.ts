@@ -1,12 +1,12 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { ReagentService } from "./reagent.service";
-import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CreateReagentDto, ReagentDto, UpdateReagentDto } from "@airlab/shared/lib/reagent/dto";
 import { MemberService } from "../member/member.service";
 
 @Controller()
-@ApiUseTags("reagents")
+@ApiTags("reagents")
 @ApiBearerAuth()
 @UseGuards(AuthGuard("jwt"))
 export class ReagentController {

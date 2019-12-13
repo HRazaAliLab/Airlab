@@ -1,5 +1,5 @@
 import { UserService } from "./user.service";
-import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { JwtPayloadDto } from "@airlab/shared/lib/auth/dto";
@@ -16,7 +16,7 @@ import { RolesGuard } from "../auth/roles.guard";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
-@ApiUseTags("users")
+@ApiTags("users")
 @ApiBearerAuth()
 export class UserController {
   constructor(private readonly userService: UserService) {}

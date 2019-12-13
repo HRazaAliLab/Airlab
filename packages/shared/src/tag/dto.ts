@@ -1,70 +1,70 @@
 import { IsBoolean, IsInt, IsOptional, IsString } from "class-validator";
-import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class TagDto {
-  @ApiModelProperty()
+  @ApiProperty()
   readonly id: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly groupId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly mw: number | null;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isFluorophore: boolean;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isMetal: boolean;
 
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly meta: object;
 
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly createdAt: string;
 }
 
 export class CreateTagDto {
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly groupId: number;
 
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 
   @IsInt()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly mw: number | null;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isFluorophore: boolean;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isMetal: boolean;
 }
 
 export class UpdateTagDto {
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 
   @IsInt()
   @IsOptional()
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly mw: number | null;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isFluorophore: boolean;
 
   @IsBoolean()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly isMetal: boolean;
 }

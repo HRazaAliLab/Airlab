@@ -12,7 +12,7 @@ import {
   UseInterceptors,
 } from "@nestjs/common";
 import { ValidationService } from "./validation.service";
-import { ApiBearerAuth, ApiConsumes, ApiCreatedResponse, ApiImplicitFile, ApiUseTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiConsumes, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import {
   CreateValidationDto,
@@ -79,7 +79,7 @@ const storage = multer.diskStorage({
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
-@ApiUseTags("validations")
+@ApiTags("validations")
 @ApiBearerAuth()
 export class ValidationController {
   constructor(
@@ -132,7 +132,7 @@ export class ValidationController {
 
   @Post("validations/:id/upload")
   @ApiConsumes("multipart/form-data")
-  @ApiImplicitFile({ name: "file", required: true })
+  // @ApiImplicitFile({ name: "file", required: true })
   @UseInterceptors(
     FileInterceptor("file", {
       storage: storage,

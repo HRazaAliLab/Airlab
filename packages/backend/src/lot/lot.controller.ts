@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { LotService } from "./lot.service";
-import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CreateLotDto, LotDto, UpdateLotDto } from "@airlab/shared/lib/lot/dto";
 import { MemberService } from "../member/member.service";
@@ -9,7 +9,7 @@ import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
-@ApiUseTags("lots")
+@ApiTags("lots")
 @ApiBearerAuth()
 export class LotController {
   constructor(

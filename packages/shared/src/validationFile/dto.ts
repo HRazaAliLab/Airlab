@@ -1,35 +1,35 @@
 import { IsInt, IsString } from "class-validator";
-import { ApiModelProperty, ApiModelPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class ValidationFileDto {
-  @ApiModelProperty()
+  @ApiProperty()
   readonly id: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly validationId: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly createdBy: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly hash: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly size: number;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 
-  @ApiModelProperty()
+  @ApiProperty()
   readonly extension: string;
 
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly description: string;
 
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly meta: object;
 
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   readonly createdAt: string;
 }
 
@@ -37,28 +37,28 @@ export class CreateValidationFileDto {
   readonly createdBy?: number;
 
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly hash: string;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly validationId: number;
 
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly extension: string;
 
   @IsInt()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly size: number;
 }
 
 export class UpdateValidationFileDto {
   @IsString()
-  @ApiModelProperty()
+  @ApiProperty()
   readonly name: string;
 }

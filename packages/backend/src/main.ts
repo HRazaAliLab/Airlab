@@ -6,7 +6,7 @@ import { ValidationPipe } from "@nestjs/common";
 import { LoggingInterceptor } from "./utils/logging.interceptor";
 import { WsAdapter } from "@nestjs/platform-ws";
 
-const apiRoot = "api/v1";
+const apiRoot = "/api/v1";
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -20,10 +20,16 @@ async function bootstrap(): Promise<void> {
     .setTitle("AirLab API")
     .setDescription("AirLab API description")
     .setVersion("1.0")
-    .setBasePath(apiRoot)
-    .addBearerAuth("Authorization", "header", "apiKey")
+    .addServer(apiRoot)
+    .addBearerAuth({
+      type: "http",
+      scheme: "bearer",
+      bearerFormat: "JWT",
+    })
     .build();
-  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  const document = SwaggerModule.createDocument(app, swaggerConfig, {
+    ignoreGlobalPrefix: true,
+  });
   SwaggerModule.setup("docs", app, document);
 
   await app.listen(3000);

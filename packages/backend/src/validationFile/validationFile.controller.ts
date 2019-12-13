@@ -1,20 +1,6 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Logger,
-  Param,
-  Patch,
-  Post,
-  Res,
-  UploadedFile,
-  UseGuards,
-  UseInterceptors,
-} from "@nestjs/common";
+import { Body, Controller, Delete, Get, Logger, Param, Patch, Post, Res } from "@nestjs/common";
 import { ValidationFileService } from "./validationFile.service";
-import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
-import { AuthGuard } from "@nestjs/passport";
+import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
 import {
   CreateValidationFileDto,
   ValidationFileDto,
@@ -22,7 +8,7 @@ import {
 } from "@airlab/shared/lib/validationFile/dto";
 import { Response } from "express";
 
-@ApiUseTags("validationFiles")
+@ApiTags("validationFiles")
 @Controller("validationFiles")
 @ApiBearerAuth()
 // @UseGuards(AuthGuard("jwt"))

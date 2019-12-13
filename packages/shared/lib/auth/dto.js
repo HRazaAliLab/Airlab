@@ -18,12 +18,12 @@ class ResetPasswordDto {
 }
 __decorate([
     class_validator_1.IsString(),
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], ResetPasswordDto.prototype, "newPassword", void 0);
 __decorate([
     class_validator_1.IsString(),
-    swagger_1.ApiModelProperty(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], ResetPasswordDto.prototype, "token", void 0);
 exports.ResetPasswordDto = ResetPasswordDto;

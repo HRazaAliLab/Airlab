@@ -1,12 +1,12 @@
 import { Body, Controller, Delete, Get, HttpException, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { MemberService } from "./member.service";
-import { ApiBearerAuth, ApiCreatedResponse, ApiUseTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CreateMemberDto, MemberDto, UpdateMemberDto } from "@airlab/shared/lib/member/dto";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
-@ApiUseTags("members")
+@ApiTags("members")
 @ApiBearerAuth()
 export class MemberController {
   constructor(private readonly memberService: MemberService) {}
