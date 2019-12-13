@@ -3,7 +3,7 @@ import { ValidationFileService } from "./validationFile.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ValidationFileEntity } from "./validationFile.entity";
 
-describe("ValidationFileService", () => {
+describe(ValidationFileService.name, () => {
   let service: ValidationFileService;
 
   beforeEach(async () => {

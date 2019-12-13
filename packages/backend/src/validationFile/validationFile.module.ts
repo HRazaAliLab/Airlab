@@ -8,5 +8,6 @@ import { ValidationFileController } from "./validationFile.controller";
   imports: [TypeOrmModule.forFeature([ValidationFileEntity])],
   providers: [ValidationFileService],
   controllers: [ValidationFileController],
+  exports: [ValidationFileService],
 })
 export class ValidationFileModule {}

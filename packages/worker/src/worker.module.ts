@@ -7,5 +7,6 @@ import { ConfigModule } from "./config/config.module";
   imports: [ConfigModule],
   controllers: [WorkerController],
   providers: [WorkerService],
+  exports: [WorkerService],
 })
 export class WorkerModule {}

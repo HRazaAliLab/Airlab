@@ -1,25 +1,29 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { GroupController } from "./group.controller";
 import { GroupService } from "./group.service";
+import { AuthModule } from "../auth/auth.module";
+import { ConfigModule } from "../config/config.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { GroupEntity } from "./group.entity";
-import { MemberService } from "../member/member.service";
-import { MemberEntity } from "../member/member.entity";
-import { UserEntity } from "../user/user.entity";
+import { UserModule } from "../user/user.module";
 
-describe("GroupController", () => {
+describe(GroupController.name, () => {
   let controller: GroupController;
-  let service: GroupService;
+
+  const mockService = {};
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([GroupEntity, MemberEntity, UserEntity])],
+      imports: [TypeOrmModule.forRoot(), AuthModule, ConfigModule, UserModule],
+      providers: [
+        {
+          provide: GroupService,
+          useValue: mockService,
+        },
+      ],
       controllers: [GroupController],
-      providers: [GroupService, MemberService],
     }).compile();
 
     controller = module.get<GroupController>(GroupController);
-    service = module.get<GroupService>(GroupService);
   });
 
   it("should be defined", () => {

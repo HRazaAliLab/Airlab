@@ -3,22 +3,19 @@ import { ReagentController } from "./reagent.controller";
 import { ReagentService } from "./reagent.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ReagentEntity } from "./reagent.entity";
-import { MemberService } from "../member/member.service";
-import { MemberEntity } from "../member/member.entity";
+import { MemberModule } from "../member/member.module";
 
-describe("ReagentController", () => {
+describe(ReagentController.name, () => {
   let controller: ReagentController;
-  let service: ReagentService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([ReagentEntity, MemberEntity])],
+      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([ReagentEntity]), MemberModule],
+      providers: [ReagentService],
       controllers: [ReagentController],
-      providers: [ReagentService, MemberService],
     }).compile();
 
     controller = module.get<ReagentController>(ReagentController);
-    service = module.get<ReagentService>(ReagentService);
   });
 
   it("should be defined", () => {

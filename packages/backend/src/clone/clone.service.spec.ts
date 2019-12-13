@@ -2,16 +2,23 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { CloneService } from "./clone.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { CloneEntity } from "./clone.entity";
-import { MemberService } from "../member/member.service";
-import { MemberEntity } from "../member/member.entity";
+import { MemberModule } from "../member/member.module";
+import { LotModule } from "../lot/lot.module";
+import { ValidationModule } from "../validation/validation.module";
 
-describe("CloneService", () => {
+describe(CloneService.name, () => {
   let service: CloneService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([CloneEntity, MemberEntity])],
-      providers: [CloneService, MemberService],
+      imports: [
+        TypeOrmModule.forRoot(),
+        TypeOrmModule.forFeature([CloneEntity]),
+        MemberModule,
+        LotModule,
+        ValidationModule,
+      ],
+      providers: [CloneService],
     }).compile();
 
     service = module.get<CloneService>(CloneService);

@@ -5,7 +5,6 @@ import { AuthGuard } from "@nestjs/passport";
 import { Roles } from "../auth/roles.decorator";
 import { RolesGuard } from "../auth/roles.guard";
 import { CreateGroupDto, GroupDto, InviteDto, RequestJoinGroupDto, UpdateGroupDto } from "@airlab/shared/lib/group/dto";
-import { UserDto } from "@airlab/shared/lib/user/dto";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
@@ -60,11 +59,5 @@ export class GroupController {
   @ApiCreatedResponse({ description: "Invite user to join the group.", type: Boolean })
   async invite(@Body() params: InviteDto) {
     return this.groupService.invite(params);
-  }
-
-  @Get("groups/:id/users")
-  @ApiCreatedResponse({ description: "Find users in the group.", type: UserDto, isArray: true })
-  getUsersInGroup(@Param("id") id: number) {
-    return this.groupService.getUsersInGroup(id);
   }
 }

@@ -4,19 +4,17 @@ import { MemberService } from "./member.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { MemberEntity } from "./member.entity";
 
-describe("MemberController", () => {
+describe(MemberController.name, () => {
   let controller: MemberController;
-  let service: MemberService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([MemberEntity])],
-      controllers: [MemberController],
       providers: [MemberService],
+      controllers: [MemberController],
     }).compile();
 
     controller = module.get<MemberController>(MemberController);
-    service = module.get<MemberService>(MemberService);
   });
 
   it("should be defined", () => {

@@ -1,23 +1,15 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { EventsGateway } from "./events.gateway";
-import { JwtModule } from "@nestjs/jwt";
-import { ConfigService } from "../config/config.service";
+import { AuthModule } from "../auth/auth.module";
 import { ConfigModule } from "../config/config.module";
+import { TypeOrmModule } from "@nestjs/typeorm";
 
-describe("EventsGateway", () => {
+describe(EventsGateway.name, () => {
   let gateway: EventsGateway;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        JwtModule.registerAsync({
-          useFactory: async (configService: ConfigService) => ({
-            secret: configService.jwtSecret,
-          }),
-          inject: [ConfigService],
-        }),
-        ConfigModule,
-      ],
+      imports: [TypeOrmModule.forRoot(), ConfigModule, AuthModule],
       providers: [EventsGateway],
     }).compile();
 

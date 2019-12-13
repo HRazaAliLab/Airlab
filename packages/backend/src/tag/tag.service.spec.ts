@@ -5,12 +5,12 @@ import { TagEntity } from "./tag.entity";
 import { MemberEntity } from "../member/member.entity";
 import { MemberService } from "../member/member.service";
 
-describe("TagService", () => {
+describe(TagService.name, () => {
   let service: TagService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([TagEntity, MemberEntity])],
+      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forRoot(), TypeOrmModule.forFeature([TagEntity, MemberEntity])],
       providers: [TagService, MemberService],
     }).compile();
 

@@ -3,14 +3,13 @@ import { ValidationService } from "./validation.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ValidationEntity } from "./validation.entity";
 import { ValidationController } from "./validation.controller";
-import { MemberService } from "../member/member.service";
-import { MemberEntity } from "../member/member.entity";
-import { ValidationFileService } from "../validationFile/validationFile.service";
-import { ValidationFileEntity } from "../validationFile/validationFile.entity";
+import { MemberModule } from "../member/member.module";
+import { ValidationFileModule } from "../validationFile/validationFile.module";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ValidationEntity, MemberEntity, ValidationFileEntity])],
-  providers: [ValidationService, MemberService, ValidationFileService],
+  imports: [TypeOrmModule.forFeature([ValidationEntity]), MemberModule, ValidationFileModule],
+  providers: [ValidationService],
   controllers: [ValidationController],
+  exports: [ValidationService],
 })
 export class ValidationModule {}

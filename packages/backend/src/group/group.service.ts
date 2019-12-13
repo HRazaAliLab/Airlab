@@ -5,8 +5,6 @@ import { GroupEntity } from "./group.entity";
 import { MemberService } from "../member/member.service";
 import * as crypto from "crypto";
 import { CreateGroupDto, InviteDto, UpdateGroupDto } from "@airlab/shared/lib/group/dto";
-import { UserEntity } from "../user/user.entity";
-import { MemberEntity } from "../member/member.entity";
 import { UPDATES_CHANNEL_NAME } from "@airlab/shared/lib/events/channels";
 import { PubSubService } from "../pubsub/pubsub.service";
 
@@ -16,37 +14,35 @@ const privateKey = "fsdfC987XXasdf979werl$#";
 export class GroupService {
   constructor(
     @InjectRepository(GroupEntity)
-    private readonly groupRepository: Repository<GroupEntity>,
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
+    private readonly repository: Repository<GroupEntity>,
     private readonly memberService: MemberService,
     private readonly pubSubService: PubSubService
   ) {}
 
   async create(params: CreateGroupDto) {
     await this.clearCache();
-    return this.groupRepository.save(params);
+    return this.repository.save(params);
   }
 
   async findById(id: number) {
-    return this.groupRepository.findOne(id);
+    return this.repository.findOne(id);
   }
 
   async update(id: number, params: UpdateGroupDto) {
-    await this.groupRepository.update(id, params);
+    await this.repository.update(id, params);
     await this.clearCache();
     return this.findById(id);
   }
 
   async deleteById(id: number) {
     await this.clearCache();
-    const result = await this.groupRepository.delete(id);
+    const result = await this.repository.delete(id);
     return result.affected === 1 ? id : undefined;
   }
 
   async findAll() {
     this.pubSubService.broadcastMessage(UPDATES_CHANNEL_NAME, "HELLOOOO");
-    return this.groupRepository.find({
+    return this.repository.find({
       relations: ["members", "members.group", "members.user"],
       order: { id: "DESC" },
       cache: {
@@ -86,15 +82,7 @@ export class GroupService {
     return publicKey === hash;
   }
 
-  async getUsersInGroup(groupId: number) {
-    return this.userRepository
-      .createQueryBuilder("user")
-      .leftJoin(MemberEntity, "member", "user.id = member.userId")
-      .where("member.groupId = :groupId", { groupId: groupId })
-      .getMany();
-  }
-
   private async clearCache() {
-    await this.groupRepository.manager.connection.queryResultCache.remove([`groups`]);
+    await this.repository.manager.connection.queryResultCache.remove([`groups`]);
   }
 }

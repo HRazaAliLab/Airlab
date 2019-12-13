@@ -3,22 +3,13 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { UserEntity } from "./user.entity";
 import { CreateUserDto, UpdatePasswordDto, UpdateProfileDto, UpdateUserDto } from "@airlab/shared/lib/user/dto";
-import { GroupEntity } from "../group/group.entity";
-import { MemberEntity } from "../member/member.entity";
-import { LotEntity } from "../lot/lot.entity";
 import { getPasswordHash } from "../auth/helpers";
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
-    private readonly repository: Repository<UserEntity>,
-    @InjectRepository(GroupEntity)
-    private readonly groupRepository: Repository<GroupEntity>,
-    @InjectRepository(MemberEntity)
-    private readonly memberRepository: Repository<MemberEntity>,
-    @InjectRepository(LotEntity)
-    private readonly lotRepository: Repository<LotEntity>
+    private readonly repository: Repository<UserEntity>
   ) {}
 
   async create(params: CreateUserDto) {

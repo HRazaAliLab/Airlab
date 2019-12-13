@@ -1,16 +1,10 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { InjectRepository } from "@nestjs/typeorm";
-import { UserEntity } from "../user/user.entity";
-import { Repository } from "typeorm";
+import { UserService } from "../user/user.service";
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(
-    private readonly reflector: Reflector,
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>
-  ) {}
+  constructor(private readonly reflector: Reflector, private readonly userService: UserService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const roles = this.reflector.get<string[]>("roles", context.getHandler());
@@ -23,7 +17,7 @@ export class RolesGuard implements CanActivate {
       return false;
     }
 
-    const user = await this.userRepository.findOne(request.user.userId);
+    const user = await this.userService.findById(request.user.userId);
     if (!user) {
       return false;
     }

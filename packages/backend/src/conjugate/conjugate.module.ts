@@ -3,12 +3,12 @@ import { ConjugateService } from "./conjugate.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConjugateEntity } from "./conjugate.entity";
 import { ConjugateController } from "./conjugate.controller";
-import { MemberService } from "../member/member.service";
-import { MemberEntity } from "../member/member.entity";
+import { MemberModule } from "../member/member.module";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ConjugateEntity, MemberEntity])],
-  providers: [ConjugateService, MemberService],
+  imports: [TypeOrmModule.forFeature([ConjugateEntity]), MemberModule],
+  providers: [ConjugateService],
   controllers: [ConjugateController],
+  exports: [ConjugateService],
 })
 export class ConjugateModule {}

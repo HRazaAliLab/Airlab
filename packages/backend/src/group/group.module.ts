@@ -3,25 +3,16 @@ import { GroupService } from "./group.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { GroupEntity } from "./group.entity";
 import { GroupController } from "./group.controller";
-import { MemberEntity } from "../member/member.entity";
-import { MemberService } from "../member/member.service";
-import { UserEntity } from "../user/user.entity";
-import { PubSubService } from "../pubsub/pubsub.service";
-import { EventsGateway } from "../events/events.gateway";
-import { JwtModule } from "@nestjs/jwt";
-import { ConfigService } from "../config/config.service";
+import { AuthModule } from "../auth/auth.module";
+import { PubSubModule } from "../pubsub/pubsub.module";
+import { EventsModule } from "../events/events.module";
+import { MemberModule } from "../member/member.module";
+import { UserModule } from "../user/user.module";
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([GroupEntity, MemberEntity, UserEntity]),
-    JwtModule.registerAsync({
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.jwtSecret,
-      }),
-      inject: [ConfigService],
-    }),
-  ],
-  providers: [GroupService, MemberService, PubSubService, EventsGateway],
+  imports: [TypeOrmModule.forFeature([GroupEntity]), AuthModule, PubSubModule, EventsModule, UserModule, MemberModule],
+  providers: [GroupService],
   controllers: [GroupController],
+  exports: [GroupService],
 })
 export class GroupModule {}

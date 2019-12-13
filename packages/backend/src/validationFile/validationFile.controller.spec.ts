@@ -4,19 +4,17 @@ import { ValidationFileService } from "./validationFile.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ValidationFileEntity } from "./validationFile.entity";
 
-describe("ValidationFileController", () => {
+describe(ValidationFileController.name, () => {
   let controller: ValidationFileController;
-  let service: ValidationFileService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([ValidationFileEntity])],
-      controllers: [ValidationFileController],
       providers: [ValidationFileService],
+      controllers: [ValidationFileController],
     }).compile();
 
     controller = module.get<ValidationFileController>(ValidationFileController);
-    service = module.get<ValidationFileService>(ValidationFileService);
   });
 
   it("should be defined", () => {

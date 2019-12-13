@@ -3,12 +3,12 @@ import { ReagentService } from "./reagent.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ReagentEntity } from "./reagent.entity";
 import { ReagentController } from "./reagent.controller";
-import { MemberService } from "../member/member.service";
-import { MemberEntity } from "../member/member.entity";
+import { MemberModule } from "../member/member.module";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ReagentEntity, MemberEntity])],
-  providers: [ReagentService, MemberService],
+  imports: [TypeOrmModule.forFeature([ReagentEntity]), MemberModule],
+  providers: [ReagentService],
   controllers: [ReagentController],
+  exports: [ReagentService],
 })
 export class ReagentModule {}

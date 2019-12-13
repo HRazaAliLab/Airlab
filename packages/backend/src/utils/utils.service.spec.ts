@@ -1,10 +1,10 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { UtilsService } from "./utils.service";
-import { ConfigService } from "../config/config.service";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { WORKER_QUEUE_NAME } from "@airlab/shared/lib/constants";
+import { ConfigModule } from "../config/config.module";
 
-describe("UtilsService", () => {
+describe(UtilsService.name, () => {
   let service: UtilsService;
 
   beforeEach(async () => {
@@ -22,8 +22,9 @@ describe("UtilsService", () => {
             },
           },
         ]),
+        ConfigModule,
       ],
-      providers: [UtilsService, ConfigService],
+      providers: [UtilsService],
     }).compile();
 
     service = module.get<UtilsService>(UtilsService);

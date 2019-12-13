@@ -3,7 +3,7 @@ import { MemberService } from "./member.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { MemberEntity } from "./member.entity";
 
-describe("MemberService", () => {
+describe(MemberService.name, () => {
   let service: MemberService;
 
   beforeEach(async () => {

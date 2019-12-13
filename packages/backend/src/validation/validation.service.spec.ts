@@ -2,21 +2,21 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { ValidationService } from "./validation.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ValidationEntity } from "./validation.entity";
-import { MemberService } from "../member/member.service";
-import { MemberEntity } from "../member/member.entity";
-import { ValidationFileService } from "../validationFile/validationFile.service";
-import { ValidationFileEntity } from "../validationFile/validationFile.entity";
+import { MemberModule } from "../member/member.module";
+import { ValidationFileModule } from "../validationFile/validationFile.module";
 
-describe("ValidationService", () => {
+describe(ValidationService.name, () => {
   let service: ValidationService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         TypeOrmModule.forRoot(),
-        TypeOrmModule.forFeature([ValidationEntity, MemberEntity, ValidationFileEntity]),
+        TypeOrmModule.forFeature([ValidationEntity]),
+        MemberModule,
+        ValidationFileModule,
       ],
-      providers: [ValidationService, MemberService, ValidationFileService],
+      providers: [ValidationService],
     }).compile();
 
     service = module.get<ValidationService>(ValidationService);

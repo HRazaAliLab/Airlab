@@ -3,17 +3,14 @@ import { CloneService } from "./clone.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { CloneEntity } from "./clone.entity";
 import { CloneController } from "./clone.controller";
-import { MemberService } from "../member/member.service";
-import { MemberEntity } from "../member/member.entity";
-import { UserEntity } from "../user/user.entity";
-import { LotService } from "../lot/lot.service";
-import { LotEntity } from "../lot/lot.entity";
-import { ValidationService } from "../validation/validation.service";
-import { ValidationEntity } from "../validation/validation.entity";
+import { MemberModule } from "../member/member.module";
+import { LotModule } from "../lot/lot.module";
+import { ValidationModule } from "../validation/validation.module";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CloneEntity, MemberEntity, UserEntity, LotEntity, ValidationEntity])],
-  providers: [CloneService, MemberService, LotService, ValidationService],
+  imports: [TypeOrmModule.forFeature([CloneEntity]), MemberModule, LotModule, ValidationModule],
+  providers: [CloneService],
   controllers: [CloneController],
+  exports: [CloneService],
 })
 export class CloneModule {}

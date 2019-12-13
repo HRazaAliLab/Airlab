@@ -3,27 +3,25 @@ import { ValidationController } from "./validation.controller";
 import { ValidationService } from "./validation.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ValidationEntity } from "./validation.entity";
-import { MemberService } from "../member/member.service";
-import { MemberEntity } from "../member/member.entity";
-import { ValidationFileService } from "../validationFile/validationFile.service";
-import { ValidationFileEntity } from "../validationFile/validationFile.entity";
+import { MemberModule } from "../member/member.module";
+import { ValidationFileModule } from "../validationFile/validationFile.module";
 
-describe("ValidationController", () => {
+describe(ValidationController.name, () => {
   let controller: ValidationController;
-  let service: ValidationService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         TypeOrmModule.forRoot(),
-        TypeOrmModule.forFeature([ValidationEntity, MemberEntity, ValidationFileEntity]),
+        TypeOrmModule.forFeature([ValidationEntity]),
+        MemberModule,
+        ValidationFileModule,
       ],
+      providers: [ValidationService],
       controllers: [ValidationController],
-      providers: [ValidationService, MemberService, ValidationFileService],
     }).compile();
 
     controller = module.get<ValidationController>(ValidationController);
-    service = module.get<ValidationService>(ValidationService);
   });
 
   it("should be defined", () => {
