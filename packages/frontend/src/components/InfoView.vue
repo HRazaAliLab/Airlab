@@ -1,6 +1,6 @@
-<template>
+<template functional>
   <v-list dense>
-    <template v-for="item in items">
+    <template v-for="item in $options.methods.getMetaProps(props.item)">
       <v-list-item dense two-line :key="item.name">
         <v-list-item-content>
           <v-list-item-title>{{ item.name }}</v-list-item-title>
@@ -23,9 +23,9 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 export default class InfoView extends Vue {
   @Prop(Object) item;
 
-  get items() {
-    if (this.item.meta) {
-      const items = Object.entries(this.item.meta);
+  getMetaProps(item) {
+    if (item.meta) {
+      const items = Object.entries(item.meta);
       return items.map(item => {
         return {
           name: item[0],

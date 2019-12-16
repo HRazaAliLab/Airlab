@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import { mainModule } from "@/modules/main";
-import { required, email } from "@/utils/validators";
+import { email, required } from "@/utils/validators";
 import { Component, Vue } from "vue-property-decorator";
 import { UpdateProfileDto } from "@airlab/shared/lib/user/dto";
 

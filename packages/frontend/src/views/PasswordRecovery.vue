@@ -39,7 +39,7 @@
 <script lang="ts">
 import { appName } from "@/env";
 import { mainModule } from "@/modules/main";
-import { required, email } from "@/utils/validators";
+import { email, required } from "@/utils/validators";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component

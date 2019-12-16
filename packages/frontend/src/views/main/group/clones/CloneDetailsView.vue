@@ -21,6 +21,7 @@
             :key="validation.id"
             :group-id="activeGroupId"
             :validation="validation"
+            :api-url="apiUrl"
           />
         </v-tab-item>
       </v-tabs>
@@ -37,12 +38,16 @@ import { LotDto } from "@airlab/shared/lib/lot/dto";
 import { groupModule } from "@/modules/group";
 import { ValidationDto } from "@airlab/shared/lib/validation/dto";
 import ValidationView from "@/views/main/group/validations/ValidationView.vue";
+import { apiUrl } from "@/env";
+
 @Component({
   components: { ValidationView, LotView },
 })
 export default class CloneDetailsView extends Vue {
   readonly groupContext = groupModule.context(this.$store);
   readonly cloneContext = cloneModule.context(this.$store);
+
+  readonly apiUrl = apiUrl;
 
   @Prop(Object) readonly item!: CloneDto;
 

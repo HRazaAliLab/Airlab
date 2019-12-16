@@ -1,5 +1,5 @@
 import { ApiManager } from "@/utils/api";
-import { CreateCloneDto, CloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
+import { CloneDto, CreateCloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
 import { LotDto } from "@airlab/shared/lib/lot/dto";
 import { ValidationDto } from "@airlab/shared/lib/validation/dto";
 

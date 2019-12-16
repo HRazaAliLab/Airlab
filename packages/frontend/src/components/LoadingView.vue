@@ -1,9 +1,9 @@
-<template>
+<template functional>
   <v-container fluid>
     <v-row>
       <v-col align="center" justify="center">
         <v-progress-circular indeterminate color="primary" />
-        <h5>{{ text }}</h5>
+        <h5>{{ props.text }}</h5>
       </v-col>
     </v-row>
   </v-container>

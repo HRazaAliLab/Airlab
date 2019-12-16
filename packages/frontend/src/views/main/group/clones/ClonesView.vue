@@ -41,6 +41,56 @@
               </v-chip>
             </template>
           </v-select>
+          <v-select
+            v-model="applicationFilter"
+            :items="applications"
+            item-text="name"
+            item-value="id"
+            chips
+            clearable
+            label="Validation Application"
+            multiple
+            prepend-icon="mdi-filter-outline"
+            solo
+            dense
+          >
+            <template v-slot:selection="{ attrs, item, select, selected }">
+              <v-chip
+                v-bind="attrs"
+                :input-value="selected"
+                close
+                @click="select"
+                @click:close="removeApplicationFilter(item)"
+              >
+                {{ item.name }}
+              </v-chip>
+            </template>
+          </v-select>
+          <v-select
+            v-model="statusFilter"
+            :items="statuses"
+            item-text="name"
+            item-value="id"
+            chips
+            clearable
+            label="Validation Status"
+            multiple
+            prepend-icon="mdi-filter-outline"
+            solo
+            dense
+          >
+            <template v-slot:selection="{ attrs, item, select, selected }">
+              <v-chip
+                v-bind="attrs"
+                :input-value="selected"
+                close
+                @click="select"
+                @click:close="removeStatusFilter(item)"
+              >
+                {{ item.name }}
+              </v-chip>
+            </template>
+          </v-select>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -101,7 +151,16 @@
           <v-icon v-if="item.isPolyclonal">mdi-check</v-icon>
         </template>
         <template v-slot:item.validations="{ item }">
-          {{ item.validations.length }}
+          <v-chip
+            v-for="validation in item.validations"
+            :key="validation.id"
+            :color="getStatusColor(validation)"
+            class="mr-1"
+            x-small
+            dark
+          >
+            {{ validation.application | applicationToString }}
+          </v-chip>
         </template>
         <template v-slot:item.action="{ item }">
           <v-tooltip bottom>
@@ -137,17 +196,21 @@
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length">
             <v-card flat tile class="my-2">
-              <v-card-title>
-                {{ item.name }}
-              </v-card-title>
-              <v-card-text>
-                {{ item.epitope }}
-              </v-card-text>
               <v-card-actions>
                 <v-btn text color="primary" target="_blank" :href="citeAb(item)">CiteAb</v-btn>
                 <v-btn text color="primary" target="_blank" :href="antibodyRegistry(item)">AntibodyRegistry</v-btn>
                 <v-btn text color="primary" target="_blank" :href="antibodyPedia(item)">AntibodyPedia</v-btn>
               </v-card-actions>
+              <v-card-text>
+                <v-row v-if="item.epitope">
+                  <v-col cols="1" class="subtitle-2">
+                    Epitope
+                  </v-col>
+                  <v-col>
+                    {{ item.epitope }}
+                  </v-col>
+                </v-row>
+              </v-card-text>
             </v-card>
           </td>
         </template>
@@ -168,6 +231,8 @@ import { CloneDto } from "@airlab/shared/lib/clone/dto";
 import { speciesModule } from "@/modules/species";
 import { exportCsv } from "@/utils/exporters";
 import CloneDetailsView from "@/views/main/group/clones/CloneDetailsView.vue";
+import { getStatusColor } from "@/utils/converters";
+import { applicationEnum, statusEnum } from "@/utils/enums";
 
 @Component({
   components: {
@@ -179,6 +244,10 @@ export default class ClonesView extends Vue {
   readonly groupContext = groupModule.context(this.$store);
   readonly cloneContext = cloneModule.context(this.$store);
   readonly speciesContext = speciesModule.context(this.$store);
+
+  readonly getStatusColor = getStatusColor;
+  readonly applications = applicationEnum;
+  readonly statuses = statusEnum;
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
@@ -215,10 +284,6 @@ export default class ClonesView extends Vue {
       },
     },
     {
-      text: "Epitope",
-      value: "epitope",
-    },
-    {
       text: "Isotype",
       value: "isotype",
     },
@@ -251,6 +316,8 @@ export default class ClonesView extends Vue {
   search = "";
 
   speciesFilter: number[] = [];
+  applicationFilter: number[] = [];
+  statusFilter: number[] = [];
 
   get species() {
     return this.speciesContext.getters.species;
@@ -262,6 +329,26 @@ export default class ClonesView extends Vue {
       items = items.filter(item =>
         (item as any).species ? this.speciesFilter.includes((item as any).species.id) : false
       );
+    }
+    if (this.applicationFilter.length > 0) {
+      items = items.filter(item => {
+        for (const validation of (item as any).validations) {
+          if (this.applicationFilter.includes(validation.application)) {
+            return true;
+          }
+        }
+        return false;
+      });
+    }
+    if (this.statusFilter.length > 0) {
+      items = items.filter(item => {
+        for (const validation of (item as any).validations) {
+          if (this.statusFilter.includes(validation.status)) {
+            return true;
+          }
+        }
+        return false;
+      });
     }
     return items;
   }
@@ -275,7 +362,6 @@ export default class ClonesView extends Vue {
       item.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 ||
       (item.protein ? item.protein.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
       (item.species ? item.species.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
-      (item.epitope ? item.epitope.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
       (item.isotype ? item.isotype.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false)
     );
   }
@@ -290,13 +376,13 @@ export default class ClonesView extends Vue {
   }
 
   antibodyRegistry(clone: CloneDto) {
-    return `http://www.antibodyregistry.org/search?q=${(clone as any).protein ? (clone as any).protein.name : ""}%20${
+    return `https://www.antibodyregistry.org/search?q=${(clone as any).protein ? (clone as any).protein.name : ""}%20${
       clone.name
     }`;
   }
 
   antibodyPedia(clone: CloneDto) {
-    return `http://www.antibodypedia.com/explore/${(clone as any).protein ? (clone as any).protein.name : ""}+${
+    return `https://www.antibodypedia.com/explore/${(clone as any).protein ? (clone as any).protein.name : ""}+${
       clone.name
     }`;
   }
@@ -317,6 +403,16 @@ export default class ClonesView extends Vue {
   removeSpeciesFilter(item) {
     this.speciesFilter.splice(this.speciesFilter.indexOf(item), 1);
     this.speciesFilter = [...this.speciesFilter];
+  }
+
+  removeApplicationFilter(item) {
+    this.applicationFilter.splice(this.applicationFilter.indexOf(item), 1);
+    this.applicationFilter = [...this.applicationFilter];
+  }
+
+  removeStatusFilter(item) {
+    this.statusFilter.splice(this.statusFilter.indexOf(item), 1);
+    this.statusFilter = [...this.statusFilter];
   }
 
   exportFile() {

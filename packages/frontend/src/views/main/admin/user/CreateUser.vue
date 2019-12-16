@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import { userModule } from "@/modules/user";
-import { required, email } from "@/utils/validators";
+import { email, required } from "@/utils/validators";
 import { Component, Vue } from "vue-property-decorator";
 import { CreateUserDto } from "@airlab/shared/lib/user/dto";
 

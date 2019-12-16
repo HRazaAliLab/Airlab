@@ -1,7 +1,45 @@
 import Vue from "vue";
-import Vuetify from "vuetify/lib";
+import Vuetify, {
+  VBtn,
+  VCard,
+  VCardActions,
+  VCardText,
+  VCardTitle,
+  VChip,
+  VCol,
+  VContainer,
+  VIcon,
+  VList,
+  VListItem,
+  VListItemContent,
+  VListItemSubtitle,
+  VListItemTitle,
+  VProgressCircular,
+  VProgressLinear,
+  VRow,
+} from "vuetify/lib";
 
-Vue.use(Vuetify);
+Vue.use(Vuetify, {
+  components: {
+    VBtn,
+    VIcon,
+    VCol,
+    VRow,
+    VProgressCircular,
+    VCard,
+    VCardText,
+    VCardTitle,
+    VCardActions,
+    VContainer,
+    VProgressLinear,
+    VList,
+    VListItem,
+    VListItemContent,
+    VListItemTitle,
+    VListItemSubtitle,
+    VChip,
+  },
+});
 
 export default new Vuetify({
   theme: {

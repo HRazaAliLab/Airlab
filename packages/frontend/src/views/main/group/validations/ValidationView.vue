@@ -1,13 +1,15 @@
-<template>
+<template functional>
   <v-card tile elevation="1" class="mb-3">
     <v-card-title>
-      <v-chip :color="getStatusColor(validation)" class="mr-1" x-small dark>
-        {{ validation.application | applicationToString }}
+      <v-chip :color="$options.methods.getColor(props.validation)" class="mr-1" dark>
+        {{ props.validation.application | applicationToString }}
       </v-chip>
     </v-card-title>
     <v-card-text>
-      <div class="subtitle-1">Status: {{ validation.status | validationStatusToString }}</div>
-      <div class="grey--text">Application: {{ validation.application | applicationToString }}</div>
+      <div v-for="file in props.validation.validationFiles" :key="file.id">
+        <iframe :src="`${props.apiUrl}/validationFiles/${file.id}/serve`" allowfullscreen class="iframe" />
+        <a target="_blank" :href="`${props.apiUrl}/validationFiles/${file.id}/serve`">{{ file.name }}</a>
+      </div>
     </v-card-text>
 
     <v-card-actions>
@@ -17,8 +19,8 @@
         :to="{
           name: 'main-group-validations-edit',
           params: {
-            groupId: groupId,
-            id: validation.id,
+            groupId: props.groupId,
+            id: props.validation.id,
           },
         }"
       >
@@ -37,7 +39,22 @@ import { getStatusColor } from "@/utils/converters";
 export default class ValidationView extends Vue {
   @Prop(Number) readonly groupId!: number;
   @Prop(Object) readonly validation!: ValidationDto;
+  @Prop({
+    type: String,
+    required: true,
+  })
+  readonly apiUrl!: string;
 
-  readonly getStatusColor = getStatusColor;
+  getColor(validation) {
+    return getStatusColor(validation);
+  }
 }
 </script>
+
+<style scoped>
+.iframe {
+  width: 100%;
+  height: 400px;
+  border: 0;
+}
+</style>

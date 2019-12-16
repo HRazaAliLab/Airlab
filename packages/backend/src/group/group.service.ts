@@ -41,7 +41,7 @@ export class GroupService {
   }
 
   async findAll() {
-    this.pubSubService.broadcastMessage(UPDATES_CHANNEL_NAME, "HELLOOOO");
+    // this.pubSubService.broadcastMessage(UPDATES_CHANNEL_NAME, "HELLOOOO");
     return this.repository.find({
       relations: ["members", "members.group", "members.user"],
       order: { id: "DESC" },

@@ -1,9 +1,9 @@
-<template>
+<template functional>
   <v-progress-linear
-    :active="processing"
-    :color="color"
-    :indeterminate="indeterminate"
-    :value="progress"
+    :active="props.processing"
+    :color="props.color"
+    :indeterminate="props.indeterminate"
+    :value="props.progress"
     class="ma-0"
     height="4"
     style="top: -2px;"
