@@ -4,13 +4,19 @@ import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CreateProteinDto, ProteinDto, UpdateProteinDto } from "@airlab/shared/lib/protein/dto";
 import { MemberService } from "../member/member.service";
+import { CloneDto } from "@airlab/shared/lib/clone/dto";
+import { CloneService } from "../clone/clone.service";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
 @ApiTags("proteins")
 @ApiBearerAuth()
 export class ProteinController {
-  constructor(private readonly proteinService: ProteinService, private readonly memberService: MemberService) {}
+  constructor(
+    private readonly proteinService: ProteinService,
+    private readonly memberService: MemberService,
+    private readonly cloneService: CloneService
+  ) {}
 
   @Post("proteins")
   @ApiCreatedResponse({ description: "Create entity.", type: ProteinDto })
@@ -48,5 +54,17 @@ export class ProteinController {
   async getGroupProteins(@Request() req, @Param("groupId") groupId: number) {
     await this.memberService.checkMemberPermissions(req.user.userId, groupId);
     return this.proteinService.getGroupProteins(groupId);
+  }
+
+  @Get("proteins/:id/clones")
+  @ApiCreatedResponse({
+    description: "Find all clones belonging to the protein.",
+    type: CloneDto,
+    isArray: true,
+  })
+  async getProteinClones(@Request() req, @Param("id") id: number) {
+    const protein = await this.proteinService.findById(id);
+    await this.memberService.checkMemberPermissions(req.user.userId, protein.groupId);
+    return this.cloneService.getProteinClones(id);
   }
 }

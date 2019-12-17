@@ -4,13 +4,19 @@ import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CreateTagDto, TagDto, UpdateTagDto } from "@airlab/shared/lib/tag/dto";
 import { MemberService } from "../member/member.service";
+import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
+import { ConjugateService } from "../conjugate/conjugate.service";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
 @ApiTags("tags")
 @ApiBearerAuth()
 export class TagController {
-  constructor(private readonly tagService: TagService, private readonly memberService: MemberService) {}
+  constructor(
+    private readonly tagService: TagService,
+    private readonly memberService: MemberService,
+    private readonly conjugateService: ConjugateService
+  ) {}
 
   @Post("tags")
   @ApiCreatedResponse({ description: "Create entity.", type: TagDto })
@@ -48,5 +54,17 @@ export class TagController {
   async getGroupTags(@Request() req, @Param("groupId") groupId: number) {
     await this.memberService.checkMemberPermissions(req.user.userId, groupId);
     return this.tagService.getGroupTags(groupId);
+  }
+
+  @Get("tags/:id/conjugates")
+  @ApiCreatedResponse({
+    description: "Find all conjugates belonging to the tag.",
+    type: ConjugateDto,
+    isArray: true,
+  })
+  async getTagConjugates(@Request() req, @Param("id") id: number) {
+    const tag = await this.tagService.findById(id);
+    await this.memberService.checkMemberPermissions(req.user.userId, tag.groupId);
+    return this.conjugateService.getTagConjugates(id);
   }
 }

@@ -54,6 +54,20 @@ export class ReagentService {
       .getMany();
   }
 
+  async getProviderReagents(providerId: number) {
+    return this.repository
+      .createQueryBuilder("reagent")
+      .select(["reagent.id", "reagent.name", "reagent.reference", "reagent.meta"])
+      .leftJoin("reagent.member", "member")
+      .leftJoinAndMapOne("reagent.user", UserEntity, "user", "member.userId = user.id")
+      .where({
+        providerId: providerId,
+        isDeleted: false,
+      })
+      .orderBy("reagent.id", "DESC")
+      .getMany();
+  }
+
   private async clearCache(groupId: number) {
     await this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_reagents`]);
   }

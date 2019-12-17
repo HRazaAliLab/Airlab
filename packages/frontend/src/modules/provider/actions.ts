@@ -68,4 +68,12 @@ export class ProviderActions extends Actions<ProviderState, ProviderGetters, Pro
       await this.main!.actions.checkApiError(error);
     }
   }
+
+  async getProviderReagents(providerId: number) {
+    try {
+      return api.getProviderReagents(providerId);
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
 }

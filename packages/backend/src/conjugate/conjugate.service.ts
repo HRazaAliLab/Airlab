@@ -68,6 +68,17 @@ export class ConjugateService {
       .getMany();
   }
 
+  async getTagConjugates(tagId: number) {
+    return this.repository
+      .createQueryBuilder("conjugate")
+      .where("conjugate.tagId = :tagId", { tagId: tagId })
+      .andWhere("conjugate.isDeleted = false")
+      .leftJoin("conjugate.member", "member")
+      .leftJoinAndMapOne("conjugate.user", UserEntity, "user", "member.userId = user.id")
+      .orderBy({ "conjugate.tubeNumber": "DESC" })
+      .getMany();
+  }
+
   async lastConjugateForGroup(groupId: number) {
     const entity = await this.repository.findOne({
       select: ["tubeNumber"],

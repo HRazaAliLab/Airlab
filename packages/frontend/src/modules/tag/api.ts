@@ -1,5 +1,6 @@
 import { ApiManager } from "@/utils/api";
 import { CreateTagDto, TagDto, UpdateTagDto } from "@airlab/shared/lib/tag/dto";
+import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 
 export const api = {
   async createTag(data: CreateTagDto) {
@@ -24,5 +25,8 @@ export const api = {
   },
   async getGroupTags(groupId: number) {
     return ApiManager.api.get(`groups/${groupId}/tags`).json<TagDto[]>();
+  },
+  async getTagConjugates(tagId: number) {
+    return ApiManager.api.get(`tags/${tagId}/conjugates`).json<ConjugateDto[]>();
   },
 };

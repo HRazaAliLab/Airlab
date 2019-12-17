@@ -68,4 +68,12 @@ export class ProteinActions extends Actions<ProteinState, ProteinGetters, Protei
       await this.main!.actions.checkApiError(error);
     }
   }
+
+  async getProteinClones(proteinId: number) {
+    try {
+      return api.getProteinClones(proteinId);
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
 }

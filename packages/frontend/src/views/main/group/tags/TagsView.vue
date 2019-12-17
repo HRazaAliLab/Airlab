@@ -58,9 +58,15 @@
             </template>
             <span>Delete</span>
           </v-tooltip>
+          <v-btn text color="primary" @click.stop="showDetails(item)">
+            Details
+          </v-btn>
         </template>
       </v-data-table>
     </v-card>
+    <v-navigation-drawer v-model="drawer" right fixed temporary width="400">
+      <TagDetailsView v-if="drawer" :tag="detailsItem" />
+    </v-navigation-drawer>
   </v-col>
 </template>
 
@@ -68,8 +74,12 @@
 import { Component, Vue } from "vue-property-decorator";
 import { tagModule } from "@/modules/tag";
 import { groupModule } from "@/modules/group";
+import { TagDto } from "@airlab/shared/lib/tag/dto";
+import TagDetailsView from "@/views/main/group/tags/TagDetailsView.vue";
 
-@Component
+@Component({
+  components: { TagDetailsView },
+})
 export default class TagsView extends Vue {
   readonly groupContext = groupModule.context(this.$store);
   readonly tagContext = tagModule.context(this.$store);
@@ -116,10 +126,12 @@ export default class TagsView extends Vue {
       value: "action",
       sortable: false,
       filterable: false,
-      width: "110",
+      width: "210",
     },
   ];
 
+  drawer = false;
+  detailsItem: TagDto | null = null;
   search = "";
 
   get activeGroupId() {
@@ -128,6 +140,11 @@ export default class TagsView extends Vue {
 
   get items() {
     return this.tagContext.getters.tags;
+  }
+
+  showDetails(item: TagDto) {
+    this.detailsItem = item;
+    this.drawer = !this.drawer;
   }
 
   async mounted() {

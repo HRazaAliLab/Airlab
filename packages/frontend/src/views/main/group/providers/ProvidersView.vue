@@ -52,9 +52,15 @@
             </template>
             <span>Delete</span>
           </v-tooltip>
+          <v-btn text color="primary" @click.stop="showDetails(item)">
+            Details
+          </v-btn>
         </template>
       </v-data-table>
     </v-card>
+    <v-navigation-drawer v-model="drawer" right fixed temporary width="400">
+      <ProviderDetailsView v-if="drawer" :provider="detailsItem" />
+    </v-navigation-drawer>
   </v-col>
 </template>
 
@@ -62,8 +68,12 @@
 import { Component, Vue } from "vue-property-decorator";
 import { providerModule } from "@/modules/provider";
 import { groupModule } from "@/modules/group";
+import ProviderDetailsView from "@/views/main/group/providers/ProviderDetailsView.vue";
+import { ProviderDto } from "@airlab/shared/lib/provider/dto";
 
-@Component
+@Component({
+  components: { ProviderDetailsView },
+})
 export default class ProvidersView extends Vue {
   readonly groupContext = groupModule.context(this.$store);
   readonly providerContext = providerModule.context(this.$store);
@@ -88,10 +98,12 @@ export default class ProvidersView extends Vue {
       value: "action",
       sortable: false,
       filterable: false,
-      width: "110",
+      width: "210",
     },
   ];
 
+  drawer = false;
+  detailsItem: ProviderDto | null = null;
   search = "";
 
   get activeGroupId() {
@@ -100,6 +112,11 @@ export default class ProvidersView extends Vue {
 
   get items() {
     return this.providerContext.getters.providers;
+  }
+
+  showDetails(item: ProviderDto) {
+    this.detailsItem = item;
+    this.drawer = !this.drawer;
   }
 
   async mounted() {

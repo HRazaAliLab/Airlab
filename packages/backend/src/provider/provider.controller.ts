@@ -4,13 +4,19 @@ import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CreateProviderDto, ProviderDto, UpdateProviderDto } from "@airlab/shared/lib/provider/dto";
 import { MemberService } from "../member/member.service";
+import { ReagentDto } from "@airlab/shared/lib/reagent/dto";
+import { ReagentService } from "../reagent/reagent.service";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
 @ApiTags("providers")
 @ApiBearerAuth()
 export class ProviderController {
-  constructor(private readonly providerService: ProviderService, private readonly memberService: MemberService) {}
+  constructor(
+    private readonly providerService: ProviderService,
+    private readonly memberService: MemberService,
+    private readonly reagentService: ReagentService
+  ) {}
 
   @Post("providers")
   @ApiCreatedResponse({ description: "Create entity.", type: ProviderDto })
@@ -48,5 +54,17 @@ export class ProviderController {
   async getGroupSpecies(@Request() req, @Param("groupId") groupId: number) {
     await this.memberService.checkMemberPermissions(req.user.userId, groupId);
     return this.providerService.getGroupProviders(groupId);
+  }
+
+  @Get("providers/:id/reagents")
+  @ApiCreatedResponse({
+    description: "Find all reagents belonging to the provider.",
+    type: ReagentDto,
+    isArray: true,
+  })
+  async getProviderReagents(@Request() req, @Param("id") id: number) {
+    const provider = await this.providerService.findById(id);
+    await this.memberService.checkMemberPermissions(req.user.userId, provider.groupId);
+    return this.reagentService.getProviderReagents(id);
   }
 }

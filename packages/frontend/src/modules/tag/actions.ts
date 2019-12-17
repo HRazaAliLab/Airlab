@@ -68,4 +68,12 @@ export class TagActions extends Actions<TagState, TagGetters, TagMutations, TagA
       await this.main!.actions.checkApiError(error);
     }
   }
+
+  async getTagConjugates(tagId: number) {
+    try {
+      return api.getTagConjugates(tagId);
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
 }

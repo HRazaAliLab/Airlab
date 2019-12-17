@@ -1,5 +1,6 @@
 import { ApiManager } from "@/utils/api";
 import { CreateProteinDto, ProteinDto, UpdateProteinDto } from "@airlab/shared/lib/protein/dto";
+import { CloneDto } from "@airlab/shared/lib/clone/dto";
 
 export const api = {
   async createProtein(data: CreateProteinDto) {
@@ -24,5 +25,8 @@ export const api = {
   },
   async getGroupProteins(groupId: number) {
     return ApiManager.api.get(`groups/${groupId}/proteins`).json<ProteinDto[]>();
+  },
+  async getProteinClones(proteinId: number) {
+    return ApiManager.api.get(`proteins/${proteinId}/clones`).json<CloneDto[]>();
   },
 };
