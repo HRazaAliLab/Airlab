@@ -34,6 +34,31 @@
               </v-chip>
             </template>
           </v-select>
+          <v-select
+            v-model="statusFilter"
+            :items="statuses"
+            item-text="name"
+            item-value="id"
+            chips
+            clearable
+            label="Status"
+            multiple
+            prepend-icon="mdi-filter-outline"
+            solo
+            dense
+          >
+            <template v-slot:selection="{ attrs, item, select, selected }">
+              <v-chip
+                v-bind="attrs"
+                :input-value="selected"
+                close
+                @click="select"
+                @click:close="removeStatusFilter(item)"
+              >
+                {{ item.name }}
+              </v-chip>
+            </template>
+          </v-select>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -60,7 +85,7 @@
       >
         <template v-slot:item.lot.clone.protein="{ item }">
           <router-link
-            v-if="item.lot.clone.protein"
+            v-if="item.lot && item.lot.clone && item.lot.clone.protein"
             class="link"
             :to="{
               name: 'main-group-proteins-edit',
@@ -75,7 +100,7 @@
         </template>
         <template v-slot:item.lot.clone="{ item }">
           <router-link
-            v-if="item.lot.clone"
+            v-if="item.lot && item.lot.clone"
             class="link"
             :to="{
               name: 'main-group-clones-edit',
@@ -133,8 +158,10 @@
             {{ item.user.name }}
           </router-link>
         </template>
-        <template v-slot:item.isLow="{ item }">
-          <v-icon v-if="item.isLow">mdi-check</v-icon>
+        <template v-slot:item.status="{ item }">
+          <v-chip :color="getConjugateStatusColor(item)" class="mr-1" small dark label>
+            {{ item.status | conjugateStatusToString }}
+          </v-chip>
         </template>
         <template v-slot:item.action="{ item }">
           <v-tooltip bottom>
@@ -195,6 +222,7 @@ import { conjugateModule } from "@/modules/conjugate";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 import { tagModule } from "@/modules/tag";
 import ConjugateDetailsView from "@/views/main/group/conjugates/ConjugateDetailsView.vue";
+import { getConjugateStatusColor } from "@/utils/converters";
 
 @Component({
   components: {
@@ -206,6 +234,14 @@ export default class ConjugatesViews extends Vue {
   readonly groupContext = groupModule.context(this.$store);
   readonly tagContext = tagModule.context(this.$store);
   readonly conjugateContext = conjugateModule.context(this.$store);
+
+  readonly getConjugateStatusColor = getConjugateStatusColor;
+
+  readonly statuses = [
+    { id: 0, name: "Normal" },
+    { id: 1, name: "Low" },
+    { id: 2, name: "Finished" },
+  ];
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
@@ -286,8 +322,8 @@ export default class ConjugatesViews extends Vue {
       align: "end",
     },
     {
-      text: "Is Low",
-      value: "isLow",
+      text: "Status",
+      value: "status",
       filterable: false,
     },
     {
@@ -304,6 +340,7 @@ export default class ConjugatesViews extends Vue {
   search = "";
 
   tagFilter: number[] = [];
+  statusFilter: number[] = [];
 
   get tags() {
     return this.tagContext.getters.tags.map(item => ({
@@ -323,6 +360,9 @@ export default class ConjugatesViews extends Vue {
     }));
     if (this.tagFilter.length > 0) {
       items = items.filter(item => ((item as any).tag ? this.tagFilter.includes((item as any).tag.id) : false));
+    }
+    if (this.statusFilter.length > 0) {
+      items = items.filter(item => this.statusFilter.includes(item.status));
     }
     return items;
   }
@@ -365,6 +405,11 @@ export default class ConjugatesViews extends Vue {
   removeTagFilter(item) {
     this.tagFilter.splice(this.tagFilter.indexOf(item), 1);
     this.tagFilter = [...this.tagFilter];
+  }
+
+  removeStatusFilter(item) {
+    this.statusFilter.splice(this.statusFilter.indexOf(item), 1);
+    this.statusFilter = [...this.statusFilter];
   }
 }
 </script>

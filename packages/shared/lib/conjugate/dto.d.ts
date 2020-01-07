@@ -4,12 +4,10 @@ export declare class ConjugateDto {
     readonly createdBy: number;
     readonly lotId: number;
     readonly tagId: number;
-    readonly finishedBy: number;
-    readonly finishedAt: string;
+    readonly status: number;
     readonly tubeNumber: number;
     readonly concentration: string;
     readonly description: string;
-    readonly isLow: boolean;
     readonly isDeleted: boolean;
     readonly meta: object;
     readonly labeledAt: string;
@@ -31,6 +29,6 @@ export declare class UpdateConjugateDto {
     readonly tubeNumber: number;
     readonly concentration: string;
     readonly description: string;
-    readonly isLow: boolean;
+    readonly status: number;
 }
 //# sourceMappingURL=dto.d.ts.map

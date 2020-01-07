@@ -370,24 +370,19 @@ async function migrateConjugate() {
     }
 
     const sql =
-      'INSERT INTO "conjugate"(id, group_id, created_by, lot_id, tag_id, finished_by, finished_at, tube_number, concentration, is_low, is_deleted, description, labeled_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)';
+      'INSERT INTO "conjugate"(id, group_id, created_by, lot_id, tag_id, status, tube_number, concentration, is_deleted, description, labeled_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)';
+
+    const status = row["tubFinishedBy"] > 0 ? 2 : row["tubIsLow"] !== 0 ? 1 : 0;
+
     const values = [
       row["labLabeledAntibodyId"],
       row["groupId"],
       [0].includes(row["createdBy"]) ? 5 : row["createdBy"],
       row["labLotId"],
       row["labTagId"],
-      [0, 76, 90].includes(row["tubFinishedBy"]) ? null : row["tubFinishedBy"],
-      row["tubFinishedAt"] === "" || row["tubFinishedAt"] === null || row["tubFinishedAt"] === "0"
-        ? null
-        : row["tubFinishedAt"]
-            .replace("0000", "")
-            .replace("0100", "")
-            .replace("0200", "")
-            .trim(),
+      status,
       row["labBBTubeNumber"],
       row["labConcentration"],
-      row["tubIsLow"] === 0 ? false : true,
       row["deleted"],
       row["catchedInfo"],
       row["labDateOfLabeling"] === "" || row["labDateOfLabeling"] === null || row["labDateOfLabeling"] === "0"

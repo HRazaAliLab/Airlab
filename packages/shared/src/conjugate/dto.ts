@@ -18,10 +18,7 @@ export class ConjugateDto {
   readonly tagId: number;
 
   @ApiProperty()
-  readonly finishedBy: number;
-
-  @ApiProperty()
-  readonly finishedAt: string;
+  readonly status: number;
 
   @ApiProperty()
   readonly tubeNumber: number;
@@ -31,9 +28,6 @@ export class ConjugateDto {
 
   @ApiProperty()
   readonly description: string;
-
-  @ApiProperty()
-  readonly isLow: boolean;
 
   @ApiProperty()
   readonly isDeleted: boolean;
@@ -100,7 +94,7 @@ export class UpdateConjugateDto {
   @ApiProperty()
   readonly description: string;
 
-  @IsBoolean()
+  @IsInt()
   @ApiProperty()
-  readonly isLow: boolean;
+  readonly status: number;
 }

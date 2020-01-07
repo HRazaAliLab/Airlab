@@ -27,7 +27,15 @@
           <v-text-field label="Tube Number" v-model.number="tubeNumber" :rules="tubeNumberRules" />
           <v-text-field label="Concentration (in ug/ml)" v-model="concentration" :rules="concentrationRules" />
           <v-text-field label="Description" v-model="description" :rules="descriptionRules" />
-          <v-checkbox label="Is Low" v-model="isLow" />
+          <v-select
+            label="Status"
+            v-model="status"
+            :items="statuses"
+            item-value="id"
+            item-text="name"
+            clearable
+            dense
+          />
         </v-form>
       </v-card-text>
       <v-card-actions>
@@ -64,13 +72,19 @@ export default class EditConjugate extends Vue {
   readonly concentrationRules = [required];
   readonly descriptionRules = [];
 
+  readonly statuses = [
+    { id: 0, name: "Normal" },
+    { id: 1, name: "Low" },
+    { id: 2, name: "Finished" },
+  ];
+
   valid = false;
   lotId: number | null = null;
   tagId: number | null = null;
   tubeNumber: number | null = null;
   concentration = "";
   description = "";
-  isLow = false;
+  status = 0;
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
@@ -105,7 +119,7 @@ export default class EditConjugate extends Vue {
       this.tubeNumber = this.conjugate.tubeNumber;
       this.concentration = this.conjugate.concentration;
       this.description = this.conjugate.description;
-      this.isLow = this.conjugate.isLow;
+      this.status = this.conjugate.status;
     }
   }
 
@@ -126,7 +140,7 @@ export default class EditConjugate extends Vue {
         tubeNumber: Number(this.tubeNumber),
         concentration: this.concentration,
         description: this.description,
-        isLow: this.isLow,
+        status: this.status,
       };
       await this.conjugateContext.actions.updateConjugate({
         id: this.conjugate.id,

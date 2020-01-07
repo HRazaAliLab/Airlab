@@ -36,11 +36,7 @@ __decorate([
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Number)
-], ConjugateDto.prototype, "finishedBy", void 0);
-__decorate([
-    swagger_1.ApiProperty(),
-    __metadata("design:type", String)
-], ConjugateDto.prototype, "finishedAt", void 0);
+], ConjugateDto.prototype, "status", void 0);
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Number)
@@ -53,10 +49,6 @@ __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], ConjugateDto.prototype, "description", void 0);
-__decorate([
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Boolean)
-], ConjugateDto.prototype, "isLow", void 0);
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Boolean)
@@ -139,9 +131,9 @@ __decorate([
     __metadata("design:type", String)
 ], UpdateConjugateDto.prototype, "description", void 0);
 __decorate([
-    class_validator_1.IsBoolean(),
+    class_validator_1.IsInt(),
     swagger_1.ApiProperty(),
-    __metadata("design:type", Boolean)
-], UpdateConjugateDto.prototype, "isLow", void 0);
+    __metadata("design:type", Number)
+], UpdateConjugateDto.prototype, "status", void 0);
 exports.UpdateConjugateDto = UpdateConjugateDto;
 //# sourceMappingURL=dto.js.map

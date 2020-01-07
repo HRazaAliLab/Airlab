@@ -8,12 +8,13 @@ import router from "@/router";
 import store from "@/store";
 import Vue from "vue";
 import "@mdi/font/css/materialdesignicons.css";
-import { applicationToString, validationStatusToString } from "@/utils/converters"; // Ensure you are using css-loader
+import { applicationToString, conjugateStatusToString, validationStatusToString } from "@/utils/converters"; // Ensure you are using css-loader
 
 Vue.config.productionTip = false;
 
 Vue.filter("applicationToString", applicationToString);
 Vue.filter("validationStatusToString", validationStatusToString);
+Vue.filter("conjugateStatusToString", conjugateStatusToString);
 
 new Vue({
   router: router,

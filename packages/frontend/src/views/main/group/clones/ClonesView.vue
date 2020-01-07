@@ -91,6 +91,31 @@
               </v-chip>
             </template>
           </v-select>
+          <v-select
+            v-model="reactivityFilter"
+            :items="species"
+            item-text="name"
+            item-value="id"
+            chips
+            clearable
+            label="Reactivity"
+            multiple
+            prepend-icon="mdi-filter-outline"
+            solo
+            dense
+          >
+            <template v-slot:selection="{ attrs, item, select, selected }">
+              <v-chip
+                v-bind="attrs"
+                :input-value="selected"
+                close
+                @click="select"
+                @click:close="removeReactivityFilter(item)"
+              >
+                {{ item.name }}
+              </v-chip>
+            </template>
+          </v-select>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -318,6 +343,7 @@ export default class ClonesView extends Vue {
   speciesFilter: number[] = [];
   applicationFilter: number[] = [];
   statusFilter: number[] = [];
+  reactivityFilter: number[] = [];
 
   get species() {
     return this.speciesContext.getters.species;
@@ -349,6 +375,9 @@ export default class ClonesView extends Vue {
         }
         return false;
       });
+    }
+    if (this.reactivityFilter.length > 0) {
+      items = items.filter(item => item.reactivity.some(element => this.reactivityFilter.includes(element)));
     }
     return items;
   }
@@ -413,6 +442,11 @@ export default class ClonesView extends Vue {
   removeStatusFilter(item) {
     this.statusFilter.splice(this.statusFilter.indexOf(item), 1);
     this.statusFilter = [...this.statusFilter];
+  }
+
+  removeReactivityFilter(item) {
+    this.reactivityFilter.splice(this.reactivityFilter.indexOf(item), 1);
+    this.reactivityFilter = [...this.reactivityFilter];
   }
 
   exportFile() {

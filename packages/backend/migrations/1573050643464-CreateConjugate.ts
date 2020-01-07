@@ -29,14 +29,9 @@ export class CreateConjugate1573050643464 implements MigrationInterface {
             type: "int",
           },
           {
-            name: "finished_by",
+            name: "status",
             type: "int",
-            isNullable: true,
-          },
-          {
-            name: "finished_at",
-            type: "timestamptz",
-            isNullable: true,
+            default: 0,
           },
           {
             name: "tube_number",
@@ -52,11 +47,6 @@ export class CreateConjugate1573050643464 implements MigrationInterface {
             name: "description",
             type: "varchar",
             isNullable: true,
-          },
-          {
-            name: "is_low",
-            type: "boolean",
-            default: false,
           },
           {
             name: "is_deleted",
@@ -114,13 +104,6 @@ export class CreateConjugate1573050643464 implements MigrationInterface {
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
-          {
-            name: "FK_conjugate_finished_by_to_member",
-            referencedTableName: "member",
-            columnNames: ["finished_by"],
-            referencedColumnNames: ["id"],
-            onDelete: "cascade",
-          },
         ],
         indices: [
           {
@@ -138,6 +121,10 @@ export class CreateConjugate1573050643464 implements MigrationInterface {
           {
             name: "IDX_conjugate_tag_id",
             columnNames: ["tag_id"],
+          },
+          {
+            name: "IDX_conjugate_status",
+            columnNames: ["status"],
           },
           {
             name: "IDX_conjugate_tube_number",

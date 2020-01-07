@@ -127,7 +127,7 @@ export default class CreatePanel extends Vue {
   get conjugates() {
     let items = this.conjugateContext.getters.getConjugatesForTag(this.tag.id);
     if (!this.showEmpty) {
-      items = items.filter(item => !item.finishedBy);
+      items = items.filter(item => item.status !== 2);
     }
     return items;
   }
@@ -142,8 +142,8 @@ export default class CreatePanel extends Vue {
   }
 
   getConjugateColor(conjugate: ConjugateDto, isSelected: boolean) {
-    const isOver = Number(conjugate.finishedBy) > 0;
-    const isLow = conjugate.isLow;
+    const isOver = conjugate.status === 2;
+    const isLow = conjugate.status === 1;
     if (isSelected) {
       if (isOver) {
         return "red";

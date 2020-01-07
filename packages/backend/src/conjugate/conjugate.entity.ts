@@ -35,14 +35,9 @@ export class ConjugateEntity {
   tagId: number;
 
   @Column({
-    name: "finished_by",
+    name: "status",
   })
-  finishedBy: number;
-
-  @Column({
-    name: "finished_at",
-  })
-  finishedAt: string;
+  status: number;
 
   @Column({
     name: "tube_number",
@@ -58,11 +53,6 @@ export class ConjugateEntity {
     name: "description",
   })
   description: string;
-
-  @Column({
-    name: "is_low",
-  })
-  isLow: boolean;
 
   @Column({
     name: "is_deleted",
