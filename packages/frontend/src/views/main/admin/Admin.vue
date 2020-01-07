@@ -10,7 +10,7 @@ import { Component, Vue } from "vue-property-decorator";
 const mainContext = mainModule.context(store);
 
 const routeGuardAdmin = async (to, from, next) => {
-  if (!mainContext.getters.hasAdminAccess) {
+  if (!mainContext.getters.isAdmin) {
     next("/main");
   } else {
     next();

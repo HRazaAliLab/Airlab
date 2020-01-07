@@ -90,19 +90,6 @@ __decorate([
     __metadata("design:type", Boolean)
 ], UpdateGroupDto.prototype, "isOpen", void 0);
 exports.UpdateGroupDto = UpdateGroupDto;
-class RequestJoinGroupDto {
-}
-__decorate([
-    class_validator_1.IsInt(),
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Number)
-], RequestJoinGroupDto.prototype, "groupId", void 0);
-__decorate([
-    class_validator_1.IsInt(),
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Number)
-], RequestJoinGroupDto.prototype, "userId", void 0);
-exports.RequestJoinGroupDto = RequestJoinGroupDto;
 class InviteDto {
 }
 __decorate([

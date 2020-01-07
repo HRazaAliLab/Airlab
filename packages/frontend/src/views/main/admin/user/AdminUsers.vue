@@ -6,7 +6,7 @@
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text to="/main/admin/users/create">Create User</v-btn>
+        <v-btn v-if="isAdmin" text to="/main/admin/users/create">Create User</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -52,10 +52,12 @@
 <script lang="ts">
 import { userModule } from "@/modules/user";
 import { Component, Vue } from "vue-property-decorator";
+import { mainModule } from "@/modules/main";
 
 @Component
 export default class AdminUsers extends Vue {
   readonly userContext = userModule.context(this.$store);
+  readonly mainContext = mainModule.context(this.$store);
 
   readonly headers = [
     {
@@ -104,6 +106,10 @@ export default class AdminUsers extends Vue {
   ];
 
   search = "";
+
+  get isAdmin() {
+    return this.mainContext.getters.isAdmin;
+  }
 
   get items() {
     return this.userContext.getters.users;

@@ -25,4 +25,7 @@ export const api = {
   async deleteGroup(id: number) {
     return ApiManager.api.delete(`groups/${id}`).json<number>();
   },
+  async joinGroup(id: number) {
+    return ApiManager.api.post(`groups/${id}/join`).json<boolean>();
+  },
 };

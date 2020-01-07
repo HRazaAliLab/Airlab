@@ -19,10 +19,6 @@ export declare class UpdateGroupDto {
     readonly url: string | null;
     readonly isOpen: boolean;
 }
-export declare class RequestJoinGroupDto {
-    readonly groupId: number;
-    readonly userId: number;
-}
 export declare class InviteDto {
     readonly groupId: number;
     readonly userId: number;

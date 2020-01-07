@@ -2,12 +2,6 @@ import { Getters } from "vuex-smart-module";
 import { MainState } from ".";
 
 export class MainGetters extends Getters<MainState> {
-  get hasAdminAccess() {
-    // TODO: fix this
-    return true;
-    // return this.userProfile && this.userProfile.is_superuser && this.userProfile.is_active;
-  }
-
   get loginError() {
     return this.state.logInError;
   }
@@ -42,5 +36,9 @@ export class MainGetters extends Getters<MainState> {
 
   get processingProgress() {
     return this.state.processingProgress;
+  }
+
+  get isAdmin() {
+    return this.state.userProfile ? this.state.userProfile.isAdmin : false;
   }
 }

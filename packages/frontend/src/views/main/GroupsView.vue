@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import GroupCard from "@/components/GroupCard.vue";
+import GroupCard from "@/views/main/GroupCard.vue";
 import { mainModule } from "@/modules/main";
 import { Component, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";

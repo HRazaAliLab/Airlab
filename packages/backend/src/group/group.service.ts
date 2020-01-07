@@ -5,8 +5,8 @@ import { GroupEntity } from "./group.entity";
 import { MemberService } from "../member/member.service";
 import * as crypto from "crypto";
 import { CreateGroupDto, InviteDto, UpdateGroupDto } from "@airlab/shared/lib/group/dto";
-import { UPDATES_CHANNEL_NAME } from "@airlab/shared/lib/events/channels";
 import { PubSubService } from "../pubsub/pubsub.service";
+import {UserEntity} from "../user/user.entity";
 
 const privateKey = "fsdfC987XXasdf979werl$#";
 
@@ -41,18 +41,16 @@ export class GroupService {
   }
 
   async findAll() {
-    // this.pubSubService.broadcastMessage(UPDATES_CHANNEL_NAME, "HELLOOOO");
-    return this.repository.find({
-      relations: ["members", "members.group", "members.user"],
-      order: { id: "DESC" },
-      cache: {
-        id: `groups`,
-        milliseconds: 1000 * 60 * 60,
-      },
-    });
+    return this.repository
+      .createQueryBuilder("group")
+      .leftJoin("group.members", "members")
+      .addSelect(["members.userId"])
+      .orderBy({ "group.id": "DESC" })
+      .cache(`groups`, 1000 * 60 * 60)
+      .getMany();
   }
 
-  async requestJoinGroup(userId: number, groupId: number) {
+  async joinGroup(userId: number, groupId: number) {
     const group = await this.findById(groupId);
     if (!group) {
       throw new NotFoundException("Group not found");

@@ -68,4 +68,18 @@ export class GroupActions extends Actions<GroupState, GroupGetters, GroupMutatio
       await this.main!.actions.checkApiError(error);
     }
   }
+
+  async joinGroup(id: number) {
+    try {
+      const result = await api.joinGroup(id);
+      if (result) {
+        this.main!.mutations.addNotification({
+          content: "Request to join the group successfully submitted",
+          color: "success",
+        });
+      }
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
 }

@@ -6,7 +6,7 @@
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text to="/main/admin/groups/create">Create Group</v-btn>
+        <v-btn v-if="isAdmin" text to="/main/admin/groups/create">Create Group</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -64,10 +64,12 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
+import { mainModule } from "@/modules/main";
 
 @Component
 export default class AdminGroups extends Vue {
   readonly groupContext = groupModule.context(this.$store);
+  readonly mainContext = mainModule.context(this.$store);
 
   readonly headers = [
     {
@@ -108,6 +110,10 @@ export default class AdminGroups extends Vue {
   ];
 
   search = "";
+
+  get isAdmin() {
+    return this.mainContext.getters.isAdmin;
+  }
 
   get items() {
     return this.groupContext.getters.groups;

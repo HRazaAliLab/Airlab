@@ -1,10 +1,11 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { GroupService } from "./group.service";
-import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { Roles } from "../auth/roles.decorator";
 import { RolesGuard } from "../auth/roles.guard";
-import { CreateGroupDto, GroupDto, InviteDto, RequestJoinGroupDto, UpdateGroupDto } from "@airlab/shared/lib/group/dto";
+import { CreateGroupDto, GroupDto, InviteDto, UpdateGroupDto } from "@airlab/shared/lib/group/dto";
+import { JwtPayloadDto } from "@airlab/shared/lib/auth/dto";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
@@ -22,13 +23,13 @@ export class GroupController {
   }
 
   @Get("groups")
-  @ApiCreatedResponse({ description: "Find all entities.", type: GroupDto, isArray: true })
+  @ApiOkResponse({ description: "Find all entities.", type: GroupDto, isArray: true })
   findAll() {
     return this.groupService.findAll();
   }
 
   @Get("groups/:id")
-  @ApiCreatedResponse({ description: "Find entity by Id.", type: GroupDto })
+  @ApiOkResponse({ description: "Find entity by Id.", type: GroupDto })
   findById(@Param("id") id: number) {
     return this.groupService.findById(id);
   }
@@ -36,7 +37,7 @@ export class GroupController {
   @Patch("groups/:id")
   @Roles("admin")
   @UseGuards(RolesGuard)
-  @ApiCreatedResponse({ description: "Updated entity.", type: GroupDto })
+  @ApiOkResponse({ description: "Updated entity.", type: GroupDto })
   async update(@Param("id") id: number, @Body() params: UpdateGroupDto) {
     return this.groupService.update(id, params);
   }
@@ -44,19 +45,20 @@ export class GroupController {
   @Delete("groups/:id")
   @Roles("admin")
   @UseGuards(RolesGuard)
-  @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
+  @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     return this.groupService.deleteById(id);
   }
 
-  @Post("groups/join")
-  @ApiCreatedResponse({ description: "Send request to join the group.", type: Boolean })
-  async requestJoinGroup(@Body() params: RequestJoinGroupDto) {
-    return this.groupService.requestJoinGroup(params.userId, params.groupId);
+  @Post("groups/:id/join")
+  @ApiOkResponse({ description: "Send request to join the group.", type: Boolean })
+  async joinGroup(@Request() req, @Param("id") id: number) {
+    const user: JwtPayloadDto = req.user;
+    return this.groupService.joinGroup(user.userId, id);
   }
 
   @Post("groups/invite")
-  @ApiCreatedResponse({ description: "Invite user to join the group.", type: Boolean })
+  @ApiOkResponse({ description: "Invite user to join the group.", type: Boolean })
   async invite(@Body() params: InviteDto) {
     return this.groupService.invite(params);
   }

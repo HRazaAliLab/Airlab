@@ -62,16 +62,6 @@ export class UpdateGroupDto {
   readonly isOpen: boolean;
 }
 
-export class RequestJoinGroupDto {
-  @IsInt()
-  @ApiProperty()
-  readonly groupId: number;
-
-  @IsInt()
-  @ApiProperty()
-  readonly userId: number;
-}
-
 export class InviteDto {
   @IsInt()
   @ApiProperty()

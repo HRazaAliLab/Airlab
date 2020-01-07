@@ -1,5 +1,5 @@
 import { UserService } from "./user.service";
-import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { JwtPayloadDto } from "@airlab/shared/lib/auth/dto";
@@ -30,28 +30,30 @@ export class UserController {
   }
 
   @Get("users/profile")
-  @ApiCreatedResponse({ description: "Get personal profile.", type: ProfileDto })
+  @ApiOkResponse({ description: "Get personal profile.", type: ProfileDto })
   profile(@Request() req) {
     const user: JwtPayloadDto = req.user;
     return this.userService.findById(user.userId);
   }
 
   @Patch("users/profile")
-  @ApiCreatedResponse({ description: "Update personal profile.", type: ProfileDto })
+  @ApiOkResponse({ description: "Update personal profile.", type: ProfileDto })
   async updateProfile(@Request() req, @Body() params: UpdateProfileDto) {
     const user: JwtPayloadDto = req.user;
     return this.userService.update(user.userId, params);
   }
 
   @Patch("users/profile/password")
-  @ApiCreatedResponse({ description: "Update personal password.", type: ProfileDto })
+  @ApiOkResponse({ description: "Update personal password.", type: ProfileDto })
   async updatePassword(@Request() req, @Body() params: UpdatePasswordDto) {
     const user: JwtPayloadDto = req.user;
     return this.userService.updatePassword(user.userId, params);
   }
 
   @Get("users/:id")
-  @ApiCreatedResponse({ description: "Find entity by Id.", type: UserDto })
+  @Roles("admin")
+  @UseGuards(RolesGuard)
+  @ApiOkResponse({ description: "Find entity by Id.", type: UserDto })
   findById(@Param("id") id: number) {
     return this.userService.findById(id);
   }
@@ -59,7 +61,7 @@ export class UserController {
   @Patch("users/:id")
   @Roles("admin")
   @UseGuards(RolesGuard)
-  @ApiCreatedResponse({ description: "Update entity.", type: UserDto })
+  @ApiOkResponse({ description: "Update entity.", type: UserDto })
   async update(@Param("id") id: number, @Body() params: UpdateUserDto) {
     return this.userService.update(id, params);
   }
@@ -67,13 +69,13 @@ export class UserController {
   @Delete("users/:id")
   @Roles("admin")
   @UseGuards(RolesGuard)
-  @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
+  @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     return this.userService.deleteById(id);
   }
 
   @Get("users")
-  @ApiCreatedResponse({ description: "Find all entities.", type: UserDto, isArray: true })
+  @ApiOkResponse({ description: "Find all entities.", type: UserDto, isArray: true })
   findAll() {
     return this.userService.findAll();
   }

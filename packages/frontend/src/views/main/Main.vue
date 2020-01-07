@@ -95,8 +95,8 @@
               <v-list-item-title>Members</v-list-item-title>
             </v-list-item>
           </v-list>
-          <v-divider v-if="hasAdminAccess" />
-          <v-list dense subheader v-if="hasAdminAccess">
+          <v-divider v-if="isAdmin" />
+          <v-list dense subheader v-if="isAdmin">
             <v-subheader class="grey--text text--darken-1">Admin</v-subheader>
             <v-list-item to="/main/admin/users">
               <v-list-item-action>
@@ -218,8 +218,8 @@ export default class Main extends Vue {
     this.mainContext.mutations.setDashboardMiniDrawer(!this.mainContext.getters.dashboardMiniDrawer);
   }
 
-  get hasAdminAccess() {
-    return this.mainContext.getters.hasAdminAccess;
+  get isAdmin() {
+    return this.mainContext.getters.isAdmin;
   }
 
   get activeGroupId() {
