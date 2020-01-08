@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpException, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { MemberService } from "./member.service";
-import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CreateMemberDto, MemberDto, UpdateMemberDto } from "@airlab/shared/lib/member/dto";
 
@@ -23,7 +23,7 @@ export class MemberController {
   }
 
   @Get("members/:id")
-  @ApiCreatedResponse({ description: "Find entity by Id.", type: MemberDto })
+  @ApiOkResponse({ description: "Find entity by Id.", type: MemberDto })
   async findById(@Request() req, @Param("id") id: number) {
     const item = await this.memberService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -31,7 +31,7 @@ export class MemberController {
   }
 
   @Patch("members/:id")
-  @ApiCreatedResponse({ description: "Updated entity.", type: MemberDto })
+  @ApiOkResponse({ description: "Updated entity.", type: MemberDto })
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdateMemberDto) {
     const item = await this.memberService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -39,7 +39,7 @@ export class MemberController {
   }
 
   @Delete("members/:id")
-  @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
+  @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.memberService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -47,7 +47,7 @@ export class MemberController {
   }
 
   @Get("groups/:groupId/members")
-  @ApiCreatedResponse({ description: "Find all members of the group.", type: MemberDto, isArray: true })
+  @ApiOkResponse({ description: "Find all members of the group.", type: MemberDto, isArray: true })
   async getGroupMembers(@Request() req, @Param("groupId") groupId: number) {
     await this.memberService.checkMemberPermissions(req.user.userId, groupId);
     return this.memberService.getGroupMembers(groupId);

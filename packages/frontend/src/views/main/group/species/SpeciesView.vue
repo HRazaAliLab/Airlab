@@ -52,9 +52,15 @@
             </template>
             <span>Delete</span>
           </v-tooltip>
+          <v-btn text color="primary" @click.stop="showDetails(item)">
+            Details
+          </v-btn>
         </template>
       </v-data-table>
     </v-card>
+    <v-navigation-drawer v-model="drawer" right fixed temporary width="600">
+      <SpeciesDetailsView v-if="drawer" :species="detailsItem" />
+    </v-navigation-drawer>
   </v-col>
 </template>
 
@@ -62,8 +68,12 @@
 import { Component, Vue } from "vue-property-decorator";
 import { speciesModule } from "@/modules/species";
 import { groupModule } from "@/modules/group";
+import { SpeciesDto } from "@airlab/shared/lib/species/dto";
+import SpeciesDetailsView from "@/views/main/group/species/SpeciesDetailsView.vue";
 
-@Component
+@Component({
+  components: { SpeciesDetailsView },
+})
 export default class SpeciesView extends Vue {
   readonly groupContext = groupModule.context(this.$store);
   readonly speciesContext = speciesModule.context(this.$store);
@@ -94,10 +104,12 @@ export default class SpeciesView extends Vue {
       value: "action",
       sortable: false,
       filterable: false,
-      width: "110",
+      width: "210",
     },
   ];
 
+  drawer = false;
+  detailsItem: SpeciesDto | null = null;
   search = "";
 
   get activeGroupId() {
@@ -106,6 +118,11 @@ export default class SpeciesView extends Vue {
 
   get items() {
     return this.speciesContext.getters.species;
+  }
+
+  showDetails(item: SpeciesDto) {
+    this.detailsItem = item;
+    this.drawer = !this.drawer;
   }
 
   async mounted() {

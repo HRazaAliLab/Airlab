@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Logger, Param, Patch, Post, Res } from "@nestjs/common";
 import { ValidationFileService } from "./validationFile.service";
-import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import {
   CreateValidationFileDto,
   ValidationFileDto,
@@ -18,25 +18,25 @@ export class ValidationFileController {
   private readonly logger = new Logger(ValidationFileController.name);
 
   @Get()
-  @ApiCreatedResponse({ description: "Find all entities.", type: ValidationFileDto, isArray: true })
+  @ApiOkResponse({ description: "Find all entities.", type: ValidationFileDto, isArray: true })
   findAll() {
     return this.fileService.findAll();
   }
 
   @Get(":id")
-  @ApiCreatedResponse({ description: "Find entity by Id.", type: ValidationFileDto })
+  @ApiOkResponse({ description: "Find entity by Id.", type: ValidationFileDto })
   findById(@Param("id") id: number) {
     return this.fileService.findById(id);
   }
 
   @Delete(":id")
-  @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
+  @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
   deleteById(@Param("id") id: number) {
     return this.fileService.deleteById(id);
   }
 
   @Get(":id/serve")
-  @ApiCreatedResponse({ description: "Find entity by Id." })
+  @ApiOkResponse({ description: "Find entity by Id." })
   async serve(@Param("id") id: number, @Res() res: Response) {
     const file = await this.fileService.findById(id);
     const dir = `/data/groups/${file.validation.groupId}/uploads/validation/${file.validation.id}`;
@@ -59,19 +59,19 @@ export class ValidationFileController {
   }
 
   @Patch(":id")
-  @ApiCreatedResponse({ description: "Updated entity.", type: ValidationFileDto })
+  @ApiOkResponse({ description: "Updated entity.", type: ValidationFileDto })
   async update(@Param("id") id: number, @Body() params: UpdateValidationFileDto) {
     return this.fileService.update(id, params);
   }
 
   @Get("group/:groupId")
-  @ApiCreatedResponse({ description: "Find all files for the group.", type: ValidationFileDto, isArray: true })
+  @ApiOkResponse({ description: "Find all files for the group.", type: ValidationFileDto, isArray: true })
   getAllFilesForGroup(@Param("groupId") groupId: number) {
     return this.fileService.getAllFilesForGroup(groupId);
   }
 
   @Get("memberId/:memberId")
-  @ApiCreatedResponse({ description: "Find all files for the group member.", type: ValidationFileDto, isArray: true })
+  @ApiOkResponse({ description: "Find all files for the group member.", type: ValidationFileDto, isArray: true })
   getAllFilesForMember(@Param("memberId") memberId: number) {
     return this.fileService.getAllFilesForMember(memberId);
   }

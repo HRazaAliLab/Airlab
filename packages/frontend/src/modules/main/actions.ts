@@ -121,9 +121,9 @@ export class MainActions extends Actions<MainState, MainGetters, MainMutations, 
     this.mutations.addNotification({ content: error.message, color: "error" });
     if (error.response) {
       console.error("API error: ", error.response);
-      if (error.response.status === 401) {
-        // await this.actions.logOut();
-      }
+      // if (error.response.status === 401) {
+      //   await this.actions.logOut();
+      // }
     }
   }
 

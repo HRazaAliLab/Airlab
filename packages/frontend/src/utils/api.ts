@@ -21,7 +21,10 @@ export class ApiManager {
             if (!response.ok) {
               try {
                 const errorJson = await response.json();
-                return new Response(null, { status: errorJson.statusCode, statusText: errorJson.message });
+                return new Response(null, {
+                  status: errorJson.statusCode,
+                  statusText: errorJson.message ? errorJson.message : errorJson.error,
+                });
               } catch (e) {
                 console.log(e);
               }

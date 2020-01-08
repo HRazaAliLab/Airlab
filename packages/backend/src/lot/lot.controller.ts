@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { LotService } from "./lot.service";
-import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CreateLotDto, LotDto, UpdateLotDto } from "@airlab/shared/lib/lot/dto";
 import { MemberService } from "../member/member.service";
@@ -26,7 +26,7 @@ export class LotController {
   }
 
   @Get("lots/:id")
-  @ApiCreatedResponse({ description: "Find entity by Id.", type: LotDto })
+  @ApiOkResponse({ description: "Find entity by Id.", type: LotDto })
   async findById(@Request() req, @Param("id") id: number) {
     const item = await this.lotService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -34,7 +34,7 @@ export class LotController {
   }
 
   @Patch("lots/:id")
-  @ApiCreatedResponse({ description: "Updated entity.", type: LotDto })
+  @ApiOkResponse({ description: "Updated entity.", type: LotDto })
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdateLotDto) {
     const item = await this.lotService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -42,7 +42,7 @@ export class LotController {
   }
 
   @Delete("lots/:id")
-  @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
+  @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.lotService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -50,7 +50,7 @@ export class LotController {
   }
 
   @Get("groups/:groupId/lots")
-  @ApiCreatedResponse({
+  @ApiOkResponse({
     description: "Find all lots for the group.",
     type: LotDto,
     isArray: true,
@@ -61,7 +61,7 @@ export class LotController {
   }
 
   @Get("lots/:id/conjugates")
-  @ApiCreatedResponse({
+  @ApiOkResponse({
     description: "Find all conjugates belonging to the lot.",
     type: ConjugateDto,
     isArray: true,

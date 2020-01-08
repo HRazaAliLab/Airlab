@@ -1,5 +1,6 @@
 import { ApiManager } from "@/utils/api";
 import { CreateSpeciesDto, SpeciesDto, UpdateSpeciesDto } from "@airlab/shared/lib/species/dto";
+import { CloneDto } from "@airlab/shared/lib/clone/dto";
 
 export const api = {
   async createSpecies(data: CreateSpeciesDto) {
@@ -24,5 +25,8 @@ export const api = {
   },
   async getGroupSpecies(groupId: number) {
     return ApiManager.api.get(`groups/${groupId}/species`).json<SpeciesDto[]>();
+  },
+  async getSpeciesClones(speciesId: number) {
+    return ApiManager.api.get(`species/${speciesId}/clones`).json<CloneDto[]>();
   },
 };

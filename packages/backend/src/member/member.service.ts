@@ -47,6 +47,7 @@ export class MemberService {
   }
 
   async createJoinRequest(userId: number, groupId: number) {
+    await this.clearCache(groupId);
     return this.repository.save({
       groupId: groupId,
       userId: userId,
@@ -100,6 +101,7 @@ export class MemberService {
     await Promise.all([
       this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_members`]),
       this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_panels`]),
+      this.repository.manager.connection.queryResultCache.remove([`groups`]),
     ]);
   }
 }

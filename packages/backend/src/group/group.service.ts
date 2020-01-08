@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { GroupEntity } from "./group.entity";
@@ -6,7 +6,6 @@ import { MemberService } from "../member/member.service";
 import * as crypto from "crypto";
 import { CreateGroupDto, InviteDto, UpdateGroupDto } from "@airlab/shared/lib/group/dto";
 import { PubSubService } from "../pubsub/pubsub.service";
-import {UserEntity} from "../user/user.entity";
 
 const privateKey = "fsdfC987XXasdf979werl$#";
 
@@ -44,7 +43,7 @@ export class GroupService {
     return this.repository
       .createQueryBuilder("group")
       .leftJoin("group.members", "members")
-      .addSelect(["members.userId"])
+      .addSelect(["members.userId", "members.isActive"])
       .orderBy({ "group.id": "DESC" })
       .cache(`groups`, 1000 * 60 * 60)
       .getMany();
@@ -57,6 +56,9 @@ export class GroupService {
     }
     if (group.isOpen) {
       const requestExists = await this.memberService.checkRequest(userId, groupId);
+      if (requestExists) {
+        throw new ConflictException("Join request already exists");
+      }
       if (!requestExists) {
         await this.memberService.createJoinRequest(userId, groupId);
         return true;

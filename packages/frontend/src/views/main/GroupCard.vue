@@ -1,3 +1,4 @@
+import Noty from "noty";
 <template>
   <v-card tile class="ma-6 pa-1">
     <v-card-title>
@@ -45,7 +46,9 @@ export default class GroupCard extends Vue {
   readonly group!: GroupDto;
 
   get userIds() {
-    return (this.group as any).members ? (this.group as any).members.map(member => member.userId) : [];
+    return (this.group as any).members
+      ? (this.group as any).members.filter(item => item.isActive).map(member => member.userId)
+      : [];
   }
 
   get isMember() {

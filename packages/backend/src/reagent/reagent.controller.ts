@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { ReagentService } from "./reagent.service";
-import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CreateReagentDto, ReagentDto, UpdateReagentDto } from "@airlab/shared/lib/reagent/dto";
 import { MemberService } from "../member/member.service";
@@ -20,7 +20,7 @@ export class ReagentController {
   }
 
   @Get("reagents/:id")
-  @ApiCreatedResponse({ description: "Find entity by Id.", type: ReagentDto })
+  @ApiOkResponse({ description: "Find entity by Id.", type: ReagentDto })
   async findById(@Request() req, @Param("id") id: number) {
     const item = await this.reagentService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -28,7 +28,7 @@ export class ReagentController {
   }
 
   @Patch("reagents/:id")
-  @ApiCreatedResponse({ description: "Updated entity.", type: ReagentDto })
+  @ApiOkResponse({ description: "Updated entity.", type: ReagentDto })
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdateReagentDto) {
     const item = await this.reagentService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -36,7 +36,7 @@ export class ReagentController {
   }
 
   @Delete("reagents/:id")
-  @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
+  @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.reagentService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -44,7 +44,7 @@ export class ReagentController {
   }
 
   @Get("groups/:groupId/reagents")
-  @ApiCreatedResponse({
+  @ApiOkResponse({
     description: "Find all reagents for the group.",
     type: ReagentDto,
     isArray: true,

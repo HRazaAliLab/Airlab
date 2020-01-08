@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { TagService } from "./tag.service";
-import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CreateTagDto, TagDto, UpdateTagDto } from "@airlab/shared/lib/tag/dto";
 import { MemberService } from "../member/member.service";
@@ -26,7 +26,7 @@ export class TagController {
   }
 
   @Get("tags/:id")
-  @ApiCreatedResponse({ description: "Find entity by Id.", type: TagDto })
+  @ApiOkResponse({ description: "Find entity by Id.", type: TagDto })
   async findById(@Request() req, @Param("id") id: number) {
     const item = await this.tagService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -34,7 +34,7 @@ export class TagController {
   }
 
   @Patch("tags/:id")
-  @ApiCreatedResponse({ description: "Updated entity.", type: TagDto })
+  @ApiOkResponse({ description: "Updated entity.", type: TagDto })
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdateTagDto) {
     const item = await this.tagService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -42,7 +42,7 @@ export class TagController {
   }
 
   @Delete("tags/:id")
-  @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
+  @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.tagService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -50,14 +50,14 @@ export class TagController {
   }
 
   @Get("groups/:groupId/tags")
-  @ApiCreatedResponse({ description: "Find all tags for the group.", type: TagDto, isArray: true })
+  @ApiOkResponse({ description: "Find all tags for the group.", type: TagDto, isArray: true })
   async getGroupTags(@Request() req, @Param("groupId") groupId: number) {
     await this.memberService.checkMemberPermissions(req.user.userId, groupId);
     return this.tagService.getGroupTags(groupId);
   }
 
   @Get("tags/:id/conjugates")
-  @ApiCreatedResponse({
+  @ApiOkResponse({
     description: "Find all conjugates belonging to the tag.",
     type: ConjugateDto,
     isArray: true,

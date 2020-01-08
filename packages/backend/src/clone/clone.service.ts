@@ -63,6 +63,17 @@ export class CloneService {
       .getMany();
   }
 
+  async getSpeciesClones(speciesId: number) {
+    return this.repository
+      .createQueryBuilder("clone")
+      .where("clone.speciesId = :speciesId", { speciesId: speciesId })
+      .andWhere("clone.isDeleted = false")
+      .leftJoin("clone.validations", "validations")
+      .addSelect(["validations.id", "validations.application", "validations.status"])
+      .orderBy("clone.id", "DESC")
+      .getMany();
+  }
+
   private async clearCache(groupId: number) {
     await this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_clones`]);
   }

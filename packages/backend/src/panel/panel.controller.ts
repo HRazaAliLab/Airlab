@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Request, UseGuards } from "@nestjs/common";
 import { PanelService } from "./panel.service";
-import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CreatePanelDto, DuplicatePanelDto, PanelDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
 import { MemberService } from "../member/member.service";
@@ -20,7 +20,7 @@ export class PanelController {
   }
 
   @Get("panels/:id")
-  @ApiCreatedResponse({ description: "Find entity by Id.", type: PanelDto })
+  @ApiOkResponse({ description: "Find entity by Id.", type: PanelDto })
   async findById(@Request() req, @Param("id") id: number) {
     const item = await this.panelService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -28,7 +28,7 @@ export class PanelController {
   }
 
   @Patch("panels/:id")
-  @ApiCreatedResponse({ description: "Updated entity.", type: PanelDto })
+  @ApiOkResponse({ description: "Updated entity.", type: PanelDto })
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdatePanelDto) {
     const item = await this.panelService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -36,14 +36,14 @@ export class PanelController {
   }
 
   @Put("panels/:id")
-  @ApiCreatedResponse({ description: "Duplicate entity.", type: PanelDto })
+  @ApiOkResponse({ description: "Duplicate entity.", type: PanelDto })
   async duplicate(@Request() req, @Param("id") id: number, @Body() params: DuplicatePanelDto) {
     const member = await this.memberService.checkMemberPermissions(req.user.userId, params.groupId);
     return this.panelService.duplicate(id, { ...params, createdBy: member.id });
   }
 
   @Delete("panels/:id")
-  @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
+  @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.panelService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -51,7 +51,7 @@ export class PanelController {
   }
 
   @Get("groups/:groupId/panels")
-  @ApiCreatedResponse({ description: "Find all panels for the group.", type: PanelDto, isArray: true })
+  @ApiOkResponse({ description: "Find all panels for the group.", type: PanelDto, isArray: true })
   async getAllPanelsForGroup(@Request() req, @Param("groupId") groupId: number) {
     const member = await this.memberService.checkMemberPermissions(req.user.userId, groupId);
     return member.canPanels

@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { ProviderService } from "./provider.service";
-import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CreateProviderDto, ProviderDto, UpdateProviderDto } from "@airlab/shared/lib/provider/dto";
 import { MemberService } from "../member/member.service";
@@ -26,7 +26,7 @@ export class ProviderController {
   }
 
   @Get("providers/:id")
-  @ApiCreatedResponse({ description: "Find entity by Id.", type: ProviderDto })
+  @ApiOkResponse({ description: "Find entity by Id.", type: ProviderDto })
   async findById(@Request() req, @Param("id") id: number) {
     const item = await this.providerService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -34,7 +34,7 @@ export class ProviderController {
   }
 
   @Patch("providers/:id")
-  @ApiCreatedResponse({ description: "Updated entity.", type: ProviderDto })
+  @ApiOkResponse({ description: "Updated entity.", type: ProviderDto })
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdateProviderDto) {
     const item = await this.providerService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -42,7 +42,7 @@ export class ProviderController {
   }
 
   @Delete("providers/:id")
-  @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
+  @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.providerService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -50,14 +50,14 @@ export class ProviderController {
   }
 
   @Get("groups/:groupId/providers")
-  @ApiCreatedResponse({ description: "Find all providers for the group.", type: ProviderDto, isArray: true })
+  @ApiOkResponse({ description: "Find all providers for the group.", type: ProviderDto, isArray: true })
   async getGroupSpecies(@Request() req, @Param("groupId") groupId: number) {
     await this.memberService.checkMemberPermissions(req.user.userId, groupId);
     return this.providerService.getGroupProviders(groupId);
   }
 
   @Get("providers/:id/reagents")
-  @ApiCreatedResponse({
+  @ApiOkResponse({
     description: "Find all reagents belonging to the provider.",
     type: ReagentDto,
     isArray: true,

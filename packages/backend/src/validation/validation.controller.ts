@@ -12,7 +12,7 @@ import {
   UseInterceptors,
 } from "@nestjs/common";
 import { ValidationService } from "./validation.service";
-import { ApiBearerAuth, ApiConsumes, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiConsumes, ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import {
   CreateValidationDto,
@@ -96,7 +96,7 @@ export class ValidationController {
   }
 
   @Get("validations/:id")
-  @ApiCreatedResponse({ description: "Find entity by Id.", type: ValidationDto })
+  @ApiOkResponse({ description: "Find entity by Id.", type: ValidationDto })
   async findById(@Request() req, @Param("id") id: number) {
     const item = await this.validationService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -104,7 +104,7 @@ export class ValidationController {
   }
 
   @Patch("validations/:id")
-  @ApiCreatedResponse({ description: "Updated entity.", type: ValidationDto })
+  @ApiOkResponse({ description: "Updated entity.", type: ValidationDto })
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdateValidationDto) {
     const item = await this.validationService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -112,7 +112,7 @@ export class ValidationController {
   }
 
   @Delete("validations/:id")
-  @ApiCreatedResponse({ description: "Delete entity by Id.", type: Number })
+  @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.validationService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -120,7 +120,7 @@ export class ValidationController {
   }
 
   @Get("groups/:groupId/validations")
-  @ApiCreatedResponse({
+  @ApiOkResponse({
     description: "Find all validations belonging to the group.",
     type: ValidationDto,
     isArray: true,

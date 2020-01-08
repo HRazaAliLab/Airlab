@@ -68,4 +68,12 @@ export class SpeciesActions extends Actions<SpeciesState, SpeciesGetters, Specie
       await this.main!.actions.checkApiError(error);
     }
   }
+
+  async getSpeciesClones(speciesId: number) {
+    try {
+      return api.getSpeciesClones(speciesId);
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
 }
