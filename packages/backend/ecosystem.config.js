@@ -1,4 +1,4 @@
-89module.exports = [
+module.exports = [
   {
     script: "dist/src/main.js",
     name: "airlab",
