@@ -14,7 +14,9 @@ export class MemberController {
   @Post("members")
   @ApiCreatedResponse({ description: "Create entity.", type: MemberDto })
   async create(@Request() req, @Body() params: CreateMemberDto) {
-    await this.memberService.checkMemberPermissions(req.user.userId, params.groupId);
+    if (!req.user.isAdmin) {
+      await this.memberService.checkMemberPermissions(req.user.userId, params.groupId);
+    }
     const existingMember = await this.memberService.findByUserIdAndGroupId(params.userId, params.groupId);
     if (existingMember) {
       throw new HttpException("User is already a member of the group", 409);
@@ -26,7 +28,9 @@ export class MemberController {
   @ApiOkResponse({ description: "Find entity by Id.", type: MemberDto })
   async findById(@Request() req, @Param("id") id: number) {
     const item = await this.memberService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    if (!req.user.isAdmin) {
+      await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    }
     return item;
   }
 
@@ -34,7 +38,9 @@ export class MemberController {
   @ApiOkResponse({ description: "Updated entity.", type: MemberDto })
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdateMemberDto) {
     const item = await this.memberService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    if (!req.user.isAdmin) {
+      await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    }
     return this.memberService.update(id, params);
   }
 
@@ -42,14 +48,18 @@ export class MemberController {
   @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.memberService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    if (!req.user.isAdmin) {
+      await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    }
     return this.memberService.deleteById(id);
   }
 
   @Get("groups/:groupId/members")
   @ApiOkResponse({ description: "Find all members of the group.", type: MemberDto, isArray: true })
   async getGroupMembers(@Request() req, @Param("groupId") groupId: number) {
-    await this.memberService.checkMemberPermissions(req.user.userId, groupId);
+    if (!req.user.isAdmin) {
+      await this.memberService.checkMemberPermissions(req.user.userId, groupId);
+    }
     return this.memberService.getGroupMembers(groupId);
   }
 }

@@ -1,4 +1,3 @@
-import Noty from "noty";
 <template>
   <v-card tile class="ma-6 pa-1">
     <v-card-title>
@@ -13,7 +12,7 @@ import Noty from "noty";
       {{ group.institution }}
     </v-card-text>
     <v-card-actions>
-      <v-btn v-if="isMember" color="primary" :to="{ name: 'main-group', params: { groupId: group.id } }">
+      <v-btn v-if="isMember || user.isAdmin" color="primary" :to="{ name: 'main-group', params: { groupId: group.id } }">
         Open
       </v-btn>
       <v-btn v-else-if="group.isOpen" color="primary" @click="joinGroup()">

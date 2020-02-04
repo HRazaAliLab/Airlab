@@ -3,6 +3,7 @@ import { ApiProperty } from "@nestjs/swagger";
 
 export class JwtPayloadDto {
   userId: number;
+  isAdmin: boolean;
 }
 
 export class ResetPasswordDto {
