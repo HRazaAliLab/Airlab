@@ -47,6 +47,12 @@
         <v-btn @click="submit" :disabled="!valid">Save</v-btn>
       </v-card-actions>
       <v-card-text>
+        <v-toolbar dense class="mb-2" elevation="1">
+          <template>
+            <v-spacer />
+            <v-switch v-model="showEmpty" label="Show empty" hide-details inset class="ml-6" />
+          </template>
+        </v-toolbar>
         <v-expansion-panels v-model="expanded" multiple>
           <MetalExpansionPanel
             v-for="metal in metals"
@@ -54,6 +60,7 @@
             :tag="metal"
             :on-selected="congugateSelected"
             :initial-state="initialState"
+            :show-empty="showEmpty"
           />
         </v-expansion-panels>
       </v-card-text>
@@ -70,6 +77,7 @@ import { UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
 import MetalExpansionPanel from "@/views/main/group/panels/MetalExpansionPanel.vue";
 import { conjugateModule } from "@/modules/conjugate";
 import { tagModule } from "@/modules/tag";
+import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 
 @Component({
   components: { MetalExpansionPanel },
@@ -90,6 +98,7 @@ export default class EditPanel extends Vue {
   ];
 
   fab = false;
+  showEmpty = false;
 
   valid = false;
   name = "";
@@ -124,9 +133,9 @@ export default class EditPanel extends Vue {
     this.$vuetify.goTo(0);
   }
 
-  congugateSelected(tagId: number, conjugateId?: number) {
-    if (conjugateId !== undefined) {
-      this.tagConjugates.set(tagId, conjugateId);
+  congugateSelected(tagId: number, conjugate: ConjugateDto, isSelected: boolean) {
+    if (isSelected) {
+      this.tagConjugates.set(tagId, conjugate.id);
     } else {
       this.tagConjugates.delete(tagId);
     }
@@ -154,7 +163,7 @@ export default class EditPanel extends Vue {
           const conjugateId = Number(item["plaLabeledAntibodyId"]);
           const conjugate = this.conjugateContext.getters.getConjugate(conjugateId);
           this.tagConjugates.set(conjugate.tagId, conjugateId);
-          initialState[conjugate.tagId] = conjugate;
+          initialState[conjugate.tagId] = [conjugate];
           const tag = this.tagContext.getters.getTag(conjugate.tagId);
           newExpanded.push(this.metals.indexOf(tag));
         }
