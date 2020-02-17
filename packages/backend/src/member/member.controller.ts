@@ -1,4 +1,16 @@
-import { Body, Controller, Delete, Get, HttpException, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  Param,
+  Patch,
+  Post,
+  Request,
+  UnauthorizedException,
+  UseGuards,
+} from "@nestjs/common";
 import { MemberService } from "./member.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
@@ -15,7 +27,10 @@ export class MemberController {
   @ApiCreatedResponse({ description: "Create entity.", type: MemberDto })
   async create(@Request() req, @Body() params: CreateMemberDto) {
     if (!req.user.isAdmin) {
-      await this.memberService.checkMemberPermissions(req.user.userId, params.groupId);
+      const member = await this.memberService.checkMemberPermissions(req.user.userId, params.groupId);
+      if (member.role > 1) {
+        throw new UnauthorizedException();
+      }
     }
     const existingMember = await this.memberService.findByUserIdAndGroupId(params.userId, params.groupId);
     if (existingMember) {
@@ -39,7 +54,10 @@ export class MemberController {
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdateMemberDto) {
     const item = await this.memberService.findById(id);
     if (!req.user.isAdmin) {
-      await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+      const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+      if (member.role > 1) {
+        throw new UnauthorizedException();
+      }
     }
     return this.memberService.update(id, params);
   }
@@ -49,7 +67,10 @@ export class MemberController {
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.memberService.findById(id);
     if (!req.user.isAdmin) {
-      await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+      const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+      if (member.role > 1) {
+        throw new UnauthorizedException();
+      }
     }
     return this.memberService.deleteById(id);
   }
