@@ -238,7 +238,7 @@ async function migrateClone() {
     }
 
     let meta = row["catchedInfo"];
-    if ([1903, 2332, 2340, 2376].includes(row["cloCloneId"])) {
+    if ([1903, 2332, 2340, 2376, 2176].includes(row["cloCloneId"])) {
       meta = null;
     }
     if (meta === null || meta === "") {
@@ -303,7 +303,7 @@ async function migrateLot() {
 
     let meta = row["catchedInfo"];
     if (
-      [1977, 2293, 2732, 3252, 3399, 3425, 3485, 3495, 3512, 3634, 3666, 3690, 3702, 3703].includes(
+      [1977, 2293, 2732, 3252, 3399, 3425, 3485, 3495, 3512, 3634, 3666, 3690, 3702, 3703, 3815, 3826].includes(
         row["reiReagentInstanceId"]
       )
     ) {
@@ -312,7 +312,7 @@ async function migrateLot() {
     if (meta === null || meta === "") {
       meta = null;
     } else {
-      meta = dJSON.parse(meta, true);
+      meta = dJSON.parse(meta);
       meta = JSON.stringify(meta);
     }
 
@@ -415,7 +415,7 @@ async function migratePanel() {
     if (details === null || details === "") {
       details = null;
     } else {
-      details = dJSON.parse(details, true);
+      details = dJSON.parse(details);
       details = JSON.stringify(details);
     }
 

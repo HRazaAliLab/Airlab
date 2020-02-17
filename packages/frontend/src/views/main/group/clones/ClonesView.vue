@@ -367,14 +367,27 @@ export default class ClonesView extends Vue {
       });
     }
     if (this.statusFilter.length > 0) {
-      items = items.filter(item => {
-        for (const validation of (item as any).validations) {
-          if (this.statusFilter.includes(validation.status)) {
-            return true;
-          }
-        }
-        return false;
-      });
+      items =
+        this.applicationFilter.length > 0
+          ? items.filter(item => {
+              for (const validation of (item as any).validations) {
+                if (
+                  this.applicationFilter.includes(validation.application) &&
+                  this.statusFilter.includes(validation.status)
+                ) {
+                  return true;
+                }
+              }
+              return false;
+            })
+          : items.filter(item => {
+              for (const validation of (item as any).validations) {
+                if (this.statusFilter.includes(validation.status)) {
+                  return true;
+                }
+              }
+              return false;
+            });
     }
     if (this.reactivityFilter.length > 0) {
       items = items.filter(item => item.reactivity.some(element => this.reactivityFilter.includes(element)));
