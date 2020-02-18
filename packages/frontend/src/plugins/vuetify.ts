@@ -17,6 +17,10 @@ import Vuetify, {
   VProgressCircular,
   VProgressLinear,
   VRow,
+  VExpansionPanel,
+  VExpansionPanelHeader,
+  VExpansionPanelContent,
+  VDataIterator,
 } from "vuetify/lib";
 
 Vue.use(Vuetify, {
@@ -38,6 +42,10 @@ Vue.use(Vuetify, {
     VListItemTitle,
     VListItemSubtitle,
     VChip,
+    VExpansionPanel,
+    VExpansionPanelHeader,
+    VExpansionPanelContent,
+    VDataIterator,
   },
 });
 

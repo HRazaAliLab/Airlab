@@ -59,8 +59,8 @@
             :key="metal.id"
             :tag="metal"
             :on-selected="congugateSelected"
-            :initial-state="initialState"
-            :show-empty="showEmpty"
+            :selected-conjugates="getInitialState(metal.id)"
+            :conjugates="getTagConjugates(metal.id)"
           />
         </v-expansion-panels>
       </v-card-text>
@@ -106,8 +106,7 @@ export default class EditPanel extends Vue {
   application: number | null = null;
   isFluor = false;
   isProduction = false;
-  tagConjugates = new Map<number, number>();
-  initialState = {};
+  selectedTagConjugates = new Map<number, Set<ConjugateDto>>();
 
   expanded: number[] = []; // this.metals.map((k, i) => i);
 
@@ -123,6 +122,21 @@ export default class EditPanel extends Vue {
     return this.panelContext.getters.getPanel(+this.$router.currentRoute.params.id);
   }
 
+  get conjugates() {
+    return this.showEmpty
+      ? this.conjugateContext.getters.conjugates
+      : this.conjugateContext.getters.conjugates.filter(item => item.status !== 2);
+  }
+
+  getInitialState(tagId: number) {
+    const items = this.selectedTagConjugates.get(tagId);
+    return items ? [...items] : [];
+  }
+
+  getTagConjugates(tagId: number) {
+    return this.conjugates.filter(item => item.tagId === tagId);
+  }
+
   onScroll(e) {
     if (typeof window === "undefined") return;
     const top = window.pageYOffset || e.target.scrollTop || 0;
@@ -134,10 +148,15 @@ export default class EditPanel extends Vue {
   }
 
   congugateSelected(tagId: number, conjugate: ConjugateDto, isSelected: boolean) {
+    let conjugatesSet = this.selectedTagConjugates.get(tagId);
+    if (!conjugatesSet) {
+      conjugatesSet = new Set<ConjugateDto>();
+      this.selectedTagConjugates.set(tagId, conjugatesSet);
+    }
     if (isSelected) {
-      this.tagConjugates.set(tagId, conjugate.id);
+      conjugatesSet.add(conjugate);
     } else {
-      this.tagConjugates.delete(tagId);
+      conjugatesSet.delete(conjugate);
     }
   }
 
@@ -155,20 +174,23 @@ export default class EditPanel extends Vue {
       this.application = this.panel.application;
       this.isFluor = this.panel.isFluor;
       this.isProduction = this.panel.isProduction;
-      this.tagConjugates = new Map<number, number>();
+      this.selectedTagConjugates = new Map<number, Set<ConjugateDto>>();
       if (this.panel.details) {
-        const newExpanded: any[] = [];
-        const initialState = {};
+        const newExpanded = new Set<number>();
         for (const item of this.panel.details) {
           const conjugateId = Number(item["plaLabeledAntibodyId"]);
           const conjugate = this.conjugateContext.getters.getConjugate(conjugateId);
-          this.tagConjugates.set(conjugate.tagId, conjugateId);
-          initialState[conjugate.tagId] = [conjugate];
-          const tag = this.tagContext.getters.getTag(conjugate.tagId);
-          newExpanded.push(this.metals.indexOf(tag));
+          const tagId = conjugate.tagId;
+          let conjugatesSet = this.selectedTagConjugates.get(tagId);
+          if (!conjugatesSet) {
+            conjugatesSet = new Set<ConjugateDto>();
+            this.selectedTagConjugates.set(tagId, conjugatesSet);
+          }
+          conjugatesSet.add(conjugate);
+          const tag = this.tagContext.getters.getTag(tagId);
+          newExpanded.add(this.metals.indexOf(tag));
         }
-        this.expanded = newExpanded;
-        this.initialState = initialState;
+        this.expanded = [...newExpanded];
       }
     }
   }
@@ -176,12 +198,14 @@ export default class EditPanel extends Vue {
   async submit() {
     if ((this.$refs.form as any).validate() && this.panel) {
       const details: any[] = [];
-      this.tagConjugates.forEach((item, key, map) => {
-        details.push({
-          plaLabeledAntibodyId: item,
-          plaActualConc: undefined,
-          plaPipet: undefined,
-          dilutionType: undefined,
+      this.selectedTagConjugates.forEach((set: Set<ConjugateDto>, key, map) => {
+        set.forEach(conjugate => {
+          details.push({
+            plaLabeledAntibodyId: conjugate.id,
+            plaActualConc: undefined,
+            plaPipet: undefined,
+            dilutionType: undefined,
+          });
         });
       });
       const data: UpdatePanelDto = {
