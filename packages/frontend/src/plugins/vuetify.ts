@@ -21,6 +21,7 @@ import Vuetify, {
   VExpansionPanelHeader,
   VExpansionPanelContent,
   VDataIterator,
+  VSheet,
 } from "vuetify/lib";
 
 Vue.use(Vuetify, {
@@ -46,6 +47,7 @@ Vue.use(Vuetify, {
     VExpansionPanelHeader,
     VExpansionPanelContent,
     VDataIterator,
+    VSheet,
   },
 });
 

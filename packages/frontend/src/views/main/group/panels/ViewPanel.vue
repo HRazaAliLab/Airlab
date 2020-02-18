@@ -8,7 +8,7 @@
       </template>
       <span>Scroll to top</span>
     </v-tooltip>
-    <v-toolbar class="toolbar">
+    <v-toolbar dense class="toolbar">
       <v-toolbar-title class="toolbar-item-margin">
         Panel View
       </v-toolbar-title>
@@ -40,11 +40,35 @@
       />
       <v-toolbar-items>
         <v-divider vertical />
-        <v-btn text>Export CSV</v-btn>
+        <v-menu offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn text v-on="on" color="primary">
+              Export
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item @click="exportCsv">
+              <v-list-item-title>Export CSV</v-list-item-title>
+            </v-list-item>
+            <v-divider />
+            <v-list-item @click="exportCyTOF1">
+              <v-list-item-title>Template for CyTOF1</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="exportCyTOF2">
+              <v-list-item-title>Template for CyTOF2</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="exportHelios">
+              <v-list-item-title>Template for Helios</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="exportHeliosCsv">
+              <v-list-item-title>CSV for Helios</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
         <v-divider vertical />
-        <v-btn @click="cancel" text>Cancel</v-btn>
-        <v-btn @click="reset" text>Reset</v-btn>
-        <v-btn @click="submit" text>Save</v-btn>
+        <v-btn @click="cancel" text color="primary">Cancel</v-btn>
+        <v-btn @click="reset" text color="primary">Reset</v-btn>
+        <v-btn @click="submit" text color="primary">Save</v-btn>
       </v-toolbar-items>
     </v-toolbar>
     <v-card v-if="panel">
@@ -110,7 +134,7 @@
           </v-edit-dialog>
         </template>
         <template v-slot:item.pipet="{ item }">
-          <span v-if="item.actualConcentration">{{ getAmountAntibody(item).toFixed(2) }}</span>
+          <span>{{ getAmountAntibodyText(item) }}</span>
         </template>
       </v-data-table>
     </v-card>
@@ -127,6 +151,13 @@ import { conjugateModule } from "@/modules/conjugate";
 import { tagModule } from "@/modules/tag";
 import { validationModule } from "@/modules/validation";
 import { getStatusColor } from "@/utils/converters";
+import {
+  exportCSVCyTOF201608,
+  exportCyTOF1Panel,
+  exportCyTOF2Panel,
+  exportHeliosPanel,
+  exportPanelCsv,
+} from "@/utils/exporters";
 
 @Component({
   components: { MetalExpansionPanel },
@@ -228,17 +259,17 @@ export default class ViewPanel extends Vue {
   get items() {
     if (this.panel && this.panel.details) {
       const items: any[] = [];
-      for (const item of this.panel.details) {
-        const conjugateId = Number(item["plaLabeledAntibodyId"]);
+      for (const detail of this.panel.details) {
+        const conjugateId = Number(detail["plaLabeledAntibodyId"]);
         const conjugate = this.conjugateContext.getters.getConjugate(conjugateId);
         if (conjugate) {
           const validations =
             (conjugate as any).lot && (conjugate as any).lot.clone
               ? this.validations.filter(validation => (validation as any).clone.id == (conjugate as any).lot.clone.id)
               : [];
-          const actualConcentration = item["plaActualConc"] ? Number(item["plaActualConc"]) : null;
-          const dilutionType = item["dilutionType"] ? Number(item["dilutionType"]) : null;
-          items.push({
+          const actualConcentration = detail["plaActualConc"] ? Number(detail["plaActualConc"]) : null;
+          const dilutionType = detail["dilutionType"] ? Number(detail["dilutionType"]) : null;
+          const item = {
             ...conjugate,
             label: (conjugate as any).tag
               ? (conjugate as any).tag.mw
@@ -248,7 +279,13 @@ export default class ViewPanel extends Vue {
             validations: validations,
             actualConcentration: actualConcentration,
             dilutionType: dilutionType,
-          });
+            pipet: this.getAmountAntibody({
+              dilutionType: dilutionType,
+              actualConcentration: actualConcentration,
+              concentration: conjugate.concentration,
+            }),
+          };
+          items.push(item);
         }
       }
       return items;
@@ -257,9 +294,18 @@ export default class ViewPanel extends Vue {
   }
 
   getAmountAntibody(item) {
-    return item.dilutionType === 1
-      ? this.totalVolume / parseFloat(item.actualConcentration)
-      : this.totalVolume * (parseFloat(item.actualConcentration) / parseFloat(item.concentration));
+    const result =
+      item.dilutionType === 1
+        ? parseFloat(item.actualConcentration) === 0
+          ? 0
+          : this.totalVolume / parseFloat(item.actualConcentration)
+        : this.totalVolume * (parseFloat(item.actualConcentration) / parseFloat(item.concentration));
+    return isNaN(result) ? null : result;
+  }
+
+  getAmountAntibodyText(item) {
+    const amount = this.getAmountAntibody(item);
+    return amount === null ? "" : amount.toFixed(2);
   }
 
   get diluentVolume() {
@@ -268,7 +314,7 @@ export default class ViewPanel extends Vue {
       if (!item.actualConcentration) continue;
       const add = this.getAmountAntibody(item);
       if (this.excludeEmpty && Number(item.finishedBy) > 0) continue;
-      if (!isNaN(add)) {
+      if (add !== null) {
         cum = cum + add;
       }
     }
@@ -308,7 +354,7 @@ export default class ViewPanel extends Vue {
           plaLabeledAntibodyId: item.id,
           plaActualConc: item.actualConcentration ? Number(item.actualConcentration) : null,
           dilutionType: item.dilutionType ? Number(item.dilutionType) : null,
-          plaPipet: item.pipet ? Number(item.pipet) : null,
+          plaPipet: this.getAmountAntibody(item),
         };
       });
       const data: UpdatePanelDto = {
@@ -320,6 +366,26 @@ export default class ViewPanel extends Vue {
       });
       this.$router.back();
     }
+  }
+
+  async exportCsv() {
+    exportPanelCsv(this.panel, this.items, this.totalVolume);
+  }
+
+  async exportHeliosCsv() {
+    exportCSVCyTOF201608(this.panel, this.items);
+  }
+
+  async exportCyTOF1() {
+    exportCyTOF1Panel(this.panel, this.items);
+  }
+
+  async exportCyTOF2() {
+    exportCyTOF2Panel(this.panel, this.items);
+  }
+
+  async exportHelios() {
+    exportHeliosPanel(this.panel, this.items);
   }
 
   async mounted() {

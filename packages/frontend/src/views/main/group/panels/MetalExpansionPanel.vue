@@ -17,17 +17,17 @@
       >
         <template v-slot:default="{ items, isSelected, select }">
           <v-row>
-            <v-card
+            <v-sheet
               v-for="item in items"
               :key="item.id"
-              outlined
+              tile
               width="180"
               class="ma-1 pa-0"
               @click.prevent="isSelected(item) ? select(item, false) : select(item, true)"
               :color="$options.methods.getConjugateColor(item, isSelected(item))"
             >
-              <v-card-text class="header"> <span class="subheader">Lot:</span> {{ item.lot.number }} </v-card-text>
-              <v-card-text class="content">
+              <div class="header"><span class="subheader">Lot:</span> {{ item.lot.number }}</div>
+              <div class="content">
                 <div v-if="item.lot && item.lot.clone && item.lot.clone.protein">
                   <span class="subheader">Protein:</span> {{ item.lot.clone.protein.name }}
                 </div>
@@ -39,8 +39,8 @@
                   <span class="subheader">Concentration:</span> {{ item.concentration }}
                 </div>
                 <div v-if="item.description"><span class="subheader">Description:</span> {{ item.description }}</div>
-              </v-card-text>
-            </v-card>
+              </div>
+            </v-sheet>
           </v-row>
         </template>
       </v-data-iterator>

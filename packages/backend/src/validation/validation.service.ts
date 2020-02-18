@@ -47,6 +47,7 @@ export class ValidationService {
         "validation.positiveControl",
         "validation.negativeControl",
         "validation.status",
+        "validation.antigenRetrievalType",
       ])
       .leftJoin("validation.clone", "clone")
       .addSelect(["clone.id", "clone.name"])

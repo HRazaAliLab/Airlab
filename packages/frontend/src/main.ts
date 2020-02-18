@@ -10,7 +10,10 @@ import Vue from "vue";
 import "@mdi/font/css/materialdesignicons.css";
 import { applicationToString, conjugateStatusToString, validationStatusToString } from "@/utils/converters"; // Ensure you are using css-loader
 
+const isDev = process.env.NODE_ENV === "development";
+
 Vue.config.productionTip = false;
+Vue.config.performance = isDev;
 
 Vue.filter("applicationToString", applicationToString);
 Vue.filter("validationStatusToString", validationStatusToString);

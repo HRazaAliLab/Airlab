@@ -1,16 +1,15 @@
 <template>
   <LoadingView v-if="!items" text="Loading panels..." />
   <v-col v-else>
-    <v-toolbar class="toolbar">
+    <v-toolbar dense class="toolbar">
       <v-toolbar-title>
         Panels
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text :to="`/main/groups/${activeGroupId}/panels/create`">Create Panel</v-btn>
+        <v-btn text :to="`/main/groups/${activeGroupId}/panels/create`" color="primary">Create Panel</v-btn>
       </v-toolbar-items>
     </v-toolbar>
-
     <v-card>
       <v-card-title>
         <v-spacer />
@@ -75,14 +74,6 @@
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon @click="duplicatePanel(item.id)">
-                <v-icon color="grey">mdi-content-duplicate</v-icon>
-              </v-btn>
-            </template>
-            <span>Duplicate</span>
-          </v-tooltip>
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
               <v-btn
                 v-on="on"
                 icon
@@ -98,6 +89,14 @@
               </v-btn>
             </template>
             <span>Refine</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn v-on="on" icon @click="duplicatePanel(item.id)">
+                <v-icon color="grey">mdi-content-duplicate</v-icon>
+              </v-btn>
+            </template>
+            <span>Duplicate</span>
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">

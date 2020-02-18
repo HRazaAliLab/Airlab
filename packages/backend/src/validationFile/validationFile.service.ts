@@ -40,6 +40,7 @@ export class ValidationFileService {
       await fs.unlink(path);
     }
     const result = await this.repository.delete(id);
+    await this.repository.manager.connection.queryResultCache.remove([`group_${file.validation.groupId}_validations`]);
     return result.affected === 1 ? id : undefined;
   }
 

@@ -45,7 +45,7 @@ export class ConjugateService {
       .leftJoin("conjugate.lot", "lot")
       .addSelect(["lot.id", "lot.number"])
       .leftJoin("lot.clone", "clone")
-      .addSelect(["clone.id", "clone.name"])
+      .addSelect(["clone.id", "clone.name", "clone.isPhospho"])
       .leftJoin("clone.protein", "protein")
       .addSelect(["protein.id", "protein.name"])
       .leftJoin("conjugate.member", "member")

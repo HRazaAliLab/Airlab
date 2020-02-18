@@ -390,6 +390,20 @@ export default class ValidationsViews extends Vue {
       },
     },
     {
+      text: "Retrieval",
+      value: "antigenRetrievalType",
+      sort: (a, b) => {
+        if (a === null) {
+          return 1;
+        }
+        if (b === null) {
+          return -1;
+        }
+        return a.localeCompare(b);
+      },
+      width: "120",
+    },
+    {
       text: "Created by",
       value: "user",
       sort: (a, b) => a.name.localeCompare(b.name),

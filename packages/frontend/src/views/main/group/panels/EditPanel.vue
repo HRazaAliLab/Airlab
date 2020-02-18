@@ -8,10 +8,18 @@
       </template>
       <span>Scroll to top</span>
     </v-tooltip>
-    <v-card class="ma-4 pa-4">
-      <v-card-title primary-title>
-        <div class="headline primary--text">Edit Panel</div>
-      </v-card-title>
+    <v-toolbar dense>
+      <v-toolbar-title>
+        Edit Panel
+      </v-toolbar-title>
+      <v-spacer />
+      <v-toolbar-items>
+        <v-btn @click="cancel" text color="primary">Cancel</v-btn>
+        <v-btn @click="reset" text color="primary">Reset</v-btn>
+        <v-btn @click="submit" text :disabled="!valid" color="primary">Save</v-btn>
+      </v-toolbar-items>
+    </v-toolbar>
+    <v-card class="mt-4 px-4">
       <v-card-text>
         <v-form v-model="valid" ref="form">
           <v-text-field label="Name" v-model="name" :rules="nameRules" />
@@ -40,12 +48,6 @@
           <v-checkbox label="Production" v-model="isProduction" />
         </v-form>
       </v-card-text>
-      <v-card-actions>
-        <v-spacer />
-        <v-btn @click="cancel">Cancel</v-btn>
-        <v-btn @click="reset">Reset</v-btn>
-        <v-btn @click="submit" :disabled="!valid">Save</v-btn>
-      </v-card-actions>
       <v-card-text>
         <v-toolbar dense class="mb-2" elevation="1">
           <template>
@@ -179,6 +181,9 @@ export default class EditPanel extends Vue {
         const newExpanded = new Set<number>();
         for (const item of this.panel.details) {
           const conjugateId = Number(item["plaLabeledAntibodyId"]);
+          const actualConcentration = item["plaActualConc"] ? Number(item["plaActualConc"]) : null;
+          const dilutionType = item["dilutionType"] ? Number(item["dilutionType"]) : null;
+          const pipet = item["plaPipet"] ? Number(item["plaPipet"]) : null;
           const conjugate = this.conjugateContext.getters.getConjugate(conjugateId);
           const tagId = conjugate.tagId;
           let conjugatesSet = this.selectedTagConjugates.get(tagId);
