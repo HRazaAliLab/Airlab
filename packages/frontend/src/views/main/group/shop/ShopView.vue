@@ -6,7 +6,16 @@
         Shop
       </v-toolbar-title>
       <v-spacer />
-      <v-text-field v-model="search" prepend-inner-icon="mdi-magnify" label="Search" hide-details clearable solo flat dense />
+      <v-text-field
+        v-model="search"
+        prepend-inner-icon="mdi-magnify"
+        label="Search"
+        hide-details
+        clearable
+        solo
+        flat
+        dense
+      />
       <v-btn text @click="doSearch()" color="primary">Search</v-btn>
     </v-toolbar>
 
@@ -94,11 +103,7 @@ export default class ShopView extends Vue {
 
   async doSearch() {
     const result = await this.shopContext.actions.searchAntibody(this.search);
-    console.log(result)
-  }
-
-  async mounted() {
-
+    console.log(result);
   }
 }
 </script>

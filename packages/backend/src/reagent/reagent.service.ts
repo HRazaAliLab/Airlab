@@ -1,4 +1,4 @@
-import * as https from "https";
+import got from "got";
 import { Injectable, Logger } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
@@ -72,31 +72,18 @@ export class ReagentService {
   }
 
   async searchBiocompare(query: string) {
-    https
-      .get(
-        {
-          protocol: "https:",
-          host: "www.biocompare.com",
-          path: `/Search-Antibodies/?search=${query}&said=0`,
-          headers: {
-            "User-Agent":
-              "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.116 Safari/537.36",
-          },
+    try {
+      const result = await got(`https://www.biocompare.com/Search-Antibodies/?search=${query}&said=0`, {
+        retry: 0,
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.116 Safari/537.36",
         },
-        res => {
-          res.setEncoding("utf8");
-          let body = "";
-          res.on("data", data => {
-            body += data;
-          });
-          res.on("end", () => {
-            console.log(body);
-          });
-        }
-      )
-      .on("error", err => {
-        this.logger.error(err.message);
-      });
+      }).text();
+      return result;
+    } catch (e) {
+      this.logger.error(e);
+    }
   }
 
   private async clearCache(groupId: number) {
