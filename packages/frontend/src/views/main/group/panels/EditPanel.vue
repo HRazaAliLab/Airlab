@@ -81,6 +81,12 @@ import { conjugateModule } from "@/modules/conjugate";
 import { tagModule } from "@/modules/tag";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 
+type ConjugatePanelData = {
+  actualConcentration: number | null;
+  dilutionType?: number | null;
+  pipet?: number | null;
+};
+
 @Component({
   components: { MetalExpansionPanel },
 })
@@ -105,10 +111,11 @@ export default class EditPanel extends Vue {
   valid = false;
   name = "";
   description = "";
-  application: number | null = null;
+  application: string | null = null;
   isFluor = false;
   isProduction = false;
   selectedTagConjugates = new Map<number, Set<ConjugateDto>>();
+  conjugatePanelData = new Map<number, ConjugatePanelData>();
 
   expanded: number[] = []; // this.metals.map((k, i) => i);
 
@@ -173,17 +180,15 @@ export default class EditPanel extends Vue {
     if (this.panel) {
       this.name = this.panel.name;
       this.description = this.panel.description;
-      this.application = this.panel.application;
+      this.application = this.panel.application.toString(10);
       this.isFluor = this.panel.isFluor;
       this.isProduction = this.panel.isProduction;
       this.selectedTagConjugates = new Map<number, Set<ConjugateDto>>();
+      this.conjugatePanelData = new Map<number, ConjugatePanelData>();
       if (this.panel.details) {
         const newExpanded = new Set<number>();
         for (const item of this.panel.details) {
           const conjugateId = Number(item["plaLabeledAntibodyId"]);
-          const actualConcentration = item["plaActualConc"] ? Number(item["plaActualConc"]) : null;
-          const dilutionType = item["dilutionType"] ? Number(item["dilutionType"]) : null;
-          const pipet = item["plaPipet"] ? Number(item["plaPipet"]) : null;
           const conjugate = this.conjugateContext.getters.getConjugate(conjugateId);
           const tagId = conjugate.tagId;
           let conjugatesSet = this.selectedTagConjugates.get(tagId);
@@ -191,6 +196,14 @@ export default class EditPanel extends Vue {
             conjugatesSet = new Set<ConjugateDto>();
             this.selectedTagConjugates.set(tagId, conjugatesSet);
           }
+          const actualConcentration = item["plaActualConc"] ? Number(item["plaActualConc"]) : null;
+          const dilutionType = item["dilutionType"] ? Number(item["dilutionType"]) : null;
+          const pipet = item["plaPipet"] ? Number(item["plaPipet"]) : null;
+          this.conjugatePanelData.set(conjugateId, {
+            actualConcentration: actualConcentration,
+            dilutionType: dilutionType,
+            pipet: pipet,
+          });
           conjugatesSet.add(conjugate);
           const tag = this.tagContext.getters.getTag(tagId);
           newExpanded.add(this.metals.indexOf(tag));
@@ -205,18 +218,19 @@ export default class EditPanel extends Vue {
       const details: any[] = [];
       this.selectedTagConjugates.forEach((set: Set<ConjugateDto>, key, map) => {
         set.forEach(conjugate => {
+          const conjugateData = this.conjugatePanelData.get(conjugate.id);
           details.push({
             plaLabeledAntibodyId: conjugate.id,
-            plaActualConc: undefined,
-            plaPipet: undefined,
-            dilutionType: undefined,
+            plaActualConc: conjugateData ? conjugateData.actualConcentration : undefined,
+            dilutionType: conjugateData ? conjugateData.dilutionType : undefined,
+            plaPipet: conjugateData ? conjugateData.pipet : undefined,
           });
         });
       });
       const data: UpdatePanelDto = {
         name: this.name,
         description: this.description,
-        application: this.application,
+        application: Number(this.application),
         isFluor: this.isFluor,
         isProduction: this.isProduction,
         details: details,

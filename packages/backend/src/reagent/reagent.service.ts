@@ -1,4 +1,5 @@
-import { Injectable } from "@nestjs/common";
+import * as https from "https";
+import { Injectable, Logger } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { ReagentEntity } from "./reagent.entity";
@@ -7,6 +8,8 @@ import { UserEntity } from "../user/user.entity";
 
 @Injectable()
 export class ReagentService {
+  private readonly logger = new Logger(ReagentService.name);
+
   constructor(
     @InjectRepository(ReagentEntity)
     private readonly repository: Repository<ReagentEntity>
@@ -66,6 +69,34 @@ export class ReagentService {
       })
       .orderBy("reagent.id", "DESC")
       .getMany();
+  }
+
+  async searchBiocompare(query: string) {
+    https
+      .get(
+        {
+          protocol: "https:",
+          host: "www.biocompare.com",
+          path: `/Search-Antibodies/?search=${query}&said=0`,
+          headers: {
+            "User-Agent":
+              "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.116 Safari/537.36",
+          },
+        },
+        res => {
+          res.setEncoding("utf8");
+          let body = "";
+          res.on("data", data => {
+            body += data;
+          });
+          res.on("end", () => {
+            console.log(body);
+          });
+        }
+      )
+      .on("error", err => {
+        this.logger.error(err.message);
+      });
   }
 
   private async clearCache(groupId: number) {

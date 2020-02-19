@@ -27,6 +27,13 @@ export class ReagentController {
     return item;
   }
 
+  @Get("reagents/search/:query")
+  @ApiOkResponse({ description: "Search Biocompare for an antibody." })
+  async searchBiocompare(@Request() req, @Param("query") query: string) {
+    const result = await this.reagentService.searchBiocompare(query);
+    return result;
+  }
+
   @Patch("reagents/:id")
   @ApiOkResponse({ description: "Updated entity.", type: ReagentDto })
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdateReagentDto) {

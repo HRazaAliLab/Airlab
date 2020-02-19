@@ -47,6 +47,7 @@ export default new Router({
               path: "groups/:groupId",
               name: "main-group",
               component: () => import(/* webpackChunkName: "main-group" */ "@/views/main/group/GroupView.vue"),
+              redirect: "groups/:groupId/clones",
               children: [
                 {
                   path: "reagents",

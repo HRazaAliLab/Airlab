@@ -49,13 +49,20 @@
         </v-form>
       </v-card-text>
       <v-card-text>
+        <v-toolbar dense class="mb-2" elevation="1">
+          <template>
+            <v-spacer />
+            <v-switch v-model="showEmpty" label="Show empty" hide-details inset class="ml-6" />
+          </template>
+        </v-toolbar>
         <v-expansion-panels v-model="expanded" multiple>
           <MetalExpansionPanel
             v-for="metal in metals"
             :key="metal.id"
             :tag="metal"
-            :initial-state="initialState"
             :on-selected="congugateSelected"
+            :selected-conjugates="getInitialState(metal.id)"
+            :conjugates="getTagConjugates(metal.id)"
           />
         </v-expansion-panels>
       </v-card-text>
@@ -72,6 +79,7 @@ import { CreatePanelDto } from "@airlab/shared/lib/panel/dto";
 import { conjugateModule } from "@/modules/conjugate";
 import { tagModule } from "@/modules/tag";
 import MetalExpansionPanel from "@/views/main/group/panels/MetalExpansionPanel.vue";
+import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 
 @Component({
   components: { MetalExpansionPanel },
@@ -85,16 +93,22 @@ export default class CreatePanel extends Vue {
   readonly nameRules = [required];
   readonly descriptionRules = [];
 
+  readonly keys = [
+    { id: "tubeNumber", title: "Tube Number" },
+    { id: "concentration", title: "Concentration" },
+    { id: "description", title: "Description" },
+  ];
+
   fab = false;
+  showEmpty = false;
 
   valid = false;
   name = "";
   description = "";
-  application = "";
+  application: string | null = null;
   isFluor = false;
   isProduction = false;
-  tagConjugates = new Map<number, number>();
-  initialState = {};
+  selectedTagConjugates = new Map<number, Set<ConjugateDto>>();
 
   expanded: number[] = []; // this.metals.map((k, i) => i);
 
@@ -104,6 +118,21 @@ export default class CreatePanel extends Vue {
 
   get metals() {
     return this.tagContext.getters.metals;
+  }
+
+  get conjugates() {
+    return this.showEmpty
+      ? this.conjugateContext.getters.conjugates
+      : this.conjugateContext.getters.conjugates.filter(item => item.status !== 2);
+  }
+
+  getInitialState(tagId: number) {
+    const items = this.selectedTagConjugates.get(tagId);
+    return items ? [...items] : [];
+  }
+
+  getTagConjugates(tagId: number) {
+    return this.conjugates.filter(item => item.tagId === tagId);
   }
 
   onScroll(e) {
@@ -116,11 +145,16 @@ export default class CreatePanel extends Vue {
     this.$vuetify.goTo(0);
   }
 
-  congugateSelected(tagId: number, conjugateId?: number) {
-    if (conjugateId !== undefined) {
-      this.tagConjugates.set(tagId, conjugateId);
+  congugateSelected(tagId: number, conjugate: ConjugateDto, isSelected: boolean) {
+    let conjugatesSet = this.selectedTagConjugates.get(tagId);
+    if (!conjugatesSet) {
+      conjugatesSet = new Set<ConjugateDto>();
+      this.selectedTagConjugates.set(tagId, conjugatesSet);
+    }
+    if (isSelected) {
+      conjugatesSet.add(conjugate);
     } else {
-      this.tagConjugates.delete(tagId);
+      conjugatesSet.delete(conjugate);
     }
   }
 
@@ -134,18 +168,18 @@ export default class CreatePanel extends Vue {
     this.application = "";
     this.isFluor = false;
     this.isProduction = false;
-    this.tagConjugates = new Map<number, number>();
-    this.initialState = {};
+    this.selectedTagConjugates = new Map<number, Set<ConjugateDto>>();
     (this.$refs.form as any).resetValidation();
   }
 
   async submit() {
     if ((this.$refs.form as any).validate() && this.activeGroupId) {
       const details: any[] = [];
-      this.tagConjugates.forEach((item, key, map) => {
-        details.push({
-          plaLabeledAntibodyId: item,
-          plaActualConc: undefined,
+      this.selectedTagConjugates.forEach((set: Set<ConjugateDto>, key, map) => {
+        set.forEach(conjugate => {
+          details.push({
+            plaLabeledAntibodyId: conjugate.id,
+          });
         });
       });
       const data: CreatePanelDto = {

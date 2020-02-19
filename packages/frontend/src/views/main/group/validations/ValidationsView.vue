@@ -1,14 +1,14 @@
 <template>
   <LoadingView v-if="!items" text="Loading validations..." />
   <v-col v-else>
-    <v-toolbar class="toolbar">
+    <v-toolbar dense class="toolbar">
       <v-toolbar-title>
         Validations
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text @click="exportFile()">Export CSV</v-btn>
-        <v-btn text :to="`/main/groups/${activeGroupId}/validations/create`">Create Validation</v-btn>
+        <v-btn text @click="exportFile()" color="primary">Export CSV</v-btn>
+        <v-btn text :to="`/main/groups/${activeGroupId}/validations/create`" color="primary">Create Validation</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 

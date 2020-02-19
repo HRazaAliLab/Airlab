@@ -1,16 +1,15 @@
 <template>
   <LoadingView v-if="!items" text="Loading reagents..." />
   <v-col v-else>
-    <v-toolbar class="toolbar">
+    <v-toolbar dense class="toolbar">
       <v-toolbar-title>
         Reagents
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text :to="`/main/groups/${activeGroupId}/reagents/create`">Create Reagent</v-btn>
+        <v-btn text :to="`/main/groups/${activeGroupId}/reagents/create`" color="primary">Create Reagent</v-btn>
       </v-toolbar-items>
     </v-toolbar>
-
     <v-expansion-panels>
       <v-expansion-panel>
         <v-expansion-panel-header>Filter</v-expansion-panel-header>
@@ -43,7 +42,6 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
-
     <v-card>
       <v-card-title>
         <v-spacer />

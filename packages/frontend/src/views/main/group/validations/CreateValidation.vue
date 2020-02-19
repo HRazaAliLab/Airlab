@@ -1,9 +1,17 @@
 <template>
   <v-container fluid>
-    <v-card class="ma-4 pa-4">
-      <v-card-title primary-title>
-        <div class="headline primary--text">Create Validation</div>
-      </v-card-title>
+    <v-toolbar dense>
+      <v-toolbar-title>
+        Create Validation
+      </v-toolbar-title>
+      <v-spacer />
+      <v-toolbar-items>
+        <v-btn @click="cancel" text color="primary">Cancel</v-btn>
+        <v-btn @click="reset" text color="primary">Reset</v-btn>
+        <v-btn @click="submit" text :disabled="!valid" color="primary">Save</v-btn>
+      </v-toolbar-items>
+    </v-toolbar>
+    <v-card class="mt-4 px-4">
       <v-card-text>
         <v-form v-model="valid" ref="form" lazy-validation>
           <v-row>
@@ -203,14 +211,6 @@
           </div>
         </v-form>
       </v-card-text>
-      <v-card-actions>
-        <v-spacer />
-        <v-btn @click="cancel">Cancel</v-btn>
-        <v-btn @click="reset">Reset</v-btn>
-        <v-btn @click="submit" :disabled="!valid">
-          Save
-        </v-btn>
-      </v-card-actions>
     </v-card>
   </v-container>
 </template>

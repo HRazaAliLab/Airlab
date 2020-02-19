@@ -1,12 +1,12 @@
 <template>
   <v-col>
-    <v-toolbar class="toolbar">
+    <v-toolbar dense class="toolbar">
       <v-toolbar-title>
         Species
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text :to="`/main/groups/${activeGroupId}/species/create`">Create Species</v-btn>
+        <v-btn text :to="`/main/groups/${activeGroupId}/species/create`" color="primary">Create Species</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 

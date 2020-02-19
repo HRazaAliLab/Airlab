@@ -9,6 +9,7 @@ import {
   UpdateUserDto,
   UserDto,
 } from "@airlab/shared/lib/user/dto";
+import { MemberDto } from "@airlab/shared/lib/member/dto";
 
 export const api = {
   async logInGetToken(username: string, password: string) {
@@ -20,6 +21,9 @@ export const api = {
   },
   async getMe() {
     return ApiManager.api.get(`users/profile`).json<ProfileDto>();
+  },
+  async getMyMember(groupId: number) {
+    return ApiManager.api.get(`groups/${groupId}/members/me`).json<MemberDto>();
   },
   async updateMe(data: UpdateProfileDto) {
     return ApiManager.api

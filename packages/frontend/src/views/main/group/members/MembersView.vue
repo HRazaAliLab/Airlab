@@ -1,12 +1,14 @@
 <template>
   <v-col>
-    <v-toolbar class="toolbar">
+    <v-toolbar dense class="toolbar">
       <v-toolbar-title>
         Group Members
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text :to="`/main/groups/${activeGroupId}/members/create`">Create Member</v-btn>
+        <v-btn v-if="groupRole < 2" text :to="`/main/groups/${activeGroupId}/members/create`" color="primary">
+          Create Member
+        </v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -96,9 +98,11 @@ import { Component, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
 import { memberModule } from "@/modules/member";
 import { roleToString } from "@/utils/converters";
+import { mainModule } from "@/modules/main";
 
 @Component
 export default class MembersView extends Vue {
+  readonly mainContext = mainModule.context(this.$store);
   readonly groupContext = groupModule.context(this.$store);
   readonly memberContext = memberModule.context(this.$store);
 
@@ -187,6 +191,10 @@ export default class MembersView extends Vue {
 
   get items() {
     return this.memberContext.getters.members;
+  }
+
+  get groupRole() {
+    return this.mainContext.getters.groupRole;
   }
 
   async mounted() {

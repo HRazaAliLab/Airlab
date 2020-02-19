@@ -11,7 +11,7 @@
     >
       <v-row no-gutters>
         <v-col>
-          <v-list dense>
+          <v-list dense flat>
             <v-subheader class="grey--text text--darken-1">Main</v-subheader>
             <v-list-item to="/main/groups">
               <v-list-item-action>
@@ -88,7 +88,7 @@
               </v-list-item-action>
               <v-list-item-title>Shop</v-list-item-title>
             </v-list-item>
-            <v-list-item :to="`/main/groups/${activeGroupId}/members`">
+            <v-list-item v-if="groupRole < 2" :to="`/main/groups/${activeGroupId}/members`">
               <v-list-item-action>
                 <v-icon>mdi-account-multiple-outline</v-icon>
               </v-list-item-action>
@@ -220,6 +220,10 @@ export default class Main extends Vue {
 
   get isAdmin() {
     return this.mainContext.getters.isAdmin;
+  }
+
+  get groupRole() {
+    return this.mainContext.getters.groupRole;
   }
 
   get activeGroupId() {

@@ -1,13 +1,13 @@
 <template>
   <LoadingView v-if="!items" text="Loading lots..." />
   <v-col v-else>
-    <v-toolbar class="toolbar">
+    <v-toolbar dense class="toolbar">
       <v-toolbar-title>
         Lots
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text :to="`/main/groups/${activeGroupId}/lots/create`">Create Lot</v-btn>
+        <v-btn text :to="`/main/groups/${activeGroupId}/lots/create`" color="primary">Create Lot</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 

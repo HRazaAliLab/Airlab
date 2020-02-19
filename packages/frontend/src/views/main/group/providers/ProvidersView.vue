@@ -1,12 +1,12 @@
 <template>
   <v-col>
-    <v-toolbar class="toolbar">
+    <v-toolbar dense class="toolbar">
       <v-toolbar-title>
         Providers
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text :to="`/main/groups/${activeGroupId}/providers/create`">Create Provider</v-btn>
+        <v-btn text :to="`/main/groups/${activeGroupId}/providers/create`" color="primary">Create Provider</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 

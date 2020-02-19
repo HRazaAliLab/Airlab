@@ -1,12 +1,12 @@
 <template>
   <v-col>
-    <v-toolbar class="toolbar">
+    <v-toolbar dense class="toolbar">
       <v-toolbar-title>
         Groups
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn v-if="isAdmin" text to="/main/admin/groups/create">Create Group</v-btn>
+        <v-btn v-if="isAdmin" text to="/main/admin/groups/create" color="primary">Create Group</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 

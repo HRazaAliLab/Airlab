@@ -1,14 +1,14 @@
 <template>
   <LoadingView v-if="!items" text="Loading clones..." />
   <v-col v-else>
-    <v-toolbar class="toolbar">
+    <v-toolbar dense class="toolbar">
       <v-toolbar-title>
         Clones
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text @click="exportFile()">Export CSV</v-btn>
-        <v-btn text :to="`/main/groups/${activeGroupId}/clones/create`">Create Clone</v-btn>
+        <v-btn text @click="exportFile()" color="primary">Export CSV</v-btn>
+        <v-btn text :to="`/main/groups/${activeGroupId}/clones/create`" color="primary">Create Clone</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 

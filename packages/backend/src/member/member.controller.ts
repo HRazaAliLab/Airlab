@@ -83,4 +83,10 @@ export class MemberController {
     }
     return this.memberService.getGroupMembers(groupId);
   }
+
+  @Get("groups/:groupId/members/me")
+  @ApiOkResponse({ description: "Find personal member of the group.", type: MemberDto })
+  async getMyMember(@Request() req, @Param("groupId") groupId: number) {
+    return await this.memberService.checkMemberPermissions(req.user.userId, groupId);
+  }
 }

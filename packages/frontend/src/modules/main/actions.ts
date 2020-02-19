@@ -154,9 +154,20 @@ export class MainActions extends Actions<MainState, MainGetters, MainMutations, 
 
   async resetPassword(payload: { password: string; token: string }) {
     try {
-      const response = await api.resetPassword(payload.password, payload.token);
+      await api.resetPassword(payload.password, payload.token);
       this.mutations.addNotification({ content: "Password successfully reset", color: "success" });
       await this.actions.logOut();
+    } catch (error) {
+      await this.actions.checkApiError(error);
+    }
+  }
+
+  async getMyMember(groupId: number) {
+    try {
+      const data = await api.getMyMember(groupId);
+      if (data) {
+        this.mutations.setMyMember(data);
+      }
     } catch (error) {
       await this.actions.checkApiError(error);
     }

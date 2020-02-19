@@ -1,12 +1,12 @@
 <template>
   <v-col>
-    <v-toolbar class="toolbar">
+    <v-toolbar dense class="toolbar">
       <v-toolbar-title>
         Users
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn v-if="isAdmin" text to="/main/admin/users/create">Create User</v-btn>
+        <v-btn v-if="isAdmin" text to="/main/admin/users/create" color="primary">Create User</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
