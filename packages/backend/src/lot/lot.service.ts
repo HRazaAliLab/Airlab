@@ -59,6 +59,17 @@ export class LotService {
       .getMany();
   }
 
+  async getReagentLots(reagentId: number) {
+    return this.repository
+      .createQueryBuilder("lot")
+      .where("lot.reagentId = :reagentId", { reagentId: reagentId })
+      .andWhere("lot.isDeleted = false")
+      .leftJoin("lot.reagent", "reagent")
+      .addSelect(["reagent.id", "reagent.name"])
+      .orderBy("lot.id", "DESC")
+      .getMany();
+  }
+
   private async clearCache(groupId: number) {
     await this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_lots`]);
   }

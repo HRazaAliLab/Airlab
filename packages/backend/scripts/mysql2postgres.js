@@ -76,18 +76,29 @@ async function migrateMember() {
       continue;
     }
     const sql =
-      'INSERT INTO "member"(id, group_id, user_id, role, activation_key, is_active, can_order, can_erase, can_finances, can_panels) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)';
+      'INSERT INTO "member"(id, group_id, user_id, role, all_panels, is_active) VALUES($1, $2, $3, $4, $5, $6)';
+
+    let role = 0;
+    switch (row["gpeRole"]) {
+      case 0:
+      case 1:
+        role = 100; // Admin
+        break;
+      case 2:
+      case 3:
+        role = 10; // Standard
+        break;
+      default:
+        role = 0; // Guest
+    }
+
     const values = [
       row["gpeGroupPersonId"],
       row["gpeGroupId"],
       row["gpePersonId"],
-      row["gpeRole"],
-      row["zetActKey"],
-      row["gpeActiveInGroup"] ? row["gpeActiveInGroup"] : false,
-      row["gpeOrders"] ? row["gpeOrders"] : false,
-      row["gpeErase"] ? row["gpeErase"] : false,
-      row["gpeFinances"] ? row["gpeFinances"] : false,
+      role,
       row["gpeAllPanels"] ? row["gpeAllPanels"] : false,
+      row["gpeActiveInGroup"] ? row["gpeActiveInGroup"] : false,
     ];
     await postgresPool.query(sql, values);
   }
@@ -299,7 +310,7 @@ async function migrateLot() {
     }
 
     const sql =
-      'INSERT INTO "lot"(id, group_id, created_by, reagent_id, provider_id, clone_id, requested_by, approved_by, ordered_by, received_by, finished_by, number, status, purpose, link, requested_at, approved_at, ordered_at, received_at, finished_at, is_low, is_deleted, meta) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)';
+      'INSERT INTO "lot"(id, group_id, created_by, reagent_id, provider_id, clone_id, requested_by, approved_by, ordered_by, received_by, finished_by, number, status, purpose, link, requested_at, approved_at, ordered_at, received_at, finished_at, is_low, is_deleted, price, note) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24)';
 
     let meta = row["catchedInfo"];
     if (
@@ -313,8 +324,10 @@ async function migrateLot() {
       meta = null;
     } else {
       meta = dJSON.parse(meta);
-      meta = JSON.stringify(meta);
     }
+
+    const price = meta && meta.price ? meta.price : null;
+    const note = meta && meta.note ? meta.note : meta && meta.ote ? meta.ote : null;
 
     const values = [
       row["reiReagentInstanceId"],
@@ -349,7 +362,8 @@ async function migrateLot() {
         : row["tubFinishedAt"].replace("0000", "").trim(),
       row["tubIsLow"] === null ? false : row["tubIsLow"],
       row["deleted"] === null ? false : row["deleted"],
-      meta,
+      price,
+      note,
     ];
     await postgresPool.query(sql, values);
   }

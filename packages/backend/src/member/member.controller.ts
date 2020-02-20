@@ -28,7 +28,7 @@ export class MemberController {
   async create(@Request() req, @Body() params: CreateMemberDto) {
     if (!req.user.isAdmin) {
       const member = await this.memberService.checkMemberPermissions(req.user.userId, params.groupId);
-      if (member.role > 1) {
+      if (member.role < 100) {
         throw new UnauthorizedException();
       }
     }
@@ -55,7 +55,7 @@ export class MemberController {
     const item = await this.memberService.findById(id);
     if (!req.user.isAdmin) {
       const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
-      if (member.role > 1) {
+      if (member.role < 100) {
         throw new UnauthorizedException();
       }
     }
@@ -68,7 +68,7 @@ export class MemberController {
     const item = await this.memberService.findById(id);
     if (!req.user.isAdmin) {
       const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
-      if (member.role > 1) {
+      if (member.role < 100) {
         throw new UnauthorizedException();
       }
     }

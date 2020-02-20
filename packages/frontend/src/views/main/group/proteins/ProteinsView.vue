@@ -28,7 +28,6 @@
           showCurrentPage: true,
         }"
         multi-sort
-        show-expand
       >
         <template v-slot:item.action="{ item }">
           <v-tooltip bottom>
@@ -60,18 +59,6 @@
           <v-btn text color="primary" @click.stop="showDetails(item)">
             Details
           </v-btn>
-        </template>
-        <template v-slot:expanded-item="{ headers, item }">
-          <td :colspan="headers.length">
-            <v-card flat tile class="my-2">
-              <v-card-title>
-                {{ item.name }}
-              </v-card-title>
-              <v-card-text>
-                {{ item.description }}
-              </v-card-text>
-            </v-card>
-          </td>
         </template>
       </v-data-table>
     </v-card>

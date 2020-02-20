@@ -3,8 +3,8 @@
     <v-card-text>
       <div><span class="subheader">Name: </span>{{ props.clone.name }}</div>
       <div>
-        <span class="subheader">Protein: </span
-        ><router-link
+        <span class="subheader">Protein: </span>
+        <router-link
           class="link"
           :to="{
             name: 'main-group-proteins-edit',

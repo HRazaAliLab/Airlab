@@ -28,31 +28,19 @@
               Role
             </div>
             <v-btn-toggle v-model="role">
+              <v-btn small value="100">
+                Admin
+              </v-btn>
+              <v-btn small value="10">
+                Standard
+              </v-btn>
               <v-btn small value="0">
-                PI
-              </v-btn>
-              <v-btn small value="1">
-                Manager
-              </v-btn>
-              <v-btn small value="2">
-                Postdoc
-              </v-btn>
-              <v-btn small value="3">
-                Ph.D. Student
-              </v-btn>
-              <v-btn small value="4">
-                Visiting
-              </v-btn>
-              <v-btn small value="5">
-                Other
+                Guest
               </v-btn>
             </v-btn-toggle>
             <v-checkbox label="Active" v-model="isActive" hint="Access is permited" />
             <v-row>
-              <v-checkbox label="Orders" v-model="canOrder" class="mx-4" />
-              <v-checkbox label="Erase" v-model="canErase" class="mr-4" />
-              <v-checkbox label="Finances" v-model="canFinances" class="mr-4" />
-              <v-checkbox label="Panels" v-model="canPanels" class="mr-4" />
+              <v-checkbox label="Can access all panels" v-model="allPanels" class="mr-4" />
             </v-row>
           </v-form>
         </template>
@@ -79,12 +67,9 @@ export default class CreateMember extends Vue {
 
   valid = true;
   userId: number | null = null;
-  role = "";
+  role = "0";
   isActive = false;
-  canOrder = false;
-  canErase = false;
-  canFinances = false;
-  canPanels = false;
+  allPanels = false;
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
@@ -99,12 +84,9 @@ export default class CreateMember extends Vue {
 
   reset() {
     this.userId = null;
-    this.role = "";
+    this.role = "0";
     this.isActive = false;
-    this.canOrder = false;
-    this.canErase = false;
-    this.canFinances = false;
-    this.canPanels = false;
+    this.allPanels = false;
     (this.$refs.form as any).resetValidation();
   }
 
@@ -117,12 +99,9 @@ export default class CreateMember extends Vue {
       const data: CreateMemberDto = {
         groupId: this.activeGroupId,
         userId: Number(this.userId),
-        role: !this.role || this.role === "" ? -1 : Number(this.role),
+        role: !this.role || this.role === "" ? 0 : Number(this.role),
         isActive: this.isActive,
-        canOrder: this.canOrder,
-        canErase: this.canErase,
-        canFinances: this.canFinances,
-        canPanels: this.canPanels,
+        allPanels: this.allPanels,
       };
       await this.memberContext.actions.createMember(data);
       this.$router.back();

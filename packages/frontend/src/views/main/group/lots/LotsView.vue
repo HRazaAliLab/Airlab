@@ -252,6 +252,16 @@ export default class LotsView extends Vue {
       filterable: false,
     },
     {
+      text: "price",
+      value: "price",
+      filterable: false,
+    },
+    {
+      text: "note",
+      value: "note",
+      filterable: false,
+    },
+    {
       text: "Actions",
       value: "action",
       sortable: false,

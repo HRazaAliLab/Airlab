@@ -11,31 +11,19 @@
               Role
             </div>
             <v-btn-toggle v-model="role">
+              <v-btn small value="100">
+                Admin
+              </v-btn>
+              <v-btn small value="10">
+                Standard
+              </v-btn>
               <v-btn small value="0">
-                PI
-              </v-btn>
-              <v-btn small value="1">
-                Manager
-              </v-btn>
-              <v-btn small value="2">
-                Postdoc
-              </v-btn>
-              <v-btn small value="3">
-                Ph.D. Student
-              </v-btn>
-              <v-btn small value="4">
-                Visiting
-              </v-btn>
-              <v-btn small value="5">
-                Other
+                Guest
               </v-btn>
             </v-btn-toggle>
             <v-checkbox label="Active" v-model="isActive" hint="Access is permited" />
             <v-row>
-              <v-checkbox label="Orders" v-model="canOrder" class="mx-4" />
-              <v-checkbox label="Erase" v-model="canErase" class="mr-4" />
-              <v-checkbox label="Finances" v-model="canFinances" class="mr-4" />
-              <v-checkbox label="Panels" v-model="canPanels" class="mr-4" />
+              <v-checkbox label="Panels" v-model="allPanels" class="mr-4" />
             </v-row>
           </v-form>
         </template>
@@ -62,12 +50,9 @@ export default class EditMember extends Vue {
   readonly memberContext = memberModule.context(this.$store);
 
   valid = true;
-  role = "";
+  role = "0";
   isActive = false;
-  canOrder = false;
-  canErase = false;
-  canFinances = false;
-  canPanels = false;
+  allPanels = false;
 
   get member() {
     return this.memberContext.getters.getMember(+this.$router.currentRoute.params.id);
@@ -83,12 +68,9 @@ export default class EditMember extends Vue {
       (this.$refs.form as any).resetValidation();
     }
     if (this.member) {
-      this.role = this.member.role === -1 ? "" : this.member.role.toString();
+      this.role = this.member.role.toString();
       this.isActive = this.member.isActive;
-      this.canOrder = this.member.canOrder;
-      this.canErase = this.member.canErase;
-      this.canFinances = this.member.canFinances;
-      this.canPanels = this.member.canPanels;
+      this.allPanels = this.member.allPanels;
     }
   }
 
@@ -99,12 +81,9 @@ export default class EditMember extends Vue {
   async submit() {
     if ((this.$refs.form as any).validate() && this.member) {
       const data: UpdateMemberDto = {
-        role: !this.role || this.role === "" ? -1 : Number(this.role),
+        role: !this.role || this.role === "" ? 0 : Number(this.role),
         isActive: this.isActive,
-        canOrder: this.canOrder,
-        canErase: this.canErase,
-        canFinances: this.canFinances,
-        canPanels: this.canPanels,
+        allPanels: this.allPanels,
       };
       await this.memberContext.actions.updateMember({
         id: this.member.id,

@@ -14,6 +14,8 @@ export declare class LotDto {
     readonly status: string;
     readonly purpose: string;
     readonly link: string;
+    readonly price: string;
+    readonly note: string;
     readonly requestedAt: string;
     readonly approvedAt: string;
     readonly orderedAt: string;
@@ -35,6 +37,8 @@ export declare class CreateLotDto {
     readonly number: string;
     readonly link: string | null;
     readonly purpose: string | null;
+    readonly price?: string | null;
+    readonly note?: string | null;
 }
 export declare class UpdateLotDto {
     readonly status?: string;
@@ -44,5 +48,7 @@ export declare class UpdateLotDto {
     readonly number: string;
     readonly link: string | null;
     readonly purpose: string | null;
+    readonly price?: string | null;
+    readonly note?: string | null;
 }
 //# sourceMappingURL=dto.d.ts.map

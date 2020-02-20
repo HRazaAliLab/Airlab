@@ -60,7 +60,7 @@ export class CloneController {
   }
 
   @Get("clones/:id/lots")
-  @ApiOkResponse({ description: "Find all lots belonging to the clone.", type: LotDto })
+  @ApiOkResponse({ description: "Find all lots belonging to the clone.", type: LotDto, isArray: true })
   async findCloneLots(@Request() req, @Param("id") id: number) {
     const clone = await this.cloneService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, clone.groupId);
@@ -68,7 +68,7 @@ export class CloneController {
   }
 
   @Get("clones/:id/validations")
-  @ApiOkResponse({ description: "Find all validations belonging to the clone.", type: ValidationDto })
+  @ApiOkResponse({ description: "Find all validations belonging to the clone.", type: ValidationDto, isArray: true })
   async findCloneValidations(@Request() req, @Param("id") id: number) {
     const clone = await this.cloneService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, clone.groupId);

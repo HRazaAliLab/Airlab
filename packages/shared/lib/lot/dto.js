@@ -76,6 +76,14 @@ __decorate([
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", String)
+], LotDto.prototype, "price", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], LotDto.prototype, "note", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
 ], LotDto.prototype, "requestedAt", void 0);
 __decorate([
     swagger_1.ApiProperty(),
@@ -153,6 +161,18 @@ __decorate([
     swagger_1.ApiPropertyOptional(),
     __metadata("design:type", String)
 ], CreateLotDto.prototype, "purpose", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiPropertyOptional(),
+    __metadata("design:type", String)
+], CreateLotDto.prototype, "price", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiPropertyOptional(),
+    __metadata("design:type", String)
+], CreateLotDto.prototype, "note", void 0);
 exports.CreateLotDto = CreateLotDto;
 class UpdateLotDto {
 }
@@ -194,5 +214,17 @@ __decorate([
     swagger_1.ApiPropertyOptional(),
     __metadata("design:type", String)
 ], UpdateLotDto.prototype, "purpose", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiPropertyOptional(),
+    __metadata("design:type", String)
+], UpdateLotDto.prototype, "price", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiPropertyOptional(),
+    __metadata("design:type", String)
+], UpdateLotDto.prototype, "note", void 0);
 exports.UpdateLotDto = UpdateLotDto;
 //# sourceMappingURL=dto.js.map

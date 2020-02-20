@@ -21,16 +21,7 @@ export class MemberDto {
   readonly isActive: boolean;
 
   @ApiProperty()
-  readonly canOrder: boolean;
-
-  @ApiProperty()
-  readonly canErase: boolean;
-
-  @ApiProperty()
-  readonly canFinances: boolean;
-
-  @ApiProperty()
-  readonly canPanels: boolean;
+  readonly allPanels: boolean;
 
   @ApiProperty()
   readonly createdAt: string;
@@ -58,19 +49,7 @@ export class CreateMemberDto {
 
   @IsBoolean()
   @ApiProperty()
-  readonly canOrder: boolean;
-
-  @IsBoolean()
-  @ApiProperty()
-  readonly canErase: boolean;
-
-  @IsBoolean()
-  @ApiProperty()
-  readonly canFinances: boolean;
-
-  @IsBoolean()
-  @ApiProperty()
-  readonly canPanels: boolean;
+  readonly allPanels: boolean;
 }
 
 export class UpdateMemberDto {
@@ -84,17 +63,5 @@ export class UpdateMemberDto {
 
   @IsBoolean()
   @ApiProperty()
-  readonly canOrder: boolean;
-
-  @IsBoolean()
-  @ApiProperty()
-  readonly canErase: boolean;
-
-  @IsBoolean()
-  @ApiProperty()
-  readonly canFinances: boolean;
-
-  @IsBoolean()
-  @ApiProperty()
-  readonly canPanels: boolean;
+  readonly allPanels: boolean;
 }

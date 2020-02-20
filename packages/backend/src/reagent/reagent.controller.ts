@@ -4,13 +4,19 @@ import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nest
 import { AuthGuard } from "@nestjs/passport";
 import { CreateReagentDto, ReagentDto, UpdateReagentDto } from "@airlab/shared/lib/reagent/dto";
 import { MemberService } from "../member/member.service";
+import { LotDto } from "@airlab/shared/lib/lot/dto";
+import { LotService } from "../lot/lot.service";
 
 @Controller()
 @ApiTags("reagents")
 @ApiBearerAuth()
 @UseGuards(AuthGuard("jwt"))
 export class ReagentController {
-  constructor(private readonly reagentService: ReagentService, private readonly memberService: MemberService) {}
+  constructor(
+    private readonly reagentService: ReagentService,
+    private readonly memberService: MemberService,
+    private readonly lotService: LotService
+  ) {}
 
   @Post("reagents")
   @ApiCreatedResponse({ description: "Create entity.", type: ReagentDto })
@@ -25,13 +31,6 @@ export class ReagentController {
     const item = await this.reagentService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
     return item;
-  }
-
-  @Get("reagents/search/:query")
-  @ApiOkResponse({ description: "Search Biocompare for an antibody." })
-  async searchBiocompare(@Request() req, @Param("query") query: string) {
-    const result = await this.reagentService.searchBiocompare(query);
-    return result;
   }
 
   @Patch("reagents/:id")
@@ -59,5 +58,13 @@ export class ReagentController {
   async getGroupReagents(@Request() req, @Param("groupId") groupId: number) {
     await this.memberService.checkMemberPermissions(req.user.userId, groupId);
     return this.reagentService.getGroupReagents(groupId);
+  }
+
+  @Get("reagents/:id/lots")
+  @ApiOkResponse({ description: "Find all lots belonging to the reagent.", type: LotDto, isArray: true })
+  async findReagentLots(@Request() req, @Param("id") id: number) {
+    const reagent = await this.reagentService.findById(id);
+    await this.memberService.checkMemberPermissions(req.user.userId, reagent.groupId);
+    return this.lotService.getReagentLots(id);
   }
 }

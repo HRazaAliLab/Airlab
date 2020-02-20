@@ -60,7 +60,6 @@
           showCurrentPage: true,
         }"
         multi-sort
-        show-expand
       >
         <template v-slot:item.provider="{ item }">
           <router-link
@@ -123,22 +122,10 @@
             Details
           </v-btn>
         </template>
-        <template v-slot:expanded-item="{ headers, item }">
-          <td :colspan="headers.length">
-            <v-card flat tile class="my-2">
-              <v-card-title>
-                {{ item.name }}
-              </v-card-title>
-              <v-card-text>
-                {{ item.reference }}
-              </v-card-text>
-            </v-card>
-          </td>
-        </template>
       </v-data-table>
     </v-card>
-    <v-navigation-drawer v-if="detailsItem" v-model="drawer" right fixed temporary width="400">
-      <ReagentDetailsView :item="detailsItem" />
+    <v-navigation-drawer v-model="drawer" right fixed temporary width="600">
+      <ReagentDetailsView v-if="drawer" :reagent="detailsItem" />
     </v-navigation-drawer>
   </v-col>
 </template>
@@ -149,14 +136,12 @@ import { Component, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
 import { reagentModule } from "@/modules/reagent";
 import { ReagentDto } from "@airlab/shared/lib/reagent/dto";
-import InfoView from "@/components/InfoView.vue";
 import { providerModule } from "@/modules/provider";
 import ReagentDetailsView from "@/views/main/group/reagents/ReagentDetailsView.vue";
 
 @Component({
   components: {
     ReagentDetailsView,
-    InfoView,
     LoadingView,
   },
 })

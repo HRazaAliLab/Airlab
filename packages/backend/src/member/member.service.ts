@@ -18,7 +18,7 @@ export class MemberService {
 
   async findById(id: number) {
     return this.repository.findOne(id, {
-      select: ["id", "groupId", "role", "isActive", "canOrder", "canErase", "canFinances", "canPanels"],
+      select: ["id", "groupId", "role", "isActive", "allPanels"],
     });
   }
 
@@ -80,15 +80,7 @@ export class MemberService {
   async getGroupMembers(groupId: number) {
     return this.repository
       .createQueryBuilder("member")
-      .select([
-        "member.id",
-        "member.role",
-        "member.isActive",
-        "member.canOrder",
-        "member.canErase",
-        "member.canFinances",
-        "member.canPanels",
-      ])
+      .select(["member.id", "member.role", "member.isActive", "member.allPanels"])
       .where("member.groupId = :groupId", { groupId: groupId })
       .leftJoin("member.user", "user")
       .addSelect(["user.id", "user.name", "user.email"])

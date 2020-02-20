@@ -1,5 +1,5 @@
 <template>
-  <v-card tile elevation="1" class="mb-3">
+  <v-card tile elevation="1">
     <v-card-title>Lot Number: {{ lot.number }}</v-card-title>
     <v-card-text>
       <div class="subtitle-1">Status: {{ lot.status }}</div>

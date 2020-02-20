@@ -40,24 +40,9 @@ export class MemberEntity {
   isActive: boolean;
 
   @Column({
-    name: "can_order",
+    name: "all_panels",
   })
-  canOrder: boolean;
-
-  @Column({
-    name: "can_erase",
-  })
-  canErase: boolean;
-
-  @Column({
-    name: "can_finances",
-  })
-  canFinances: boolean;
-
-  @Column({
-    name: "can_panels",
-  })
-  canPanels: boolean;
+  allPanels: boolean;
 
   @Column({
     name: "created_at",

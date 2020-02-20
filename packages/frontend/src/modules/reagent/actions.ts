@@ -68,4 +68,12 @@ export class ReagentActions extends Actions<ReagentState, ReagentGetters, Reagen
       await this.main!.actions.checkApiError(error);
     }
   }
+
+  async getReagentLots(id: number) {
+    try {
+      return api.getReagentLots(id);
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
 }

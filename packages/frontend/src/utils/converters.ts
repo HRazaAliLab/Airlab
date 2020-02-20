@@ -25,12 +25,9 @@ export function validationStatusToString(value: number): string {
 }
 
 const roleMap = {
-  0: "PI",
-  1: "Manager",
-  2: "Postdoc",
-  3: "Ph.D. Student",
-  4: "Visiting",
-  5: "Other",
+  100: "Admin",
+  10: "Standard",
+  0: "Guest",
 };
 
 export function roleToString(value: number): string {

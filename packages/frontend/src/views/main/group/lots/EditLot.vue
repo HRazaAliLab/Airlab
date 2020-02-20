@@ -44,6 +44,8 @@
           <v-text-field label="Lot Number" v-model="number" :rules="numberRules" />
           <v-text-field label="Datasheet Link" v-model="link" :rules="linkRules" />
           <v-text-field label="Purpose" v-model="purpose" :rules="purposeRules" />
+          <v-text-field label="Price" v-model="price" />
+          <v-text-field label="Note" v-model="note" />
         </v-form>
       </v-card-text>
     </v-card>
@@ -82,6 +84,8 @@ export default class EditLot extends Vue {
   number = "Pending";
   link: string | null = null;
   purpose: string | null = null;
+  price: string | null = null;
+  note: string | null = null;
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
@@ -118,6 +122,8 @@ export default class EditLot extends Vue {
       this.number = this.lot.number;
       this.link = this.lot.link;
       this.purpose = this.lot.purpose;
+      this.price = this.lot.price;
+      this.note = this.lot.note;
     }
   }
 
@@ -130,6 +136,8 @@ export default class EditLot extends Vue {
         number: this.number,
         link: this.link,
         purpose: this.purpose,
+        price: this.price,
+        note: this.note,
       };
       await this.lotContext.actions.updateLot({
         id: this.lot.id,

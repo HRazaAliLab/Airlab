@@ -6,7 +6,7 @@
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn v-if="groupRole < 2" text :to="`/main/groups/${activeGroupId}/members/create`" color="primary">
+        <v-btn v-if="groupRole >= 100" text :to="`/main/groups/${activeGroupId}/members/create`" color="primary">
           Create Member
         </v-btn>
       </v-toolbar-items>
@@ -51,17 +51,8 @@
         <template v-slot:item.isActive="{ item }">
           <v-icon v-if="item.isActive">mdi-check</v-icon>
         </template>
-        <template v-slot:item.canOrder="{ item }">
-          <v-icon v-if="item.canOrder">mdi-check</v-icon>
-        </template>
-        <template v-slot:item.canErase="{ item }">
-          <v-icon v-if="item.canErase">mdi-check</v-icon>
-        </template>
-        <template v-slot:item.canFinances="{ item }">
-          <v-icon v-if="item.canFinances">mdi-check</v-icon>
-        </template>
-        <template v-slot:item.canPanels="{ item }">
-          <v-icon v-if="item.canPanels">mdi-check</v-icon>
+        <template v-slot:item.allPanels="{ item }">
+          <v-icon v-if="item.allPanels">mdi-check</v-icon>
         </template>
         <template v-slot:item.action="{ item }">
           <v-tooltip bottom>
@@ -143,33 +134,9 @@ export default class MembersView extends Vue {
       width: "100",
     },
     {
-      text: "Orders",
-      sortable: true,
-      value: "canOrder",
-      align: "left",
-      filterable: false,
-      width: "100",
-    },
-    {
-      text: "Erase",
-      sortable: true,
-      value: "canErase",
-      align: "left",
-      filterable: false,
-      width: "100",
-    },
-    {
-      text: "Finances",
-      sortable: true,
-      value: "canFinances",
-      align: "left",
-      filterable: false,
-      width: "100",
-    },
-    {
       text: "Panels",
       sortable: true,
-      value: "canPanels",
+      value: "allPanels",
       align: "left",
       filterable: false,
       width: "100",

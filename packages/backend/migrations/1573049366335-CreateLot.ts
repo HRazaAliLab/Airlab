@@ -78,6 +78,16 @@ export class CreateLot1573049366335 implements MigrationInterface {
             isNullable: true,
           },
           {
+            name: "price",
+            type: "varchar",
+            isNullable: true,
+          },
+          {
+            name: "note",
+            type: "varchar",
+            isNullable: true,
+          },
+          {
             name: "requested_at",
             type: "timestamptz",
             isNullable: true,

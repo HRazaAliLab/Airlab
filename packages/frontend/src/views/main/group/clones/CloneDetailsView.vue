@@ -1,19 +1,12 @@
 <template>
   <v-card flat>
-    <v-list-item>
-      <v-list-item-icon>
-        <v-icon>mdi-information-outline</v-icon>
-      </v-list-item-icon>
-      <v-list-item-content>
-        <v-list-item-title>Clone: {{ item.name }}</v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
+    <v-card-title>Clone: {{ clone.name }}</v-card-title>
     <v-card-text>
       <v-tabs v-model="tab">
         <v-tab>Lots</v-tab>
         <v-tab>Validations</v-tab>
         <v-tab-item>
-          <LotView v-for="lot in lots" :key="lot.id" :group-id="activeGroupId" :lot="lot" />
+          <LotView v-for="lot in lots" :key="lot.id" :group-id="activeGroupId" :lot="lot" class="mb-3" />
         </v-tab-item>
         <v-tab-item>
           <ValidationView
@@ -49,7 +42,7 @@ export default class CloneDetailsView extends Vue {
 
   readonly apiUrl = apiUrl;
 
-  @Prop(Object) readonly item!: CloneDto;
+  @Prop(Object) readonly clone!: CloneDto;
 
   tab = 0;
   lots: LotDto[] = [];
@@ -61,8 +54,8 @@ export default class CloneDetailsView extends Vue {
 
   async mounted() {
     [this.lots, this.validations] = await Promise.all([
-      this.cloneContext.actions.getCloneLots(this.item.id),
-      this.cloneContext.actions.getCloneValidations(this.item.id),
+      this.cloneContext.actions.getCloneLots(this.clone.id),
+      this.cloneContext.actions.getCloneValidations(this.clone.id),
     ]);
   }
 }

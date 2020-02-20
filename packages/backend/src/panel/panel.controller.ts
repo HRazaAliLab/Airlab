@@ -54,7 +54,7 @@ export class PanelController {
   @ApiOkResponse({ description: "Find all panels for the group.", type: PanelDto, isArray: true })
   async getAllPanelsForGroup(@Request() req, @Param("groupId") groupId: number) {
     const member = await this.memberService.checkMemberPermissions(req.user.userId, groupId);
-    return member.canPanels
+    return member.allPanels
       ? this.panelService.getGroupPanels(groupId)
       : this.panelService.getPersonalGroupPanels(groupId, member.id);
   }

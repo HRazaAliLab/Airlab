@@ -1,4 +1,3 @@
-import got from "got";
 import { Injectable, Logger } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
@@ -69,21 +68,6 @@ export class ReagentService {
       })
       .orderBy("reagent.id", "DESC")
       .getMany();
-  }
-
-  async searchBiocompare(query: string) {
-    try {
-      const result = await got(`https://www.biocompare.com/Search-Antibodies/?search=${query}&said=0`, {
-        retry: 0,
-        headers: {
-          "User-Agent":
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.116 Safari/537.36",
-        },
-      }).text();
-      return result;
-    } catch (e) {
-      this.logger.error(e);
-    }
   }
 
   private async clearCache(groupId: number) {

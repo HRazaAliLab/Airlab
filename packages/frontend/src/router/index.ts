@@ -148,13 +148,6 @@ export default new Router({
                 },
 
                 {
-                  path: "shop",
-                  name: "main-group-shop",
-                  component: () =>
-                    import(/* webpackChunkName: "main-group-shop" */ "@/views/main/group/shop/ShopView.vue"),
-                },
-
-                {
                   path: "conjugates",
                   name: "main-group-conjugates",
                   component: () =>

@@ -40,19 +40,7 @@ __decorate([
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Boolean)
-], MemberDto.prototype, "canOrder", void 0);
-__decorate([
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Boolean)
-], MemberDto.prototype, "canErase", void 0);
-__decorate([
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Boolean)
-], MemberDto.prototype, "canFinances", void 0);
-__decorate([
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Boolean)
-], MemberDto.prototype, "canPanels", void 0);
+], MemberDto.prototype, "allPanels", void 0);
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", String)
@@ -88,22 +76,7 @@ __decorate([
     class_validator_1.IsBoolean(),
     swagger_1.ApiProperty(),
     __metadata("design:type", Boolean)
-], CreateMemberDto.prototype, "canOrder", void 0);
-__decorate([
-    class_validator_1.IsBoolean(),
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Boolean)
-], CreateMemberDto.prototype, "canErase", void 0);
-__decorate([
-    class_validator_1.IsBoolean(),
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Boolean)
-], CreateMemberDto.prototype, "canFinances", void 0);
-__decorate([
-    class_validator_1.IsBoolean(),
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Boolean)
-], CreateMemberDto.prototype, "canPanels", void 0);
+], CreateMemberDto.prototype, "allPanels", void 0);
 exports.CreateMemberDto = CreateMemberDto;
 class UpdateMemberDto {
 }
@@ -121,21 +94,6 @@ __decorate([
     class_validator_1.IsBoolean(),
     swagger_1.ApiProperty(),
     __metadata("design:type", Boolean)
-], UpdateMemberDto.prototype, "canOrder", void 0);
-__decorate([
-    class_validator_1.IsBoolean(),
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Boolean)
-], UpdateMemberDto.prototype, "canErase", void 0);
-__decorate([
-    class_validator_1.IsBoolean(),
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Boolean)
-], UpdateMemberDto.prototype, "canFinances", void 0);
-__decorate([
-    class_validator_1.IsBoolean(),
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Boolean)
-], UpdateMemberDto.prototype, "canPanels", void 0);
+], UpdateMemberDto.prototype, "allPanels", void 0);
 exports.UpdateMemberDto = UpdateMemberDto;
 //# sourceMappingURL=dto.js.map

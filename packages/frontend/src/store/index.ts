@@ -19,7 +19,6 @@ import { reagentModule } from "@/modules/reagent";
 import { lotModule } from "@/modules/lot";
 import { validationModule } from "@/modules/validation";
 import { memberModule } from "@/modules/member";
-import { shopModule } from "@/modules/shop";
 
 Vue.use(Vuex);
 
@@ -42,7 +41,6 @@ const rootModule = new Module({
     species: speciesModule,
     provider: providerModule,
     settings: settingsModule,
-    shop: shopModule,
   },
 });
 

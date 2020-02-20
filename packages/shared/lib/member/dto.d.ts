@@ -5,10 +5,7 @@ export declare class MemberDto {
     readonly role: number;
     readonly activationKey: string;
     readonly isActive: boolean;
-    readonly canOrder: boolean;
-    readonly canErase: boolean;
-    readonly canFinances: boolean;
-    readonly canPanels: boolean;
+    readonly allPanels: boolean;
     readonly createdAt: string;
     readonly updatedAt: string;
 }
@@ -17,17 +14,11 @@ export declare class CreateMemberDto {
     readonly userId: number;
     readonly role: number;
     readonly isActive: boolean;
-    readonly canOrder: boolean;
-    readonly canErase: boolean;
-    readonly canFinances: boolean;
-    readonly canPanels: boolean;
+    readonly allPanels: boolean;
 }
 export declare class UpdateMemberDto {
     readonly role: number;
     readonly isActive: boolean;
-    readonly canOrder: boolean;
-    readonly canErase: boolean;
-    readonly canFinances: boolean;
-    readonly canPanels: boolean;
+    readonly allPanels: boolean;
 }
 //# sourceMappingURL=dto.d.ts.map

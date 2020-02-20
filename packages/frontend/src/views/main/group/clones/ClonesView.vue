@@ -242,7 +242,7 @@
       </v-data-table>
     </v-card>
     <v-navigation-drawer v-model="drawer" right fixed temporary width="600">
-      <CloneDetailsView v-if="drawer" :item="detailsItem" />
+      <CloneDetailsView v-if="drawer" :clone="detailsItem" />
     </v-navigation-drawer>
   </v-col>
 </template>

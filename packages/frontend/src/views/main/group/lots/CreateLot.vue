@@ -44,6 +44,8 @@
           <v-text-field label="Lot Number" v-model="number" :rules="numberRules" />
           <v-text-field label="Datasheet Link" v-model="link" :rules="linkRules" />
           <v-text-field label="Purpose" v-model="purpose" :rules="purposeRules" />
+          <v-text-field label="Price" v-model="price" />
+          <v-text-field label="Note" v-model="note" />
         </v-form>
       </v-card-text>
     </v-card>
@@ -80,8 +82,10 @@ export default class CreateLot extends Vue {
   reagentId: number | null = null;
   providerId: number | null = null;
   number = "Pending";
-  link = null;
-  purpose = null;
+  link: string | null = null;
+  purpose: string | null = null;
+  price: string | null = null;
+  note: string | null = null;
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
@@ -110,6 +114,8 @@ export default class CreateLot extends Vue {
     this.number = "Pending";
     this.link = null;
     this.purpose = null;
+    this.price = null;
+    this.note = null;
     (this.$refs.form as any).resetValidation();
   }
 
@@ -131,6 +137,8 @@ export default class CreateLot extends Vue {
         number: this.number,
         link: this.link,
         purpose: this.purpose,
+        price: this.price,
+        note: this.note,
       };
       await this.lotContext.actions.createLot(data);
       this.$router.back();

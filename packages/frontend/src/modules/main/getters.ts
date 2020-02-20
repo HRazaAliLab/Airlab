@@ -47,22 +47,10 @@ export class MainGetters extends Getters<MainState> {
   }
 
   get groupRole() {
-    return this.state.myMember ? this.state.myMember.role : -1;
+    return this.state.myMember ? this.state.myMember.role : 0;
   }
 
-  get canErase() {
-    return this.state.myMember ? this.state.myMember.canErase : false;
-  }
-
-  get canOrder() {
-    return this.state.myMember ? this.state.myMember.canOrder : false;
-  }
-
-  get canPanels() {
-    return this.state.myMember ? this.state.myMember.canPanels : false;
-  }
-
-  get canFinances() {
-    return this.state.myMember ? this.state.myMember.canFinances : false;
+  get allPanels() {
+    return this.state.myMember ? this.state.myMember.allPanels : false;
   }
 }

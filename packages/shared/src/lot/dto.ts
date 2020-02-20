@@ -48,6 +48,12 @@ export class LotDto {
   readonly link: string;
 
   @ApiProperty()
+  readonly price: string;
+
+  @ApiProperty()
+  readonly note: string;
+
+  @ApiProperty()
   readonly requestedAt: string;
 
   @ApiProperty()
@@ -111,6 +117,16 @@ export class CreateLotDto {
   @IsOptional()
   @ApiPropertyOptional()
   readonly purpose: string | null;
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly price?: string | null;
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly note?: string | null;
 }
 
 export class UpdateLotDto {
@@ -144,4 +160,14 @@ export class UpdateLotDto {
   @IsOptional()
   @ApiPropertyOptional()
   readonly purpose: string | null;
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly price?: string | null;
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly note?: string | null;
 }

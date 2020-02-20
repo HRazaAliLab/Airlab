@@ -1,11 +1,19 @@
 <template>
   <v-card flat>
     <v-card-title>Protein: {{ protein.name }}</v-card-title>
-    <v-card-subtitle>Clones</v-card-subtitle>
     <v-card-text>
-      <div v-for="clone in clones" :key="clone.id" class="item-view">
-        <CloneView :group-id="activeGroupId" :clone="clone" />
-      </div>
+      <v-tabs v-model="tab">
+        <v-tab>Clones</v-tab>
+        <v-tab>Metadata</v-tab>
+        <v-tab-item>
+          <div v-for="clone in clones" :key="clone.id" class="mb-3">
+            <CloneView :group-id="activeGroupId" :clone="clone" />
+          </div>
+        </v-tab-item>
+        <v-tab-item>
+          <InfoView :item="protein" />
+        </v-tab-item>
+      </v-tabs>
     </v-card-text>
   </v-card>
 </template>
@@ -17,9 +25,10 @@ import CloneView from "@/views/main/group/clones/CloneView.vue";
 import { CloneDto } from "@airlab/shared/lib/clone/dto";
 import { ProteinDto } from "@airlab/shared/lib/protein/dto";
 import { proteinModule } from "@/modules/protein";
+import InfoView from "@/components/InfoView.vue";
 
 @Component({
-  components: { CloneView },
+  components: { InfoView, CloneView },
 })
 export default class ProteinDetailsView extends Vue {
   readonly groupContext = groupModule.context(this.$store);
@@ -31,6 +40,7 @@ export default class ProteinDetailsView extends Vue {
   })
   readonly protein!: ProteinDto;
 
+  tab = 0;
   clones: CloneDto[] = [];
 
   get activeGroupId() {
@@ -42,9 +52,3 @@ export default class ProteinDetailsView extends Vue {
   }
 }
 </script>
-
-<style scoped>
-.item-view {
-  margin-bottom: 10px;
-}
-</style>

@@ -85,6 +85,16 @@ export class LotEntity {
   link: string;
 
   @Column({
+    name: "price",
+  })
+  price: string;
+
+  @Column({
+    name: "note",
+  })
+  note: string;
+
+  @Column({
     name: "requested_at",
   })
   requestedAt: string;

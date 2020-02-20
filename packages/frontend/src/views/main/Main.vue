@@ -82,13 +82,7 @@
               </v-list-item-action>
               <v-list-item-title>Species</v-list-item-title>
             </v-list-item>
-            <v-list-item :to="`/main/groups/${activeGroupId}/shop`">
-              <v-list-item-action>
-                <v-icon>mdi-cart-outline</v-icon>
-              </v-list-item-action>
-              <v-list-item-title>Shop</v-list-item-title>
-            </v-list-item>
-            <v-list-item v-if="groupRole < 2" :to="`/main/groups/${activeGroupId}/members`">
+            <v-list-item v-if="groupRole >= 100" :to="`/main/groups/${activeGroupId}/members`">
               <v-list-item-action>
                 <v-icon>mdi-account-multiple-outline</v-icon>
               </v-list-item-action>

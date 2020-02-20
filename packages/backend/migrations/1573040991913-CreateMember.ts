@@ -26,32 +26,17 @@ export class CreateMember1573040991913 implements MigrationInterface {
             default: 0,
           },
           {
+            name: "all_panels",
+            type: "boolean",
+            default: false,
+          },
+          {
             name: "activation_key",
             type: "varchar",
             isNullable: true,
           },
           {
             name: "is_active",
-            type: "boolean",
-            default: false,
-          },
-          {
-            name: "can_order",
-            type: "boolean",
-            default: false,
-          },
-          {
-            name: "can_erase",
-            type: "boolean",
-            default: false,
-          },
-          {
-            name: "can_finances",
-            type: "boolean",
-            default: false,
-          },
-          {
-            name: "can_panels",
             type: "boolean",
             default: false,
           },
