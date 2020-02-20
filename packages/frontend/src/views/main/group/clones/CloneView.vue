@@ -1,8 +1,26 @@
 <template functional>
-  <v-card flat>
-    <v-card-title>{{ props.clone.name }}</v-card-title>
+  <v-card tile elevation="1">
     <v-card-text>
-      {{ props.clone }}
+      <div><span class="subheader">Name: </span>{{ props.clone.name }}</div>
+      <div>
+        <span class="subheader">Protein: </span
+        ><router-link
+          class="link"
+          :to="{
+            name: 'main-group-proteins-edit',
+            params: {
+              groupId: props.groupId,
+              id: props.clone.protein.id,
+            },
+          }"
+        >
+          {{ props.clone.protein.name }}
+        </router-link>
+      </div>
+      <div><span class="subheader">Isotype: </span>{{ props.clone.isotype }}</div>
+      <div><span class="subheader">Epitope: </span>{{ props.clone.epitope }}</div>
+      <div><span class="subheader">Polyclonal: </span>{{ props.clone.isPolyclonal }}</div>
+      <div><span class="subheader">Phospho: </span>{{ props.clone.isPhospho }}</div>
     </v-card-text>
     <v-card-actions>
       <v-btn
@@ -35,15 +53,18 @@ export default class CloneView extends Vue {
   readonly groupId!: number;
 
   @Prop({
-    type: String,
-    required: true,
-  })
-  readonly apiUrl!: string;
-
-  @Prop({
     type: Object,
     required: true,
   })
   readonly clone!: CloneDto;
 }
 </script>
+
+<style scoped>
+.subheader {
+  font-weight: bold;
+}
+.link {
+  text-decoration: none;
+}
+</style>

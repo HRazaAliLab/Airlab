@@ -73,6 +73,8 @@ export class ConjugateService {
       .createQueryBuilder("conjugate")
       .where("conjugate.tagId = :tagId", { tagId: tagId })
       .andWhere("conjugate.isDeleted = false")
+      .leftJoin("conjugate.lot", "lot")
+      .addSelect(["lot.id", "lot.number"])
       .leftJoin("conjugate.member", "member")
       .leftJoinAndMapOne("conjugate.user", UserEntity, "user", "member.userId = user.id")
       .orderBy({ "conjugate.tubeNumber": "DESC" })

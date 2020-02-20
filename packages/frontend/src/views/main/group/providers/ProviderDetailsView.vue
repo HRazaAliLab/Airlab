@@ -1,21 +1,11 @@
 <template>
   <v-card flat>
-    <v-list-item>
-      <v-list-item-icon>
-        <v-icon>mdi-information-outline</v-icon>
-      </v-list-item-icon>
-      <v-list-item-content>
-        <v-list-item-title>Reagents</v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
+    <v-card-title>Provider: {{ provider.name }}</v-card-title>
+    <v-card-subtitle>Reagents</v-card-subtitle>
     <v-card-text>
-      <ReagentView
-        v-for="reagent in reagents"
-        :key="reagent.id"
-        :group-id="activeGroupId"
-        :api-url="apiUrl"
-        :reagent="reagent"
-      />
+      <div v-for="reagent in reagents" :key="reagent.id" class="item-view">
+        <ReagentView :group-id="activeGroupId" :reagent="reagent" />
+      </div>
     </v-card-text>
   </v-card>
 </template>
@@ -23,7 +13,6 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
-import { apiUrl } from "@/env";
 import { providerModule } from "@/modules/provider";
 import { ProviderDto } from "@airlab/shared/lib/provider/dto";
 import { ReagentDto } from "@airlab/shared/lib/reagent/dto";
@@ -35,7 +24,6 @@ import ReagentView from "@/views/main/group/reagents/ReagentView.vue";
 export default class ProviderDetailsView extends Vue {
   readonly groupContext = groupModule.context(this.$store);
   readonly providerContext = providerModule.context(this.$store);
-  readonly apiUrl = apiUrl;
 
   @Prop({
     type: Object,
@@ -54,3 +42,9 @@ export default class ProviderDetailsView extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.item-view {
+  margin-bottom: 10px;
+}
+</style>

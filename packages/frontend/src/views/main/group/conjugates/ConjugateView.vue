@@ -1,8 +1,48 @@
 <template functional>
-  <v-card flat>
-    <v-card-title :class="props.conjugate.isLow && 'low'">Tube Number: {{ props.conjugate.tubeNumber }}</v-card-title>
+  <v-card tile elevation="1">
     <v-card-text>
-      {{ props.conjugate }}
+      <div :class="props.conjugate.isDeleted && 'deleted'">
+        <span class="subheader">Tube Number: </span>{{ props.conjugate.tubeNumber }}
+      </div>
+      <div>
+        <span class="subheader">Lot: </span
+        ><router-link
+          class="link"
+          :to="{
+            name: 'main-group-lots-edit',
+            params: {
+              groupId: props.groupId,
+              id: props.conjugate.lot.id,
+            },
+          }"
+        >
+          {{ props.conjugate.lot.number }}
+        </router-link>
+      </div>
+      <div>
+        <span class="subheader">Status: </span>
+        <v-chip :color="$options.methods.getColor(props.conjugate)" x-small dark label>
+          {{ props.conjugate.status | conjugateStatusToString }}
+        </v-chip>
+      </div>
+      <div><span class="subheader">Concentration: </span>{{ props.conjugate.concentration }}</div>
+      <div><span class="subheader">Description: </span>{{ props.conjugate.description }}</div>
+      <div><span class="subheader">Labeled: </span>{{ new Date(props.conjugate.labeledAt).toUTCString() }}</div>
+      <div>
+        <span class="subheader">By: </span
+        ><router-link
+          class="link"
+          :to="{
+            name: 'main-admin-users-edit',
+            params: {
+              groupId: props.groupId,
+              id: props.conjugate.user.id,
+            },
+          }"
+        >
+          {{ props.conjugate.user.name }}
+        </router-link>
+      </div>
     </v-card-text>
     <v-card-actions>
       <v-btn
@@ -25,6 +65,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
+import { getConjugateStatusColor } from "@/utils/converters";
 
 @Component
 export default class ConjugateView extends Vue {
@@ -35,21 +76,25 @@ export default class ConjugateView extends Vue {
   readonly groupId!: number;
 
   @Prop({
-    type: String,
-    required: true,
-  })
-  readonly apiUrl!: string;
-
-  @Prop({
     type: Object,
     required: true,
   })
   readonly conjugate!: ConjugateDto;
+
+  getColor(conjugate: ConjugateDto) {
+    return getConjugateStatusColor(conjugate);
+  }
 }
 </script>
 
 <style scoped>
-.low {
+.subheader {
+  font-weight: bold;
+}
+.deleted {
   color: palevioletred;
+}
+.link {
+  text-decoration: none;
 }
 </style>

@@ -58,7 +58,7 @@
         </template>
       </v-data-table>
     </v-card>
-    <v-navigation-drawer v-model="drawer" right fixed temporary width="400">
+    <v-navigation-drawer v-model="drawer" right fixed temporary width="500">
       <ProviderDetailsView v-if="drawer" :provider="detailsItem" />
     </v-navigation-drawer>
   </v-col>

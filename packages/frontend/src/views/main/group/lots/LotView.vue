@@ -68,7 +68,7 @@
         <v-list-item-icon>
           <v-icon>mdi-set-center</v-icon>
         </v-list-item-icon>
-        <v-list-item-content :class="conjugate.isLow && 'low'">
+        <v-list-item-content :class="conjugate.isDeleted && 'deleted'">
           <v-list-item-title>
             {{ conjugate.tag.name + conjugate.tag.mw }} by {{ conjugate.user.name }}
           </v-list-item-title>
@@ -142,7 +142,7 @@ export default class LotView extends Vue {
 </script>
 
 <style scoped>
-.low {
+.deleted {
   color: palevioletred;
 }
 </style>

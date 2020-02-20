@@ -75,8 +75,8 @@
         </template>
       </v-data-table>
     </v-card>
-    <v-navigation-drawer v-if="detailsItem" v-model="drawer" right fixed temporary width="400">
-      <ProteinDetailsView :item="detailsItem" />
+    <v-navigation-drawer v-model="drawer" right fixed temporary width="400">
+      <ProteinDetailsView v-if="drawer" :protein="detailsItem" />
     </v-navigation-drawer>
   </v-col>
 </template>

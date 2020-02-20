@@ -209,7 +209,7 @@ export default class LotsView extends Vue {
       width: "80",
     },
     {
-      text: "Lot Number",
+      text: "Number",
       value: "number",
     },
     {
@@ -247,7 +247,7 @@ export default class LotsView extends Vue {
       value: "purpose",
     },
     {
-      text: "Is Low",
+      text: "Low",
       value: "isLow",
       filterable: false,
     },
