@@ -7,7 +7,7 @@ export class TagMutations extends Mutations<TagState> {
   setEntities(payload: TagDto[]) {
     const normalizedData = normalize<TagDto>(payload, tagListSchema);
     this.state.ids = normalizedData.result;
-    this.state.entities = normalizedData.entities.tags;
+    this.state.entities = normalizedData.entities.tags ? normalizedData.entities.tags : {};
   }
 
   setEntity(payload: TagDto) {

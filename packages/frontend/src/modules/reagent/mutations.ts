@@ -7,7 +7,7 @@ export class ReagentMutations extends Mutations<ReagentState> {
   setEntities(payload: ReagentDto[]) {
     const normalizedData = normalize<ReagentDto>(payload, reagentListSchema);
     this.state.ids = normalizedData.result;
-    this.state.entities = normalizedData.entities.reagents;
+    this.state.entities = normalizedData.entities.reagents ? normalizedData.entities.reagents : {};
   }
 
   setEntity(payload: ReagentDto) {

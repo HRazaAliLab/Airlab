@@ -35,15 +35,7 @@
           <v-text-field label="Tube Number" v-model.number="tubeNumber" :rules="tubeNumberRules" />
           <v-text-field label="Concentration (in ug/ml)" v-model="concentration" :rules="concentrationRules" />
           <v-text-field label="Description" v-model="description" :rules="descriptionRules" />
-          <v-select
-            label="Status"
-            v-model="status"
-            :items="statuses"
-            item-value="id"
-            item-text="name"
-            clearable
-            dense
-          />
+          <v-select label="Status" v-model="status" :items="statuses" item-value="id" item-text="name" dense />
         </v-form>
       </v-card-text>
     </v-card>

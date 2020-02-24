@@ -3,7 +3,6 @@ export declare class LotDto {
     readonly groupId: number;
     readonly createdBy: number;
     readonly reagentId: number;
-    readonly providerId: number;
     readonly cloneId: number;
     readonly requestedBy: number;
     readonly approvedBy: number;
@@ -33,7 +32,6 @@ export declare class CreateLotDto {
     readonly groupId: number;
     readonly cloneId: number;
     readonly reagentId: number;
-    readonly providerId: number;
     readonly number: string;
     readonly link: string | null;
     readonly purpose: string | null;
@@ -44,7 +42,6 @@ export declare class UpdateLotDto {
     readonly status?: string;
     readonly cloneId: number;
     readonly reagentId: number;
-    readonly providerId: number;
     readonly number: string;
     readonly link: string | null;
     readonly purpose: string | null;

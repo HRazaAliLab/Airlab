@@ -30,11 +30,6 @@ export class LotEntity {
   reagentId: number;
 
   @Column({
-    name: "provider_id",
-  })
-  providerId: number;
-
-  @Column({
     name: "clone_id",
   })
   cloneId: number;
@@ -159,10 +154,6 @@ export class LotEntity {
   @ManyToOne(type => ReagentEntity)
   @JoinColumn({ name: "reagent_id" })
   reagent: ReagentEntity;
-
-  @ManyToOne(type => ProviderEntity)
-  @JoinColumn({ name: "provider_id" })
-  provider: ProviderEntity;
 
   @ManyToOne(type => CloneEntity)
   @JoinColumn({ name: "clone_id" })

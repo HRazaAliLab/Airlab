@@ -10,6 +10,39 @@
         <v-btn text :to="`/main/groups/${activeGroupId}/panels/create`" color="primary">Create Panel</v-btn>
       </v-toolbar-items>
     </v-toolbar>
+    <v-expansion-panels>
+      <v-expansion-panel>
+        <v-expansion-panel-header>Filter</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <v-select
+            v-model="applicationFilter"
+            :items="applications"
+            item-text="text"
+            item-value="value"
+            chips
+            clearable
+            label="Application"
+            multiple
+            prepend-icon="mdi-filter-outline"
+            solo
+            dense
+          >
+            <template v-slot:selection="{ attrs, item, select, selected }">
+              <v-chip
+                v-bind="attrs"
+                :input-value="selected"
+                close
+                @click="select"
+                @click:close="removeApplicationFilter(item)"
+              >
+                {{ item.text }}
+              </v-chip>
+            </template>
+          </v-select>
+          <v-switch label="Show only own panels" v-model="showOwnPanels" />
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
     <v-card>
       <v-card-title>
         <v-spacer />
@@ -138,6 +171,8 @@ import { panelModule } from "@/modules/panel";
 import { DuplicatePanelDto, PanelDto } from "@airlab/shared/lib/panel/dto";
 import { applicationToString } from "@/utils/converters";
 import PanelDetailsView from "@/views/main/group/panels/PanelDetailsView.vue";
+import { applicationEnum } from "@/utils/enums";
+import { mainModule } from "@/modules/main";
 
 @Component({
   components: {
@@ -146,11 +181,18 @@ import PanelDetailsView from "@/views/main/group/panels/PanelDetailsView.vue";
   },
 })
 export default class PanelsView extends Vue {
+  readonly mainContext = mainModule.context(this.$store);
   readonly groupContext = groupModule.context(this.$store);
   readonly panelContext = panelModule.context(this.$store);
 
+  readonly applications = applicationEnum;
+
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
+  }
+
+  get member() {
+    return this.mainContext.getters.myMember;
   }
 
   readonly headers = [
@@ -211,8 +253,18 @@ export default class PanelsView extends Vue {
   detailsItem: PanelDto | null = null;
   search = "";
 
+  applicationFilter: number[] = [];
+  showOwnPanels = false;
+
   get items() {
-    return this.panelContext.getters.panels;
+    let items = this.panelContext.getters.panels;
+    if (this.showOwnPanels && this.member !== null) {
+      items = items.filter(item => item.createdBy === this.member!.id);
+    }
+    if (this.applicationFilter.length > 0) {
+      items = items.filter(item => this.applicationFilter.includes(item.application));
+    }
+    return items;
   }
 
   showDetails(item: PanelDto) {
@@ -239,6 +291,11 @@ export default class PanelsView extends Vue {
     if (self.confirm("Are you sure you want to delete the panel?")) {
       await this.panelContext.actions.deletePanel(id);
     }
+  }
+
+  removeApplicationFilter(item) {
+    this.applicationFilter.splice(this.applicationFilter.indexOf(item), 1);
+    this.applicationFilter = [...this.applicationFilter];
   }
 }
 </script>

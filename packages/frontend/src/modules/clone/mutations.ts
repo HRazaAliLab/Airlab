@@ -7,7 +7,7 @@ export class CloneMutations extends Mutations<CloneState> {
   setEntities(payload: CloneDto[]) {
     const normalizedData = normalize<CloneDto>(payload, cloneListSchema);
     this.state.ids = normalizedData.result;
-    this.state.entities = normalizedData.entities.clones;
+    this.state.entities = normalizedData.entities.clones ? normalizedData.entities.clones : {};
   }
 
   setEntity(payload: CloneDto) {

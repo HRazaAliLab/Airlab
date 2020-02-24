@@ -7,7 +7,7 @@ export class SpeciesMutations extends Mutations<SpeciesState> {
   setEntities(payload: SpeciesDto[]) {
     const normalizedData = normalize<SpeciesDto>(payload, speciesListSchema);
     this.state.ids = normalizedData.result;
-    this.state.entities = normalizedData.entities.species;
+    this.state.entities = normalizedData.entities.species ? normalizedData.entities.species : {};
   }
 
   setEntity(payload: SpeciesDto) {

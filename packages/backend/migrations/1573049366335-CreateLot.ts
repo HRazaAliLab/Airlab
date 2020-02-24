@@ -25,11 +25,6 @@ export class CreateLot1573049366335 implements MigrationInterface {
             type: "int",
           },
           {
-            name: "provider_id",
-            type: "int",
-            isNullable: true,
-          },
-          {
             name: "clone_id",
             type: "int",
           },
@@ -161,13 +156,6 @@ export class CreateLot1573049366335 implements MigrationInterface {
             onDelete: "cascade",
           },
           {
-            name: "FK_lot_to_provider",
-            referencedTableName: "provider",
-            columnNames: ["provider_id"],
-            referencedColumnNames: ["id"],
-            onDelete: "cascade",
-          },
-          {
             name: "FK_lot_to_clone",
             referencedTableName: "clone",
             columnNames: ["clone_id"],
@@ -222,10 +210,6 @@ export class CreateLot1573049366335 implements MigrationInterface {
           {
             name: "IDX_lot_reagent_id",
             columnNames: ["reagent_id"],
-          },
-          {
-            name: "IDX_lot_provider_id",
-            columnNames: ["provider_id"],
           },
           {
             name: "IDX_lot_clone_id",

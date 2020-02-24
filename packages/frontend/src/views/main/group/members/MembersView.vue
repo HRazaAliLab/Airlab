@@ -11,7 +11,39 @@
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
-
+    <v-expansion-panels>
+      <v-expansion-panel>
+        <v-expansion-panel-header>Filter</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <v-select
+            v-model="roleFilter"
+            :items="roles"
+            item-text="text"
+            item-value="value"
+            chips
+            clearable
+            label="Role"
+            multiple
+            prepend-icon="mdi-filter-outline"
+            solo
+            dense
+          >
+            <template v-slot:selection="{ attrs, item, select, selected }">
+              <v-chip
+                v-bind="attrs"
+                :input-value="selected"
+                close
+                @click="select"
+                @click:close="removeRoleFilter(item)"
+              >
+                {{ item.text }}
+              </v-chip>
+            </template>
+          </v-select>
+          <v-switch label="Show inactive members" v-model="showInactiveMembers" />
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
     <v-card>
       <v-card-title>
         <v-spacer />
@@ -90,6 +122,7 @@ import { groupModule } from "@/modules/group";
 import { memberModule } from "@/modules/member";
 import { roleToString } from "@/utils/converters";
 import { mainModule } from "@/modules/main";
+import { roleEnum } from "@/utils/enums";
 
 @Component
 export default class MembersView extends Vue {
@@ -98,6 +131,8 @@ export default class MembersView extends Vue {
   readonly memberContext = memberModule.context(this.$store);
 
   readonly roleToString = roleToString;
+
+  readonly roles = roleEnum;
 
   readonly headers = [
     {
@@ -152,12 +187,22 @@ export default class MembersView extends Vue {
 
   search = "";
 
+  roleFilter: number[] = [];
+  showInactiveMembers = false;
+
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
   }
 
   get items() {
-    return this.memberContext.getters.members;
+    let items = this.memberContext.getters.members;
+    if (!this.showInactiveMembers) {
+      items = items.filter(item => item.isActive);
+    }
+    if (this.roleFilter.length > 0) {
+      items = items.filter(item => this.roleFilter.includes(item.role));
+    }
+    return items;
   }
 
   get groupRole() {
@@ -172,6 +217,11 @@ export default class MembersView extends Vue {
     if (self.confirm("Are you sure you want to delete the group member?")) {
       await this.memberContext.actions.deleteMember(id);
     }
+  }
+
+  removeRoleFilter(item) {
+    this.roleFilter.splice(this.roleFilter.indexOf(item), 1);
+    this.roleFilter = [...this.roleFilter];
   }
 }
 </script>

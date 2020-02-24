@@ -7,7 +7,7 @@ export class ConjugateMutations extends Mutations<ConjugateState> {
   setEntities(payload: ConjugateDto[]) {
     const normalizedData = normalize<ConjugateDto>(payload, conjugateListSchema);
     this.state.ids = normalizedData.result;
-    this.state.entities = normalizedData.entities.conjugates;
+    this.state.entities = normalizedData.entities.conjugates ? normalizedData.entities.conjugates : {};
   }
 
   setEntity(payload: ConjugateDto) {

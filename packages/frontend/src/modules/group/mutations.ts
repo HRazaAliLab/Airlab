@@ -11,7 +11,7 @@ export class GroupMutations extends Mutations<GroupState> {
   setEntities(payload: GroupDto[]) {
     const normalizedData = normalize<GroupDto>(payload, groupListSchema);
     this.state.ids = normalizedData.result;
-    this.state.entities = normalizedData.entities.groups;
+    this.state.entities = normalizedData.entities.groups ? normalizedData.entities.groups : {};
   }
 
   setEntity(payload: GroupDto) {

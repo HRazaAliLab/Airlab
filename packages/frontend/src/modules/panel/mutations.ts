@@ -7,7 +7,7 @@ export class PanelMutations extends Mutations<PanelState> {
   setEntities(payload: PanelDto[]) {
     const normalizedData = normalize<PanelDto>(payload, panelListSchema);
     this.state.ids = normalizedData.result;
-    this.state.entities = normalizedData.entities.panels;
+    this.state.entities = normalizedData.entities.panels ? normalizedData.entities.panels : {};
   }
 
   setEntity(payload: PanelDto) {

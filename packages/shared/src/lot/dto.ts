@@ -15,9 +15,6 @@ export class LotDto {
   readonly reagentId: number;
 
   @ApiProperty()
-  readonly providerId: number;
-
-  @ApiProperty()
   readonly cloneId: number;
 
   @ApiProperty()
@@ -100,10 +97,6 @@ export class CreateLotDto {
   @ApiProperty()
   readonly reagentId: number;
 
-  @IsInt()
-  @ApiProperty()
-  readonly providerId: number;
-
   @IsString()
   @ApiProperty()
   readonly number: string;
@@ -142,10 +135,6 @@ export class UpdateLotDto {
   @IsInt()
   @ApiProperty()
   readonly reagentId: number;
-
-  @IsInt()
-  @ApiProperty()
-  readonly providerId: number;
 
   @IsString()
   @ApiProperty()

@@ -7,7 +7,7 @@ export class ProteinMutations extends Mutations<ProteinState> {
   setEntities(payload: ProteinDto[]) {
     const normalizedData = normalize<ProteinDto>(payload, proteinListSchema);
     this.state.ids = normalizedData.result;
-    this.state.entities = normalizedData.entities.proteins;
+    this.state.entities = normalizedData.entities.proteins ? normalizedData.entities.proteins : {};
   }
 
   setEntity(payload: ProteinDto) {

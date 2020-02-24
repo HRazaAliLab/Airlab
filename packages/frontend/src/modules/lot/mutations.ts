@@ -7,7 +7,7 @@ export class LotMutations extends Mutations<LotState> {
   setEntities(payload: LotDto[]) {
     const normalizedData = normalize<LotDto>(payload, lotListSchema);
     this.state.ids = normalizedData.result;
-    this.state.entities = normalizedData.entities.lots;
+    this.state.entities = normalizedData.entities.lots ? normalizedData.entities.lots : {};
   }
 
   setEntity(payload: LotDto) {

@@ -7,7 +7,7 @@ export class ValidationMutations extends Mutations<ValidationState> {
   setEntities(payload: ValidationDto[]) {
     const normalizedData = normalize<ValidationDto>(payload, validationListSchema);
     this.state.ids = normalizedData.result;
-    this.state.entities = normalizedData.entities.validations;
+    this.state.entities = normalizedData.entities.validations ? normalizedData.entities.validations : {};
   }
 
   setEntity(payload: ValidationDto) {

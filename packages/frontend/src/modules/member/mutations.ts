@@ -7,7 +7,7 @@ export class MemberMutations extends Mutations<MemberState> {
   setEntities(payload: MemberDto[]) {
     const normalizedData = normalize<MemberDto>(payload, memberListSchema);
     this.state.ids = normalizedData.result;
-    this.state.entities = normalizedData.entities.members;
+    this.state.entities = normalizedData.entities.members ? normalizedData.entities.members : {};
   }
 
   setEntity(payload: MemberDto) {

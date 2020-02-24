@@ -44,8 +44,8 @@
           <v-select
             v-model="applicationFilter"
             :items="applications"
-            item-text="name"
-            item-value="id"
+            item-text="text"
+            item-value="value"
             chips
             clearable
             label="Application"
@@ -62,15 +62,15 @@
                 @click="select"
                 @click:close="removeApplicationFilter(item)"
               >
-                {{ item.name }}
+                {{ item.text }}
               </v-chip>
             </template>
           </v-select>
           <v-select
             v-model="statusFilter"
             :items="statuses"
-            item-text="name"
-            item-value="id"
+            item-text="text"
+            item-value="value"
             chips
             clearable
             label="Status"
@@ -87,7 +87,7 @@
                 @click="select"
                 @click:close="removeStatusFilter(item)"
               >
-                {{ item.name }}
+                {{ item.text }}
               </v-chip>
             </template>
           </v-select>

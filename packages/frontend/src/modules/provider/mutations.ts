@@ -7,7 +7,7 @@ export class ProviderMutations extends Mutations<ProviderState> {
   setEntities(payload: ProviderDto[]) {
     const normalizedData = normalize<ProviderDto>(payload, providerListSchema);
     this.state.ids = normalizedData.result;
-    this.state.entities = normalizedData.entities.providers;
+    this.state.entities = normalizedData.entities.providers ? normalizedData.entities.providers : {};
   }
 
   setEntity(payload: ProviderDto) {

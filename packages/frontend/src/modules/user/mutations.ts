@@ -7,7 +7,7 @@ export class UserMutations extends Mutations<UserState> {
   setEntities(payload: UserDto[]) {
     const normalizedData = normalize<UserDto>(payload, userListSchema);
     this.state.ids = normalizedData.result;
-    this.state.entities = normalizedData.entities.users;
+    this.state.entities = normalizedData.entities.users ? normalizedData.entities.users : {};
   }
 
   setEntity(payload: UserDto) {

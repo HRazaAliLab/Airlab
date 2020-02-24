@@ -32,10 +32,6 @@ __decorate([
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Number)
-], LotDto.prototype, "providerId", void 0);
-__decorate([
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Number)
 ], LotDto.prototype, "cloneId", void 0);
 __decorate([
     swagger_1.ApiProperty(),
@@ -140,11 +136,6 @@ __decorate([
     __metadata("design:type", Number)
 ], CreateLotDto.prototype, "reagentId", void 0);
 __decorate([
-    class_validator_1.IsInt(),
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Number)
-], CreateLotDto.prototype, "providerId", void 0);
-__decorate([
     class_validator_1.IsString(),
     swagger_1.ApiProperty(),
     __metadata("design:type", String)
@@ -192,11 +183,6 @@ __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], UpdateLotDto.prototype, "reagentId", void 0);
-__decorate([
-    class_validator_1.IsInt(),
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Number)
-], UpdateLotDto.prototype, "providerId", void 0);
 __decorate([
     class_validator_1.IsString(),
     swagger_1.ApiProperty(),
