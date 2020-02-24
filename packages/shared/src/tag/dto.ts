@@ -11,14 +11,17 @@ export class TagDto {
   @ApiProperty()
   readonly name: string;
 
+  @ApiProperty()
+  readonly type: number;
+
   @ApiPropertyOptional()
   readonly mw: number | null;
 
-  @ApiProperty()
-  readonly isFluorophore: boolean;
+  @ApiPropertyOptional()
+  readonly emission: number | null;
 
-  @ApiProperty()
-  readonly isMetal: boolean;
+  @ApiPropertyOptional()
+  readonly excitation: number | null;
 
   @ApiPropertyOptional()
   readonly meta: object;
@@ -37,17 +40,23 @@ export class CreateTagDto {
   readonly name: string;
 
   @IsInt()
+  @ApiProperty()
+  readonly type: number;
+
+  @IsInt()
   @IsOptional()
   @ApiPropertyOptional()
   readonly mw: number | null;
 
-  @IsBoolean()
-  @ApiProperty()
-  readonly isFluorophore: boolean;
+  @IsInt()
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly emission: number | null;
 
-  @IsBoolean()
-  @ApiProperty()
-  readonly isMetal: boolean;
+  @IsInt()
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly excitation: number | null;
 }
 
 export class UpdateTagDto {
@@ -56,15 +65,21 @@ export class UpdateTagDto {
   readonly name: string;
 
   @IsInt()
+  @ApiProperty()
+  readonly type: number;
+
+  @IsInt()
   @IsOptional()
   @ApiPropertyOptional()
   readonly mw: number | null;
 
-  @IsBoolean()
-  @ApiProperty()
-  readonly isFluorophore: boolean;
+  @IsInt()
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly emission: number | null;
 
-  @IsBoolean()
-  @ApiProperty()
-  readonly isMetal: boolean;
+  @IsInt()
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly excitation: number | null;
 }

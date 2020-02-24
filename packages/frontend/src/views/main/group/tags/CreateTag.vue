@@ -16,9 +16,22 @@
         <template>
           <v-form v-model="valid" ref="form" lazy-validation>
             <v-text-field label="Name" v-model="name" :rules="nameRules" />
-            <v-text-field label="MW" v-model.number="mw" :rules="mwRules" type="number" />
-            <v-checkbox label="Fluorophore" v-model="isFluorophore" />
-            <v-checkbox label="Metal" v-model="isMetal" />
+            <v-select label="Type" v-model="tagType" :items="tagTypes" item-value="value" item-text="text" dense />
+            <v-text-field v-if="tagType === 0" label="MW" v-model.number="mw" :rules="mwRules" type="number" />
+            <v-text-field
+              v-if="tagType === 1"
+              label="Emission"
+              v-model.number="emission"
+              :rules="emissionRules"
+              type="number"
+            />
+            <v-text-field
+              v-if="tagType === 1"
+              label="Excitation"
+              v-model.number="excitation"
+              :rules="excitationRules"
+              type="number"
+            />
           </v-form>
         </template>
       </v-card-text>
@@ -32,20 +45,26 @@ import { Component, Vue } from "vue-property-decorator";
 import { tagModule } from "@/modules/tag";
 import { CreateTagDto } from "@airlab/shared/lib/tag/dto";
 import { groupModule } from "@/modules/group";
+import { tagTypeEnum } from "@/utils/enums";
 
 @Component
 export default class CreateTag extends Vue {
   readonly groupContext = groupModule.context(this.$store);
   readonly tagContext = tagModule.context(this.$store);
 
+  readonly tagTypes = tagTypeEnum;
+
   readonly nameRules = [required];
   readonly mwRules = [];
+  readonly emissionRules = [];
+  readonly excitationRules = [];
 
   valid = true;
   name = "";
+  tagType = 0;
   mw: number | null = null;
-  isFluorophore = false;
-  isMetal = false;
+  emission: number | null = null;
+  excitation: number | null = null;
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
@@ -53,9 +72,10 @@ export default class CreateTag extends Vue {
 
   reset() {
     this.name = "";
+    this.tagType = 0;
     this.mw = null;
-    this.isFluorophore = false;
-    this.isMetal = false;
+    this.emission = null;
+    this.excitation = null;
     (this.$refs.form as any).resetValidation();
   }
 
@@ -68,9 +88,10 @@ export default class CreateTag extends Vue {
       const data: CreateTagDto = {
         groupId: this.activeGroupId,
         name: this.name,
+        type: this.tagType,
         mw: this.mw,
-        isFluorophore: this.isFluorophore,
-        isMetal: this.isMetal,
+        emission: this.emission,
+        excitation: this.excitation,
       };
       await this.tagContext.actions.createTag(data);
       this.$router.back();

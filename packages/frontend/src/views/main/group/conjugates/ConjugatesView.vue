@@ -208,8 +208,8 @@
         </template>
       </v-data-table>
     </v-card>
-    <v-navigation-drawer v-if="detailsItem" v-model="drawer" right fixed temporary width="400">
-      <ConjugateDetailsView :item="detailsItem" />
+    <v-navigation-drawer v-model="drawer" right fixed temporary width="400">
+      <ConjugateDetailsView v-if="drawer" :conjugate="detailsItem" />
     </v-navigation-drawer>
   </v-col>
 </template>

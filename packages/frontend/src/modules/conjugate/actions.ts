@@ -68,4 +68,12 @@ export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, 
       await this.main!.actions.checkApiError(error);
     }
   }
+
+  async getConjugatePanels(id: number) {
+    try {
+      return api.getConjugatePanels(id);
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
 }

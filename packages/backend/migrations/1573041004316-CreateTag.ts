@@ -21,20 +21,28 @@ export class CreateTag1573041004316 implements MigrationInterface {
             type: "varchar",
           },
           {
+            name: "type",
+            type: "smallint",
+            unsigned: true,
+            default: 0,
+          },
+          {
             name: "mw",
-            type: "int",
+            type: "smallint",
             unsigned: true,
             isNullable: true,
           },
           {
-            name: "is_metal",
-            type: "boolean",
-            default: false,
+            name: "emission",
+            type: "smallint",
+            unsigned: true,
+            isNullable: true,
           },
           {
-            name: "is_fluorophore",
-            type: "boolean",
-            default: false,
+            name: "excitation",
+            type: "smallint",
+            unsigned: true,
+            isNullable: true,
           },
           {
             name: "meta",
@@ -60,6 +68,10 @@ export class CreateTag1573041004316 implements MigrationInterface {
           {
             name: "IDX_tag_group_id",
             columnNames: ["group_id"],
+          },
+          {
+            name: "IDX_tag_type",
+            columnNames: ["type"],
           },
         ],
         uniques: [

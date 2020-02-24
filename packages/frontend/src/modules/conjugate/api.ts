@@ -1,5 +1,6 @@
 import { ApiManager } from "@/utils/api";
 import { ConjugateDto, CreateConjugateDto, UpdateConjugateDto } from "@airlab/shared/lib/conjugate/dto";
+import { PanelDto } from "@airlab/shared/lib/panel/dto";
 
 export const api = {
   async createConjugate(data: CreateConjugateDto) {
@@ -24,5 +25,8 @@ export const api = {
   },
   async getGroupConjugates(groupId: number) {
     return ApiManager.api.get(`groups/${groupId}/conjugates`).json<ConjugateDto[]>();
+  },
+  async getConjugatePanels(id: number) {
+    return ApiManager.api.get(`conjugate/${id}/panels`).json<PanelDto[]>();
   },
 };

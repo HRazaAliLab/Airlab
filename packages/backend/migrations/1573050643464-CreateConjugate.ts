@@ -30,7 +30,8 @@ export class CreateConjugate1573050643464 implements MigrationInterface {
           },
           {
             name: "status",
-            type: "int",
+            type: "smallint",
+            unsigned: true,
             default: 0,
           },
           {

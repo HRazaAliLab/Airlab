@@ -22,7 +22,8 @@ export class CreateMember1573040991913 implements MigrationInterface {
           },
           {
             name: "role",
-            type: "int",
+            type: "smallint",
+            unsigned: true,
             default: 0,
           },
           {

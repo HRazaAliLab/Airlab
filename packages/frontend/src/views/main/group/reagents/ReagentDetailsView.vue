@@ -4,7 +4,7 @@
     <v-card-text>
       <v-tabs v-model="tab">
         <v-tab>Lots</v-tab>
-        <v-tab>Metadata</v-tab>
+        <v-tab v-if="reagent.meta">Metadata</v-tab>
         <v-tab-item>
           <LotView v-for="lot in lots" :key="lot.id" :group-id="activeGroupId" :lot="lot" class="mb-3" />
         </v-tab-item>

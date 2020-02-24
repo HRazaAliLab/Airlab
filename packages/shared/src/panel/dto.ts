@@ -24,7 +24,7 @@ export class PanelDto {
   readonly isFluor: boolean;
 
   @ApiProperty()
-  readonly isProduction: boolean;
+  readonly isLocked: boolean;
 
   @ApiProperty()
   readonly application: number;
@@ -63,7 +63,7 @@ export class CreatePanelDto {
 
   @IsBoolean()
   @ApiProperty()
-  readonly isProduction: boolean;
+  readonly isLocked: boolean;
 
   @IsInt()
   @IsOptional()

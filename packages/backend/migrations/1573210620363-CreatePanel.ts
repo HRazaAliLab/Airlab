@@ -41,7 +41,7 @@ export class CreatePanel1573210620363 implements MigrationInterface {
             default: false,
           },
           {
-            name: "is_production",
+            name: "is_locked",
             type: "boolean",
             default: false,
           },

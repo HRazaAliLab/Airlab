@@ -44,7 +44,7 @@ __decorate([
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Boolean)
-], PanelDto.prototype, "isProduction", void 0);
+], PanelDto.prototype, "isLocked", void 0);
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Number)
@@ -92,7 +92,7 @@ __decorate([
     class_validator_1.IsBoolean(),
     swagger_1.ApiProperty(),
     __metadata("design:type", Boolean)
-], CreatePanelDto.prototype, "isProduction", void 0);
+], CreatePanelDto.prototype, "isLocked", void 0);
 __decorate([
     class_validator_1.IsInt(),
     class_validator_1.IsOptional(),

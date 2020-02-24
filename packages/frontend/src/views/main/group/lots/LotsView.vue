@@ -172,8 +172,8 @@
         </template>
       </v-data-table>
     </v-card>
-    <v-navigation-drawer v-if="detailsItem" v-model="drawer" right fixed temporary width="400">
-      <LotDetailsView :item="detailsItem" />
+    <v-navigation-drawer v-model="drawer" right fixed temporary width="400">
+      <LotDetailsView v-if="drawer" :lot="detailsItem" />
     </v-navigation-drawer>
   </v-col>
 </template>

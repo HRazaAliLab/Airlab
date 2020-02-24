@@ -1,4 +1,4 @@
-import { IsBoolean, IsInt, IsString } from "class-validator";
+import { IsInt, IsString } from "class-validator";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class ConjugateDto {

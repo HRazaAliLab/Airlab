@@ -6,7 +6,7 @@ export declare class PanelDto {
     readonly description: string;
     readonly details: object[];
     readonly isFluor: boolean;
-    readonly isProduction: boolean;
+    readonly isLocked: boolean;
     readonly application: number;
     readonly meta: object;
     readonly isDeleted: boolean;
@@ -19,7 +19,7 @@ export declare class CreatePanelDto {
     readonly name: string;
     readonly description: string;
     readonly isFluor: boolean;
-    readonly isProduction: boolean;
+    readonly isLocked: boolean;
     readonly application: number | null;
     readonly details: object[] | null;
 }

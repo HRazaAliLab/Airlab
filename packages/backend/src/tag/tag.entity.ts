@@ -21,19 +21,24 @@ export class TagEntity {
   name: string;
 
   @Column({
+    name: "type",
+  })
+  type: number;
+
+  @Column({
     name: "mw",
   })
-  mw: number;
+  mw?: number;
 
   @Column({
-    name: "is_fluorophore",
+    name: "emission",
   })
-  isFluorophore: boolean;
+  emission?: number;
 
   @Column({
-    name: "is_metal",
+    name: "excitation",
   })
-  isMetal: boolean;
+  excitation?: number;
 
   @Column({
     name: "meta",

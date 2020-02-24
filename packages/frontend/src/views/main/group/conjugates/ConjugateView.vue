@@ -5,8 +5,9 @@
         <span class="subheader">Tube Number: </span>{{ props.conjugate.tubeNumber }}
       </div>
       <div>
-        <span class="subheader">Lot: </span
-        ><router-link
+        <span class="subheader">Lot: </span>
+        <router-link
+          v-if="props.conjugate.lot"
           class="link"
           :to="{
             name: 'main-group-lots-edit',

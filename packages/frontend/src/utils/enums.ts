@@ -18,3 +18,8 @@ export const roleEnum = [
   { value: 10, text: "Standard" },
   { value: 0, text: "Guest" },
 ];
+
+export const tagTypeEnum = [
+  { value: 0, text: "Metal" },
+  { value: 1, text: "Fluorophore" },
+];

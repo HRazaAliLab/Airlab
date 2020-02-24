@@ -4,7 +4,7 @@
     <v-card-text>
       <v-tabs v-model="tab">
         <v-tab>Clones</v-tab>
-        <v-tab>Metadata</v-tab>
+        <v-tab v-if="protein.meta">Metadata</v-tab>
         <v-tab-item>
           <div v-for="clone in clones" :key="clone.id" class="mb-3">
             <CloneView :group-id="activeGroupId" :clone="clone" />
