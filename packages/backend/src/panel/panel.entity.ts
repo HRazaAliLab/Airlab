@@ -44,9 +44,9 @@ export class PanelEntity {
   isFluor: boolean;
 
   @Column({
-    name: "is_production",
+    name: "is_locked",
   })
-  isProduction: boolean;
+  isLocked: boolean;
 
   @Column({
     name: "application",

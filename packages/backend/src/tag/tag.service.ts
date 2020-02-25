@@ -18,7 +18,7 @@ export class TagService {
 
   async findById(id: number) {
     return this.repository.findOne(id, {
-      select: ["id", "groupId", "name", "type", "mw", "emission", "excitation"],
+      select: ["id", "groupId", "name", "isMetal", "isFluorophore", "mw", "emission", "excitation"],
     });
   }
 
@@ -38,7 +38,7 @@ export class TagService {
 
   async getGroupTags(groupId: number) {
     return this.repository.find({
-      select: ["id", "name", "type", "mw", "emission", "excitation"],
+      select: ["id", "name", "isMetal", "isFluorophore", "mw", "emission", "excitation"],
       where: {
         groupId: groupId,
       },

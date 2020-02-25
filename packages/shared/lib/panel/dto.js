@@ -130,7 +130,7 @@ __decorate([
     class_validator_1.IsOptional(),
     swagger_1.ApiProperty(),
     __metadata("design:type", Boolean)
-], UpdatePanelDto.prototype, "isProduction", void 0);
+], UpdatePanelDto.prototype, "isLocked", void 0);
 __decorate([
     class_validator_1.IsInt(),
     class_validator_1.IsOptional(),

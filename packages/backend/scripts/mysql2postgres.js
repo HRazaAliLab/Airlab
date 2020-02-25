@@ -123,14 +123,17 @@ async function migrateTag() {
   const input = await mysqlPool.query("SELECT * FROM tblTag");
   for (row of input[0]) {
     console.log(row);
-    const sql = 'INSERT INTO "tag"(id, group_id, name, mw, is_fluorophore, is_metal) VALUES($1, $2, $3, $4, $5, $6)';
+    const sql =
+      'INSERT INTO "tag"(id, group_id, name, is_metal, is_fluorophore, mw, emission, excitation) VALUES($1, $2, $3, $4, $5, $6, $7, $8)';
     const values = [
       row["tagTagId"],
       2,
       row["tagName"],
-      row["tagMW"] !== "" ? row["tagMW"] : null,
-      row["tagIsFluorphore"],
       row["tagIsMetal"],
+      row["tagIsFluorphore"],
+      row["tagMW"] !== "" ? row["tagMW"] : null,
+      row["tagEmission"] !== "" ? row["tagEmission"] : null,
+      row["tagExcitation"] !== "" ? row["tagExcitation"] : null,
     ];
     await postgresPool.query(sql, values);
   }
@@ -310,13 +313,30 @@ async function migrateLot() {
     }
 
     const sql =
-      'INSERT INTO "lot"(id, group_id, created_by, reagent_id, provider_id, clone_id, requested_by, approved_by, ordered_by, received_by, finished_by, number, status, purpose, link, requested_at, approved_at, ordered_at, received_at, finished_at, is_low, is_deleted, price, note) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24)';
+      'INSERT INTO "lot"(id, group_id, created_by, reagent_id, clone_id, requested_by, approved_by, ordered_by, received_by, finished_by, number, status, purpose, link, requested_at, approved_at, ordered_at, received_at, finished_at, is_low, is_deleted, price, note) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)';
 
     let meta = row["catchedInfo"];
     if (
-      [1977, 2293, 2732, 3252, 3399, 3425, 3485, 3495, 3512, 3634, 3666, 3690, 3702, 3703, 3815, 3826, 3946, 3960].includes(
-        row["reiReagentInstanceId"]
-      )
+      [
+        1977,
+        2293,
+        2732,
+        3252,
+        3399,
+        3425,
+        3485,
+        3495,
+        3512,
+        3634,
+        3666,
+        3690,
+        3702,
+        3703,
+        3815,
+        3826,
+        3946,
+        3960,
+      ].includes(row["reiReagentInstanceId"])
     ) {
       meta = null;
     }
@@ -334,7 +354,6 @@ async function migrateLot() {
       row["groupId"],
       [0, 76].includes(row["createdBy"]) ? 5 : row["createdBy"],
       reagentId,
-      [0, 26].includes(row["lotProviderId"]) ? null : row["lotProviderId"],
       row["lotCloneId"],
       [0, 76, 90].includes(row["reiRequestedBy"]) ? null : row["reiRequestedBy"],
       [0, 76, 90].includes(row["reiApprovedBy"]) ? null : row["reiApprovedBy"],
@@ -420,7 +439,7 @@ async function migratePanel() {
       continue;
     }
     const sql =
-      'INSERT INTO "panel"(id, group_id, created_by, name, description, details, is_fluor, is_production, application, is_deleted) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)';
+      'INSERT INTO "panel"(id, group_id, created_by, name, description, details, is_fluor, is_locked, application, is_deleted) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)';
 
     let details = row["panDetails"];
     if ([538, 649, 661].includes(row["panPanelId"])) {

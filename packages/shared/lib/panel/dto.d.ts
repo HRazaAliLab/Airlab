@@ -27,7 +27,7 @@ export declare class UpdatePanelDto {
     readonly name?: string;
     readonly description?: string;
     readonly isFluor?: boolean;
-    readonly isProduction?: boolean;
+    readonly isLocked?: boolean;
     readonly application?: number | null;
     readonly details?: object[] | null;
 }

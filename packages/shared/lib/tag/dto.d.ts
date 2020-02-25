@@ -2,7 +2,8 @@ export declare class TagDto {
     readonly id: number;
     readonly groupId: number;
     readonly name: string;
-    readonly type: number;
+    readonly isMetal: boolean;
+    readonly isFluorophore: boolean;
     readonly mw: number | null;
     readonly emission: number | null;
     readonly excitation: number | null;
@@ -12,14 +13,16 @@ export declare class TagDto {
 export declare class CreateTagDto {
     readonly groupId: number;
     readonly name: string;
-    readonly type: number;
+    readonly isMetal: boolean;
+    readonly isFluorophore: boolean;
     readonly mw: number | null;
     readonly emission: number | null;
     readonly excitation: number | null;
 }
 export declare class UpdateTagDto {
     readonly name: string;
-    readonly type: number;
+    readonly isMetal: boolean;
+    readonly isFluorophore: boolean;
     readonly mw: number | null;
     readonly emission: number | null;
     readonly excitation: number | null;

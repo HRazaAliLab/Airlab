@@ -16,17 +16,18 @@
         <template>
           <v-form v-model="valid" ref="form" lazy-validation>
             <v-text-field label="Name" v-model="name" :rules="nameRules" />
-            <v-select label="Type" v-model="tagType" :items="tagTypes" item-value="value" item-text="text" dense />
-            <v-text-field v-if="tagType === 0" label="MW" v-model.number="mw" :rules="mwRules" type="number" />
+            <v-checkbox label="Metal" v-model="isMetal" />
+            <v-checkbox label="Fluorophore" v-model="isFluorophore" />
+            <v-text-field v-if="isMetal" label="MW" v-model.number="mw" :rules="mwRules" type="number" />
             <v-text-field
-              v-if="tagType === 1"
+              v-if="isFluorophore"
               label="Emission"
               v-model.number="emission"
               :rules="emissionRules"
               type="number"
             />
             <v-text-field
-              v-if="tagType === 1"
+              v-if="isFluorophore"
               label="Excitation"
               v-model.number="excitation"
               :rules="excitationRules"
@@ -61,7 +62,8 @@ export default class CreateTag extends Vue {
 
   valid = true;
   name = "";
-  tagType = 0;
+  isMetal = false;
+  isFluorophore = false;
   mw: number | null = null;
   emission: number | null = null;
   excitation: number | null = null;
@@ -72,7 +74,8 @@ export default class CreateTag extends Vue {
 
   reset() {
     this.name = "";
-    this.tagType = 0;
+    this.isMetal = false;
+    this.isFluorophore = false;
     this.mw = null;
     this.emission = null;
     this.excitation = null;
@@ -88,7 +91,8 @@ export default class CreateTag extends Vue {
       const data: CreateTagDto = {
         groupId: this.activeGroupId,
         name: this.name,
-        type: this.tagType,
+        isMetal: this.isMetal,
+        isFluorophore: this.isFluorophore,
         mw: this.mw,
         emission: this.emission,
         excitation: this.excitation,

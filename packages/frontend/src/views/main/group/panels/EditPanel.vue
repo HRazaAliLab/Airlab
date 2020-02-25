@@ -45,7 +45,7 @@
             </v-btn>
           </v-btn-toggle>
           <v-checkbox label="Fluor" v-model="isFluor" />
-          <v-checkbox label="Production" v-model="isProduction" />
+          <v-checkbox label="Locked" v-model="isLocked" />
         </v-form>
       </v-card-text>
       <v-card-text>
@@ -113,7 +113,7 @@ export default class EditPanel extends Vue {
   description = "";
   application: string | null = null;
   isFluor = false;
-  isProduction = false;
+  isLocked = false;
   selectedTagConjugates = new Map<number, Set<ConjugateDto>>();
   conjugatePanelData = new Map<number, ConjugatePanelData>();
 
@@ -182,7 +182,7 @@ export default class EditPanel extends Vue {
       this.description = this.panel.description;
       this.application = this.panel.application.toString(10);
       this.isFluor = this.panel.isFluor;
-      this.isProduction = this.panel.isProduction;
+      this.isLocked = this.panel.isLocked;
       this.selectedTagConjugates = new Map<number, Set<ConjugateDto>>();
       this.conjugatePanelData = new Map<number, ConjugatePanelData>();
       if (this.panel.details) {
@@ -232,7 +232,7 @@ export default class EditPanel extends Vue {
         description: this.description,
         application: Number(this.application),
         isFluor: this.isFluor,
-        isProduction: this.isProduction,
+        isLocked: this.isLocked,
         details: details,
       };
       await this.panelContext.actions.updatePanel({

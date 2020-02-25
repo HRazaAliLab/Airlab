@@ -12,7 +12,10 @@ export class TagDto {
   readonly name: string;
 
   @ApiProperty()
-  readonly type: number;
+  readonly isMetal: boolean;
+
+  @ApiProperty()
+  readonly isFluorophore: boolean;
 
   @ApiPropertyOptional()
   readonly mw: number | null;
@@ -39,9 +42,13 @@ export class CreateTagDto {
   @ApiProperty()
   readonly name: string;
 
-  @IsInt()
+  @IsBoolean()
   @ApiProperty()
-  readonly type: number;
+  readonly isMetal: boolean;
+
+  @IsBoolean()
+  @ApiProperty()
+  readonly isFluorophore: boolean;
 
   @IsInt()
   @IsOptional()
@@ -64,9 +71,13 @@ export class UpdateTagDto {
   @ApiProperty()
   readonly name: string;
 
-  @IsInt()
+  @IsBoolean()
   @ApiProperty()
-  readonly type: number;
+  readonly isMetal: boolean;
+
+  @IsBoolean()
+  @ApiProperty()
+  readonly isFluorophore: boolean;
 
   @IsInt()
   @IsOptional()

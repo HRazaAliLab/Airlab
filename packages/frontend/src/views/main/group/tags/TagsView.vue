@@ -28,11 +28,11 @@
         }"
         multi-sort
       >
-        <template v-slot:item.isFluorophore="{ item }">
-          <v-icon v-if="item.isFluorophore">mdi-check</v-icon>
-        </template>
         <template v-slot:item.isMetal="{ item }">
           <v-icon v-if="item.isMetal">mdi-check</v-icon>
+        </template>
+        <template v-slot:item.isFluorophore="{ item }">
+          <v-icon v-if="item.isFluorophore">mdi-check</v-icon>
         </template>
         <template v-slot:item.action="{ item }">
           <v-tooltip bottom>
@@ -100,10 +100,12 @@ export default class TagsView extends Vue {
       align: "left",
     },
     {
-      text: "MW",
+      text: "Metal",
       sortable: true,
-      value: "mw",
-      align: "right",
+      value: "isMetal",
+      align: "left",
+      filterable: false,
+      width: "100",
     },
     {
       text: "Fluorophore",
@@ -114,12 +116,22 @@ export default class TagsView extends Vue {
       width: "140",
     },
     {
-      text: "Metal",
+      text: "MW",
       sortable: true,
-      value: "isMetal",
-      align: "left",
-      filterable: false,
-      width: "100",
+      value: "mw",
+      align: "right",
+    },
+    {
+      text: "Emission",
+      sortable: true,
+      value: "emission",
+      align: "right",
+    },
+    {
+      text: "Excitation",
+      sortable: true,
+      value: "excitation",
+      align: "right",
     },
     {
       text: "Actions",

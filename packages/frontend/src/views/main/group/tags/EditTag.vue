@@ -16,9 +16,23 @@
         <template>
           <v-form v-model="valid" ref="form" lazy-validation>
             <v-text-field label="Name" v-model="name" :rules="nameRules" />
-            <v-text-field label="MW" v-model.number="mw" :rules="mwRules" type="number" />
-            <v-checkbox label="Fluorophore" v-model="isFluorophore" />
             <v-checkbox label="Metal" v-model="isMetal" />
+            <v-checkbox label="Fluorophore" v-model="isFluorophore" />
+            <v-text-field v-if="isMetal" label="MW" v-model.number="mw" :rules="mwRules" type="number" />
+            <v-text-field
+              v-if="isFluorophore"
+              label="Emission"
+              v-model.number="emission"
+              :rules="emissionRules"
+              type="number"
+            />
+            <v-text-field
+              v-if="isFluorophore"
+              label="Excitation"
+              v-model.number="excitation"
+              :rules="excitationRules"
+              type="number"
+            />
           </v-form>
         </template>
       </v-card-text>
@@ -38,12 +52,16 @@ export default class EditTag extends Vue {
 
   readonly nameRules = [required];
   readonly mwRules = [];
+  readonly emissionRules = [];
+  readonly excitationRules = [];
 
   valid = true;
   name = "";
-  mw: number | null = null;
-  isFluorophore = false;
   isMetal = false;
+  isFluorophore = false;
+  mw: number | null = null;
+  emission: number | null = null;
+  excitation: number | null = null;
 
   get tag() {
     return this.tagContext.getters.getTag(+this.$router.currentRoute.params.id);
@@ -55,18 +73,16 @@ export default class EditTag extends Vue {
   }
 
   reset() {
-    this.name = "";
-    this.mw = null;
-    this.isFluorophore = false;
-    this.isMetal = false;
     if (this.$refs.form) {
       (this.$refs.form as any).resetValidation();
     }
     if (this.tag) {
       this.name = this.tag.name;
-      this.mw = this.tag.mw;
-      this.isFluorophore = this.tag.isFluorophore;
       this.isMetal = this.tag.isMetal;
+      this.isFluorophore = this.tag.isFluorophore;
+      this.mw = this.tag.mw;
+      this.emission = this.tag.emission;
+      this.excitation = this.tag.excitation;
     }
   }
 
@@ -78,9 +94,11 @@ export default class EditTag extends Vue {
     if ((this.$refs.form as any).validate()) {
       const data: UpdateTagDto = {
         name: this.name,
-        mw: this.mw,
-        isFluorophore: this.isFluorophore,
         isMetal: this.isMetal,
+        isFluorophore: this.isFluorophore,
+        mw: this.mw,
+        emission: this.emission,
+        excitation: this.excitation,
       };
       await this.tagContext.actions.updateTag({
         id: this.tag!.id,

@@ -94,7 +94,7 @@ export class UpdatePanelDto {
   @IsBoolean()
   @IsOptional()
   @ApiProperty()
-  readonly isProduction?: boolean;
+  readonly isLocked?: boolean;
 
   @IsInt()
   @IsOptional()

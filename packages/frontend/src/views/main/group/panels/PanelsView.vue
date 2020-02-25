@@ -68,8 +68,8 @@
         <template v-slot:item.isFluor="{ item }">
           <v-icon v-if="item.isFluor">mdi-check</v-icon>
         </template>
-        <template v-slot:item.isProduction="{ item }">
-          <v-icon v-if="item.isProduction">mdi-check</v-icon>
+        <template v-slot:item.isLocked="{ item }">
+          <v-icon v-if="item.isLocked">mdi-lock-outline</v-icon>
         </template>
         <template v-slot:item.user="{ item }">
           <router-link
@@ -217,8 +217,8 @@ export default class PanelsView extends Vue {
       filterable: false,
     },
     {
-      text: "Production",
-      value: "isProduction",
+      text: "Locked",
+      value: "isLocked",
       filterable: false,
     },
     {
