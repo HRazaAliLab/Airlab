@@ -439,7 +439,9 @@ async function migratePanel() {
       continue;
     }
     const sql =
-      'INSERT INTO "panel"(id, group_id, created_by, name, description, details, is_fluor, is_locked, application, is_deleted) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)';
+      'INSERT INTO "panel"(id, group_id, created_by, name, description, details, is_fluorophore, is_locked, application, is_deleted) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)';
+
+    const panelId = row["panPanelId"];
 
     let details = row["panDetails"];
     if ([538, 649, 661].includes(row["panPanelId"])) {
@@ -449,22 +451,40 @@ async function migratePanel() {
       details = null;
     } else {
       details = dJSON.parse(details);
-      details = JSON.stringify(details);
     }
 
     const values = [
-      row["panPanelId"],
+      panelId,
       row["groupId"],
       row["createdBy"],
       row["panName"] !== null ? row["panName"].toString() : null,
       row["panDescription"],
-      details,
+      details ? JSON.stringify(details) : null,
       row["panFluor"] === null ? false : row["panFluor"],
       row["panIsProduction"] === null ? false : row["panIsProduction"],
       row["panApplication"],
       row["deleted"] === null ? false : row["deleted"],
     ];
     await postgresPool.query(sql, values);
+
+    if (details) {
+      const elementSql =
+        'INSERT INTO "panel_element"(panel_id, conjugate_id, dilution_type, concentration) VALUES($1, $2, $3, $4)';
+
+      for (const item of details) {
+        if (item.hasOwnProperty("plaLabeledAntibodyId")) {
+          const conjugateId = Number(item["plaLabeledAntibodyId"]);
+          const dilutionType = item["dilutionType"] ? Number(item["dilutionType"]) : 0;
+          const concentration = item["plaActualConc"] ? Number(item["plaActualConc"]) : null;
+          const elementValues = [panelId, conjugateId, dilutionType, concentration];
+          try {
+            await postgresPool.query(elementSql, elementValues);
+          } catch (e) {
+            console.log(e.message + ": " + details);
+          }
+        }
+      }
+    }
   }
   await postgresPool.query("SELECT setval('public.panel_id_seq', (SELECT MAX(id) FROM public.panel), true);");
 }

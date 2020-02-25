@@ -20,6 +20,7 @@ import { LotModule } from "./lot/lot.module";
 import { PanelModule } from "./panel/panel.module";
 import { ValidationModule } from "./validation/validation.module";
 import { EventsModule } from "./events/events.module";
+import { PanelElementModule } from "./panelElement/panelElement.module";
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { EventsModule } from "./events/events.module";
     LotModule,
     ConjugateModule,
     PanelModule,
+    PanelElementModule,
     ValidationModule,
     ValidationFileModule,
   ],

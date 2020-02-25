@@ -145,7 +145,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
 import { panelModule } from "@/modules/panel";
-import { UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
+import { PanelElementDataDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
 import MetalExpansionPanel from "@/views/main/group/panels/MetalExpansionPanel.vue";
 import { conjugateModule } from "@/modules/conjugate";
 import { tagModule } from "@/modules/tag";
@@ -257,18 +257,15 @@ export default class ViewPanel extends Vue {
   }
 
   get items() {
-    if (this.panel && this.panel.details) {
+    if (this.panel && this.panel.elements) {
       const items: any[] = [];
-      for (const detail of this.panel.details) {
-        const conjugateId = Number(detail["plaLabeledAntibodyId"]);
-        const conjugate = this.conjugateContext.getters.getConjugate(conjugateId);
+      for (const element of this.panel.elements) {
+        const conjugate = this.conjugateContext.getters.getConjugate(element.conjugateId);
         if (conjugate) {
           const validations =
             (conjugate as any).lot && (conjugate as any).lot.clone
               ? this.validations.filter(validation => (validation as any).clone.id == (conjugate as any).lot.clone.id)
               : [];
-          const actualConcentration = detail["plaActualConc"] ? Number(detail["plaActualConc"]) : null;
-          const dilutionType = detail["dilutionType"] ? Number(detail["dilutionType"]) : null;
           const item = {
             ...conjugate,
             label: (conjugate as any).tag
@@ -277,11 +274,11 @@ export default class ViewPanel extends Vue {
                 : (conjugate as any).tag.name
               : "unknown",
             validations: validations,
-            actualConcentration: actualConcentration,
-            dilutionType: dilutionType,
+            actualConcentration: element.concentration,
+            dilutionType: element.dilutionType,
             pipet: this.getAmountAntibody({
-              dilutionType: dilutionType,
-              actualConcentration: actualConcentration,
+              dilutionType: element.dilutionType,
+              actualConcentration: element.concentration,
               concentration: conjugate.concentration,
             }),
           };
@@ -349,16 +346,15 @@ export default class ViewPanel extends Vue {
 
   async submit() {
     if (this.panel) {
-      const details = this.items.map(item => {
+      const elements: PanelElementDataDto[] = this.items.map(item => {
         return {
-          plaLabeledAntibodyId: item.id,
-          plaActualConc: item.actualConcentration ? Number(item.actualConcentration) : null,
-          dilutionType: item.dilutionType ? Number(item.dilutionType) : null,
-          plaPipet: this.getAmountAntibody(item),
+          conjugateId: Number(item.id),
+          dilutionType: item.dilutionType ? Number(item.dilutionType) : 0,
+          concentration: item.actualConcentration ? Number(item.actualConcentration) : undefined,
         };
       });
       const data: UpdatePanelDto = {
-        details: details,
+        elements: elements,
       };
       await this.panelContext.actions.updatePanel({
         id: this.panel.id,

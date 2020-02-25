@@ -44,7 +44,7 @@
               IHC
             </v-btn>
           </v-btn-toggle>
-          <v-checkbox label="Fluor" v-model="isFluor" />
+          <v-checkbox label="Fluorophore" v-model="isFluorophore" />
           <v-checkbox label="Locked" v-model="isLocked" />
         </v-form>
       </v-card-text>
@@ -75,16 +75,16 @@ import { required } from "@/utils/validators";
 import { Component, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
 import { panelModule } from "@/modules/panel";
-import { UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
+import { PanelElementDataDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
 import MetalExpansionPanel from "@/views/main/group/panels/MetalExpansionPanel.vue";
 import { conjugateModule } from "@/modules/conjugate";
 import { tagModule } from "@/modules/tag";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 
 type ConjugatePanelData = {
-  actualConcentration: number | null;
-  dilutionType?: number | null;
-  pipet?: number | null;
+  dilutionType: number;
+  concentration?: number;
+  pipet?: number;
 };
 
 @Component({
@@ -112,7 +112,7 @@ export default class EditPanel extends Vue {
   name = "";
   description = "";
   application: string | null = null;
-  isFluor = false;
+  isFluorophore = false;
   isLocked = false;
   selectedTagConjugates = new Map<number, Set<ConjugateDto>>();
   conjugatePanelData = new Map<number, ConjugatePanelData>();
@@ -181,28 +181,23 @@ export default class EditPanel extends Vue {
       this.name = this.panel.name;
       this.description = this.panel.description;
       this.application = this.panel.application.toString(10);
-      this.isFluor = this.panel.isFluor;
+      this.isFluorophore = this.panel.isFluorophore;
       this.isLocked = this.panel.isLocked;
       this.selectedTagConjugates = new Map<number, Set<ConjugateDto>>();
       this.conjugatePanelData = new Map<number, ConjugatePanelData>();
-      if (this.panel.details) {
+      if (this.panel.elements.length > 0) {
         const newExpanded = new Set<number>();
-        for (const item of this.panel.details) {
-          const conjugateId = Number(item["plaLabeledAntibodyId"]);
-          const conjugate = this.conjugateContext.getters.getConjugate(conjugateId);
+        for (const element of this.panel.elements) {
+          const conjugate = this.conjugateContext.getters.getConjugate(element.conjugateId);
           const tagId = conjugate.tagId;
           let conjugatesSet = this.selectedTagConjugates.get(tagId);
           if (!conjugatesSet) {
             conjugatesSet = new Set<ConjugateDto>();
             this.selectedTagConjugates.set(tagId, conjugatesSet);
           }
-          const actualConcentration = item["plaActualConc"] ? Number(item["plaActualConc"]) : null;
-          const dilutionType = item["dilutionType"] ? Number(item["dilutionType"]) : null;
-          const pipet = item["plaPipet"] ? Number(item["plaPipet"]) : null;
-          this.conjugatePanelData.set(conjugateId, {
-            actualConcentration: actualConcentration,
-            dilutionType: dilutionType,
-            pipet: pipet,
+          this.conjugatePanelData.set(element.conjugateId, {
+            dilutionType: element.dilutionType,
+            concentration: element.concentration,
           });
           conjugatesSet.add(conjugate);
           const tag = this.tagContext.getters.getTag(tagId);
@@ -215,15 +210,14 @@ export default class EditPanel extends Vue {
 
   async submit() {
     if ((this.$refs.form as any).validate() && this.panel) {
-      const details: any[] = [];
+      const elements: PanelElementDataDto[] = [];
       this.selectedTagConjugates.forEach((set: Set<ConjugateDto>, key, map) => {
         set.forEach(conjugate => {
           const conjugateData = this.conjugatePanelData.get(conjugate.id);
-          details.push({
-            plaLabeledAntibodyId: conjugate.id,
-            plaActualConc: conjugateData ? conjugateData.actualConcentration : undefined,
-            dilutionType: conjugateData ? conjugateData.dilutionType : undefined,
-            plaPipet: conjugateData ? conjugateData.pipet : undefined,
+          elements.push({
+            conjugateId: conjugate.id,
+            dilutionType: conjugateData ? conjugateData.dilutionType : 0,
+            concentration: conjugateData ? conjugateData.concentration : undefined,
           });
         });
       });
@@ -231,9 +225,9 @@ export default class EditPanel extends Vue {
         name: this.name,
         description: this.description,
         application: Number(this.application),
-        isFluor: this.isFluor,
+        isFluorophore: this.isFluorophore,
         isLocked: this.isLocked,
-        details: details,
+        elements: elements,
       };
       await this.panelContext.actions.updatePanel({
         id: this.panel.id,

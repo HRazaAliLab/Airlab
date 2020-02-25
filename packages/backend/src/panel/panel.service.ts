@@ -4,25 +4,42 @@ import { Repository } from "typeorm";
 import { PanelEntity } from "./panel.entity";
 import { CreatePanelDto, DuplicatePanelDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
 import { UserEntity } from "../user/user.entity";
+import { PanelElementService } from "../panelElement/panelElement.service";
 
 @Injectable()
 export class PanelService {
   constructor(
     @InjectRepository(PanelEntity)
-    private readonly repository: Repository<PanelEntity>
+    private readonly repository: Repository<PanelEntity>,
+    private readonly panelElementService: PanelElementService
   ) {}
 
   async create(params: CreatePanelDto) {
     await this.clearCache(params.groupId);
-    return this.repository.save(params);
+    const item = await this.repository.save(params);
+    await this.panelElementService.updatePanelElements(item.id, params.elements);
+    await this.clearCache(params.groupId);
+    return this.findById(item.id);
   }
 
   async findById(id: number) {
-    return this.repository.findOne(id);
+    return this.repository
+      .createQueryBuilder("panel")
+      .leftJoin("panel.elements", "elements")
+      .addSelect(["elements.conjugateId", "elements.dilutionType", "elements.concentration"])
+      .where({
+        id: id,
+      })
+      .getOne();
   }
 
   async update(id: number, params: UpdatePanelDto) {
+    const elements = params.elements.map(item => {
+      return { ...item };
+    });
+    delete params.elements;
     await this.repository.update(id, { ...params, updatedAt: new Date().toISOString() });
+    await this.panelElementService.updatePanelElements(id, elements);
     const item = await this.findById(id);
     await this.clearCache(item.groupId);
     return item;
@@ -37,9 +54,15 @@ export class PanelService {
 
   async duplicate(id: number, params: DuplicatePanelDto) {
     const item = await this.findById(id);
+    const elements = item.elements.map(item => {
+      return { ...item };
+    });
     delete item.id;
-    await this.clearCache(item.groupId);
-    return this.repository.save({ ...item, name: params.name, createdBy: params.createdBy });
+    delete item.elements;
+    const newPanel = await this.repository.save({ ...item, name: params.name, createdBy: params.createdBy });
+    await this.panelElementService.updatePanelElements(newPanel.id, elements);
+    await this.clearCache(newPanel.groupId);
+    return this.findById(newPanel.id);
   }
 
   async getGroupPanels(groupId: number) {

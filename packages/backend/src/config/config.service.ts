@@ -15,6 +15,7 @@ import { LotEntity } from "../lot/lot.entity";
 import { PanelEntity } from "../panel/panel.entity";
 import { ValidationEntity } from "../validation/validation.entity";
 import { ClientOpts } from "redis";
+import { PanelElementEntity } from "../panelElement/panelElement.entity";
 
 export class ConfigService {
   constructor() {
@@ -51,6 +52,7 @@ export class ConfigService {
         ReagentEntity,
         ConjugateEntity,
         PanelEntity,
+        PanelElementEntity,
         LotEntity,
         ValidationEntity,
       ],

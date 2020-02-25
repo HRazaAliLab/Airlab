@@ -1,9 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { GroupEntity } from "../group/group.entity";
 import { TagEntity } from "../tag/tag.entity";
 import { MemberEntity } from "../member/member.entity";
 import { LotEntity } from "../lot/lot.entity";
 import { UserEntity } from "../user/user.entity";
+import { PanelElementEntity } from "../panelElement/panelElement.entity";
 
 @Entity({
   name: "conjugate",
@@ -100,4 +101,10 @@ export class ConjugateEntity {
   @ManyToOne(type => LotEntity)
   @JoinColumn({ name: "lot_id" })
   lot: LotEntity;
+
+  @OneToMany(
+    type => PanelElementEntity,
+    element => element.panel
+  )
+  elements!: PanelElementEntity[];
 }

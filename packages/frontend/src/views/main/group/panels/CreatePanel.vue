@@ -44,7 +44,7 @@
               IHC
             </v-btn>
           </v-btn-toggle>
-          <v-checkbox label="Fluor" v-model="isFluor" />
+          <v-checkbox label="Fluorophore" v-model="isFluorophore" />
           <v-checkbox label="Locked" v-model="isLocked" />
         </v-form>
       </v-card-text>
@@ -75,7 +75,7 @@ import { required } from "@/utils/validators";
 import { Component, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
 import { panelModule } from "@/modules/panel";
-import { CreatePanelDto } from "@airlab/shared/lib/panel/dto";
+import { CreatePanelDto, PanelElementDataDto } from "@airlab/shared/lib/panel/dto";
 import { conjugateModule } from "@/modules/conjugate";
 import { tagModule } from "@/modules/tag";
 import MetalExpansionPanel from "@/views/main/group/panels/MetalExpansionPanel.vue";
@@ -106,7 +106,7 @@ export default class CreatePanel extends Vue {
   name = "";
   description = "";
   application: string | null = null;
-  isFluor = false;
+  isFluorophore = false;
   isLocked = false;
   selectedTagConjugates = new Map<number, Set<ConjugateDto>>();
 
@@ -166,7 +166,7 @@ export default class CreatePanel extends Vue {
     this.name = "";
     this.description = "";
     this.application = "";
-    this.isFluor = false;
+    this.isFluorophore = false;
     this.isLocked = false;
     this.selectedTagConjugates = new Map<number, Set<ConjugateDto>>();
     (this.$refs.form as any).resetValidation();
@@ -174,11 +174,12 @@ export default class CreatePanel extends Vue {
 
   async submit() {
     if ((this.$refs.form as any).validate() && this.activeGroupId) {
-      const details: any[] = [];
+      const elements: PanelElementDataDto[] = [];
       this.selectedTagConjugates.forEach((set: Set<ConjugateDto>, key, map) => {
         set.forEach(conjugate => {
-          details.push({
-            plaLabeledAntibodyId: conjugate.id,
+          elements.push({
+            conjugateId: conjugate.id,
+            dilutionType: 0,
           });
         });
       });
@@ -187,9 +188,9 @@ export default class CreatePanel extends Vue {
         name: this.name,
         description: this.description,
         application: this.application ? Number(this.application) : null,
-        isFluor: this.isFluor,
+        isFluorophore: this.isFluorophore,
         isLocked: this.isLocked,
-        details: details,
+        elements: elements,
       };
       await this.panelContext.actions.createPanel(data);
       this.$router.back();

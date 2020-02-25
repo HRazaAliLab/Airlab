@@ -31,12 +31,7 @@ export class CreatePanel1573210620363 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: "details",
-            type: "jsonb",
-            isNullable: true,
-          },
-          {
-            name: "is_fluor",
+            name: "is_fluorophore",
             type: "boolean",
             default: false,
           },

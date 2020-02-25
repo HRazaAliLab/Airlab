@@ -4,13 +4,14 @@ import { PanelService } from "./panel.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { PanelEntity } from "./panel.entity";
 import { MemberModule } from "../member/member.module";
+import { PanelElementModule } from "../panelElement/panelElement.module";
 
 describe(PanelController.name, () => {
   let controller: PanelController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([PanelEntity]), MemberModule],
+      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([PanelEntity]), MemberModule, PanelElementModule],
       providers: [PanelService],
       controllers: [PanelController],
     }).compile();

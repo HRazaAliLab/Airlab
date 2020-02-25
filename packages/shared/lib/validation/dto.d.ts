@@ -3,9 +3,9 @@ export declare class ValidationDto {
     readonly groupId: number;
     readonly createdBy: number;
     readonly cloneId: number;
-    readonly lotId: number;
-    readonly conjugateId: number;
-    readonly speciesId: number;
+    readonly lotId?: number;
+    readonly conjugateId?: number;
+    readonly speciesId?: number;
     readonly fileId: number;
     readonly application: number;
     readonly positiveControl: string;
@@ -34,7 +34,7 @@ export declare class ValidationDto {
 export declare class CreateValidationDto {
     readonly createdBy?: number;
     readonly groupId: number;
-    readonly cloneId: number | null;
+    readonly cloneId: number;
     readonly lotId: number | null;
     readonly conjugateId: number | null;
     readonly speciesId: number | null;
@@ -61,7 +61,7 @@ export declare class CreateValidationDto {
     readonly surfaceStainingConcentration: string | null;
 }
 export declare class UpdateValidationDto {
-    readonly cloneId: number | null;
+    readonly cloneId: number;
     readonly lotId: number | null;
     readonly conjugateId: number | null;
     readonly speciesId: number | null;

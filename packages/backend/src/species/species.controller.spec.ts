@@ -4,13 +4,14 @@ import { SpeciesService } from "./species.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { SpeciesEntity } from "./species.entity";
 import { MemberModule } from "../member/member.module";
+import { CloneModule } from "../clone/clone.module";
 
 describe(SpeciesController.name, () => {
   let controller: SpeciesController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([SpeciesEntity]), MemberModule],
+      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([SpeciesEntity]), MemberModule, CloneModule],
       providers: [SpeciesService],
       controllers: [SpeciesController],
     }).compile();

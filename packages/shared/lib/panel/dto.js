@@ -11,6 +11,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const class_validator_1 = require("class-validator");
 const swagger_1 = require("@nestjs/swagger");
+class PanelElementDataDto {
+}
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Number)
+], PanelElementDataDto.prototype, "conjugateId", void 0);
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Number)
+], PanelElementDataDto.prototype, "dilutionType", void 0);
+__decorate([
+    class_validator_1.IsNumber(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiPropertyOptional(),
+    __metadata("design:type", Number)
+], PanelElementDataDto.prototype, "concentration", void 0);
+exports.PanelElementDataDto = PanelElementDataDto;
 class PanelDto {
 }
 __decorate([
@@ -35,12 +54,8 @@ __decorate([
 ], PanelDto.prototype, "description", void 0);
 __decorate([
     swagger_1.ApiProperty(),
-    __metadata("design:type", Array)
-], PanelDto.prototype, "details", void 0);
-__decorate([
-    swagger_1.ApiProperty(),
     __metadata("design:type", Boolean)
-], PanelDto.prototype, "isFluor", void 0);
+], PanelDto.prototype, "isFluorophore", void 0);
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Boolean)
@@ -65,6 +80,10 @@ __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], PanelDto.prototype, "updatedAt", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Array)
+], PanelDto.prototype, "elements", void 0);
 exports.PanelDto = PanelDto;
 class CreatePanelDto {
 }
@@ -87,7 +106,7 @@ __decorate([
     class_validator_1.IsBoolean(),
     swagger_1.ApiProperty(),
     __metadata("design:type", Boolean)
-], CreatePanelDto.prototype, "isFluor", void 0);
+], CreatePanelDto.prototype, "isFluorophore", void 0);
 __decorate([
     class_validator_1.IsBoolean(),
     swagger_1.ApiProperty(),
@@ -100,10 +119,10 @@ __decorate([
     __metadata("design:type", Number)
 ], CreatePanelDto.prototype, "application", void 0);
 __decorate([
-    class_validator_1.IsOptional(),
-    swagger_1.ApiPropertyOptional(),
+    class_validator_1.IsArray(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Array)
-], CreatePanelDto.prototype, "details", void 0);
+], CreatePanelDto.prototype, "elements", void 0);
 exports.CreatePanelDto = CreatePanelDto;
 class UpdatePanelDto {
 }
@@ -124,7 +143,7 @@ __decorate([
     class_validator_1.IsOptional(),
     swagger_1.ApiProperty(),
     __metadata("design:type", Boolean)
-], UpdatePanelDto.prototype, "isFluor", void 0);
+], UpdatePanelDto.prototype, "isFluorophore", void 0);
 __decorate([
     class_validator_1.IsBoolean(),
     class_validator_1.IsOptional(),
@@ -138,10 +157,10 @@ __decorate([
     __metadata("design:type", Number)
 ], UpdatePanelDto.prototype, "application", void 0);
 __decorate([
-    class_validator_1.IsOptional(),
-    swagger_1.ApiPropertyOptional(),
+    class_validator_1.IsArray(),
+    swagger_1.ApiProperty(),
     __metadata("design:type", Array)
-], UpdatePanelDto.prototype, "details", void 0);
+], UpdatePanelDto.prototype, "elements", void 0);
 exports.UpdatePanelDto = UpdatePanelDto;
 class DuplicatePanelDto {
 }

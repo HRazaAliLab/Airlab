@@ -1,5 +1,20 @@
-import { IsBoolean, IsInt, IsOptional, IsString } from "class-validator";
+import { IsArray, IsBoolean, IsInt, IsNumber, IsOptional, IsString } from "class-validator";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+
+export class PanelElementDataDto {
+  @IsInt()
+  @ApiProperty()
+  readonly conjugateId: number;
+
+  @IsInt()
+  @ApiProperty()
+  readonly dilutionType: number;
+
+  @IsNumber()
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly concentration?: number;
+}
 
 export class PanelDto {
   @ApiProperty()
@@ -18,10 +33,7 @@ export class PanelDto {
   readonly description: string;
 
   @ApiProperty()
-  readonly details: object[];
-
-  @ApiProperty()
-  readonly isFluor: boolean;
+  readonly isFluorophore: boolean;
 
   @ApiProperty()
   readonly isLocked: boolean;
@@ -40,6 +52,9 @@ export class PanelDto {
 
   @ApiProperty()
   readonly updatedAt: string;
+
+  @ApiProperty()
+  readonly elements: PanelElementDataDto[];
 }
 
 export class CreatePanelDto {
@@ -59,7 +74,7 @@ export class CreatePanelDto {
 
   @IsBoolean()
   @ApiProperty()
-  readonly isFluor: boolean;
+  readonly isFluorophore: boolean;
 
   @IsBoolean()
   @ApiProperty()
@@ -70,9 +85,9 @@ export class CreatePanelDto {
   @ApiProperty()
   readonly application: number | null;
 
-  @IsOptional()
-  @ApiPropertyOptional()
-  readonly details: object[] | null;
+  @IsArray()
+  @ApiProperty()
+  readonly elements: PanelElementDataDto[];
 }
 
 export class UpdatePanelDto {
@@ -89,7 +104,7 @@ export class UpdatePanelDto {
   @IsBoolean()
   @IsOptional()
   @ApiProperty()
-  readonly isFluor?: boolean;
+  readonly isFluorophore?: boolean;
 
   @IsBoolean()
   @IsOptional()
@@ -101,9 +116,9 @@ export class UpdatePanelDto {
   @ApiProperty()
   readonly application?: number | null;
 
-  @IsOptional()
-  @ApiPropertyOptional()
-  readonly details?: object[] | null;
+  @IsArray()
+  @ApiProperty()
+  elements: PanelElementDataDto[];
 }
 
 export class DuplicatePanelDto {

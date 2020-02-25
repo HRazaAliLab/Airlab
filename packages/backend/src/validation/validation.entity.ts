@@ -35,12 +35,12 @@ export class ValidationEntity {
   @Column({
     name: "lot_id",
   })
-  lotId: number;
+  lotId?: number;
 
   @Column({
     name: "conjugate_id",
   })
-  conjugateId: number;
+  conjugateId?: number;
 
   @Column({
     name: "species_id",
@@ -184,11 +184,11 @@ export class ValidationEntity {
 
   @ManyToOne(type => LotEntity)
   @JoinColumn({ name: "lot_id" })
-  lot: LotEntity;
+  lot?: LotEntity;
 
   @ManyToOne(type => ConjugateEntity)
   @JoinColumn({ name: "conjugate_id" })
-  conjugate: ConjugateEntity;
+  conjugate?: ConjugateEntity;
 
   @ManyToOne(type => SpeciesEntity)
   @JoinColumn({ name: "species_id" })

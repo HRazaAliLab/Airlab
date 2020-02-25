@@ -1,7 +1,8 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { GroupEntity } from "../group/group.entity";
 import { MemberEntity } from "../member/member.entity";
 import { UserEntity } from "../user/user.entity";
+import { PanelElementEntity } from "../panelElement/panelElement.entity";
 
 @Entity({
   name: "panel",
@@ -33,15 +34,9 @@ export class PanelEntity {
   description: string;
 
   @Column({
-    name: "details",
-    type: "jsonb",
+    name: "is_fluorophore",
   })
-  details: object;
-
-  @Column({
-    name: "is_fluor",
-  })
-  isFluor: boolean;
+  isFluorophore: boolean;
 
   @Column({
     name: "is_locked",
@@ -88,4 +83,10 @@ export class PanelEntity {
   member: MemberEntity;
 
   user: UserEntity;
+
+  @OneToMany(
+    type => PanelElementEntity,
+    element => element.panel
+  )
+  elements!: PanelElementEntity[];
 }

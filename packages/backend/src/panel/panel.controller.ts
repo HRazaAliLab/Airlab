@@ -4,13 +4,18 @@ import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nest
 import { AuthGuard } from "@nestjs/passport";
 import { CreatePanelDto, DuplicatePanelDto, PanelDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
 import { MemberService } from "../member/member.service";
+import { PanelElementService } from "../panelElement/panelElement.service";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
 @ApiTags("panels")
 @ApiBearerAuth()
 export class PanelController {
-  constructor(private readonly panelService: PanelService, private readonly memberService: MemberService) {}
+  constructor(
+    private readonly panelService: PanelService,
+    private readonly panelElementService: PanelElementService,
+    private readonly memberService: MemberService
+  ) {}
 
   @Post("panels")
   @ApiCreatedResponse({ description: "Create entity.", type: PanelDto })

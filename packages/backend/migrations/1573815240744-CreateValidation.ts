@@ -23,7 +23,6 @@ export class CreateValidation1573815240744 implements MigrationInterface {
           {
             name: "clone_id",
             type: "int",
-            isNullable: true,
           },
           {
             name: "lot_id",

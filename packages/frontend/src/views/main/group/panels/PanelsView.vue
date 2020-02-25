@@ -65,8 +65,8 @@
         <template v-slot:item.application="{ item }">
           {{ item.application | applicationToString }}
         </template>
-        <template v-slot:item.isFluor="{ item }">
-          <v-icon v-if="item.isFluor">mdi-check</v-icon>
+        <template v-slot:item.isFluorophore="{ item }">
+          <v-icon v-if="item.isFluorophore">mdi-check</v-icon>
         </template>
         <template v-slot:item.isLocked="{ item }">
           <v-icon v-if="item.isLocked">mdi-lock-outline</v-icon>
@@ -212,8 +212,8 @@ export default class PanelsView extends Vue {
       value: "description",
     },
     {
-      text: "Fluor",
-      value: "isFluor",
+      text: "Fluorophore",
+      value: "isFluorophore",
       filterable: false,
     },
     {
