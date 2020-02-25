@@ -44,10 +44,6 @@ __decorate([
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Number)
-], ValidationDto.prototype, "fileId", void 0);
-__decorate([
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Number)
 ], ValidationDto.prototype, "application", void 0);
 __decorate([
     swagger_1.ApiProperty(),
@@ -168,12 +164,6 @@ __decorate([
     swagger_1.ApiPropertyOptional(),
     __metadata("design:type", Number)
 ], CreateValidationDto.prototype, "speciesId", void 0);
-__decorate([
-    class_validator_1.IsInt(),
-    class_validator_1.IsOptional(),
-    swagger_1.ApiPropertyOptional(),
-    __metadata("design:type", Number)
-], CreateValidationDto.prototype, "fileId", void 0);
 __decorate([
     class_validator_1.IsInt(),
     swagger_1.ApiProperty(),
@@ -318,12 +308,6 @@ __decorate([
     swagger_1.ApiPropertyOptional(),
     __metadata("design:type", Number)
 ], UpdateValidationDto.prototype, "speciesId", void 0);
-__decorate([
-    class_validator_1.IsInt(),
-    class_validator_1.IsOptional(),
-    swagger_1.ApiPropertyOptional(),
-    __metadata("design:type", Number)
-], UpdateValidationDto.prototype, "fileId", void 0);
 __decorate([
     class_validator_1.IsInt(),
     swagger_1.ApiProperty(),

@@ -255,7 +255,6 @@ export default class CreateValidation extends Vue {
   lotId: number | null = null;
   conjugateId: number | null = null;
   speciesId: number | null = null;
-  fileId: number | null = null;
   application = "1";
   positiveControl: string | null = null;
   negativeControl: string | null = null;
@@ -306,7 +305,6 @@ export default class CreateValidation extends Vue {
     this.lotId = null;
     this.conjugateId = null;
     this.speciesId = null;
-    this.fileId = null;
     this.application = "1";
     this.positiveControl = null;
     this.negativeControl = null;
@@ -340,14 +338,13 @@ export default class CreateValidation extends Vue {
   }
 
   async submit() {
-    if ((this.$refs.form as any).validate() && this.activeGroupId) {
+    if ((this.$refs.form as any).validate() && this.activeGroupId && this.cloneId) {
       const data: CreateValidationDto = {
         groupId: this.activeGroupId,
         cloneId: this.cloneId,
         lotId: this.lotId,
         conjugateId: this.conjugateId,
         speciesId: this.speciesId,
-        fileId: this.fileId,
         application: Number(this.application),
         positiveControl: this.positiveControl,
         negativeControl: this.negativeControl,

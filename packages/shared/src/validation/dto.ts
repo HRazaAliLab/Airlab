@@ -15,16 +15,13 @@ export class ValidationDto {
   readonly cloneId: number;
 
   @ApiProperty()
-  readonly lotId?: number;
+  readonly lotId: number | null;
 
   @ApiProperty()
-  readonly conjugateId?: number;
+  readonly conjugateId: number | null;
 
   @ApiProperty()
-  readonly speciesId?: number;
-
-  @ApiProperty()
-  readonly fileId: number;
+  readonly speciesId: number | null;
 
   @ApiProperty()
   readonly application: number;
@@ -121,11 +118,6 @@ export class CreateValidationDto {
   @IsOptional()
   @ApiPropertyOptional()
   readonly speciesId: number | null;
-
-  @IsInt()
-  @IsOptional()
-  @ApiPropertyOptional()
-  readonly fileId: number | null;
 
   @IsInt()
   @ApiProperty()
@@ -245,11 +237,6 @@ export class UpdateValidationDto {
   @IsOptional()
   @ApiPropertyOptional()
   readonly speciesId: number | null;
-
-  @IsInt()
-  @IsOptional()
-  @ApiPropertyOptional()
-  readonly fileId: number | null;
 
   @IsInt()
   @ApiProperty()

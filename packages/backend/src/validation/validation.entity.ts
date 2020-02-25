@@ -48,11 +48,6 @@ export class ValidationEntity {
   speciesId: number;
 
   @Column({
-    name: "file_id",
-  })
-  fileId: number;
-
-  @Column({
     name: "application",
   })
   application: number;
@@ -193,10 +188,6 @@ export class ValidationEntity {
   @ManyToOne(type => SpeciesEntity)
   @JoinColumn({ name: "species_id" })
   species: SpeciesEntity;
-
-  @ManyToOne(type => ValidationFileEntity)
-  @JoinColumn({ name: "file_id" })
-  file: ValidationFileEntity;
 
   @OneToMany(
     type => ValidationFileEntity,

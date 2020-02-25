@@ -295,7 +295,6 @@ export default class EditValidation extends Vue {
   lotId: number | null = null;
   conjugateId: number | null = null;
   speciesId: number | null = null;
-  fileId: number | null = null;
   application = "1";
   positiveControl: string | null = null;
   negativeControl: string | null = null;
@@ -360,7 +359,6 @@ export default class EditValidation extends Vue {
       this.lotId = this.validation.lotId;
       this.conjugateId = this.validation.conjugateId;
       this.speciesId = this.validation.speciesId;
-      this.fileId = this.validation.fileId;
       this.application = this.validation.application.toString();
       this.positiveControl = this.validation.positiveControl;
       this.negativeControl = this.validation.negativeControl;
@@ -395,13 +393,12 @@ export default class EditValidation extends Vue {
   }
 
   async submit() {
-    if ((this.$refs.form as any).validate() && this.validation) {
+    if ((this.$refs.form as any).validate() && this.validation && this.cloneId) {
       const data: UpdateValidationDto = {
         cloneId: this.cloneId,
         lotId: this.lotId,
         conjugateId: this.conjugateId,
         speciesId: this.speciesId,
-        fileId: this.fileId,
         application: Number(this.application),
         positiveControl: this.positiveControl,
         negativeControl: this.negativeControl,
