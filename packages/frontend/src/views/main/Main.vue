@@ -1,118 +1,133 @@
 <template>
   <div>
-    <v-navigation-drawer
-      :mini-variant="miniDrawer"
-      mini-variant-width="60"
-      :clipped="$vuetify.breakpoint.lgAndUp"
-      v-model="showDrawer"
-      fixed
-      app
-      width="250"
-    >
+    <v-navigation-drawer :clipped="$vuetify.breakpoint.lgAndUp" v-model="showDrawer" fixed app width="180">
       <v-row no-gutters>
         <v-col>
           <v-list dense flat>
-            <v-subheader class="grey--text text--darken-1">Main</v-subheader>
             <v-list-item to="/main/groups">
-              <v-list-item-action>
+              <v-list-item-icon>
                 <v-icon>mdi-view-dashboard-outline</v-icon>
-              </v-list-item-action>
-              <v-list-item-title>Groups</v-list-item-title>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>Groups</v-list-item-title>
+              </v-list-item-content>
             </v-list-item>
           </v-list>
-          <v-list dense subheader v-if="activeGroupId">
-            <v-subheader class="grey--text text--darken-1">Group</v-subheader>
-            <v-list-item :to="`/main/groups/${activeGroupId}/clones`">
-              <v-list-item-action>
-                <v-icon>mdi-content-duplicate</v-icon>
-              </v-list-item-action>
-              <v-list-item-title>Clones</v-list-item-title>
-            </v-list-item>
-            <v-list-item :to="`/main/groups/${activeGroupId}/lots`">
-              <v-list-item-action>
-                <v-icon>mdi-pound-box-outline</v-icon>
-              </v-list-item-action>
-              <v-list-item-title>Lots</v-list-item-title>
-            </v-list-item>
-            <v-list-item :to="`/main/groups/${activeGroupId}/conjugates`">
-              <v-list-item-action>
-                <v-icon>mdi-set-center</v-icon>
-              </v-list-item-action>
-              <v-list-item-title>Conjugates</v-list-item-title>
-            </v-list-item>
-            <v-list-item :to="`/main/groups/${activeGroupId}/validations`">
-              <v-list-item-action>
-                <v-icon>mdi-ab-testing</v-icon>
-              </v-list-item-action>
-              <v-list-item-title>Validations</v-list-item-title>
-            </v-list-item>
-            <v-list-item :to="`/main/groups/${activeGroupId}/panels`">
-              <v-list-item-action>
-                <v-icon>mdi-clipboard-outline</v-icon>
-              </v-list-item-action>
-              <v-list-item-title>Panels</v-list-item-title>
-            </v-list-item>
-            <v-list-item :to="`/main/groups/${activeGroupId}/reagents`">
-              <v-list-item-action>
-                <v-icon>mdi-test-tube</v-icon>
-              </v-list-item-action>
-              <v-list-item-title>Reagents</v-list-item-title>
-            </v-list-item>
-            <v-list-item :to="`/main/groups/${activeGroupId}/proteins`">
-              <v-list-item-action>
-                <v-icon>mdi-dna</v-icon>
-              </v-list-item-action>
-              <v-list-item-title>Proteins</v-list-item-title>
-            </v-list-item>
-            <v-list-item :to="`/main/groups/${activeGroupId}/tags`">
-              <v-list-item-action>
-                <v-icon>mdi-tag-outline</v-icon>
-              </v-list-item-action>
-              <v-list-item-title>Tags</v-list-item-title>
-            </v-list-item>
-            <v-list-item :to="`/main/groups/${activeGroupId}/providers`">
-              <v-list-item-action>
-                <v-icon>mdi-domain</v-icon>
-              </v-list-item-action>
-              <v-list-item-title>Providers</v-list-item-title>
-            </v-list-item>
-            <v-list-item :to="`/main/groups/${activeGroupId}/species`">
-              <v-list-item-action>
-                <v-icon>mdi-rabbit</v-icon>
-              </v-list-item-action>
-              <v-list-item-title>Species</v-list-item-title>
-            </v-list-item>
-            <v-list-item v-if="groupRole >= 100" :to="`/main/groups/${activeGroupId}/members`">
-              <v-list-item-action>
-                <v-icon>mdi-account-multiple-outline</v-icon>
-              </v-list-item-action>
-              <v-list-item-title>Members</v-list-item-title>
-            </v-list-item>
-          </v-list>
-          <v-divider v-if="isAdmin" />
-          <v-list dense subheader v-if="isAdmin">
-            <v-subheader class="grey--text text--darken-1">Admin</v-subheader>
-            <v-list-item to="/main/admin/users">
-              <v-list-item-action>
-                <v-icon>mdi-account-outline</v-icon>
-              </v-list-item-action>
-              <v-list-item-title>Users</v-list-item-title>
-            </v-list-item>
-            <v-list-item to="/main/admin/groups">
-              <v-list-item-action>
-                <v-icon>mdi-account-multiple-outline</v-icon>
-              </v-list-item-action>
-              <v-list-item-title>Groups</v-list-item-title>
-            </v-list-item>
-          </v-list>
-          <v-divider />
-          <v-list dense>
-            <v-list-item @click="switchMiniDrawer">
-              <v-list-item-action>
-                <v-icon v-html="miniDrawer ? 'mdi-chevron-right' : 'mdi-chevron-left'" />
-              </v-list-item-action>
-              <v-list-item-title>Collapse</v-list-item-title>
-            </v-list-item>
+          <v-list nav dense expand>
+            <v-list-group v-if="activeGroupId" :value="true">
+              <template v-slot:activator>
+                <v-list-item-title>Group</v-list-item-title>
+              </template>
+              <v-list-item :to="`/main/groups/${activeGroupId}/clones`">
+                <v-list-item-icon>
+                  <v-icon>mdi-content-duplicate</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Clones</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item :to="`/main/groups/${activeGroupId}/lots`">
+                <v-list-item-icon>
+                  <v-icon>mdi-pound-box-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Lots</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item :to="`/main/groups/${activeGroupId}/conjugates`">
+                <v-list-item-icon>
+                  <v-icon>mdi-set-center</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Conjugates</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item :to="`/main/groups/${activeGroupId}/validations`">
+                <v-list-item-icon>
+                  <v-icon>mdi-ab-testing</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Validations</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item :to="`/main/groups/${activeGroupId}/panels`">
+                <v-list-item-icon>
+                  <v-icon>mdi-clipboard-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Panels</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item :to="`/main/groups/${activeGroupId}/reagents`">
+                <v-list-item-icon>
+                  <v-icon>mdi-test-tube</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Reagents</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item :to="`/main/groups/${activeGroupId}/proteins`">
+                <v-list-item-icon>
+                  <v-icon>mdi-dna</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Proteins</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item :to="`/main/groups/${activeGroupId}/tags`">
+                <v-list-item-icon>
+                  <v-icon>mdi-tag-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Tags</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item :to="`/main/groups/${activeGroupId}/providers`">
+                <v-list-item-icon>
+                  <v-icon>mdi-domain</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Providers</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item :to="`/main/groups/${activeGroupId}/species`">
+                <v-list-item-icon>
+                  <v-icon>mdi-rabbit</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Species</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item v-if="groupRole >= 100" :to="`/main/groups/${activeGroupId}/members`">
+                <v-list-item-icon>
+                  <v-icon>mdi-account-multiple-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Members</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-group>
+            <v-list-group v-if="isAdmin" :value="false">
+              <template v-slot:activator>
+                <v-list-item-title>Admin</v-list-item-title>
+              </template>
+              <v-list-item to="/main/admin/users">
+                <v-list-item-icon>
+                  <v-icon>mdi-account-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Users</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item to="/main/admin/groups">
+                <v-list-item-icon>
+                  <v-icon>mdi-account-multiple-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Groups</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-group>
           </v-list>
         </v-col>
       </v-row>
@@ -192,24 +207,12 @@ export default class Main extends Vue {
     routeGuardMain(to, from, next);
   }
 
-  get miniDrawer() {
-    return this.mainContext.getters.dashboardMiniDrawer;
-  }
-
   get showDrawer() {
     return this.mainContext.getters.dashboardShowDrawer;
   }
 
-  set showDrawer(value: boolean) {
-    this.mainContext.mutations.setDashboardShowDrawer(value);
-  }
-
   switchShowDrawer() {
     this.mainContext.mutations.setDashboardShowDrawer(!this.mainContext.getters.dashboardShowDrawer);
-  }
-
-  switchMiniDrawer() {
-    this.mainContext.mutations.setDashboardMiniDrawer(!this.mainContext.getters.dashboardMiniDrawer);
   }
 
   get isAdmin() {
