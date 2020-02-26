@@ -24,14 +24,16 @@
             dense
           />
           <v-autocomplete
-            label="Reagent"
-            v-model="reagentId"
-            :items="reagents"
+            label="Provider"
+            v-model="providerId"
+            :items="providers"
             item-text="name"
             item-value="id"
-            :rules="reagentRules"
+            :rules="providerRules"
             dense
           />
+          <v-text-field label="Name" v-model="name" :rules="nameRules" />
+          <v-text-field label="Catalog Number" v-model="reference" :rules="referenceRules" />
           <v-text-field label="Lot Number" v-model="number" :rules="numberRules" />
           <v-text-field label="URL" v-model="link" :rules="linkRules" />
           <v-text-field label="Purpose" v-model="purpose" :rules="purposeRules" />
@@ -49,25 +51,29 @@ import { Component, Vue } from "vue-property-decorator";
 import { cloneModule } from "@/modules/clone";
 import { groupModule } from "@/modules/group";
 import { lotModule } from "@/modules/lot";
-import { reagentModule } from "@/modules/reagent";
 import { UpdateLotDto } from "@airlab/shared/lib/lot/dto";
+import { providerModule } from "@/modules/provider";
 
 @Component
 export default class EditLot extends Vue {
   readonly groupContext = groupModule.context(this.$store);
   readonly lotContext = lotModule.context(this.$store);
   readonly cloneContext = cloneModule.context(this.$store);
-  readonly reagentContext = reagentModule.context(this.$store);
+  readonly providerContext = providerModule.context(this.$store);
 
   readonly cloneRules = [required];
-  readonly reagentRules = [required];
+  readonly nameRules = [required];
+  readonly referenceRules = [required];
+  readonly providerRules = [required];
   readonly numberRules = [required];
   readonly linkRules = [];
   readonly purposeRules = [];
 
   valid = false;
   cloneId: number | null = null;
-  reagentId: number | null = null;
+  name = "";
+  reference = "";
+  providerId: number | null = null;
   number = "Pending";
   link: string | null = null;
   purpose: string | null = null;
@@ -82,8 +88,8 @@ export default class EditLot extends Vue {
     return this.cloneContext.getters.clones;
   }
 
-  get reagents() {
-    return this.reagentContext.getters.reagents;
+  get providers() {
+    return this.providerContext.getters.providers;
   }
 
   get lot() {
@@ -100,7 +106,9 @@ export default class EditLot extends Vue {
     }
     if (this.lot) {
       this.cloneId = this.lot.cloneId;
-      this.reagentId = this.lot.reagentId;
+      this.name = this.lot.name;
+      this.reference = this.lot.reference;
+      this.providerId = this.lot.providerId;
       this.number = this.lot.number;
       this.link = this.lot.link;
       this.purpose = this.lot.purpose;
@@ -113,7 +121,9 @@ export default class EditLot extends Vue {
     if ((this.$refs.form as any).validate() && this.lot) {
       const data: UpdateLotDto = {
         cloneId: Number(this.cloneId),
-        reagentId: Number(this.reagentId),
+        name: this.name,
+        reference: this.reference,
+        providerId: Number(this.providerId),
         number: this.number,
         link: this.link,
         purpose: this.purpose,
@@ -132,7 +142,7 @@ export default class EditLot extends Vue {
     await Promise.all([
       this.lotContext.actions.getLot(+this.$router.currentRoute.params.id),
       this.cloneContext.actions.getGroupClones(+this.$router.currentRoute.params.groupId),
-      this.reagentContext.actions.getGroupReagents(+this.$router.currentRoute.params.groupId),
+      this.providerContext.actions.getGroupProviders(+this.$router.currentRoute.params.groupId),
     ]);
     this.reset();
   }

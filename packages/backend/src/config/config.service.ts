@@ -9,7 +9,6 @@ import { SpeciesEntity } from "../species/species.entity";
 import { TagEntity } from "../tag/tag.entity";
 import { ValidationFileEntity } from "../validationFile/validationFile.entity";
 import { CloneEntity } from "../clone/clone.entity";
-import { ReagentEntity } from "../reagent/reagent.entity";
 import { ConjugateEntity } from "../conjugate/conjugate.entity";
 import { LotEntity } from "../lot/lot.entity";
 import { PanelEntity } from "../panel/panel.entity";
@@ -49,7 +48,6 @@ export class ConfigService {
         TagEntity,
         ValidationFileEntity,
         CloneEntity,
-        ReagentEntity,
         ConjugateEntity,
         PanelEntity,
         PanelElementEntity,

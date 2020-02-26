@@ -148,6 +148,11 @@ export class CreateValidation1573815240744 implements MigrationInterface {
             isNullable: true,
           },
           {
+            name: "file_id",
+            type: "int",
+            isNullable: true,
+          },
+          {
             name: "created_at",
             type: "timestamptz",
             default: "NOW()",

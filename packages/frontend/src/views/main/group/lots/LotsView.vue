@@ -38,6 +38,31 @@
               </v-chip>
             </template>
           </v-select>
+          <v-select
+            v-model="providerFilter"
+            :items="providers"
+            item-text="name"
+            item-value="id"
+            chips
+            clearable
+            label="Provider"
+            multiple
+            prepend-icon="mdi-filter-outline"
+            solo
+            dense
+          >
+            <template v-slot:selection="{ attrs, item, select, selected }">
+              <v-chip
+                v-bind="attrs"
+                :input-value="selected"
+                close
+                @click="select"
+                @click:close="removeProviderFilter(item)"
+              >
+                {{ item.name }}
+              </v-chip>
+            </template>
+          </v-select>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -62,19 +87,19 @@
         multi-sort
         show-expand
       >
-        <template v-slot:item.reagent="{ item }">
+        <template v-slot:item.provider="{ item }">
           <router-link
-            v-if="item.reagent"
+            v-if="item.provider"
             class="link"
             :to="{
-              name: 'main-group-reagents-edit',
+              name: 'main-group-providers-edit',
               params: {
                 groupId: activeGroupId,
-                id: item.reagent.id,
+                id: item.provider.id,
               },
             }"
           >
-            {{ item.reagent.name }}
+            {{ item.provider.name }}
           </router-link>
         </template>
         <template v-slot:item.clone="{ item }">
@@ -185,6 +210,7 @@ import { groupModule } from "@/modules/group";
 import { lotModule } from "@/modules/lot";
 import { LotDto } from "@airlab/shared/lib/lot/dto";
 import LotDetailsView from "@/views/main/group/lots/LotDetailsView.vue";
+import { providerModule } from "@/modules/provider";
 
 @Component({
   components: {
@@ -195,6 +221,7 @@ import LotDetailsView from "@/views/main/group/lots/LotDetailsView.vue";
 export default class LotsView extends Vue {
   readonly groupContext = groupModule.context(this.$store);
   readonly lotContext = lotModule.context(this.$store);
+  readonly providerContext = providerModule.context(this.$store);
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
@@ -213,8 +240,16 @@ export default class LotsView extends Vue {
       value: "number",
     },
     {
-      text: "Reagent",
-      value: "reagent",
+      text: "Reference",
+      value: "reference",
+    },
+    {
+      text: "Name",
+      value: "name",
+    },
+    {
+      text: "Provider",
+      value: "provider",
       sort: (a, b) => {
         if (a === null) {
           return 1;
@@ -275,15 +310,25 @@ export default class LotsView extends Vue {
   search = "";
 
   statusFilter: string[] = [];
+  providerFilter: number[] = [];
 
   get statuses() {
     return [...new Set(this.lotContext.getters.lots.map(item => item.status))];
+  }
+
+  get providers() {
+    return this.providerContext.getters.providers;
   }
 
   get items() {
     let items = this.lotContext.getters.lots;
     if (this.statusFilter.length > 0) {
       items = items.filter(item => this.statusFilter.includes(item.status));
+    }
+    if (this.providerFilter.length > 0) {
+      items = items.filter(item =>
+        (item as any).provider ? this.providerFilter.includes((item as any).provider.id) : false
+      );
     }
     return items;
   }
@@ -295,7 +340,9 @@ export default class LotsView extends Vue {
     const normalizedSearchTerm = search.toLowerCase().trim();
     return (
       (item.number ? item.number.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
-      (item.reagent ? item.reagent.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
+      item.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 ||
+      (item.reference ? item.reference.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
+      (item.provider ? item.provider.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
       (item.clone ? item.clone.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
       item.status.toLowerCase().indexOf(normalizedSearchTerm) !== -1 ||
       (item.purpose ? item.purpose.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false)
@@ -308,7 +355,10 @@ export default class LotsView extends Vue {
   }
 
   async mounted() {
-    await this.lotContext.actions.getGroupLots(+this.$router.currentRoute.params.groupId);
+    await Promise.all([
+      this.lotContext.actions.getGroupLots(+this.$router.currentRoute.params.groupId),
+      this.providerContext.actions.getGroupProviders(+this.$router.currentRoute.params.groupId),
+    ]);
   }
 
   async deleteLot(id: number) {
@@ -320,6 +370,11 @@ export default class LotsView extends Vue {
   removeStatusFilter(item) {
     this.statusFilter.splice(this.statusFilter.indexOf(item), 1);
     this.statusFilter = [...this.statusFilter];
+  }
+
+  removeProviderFilter(item) {
+    this.providerFilter.splice(this.providerFilter.indexOf(item), 1);
+    this.providerFilter = [...this.providerFilter];
   }
 }
 </script>

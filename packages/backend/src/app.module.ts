@@ -14,7 +14,6 @@ import { SpeciesModule } from "./species/species.module";
 import { TagModule } from "./tag/tag.module";
 import { ValidationFileModule } from "./validationFile/validationFile.module";
 import { CloneModule } from "./clone/clone.module";
-import { ReagentModule } from "./reagent/reagent.module";
 import { ConjugateModule } from "./conjugate/conjugate.module";
 import { LotModule } from "./lot/lot.module";
 import { PanelModule } from "./panel/panel.module";
@@ -38,7 +37,6 @@ import { PanelElementModule } from "./panelElement/panelElement.module";
     ProviderModule,
     SpeciesModule,
     TagModule,
-    ReagentModule,
     CloneModule,
     LotModule,
     ConjugateModule,

@@ -4,10 +4,10 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { ProviderEntity } from "./provider.entity";
 import { ProviderController } from "./provider.controller";
 import { MemberModule } from "../member/member.module";
-import { ReagentModule } from "../reagent/reagent.module";
+import { LotModule } from "../lot/lot.module";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ProviderEntity]), MemberModule, ReagentModule],
+  imports: [TypeOrmModule.forFeature([ProviderEntity]), MemberModule, LotModule],
   providers: [ProviderService],
   controllers: [ProviderController],
   exports: [ProviderService],

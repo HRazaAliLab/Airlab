@@ -41,8 +41,8 @@ export class LotService {
       .andWhere("lot.isDeleted = false")
       .leftJoin("lot.clone", "clone")
       .addSelect(["clone.id", "clone.name"])
-      .leftJoin("lot.reagent", "reagent")
-      .addSelect(["reagent.id", "reagent.name"])
+      .leftJoin("lot.provider", "provider")
+      .addSelect(["provider.id", "provider.name"])
       .orderBy("lot.id", "DESC")
       .cache(`group_${groupId}_lots`, 1000 * 60 * 60)
       .getMany();
@@ -53,19 +53,19 @@ export class LotService {
       .createQueryBuilder("lot")
       .where("lot.cloneId = :cloneId", { cloneId: cloneId })
       .andWhere("lot.isDeleted = false")
-      .leftJoin("lot.reagent", "reagent")
-      .addSelect(["reagent.id", "reagent.name"])
+      .leftJoin("lot.provider", "provider")
+      .addSelect(["provider.id", "provider.name"])
       .orderBy("lot.id", "DESC")
       .getMany();
   }
 
-  async getReagentLots(reagentId: number) {
+  async getProviderLots(providerId: number) {
     return this.repository
       .createQueryBuilder("lot")
-      .where("lot.reagentId = :reagentId", { reagentId: reagentId })
+      .where("lot.providerId = :providerId", { providerId: providerId })
       .andWhere("lot.isDeleted = false")
-      .leftJoin("lot.reagent", "reagent")
-      .addSelect(["reagent.id", "reagent.name"])
+      .leftJoin("lot.provider", "provider")
+      .addSelect(["provider.id", "provider.name"])
       .orderBy("lot.id", "DESC")
       .getMany();
   }

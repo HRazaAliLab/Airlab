@@ -15,7 +15,6 @@ import { proteinModule } from "@/modules/protein";
 import { conjugateModule } from "@/modules/conjugate";
 import { panelModule } from "@/modules/panel";
 import { providerModule } from "@/modules/provider";
-import { reagentModule } from "@/modules/reagent";
 import { lotModule } from "@/modules/lot";
 import { validationModule } from "@/modules/validation";
 import { memberModule } from "@/modules/member";
@@ -32,7 +31,6 @@ const rootModule = new Module({
     member: memberModule,
     tag: tagModule,
     protein: proteinModule,
-    reagent: reagentModule,
     clone: cloneModule,
     lot: lotModule,
     conjugate: conjugateModule,

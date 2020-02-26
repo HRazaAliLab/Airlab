@@ -1,10 +1,10 @@
 <template>
   <v-card flat>
     <v-card-title>Provider: {{ provider.name }}</v-card-title>
-    <v-card-subtitle>Reagents</v-card-subtitle>
+    <v-card-subtitle>Lots</v-card-subtitle>
     <v-card-text>
-      <div v-for="reagent in reagents" :key="reagent.id" class="item-view">
-        <ReagentView :group-id="activeGroupId" :reagent="reagent" />
+      <div v-for="lot in lots" :key="lot.id" class="item-view">
+        <LotView :group-id="activeGroupId" :lot="lot" />
       </div>
     </v-card-text>
   </v-card>
@@ -15,11 +15,11 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
 import { providerModule } from "@/modules/provider";
 import { ProviderDto } from "@airlab/shared/lib/provider/dto";
-import { ReagentDto } from "@airlab/shared/lib/reagent/dto";
-import ReagentView from "@/views/main/group/reagents/ReagentView.vue";
+import { LotDto } from "@airlab/shared/lib/lot/dto";
+import LotView from "@/views/main/group/lots/LotView.vue";
 
 @Component({
-  components: { ReagentView },
+  components: { LotView },
 })
 export default class ProviderDetailsView extends Vue {
   readonly groupContext = groupModule.context(this.$store);
@@ -31,14 +31,14 @@ export default class ProviderDetailsView extends Vue {
   })
   readonly provider!: ProviderDto;
 
-  reagents: ReagentDto[] = [];
+  lots: LotDto[] = [];
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
   }
 
   async mounted() {
-    this.reagents = await this.providerContext.actions.getProviderReagents(this.provider.id);
+    this.lots = await this.providerContext.actions.getProviderLots(this.provider.id);
   }
 }
 </script>

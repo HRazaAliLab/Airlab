@@ -1,9 +1,25 @@
 <template>
   <v-card tile elevation="1">
-    <v-card-title>Lot Number: {{ lot.number }}</v-card-title>
+    <v-card-title>Lot: {{ lot.name }}</v-card-title>
     <v-card-text>
       <div class="subtitle-1">Status: {{ lot.status }}</div>
-      <div class="grey--text">Reagent: {{ lot.reagent.name }}</div>
+      <div>
+        <span class="subheader">Provider: </span>
+        <router-link
+          class="link"
+          :to="{
+            name: 'main-group-providers-edit',
+            params: {
+              groupId: groupId,
+              id: lot.provider.id,
+            },
+          }"
+        >
+          {{ lot.provider.name }}
+        </router-link>
+      </div>
+      <div class="grey--text">Lot Number: {{ lot.number }}</div>
+      <div class="grey--text">Reference: {{ lot.reference }}</div>
       <div>
         <a target="_blank" :href="lot.link">{{ lot.link }}</a>
       </div>

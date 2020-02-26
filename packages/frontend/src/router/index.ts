@@ -50,31 +50,6 @@ export default new Router({
               redirect: "groups/:groupId/clones",
               children: [
                 {
-                  path: "reagents",
-                  name: "main-group-reagents",
-                  component: () =>
-                    import(
-                      /* webpackChunkName: "main-group-reagents" */ "@/views/main/group/reagents/ReagentsView.vue"
-                    ),
-                },
-                {
-                  path: "reagents/create",
-                  name: "main-group-reagents-create",
-                  component: () =>
-                    import(
-                      /* webpackChunkName: "main-group-reagents-create" */ "@/views/main/group/reagents/CreateReagent.vue"
-                    ),
-                },
-                {
-                  path: "reagents/:id/edit",
-                  name: "main-group-reagents-edit",
-                  component: () =>
-                    import(
-                      /* webpackChunkName: "main-group-reagents-edit" */ "@/views/main/group/reagents/EditReagent.vue"
-                    ),
-                },
-
-                {
                   path: "proteins",
                   name: "main-group-proteins",
                   component: () =>

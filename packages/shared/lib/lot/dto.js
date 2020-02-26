@@ -28,11 +28,19 @@ __decorate([
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Number)
-], LotDto.prototype, "reagentId", void 0);
+], LotDto.prototype, "cloneId", void 0);
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Number)
-], LotDto.prototype, "cloneId", void 0);
+], LotDto.prototype, "providerId", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], LotDto.prototype, "name", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], LotDto.prototype, "reference", void 0);
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Number)
@@ -134,7 +142,17 @@ __decorate([
     class_validator_1.IsInt(),
     swagger_1.ApiProperty(),
     __metadata("design:type", Number)
-], CreateLotDto.prototype, "reagentId", void 0);
+], CreateLotDto.prototype, "providerId", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], CreateLotDto.prototype, "name", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], CreateLotDto.prototype, "reference", void 0);
 __decorate([
     class_validator_1.IsString(),
     swagger_1.ApiProperty(),
@@ -182,7 +200,17 @@ __decorate([
     class_validator_1.IsInt(),
     swagger_1.ApiProperty(),
     __metadata("design:type", Number)
-], UpdateLotDto.prototype, "reagentId", void 0);
+], UpdateLotDto.prototype, "providerId", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], UpdateLotDto.prototype, "name", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], UpdateLotDto.prototype, "reference", void 0);
 __decorate([
     class_validator_1.IsString(),
     swagger_1.ApiProperty(),

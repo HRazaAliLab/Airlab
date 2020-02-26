@@ -21,12 +21,22 @@ export class CreateLot1573049366335 implements MigrationInterface {
             type: "int",
           },
           {
-            name: "reagent_id",
+            name: "clone_id",
             type: "int",
           },
           {
-            name: "clone_id",
+            name: "provider_id",
             type: "int",
+            isNullable: true,
+          },
+          {
+            name: "name",
+            type: "varchar",
+          },
+          {
+            name: "reference",
+            type: "varchar",
+            isNullable: true,
           },
           {
             name: "requested_by",
@@ -149,16 +159,16 @@ export class CreateLot1573049366335 implements MigrationInterface {
             onDelete: "cascade",
           },
           {
-            name: "FK_lot_to_reagent",
-            referencedTableName: "reagent",
-            columnNames: ["reagent_id"],
+            name: "FK_lot_to_clone",
+            referencedTableName: "clone",
+            columnNames: ["clone_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
           {
-            name: "FK_lot_to_clone",
-            referencedTableName: "clone",
-            columnNames: ["clone_id"],
+            name: "FK_lot_to_provider",
+            referencedTableName: "provider",
+            columnNames: ["provider_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },
@@ -208,8 +218,8 @@ export class CreateLot1573049366335 implements MigrationInterface {
             columnNames: ["created_by"],
           },
           {
-            name: "IDX_lot_reagent_id",
-            columnNames: ["reagent_id"],
+            name: "IDX_lot_provider_id",
+            columnNames: ["provider_id"],
           },
           {
             name: "IDX_lot_clone_id",

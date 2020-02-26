@@ -1,6 +1,6 @@
 import { ApiManager } from "@/utils/api";
 import { CreateProviderDto, ProviderDto, UpdateProviderDto } from "@airlab/shared/lib/provider/dto";
-import { ReagentDto } from "@airlab/shared/lib/reagent/dto";
+import { LotDto } from "@airlab/shared/lib/lot/dto";
 
 export const api = {
   async createProvider(data: CreateProviderDto) {
@@ -26,7 +26,7 @@ export const api = {
   async getGroupProviders(groupId: number) {
     return ApiManager.api.get(`groups/${groupId}/providers`).json<ProviderDto[]>();
   },
-  async getProviderReagents(providerId: number) {
-    return ApiManager.api.get(`providers/${providerId}/reagents`).json<ReagentDto[]>();
+  async getProviderLots(providerId: number) {
+    return ApiManager.api.get(`providers/${providerId}/lots`).json<LotDto[]>();
   },
 };

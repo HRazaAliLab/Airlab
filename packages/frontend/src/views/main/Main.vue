@@ -20,7 +20,7 @@
               </template>
               <v-list-item :to="`/main/groups/${activeGroupId}/clones`">
                 <v-list-item-icon>
-                  <v-icon>mdi-content-duplicate</v-icon>
+                  <v-icon>mdi-test-tube</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>Clones</v-list-item-title>
@@ -36,7 +36,7 @@
               </v-list-item>
               <v-list-item :to="`/main/groups/${activeGroupId}/conjugates`">
                 <v-list-item-icon>
-                  <v-icon>mdi-set-center</v-icon>
+                  <v-icon>mdi-label-percent-outline</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>Conjugates</v-list-item-title>
@@ -56,14 +56,6 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>Panels</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item :to="`/main/groups/${activeGroupId}/reagents`">
-                <v-list-item-icon>
-                  <v-icon>mdi-test-tube</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Reagents</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item :to="`/main/groups/${activeGroupId}/proteins`">
@@ -209,6 +201,10 @@ export default class Main extends Vue {
 
   get showDrawer() {
     return this.mainContext.getters.dashboardShowDrawer;
+  }
+
+  set showDrawer(value: boolean) {
+    this.mainContext.mutations.setDashboardShowDrawer(value);
   }
 
   switchShowDrawer() {

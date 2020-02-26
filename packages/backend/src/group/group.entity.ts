@@ -5,7 +5,6 @@ import { CloneEntity } from "../clone/clone.entity";
 import { ConjugateEntity } from "../conjugate/conjugate.entity";
 import { LotEntity } from "../lot/lot.entity";
 import { PanelEntity } from "../panel/panel.entity";
-import { ReagentEntity } from "../reagent/reagent.entity";
 import { SpeciesEntity } from "../species/species.entity";
 import { TagEntity } from "../tag/tag.entity";
 import { ProviderEntity } from "../provider/provider.entity";
@@ -73,12 +72,6 @@ export class GroupEntity {
     protein => protein.group
   )
   proteins: ProteinEntity[];
-
-  @OneToMany(
-    type => ReagentEntity,
-    reagent => reagent.group
-  )
-  reagents: ReagentEntity[];
 
   @OneToMany(
     type => CloneEntity,

@@ -154,53 +154,6 @@ async function migrateProvider() {
   await postgresPool.query("SELECT setval('public.provider_id_seq', (SELECT MAX(id) FROM public.provider), true);");
 }
 
-async function migrateReagent() {
-  const input = await mysqlPool.query("SELECT * FROM tblComertialReagent");
-  for (row of input[0]) {
-    console.log(row);
-    if (row["groupId"] !== 2) {
-      continue;
-    }
-    let name = row["comName"];
-    if (name === null) {
-      name = "";
-    }
-    const sql =
-      'INSERT INTO "reagent"(id, group_id, created_by, provider_id, name, reference, is_deleted, meta) VALUES($1, $2, $3, $4, $5, $6, $7, $8)';
-    let providerId = [0, 25, 11111].includes(row["comProviderId"]) ? null : row["comProviderId"];
-    if (providerId === 87) {
-      providerId = 86;
-    }
-    if (providerId === 97) {
-      providerId = 18;
-    }
-
-    let meta = row["catchedInfo"];
-    if ([].includes(row["comComertialReagentId"])) {
-      meta = null;
-    }
-    if (meta === null || meta === "") {
-      meta = null;
-    } else {
-      meta = dJSON.parse(meta);
-      meta = JSON.stringify(meta);
-    }
-
-    const values = [
-      row["comComertialReagentId"],
-      [0].includes(row["groupId"]) ? 2 : row["groupId"],
-      [0].includes(row["createdBy"]) ? 5 : row["createdBy"],
-      providerId,
-      name,
-      row["comReference"],
-      row["deleted"] === null ? false : row["deleted"],
-      meta,
-    ];
-    await postgresPool.query(sql, values);
-  }
-  await postgresPool.query("SELECT setval('public.reagent_id_seq', (SELECT MAX(id) FROM public.reagent), true);");
-}
-
 async function migrateProtein() {
   const input = await mysqlPool.query("SELECT * FROM tblProtein");
   for (row of input[0]) {
@@ -312,8 +265,36 @@ async function migrateLot() {
       continue;
     }
 
+    const reagentInput = await mysqlPool.query(
+      `SELECT * FROM tblComertialReagent WHERE comComertialReagentId = ${reagentId}`
+    );
+    const reagentRow = reagentInput[0][0];
+
+    let name = reagentRow["comName"];
+    if (name === null) {
+      name = "";
+    }
+
+    const reference = reagentRow["comReference"];
+
+    let providerId = [0, 25, 11111].includes(reagentRow["comProviderId"]) ? null : reagentRow["comProviderId"];
+    if (providerId === 87) {
+      providerId = 86;
+    }
+    if (providerId === 97) {
+      providerId = 18;
+    }
+
+    let reagentMeta = reagentRow["catchedInfo"];
+    if (reagentMeta === null || reagentMeta === "") {
+      reagentMeta = null;
+    } else {
+      reagentMeta = dJSON.parse(reagentMeta);
+      reagentMeta = JSON.stringify(reagentMeta);
+    }
+
     const sql =
-      'INSERT INTO "lot"(id, group_id, created_by, reagent_id, clone_id, requested_by, approved_by, ordered_by, received_by, finished_by, number, status, purpose, link, requested_at, approved_at, ordered_at, received_at, finished_at, is_low, is_deleted, price, note) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)';
+      'INSERT INTO "lot"(id, group_id, created_by, provider_id, clone_id, name, reference, requested_by, approved_by, ordered_by, received_by, finished_by, number, status, purpose, link, requested_at, approved_at, ordered_at, received_at, finished_at, is_low, is_deleted, price, note, meta) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26)';
 
     let meta = row["catchedInfo"];
     if (
@@ -353,8 +334,10 @@ async function migrateLot() {
       row["reiReagentInstanceId"],
       row["groupId"],
       [0, 76].includes(row["createdBy"]) ? 5 : row["createdBy"],
-      reagentId,
+      providerId,
       row["lotCloneId"],
+      name,
+      reference,
       [0, 76, 90].includes(row["reiRequestedBy"]) ? null : row["reiRequestedBy"],
       [0, 76, 90].includes(row["reiApprovedBy"]) ? null : row["reiApprovedBy"],
       [0, 76, 90].includes(row["reiOrderedBy"]) ? null : row["reiOrderedBy"],
@@ -383,6 +366,7 @@ async function migrateLot() {
       row["deleted"] === null ? false : row["deleted"],
       price,
       note,
+      reagentMeta,
     ];
     await postgresPool.query(sql, values);
   }
@@ -439,7 +423,7 @@ async function migratePanel() {
       continue;
     }
     const sql =
-      'INSERT INTO "panel"(id, group_id, created_by, name, description, details, is_fluorophore, is_locked, application, is_deleted) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)';
+      'INSERT INTO "panel"(id, group_id, created_by, name, description, is_fluorophore, is_locked, application, is_deleted) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)';
 
     const panelId = row["panPanelId"];
 
@@ -459,7 +443,6 @@ async function migratePanel() {
       row["createdBy"],
       row["panName"] !== null ? row["panName"].toString() : null,
       row["panDescription"],
-      details ? JSON.stringify(details) : null,
       row["panFluor"] === null ? false : row["panFluor"],
       row["panIsProduction"] === null ? false : row["panIsProduction"],
       row["panApplication"],
@@ -494,7 +477,7 @@ async function migrateValidation() {
   for (row of input.rows) {
     // console.log(row);
     const sql =
-      'INSERT INTO "validation"(group_id, created_by, clone_id, lot_id, conjugate_id, species_id, file_id, application, positive_control, negative_control, incubation_conditions, concentration, concentration_unit, tissue, fixation, fixation_notes, notes, status, antigen_retrieval_type, antigen_retrieval_time, antigen_retrieval_temperature, saponin, saponin_concentration, methanol_treatment, methanol_treatment_concentration, surface_staining, surface_staining_concentration, meta, created_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29)';
+      'INSERT INTO "validation"(group_id, created_by, clone_id, lot_id, conjugate_id, species_id, file_id, application, positive_control, negative_control, incubation_conditions, concentration, concentration_unit, tissue, fixation, fixation_notes, notes, status, antigen_retrieval_type, antigen_retrieval_time, antigen_retrieval_temperature, saponin, saponin_concentration, methanol_treatment, methanol_treatment_concentration, surface_staining, surface_staining_concentration, meta, created_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29) RETURNING *';
 
     if (!row["meta"]) {
       continue;
@@ -579,6 +562,7 @@ async function migrateValidation() {
       await postgresPool.query(sql, values);
     }
   }
+  await postgresPool.query("SELECT setval('public.validation_id_seq', (SELECT MAX(id) FROM public.validation), true);");
 }
 
 async function migrateValidationFile() {
@@ -675,7 +659,6 @@ async function migrate() {
   await migrateSpecies();
   await migrateTag();
   await migrateProvider();
-  await migrateReagent();
   await migrateProtein();
   await migrateClone();
   await migrateLot();

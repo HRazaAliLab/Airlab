@@ -4,8 +4,8 @@ import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nest
 import { AuthGuard } from "@nestjs/passport";
 import { CreateProviderDto, ProviderDto, UpdateProviderDto } from "@airlab/shared/lib/provider/dto";
 import { MemberService } from "../member/member.service";
-import { ReagentDto } from "@airlab/shared/lib/reagent/dto";
-import { ReagentService } from "../reagent/reagent.service";
+import { LotDto } from "@airlab/shared/lib/lot/dto";
+import { LotService } from "../lot/lot.service";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
@@ -15,7 +15,7 @@ export class ProviderController {
   constructor(
     private readonly providerService: ProviderService,
     private readonly memberService: MemberService,
-    private readonly reagentService: ReagentService
+    private readonly lotService: LotService,
   ) {}
 
   @Post("providers")
@@ -56,15 +56,15 @@ export class ProviderController {
     return this.providerService.getGroupProviders(groupId);
   }
 
-  @Get("providers/:id/reagents")
+  @Get("providers/:id/lots")
   @ApiOkResponse({
-    description: "Find all reagents belonging to the provider.",
-    type: ReagentDto,
+    description: "Find all lots belonging to the provider.",
+    type: LotDto,
     isArray: true,
   })
-  async getProviderReagents(@Request() req, @Param("id") id: number) {
+  async getProviderLots(@Request() req, @Param("id") id: number) {
     const provider = await this.providerService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, provider.groupId);
-    return this.reagentService.getProviderReagents(id);
+    return this.lotService.getProviderLots(id);
   }
 }
