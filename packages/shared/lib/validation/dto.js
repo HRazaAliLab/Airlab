@@ -127,6 +127,10 @@ __decorate([
 ], ValidationDto.prototype, "meta", void 0);
 __decorate([
     swagger_1.ApiProperty(),
+    __metadata("design:type", Boolean)
+], ValidationDto.prototype, "isArchived", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], ValidationDto.prototype, "createdAt", void 0);
 __decorate([

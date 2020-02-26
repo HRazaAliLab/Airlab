@@ -52,7 +52,7 @@ export class CreatePanel1573210620363 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: "is_deleted",
+            name: "is_archived",
             type: "boolean",
             default: false,
           },

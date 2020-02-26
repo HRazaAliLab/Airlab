@@ -35,10 +35,6 @@ __decorate([
 ], CloneDto.prototype, "speciesId", void 0);
 __decorate([
     swagger_1.ApiProperty(),
-    __metadata("design:type", Number)
-], CloneDto.prototype, "prefferedTagId", void 0);
-__decorate([
-    swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], CloneDto.prototype, "name", void 0);
 __decorate([
@@ -68,11 +64,7 @@ __decorate([
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Boolean)
-], CloneDto.prototype, "isDeleted", void 0);
-__decorate([
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Boolean)
-], CloneDto.prototype, "isPublic", void 0);
+], CloneDto.prototype, "isArchived", void 0);
 __decorate([
     swagger_1.ApiPropertyOptional(),
     __metadata("design:type", Object)

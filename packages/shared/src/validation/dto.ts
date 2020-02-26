@@ -87,6 +87,9 @@ export class ValidationDto {
   readonly meta: object;
 
   @ApiProperty()
+  readonly isArchived: boolean;
+
+  @ApiProperty()
   readonly createdAt: string;
 
   @ApiProperty()

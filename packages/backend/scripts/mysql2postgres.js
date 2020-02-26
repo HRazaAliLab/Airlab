@@ -182,7 +182,7 @@ async function migrateClone() {
       continue;
     }
     const sql =
-      'INSERT INTO "clone"(id, group_id, created_by, protein_id, species_id, name, isotype, epitope, is_phospho, is_polyclonal, reactivity, application, is_deleted, is_public, meta) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)';
+      'INSERT INTO "clone"(id, group_id, created_by, protein_id, species_id, name, isotype, epitope, is_phospho, is_polyclonal, reactivity, application, is_archived, meta) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)';
 
     let reactivity = row["cloReactivity"];
     if (reactivity === "") {
@@ -239,7 +239,6 @@ async function migrateClone() {
       reactivity,
       application,
       row["deleted"] === null ? false : row["deleted"],
-      row["cloPublic"] === null ? false : row["cloPublic"],
       meta,
     ];
     await postgresPool.query(sql, values);
@@ -294,7 +293,7 @@ async function migrateLot() {
     }
 
     const sql =
-      'INSERT INTO "lot"(id, group_id, created_by, provider_id, clone_id, name, reference, requested_by, approved_by, ordered_by, received_by, finished_by, number, status, purpose, link, requested_at, approved_at, ordered_at, received_at, finished_at, is_low, is_deleted, price, note, meta) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26)';
+      'INSERT INTO "lot"(id, group_id, created_by, provider_id, clone_id, name, reference, requested_by, approved_by, ordered_by, received_by, finished_by, number, status, purpose, url, requested_at, approved_at, ordered_at, received_at, finished_at, is_low, is_archived, price, note, meta) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26)';
 
     let meta = row["catchedInfo"];
     if (
@@ -387,7 +386,7 @@ async function migrateConjugate() {
     }
 
     const sql =
-      'INSERT INTO "conjugate"(id, group_id, created_by, lot_id, tag_id, status, tube_number, concentration, is_deleted, description, labeled_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)';
+      'INSERT INTO "conjugate"(id, group_id, created_by, lot_id, tag_id, status, tube_number, concentration, is_archived, description, labeled_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)';
 
     const status = row["tubFinishedBy"] > 0 ? 2 : row["tubIsLow"] !== 0 ? 1 : 0;
 
@@ -423,7 +422,7 @@ async function migratePanel() {
       continue;
     }
     const sql =
-      'INSERT INTO "panel"(id, group_id, created_by, name, description, is_fluorophore, is_locked, application, is_deleted) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)';
+      'INSERT INTO "panel"(id, group_id, created_by, name, description, is_fluorophore, is_locked, application, is_archived) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)';
 
     const panelId = row["panPanelId"];
 

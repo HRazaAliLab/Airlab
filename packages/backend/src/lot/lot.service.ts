@@ -38,7 +38,7 @@ export class LotService {
     return this.repository
       .createQueryBuilder("lot")
       .where("lot.groupId = :groupId", { groupId: groupId })
-      .andWhere("lot.isDeleted = false")
+      .andWhere("lot.isArchived = false")
       .leftJoin("lot.clone", "clone")
       .addSelect(["clone.id", "clone.name"])
       .leftJoin("lot.provider", "provider")
@@ -52,7 +52,7 @@ export class LotService {
     return this.repository
       .createQueryBuilder("lot")
       .where("lot.cloneId = :cloneId", { cloneId: cloneId })
-      .andWhere("lot.isDeleted = false")
+      .andWhere("lot.isArchived = false")
       .leftJoin("lot.provider", "provider")
       .addSelect(["provider.id", "provider.name"])
       .orderBy("lot.id", "DESC")
@@ -63,7 +63,7 @@ export class LotService {
     return this.repository
       .createQueryBuilder("lot")
       .where("lot.providerId = :providerId", { providerId: providerId })
-      .andWhere("lot.isDeleted = false")
+      .andWhere("lot.isArchived = false")
       .leftJoin("lot.provider", "provider")
       .addSelect(["provider.id", "provider.name"])
       .orderBy("lot.id", "DESC")

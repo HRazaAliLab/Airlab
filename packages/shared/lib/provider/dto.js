@@ -26,6 +26,14 @@ __decorate([
     __metadata("design:type", String)
 ], ProviderDto.prototype, "name", void 0);
 __decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], ProviderDto.prototype, "description", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], ProviderDto.prototype, "url", void 0);
+__decorate([
     swagger_1.ApiPropertyOptional(),
     __metadata("design:type", Object)
 ], ProviderDto.prototype, "meta", void 0);
@@ -46,6 +54,18 @@ __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], CreateProviderDto.prototype, "name", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiPropertyOptional(),
+    __metadata("design:type", String)
+], CreateProviderDto.prototype, "description", void 0);
+__decorate([
+    class_validator_1.IsUrl(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiPropertyOptional(),
+    __metadata("design:type", String)
+], CreateProviderDto.prototype, "url", void 0);
 exports.CreateProviderDto = CreateProviderDto;
 class UpdateProviderDto {
 }
@@ -54,5 +74,17 @@ __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], UpdateProviderDto.prototype, "name", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiPropertyOptional(),
+    __metadata("design:type", String)
+], UpdateProviderDto.prototype, "description", void 0);
+__decorate([
+    class_validator_1.IsUrl(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiPropertyOptional(),
+    __metadata("design:type", String)
+], UpdateProviderDto.prototype, "url", void 0);
 exports.UpdateProviderDto = UpdateProviderDto;
 //# sourceMappingURL=dto.js.map

@@ -30,11 +30,6 @@ export class CreateClone1573048316364 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: "preffered_tag_id",
-            type: "int",
-            isNullable: true,
-          },
-          {
             name: "name",
             type: "varchar",
           },
@@ -70,12 +65,7 @@ export class CreateClone1573048316364 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: "is_deleted",
-            type: "boolean",
-            default: false,
-          },
-          {
-            name: "is_public",
+            name: "is_archived",
             type: "boolean",
             default: false,
           },
@@ -121,13 +111,6 @@ export class CreateClone1573048316364 implements MigrationInterface {
             name: "FK_clone_to_species",
             referencedTableName: "species",
             columnNames: ["species_id"],
-            referencedColumnNames: ["id"],
-            onDelete: "cascade",
-          },
-          {
-            name: "FK_clone_to_tag",
-            referencedTableName: "tag",
-            columnNames: ["preffered_tag_id"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },

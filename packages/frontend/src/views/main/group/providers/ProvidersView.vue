@@ -81,17 +81,23 @@ export default class ProvidersView extends Vue {
   readonly headers = [
     {
       text: "Id",
-      sortable: true,
       value: "id",
-      align: "right",
+      align: "end",
       filterable: false,
       width: "80",
     },
     {
       text: "Name",
-      sortable: true,
       value: "name",
-      align: "left",
+    },
+    {
+      text: "Description",
+      value: "description",
+    },
+    {
+      text: "URL",
+      value: "url",
+      filterable: false,
     },
     {
       text: "Actions",

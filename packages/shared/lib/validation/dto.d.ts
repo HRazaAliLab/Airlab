@@ -27,6 +27,7 @@ export declare class ValidationDto {
     readonly surfaceStaining: boolean | null;
     readonly surfaceStainingConcentration: string | null;
     readonly meta: object;
+    readonly isArchived: boolean;
     readonly createdAt: string;
     readonly updatedAt: string;
 }

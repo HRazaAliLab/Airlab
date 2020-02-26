@@ -4,7 +4,6 @@ export declare class CloneDto {
     readonly createdBy: number;
     readonly proteinId: number;
     readonly speciesId: number;
-    readonly prefferedTagId: number;
     readonly name: string;
     readonly isotype: string;
     readonly epitope: string;
@@ -12,8 +11,7 @@ export declare class CloneDto {
     readonly isPolyclonal: boolean;
     readonly reactivity: number[];
     readonly application: object;
-    readonly isDeleted: boolean;
-    readonly isPublic: boolean;
+    readonly isArchived: boolean;
     readonly meta: object;
     readonly createdAt: string;
     readonly updatedAt: string;

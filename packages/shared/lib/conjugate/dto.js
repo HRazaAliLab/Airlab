@@ -52,7 +52,7 @@ __decorate([
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Boolean)
-], ConjugateDto.prototype, "isDeleted", void 0);
+], ConjugateDto.prototype, "isArchived", void 0);
 __decorate([
     swagger_1.ApiPropertyOptional(),
     __metadata("design:type", Object)

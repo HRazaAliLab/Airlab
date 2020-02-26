@@ -39,7 +39,7 @@ export class ConjugateService {
     return this.repository
       .createQueryBuilder("conjugate")
       .where("conjugate.groupId = :groupId", { groupId: groupId })
-      .andWhere("conjugate.isDeleted = false")
+      .andWhere("conjugate.isArchived = false")
       .leftJoin("conjugate.tag", "tag")
       .addSelect(["tag.id", "tag.name", "tag.mw"])
       .leftJoin("conjugate.lot", "lot")
@@ -59,7 +59,7 @@ export class ConjugateService {
     return this.repository
       .createQueryBuilder("conjugate")
       .where("conjugate.lotId = :lotId", { lotId: lotId })
-      .andWhere("conjugate.isDeleted = false")
+      .andWhere("conjugate.isArchived = false")
       .leftJoin("conjugate.tag", "tag")
       .addSelect(["tag.id", "tag.name", "tag.mw"])
       .leftJoin("conjugate.member", "member")
@@ -72,7 +72,7 @@ export class ConjugateService {
     return this.repository
       .createQueryBuilder("conjugate")
       .where("conjugate.tagId = :tagId", { tagId: tagId })
-      .andWhere("conjugate.isDeleted = false")
+      .andWhere("conjugate.isArchived = false")
       .leftJoin("conjugate.lot", "lot")
       .addSelect(["lot.id", "lot.number"])
       .leftJoin("conjugate.member", "member")

@@ -16,6 +16,8 @@
         <template>
           <v-form v-model="valid" ref="form" lazy-validation>
             <v-text-field label="Name" v-model="name" :rules="nameRules" />
+            <v-text-field label="Description" v-model="description" />
+            <v-text-field label="URL" v-model="url" :rules="urlRules" />
           </v-form>
         </template>
       </v-card-text>
@@ -36,9 +38,12 @@ export default class CreateProvider extends Vue {
   readonly providerContext = providerModule.context(this.$store);
 
   readonly nameRules = [required];
+  readonly urlRules = [];
 
   valid = true;
   name = "";
+  description: string | null = null;
+  url: string | null = null;
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
@@ -46,6 +51,8 @@ export default class CreateProvider extends Vue {
 
   reset() {
     this.name = "";
+    this.description = null;
+    this.url = null;
     (this.$refs.form as any).resetValidation();
   }
 
@@ -58,6 +65,8 @@ export default class CreateProvider extends Vue {
       const data: CreateProviderDto = {
         groupId: this.activeGroupId,
         name: this.name,
+        description: this.description,
+        url: this.url,
       };
       await this.providerContext.actions.createProvider(data);
       this.$router.back();

@@ -18,9 +18,6 @@ export class CloneDto {
   readonly speciesId: number;
 
   @ApiProperty()
-  readonly prefferedTagId: number;
-
-  @ApiProperty()
   readonly name: string;
 
   @ApiProperty()
@@ -42,10 +39,7 @@ export class CloneDto {
   readonly application: object;
 
   @ApiProperty()
-  readonly isDeleted: boolean;
-
-  @ApiProperty()
-  readonly isPublic: boolean;
+  readonly isArchived: boolean;
 
   @ApiPropertyOptional()
   readonly meta: object;

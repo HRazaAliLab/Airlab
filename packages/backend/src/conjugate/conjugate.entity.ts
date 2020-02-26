@@ -56,9 +56,9 @@ export class ConjugateEntity {
   description: string;
 
   @Column({
-    name: "is_deleted",
+    name: "is_archived",
   })
-  isDeleted: boolean;
+  isArchived: boolean;
 
   @Column({
     name: "meta",

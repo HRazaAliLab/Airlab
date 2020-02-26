@@ -13,7 +13,7 @@ export declare class PanelDto {
     readonly isLocked: boolean;
     readonly application: number;
     readonly meta: object;
-    readonly isDeleted: boolean;
+    readonly isArchived: boolean;
     readonly createdAt: string;
     readonly updatedAt: string;
     readonly elements: PanelElementDataDto[];

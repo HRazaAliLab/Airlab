@@ -71,7 +71,7 @@ __decorate([
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Boolean)
-], PanelDto.prototype, "isDeleted", void 0);
+], PanelDto.prototype, "isArchived", void 0);
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", String)

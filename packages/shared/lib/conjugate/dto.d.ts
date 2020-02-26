@@ -8,7 +8,7 @@ export declare class ConjugateDto {
     readonly tubeNumber: number;
     readonly concentration: string;
     readonly description: string;
-    readonly isDeleted: boolean;
+    readonly isArchived: boolean;
     readonly meta: object;
     readonly labeledAt: string;
     readonly createdAt: string;

@@ -55,9 +55,9 @@ export class PanelEntity {
   meta: object;
 
   @Column({
-    name: "is_deleted",
+    name: "is_archived",
   })
-  isDeleted: boolean;
+  isArchived: boolean;
 
   @Column({
     name: "created_at",

@@ -48,7 +48,7 @@ export class LotDto {
   readonly purpose: string;
 
   @ApiProperty()
-  readonly link: string;
+  readonly url: string;
 
   @ApiProperty()
   readonly price: string;
@@ -75,7 +75,7 @@ export class LotDto {
   readonly isLow: boolean;
 
   @ApiProperty()
-  readonly isDeleted: boolean;
+  readonly isArchived: boolean;
 
   @ApiProperty()
   readonly meta: object;
@@ -118,7 +118,7 @@ export class CreateLotDto {
   @IsUrl()
   @IsOptional()
   @ApiPropertyOptional()
-  readonly link: string | null;
+  readonly url: string | null;
 
   @IsString()
   @IsOptional()
@@ -165,7 +165,7 @@ export class UpdateLotDto {
   @IsUrl()
   @IsOptional()
   @ApiPropertyOptional()
-  readonly link: string | null;
+  readonly url: string | null;
 
   @IsString()
   @IsOptional()

@@ -30,7 +30,7 @@ export class ConjugateDto {
   readonly description: string;
 
   @ApiProperty()
-  readonly isDeleted: boolean;
+  readonly isArchived: boolean;
 
   @ApiPropertyOptional()
   readonly meta: object;

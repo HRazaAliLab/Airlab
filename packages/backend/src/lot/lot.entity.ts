@@ -84,9 +84,9 @@ export class LotEntity {
   purpose: string;
 
   @Column({
-    name: "link",
+    name: "url",
   })
-  link: string;
+  url: string;
 
   @Column({
     name: "price",
@@ -129,10 +129,10 @@ export class LotEntity {
   isLow: boolean;
 
   @Column({
-    name: "is_deleted",
+    name: "is_archived",
     select: false,
   })
-  isDeleted: boolean;
+  isArchived: boolean;
 
   @Column({
     name: "meta",

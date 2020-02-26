@@ -1,6 +1,6 @@
 <template>
   <v-card flat>
-    <v-card-title>Lot Number: {{ lot.number }}</v-card-title>
+    <v-card-title>Lot: {{ lot.name }}</v-card-title>
     <v-card-text>
       <v-tabs v-model="tab">
         <v-tab>Conjugates</v-tab>

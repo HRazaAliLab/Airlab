@@ -36,11 +36,6 @@ export class CloneEntity {
   speciesId: number;
 
   @Column({
-    name: "preffered_tag_id",
-  })
-  prefferedTagId: number;
-
-  @Column({
     name: "name",
   })
   name: string;
@@ -79,15 +74,10 @@ export class CloneEntity {
   application: object;
 
   @Column({
-    name: "is_deleted",
+    name: "is_archived",
     select: false,
   })
-  isDeleted: boolean;
-
-  @Column({
-    name: "is_public",
-  })
-  isPublic: boolean;
+  isArchived: boolean;
 
   @Column({
     name: "meta",

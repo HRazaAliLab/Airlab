@@ -21,7 +21,7 @@
       <div class="grey--text">Lot Number: {{ lot.number }}</div>
       <div class="grey--text">Reference: {{ lot.reference }}</div>
       <div>
-        <a target="_blank" :href="lot.link">{{ lot.link }}</a>
+        <a target="_blank" :href="lot.url">{{ lot.url }}</a>
       </div>
     </v-card-text>
 

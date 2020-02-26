@@ -16,6 +16,8 @@
         <template>
           <v-form v-model="valid" ref="form" lazy-validation>
             <v-text-field label="Name" v-model="name" :rules="nameRules" />
+            <v-text-field label="Description" v-model="description" />
+            <v-text-field label="URL" v-model="url" :rules="urlRules" />
           </v-form>
         </template>
       </v-card-text>
@@ -34,9 +36,12 @@ export default class EditProvider extends Vue {
   readonly providerContext = providerModule.context(this.$store);
 
   readonly nameRules = [required];
+  readonly urlRules = [];
 
   valid = true;
   name = "";
+  description: string | null = null;
+  url: string | null = null;
 
   get provider() {
     return this.providerContext.getters.getProvider(+this.$router.currentRoute.params.id);
@@ -54,6 +59,8 @@ export default class EditProvider extends Vue {
     }
     if (this.provider) {
       this.name = this.provider.name;
+      this.description = this.provider.description;
+      this.url = this.provider.url;
     }
   }
 
@@ -65,6 +72,8 @@ export default class EditProvider extends Vue {
     if ((this.$refs.form as any).validate()) {
       const data: UpdateProviderDto = {
         name: this.name,
+        description: this.description,
+        url: this.url,
       };
       await this.providerContext.actions.updateProvider({
         id: this.provider!.id,

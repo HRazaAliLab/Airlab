@@ -154,9 +154,9 @@
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length">
             <v-card flat tile class="my-2">
-              <v-card-title> Lot Number: {{ item.number }} </v-card-title>
-              <v-card-text v-if="item.link">
-                <a target="_blank" :href="item.link">{{ item.link }}</a>
+              <v-card-title> Name: {{ item.name }} </v-card-title>
+              <v-card-text v-if="item.url">
+                <a target="_blank" :href="item.url">{{ item.url }}</a>
               </v-card-text>
               <v-timeline dense>
                 <v-timeline-item v-if="item.finishedAt" color="red">

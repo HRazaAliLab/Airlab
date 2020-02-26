@@ -72,7 +72,7 @@ export class PanelService {
       .leftJoinAndMapOne("panel.user", UserEntity, "user", "member.userId = user.id")
       .where({
         groupId: groupId,
-        isDeleted: false,
+        isArchived: false,
       })
       .orderBy({ "panel.id": "DESC" })
       .cache(`group_${groupId}_panels`, 1000 * 60 * 60)
@@ -87,7 +87,7 @@ export class PanelService {
       .where({
         groupId: groupId,
         createdBy: memberId,
-        isDeleted: false,
+        isArchived: false,
       })
       .orderBy({ "panel.id": "DESC" })
       .getMany();

@@ -35,7 +35,7 @@
           <v-text-field label="Name" v-model="name" :rules="nameRules" />
           <v-text-field label="Catalog Number" v-model="reference" :rules="referenceRules" />
           <v-text-field label="Lot Number" v-model="number" :rules="numberRules" />
-          <v-text-field label="URL" v-model="link" :rules="linkRules" />
+          <v-text-field label="URL" v-model="url" :rules="urlRules" />
           <v-text-field label="Purpose" v-model="purpose" :rules="purposeRules" />
           <v-text-field label="Price" v-model="price" />
           <v-text-field label="Note" v-model="note" />
@@ -66,7 +66,7 @@ export default class CreateLot extends Vue {
   readonly referenceRules = [required];
   readonly providerRules = [required];
   readonly numberRules = [required];
-  readonly linkRules = [];
+  readonly urlRules = [];
   readonly purposeRules = [];
 
   valid = false;
@@ -75,7 +75,7 @@ export default class CreateLot extends Vue {
   reference = "";
   providerId: number | null = null;
   number = "Pending";
-  link: string | null = null;
+  url: string | null = null;
   purpose: string | null = null;
   price: string | null = null;
   note: string | null = null;
@@ -102,7 +102,7 @@ export default class CreateLot extends Vue {
     this.reference = "";
     this.providerId = null;
     this.number = "Pending";
-    this.link = null;
+    this.url = null;
     this.purpose = null;
     this.price = null;
     this.note = null;
@@ -125,7 +125,7 @@ export default class CreateLot extends Vue {
         name: this.name,
         reference: this.reference,
         number: this.number,
-        link: this.link,
+        url: this.url,
         purpose: this.purpose,
         price: this.price,
         note: this.note,

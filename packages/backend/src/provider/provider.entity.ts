@@ -21,6 +21,16 @@ export class ProviderEntity {
   name: string;
 
   @Column({
+    name: "description",
+  })
+  description: string;
+
+  @Column({
+    name: "url",
+  })
+  url: string;
+
+  @Column({
     name: "meta",
     type: "jsonb",
   })

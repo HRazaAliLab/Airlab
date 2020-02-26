@@ -38,7 +38,7 @@ export class CloneService {
     return this.repository
       .createQueryBuilder("clone")
       .where("clone.groupId = :groupId", { groupId: groupId })
-      .andWhere("clone.isDeleted = false")
+      .andWhere("clone.isArchived = false")
       .leftJoin("clone.protein", "protein")
       .addSelect(["protein.id", "protein.name"])
       .leftJoin("clone.species", "species")
@@ -54,7 +54,7 @@ export class CloneService {
     return this.repository
       .createQueryBuilder("clone")
       .where("clone.proteinId = :proteinId", { proteinId: proteinId })
-      .andWhere("clone.isDeleted = false")
+      .andWhere("clone.isArchived = false")
       .leftJoin("clone.protein", "protein")
       .addSelect(["protein.id", "protein.name"])
       .leftJoin("clone.species", "species")
@@ -69,7 +69,7 @@ export class CloneService {
     return this.repository
       .createQueryBuilder("clone")
       .where("clone.speciesId = :speciesId", { speciesId: speciesId })
-      .andWhere("clone.isDeleted = false")
+      .andWhere("clone.isArchived = false")
       .leftJoin("clone.protein", "protein")
       .addSelect(["protein.id", "protein.name"])
       .leftJoin("clone.validations", "validations")

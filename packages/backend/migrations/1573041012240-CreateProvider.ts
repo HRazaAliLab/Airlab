@@ -21,6 +21,16 @@ export class CreateProvider1573041012240 implements MigrationInterface {
             type: "varchar",
           },
           {
+            name: "description",
+            type: "varchar",
+            isNullable: true,
+          },
+          {
+            name: "url",
+            type: "varchar",
+            isNullable: true,
+          },
+          {
             name: "meta",
             type: "jsonb",
             isNullable: true,

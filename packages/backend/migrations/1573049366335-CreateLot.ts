@@ -78,7 +78,7 @@ export class CreateLot1573049366335 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: "link",
+            name: "url",
             type: "varchar",
             isNullable: true,
           },
@@ -123,7 +123,7 @@ export class CreateLot1573049366335 implements MigrationInterface {
             default: false,
           },
           {
-            name: "is_deleted",
+            name: "is_archived",
             type: "boolean",
             default: false,
           },

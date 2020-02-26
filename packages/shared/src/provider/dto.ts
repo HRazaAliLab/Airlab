@@ -1,4 +1,4 @@
-import { IsInt, IsString } from "class-validator";
+import { IsInt, IsOptional, IsString, IsUrl } from "class-validator";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class ProviderDto {
@@ -10,6 +10,12 @@ export class ProviderDto {
 
   @ApiProperty()
   readonly name: string;
+
+  @ApiProperty()
+  readonly description: string;
+
+  @ApiProperty()
+  readonly url: string;
 
   @ApiPropertyOptional()
   readonly meta: object;
@@ -26,10 +32,30 @@ export class CreateProviderDto {
   @IsString()
   @ApiProperty()
   readonly name: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly description: string | null;
+
+  @IsUrl()
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly url: string | null;
 }
 
 export class UpdateProviderDto {
   @IsString()
   @ApiProperty()
   readonly name: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly description: string | null;
+
+  @IsUrl()
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly url: string | null;
 }

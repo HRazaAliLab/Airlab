@@ -76,7 +76,7 @@ __decorate([
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", String)
-], LotDto.prototype, "link", void 0);
+], LotDto.prototype, "url", void 0);
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", String)
@@ -112,7 +112,7 @@ __decorate([
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Boolean)
-], LotDto.prototype, "isDeleted", void 0);
+], LotDto.prototype, "isArchived", void 0);
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Object)
@@ -163,7 +163,7 @@ __decorate([
     class_validator_1.IsOptional(),
     swagger_1.ApiPropertyOptional(),
     __metadata("design:type", String)
-], CreateLotDto.prototype, "link", void 0);
+], CreateLotDto.prototype, "url", void 0);
 __decorate([
     class_validator_1.IsString(),
     class_validator_1.IsOptional(),
@@ -221,7 +221,7 @@ __decorate([
     class_validator_1.IsOptional(),
     swagger_1.ApiPropertyOptional(),
     __metadata("design:type", String)
-], UpdateLotDto.prototype, "link", void 0);
+], UpdateLotDto.prototype, "url", void 0);
 __decorate([
     class_validator_1.IsString(),
     class_validator_1.IsOptional(),

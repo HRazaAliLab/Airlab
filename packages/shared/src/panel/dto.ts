@@ -45,7 +45,7 @@ export class PanelDto {
   readonly meta: object;
 
   @ApiProperty()
-  readonly isDeleted: boolean;
+  readonly isArchived: boolean;
 
   @ApiProperty()
   readonly createdAt: string;

@@ -14,7 +14,7 @@ export declare class LotDto {
     readonly number: string;
     readonly status: string;
     readonly purpose: string;
-    readonly link: string;
+    readonly url: string;
     readonly price: string;
     readonly note: string;
     readonly requestedAt: string;
@@ -23,7 +23,7 @@ export declare class LotDto {
     readonly receivedAt: string;
     readonly finishedAt: string;
     readonly isLow: boolean;
-    readonly isDeleted: boolean;
+    readonly isArchived: boolean;
     readonly meta: object;
     readonly createdAt: string;
     readonly updatedAt: string;
@@ -37,7 +37,7 @@ export declare class CreateLotDto {
     readonly name: string;
     readonly reference: string;
     readonly number: string;
-    readonly link: string | null;
+    readonly url: string | null;
     readonly purpose: string | null;
     readonly price?: string | null;
     readonly note?: string | null;
@@ -49,7 +49,7 @@ export declare class UpdateLotDto {
     readonly name: string;
     readonly reference: string;
     readonly number: string;
-    readonly link: string | null;
+    readonly url: string | null;
     readonly purpose: string | null;
     readonly price?: string | null;
     readonly note?: string | null;
