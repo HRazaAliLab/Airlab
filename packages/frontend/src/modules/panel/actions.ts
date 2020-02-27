@@ -78,4 +78,12 @@ export class PanelActions extends Actions<PanelState, PanelGetters, PanelMutatio
       await this.main!.actions.checkApiError(error);
     }
   }
+
+  async getPanelElements(panelId: number) {
+    try {
+      return api.getPanelElements(panelId);
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
 }

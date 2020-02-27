@@ -33,9 +33,16 @@ export class PanelElementService {
     });
   }
 
-  async findByPanelId(panelId: number) {
-    return this.repository.find({
-      panelId: panelId,
-    });
+  async findPanelElements(panelId: number) {
+    return this.repository
+      .createQueryBuilder("element")
+      .where({
+        panelId: panelId,
+      })
+      .leftJoin("element.conjugate", "conjugate")
+      .addSelect(["conjugate.id", "conjugate.tubeNumber"])
+      .leftJoin("conjugate.lot", "lot")
+      .addSelect(["lot.id", "lot.name"])
+      .getMany();
   }
 }

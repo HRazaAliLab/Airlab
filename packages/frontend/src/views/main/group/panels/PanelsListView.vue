@@ -145,20 +145,13 @@
         </template>
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length">
-            <v-card flat tile class="my-2">
-              <v-card-title>
-                {{ item.name }}
-              </v-card-title>
-              <v-card-text>
-                {{ item.description }}
-              </v-card-text>
-            </v-card>
+            <PanelExpandedView :panel="item" />
           </td>
         </template>
       </v-data-table>
     </v-card>
-    <v-navigation-drawer v-if="detailsItem" v-model="drawer" right fixed temporary width="400">
-      <PanelDetailsView :item="detailsItem" />
+    <v-navigation-drawer v-model="drawer" right fixed temporary width="400">
+      <PanelDetailsView v-if="drawer" :panel="detailsItem" />
     </v-navigation-drawer>
   </v-col>
 </template>
@@ -173,9 +166,11 @@ import { applicationToString } from "@/utils/converters";
 import PanelDetailsView from "@/views/main/group/panels/PanelDetailsView.vue";
 import { applicationEnum } from "@/utils/enums";
 import { mainModule } from "@/modules/main";
+import PanelExpandedView from "@/views/main/group/panels/PanelExpandedView.vue";
 
 @Component({
   components: {
+    PanelExpandedView,
     PanelDetailsView,
     LoadingView,
   },

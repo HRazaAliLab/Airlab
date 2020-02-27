@@ -196,14 +196,7 @@
         </template>
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length">
-            <v-card flat tile class="my-2">
-              <v-card-title>
-                {{ item.tubeNumber }}
-              </v-card-title>
-              <v-card-text>
-                {{ item.description }}
-              </v-card-text>
-            </v-card>
+            <ConjugateExpandedView :conjugate="item" />
           </td>
         </template>
       </v-data-table>
@@ -223,9 +216,11 @@ import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 import { tagModule } from "@/modules/tag";
 import ConjugateDetailsView from "@/views/main/group/conjugates/ConjugateDetailsView.vue";
 import { getConjugateStatusColor } from "@/utils/converters";
+import ConjugateExpandedView from "@/views/main/group/conjugates/ConjugateExpandedView.vue";
 
 @Component({
   components: {
+    ConjugateExpandedView,
     ConjugateDetailsView,
     LoadingView,
   },

@@ -37,6 +37,10 @@ export function roleToString(value: number): string {
   return roleMap[value];
 }
 
+export function dilutionTypeToString(value: number): string {
+  return value === 0 ? "µg/mL" : "1/__";
+}
+
 export function getStatusColor(validation: ValidationDto) {
   switch (validation.status) {
     case 0:

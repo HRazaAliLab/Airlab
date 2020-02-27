@@ -1,5 +1,11 @@
 import { ApiManager } from "@/utils/api";
-import { CreatePanelDto, DuplicatePanelDto, PanelDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
+import {
+  CreatePanelDto,
+  DuplicatePanelDto,
+  PanelDto,
+  PanelElementDataDto,
+  UpdatePanelDto,
+} from "@airlab/shared/lib/panel/dto";
 
 export const api = {
   async createPanel(data: CreatePanelDto) {
@@ -31,5 +37,8 @@ export const api = {
   },
   async getGroupPanels(groupId: number) {
     return ApiManager.api.get(`groups/${groupId}/panels`).json<PanelDto[]>();
+  },
+  async getPanelElements(panelId: number) {
+    return ApiManager.api.get(`panels/${panelId}/elements`).json<PanelElementDataDto[]>();
   },
 };

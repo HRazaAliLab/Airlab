@@ -2,9 +2,16 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Request, UseGua
 import { PanelService } from "./panel.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
-import { CreatePanelDto, DuplicatePanelDto, PanelDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
+import {
+  CreatePanelDto,
+  DuplicatePanelDto,
+  PanelDto,
+  PanelElementDataDto,
+  UpdatePanelDto,
+} from "@airlab/shared/lib/panel/dto";
 import { MemberService } from "../member/member.service";
 import { PanelElementService } from "../panelElement/panelElement.service";
+import { ConjugateService } from "../conjugate/conjugate.service";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
@@ -14,7 +21,8 @@ export class PanelController {
   constructor(
     private readonly panelService: PanelService,
     private readonly panelElementService: PanelElementService,
-    private readonly memberService: MemberService
+    private readonly memberService: MemberService,
+    private readonly conjugateService: ConjugateService
   ) {}
 
   @Post("panels")
@@ -55,6 +63,14 @@ export class PanelController {
     return this.panelService.deleteById(id);
   }
 
+  @Get("panels/:id/elements")
+  @ApiOkResponse({ description: "Find all panel conjugate elements.", type: PanelElementDataDto, isArray: true })
+  async findPanelElements(@Request() req, @Param("id") id: number) {
+    const item = await this.panelService.findById(id);
+    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    return this.panelElementService.findPanelElements(id);
+  }
+
   @Get("groups/:groupId/panels")
   @ApiOkResponse({ description: "Find all panels for the group.", type: PanelDto, isArray: true })
   async getGroupPanels(@Request() req, @Param("groupId") groupId: number) {
@@ -66,5 +82,9 @@ export class PanelController {
 
   @Get("conjugate/:conjugateId/panels")
   @ApiOkResponse({ description: "Find all panels for the conjugate.", type: PanelDto, isArray: true })
-  async getConjugatePanels(@Request() req, @Param("conjugateId") conjugateId: number) {}
+  async getConjugatePanels(@Request() req, @Param("conjugateId") conjugateId: number) {
+    const conjugate = await this.conjugateService.findById(conjugateId);
+    await this.memberService.checkMemberPermissions(req.user.userId, conjugate.groupId);
+    return this.panelService.getConjugatePanels(conjugateId);
+  }
 }

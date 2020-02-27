@@ -18,7 +18,20 @@ export class ConjugateService {
   }
 
   async findById(id: number) {
-    return this.repository.findOne(id);
+    return this.repository
+      .createQueryBuilder("conjugate")
+      .where({ id: id })
+      .leftJoin("conjugate.tag", "tag")
+      .addSelect(["tag.id", "tag.name", "tag.mw"])
+      .leftJoin("conjugate.lot", "lot")
+      .addSelect(["lot.id", "lot.name"])
+      .leftJoin("lot.clone", "clone")
+      .addSelect(["clone.id", "clone.name", "clone.isPhospho"])
+      .leftJoin("clone.protein", "protein")
+      .addSelect(["protein.id", "protein.name"])
+      .leftJoin("conjugate.member", "member")
+      .leftJoinAndMapOne("conjugate.user", UserEntity, "user", "member.userId = user.id")
+      .getOne();
   }
 
   async update(id: number, params: UpdateConjugateDto) {

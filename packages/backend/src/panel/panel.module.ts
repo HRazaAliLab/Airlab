@@ -5,9 +5,10 @@ import { PanelEntity } from "./panel.entity";
 import { PanelController } from "./panel.controller";
 import { MemberModule } from "../member/member.module";
 import { PanelElementModule } from "../panelElement/panelElement.module";
+import { ConjugateModule } from "../conjugate/conjugate.module";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PanelEntity]), MemberModule, PanelElementModule],
+  imports: [TypeOrmModule.forFeature([PanelEntity]), MemberModule, PanelElementModule, ConjugateModule],
   providers: [PanelService],
   controllers: [PanelController],
   exports: [PanelService],

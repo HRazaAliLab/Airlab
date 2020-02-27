@@ -25,11 +25,13 @@ export class PanelService {
   async findById(id: number) {
     return this.repository
       .createQueryBuilder("panel")
-      .leftJoin("panel.elements", "elements")
-      .addSelect(["elements.conjugateId", "elements.dilutionType", "elements.concentration"])
       .where({
         id: id,
       })
+      .leftJoin("panel.member", "member")
+      .leftJoinAndMapOne("panel.user", UserEntity, "user", "member.userId = user.id")
+      .leftJoin("panel.elements", "elements")
+      .addSelect(["elements.conjugateId", "elements.dilutionType", "elements.concentration"])
       .getOne();
   }
 
@@ -89,6 +91,20 @@ export class PanelService {
         createdBy: memberId,
         isArchived: false,
       })
+      .orderBy({ "panel.id": "DESC" })
+      .getMany();
+  }
+
+  async getConjugatePanels(conjugateId: number) {
+    return this.repository
+      .createQueryBuilder("panel")
+      .where({
+        isArchived: false,
+      })
+      .leftJoin("panel.member", "member")
+      .leftJoinAndMapOne("panel.user", UserEntity, "user", "member.userId = user.id")
+      .leftJoin("panel.elements", "elements")
+      .andWhere("elements.conjugateId = :conjugateId", { conjugateId: conjugateId })
       .orderBy({ "panel.id": "DESC" })
       .getMany();
   }
