@@ -257,3 +257,9 @@ export default class Main extends Vue {
   cursor: pointer;
 }
 </style>
+
+<style>
+.link {
+  text-decoration: none;
+}
+</style>

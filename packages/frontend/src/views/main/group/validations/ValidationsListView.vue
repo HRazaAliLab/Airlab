@@ -305,7 +305,7 @@ import { apiUrl } from "@/env";
     LoadingView,
   },
 })
-export default class ValidationsViews extends Vue {
+export default class ValidationsListViews extends Vue {
   readonly groupContext = groupModule.context(this.$store);
   readonly validationContext = validationModule.context(this.$store);
   readonly speciesContext = speciesModule.context(this.$store);
@@ -508,8 +508,5 @@ export default class ValidationsViews extends Vue {
 <style scoped>
 .toolbar {
   margin-bottom: 10px;
-}
-.link {
-  text-decoration: none;
 }
 </style>

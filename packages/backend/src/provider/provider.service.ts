@@ -18,7 +18,7 @@ export class ProviderService {
 
   async findById(id: number) {
     return this.repository.findOne(id, {
-      select: ["id", "groupId", "name"],
+      select: ["id", "groupId", "name", "description", "url", "createdAt"],
     });
   }
 

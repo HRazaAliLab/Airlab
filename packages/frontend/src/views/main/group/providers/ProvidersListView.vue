@@ -2,11 +2,11 @@
   <v-col>
     <v-toolbar dense class="toolbar">
       <v-toolbar-title>
-        Tags
+        Providers
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text :to="`/main/groups/${activeGroupId}/tags/create`" color="primary">Create Tag</v-btn>
+        <v-btn text :to="`/main/groups/${activeGroupId}/providers/create`" color="primary">Create Provider</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -27,13 +27,8 @@
           showCurrentPage: true,
         }"
         multi-sort
+        show-expand
       >
-        <template v-slot:item.isMetal="{ item }">
-          <v-icon v-if="item.isMetal">mdi-check</v-icon>
-        </template>
-        <template v-slot:item.isFluorophore="{ item }">
-          <v-icon v-if="item.isFluorophore">mdi-check</v-icon>
-        </template>
         <template v-slot:item.action="{ item }">
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
@@ -41,7 +36,7 @@
                 v-on="on"
                 icon
                 :to="{
-                  name: 'main-group-tags-edit',
+                  name: 'main-group-providers-edit',
                   params: { id: item.id },
                 }"
               >
@@ -52,7 +47,7 @@
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon @click="deleteTag(item.id)">
+              <v-btn v-on="on" icon @click="deleteProvider(item.id)">
                 <v-icon color="red accent-1">mdi-delete-outline</v-icon>
               </v-btn>
             </template>
@@ -62,76 +57,54 @@
             Details
           </v-btn>
         </template>
+        <template v-slot:expanded-item="{ headers, item }">
+          <td :colspan="headers.length">
+            <ProviderExpandedView :provider="item" />
+          </td>
+        </template>
       </v-data-table>
     </v-card>
-    <v-navigation-drawer v-model="drawer" right fixed temporary width="400">
-      <TagDetailsView v-if="drawer" :tag="detailsItem" />
+    <v-navigation-drawer v-model="drawer" right fixed temporary width="500">
+      <ProviderDetailsView v-if="drawer" :provider="detailsItem" />
     </v-navigation-drawer>
   </v-col>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { tagModule } from "@/modules/tag";
+import { providerModule } from "@/modules/provider";
 import { groupModule } from "@/modules/group";
-import { TagDto } from "@airlab/shared/lib/tag/dto";
-import TagDetailsView from "@/views/main/group/tags/TagDetailsView.vue";
+import ProviderDetailsView from "@/views/main/group/providers/ProviderDetailsView.vue";
+import { ProviderDto } from "@airlab/shared/lib/provider/dto";
+import ProviderExpandedView from "@/views/main/group/providers/ProviderExpandedView.vue";
 
 @Component({
-  components: { TagDetailsView },
+  components: { ProviderExpandedView, ProviderDetailsView },
 })
-export default class TagsView extends Vue {
+export default class ProvidersListView extends Vue {
   readonly groupContext = groupModule.context(this.$store);
-  readonly tagContext = tagModule.context(this.$store);
+  readonly providerContext = providerModule.context(this.$store);
 
   readonly headers = [
     {
       text: "Id",
-      sortable: true,
       value: "id",
-      align: "right",
+      align: "end",
       filterable: false,
       width: "80",
     },
     {
       text: "Name",
-      sortable: true,
       value: "name",
-      align: "left",
     },
     {
-      text: "Metal",
-      sortable: true,
-      value: "isMetal",
-      align: "left",
+      text: "Description",
+      value: "description",
+    },
+    {
+      text: "URL",
+      value: "url",
       filterable: false,
-      width: "100",
-    },
-    {
-      text: "Fluorophore",
-      sortable: true,
-      value: "isFluorophore",
-      align: "left",
-      filterable: false,
-      width: "140",
-    },
-    {
-      text: "MW",
-      sortable: true,
-      value: "mw",
-      align: "right",
-    },
-    {
-      text: "Emission",
-      sortable: true,
-      value: "emission",
-      align: "right",
-    },
-    {
-      text: "Excitation",
-      sortable: true,
-      value: "excitation",
-      align: "right",
     },
     {
       text: "Actions",
@@ -143,7 +116,7 @@ export default class TagsView extends Vue {
   ];
 
   drawer = false;
-  detailsItem: TagDto | null = null;
+  detailsItem: ProviderDto | null = null;
   search = "";
 
   get activeGroupId() {
@@ -151,21 +124,21 @@ export default class TagsView extends Vue {
   }
 
   get items() {
-    return this.tagContext.getters.tags;
+    return this.providerContext.getters.providers;
   }
 
-  showDetails(item: TagDto) {
+  showDetails(item: ProviderDto) {
     this.detailsItem = item;
     this.drawer = !this.drawer;
   }
 
   async mounted() {
-    await this.tagContext.actions.getGroupTags(+this.$router.currentRoute.params.groupId);
+    await this.providerContext.actions.getGroupProviders(+this.$router.currentRoute.params.groupId);
   }
 
-  async deleteTag(id: number) {
-    if (self.confirm("Are you sure you want to delete the tag?")) {
-      await this.tagContext.actions.deleteTag(id);
+  async deleteProvider(id: number) {
+    if (self.confirm("Are you sure you want to delete the provider?")) {
+      await this.providerContext.actions.deleteProvider(id);
     }
   }
 }

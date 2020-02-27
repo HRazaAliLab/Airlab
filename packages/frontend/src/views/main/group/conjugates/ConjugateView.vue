@@ -95,7 +95,4 @@ export default class ConjugateView extends Vue {
 .deleted {
   color: palevioletred;
 }
-.link {
-  text-decoration: none;
-}
 </style>

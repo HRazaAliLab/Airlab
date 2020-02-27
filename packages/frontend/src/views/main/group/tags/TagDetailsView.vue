@@ -1,11 +1,13 @@
 <template>
   <v-card flat>
-    <v-card-title>Tag: {{ tag.name }}</v-card-title>
-    <v-card-subtitle>Conjugates</v-card-subtitle>
+    <v-card-title>Tag Details</v-card-title>
     <v-card-text>
-      <div v-for="conjugate in conjugates" :key="conjugate.id" class="item-view">
-        <ConjugateView :group-id="activeGroupId" :conjugate="conjugate" />
-      </div>
+      <v-tabs v-model="tab">
+        <v-tab>Info</v-tab>
+        <v-tab-item>
+          <TagView :tag-id="tag.id" />
+        </v-tab-item>
+      </v-tabs>
     </v-card-text>
   </v-card>
 </template>
@@ -13,38 +15,14 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { TagDto } from "@airlab/shared/lib/tag/dto";
-import { groupModule } from "@/modules/group";
-import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
-import { tagModule } from "@/modules/tag";
-import ConjugateView from "@/views/main/group/conjugates/ConjugateView.vue";
+import TagView from "@/views/main/group/tags/TagView.vue";
 
 @Component({
-  components: { ConjugateView },
+  components: { TagView },
 })
 export default class TagDetailsView extends Vue {
-  readonly groupContext = groupModule.context(this.$store);
-  readonly tagContext = tagModule.context(this.$store);
+  @Prop(Object) readonly tag!: TagDto;
 
-  @Prop({
-    type: Object,
-    required: true,
-  })
-  readonly tag!: TagDto;
-
-  conjugates: ConjugateDto[] = [];
-
-  get activeGroupId() {
-    return this.groupContext.getters.activeGroupId;
-  }
-
-  async mounted() {
-    this.conjugates = await this.tagContext.actions.getTagConjugates(this.tag.id);
-  }
+  private tab = 0;
 }
 </script>
-
-<style scoped>
-.item-view {
-  margin-bottom: 10px;
-}
-</style>

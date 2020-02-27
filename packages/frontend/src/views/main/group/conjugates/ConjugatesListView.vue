@@ -230,7 +230,7 @@ import { getConjugateStatusColor } from "@/utils/converters";
     LoadingView,
   },
 })
-export default class ConjugatesViews extends Vue {
+export default class ConjugatesListViews extends Vue {
   readonly groupContext = groupModule.context(this.$store);
   readonly tagContext = tagModule.context(this.$store);
   readonly conjugateContext = conjugateModule.context(this.$store);
@@ -417,8 +417,5 @@ export default class ConjugatesViews extends Vue {
 <style scoped>
 .toolbar {
   margin-bottom: 10px;
-}
-.link {
-  text-decoration: none;
 }
 </style>

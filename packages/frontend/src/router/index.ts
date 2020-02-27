@@ -54,7 +54,7 @@ export default new Router({
                   name: "main-group-proteins",
                   component: () =>
                     import(
-                      /* webpackChunkName: "main-group-proteins" */ "@/views/main/group/proteins/ProteinsView.vue"
+                      /* webpackChunkName: "main-group-proteins" */ "@/views/main/group/proteins/ProteinsListView.vue"
                     ),
                 },
                 {
@@ -78,7 +78,7 @@ export default new Router({
                   path: "clones",
                   name: "main-group-clones",
                   component: () =>
-                    import(/* webpackChunkName: "main-group-clones" */ "@/views/main/group/clones/ClonesView.vue"),
+                    import(/* webpackChunkName: "main-group-clones" */ "@/views/main/group/clones/ClonesListView.vue"),
                 },
                 {
                   path: "clones/create",
@@ -99,7 +99,7 @@ export default new Router({
                   path: "panels",
                   name: "main-group-panels",
                   component: () =>
-                    import(/* webpackChunkName: "main-group-panels" */ "@/views/main/group/panels/PanelsView.vue"),
+                    import(/* webpackChunkName: "main-group-panels" */ "@/views/main/group/panels/PanelsListView.vue"),
                 },
                 {
                   path: "panels/create",
@@ -127,7 +127,7 @@ export default new Router({
                   name: "main-group-conjugates",
                   component: () =>
                     import(
-                      /* webpackChunkName: "main-group-conjugates" */ "@/views/main/group/conjugates/ConjugatesView.vue"
+                      /* webpackChunkName: "main-group-conjugates" */ "@/views/main/group/conjugates/ConjugatesListView.vue"
                     ),
                 },
                 {
@@ -152,7 +152,7 @@ export default new Router({
                   name: "main-group-validations",
                   component: () =>
                     import(
-                      /* webpackChunkName: "main-group-validations" */ "@/views/main/group/validations/ValidationsView.vue"
+                      /* webpackChunkName: "main-group-validations" */ "@/views/main/group/validations/ValidationsListView.vue"
                     ),
                 },
                 {
@@ -176,7 +176,7 @@ export default new Router({
                   path: "lots",
                   name: "main-group-lots",
                   component: () =>
-                    import(/* webpackChunkName: "main-group-lots" */ "@/views/main/group/lots/LotsView.vue"),
+                    import(/* webpackChunkName: "main-group-lots" */ "@/views/main/group/lots/LotsListView.vue"),
                 },
                 {
                   path: "lots/create",
@@ -195,7 +195,7 @@ export default new Router({
                   path: "tags",
                   name: "main-group-tags",
                   component: () =>
-                    import(/* webpackChunkName: "main-group-tags" */ "@/views/main/group/tags/TagsView.vue"),
+                    import(/* webpackChunkName: "main-group-tags" */ "@/views/main/group/tags/TagsListView.vue"),
                 },
                 {
                   path: "tags/create",
@@ -214,7 +214,7 @@ export default new Router({
                   path: "species",
                   name: "main-group-species",
                   component: () =>
-                    import(/* webpackChunkName: "main-group-species" */ "@/views/main/group/species/SpeciesView.vue"),
+                    import(/* webpackChunkName: "main-group-species" */ "@/views/main/group/species/SpeciesListView.vue"),
                 },
                 {
                   path: "species/create",
@@ -238,7 +238,7 @@ export default new Router({
                   name: "main-group-providers",
                   component: () =>
                     import(
-                      /* webpackChunkName: "main-group-providers" */ "@/views/main/group/providers/ProvidersView.vue"
+                      /* webpackChunkName: "main-group-providers" */ "@/views/main/group/providers/ProvidersListView.vue"
                     ),
                 },
                 {
@@ -262,7 +262,7 @@ export default new Router({
                   path: "members",
                   name: "main-group-members",
                   component: () =>
-                    import(/* webpackChunkName: "main-group-members" */ "@/views/main/group/members/MembersView.vue"),
+                    import(/* webpackChunkName: "main-group-members" */ "@/views/main/group/members/MembersListView.vue"),
                 },
                 {
                   path: "members/create",

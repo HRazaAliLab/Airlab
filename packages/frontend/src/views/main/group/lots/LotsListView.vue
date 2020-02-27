@@ -118,7 +118,7 @@
           </router-link>
         </template>
         <template v-slot:item.isLow="{ item }">
-          <v-icon v-if="item.isLow">mdi-check</v-icon>
+          <v-icon v-if="item.isLow" color="orange">mdi-flask-empty-remove-outline</v-icon>
         </template>
         <template v-slot:item.action="{ item }">
           <v-tooltip bottom>
@@ -153,46 +153,7 @@
         </template>
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length">
-            <v-card flat tile class="my-2">
-              <v-card-title> Name: {{ item.name }} </v-card-title>
-              <v-card-text v-if="item.url">
-                <a target="_blank" :href="item.url">{{ item.url }}</a>
-              </v-card-text>
-              <v-timeline dense>
-                <v-timeline-item v-if="item.finishedAt" color="red">
-                  <div class="py-4">
-                    <div class="font-weight-light mb-4">Finished at {{ new Date(item.finishedAt).toUTCString() }}</div>
-                    <div v-if="item.finishedBy">by {{ item.finishedBy }}</div>
-                  </div>
-                </v-timeline-item>
-                <v-timeline-item v-if="item.receivedAt" color="orange">
-                  <div class="py-4">
-                    <div class="font-weight-light mb-4">Received at {{ new Date(item.receivedAt).toUTCString() }}</div>
-                    <div v-if="item.receivedBy">by {{ item.receivedBy }}</div>
-                  </div>
-                </v-timeline-item>
-                <v-timeline-item v-if="item.orderedAt" color="green">
-                  <div class="py-4">
-                    <div class="font-weight-light mb-4">Ordered at {{ new Date(item.orderedAt).toUTCString() }}</div>
-                    <div v-if="item.orderedBy">by {{ item.orderedBy }}</div>
-                  </div>
-                </v-timeline-item>
-                <v-timeline-item v-if="item.approvedAt" color="purple">
-                  <div class="py-4">
-                    <div class="font-weight-light mb-4">Approved at {{ new Date(item.approvedAt).toUTCString() }}</div>
-                    <div v-if="item.approvedBy">by {{ item.approvedBy }}</div>
-                  </div>
-                </v-timeline-item>
-                <v-timeline-item v-if="item.requestedAt" color="blue">
-                  <div class="py-4">
-                    <div class="font-weight-light mb-4">
-                      Requested at {{ new Date(item.requestedAt).toUTCString() }}
-                    </div>
-                    <div v-if="item.requestedBy">by {{ item.requestedBy }}</div>
-                  </div>
-                </v-timeline-item>
-              </v-timeline>
-            </v-card>
+            <LotExpandedView :lot="item" />
           </td>
         </template>
       </v-data-table>
@@ -211,14 +172,16 @@ import { lotModule } from "@/modules/lot";
 import { LotDto } from "@airlab/shared/lib/lot/dto";
 import LotDetailsView from "@/views/main/group/lots/LotDetailsView.vue";
 import { providerModule } from "@/modules/provider";
+import LotExpandedView from "@/views/main/group/lots/LotExpandedView.vue";
 
 @Component({
   components: {
+    LotExpandedView,
     LotDetailsView,
     LoadingView,
   },
 })
-export default class LotsView extends Vue {
+export default class LotsListView extends Vue {
   readonly groupContext = groupModule.context(this.$store);
   readonly lotContext = lotModule.context(this.$store);
   readonly providerContext = providerModule.context(this.$store);
@@ -284,16 +247,6 @@ export default class LotsView extends Vue {
     {
       text: "Low",
       value: "isLow",
-      filterable: false,
-    },
-    {
-      text: "price",
-      value: "price",
-      filterable: false,
-    },
-    {
-      text: "note",
-      value: "note",
       filterable: false,
     },
     {
@@ -382,8 +335,5 @@ export default class LotsView extends Vue {
 <style scoped>
 .toolbar {
   margin-bottom: 10px;
-}
-.link {
-  text-decoration: none;
 }
 </style>

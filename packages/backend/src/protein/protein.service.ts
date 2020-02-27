@@ -18,7 +18,7 @@ export class ProteinService {
 
   async findById(id: number) {
     return this.repository.findOne(id, {
-      select: ["id", "groupId", "name", "description"],
+      select: ["id", "groupId", "name", "description", "createdAt"],
     });
   }
 

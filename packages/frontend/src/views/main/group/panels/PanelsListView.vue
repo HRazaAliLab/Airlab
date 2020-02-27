@@ -180,7 +180,7 @@ import { mainModule } from "@/modules/main";
     LoadingView,
   },
 })
-export default class PanelsView extends Vue {
+export default class PanelsListView extends Vue {
   readonly mainContext = mainModule.context(this.$store);
   readonly groupContext = groupModule.context(this.$store);
   readonly panelContext = panelModule.context(this.$store);
@@ -303,8 +303,5 @@ export default class PanelsView extends Vue {
 <style scoped>
 .toolbar {
   margin-bottom: 10px;
-}
-.link {
-  text-decoration: none;
 }
 </style>

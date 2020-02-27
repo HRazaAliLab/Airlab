@@ -17,7 +17,14 @@ export class LotService {
   }
 
   async findById(id: number) {
-    return this.repository.findOne(id);
+    return this.repository
+      .createQueryBuilder("lot")
+      .where({ id: id })
+      .leftJoin("lot.clone", "clone")
+      .addSelect(["clone.id", "clone.name"])
+      .leftJoin("lot.provider", "provider")
+      .addSelect(["provider.id", "provider.name"])
+      .getOne();
   }
 
   async update(id: number, params: UpdateLotDto) {
@@ -64,8 +71,8 @@ export class LotService {
       .createQueryBuilder("lot")
       .where("lot.providerId = :providerId", { providerId: providerId })
       .andWhere("lot.isArchived = false")
-      .leftJoin("lot.provider", "provider")
-      .addSelect(["provider.id", "provider.name"])
+      .leftJoin("lot.clone", "clone")
+      .addSelect(["clone.id", "clone.name"])
       .orderBy("lot.id", "DESC")
       .getMany();
   }

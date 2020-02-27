@@ -1,7 +1,8 @@
-<template functional>
-  <v-card tile elevation="1">
+<template>
+  <LoadingView v-if="!clone" text="Loading clone details..." />
+  <v-card v-else tile elevation="1">
     <v-card-text>
-      <div><span class="subheader">Name: </span>{{ props.clone.name }}</div>
+      <div><span class="subheader">Name: </span>{{ clone.name }}</div>
       <div>
         <span class="subheader">Protein: </span>
         <router-link
@@ -9,18 +10,61 @@
           :to="{
             name: 'main-group-proteins-edit',
             params: {
-              groupId: props.groupId,
-              id: props.clone.protein.id,
+              groupId: activeGroupId,
+              id: clone.protein.id,
             },
           }"
         >
-          {{ props.clone.protein.name }}
+          {{ clone.protein.name }}
         </router-link>
       </div>
-      <div><span class="subheader">Isotype: </span>{{ props.clone.isotype }}</div>
-      <div><span class="subheader">Epitope: </span>{{ props.clone.epitope }}</div>
-      <div><span class="subheader">Polyclonal: </span>{{ props.clone.isPolyclonal }}</div>
-      <div><span class="subheader">Phospho: </span>{{ props.clone.isPhospho }}</div>
+      <div>
+        <span class="subheader">Host: </span>
+        <router-link
+          class="link"
+          :to="{
+            name: 'main-group-species-edit',
+            params: {
+              groupId: activeGroupId,
+              id: clone.species.id,
+            },
+          }"
+        >
+          {{ clone.species.name }}
+        </router-link>
+      </div>
+      <div><span class="subheader">Isotype: </span>{{ clone.isotype }}</div>
+      <div><span class="subheader">Epitope: </span>{{ clone.epitope }}</div>
+      <div><span class="subheader">Polyclonal: </span>{{ clone.isPolyclonal }}</div>
+      <div><span class="subheader">Phospho: </span>{{ clone.isPhospho }}</div>
+      <div class="subheader">
+        Application:
+      </div>
+      <v-chip-group multiple column active-class="primary--text">
+        <v-chip :color="getApplicationColor(applicationMap.sMC)" small disabled class="chip">
+          SMC
+        </v-chip>
+        <v-chip :color="getApplicationColor(applicationMap.iMC)" small disabled class="chip">
+          IMC
+        </v-chip>
+        <v-chip :color="getApplicationColor(applicationMap.FC)" small disabled class="chip">
+          FC
+        </v-chip>
+        <v-chip :color="getApplicationColor(applicationMap.IF)" small disabled class="chip">
+          IF
+        </v-chip>
+        <v-chip :color="getApplicationColor(applicationMap.IHC)" small disabled class="chip">
+          IHC
+        </v-chip>
+      </v-chip-group>
+      <div class="subheader">
+        Reactivity:
+      </div>
+      <v-chip-group :value="clone.reactivity" multiple column active-class="primary--text">
+        <v-chip v-for="s in species" :key="s.id" :value="s.id" label small disabled class="chip">
+          {{ s.name }}
+        </v-chip>
+      </v-chip-group>
     </v-card-text>
     <v-card-actions>
       <v-btn
@@ -29,12 +73,15 @@
         :to="{
           name: 'main-group-clones-edit',
           params: {
-            groupId: props.groupId,
-            id: props.clone.id,
+            groupId: activeGroupId,
+            id: clone.id,
           },
         }"
       >
         Edit
+      </v-btn>
+      <v-btn color="secondary" text @click="deleteClone()">
+        Delete
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -42,21 +89,65 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { CloneDto } from "@airlab/shared/lib/clone/dto";
+import { groupModule } from "@/modules/group";
+import { cloneModule } from "@/modules/clone";
+import LoadingView from "@/components/LoadingView.vue";
+import { speciesModule } from "@/modules/species";
 
-@Component
+@Component({
+  components: { LoadingView },
+})
 export default class CloneView extends Vue {
+  private readonly groupContext = groupModule.context(this.$store);
+  private readonly cloneContext = cloneModule.context(this.$store);
+  private readonly speciesContext = speciesModule.context(this.$store);
+
   @Prop({
     type: Number,
     required: true,
   })
-  readonly groupId!: number;
+  readonly cloneId!: number;
 
-  @Prop({
-    type: Object,
-    required: true,
-  })
-  readonly clone!: CloneDto;
+  private readonly applicationMap = {
+    sMC: 0,
+    iMC: 1,
+    FC: 2,
+    IF: 3,
+    IHC: 4,
+  };
+
+  private get activeGroupId() {
+    return this.groupContext.getters.activeGroupId;
+  }
+
+  private get clone() {
+    return this.cloneContext.getters.getClone(this.cloneId);
+  }
+
+  get species() {
+    return this.speciesContext.getters.species;
+  }
+
+  private getApplicationColor(application: number) {
+    return this.clone.application && this.clone.application.hasOwnProperty(application)
+      ? this.clone.application[application]
+        ? "green lighten-2"
+        : "red lighten-2"
+      : "grey lighten-2";
+  }
+
+  private async deleteClone() {
+    if (self.confirm("Are you sure you want to delete the clone?")) {
+      await this.cloneContext.actions.deleteClone(this.cloneId);
+    }
+  }
+
+  async mounted() {
+    await Promise.all([
+      this.cloneContext.actions.getClone(this.cloneId),
+      this.speciesContext.actions.getGroupSpecies(+this.$router.currentRoute.params.groupId),
+    ]);
+  }
 }
 </script>
 
@@ -64,7 +155,7 @@ export default class CloneView extends Vue {
 .subheader {
   font-weight: bold;
 }
-.link {
-  text-decoration: none;
+.chip {
+  opacity: 1;
 }
 </style>

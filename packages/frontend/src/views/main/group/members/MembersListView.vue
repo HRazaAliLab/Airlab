@@ -125,7 +125,7 @@ import { mainModule } from "@/modules/main";
 import { roleEnum } from "@/utils/enums";
 
 @Component
-export default class MembersView extends Vue {
+export default class MembersListView extends Vue {
   readonly mainContext = mainModule.context(this.$store);
   readonly groupContext = groupModule.context(this.$store);
   readonly memberContext = memberModule.context(this.$store);

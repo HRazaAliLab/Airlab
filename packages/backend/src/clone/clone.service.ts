@@ -17,7 +17,14 @@ export class CloneService {
   }
 
   async findById(id: number) {
-    return this.repository.findOne(id);
+    return this.repository
+      .createQueryBuilder("clone")
+      .where("clone.id = :id", { id: id })
+      .leftJoin("clone.protein", "protein")
+      .addSelect(["protein.id", "protein.name"])
+      .leftJoin("clone.species", "species")
+      .addSelect(["species.id", "species.name"])
+      .getOne();
   }
 
   async update(id: number, params: UpdateCloneDto) {
@@ -32,6 +39,13 @@ export class CloneService {
     await this.clearCache(item.groupId);
     const result = await this.repository.delete(id);
     return result.affected === 1 ? id : undefined;
+  }
+
+  async setArchiveState(id: number, state: boolean) {
+    await this.repository.update(id, { isArchived: state, updatedAt: new Date().toISOString() });
+    const item = await this.findById(id);
+    await this.clearCache(item.groupId);
+    return item;
   }
 
   async getGroupClones(groupId: number) {

@@ -1,13 +1,12 @@
 <template>
-  <LoadingView v-if="!items" text="Loading proteins..." />
-  <v-col v-else>
+  <v-col>
     <v-toolbar dense class="toolbar">
       <v-toolbar-title>
-        Proteins
+        Species
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text :to="`/main/groups/${activeGroupId}/proteins/create`" color="primary">Create Protein</v-btn>
+        <v-btn text :to="`/main/groups/${activeGroupId}/species/create`" color="primary">Create Species</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -23,11 +22,12 @@
         :search="search"
         :items-per-page="15"
         :footer-props="{
-          itemsPerPageOptions: [10, 15, 20, 100],
+          itemsPerPageOptions: [10, 15, 20, -1],
           showFirstLastPage: true,
           showCurrentPage: true,
         }"
         multi-sort
+        show-expand
       >
         <template v-slot:item.action="{ item }">
           <v-tooltip bottom>
@@ -36,11 +36,8 @@
                 v-on="on"
                 icon
                 :to="{
-                  name: 'main-group-proteins-edit',
-                  params: {
-                    groupId: activeGroupId,
-                    id: item.id,
-                  },
+                  name: 'main-group-species-edit',
+                  params: { id: item.id },
                 }"
               >
                 <v-icon color="grey">mdi-pencil-outline</v-icon>
@@ -50,7 +47,7 @@
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon @click="deleteProtein(item.id)">
+              <v-btn v-on="on" icon @click="deleteSpecies(item.id)">
                 <v-icon color="red accent-1">mdi-delete-outline</v-icon>
               </v-btn>
             </template>
@@ -60,51 +57,54 @@
             Details
           </v-btn>
         </template>
+        <template v-slot:expanded-item="{ headers, item }">
+          <td :colspan="headers.length">
+            <SpeciesExpandedView :species="item" />
+          </td>
+        </template>
       </v-data-table>
     </v-card>
     <v-navigation-drawer v-model="drawer" right fixed temporary width="400">
-      <ProteinDetailsView v-if="drawer" :protein="detailsItem" />
+      <SpeciesDetailsView v-if="drawer" :species="detailsItem" />
     </v-navigation-drawer>
   </v-col>
 </template>
 
 <script lang="ts">
-import LoadingView from "@/components/LoadingView.vue";
 import { Component, Vue } from "vue-property-decorator";
+import { speciesModule } from "@/modules/species";
 import { groupModule } from "@/modules/group";
-import { proteinModule } from "@/modules/protein";
-import { ProteinDto } from "@airlab/shared/lib/protein/dto";
-import ProteinDetailsView from "@/views/main/group/proteins/ProteinDetailsView.vue";
+import { SpeciesDto } from "@airlab/shared/lib/species/dto";
+import SpeciesDetailsView from "@/views/main/group/species/SpeciesDetailsView.vue";
+import SpeciesExpandedView from "@/views/main/group/species/SpeciesExpandedView.vue";
 
 @Component({
-  components: {
-    ProteinDetailsView,
-    LoadingView,
-  },
+  components: { SpeciesExpandedView, SpeciesDetailsView },
 })
-export default class ProteinsView extends Vue {
+export default class SpeciesListView extends Vue {
   readonly groupContext = groupModule.context(this.$store);
-  readonly proteinContext = proteinModule.context(this.$store);
-
-  get activeGroupId() {
-    return this.groupContext.getters.activeGroupId;
-  }
+  readonly speciesContext = speciesModule.context(this.$store);
 
   readonly headers = [
     {
       text: "Id",
+      sortable: true,
       value: "id",
-      align: "end",
+      align: "right",
       filterable: false,
       width: "80",
     },
     {
       text: "Name",
+      sortable: true,
       value: "name",
+      align: "left",
     },
     {
-      text: "Description",
-      value: "description",
+      text: "Acronym",
+      sortable: true,
+      value: "acronym",
+      align: "left",
     },
     {
       text: "Actions",
@@ -116,25 +116,29 @@ export default class ProteinsView extends Vue {
   ];
 
   drawer = false;
-  detailsItem: ProteinDto | null = null;
+  detailsItem: SpeciesDto | null = null;
   search = "";
 
-  get items() {
-    return this.proteinContext.getters.proteins;
+  get activeGroupId() {
+    return this.groupContext.getters.activeGroupId;
   }
 
-  showDetails(item: ProteinDto) {
+  get items() {
+    return this.speciesContext.getters.species;
+  }
+
+  showDetails(item: SpeciesDto) {
     this.detailsItem = item;
     this.drawer = !this.drawer;
   }
 
   async mounted() {
-    await this.proteinContext.actions.getGroupProteins(+this.$router.currentRoute.params.groupId);
+    await this.speciesContext.actions.getGroupSpecies(+this.$router.currentRoute.params.groupId);
   }
 
-  async deleteProtein(id: number) {
-    if (self.confirm("Are you sure you want to delete the protein?")) {
-      await this.proteinContext.actions.deleteProtein(id);
+  async deleteSpecies(id: number) {
+    if (self.confirm("Are you sure you want to delete the species?")) {
+      await this.speciesContext.actions.deleteSpecies(id);
     }
   }
 }

@@ -1,144 +1,73 @@
 <template>
-  <v-col>
-    <v-toolbar dense class="toolbar">
-      <v-toolbar-title>
-        Species
-      </v-toolbar-title>
-      <v-spacer />
-      <v-toolbar-items>
-        <v-btn text :to="`/main/groups/${activeGroupId}/species/create`" color="primary">Create Species</v-btn>
-      </v-toolbar-items>
-    </v-toolbar>
-
-    <v-card>
-      <v-card-title>
-        <v-spacer />
-        <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details clearable />
-      </v-card-title>
-      <v-data-table
-        :headers="headers"
-        :items="items"
-        :loading="!items"
-        :search="search"
-        :items-per-page="15"
-        :footer-props="{
-          itemsPerPageOptions: [10, 15, 20, -1],
-          showFirstLastPage: true,
-          showCurrentPage: true,
+  <LoadingView v-if="!species" text="Loading species details..." />
+  <v-card v-else tile elevation="1">
+    <v-card-text>
+      <div><span class="subheader">Name: </span>{{ species.name }}</div>
+      <div><span class="subheader">Acronym: </span>{{ species.acronym }}</div>
+      <div><span class="subheader">Created: </span>{{ new Date(species.createdAt).toUTCString() }}</div>
+    </v-card-text>
+    <v-card-actions>
+      <v-btn
+        color="primary"
+        text
+        :to="{
+          name: 'main-group-species-edit',
+          params: {
+            groupId: activeGroupId,
+            id: species.id,
+          },
         }"
-        multi-sort
       >
-        <template v-slot:item.action="{ item }">
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <v-btn
-                v-on="on"
-                icon
-                :to="{
-                  name: 'main-group-species-edit',
-                  params: { id: item.id },
-                }"
-              >
-                <v-icon color="grey">mdi-pencil-outline</v-icon>
-              </v-btn>
-            </template>
-            <span>Edit</span>
-          </v-tooltip>
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon @click="deleteSpecies(item.id)">
-                <v-icon color="red accent-1">mdi-delete-outline</v-icon>
-              </v-btn>
-            </template>
-            <span>Delete</span>
-          </v-tooltip>
-          <v-btn text color="primary" @click.stop="showDetails(item)">
-            Details
-          </v-btn>
-        </template>
-      </v-data-table>
-    </v-card>
-    <v-navigation-drawer v-model="drawer" right fixed temporary width="400">
-      <SpeciesDetailsView v-if="drawer" :species="detailsItem" />
-    </v-navigation-drawer>
-  </v-col>
+        Edit
+      </v-btn>
+      <v-btn color="secondary" text @click="deleteSpecies()">
+        Delete
+      </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { speciesModule } from "@/modules/species";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
-import { SpeciesDto } from "@airlab/shared/lib/species/dto";
-import SpeciesDetailsView from "@/views/main/group/species/SpeciesDetailsView.vue";
+import LoadingView from "@/components/LoadingView.vue";
+import { speciesModule } from "@/modules/species";
 
 @Component({
-  components: { SpeciesDetailsView },
+  components: { LoadingView },
 })
 export default class SpeciesView extends Vue {
-  readonly groupContext = groupModule.context(this.$store);
-  readonly speciesContext = speciesModule.context(this.$store);
+  private readonly groupContext = groupModule.context(this.$store);
+  private readonly speciesContext = speciesModule.context(this.$store);
 
-  readonly headers = [
-    {
-      text: "Id",
-      sortable: true,
-      value: "id",
-      align: "right",
-      filterable: false,
-      width: "80",
-    },
-    {
-      text: "Name",
-      sortable: true,
-      value: "name",
-      align: "left",
-    },
-    {
-      text: "Acronym",
-      sortable: true,
-      value: "acronym",
-      align: "left",
-    },
-    {
-      text: "Actions",
-      value: "action",
-      sortable: false,
-      filterable: false,
-      width: "210",
-    },
-  ];
+  @Prop({
+    type: Number,
+    required: true,
+  })
+  readonly speciesId!: number;
 
-  drawer = false;
-  detailsItem: SpeciesDto | null = null;
-  search = "";
-
-  get activeGroupId() {
+  private get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
   }
 
-  get items() {
-    return this.speciesContext.getters.species;
+  private get species() {
+    return this.speciesContext.getters.getSpecies(this.speciesId);
   }
 
-  showDetails(item: SpeciesDto) {
-    this.detailsItem = item;
-    this.drawer = !this.drawer;
+  private async deleteSpecies() {
+    if (self.confirm("Are you sure you want to delete the species?")) {
+      await this.speciesContext.actions.deleteSpecies(this.speciesId);
+    }
   }
 
   async mounted() {
-    await this.speciesContext.actions.getGroupSpecies(+this.$router.currentRoute.params.groupId);
-  }
-
-  async deleteSpecies(id: number) {
-    if (self.confirm("Are you sure you want to delete the species?")) {
-      await this.speciesContext.actions.deleteSpecies(id);
-    }
+    await this.speciesContext.actions.getSpecies(this.speciesId);
   }
 }
 </script>
 
 <style scoped>
-.toolbar {
-  margin-bottom: 10px;
+.subheader {
+  font-weight: bold;
 }
 </style>

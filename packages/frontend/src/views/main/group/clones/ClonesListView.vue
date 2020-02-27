@@ -220,23 +220,7 @@
         </template>
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length">
-            <v-card flat tile class="my-2">
-              <v-card-actions>
-                <v-btn text color="primary" target="_blank" :href="citeAb(item)">CiteAb</v-btn>
-                <v-btn text color="primary" target="_blank" :href="antibodyRegistry(item)">AntibodyRegistry</v-btn>
-                <v-btn text color="primary" target="_blank" :href="antibodyPedia(item)">AntibodyPedia</v-btn>
-              </v-card-actions>
-              <v-card-text>
-                <v-row v-if="item.epitope">
-                  <v-col cols="1" class="subtitle-2">
-                    Epitope
-                  </v-col>
-                  <v-col>
-                    {{ item.epitope }}
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </v-card>
+            <CloneExpandedView :clone="item" />
           </td>
         </template>
       </v-data-table>
@@ -258,14 +242,16 @@ import { exportCsv } from "@/utils/exporters";
 import CloneDetailsView from "@/views/main/group/clones/CloneDetailsView.vue";
 import { getStatusColor } from "@/utils/converters";
 import { applicationEnum, statusEnum } from "@/utils/enums";
+import CloneExpandedView from "@/views/main/group/clones/CloneExpandedView.vue";
 
 @Component({
   components: {
+    CloneExpandedView,
     CloneDetailsView,
     LoadingView,
   },
 })
-export default class ClonesView extends Vue {
+export default class ClonesListView extends Vue {
   readonly groupContext = groupModule.context(this.$store);
   readonly cloneContext = cloneModule.context(this.$store);
   readonly speciesContext = speciesModule.context(this.$store);
@@ -472,8 +458,5 @@ export default class ClonesView extends Vue {
 <style scoped>
 .toolbar {
   margin-bottom: 10px;
-}
-.link {
-  text-decoration: none;
 }
 </style>

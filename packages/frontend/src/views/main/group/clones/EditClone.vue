@@ -43,7 +43,7 @@
                 Reactivity
               </div>
               <v-chip-group v-model="reactivity" multiple column active-class="primary--text">
-                <v-chip v-for="item in species" :key="item.id" :value="item.id" small>
+                <v-chip v-for="item in species" :key="item.id" :value="item.id" small label>
                   {{ item.name }}
                 </v-chip>
               </v-chip-group>

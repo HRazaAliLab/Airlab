@@ -1,12 +1,13 @@
 <template>
-  <v-col>
+  <LoadingView v-if="!items" text="Loading proteins..." />
+  <v-col v-else>
     <v-toolbar dense class="toolbar">
       <v-toolbar-title>
-        Providers
+        Proteins
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn text :to="`/main/groups/${activeGroupId}/providers/create`" color="primary">Create Provider</v-btn>
+        <v-btn text :to="`/main/groups/${activeGroupId}/proteins/create`" color="primary">Create Protein</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -22,11 +23,12 @@
         :search="search"
         :items-per-page="15"
         :footer-props="{
-          itemsPerPageOptions: [10, 15, 20, -1],
+          itemsPerPageOptions: [10, 15, 20, 100],
           showFirstLastPage: true,
           showCurrentPage: true,
         }"
         multi-sort
+        show-expand
       >
         <template v-slot:item.action="{ item }">
           <v-tooltip bottom>
@@ -35,8 +37,11 @@
                 v-on="on"
                 icon
                 :to="{
-                  name: 'main-group-providers-edit',
-                  params: { id: item.id },
+                  name: 'main-group-proteins-edit',
+                  params: {
+                    groupId: activeGroupId,
+                    id: item.id,
+                  },
                 }"
               >
                 <v-icon color="grey">mdi-pencil-outline</v-icon>
@@ -46,7 +51,7 @@
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon @click="deleteProvider(item.id)">
+              <v-btn v-on="on" icon @click="deleteProtein(item.id)">
                 <v-icon color="red accent-1">mdi-delete-outline</v-icon>
               </v-btn>
             </template>
@@ -56,27 +61,42 @@
             Details
           </v-btn>
         </template>
+        <template v-slot:expanded-item="{ headers, item }">
+          <td :colspan="headers.length">
+            <ProteinExpandedView :protein="item" />
+          </td>
+        </template>
       </v-data-table>
     </v-card>
-    <v-navigation-drawer v-model="drawer" right fixed temporary width="500">
-      <ProviderDetailsView v-if="drawer" :provider="detailsItem" />
+    <v-navigation-drawer v-model="drawer" right fixed temporary width="400">
+      <ProteinDetailsView v-if="drawer" :protein="detailsItem" />
     </v-navigation-drawer>
   </v-col>
 </template>
 
 <script lang="ts">
+import LoadingView from "@/components/LoadingView.vue";
 import { Component, Vue } from "vue-property-decorator";
-import { providerModule } from "@/modules/provider";
 import { groupModule } from "@/modules/group";
-import ProviderDetailsView from "@/views/main/group/providers/ProviderDetailsView.vue";
-import { ProviderDto } from "@airlab/shared/lib/provider/dto";
+import { proteinModule } from "@/modules/protein";
+import { ProteinDto } from "@airlab/shared/lib/protein/dto";
+import ProteinDetailsView from "@/views/main/group/proteins/ProteinDetailsView.vue";
+import ProteinExpandedView from "@/views/main/group/proteins/ProteinExpandedView.vue";
 
 @Component({
-  components: { ProviderDetailsView },
+  components: {
+    ProteinExpandedView,
+    ProteinDetailsView,
+    LoadingView,
+  },
 })
-export default class ProvidersView extends Vue {
+export default class ProteinsListView extends Vue {
   readonly groupContext = groupModule.context(this.$store);
-  readonly providerContext = providerModule.context(this.$store);
+  readonly proteinContext = proteinModule.context(this.$store);
+
+  get activeGroupId() {
+    return this.groupContext.getters.activeGroupId;
+  }
 
   readonly headers = [
     {
@@ -95,11 +115,6 @@ export default class ProvidersView extends Vue {
       value: "description",
     },
     {
-      text: "URL",
-      value: "url",
-      filterable: false,
-    },
-    {
       text: "Actions",
       value: "action",
       sortable: false,
@@ -109,29 +124,25 @@ export default class ProvidersView extends Vue {
   ];
 
   drawer = false;
-  detailsItem: ProviderDto | null = null;
+  detailsItem: ProteinDto | null = null;
   search = "";
 
-  get activeGroupId() {
-    return this.groupContext.getters.activeGroupId;
-  }
-
   get items() {
-    return this.providerContext.getters.providers;
+    return this.proteinContext.getters.proteins;
   }
 
-  showDetails(item: ProviderDto) {
+  showDetails(item: ProteinDto) {
     this.detailsItem = item;
     this.drawer = !this.drawer;
   }
 
   async mounted() {
-    await this.providerContext.actions.getGroupProviders(+this.$router.currentRoute.params.groupId);
+    await this.proteinContext.actions.getGroupProteins(+this.$router.currentRoute.params.groupId);
   }
 
-  async deleteProvider(id: number) {
-    if (self.confirm("Are you sure you want to delete the provider?")) {
-      await this.providerContext.actions.deleteProvider(id);
+  async deleteProtein(id: number) {
+    if (self.confirm("Are you sure you want to delete the protein?")) {
+      await this.proteinContext.actions.deleteProtein(id);
     }
   }
 }

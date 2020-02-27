@@ -1,8 +1,14 @@
 <template>
-  <v-card tile elevation="1">
-    <v-card-title>Lot: {{ lot.name }}</v-card-title>
+  <LoadingView v-if="!lot" text="Loading lot details..." />
+  <v-card v-else tile elevation="1">
     <v-card-text>
-      <div class="subtitle-1">Status: {{ lot.status }}</div>
+      <div><span class="subheader">Name: </span>{{ lot.name }}</div>
+      <div><span class="subheader">Lot Number: </span>{{ lot.number }}</div>
+      <div><span class="subheader">Reference: </span>{{ lot.reference }}</div>
+      <div><span class="subheader">Status: </span>{{ lot.status }}</div>
+      <div><span class="subheader">Purpose: </span>{{ lot.purpose }}</div>
+      <div><span class="subheader">Price: </span>{{ lot.price }}</div>
+      <div><span class="subheader">Low: </span><v-icon v-if="lot.isLow" color="orange">mdi-flask-empty-remove-outline</v-icon></div>
       <div>
         <span class="subheader">Provider: </span>
         <router-link
@@ -10,7 +16,7 @@
           :to="{
             name: 'main-group-providers-edit',
             params: {
-              groupId: groupId,
+              groupId: activeGroupId,
               id: lot.provider.id,
             },
           }"
@@ -18,10 +24,9 @@
           {{ lot.provider.name }}
         </router-link>
       </div>
-      <div class="grey--text">Lot Number: {{ lot.number }}</div>
-      <div class="grey--text">Reference: {{ lot.reference }}</div>
+      <div><span class="subheader">Note: </span>{{ lot.note }}</div>
       <div>
-        <a target="_blank" :href="lot.url">{{ lot.url }}</a>
+        <span class="subheader">URL: </span><a target="_blank" :href="lot.url">{{ lot.url }}</a>
       </div>
     </v-card-text>
 
@@ -74,50 +79,6 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
-
-    <v-divider class="mx-4" />
-
-    <v-card-subtitle v-if="conjugates && conjugates.length > 0">Conjugates</v-card-subtitle>
-
-    <v-list dense flat two-line>
-      <v-list-item v-for="conjugate in conjugates" :key="conjugate.id">
-        <v-list-item-icon>
-          <v-icon>mdi-set-center</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content :class="conjugate.isDeleted && 'deleted'">
-          <v-list-item-title>
-            {{ conjugate.tag.name + conjugate.tag.mw }} by {{ conjugate.user.name }}
-          </v-list-item-title>
-          <v-list-item-subtitle>
-            <v-row>
-              <v-col>Tube: {{ conjugate.tubeNumber }}</v-col>
-              <v-col>Concentration: {{ conjugate.concentration }}</v-col>
-            </v-row>
-          </v-list-item-subtitle>
-        </v-list-item-content>
-        <v-list-item-action>
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <v-btn
-                v-on="on"
-                icon
-                :to="{
-                  name: 'main-group-conjugates-edit',
-                  params: {
-                    groupId: groupId,
-                    id: conjugate.id,
-                  },
-                }"
-              >
-                <v-icon color="grey">mdi-pencil-outline</v-icon>
-              </v-btn>
-            </template>
-            <span>Edit</span>
-          </v-tooltip>
-        </v-list-item-action>
-      </v-list-item>
-    </v-list>
-
     <v-card-actions>
       <v-btn
         color="primary"
@@ -125,12 +86,15 @@
         :to="{
           name: 'main-group-lots-edit',
           params: {
-            groupId: groupId,
+            groupId: activeGroupId,
             id: lot.id,
           },
         }"
       >
         Edit
+      </v-btn>
+      <v-btn color="secondary" text @click="deleteLot()">
+        Delete
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -138,26 +102,47 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { LotDto } from "@airlab/shared/lib/lot/dto";
-import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 import { lotModule } from "@/modules/lot";
+import LoadingView from "@/components/LoadingView.vue";
+import { groupModule } from "@/modules/group";
 
-@Component
+@Component({
+  components: { LoadingView },
+})
 export default class LotView extends Vue {
-  readonly lotContext = lotModule.context(this.$store);
+  private readonly groupContext = groupModule.context(this.$store);
+  private readonly lotContext = lotModule.context(this.$store);
 
-  @Prop(Number) readonly groupId!: number;
-  @Prop(Object) readonly lot!: LotDto;
+  @Prop({
+    type: Number,
+    required: true,
+  })
+  readonly lotId!: number;
 
-  conjugates: ConjugateDto[] = [];
+  private get activeGroupId() {
+    return this.groupContext.getters.activeGroupId;
+  }
+
+  private get lot() {
+    return this.lotContext.getters.getLot(this.lotId);
+  }
+
+  private async deleteLot() {
+    if (self.confirm("Are you sure you want to delete the lot?")) {
+      await this.lotContext.actions.deleteLot(this.lotId);
+    }
+  }
 
   async mounted() {
-    this.conjugates = await this.lotContext.actions.getLotConjugates(this.lot.id);
+    await this.lotContext.actions.getLot(this.lotId);
   }
 }
 </script>
 
 <style scoped>
+.subheader {
+  font-weight: bold;
+}
 .deleted {
   color: palevioletred;
 }

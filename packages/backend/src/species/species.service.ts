@@ -18,7 +18,7 @@ export class SpeciesService {
 
   async findById(id: number) {
     return this.repository.findOne(id, {
-      select: ["id", "groupId", "name", "acronym"],
+      select: ["id", "groupId", "name", "acronym", "createdAt"],
     });
   }
 
