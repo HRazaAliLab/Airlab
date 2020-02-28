@@ -316,6 +316,7 @@ async function migrateLot() {
         3826,
         3946,
         3960,
+        3963,
       ].includes(row["reiReagentInstanceId"])
     ) {
       meta = null;
