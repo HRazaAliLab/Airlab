@@ -1,6 +1,17 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Request,
+  UnauthorizedException,
+  UseGuards,
+} from "@nestjs/common";
 import { CloneService } from "./clone.service";
-import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { CloneDto, CreateCloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
 import { MemberService } from "../member/member.service";
@@ -22,14 +33,16 @@ export class CloneController {
   ) {}
 
   @Post("clones")
-  @ApiCreatedResponse({ description: "Create entity.", type: CloneDto })
+  @ApiOperation({ summary: "Create new clone." })
+  @ApiCreatedResponse({ type: CloneDto })
   async create(@Request() req, @Body() params: CreateCloneDto) {
     const member = await this.memberService.checkMemberPermissions(req.user.userId, params.groupId);
     return this.cloneService.create({ ...params, createdBy: member.id });
   }
 
   @Get("clones/:id")
-  @ApiOkResponse({ description: "Find entity by Id.", type: CloneDto })
+  @ApiOperation({ summary: "Find clone by its id." })
+  @ApiOkResponse({ type: CloneDto })
   async findById(@Request() req, @Param("id") id: number) {
     const item = await this.cloneService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -37,30 +50,49 @@ export class CloneController {
   }
 
   @Patch("clones/:id")
-  @ApiOkResponse({ description: "Updated entity.", type: CloneDto })
+  @ApiOperation({ summary: "Update clone." })
+  @ApiOkResponse({ type: CloneDto })
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdateCloneDto) {
     const item = await this.cloneService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
     return this.cloneService.update(id, params);
   }
 
+  @Patch("clones/:id/archive")
+  @ApiOperation({ summary: "Set archive state for the clone." })
+  @ApiOkResponse({ type: CloneDto })
+  async setArchiveState(@Request() req, @Param("id") id: number, @Body() state: boolean) {
+    const item = await this.cloneService.findById(id);
+    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    if (member.role < 100) {
+      throw new UnauthorizedException("Only group admins can perform this operation");
+    }
+    return this.cloneService.setArchiveState(id, state);
+  }
+
   @Delete("clones/:id")
-  @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
+  @ApiOperation({ summary: "Delete clone by its id." })
+  @ApiOkResponse({ type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.cloneService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    if (member.role < 100) {
+      throw new UnauthorizedException("Only group admins can perform this operation");
+    }
     return this.cloneService.deleteById(id);
   }
 
   @Get("groups/:groupId/clones")
-  @ApiOkResponse({ description: "Find all clones belonging to the group.", type: CloneDto, isArray: true })
+  @ApiOperation({ summary: "Find all clones belonging to the group." })
+  @ApiOkResponse({ type: CloneDto, isArray: true })
   async getGroupClones(@Request() req, @Param("groupId") groupId: number) {
     await this.memberService.checkMemberPermissions(req.user.userId, groupId);
     return this.cloneService.getGroupClones(groupId);
   }
 
   @Get("clones/:id/lots")
-  @ApiOkResponse({ description: "Find all lots belonging to the clone.", type: LotDto, isArray: true })
+  @ApiOperation({ summary: "Find all lots belonging to the clone." })
+  @ApiOkResponse({ type: LotDto, isArray: true })
   async findCloneLots(@Request() req, @Param("id") id: number) {
     const clone = await this.cloneService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, clone.groupId);
@@ -68,7 +100,8 @@ export class CloneController {
   }
 
   @Get("clones/:id/validations")
-  @ApiOkResponse({ description: "Find all validations belonging to the clone.", type: ValidationDto, isArray: true })
+  @ApiOperation({ summary: "Find all validations belonging to the clone." })
+  @ApiOkResponse({ type: ValidationDto, isArray: true })
   async findCloneValidations(@Request() req, @Param("id") id: number) {
     const clone = await this.cloneService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, clone.groupId);

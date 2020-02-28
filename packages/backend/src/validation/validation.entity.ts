@@ -154,6 +154,11 @@ export class ValidationEntity {
   meta: object;
 
   @Column({
+    name: "is_archived",
+  })
+  isArchived: boolean;
+
+  @Column({
     name: "created_at",
   })
   createdAt: string;

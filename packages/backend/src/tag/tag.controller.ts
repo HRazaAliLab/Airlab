@@ -1,4 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Request,
+  UnauthorizedException,
+  UseGuards
+} from "@nestjs/common";
 import { TagService } from "./tag.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
@@ -45,7 +56,10 @@ export class TagController {
   @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.tagService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    if (member.role < 100) {
+      throw new UnauthorizedException("Only group admins can perform this operation");
+    }
     return this.tagService.deleteById(id);
   }
 

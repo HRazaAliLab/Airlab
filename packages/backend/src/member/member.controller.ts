@@ -56,7 +56,7 @@ export class MemberController {
     if (!req.user.isAdmin) {
       const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
       if (member.role < 100) {
-        throw new UnauthorizedException();
+        throw new UnauthorizedException("Only group admins can perform this operation");
       }
     }
     return this.memberService.update(id, params);
@@ -69,7 +69,7 @@ export class MemberController {
     if (!req.user.isAdmin) {
       const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
       if (member.role < 100) {
-        throw new UnauthorizedException();
+        throw new UnauthorizedException("Only group admins can perform this operation");
       }
     }
     return this.memberService.deleteById(id);

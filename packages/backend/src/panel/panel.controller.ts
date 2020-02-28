@@ -1,6 +1,18 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Request, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Put,
+  Request,
+  UnauthorizedException,
+  UseGuards
+} from "@nestjs/common";
 import { PanelService } from "./panel.service";
-import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import {
   CreatePanelDto,
@@ -26,14 +38,16 @@ export class PanelController {
   ) {}
 
   @Post("panels")
-  @ApiCreatedResponse({ description: "Create entity.", type: PanelDto })
+  @ApiOperation({ summary: "Create entity." })
+  @ApiCreatedResponse({ type: PanelDto })
   async create(@Request() req, @Body() params: CreatePanelDto) {
     const member = await this.memberService.checkMemberPermissions(req.user.userId, params.groupId);
     return this.panelService.create({ ...params, createdBy: member.id });
   }
 
   @Get("panels/:id")
-  @ApiOkResponse({ description: "Find entity by Id.", type: PanelDto })
+  @ApiOperation({ summary: "Find entity by Id." })
+  @ApiOkResponse({ type: PanelDto })
   async findById(@Request() req, @Param("id") id: number) {
     const item = await this.panelService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -41,30 +55,49 @@ export class PanelController {
   }
 
   @Patch("panels/:id")
-  @ApiOkResponse({ description: "Updated entity.", type: PanelDto })
+  @ApiOperation({ summary: "Updated entity." })
+  @ApiOkResponse({ type: PanelDto })
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdatePanelDto) {
     const item = await this.panelService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
     return this.panelService.update(id, params);
   }
 
+  @Patch("panels/:id/archive")
+  @ApiOperation({ summary: "Set archive state for the entity." })
+  @ApiOkResponse({ type: PanelDto })
+  async setArchiveState(@Request() req, @Param("id") id: number, @Body() state: boolean) {
+    const item = await this.panelService.findById(id);
+    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    if (member.role < 100) {
+      throw new UnauthorizedException("Only group admins can perform this operation");
+    }
+    return this.panelService.setArchiveState(id, state);
+  }
+
   @Put("panels/:id")
-  @ApiOkResponse({ description: "Duplicate entity.", type: PanelDto })
+  @ApiOperation({ summary: "Duplicate entity." })
+  @ApiOkResponse({ type: PanelDto })
   async duplicate(@Request() req, @Param("id") id: number, @Body() params: DuplicatePanelDto) {
     const member = await this.memberService.checkMemberPermissions(req.user.userId, params.groupId);
     return this.panelService.duplicate(id, { ...params, createdBy: member.id });
   }
 
   @Delete("panels/:id")
-  @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
+  @ApiOperation({ summary: "Delete entity by Id." })
+  @ApiOkResponse({ type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.panelService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    if (member.role < 100) {
+      throw new UnauthorizedException("Only group admins can perform this operation");
+    }
     return this.panelService.deleteById(id);
   }
 
   @Get("panels/:id/elements")
-  @ApiOkResponse({ description: "Find all panel conjugate elements.", type: PanelElementDataDto, isArray: true })
+  @ApiOperation({ summary: "Find all panel conjugate elements." })
+  @ApiOkResponse({ type: PanelElementDataDto, isArray: true })
   async findPanelElements(@Request() req, @Param("id") id: number) {
     const item = await this.panelService.findById(id);
     await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
@@ -72,7 +105,8 @@ export class PanelController {
   }
 
   @Get("groups/:groupId/panels")
-  @ApiOkResponse({ description: "Find all panels for the group.", type: PanelDto, isArray: true })
+  @ApiOperation({ summary: "Find all panels for the group." })
+  @ApiOkResponse({ type: PanelDto, isArray: true })
   async getGroupPanels(@Request() req, @Param("groupId") groupId: number) {
     const member = await this.memberService.checkMemberPermissions(req.user.userId, groupId);
     return member.allPanels
@@ -81,7 +115,8 @@ export class PanelController {
   }
 
   @Get("conjugate/:conjugateId/panels")
-  @ApiOkResponse({ description: "Find all panels for the conjugate.", type: PanelDto, isArray: true })
+  @ApiOperation({ summary: "Find all panels for the conjugate." })
+  @ApiOkResponse({ type: PanelDto, isArray: true })
   async getConjugatePanels(@Request() req, @Param("conjugateId") conjugateId: number) {
     const conjugate = await this.conjugateService.findById(conjugateId);
     await this.memberService.checkMemberPermissions(req.user.userId, conjugate.groupId);

@@ -7,12 +7,13 @@ import {
   Patch,
   Post,
   Request,
+  UnauthorizedException,
   UploadedFile,
   UseGuards,
   UseInterceptors,
 } from "@nestjs/common";
 import { ValidationService } from "./validation.service";
-import { ApiBearerAuth, ApiConsumes, ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiConsumes, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import {
   CreateValidationDto,
@@ -111,11 +112,26 @@ export class ValidationController {
     return this.validationService.update(id, params);
   }
 
+  @Patch("validations/:id/archive")
+  @ApiOperation({ summary: "Set archive state for the entity." })
+  @ApiOkResponse({ type: ValidationDto })
+  async setArchiveState(@Request() req, @Param("id") id: number, @Body() state: boolean) {
+    const item = await this.validationService.findById(id);
+    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    if (member.role < 100) {
+      throw new UnauthorizedException("Only group admins can perform this operation");
+    }
+    return this.validationService.setArchiveState(id, state);
+  }
+
   @Delete("validations/:id")
   @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.validationService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    if (member.role < 100) {
+      throw new UnauthorizedException("Only group admins can perform this operation");
+    }
     return this.validationService.deleteById(id);
   }
 
