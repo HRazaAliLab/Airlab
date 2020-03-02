@@ -161,15 +161,4 @@ export class MainActions extends Actions<MainState, MainGetters, MainMutations, 
       await this.actions.checkApiError(error);
     }
   }
-
-  async getMyMember(groupId: number) {
-    try {
-      const data = await api.getMyMember(groupId);
-      if (data) {
-        this.mutations.setMyMember(data);
-      }
-    } catch (error) {
-      await this.actions.checkApiError(error);
-    }
-  }
 }

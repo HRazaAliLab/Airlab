@@ -63,6 +63,7 @@
             :on-selected="congugateSelected"
             :selected-conjugates="getInitialState(metal.id)"
             :conjugates="getTagConjugates(metal.id)"
+            :species-map="speciesMap"
           />
         </v-expansion-panels>
       </v-card-text>
@@ -80,6 +81,8 @@ import MetalExpansionPanel from "@/views/main/group/panels/MetalExpansionPanel.v
 import { conjugateModule } from "@/modules/conjugate";
 import { tagModule } from "@/modules/tag";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
+import { speciesModule } from "@/modules/species";
+import { SpeciesDto } from "@airlab/shared/lib/species/dto";
 
 type ConjugatePanelData = {
   dilutionType: number;
@@ -95,6 +98,7 @@ export default class EditPanel extends Vue {
   readonly panelContext = panelModule.context(this.$store);
   readonly conjugateContext = conjugateModule.context(this.$store);
   readonly tagContext = tagModule.context(this.$store);
+  readonly speciesContext = speciesModule.context(this.$store);
 
   readonly nameRules = [required];
   readonly descriptionRules = [];
@@ -127,14 +131,22 @@ export default class EditPanel extends Vue {
     return this.tagContext.getters.metals;
   }
 
+  get speciesMap() {
+    const map = new Map<number, SpeciesDto>();
+    for (const s of this.speciesContext.getters.species) {
+      map.set(s.id, s);
+    }
+    return Object.freeze(map);
+  }
+
   get panel() {
     return this.panelContext.getters.getPanel(+this.$router.currentRoute.params.id);
   }
 
   get conjugates() {
     return this.showEmpty
-      ? this.conjugateContext.getters.conjugates
-      : this.conjugateContext.getters.conjugates.filter(item => item.status !== 2);
+      ? Object.freeze(this.conjugateContext.getters.conjugates)
+      : Object.freeze(this.conjugateContext.getters.conjugates.filter(item => item.status !== 2));
   }
 
   getInitialState(tagId: number) {
@@ -242,6 +254,7 @@ export default class EditPanel extends Vue {
       this.panelContext.actions.getPanel(+this.$router.currentRoute.params.id),
       this.conjugateContext.actions.getGroupConjugates(+this.$router.currentRoute.params.groupId),
       this.tagContext.actions.getGroupTags(+this.$router.currentRoute.params.groupId),
+      this.speciesContext.actions.getGroupSpecies(+this.$router.currentRoute.params.groupId),
     ]);
     this.reset();
   }

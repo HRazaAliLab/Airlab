@@ -87,11 +87,14 @@
           </router-link>
         </template>
         <template v-slot:item.action="{ item }">
-          <v-tooltip bottom>
+          <v-menu bottom left>
             <template v-slot:activator="{ on }">
-              <v-btn
-                v-on="on"
-                icon
+              <v-btn icon v-on="on">
+                <v-icon>mdi-dots-vertical</v-icon>
+              </v-btn>
+            </template>
+            <v-list dense>
+              <v-list-item
                 :to="{
                   name: 'main-group-panels-edit',
                   params: {
@@ -100,16 +103,14 @@
                   },
                 }"
               >
-                <v-icon color="grey">mdi-pencil-outline</v-icon>
-              </v-btn>
-            </template>
-            <span>Edit</span>
-          </v-tooltip>
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <v-btn
-                v-on="on"
-                icon
+                <v-list-item-icon>
+                  <v-icon color="grey">mdi-pencil-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Edit</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item
                 :to="{
                   name: 'main-group-panels-view',
                   params: {
@@ -118,30 +119,49 @@
                   },
                 }"
               >
-                <v-icon color="grey">mdi-eyedropper</v-icon>
-              </v-btn>
-            </template>
-            <span>Refine</span>
-          </v-tooltip>
+                <v-list-item-icon>
+                  <v-icon color="grey">mdi-eyedropper</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Refine</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item @click="duplicatePanel(item.id)">
+                <v-list-item-icon>
+                  <v-icon color="grey">mdi-content-duplicate</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Duplicate</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item v-if="isGroupAdmin" @click="updatePanelArchiveState(item.id, !item.isArchived)">
+                <v-list-item-icon>
+                  <v-icon color="red accent-1">{{
+                    item.isArchived ? "mdi-archive-arrow-up-outline" : "mdi-archive-arrow-down-outline"
+                  }}</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>{{ item.isArchived ? "Unarchive" : "Archive" }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item v-if="isGroupAdmin" @click="deletePanel(item.id)">
+                <v-list-item-icon>
+                  <v-icon color="red accent-1">mdi-delete-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Delete</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-menu>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon @click="duplicatePanel(item.id)">
-                <v-icon color="grey">mdi-content-duplicate</v-icon>
+              <v-btn v-on="on" icon @click.stop="showDetails(item)">
+                <v-icon>mdi-information-outline</v-icon>
               </v-btn>
             </template>
-            <span>Duplicate</span>
+            <span>Show details</span>
           </v-tooltip>
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon @click="deletePanel(item.id)">
-                <v-icon color="red accent-1">mdi-delete-outline</v-icon>
-              </v-btn>
-            </template>
-            <span>Delete</span>
-          </v-tooltip>
-          <v-btn text color="primary" @click.stop="showDetails(item)">
-            Details
-          </v-btn>
         </template>
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length">
@@ -165,7 +185,6 @@ import { DuplicatePanelDto, PanelDto } from "@airlab/shared/lib/panel/dto";
 import { applicationToString } from "@/utils/converters";
 import PanelDetailsView from "@/views/main/group/panels/PanelDetailsView.vue";
 import { applicationEnum } from "@/utils/enums";
-import { mainModule } from "@/modules/main";
 import PanelExpandedView from "@/views/main/group/panels/PanelExpandedView.vue";
 
 @Component({
@@ -176,7 +195,6 @@ import PanelExpandedView from "@/views/main/group/panels/PanelExpandedView.vue";
   },
 })
 export default class PanelsListView extends Vue {
-  readonly mainContext = mainModule.context(this.$store);
   readonly groupContext = groupModule.context(this.$store);
   readonly panelContext = panelModule.context(this.$store);
 
@@ -186,8 +204,12 @@ export default class PanelsListView extends Vue {
     return this.groupContext.getters.activeGroupId;
   }
 
+  get isGroupAdmin() {
+    return this.groupContext.getters.isGroupAdmin;
+  }
+
   get member() {
-    return this.mainContext.getters.myMember;
+    return this.groupContext.getters.myMember;
   }
 
   readonly headers = [
@@ -240,7 +262,11 @@ export default class PanelsListView extends Vue {
       value: "action",
       sortable: false,
       filterable: false,
-      width: "275",
+      width: "105",
+    },
+    {
+      text: "",
+      value: "data-table-expand",
     },
   ];
 
@@ -285,6 +311,12 @@ export default class PanelsListView extends Vue {
   async deletePanel(id: number) {
     if (self.confirm("Are you sure you want to delete the panel?")) {
       await this.panelContext.actions.deletePanel(id);
+    }
+  }
+
+  async updatePanelArchiveState(id: number, state: boolean) {
+    if (self.confirm(`Are you sure you want to ${state ? "archive" : "unarchive"} the panel?`)) {
+      await this.panelContext.actions.updatePanelArchiveState({ id: id, data: { isArchived: state } });
     }
   }
 

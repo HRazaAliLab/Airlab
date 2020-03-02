@@ -18,10 +18,6 @@ export class MainGetters extends Getters<MainState> {
     return this.state.userProfile;
   }
 
-  get myMember() {
-    return this.state.myMember;
-  }
-
   get token() {
     return this.state.token;
   }
@@ -44,13 +40,5 @@ export class MainGetters extends Getters<MainState> {
 
   get isAdmin() {
     return this.state.userProfile ? this.state.userProfile.isAdmin : false;
-  }
-
-  get groupRole() {
-    return this.state.myMember ? this.state.myMember.role : 0;
-  }
-
-  get allPanels() {
-    return this.state.myMember ? this.state.myMember.allPanels : false;
   }
 }

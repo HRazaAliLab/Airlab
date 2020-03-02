@@ -17,4 +17,20 @@ export class GroupGetters extends Getters<GroupState> {
   get activeGroup() {
     return this.getters.activeGroupId ? this.getters.getGroup(this.getters.activeGroupId) : undefined;
   }
+
+  get myMember() {
+    return this.state.myMember;
+  }
+
+  get groupRole() {
+    return this.state.myMember ? this.state.myMember.role : 0;
+  }
+
+  get isGroupAdmin() {
+    return this.getters.groupRole >= 100;
+  }
+
+  get allPanels() {
+    return this.state.myMember ? this.state.myMember.allPanels : false;
+  }
 }

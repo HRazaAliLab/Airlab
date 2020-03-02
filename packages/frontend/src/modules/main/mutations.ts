@@ -3,7 +3,6 @@ import { MainState } from ".";
 import { AppNotification } from "./models";
 import { ProfileDto } from "@airlab/shared/lib/user/dto";
 import { ApiManager } from "@/utils/api";
-import { MemberDto } from "@airlab/shared/lib/member/dto";
 
 export class MainMutations extends Mutations<MainState> {
   setToken(payload: string) {
@@ -21,10 +20,6 @@ export class MainMutations extends Mutations<MainState> {
 
   setUserProfile(payload: ProfileDto) {
     this.state.userProfile = payload;
-  }
-
-  setMyMember(payload: MemberDto) {
-    this.state.myMember = payload;
   }
 
   setDashboardMiniDrawer(payload: boolean) {

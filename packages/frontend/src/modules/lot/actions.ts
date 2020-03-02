@@ -6,6 +6,7 @@ import { api } from "./api";
 import { LotGetters } from "./getters";
 import { LotMutations } from "./mutations";
 import { CreateLotDto, UpdateLotDto } from "@airlab/shared/lib/lot/dto";
+import { UpdateArchiveStateDto } from "@airlab/shared/lib/core/dto";
 
 export class LotActions extends Actions<LotState, LotGetters, LotMutations, LotActions> {
   // Declare context type
@@ -43,6 +44,19 @@ export class LotActions extends Actions<LotState, LotGetters, LotMutations, LotA
       const data = await api.updateLot(payload.id, payload.data);
       this.mutations.updateEntity(data);
       this.main!.mutations.addNotification({ content: "Lot successfully updated", color: "success" });
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
+
+  async updateLotArchiveState(payload: { id: number; data: UpdateArchiveStateDto }) {
+    try {
+      const data = await api.updateLotArchiveState(payload.id, payload.data);
+      this.mutations.updateEntity(data);
+      this.main!.mutations.addNotification({
+        content: `Lot successfully ${payload.data.isArchived ? "archived" : "unarchived"}`,
+        color: "success",
+      });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
     }

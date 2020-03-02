@@ -6,6 +6,7 @@ import {
   PanelElementDataDto,
   UpdatePanelDto,
 } from "@airlab/shared/lib/panel/dto";
+import { UpdateArchiveStateDto } from "@airlab/shared/lib/core/dto";
 
 export const api = {
   async createPanel(data: CreatePanelDto) {
@@ -21,6 +22,13 @@ export const api = {
   async updatePanel(id: number, data: UpdatePanelDto) {
     return ApiManager.api
       .patch(`panels/${id}`, {
+        json: data,
+      })
+      .json<PanelDto>();
+  },
+  async updatePanelArchiveState(id: number, data: UpdateArchiveStateDto) {
+    return ApiManager.api
+      .patch(`panels/${id}/archive`, {
         json: data,
       })
       .json<PanelDto>();

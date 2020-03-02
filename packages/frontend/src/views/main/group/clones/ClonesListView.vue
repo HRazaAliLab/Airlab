@@ -188,11 +188,47 @@
           </v-chip>
         </template>
         <template v-slot:item.action="{ item }">
-          <v-tooltip bottom>
+          <v-menu bottom left>
             <template v-slot:activator="{ on }">
-              <v-btn
-                v-on="on"
-                icon
+              <v-btn icon v-on="on">
+                <v-icon>mdi-dots-vertical</v-icon>
+              </v-btn>
+            </template>
+            <v-list dense>
+              <v-list-item
+                :to="{
+                  name: 'main-group-lots-create',
+                  params: {
+                    groupId: activeGroupId,
+                    cloneId: item.id,
+                  },
+                }"
+              >
+                <v-list-item-icon>
+                  <v-icon color="primary">mdi-plus-circle-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Add Lot</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item
+                :to="{
+                  name: 'main-group-validations-create',
+                  params: {
+                    groupId: activeGroupId,
+                    cloneId: item.id,
+                  },
+                }"
+              >
+                <v-list-item-icon>
+                  <v-icon color="primary">mdi-plus-circle-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Add Validation</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider />
+              <v-list-item
                 :to="{
                   name: 'main-group-clones-edit',
                   params: {
@@ -201,22 +237,41 @@
                   },
                 }"
               >
-                <v-icon color="grey">mdi-pencil-outline</v-icon>
-              </v-btn>
-            </template>
-            <span>Edit</span>
-          </v-tooltip>
+                <v-list-item-icon>
+                  <v-icon color="grey">mdi-pencil-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Edit</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item v-if="isGroupAdmin" @click="updateCloneArchiveState(item.id, !item.isArchived)">
+                <v-list-item-icon>
+                  <v-icon color="red accent-1">{{
+                    item.isArchived ? "mdi-archive-arrow-up-outline" : "mdi-archive-arrow-down-outline"
+                  }}</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>{{ item.isArchived ? "Unarchive" : "Archive" }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item v-if="isGroupAdmin" @click="deleteClone(item.id)">
+                <v-list-item-icon>
+                  <v-icon color="red accent-1">mdi-delete-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Delete</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-menu>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon @click="deleteClone(item.id)">
-                <v-icon color="red accent-1">mdi-delete-outline</v-icon>
+              <v-btn v-on="on" icon @click.stop="showDetails(item)">
+                <v-icon>mdi-information-outline</v-icon>
               </v-btn>
             </template>
-            <span>Delete</span>
+            <span>Show details</span>
           </v-tooltip>
-          <v-btn text color="primary" @click.stop="showDetails(item)">
-            Details
-          </v-btn>
         </template>
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length">
@@ -262,6 +317,10 @@ export default class ClonesListView extends Vue {
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
+  }
+
+  get isGroupAdmin() {
+    return this.groupContext.getters.isGroupAdmin;
   }
 
   readonly headers = [
@@ -318,7 +377,11 @@ export default class ClonesListView extends Vue {
       value: "action",
       sortable: false,
       filterable: false,
-      width: "210",
+      width: "105",
+    },
+    {
+      text: "",
+      value: "data-table-expand",
     },
   ];
 
@@ -425,6 +488,12 @@ export default class ClonesListView extends Vue {
   async deleteClone(id: number) {
     if (self.confirm("Are you sure you want to delete the clone?")) {
       await this.cloneContext.actions.deleteClone(id);
+    }
+  }
+
+  async updateCloneArchiveState(id: number, state: boolean) {
+    if (self.confirm(`Are you sure you want to ${state ? "archive" : "unarchive"} the clone?`)) {
+      await this.cloneContext.actions.updateCloneArchiveState({ id: id, data: { isArchived: state } });
     }
   }
 

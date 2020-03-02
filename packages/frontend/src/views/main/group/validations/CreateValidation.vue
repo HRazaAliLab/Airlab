@@ -301,7 +301,7 @@ export default class CreateValidation extends Vue {
   }
 
   reset() {
-    this.cloneId = null;
+    this.cloneId = this.$router.currentRoute.params.cloneId ? +this.$router.currentRoute.params.cloneId : null;
     this.lotId = null;
     this.conjugateId = null;
     this.speciesId = null;
@@ -329,6 +329,7 @@ export default class CreateValidation extends Vue {
   }
 
   async mounted() {
+    this.reset();
     await Promise.all([
       this.cloneContext.actions.getGroupClones(+this.$router.currentRoute.params.groupId),
       this.lotContext.actions.getGroupLots(+this.$router.currentRoute.params.groupId),

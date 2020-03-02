@@ -32,29 +32,38 @@
           <v-icon v-if="item.isOpen">mdi-check</v-icon>
         </template>
         <template v-slot:item.action="{ item }">
-          <v-tooltip bottom>
+          <v-menu bottom left>
             <template v-slot:activator="{ on }">
-              <v-btn
-                v-on="on"
-                icon
+              <v-btn icon v-on="on">
+                <v-icon>mdi-dots-vertical</v-icon>
+              </v-btn>
+            </template>
+            <v-list dense>
+              <v-list-item
                 :to="{
                   name: 'main-admin-groups-edit',
-                  params: { id: item.id },
+                  params: {
+                    id: item.id,
+                  },
                 }"
               >
-                <v-icon color="grey">mdi-pencil-outline</v-icon>
-              </v-btn>
-            </template>
-            <span>Edit</span>
-          </v-tooltip>
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon @click="deleteGroup(item.id)">
-                <v-icon color="red accent-1">mdi-delete-outline</v-icon>
-              </v-btn>
-            </template>
-            <span>Delete</span>
-          </v-tooltip>
+                <v-list-item-icon>
+                  <v-icon color="grey">mdi-pencil-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Edit</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item @click="deleteGroup(item.id)">
+                <v-list-item-icon>
+                  <v-icon color="red accent-1">mdi-delete-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Delete</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </template>
       </v-data-table>
     </v-card>
@@ -105,7 +114,7 @@ export default class AdminGroups extends Vue {
       value: "action",
       sortable: false,
       filterable: false,
-      width: "110",
+      width: "70",
     },
   ];
 

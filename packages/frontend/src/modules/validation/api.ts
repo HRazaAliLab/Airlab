@@ -1,5 +1,6 @@
 import { ApiManager } from "@/utils/api";
 import { CreateValidationDto, UpdateValidationDto, ValidationDto } from "@airlab/shared/lib/validation/dto";
+import { UpdateArchiveStateDto } from "@airlab/shared/lib/core/dto";
 
 export const api = {
   async createValidation(data: CreateValidationDto) {
@@ -15,6 +16,13 @@ export const api = {
   async updateValidation(id: number, data: UpdateValidationDto) {
     return ApiManager.api
       .patch(`validations/${id}`, {
+        json: data,
+      })
+      .json<ValidationDto>();
+  },
+  async updateValidationArchiveState(id: number, data: UpdateArchiveStateDto) {
+    return ApiManager.api
+      .patch(`validations/${id}/archive`, {
         json: data,
       })
       .json<ValidationDto>();

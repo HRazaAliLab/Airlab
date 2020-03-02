@@ -18,7 +18,7 @@
             label="Lot"
             v-model="lotId"
             :items="lots"
-            item-text="number"
+            item-text="name"
             item-value="id"
             :rules="lotRules"
             dense
@@ -90,7 +90,7 @@ export default class CreateConjugate extends Vue {
   }
 
   reset() {
-    this.lotId = null;
+    this.lotId = this.$router.currentRoute.params.lotId ? +this.$router.currentRoute.params.lotId : null;
     this.tagId = null;
     this.tubeNumber = null;
     this.concentration = "";
@@ -99,6 +99,7 @@ export default class CreateConjugate extends Vue {
   }
 
   async mounted() {
+    this.reset();
     await Promise.all([
       this.lotContext.actions.getGroupLots(+this.$router.currentRoute.params.groupId),
       this.tagContext.actions.getGroupTags(+this.$router.currentRoute.params.groupId),

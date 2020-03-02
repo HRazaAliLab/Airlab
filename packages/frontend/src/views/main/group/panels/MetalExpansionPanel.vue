@@ -26,7 +26,7 @@
               @click.prevent="isSelected(item) ? select(item, false) : select(item, true)"
               :color="$options.methods.getConjugateColor(item, isSelected(item))"
             >
-              <div class="header"><span class="subheader">Lot:</span> {{ item.lot.number }}</div>
+              <div class="header"><span class="subheader">Lot:</span> {{ item.lot.name }}</div>
               <div class="content">
                 <div v-if="item.lot && item.lot.clone && item.lot.clone.protein">
                   <span class="subheader">Protein:</span> {{ item.lot.clone.protein.name }}
@@ -34,11 +34,12 @@
                 <div v-if="item.lot && item.lot.clone">
                   <span class="subheader">Clone:</span> {{ item.lot.clone.name }}
                 </div>
-                <div v-if="item.tubeNumber"><span class="subheader">Tube #:</span> {{ item.tubeNumber }}</div>
-                <div v-if="item.concentration">
-                  <span class="subheader">Concentration:</span> {{ item.concentration }}
+                <div v-if="item.lot && item.lot.clone">
+                  <span class="subheader">Reactivity: </span>
+                  <v-chip v-for="r of item.lot.clone.reactivity" :key="`${Math.random()}`" x-small label class="chip">
+                    {{ props.speciesMap.get(r) ? props.speciesMap.get(r).acronym : "?" }}
+                  </v-chip>
                 </div>
-                <div v-if="item.description"><span class="subheader">Description:</span> {{ item.description }}</div>
               </div>
             </v-sheet>
           </v-row>
@@ -52,10 +53,12 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { TagDto } from "@airlab/shared/lib/tag/dto";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
+import { SpeciesDto } from "@airlab/shared/lib/species/dto";
 
 @Component
 export default class MetalExpansionPanel extends Vue {
   @Prop(Array) conjugates!: ConjugateDto[];
+  @Prop(Map) speciesMap!: Map<number, SpeciesDto>;
   @Prop(Object) tag!: TagDto;
   @Prop(Array) selectedConjugates!: ConjugateDto[];
   @Prop(Function) onSelected;
@@ -99,5 +102,8 @@ export default class MetalExpansionPanel extends Vue {
 }
 .subheader {
   font-weight: bold;
+}
+.chip {
+  margin-right: 5px;
 }
 </style>

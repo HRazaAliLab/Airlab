@@ -94,7 +94,7 @@
                     <v-list-item-title>Species</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
-                <v-list-item v-if="groupRole >= 100" :to="`/main/groups/${activeGroupId}/members`">
+                <v-list-item v-if="isGroupAdmin" :to="`/main/groups/${activeGroupId}/members`">
                   <v-list-item-icon>
                     <v-icon>mdi-account-multiple-outline</v-icon>
                   </v-list-item-icon>
@@ -220,8 +220,8 @@ export default class Main extends Vue {
     return this.mainContext.getters.isAdmin;
   }
 
-  get groupRole() {
-    return this.mainContext.getters.groupRole;
+  get isGroupAdmin() {
+    return this.groupContext.getters.isGroupAdmin;
   }
 
   get activeGroupId() {

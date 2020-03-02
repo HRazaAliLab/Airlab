@@ -97,7 +97,7 @@ export default class CreateLot extends Vue {
   }
 
   reset() {
-    this.cloneId = null;
+    this.cloneId = this.$router.currentRoute.params.cloneId ? +this.$router.currentRoute.params.cloneId : null;
     this.name = "";
     this.reference = "";
     this.providerId = null;
@@ -110,6 +110,7 @@ export default class CreateLot extends Vue {
   }
 
   async mounted() {
+    this.reset();
     await Promise.all([
       this.cloneContext.actions.getGroupClones(+this.$router.currentRoute.params.groupId),
       this.providerContext.actions.getGroupProviders(+this.$router.currentRoute.params.groupId),

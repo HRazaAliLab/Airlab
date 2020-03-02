@@ -2,6 +2,7 @@ import { ApiManager } from "@/utils/api";
 import { CloneDto, CreateCloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
 import { LotDto } from "@airlab/shared/lib/lot/dto";
 import { ValidationDto } from "@airlab/shared/lib/validation/dto";
+import { UpdateArchiveStateDto } from "@airlab/shared/lib/core/dto";
 
 export const api = {
   async createClone(data: CreateCloneDto) {
@@ -23,6 +24,13 @@ export const api = {
   },
   async deleteClone(id: number) {
     return ApiManager.api.delete(`clones/${id}`).json<number>();
+  },
+  async updateCloneArchiveState(id: number, data: UpdateArchiveStateDto) {
+    return ApiManager.api
+      .patch(`clones/${id}/archive`, {
+        json: data,
+      })
+      .json<CloneDto>();
   },
   async getGroupClones(groupId: number) {
     return ApiManager.api.get(`groups/${groupId}/clones`).json<CloneDto[]>();

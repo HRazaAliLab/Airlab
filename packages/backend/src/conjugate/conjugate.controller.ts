@@ -15,6 +15,7 @@ import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags
 import { AuthGuard } from "@nestjs/passport";
 import { ConjugateDto, CreateConjugateDto, UpdateConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 import { MemberService } from "../member/member.service";
+import { UpdateArchiveStateDto } from "@airlab/shared/lib/core/dto";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
@@ -52,13 +53,13 @@ export class ConjugateController {
   @Patch("conjugates/:id/archive")
   @ApiOperation({ summary: "Set archive state for the conjugate." })
   @ApiOkResponse({ type: ConjugateDto })
-  async setArchiveState(@Request() req, @Param("id") id: number, @Body() state: boolean) {
+  async updateArchiveState(@Request() req, @Param("id") id: number, @Body() params: UpdateArchiveStateDto) {
     const item = await this.conjugateService.findById(id);
     const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
     if (member.role < 100) {
       throw new UnauthorizedException("Only group admins can perform this operation");
     }
-    return this.conjugateService.setArchiveState(id, state);
+    return this.conjugateService.updateArchiveState(id, params);
   }
 
   @Delete("conjugates/:id")

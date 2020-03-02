@@ -35,14 +35,30 @@
           <v-icon v-if="item.isAdmin">mdi-check</v-icon>
         </template>
         <template v-slot:item.action="{ item }">
-          <v-tooltip bottom>
+          <v-menu bottom left>
             <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon :to="{ name: 'main-admin-users-edit', params: { id: item.id } }">
-                <v-icon color="grey">mdi-pencil-outline</v-icon>
+              <v-btn icon v-on="on">
+                <v-icon>mdi-dots-vertical</v-icon>
               </v-btn>
             </template>
-            <span>Edit</span>
-          </v-tooltip>
+            <v-list dense>
+              <v-list-item
+                :to="{
+                  name: 'main-admin-users-edit',
+                  params: {
+                    id: item.id,
+                  },
+                }"
+              >
+                <v-list-item-icon>
+                  <v-icon color="grey">mdi-pencil-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Edit</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </template>
       </v-data-table>
     </v-card>

@@ -2,6 +2,7 @@ import { Mutations } from "vuex-smart-module";
 import { groupListSchema, GroupState } from ".";
 import { GroupDto } from "@airlab/shared/lib/group/dto";
 import { normalize } from "normalizr";
+import { MemberDto } from "@airlab/shared/lib/member/dto";
 
 export class GroupMutations extends Mutations<GroupState> {
   setActiveGroupId(id?: number) {
@@ -38,9 +39,14 @@ export class GroupMutations extends Mutations<GroupState> {
     this.state.entities = entities;
   }
 
+  setMyMember(payload: MemberDto) {
+    this.state.myMember = payload;
+  }
+
   reset() {
     this.state.ids = [];
     this.state.entities = {};
     this.state.activeGroupId = undefined;
+    this.state.myMember = null;
   }
 }

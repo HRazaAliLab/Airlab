@@ -4,6 +4,7 @@ import { Repository } from "typeorm";
 import { ValidationEntity } from "./validation.entity";
 import { CreateValidationDto, UpdateValidationDto } from "@airlab/shared/lib/validation/dto";
 import { UserEntity } from "../user/user.entity";
+import { UpdateArchiveStateDto } from "@airlab/shared/lib/core/dto";
 
 @Injectable()
 export class ValidationService {
@@ -37,8 +38,8 @@ export class ValidationService {
     return result.affected === 1 ? id : undefined;
   }
 
-  async setArchiveState(id: number, state: boolean) {
-    await this.repository.update(id, { isArchived: state, updatedAt: new Date().toISOString() });
+  async updateArchiveState(id: number, params: UpdateArchiveStateDto) {
+    await this.repository.update(id, { isArchived: params.isArchived, updatedAt: new Date().toISOString() });
     const item = await this.findById(id);
     await this.clearCache(item.groupId);
     return item;

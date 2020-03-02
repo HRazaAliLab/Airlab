@@ -6,6 +6,7 @@ import { api } from "./api";
 import { PanelGetters } from "./getters";
 import { PanelMutations } from "./mutations";
 import { CreatePanelDto, DuplicatePanelDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
+import { UpdateArchiveStateDto } from "@airlab/shared/lib/core/dto";
 
 export class PanelActions extends Actions<PanelState, PanelGetters, PanelMutations, PanelActions> {
   // Declare context type
@@ -53,6 +54,19 @@ export class PanelActions extends Actions<PanelState, PanelGetters, PanelMutatio
       const data = await api.updatePanel(payload.id, payload.data);
       this.mutations.updateEntity(data);
       this.main!.mutations.addNotification({ content: "Panel successfully updated", color: "success" });
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
+
+  async updatePanelArchiveState(payload: { id: number; data: UpdateArchiveStateDto }) {
+    try {
+      const data = await api.updatePanelArchiveState(payload.id, payload.data);
+      this.mutations.updateEntity(data);
+      this.main!.mutations.addNotification({
+        content: `Panel successfully ${payload.data.isArchived ? "archived" : "unarchived"}`,
+        color: "success",
+      });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
     }

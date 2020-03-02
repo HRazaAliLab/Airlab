@@ -1,5 +1,6 @@
 import { ApiManager } from "@/utils/api";
 import { CreateGroupDto, GroupDto, UpdateGroupDto } from "@airlab/shared/lib/group/dto";
+import { MemberDto } from "@airlab/shared/lib/member/dto";
 
 export const api = {
   async getGroups() {
@@ -27,5 +28,8 @@ export const api = {
   },
   async joinGroup(id: number) {
     return ApiManager.api.post(`groups/${id}/join`).json<boolean>();
+  },
+  async getMyMember(groupId: number) {
+    return ApiManager.api.get(`groups/${groupId}/members/me`).json<MemberDto>();
   },
 };

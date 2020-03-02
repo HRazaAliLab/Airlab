@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { LotEntity } from "./lot.entity";
 import { CreateLotDto, UpdateLotDto } from "@airlab/shared/lib/lot/dto";
+import { UpdateArchiveStateDto } from "@airlab/shared/lib/core/dto";
 
 @Injectable()
 export class LotService {
@@ -41,8 +42,8 @@ export class LotService {
     return result.affected === 1 ? id : undefined;
   }
 
-  async setArchiveState(id: number, state: boolean) {
-    await this.repository.update(id, { isArchived: state, updatedAt: new Date().toISOString() });
+  async updateArchiveState(id: number, params: UpdateArchiveStateDto) {
+    await this.repository.update(id, { isArchived: params.isArchived, updatedAt: new Date().toISOString() });
     const item = await this.findById(id);
     await this.clearCache(item.groupId);
     return item;

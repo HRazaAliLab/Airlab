@@ -189,7 +189,7 @@ export default class CreateClone extends Vue {
 
   reset() {
     this.name = "";
-    this.proteinId = null;
+    this.proteinId = this.$router.currentRoute.params.proteinId ? +this.$router.currentRoute.params.proteinId : null;
     this.epitope = "";
     this.isotype = "";
     this.isPolyclonal = false;
@@ -205,6 +205,7 @@ export default class CreateClone extends Vue {
   }
 
   async mounted() {
+    this.reset();
     await Promise.all([
       this.proteinContext.actions.getGroupProteins(+this.$router.currentRoute.params.groupId),
       this.speciesContext.actions.getGroupSpecies(+this.$router.currentRoute.params.groupId),

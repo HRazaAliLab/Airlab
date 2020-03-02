@@ -6,7 +6,7 @@
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn v-if="groupRole >= 100" text :to="`/main/groups/${activeGroupId}/members/create`" color="primary">
+        <v-btn v-if="isGroupAdmin" text :to="`/main/groups/${activeGroupId}/members/create`" color="primary">
           Create Member
         </v-btn>
       </v-toolbar-items>
@@ -87,29 +87,39 @@
           <v-icon v-if="item.allPanels">mdi-check</v-icon>
         </template>
         <template v-slot:item.action="{ item }">
-          <v-tooltip bottom>
+          <v-menu bottom left>
             <template v-slot:activator="{ on }">
-              <v-btn
-                v-on="on"
-                icon
+              <v-btn icon v-on="on">
+                <v-icon>mdi-dots-vertical</v-icon>
+              </v-btn>
+            </template>
+            <v-list dense>
+              <v-list-item
                 :to="{
                   name: 'main-group-members-edit',
-                  params: { id: item.id },
+                  params: {
+                    groupId: activeGroupId,
+                    id: item.id,
+                  },
                 }"
               >
-                <v-icon color="grey">mdi-pencil-outline</v-icon>
-              </v-btn>
-            </template>
-            <span>Edit</span>
-          </v-tooltip>
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon @click="deleteMember(item.id)">
-                <v-icon color="red accent-1">mdi-delete-outline</v-icon>
-              </v-btn>
-            </template>
-            <span>Delete</span>
-          </v-tooltip>
+                <v-list-item-icon>
+                  <v-icon color="grey">mdi-pencil-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Edit</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item v-if="isGroupAdmin" @click="deleteMember(item.id)">
+                <v-list-item-icon>
+                  <v-icon color="red accent-1">mdi-delete-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Delete</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </template>
       </v-data-table>
     </v-card>
@@ -121,12 +131,10 @@ import { Component, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
 import { memberModule } from "@/modules/member";
 import { roleToString } from "@/utils/converters";
-import { mainModule } from "@/modules/main";
 import { roleEnum } from "@/utils/enums";
 
 @Component
 export default class MembersListView extends Vue {
-  readonly mainContext = mainModule.context(this.$store);
   readonly groupContext = groupModule.context(this.$store);
   readonly memberContext = memberModule.context(this.$store);
 
@@ -181,7 +189,7 @@ export default class MembersListView extends Vue {
       value: "action",
       sortable: false,
       filterable: false,
-      width: "110",
+      width: "70",
     },
   ];
 
@@ -194,6 +202,10 @@ export default class MembersListView extends Vue {
     return this.groupContext.getters.activeGroupId;
   }
 
+  get isGroupAdmin() {
+    return this.groupContext.getters.isGroupAdmin;
+  }
+
   get items() {
     let items = this.memberContext.getters.members;
     if (!this.showInactiveMembers) {
@@ -203,10 +215,6 @@ export default class MembersListView extends Vue {
       items = items.filter(item => this.roleFilter.includes(item.role));
     }
     return items;
-  }
-
-  get groupRole() {
-    return this.mainContext.getters.groupRole;
   }
 
   async mounted() {

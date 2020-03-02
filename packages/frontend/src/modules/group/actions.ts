@@ -82,4 +82,15 @@ export class GroupActions extends Actions<GroupState, GroupGetters, GroupMutatio
       await this.main!.actions.checkApiError(error);
     }
   }
+
+  async getMyMember(groupId: number) {
+    try {
+      const data = await api.getMyMember(groupId);
+      if (data) {
+        this.mutations.setMyMember(data);
+      }
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
 }

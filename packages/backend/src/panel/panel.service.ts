@@ -5,6 +5,7 @@ import { PanelEntity } from "./panel.entity";
 import { CreatePanelDto, DuplicatePanelDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
 import { UserEntity } from "../user/user.entity";
 import { PanelElementService } from "../panelElement/panelElement.service";
+import { UpdateArchiveStateDto } from "@airlab/shared/lib/core/dto";
 
 @Injectable()
 export class PanelService {
@@ -54,8 +55,8 @@ export class PanelService {
     return result.affected === 1 ? id : undefined;
   }
 
-  async setArchiveState(id: number, state: boolean) {
-    await this.repository.update(id, { isArchived: state, updatedAt: new Date().toISOString() });
+  async updateArchiveState(id: number, params: UpdateArchiveStateDto) {
+    await this.repository.update(id, { isArchived: params.isArchived, updatedAt: new Date().toISOString() });
     const item = await this.findById(id);
     await this.clearCache(item.groupId);
     return item;

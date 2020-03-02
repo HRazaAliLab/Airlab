@@ -6,6 +6,7 @@ import { api } from "./api";
 import { ValidationGetters } from "./getters";
 import { ValidationMutations } from "./mutations";
 import { CreateValidationDto, UpdateValidationDto } from "@airlab/shared/lib/validation/dto";
+import { UpdateArchiveStateDto } from "@airlab/shared/lib/core/dto";
 
 export class ValidationActions extends Actions<
   ValidationState,
@@ -48,6 +49,19 @@ export class ValidationActions extends Actions<
       const data = await api.updateValidation(payload.id, payload.data);
       this.mutations.updateEntity(data);
       this.main!.mutations.addNotification({ content: "Validation successfully updated", color: "success" });
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
+
+  async updateValidationArchiveState(payload: { id: number; data: UpdateArchiveStateDto }) {
+    try {
+      const data = await api.updateValidationArchiveState(payload.id, payload.data);
+      this.mutations.updateEntity(data);
+      this.main!.mutations.addNotification({
+        content: `Validation successfully ${payload.data.isArchived ? "archived" : "unarchived"}`,
+        color: "success",
+      });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
     }

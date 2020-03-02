@@ -4,6 +4,7 @@ import { Repository } from "typeorm";
 import { ConjugateEntity } from "./conjugate.entity";
 import { CreateConjugateDto, UpdateConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 import { UserEntity } from "../user/user.entity";
+import { UpdateArchiveStateDto } from "@airlab/shared/lib/core/dto";
 
 @Injectable()
 export class ConjugateService {
@@ -48,8 +49,8 @@ export class ConjugateService {
     return result.affected === 1 ? id : undefined;
   }
 
-  async setArchiveState(id: number, state: boolean) {
-    await this.repository.update(id, { isArchived: state, updatedAt: new Date().toISOString() });
+  async updateArchiveState(id: number, params: UpdateArchiveStateDto) {
+    await this.repository.update(id, { isArchived: params.isArchived, updatedAt: new Date().toISOString() });
     const item = await this.findById(id);
     await this.clearCache(item.groupId);
     return item;
@@ -63,9 +64,9 @@ export class ConjugateService {
       .leftJoin("conjugate.tag", "tag")
       .addSelect(["tag.id", "tag.name", "tag.mw"])
       .leftJoin("conjugate.lot", "lot")
-      .addSelect(["lot.id", "lot.number"])
+      .addSelect(["lot.id", "lot.number", "lot.name"])
       .leftJoin("lot.clone", "clone")
-      .addSelect(["clone.id", "clone.name", "clone.isPhospho"])
+      .addSelect(["clone.id", "clone.name", "clone.reactivity"])
       .leftJoin("clone.protein", "protein")
       .addSelect(["protein.id", "protein.name"])
       .leftJoin("conjugate.member", "member")
