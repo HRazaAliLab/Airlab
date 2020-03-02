@@ -104,7 +104,6 @@
         </template>
         <template v-slot:item.clone="{ item }">
           <router-link
-            v-if="item.clone"
             class="link"
             :to="{
               name: 'main-group-clones-edit',

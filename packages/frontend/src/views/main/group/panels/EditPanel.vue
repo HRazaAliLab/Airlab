@@ -128,7 +128,7 @@ export default class EditPanel extends Vue {
   }
 
   get metals() {
-    return this.tagContext.getters.metals;
+    return Object.freeze(this.tagContext.getters.metals);
   }
 
   get speciesMap() {

@@ -132,7 +132,6 @@
         </template>
         <template v-slot:item.clone="{ item }">
           <router-link
-            v-if="item.clone"
             class="link"
             :to="{
               name: 'main-group-clones-edit',
@@ -147,7 +146,6 @@
         </template>
         <template v-slot:item.clone.protein="{ item }">
           <router-link
-            v-if="item.clone"
             class="link"
             :to="{
               name: 'main-group-proteins-edit',
@@ -303,7 +301,7 @@
       </v-data-table>
     </v-card>
     <v-navigation-drawer v-model="drawer" right fixed temporary width="600">
-      <ValidationDetailsView v-if="drawer" :item="detailsItem" :apiUrl="apiUrl" />
+      <ValidationDetailsView v-if="drawer" :validation-id="detailsItem.id" />
     </v-navigation-drawer>
   </v-col>
 </template>

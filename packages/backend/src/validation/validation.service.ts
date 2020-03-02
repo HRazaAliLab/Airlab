@@ -19,9 +19,49 @@ export class ValidationService {
   }
 
   async findById(id: number) {
-    return this.repository.findOne(id, {
-      relations: ["validationFiles"],
-    });
+    return this.repository
+      .createQueryBuilder("validation")
+      .select([
+        "validation.id",
+        "validation.groupId",
+        "validation.application",
+        "validation.positiveControl",
+        "validation.negativeControl",
+        "validation.status",
+        "validation.incubationConditions",
+        "validation.tissue",
+        "validation.concentration",
+        "validation.concentrationUnit",
+        "validation.fixation",
+        "validation.fixationNotes",
+        "validation.notes",
+        "validation.antigenRetrievalType",
+        "validation.antigenRetrievalTime",
+        "validation.antigenRetrievalTemperature",
+        "validation.saponin",
+        "validation.saponinConcentration",
+        "validation.methanolTreatment",
+        "validation.methanolTreatmentConcentration",
+        "validation.surfaceStaining",
+        "validation.surfaceStainingConcentration",
+        "validation.createdAt",
+      ])
+      .where("validation.id = :id", { id: id })
+      .leftJoin("validation.clone", "clone")
+      .addSelect(["clone.id", "clone.name"])
+      .leftJoin("clone.protein", "protein")
+      .addSelect(["protein.id", "protein.name"])
+      .leftJoin("validation.lot", "lot")
+      .addSelect(["lot.id", "lot.name"])
+      .leftJoin("validation.conjugate", "conjugate")
+      .addSelect(["conjugate.id", "conjugate.tubeNumber"])
+      .leftJoin("validation.species", "species")
+      .addSelect(["species.id", "species.name"])
+      .leftJoin("validation.validationFiles", "validationFiles")
+      .addSelect(["validationFiles.id", "validationFiles.name"])
+      .leftJoin("validation.member", "member")
+      .leftJoinAndMapOne("validation.user", UserEntity, "user", "member.userId = user.id")
+      .getOne();
   }
 
   async update(id: number, params: UpdateValidationDto) {
@@ -86,13 +126,30 @@ export class ValidationService {
         "validation.positiveControl",
         "validation.negativeControl",
         "validation.status",
+        "validation.incubationConditions",
+        "validation.tissue",
+        "validation.concentration",
+        "validation.concentrationUnit",
+        "validation.fixation",
+        "validation.fixationNotes",
+        "validation.notes",
+        "validation.antigenRetrievalType",
+        "validation.antigenRetrievalTime",
+        "validation.antigenRetrievalTemperature",
+        "validation.saponin",
+        "validation.saponinConcentration",
+        "validation.methanolTreatment",
+        "validation.methanolTreatmentConcentration",
+        "validation.surfaceStaining",
+        "validation.surfaceStainingConcentration",
+        "validation.createdAt",
       ])
       .leftJoin("validation.clone", "clone")
       .addSelect(["clone.id", "clone.name"])
       .leftJoin("clone.protein", "protein")
       .addSelect(["protein.id", "protein.name"])
       .leftJoin("validation.lot", "lot")
-      .addSelect(["lot.id", "lot.number"])
+      .addSelect(["lot.id", "lot.name"])
       .leftJoin("validation.conjugate", "conjugate")
       .addSelect(["conjugate.id", "conjugate.tubeNumber"])
       .leftJoin("validation.species", "species")

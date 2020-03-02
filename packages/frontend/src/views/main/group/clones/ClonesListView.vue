@@ -142,7 +142,6 @@
       >
         <template v-slot:item.protein="{ item }">
           <router-link
-            v-if="item.protein"
             class="link"
             :to="{
               name: 'main-group-proteins-edit',

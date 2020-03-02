@@ -26,7 +26,6 @@
       </template>
       <template v-slot:item.lot.clone.protein="{ item }">
         <router-link
-          v-if="item.lot && item.lot.clone && item.lot.clone.protein"
           class="link"
           :to="{
             name: 'main-group-proteins-edit',
@@ -41,7 +40,6 @@
       </template>
       <template v-slot:item.lot.clone="{ item }">
         <router-link
-          v-if="item.lot && item.lot.clone"
           class="link"
           :to="{
             name: 'main-group-clones-edit',
@@ -56,7 +54,6 @@
       </template>
       <template v-slot:item.tag="{ item }">
         <router-link
-          v-if="item.tag"
           class="link"
           :to="{
             name: 'main-group-tags-edit',
@@ -71,7 +68,6 @@
       </template>
       <template v-slot:item.user="{ item }">
         <router-link
-          v-if="item.user"
           class="link"
           :to="{
             name: 'main-admin-users-edit',

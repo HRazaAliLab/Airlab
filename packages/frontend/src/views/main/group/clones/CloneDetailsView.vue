@@ -4,7 +4,7 @@
     <v-card-text>
       <v-tabs v-model="tab">
         <v-tab>Info</v-tab>
-        <v-tab>Validations</v-tab>
+        <v-tab v-if="validations.length > 0">Validations</v-tab>
         <v-tab-item>
           <CloneView :cloneId="clone.id" />
         </v-tab-item>

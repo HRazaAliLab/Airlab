@@ -22,6 +22,7 @@ import Vuetify, {
   VExpansionPanelContent,
   VDataIterator,
   VSheet,
+  VCheckbox,
 } from "vuetify/lib";
 
 Vue.use(Vuetify, {
@@ -48,6 +49,7 @@ Vue.use(Vuetify, {
     VExpansionPanelContent,
     VDataIterator,
     VSheet,
+    VCheckbox,
   },
 });
 

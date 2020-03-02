@@ -28,13 +28,9 @@
             >
               <div class="header"><span class="subheader">Lot:</span> {{ item.lot.name }}</div>
               <div class="content">
-                <div v-if="item.lot && item.lot.clone && item.lot.clone.protein">
-                  <span class="subheader">Protein:</span> {{ item.lot.clone.protein.name }}
-                </div>
-                <div v-if="item.lot && item.lot.clone">
-                  <span class="subheader">Clone:</span> {{ item.lot.clone.name }}
-                </div>
-                <div v-if="item.lot && item.lot.clone">
+                <div><span class="subheader">Protein:</span> {{ item.lot.clone.protein.name }}</div>
+                <div><span class="subheader">Clone:</span> {{ item.lot.clone.name }}</div>
+                <div>
                   <span class="subheader">Reactivity: </span>
                   <v-chip v-for="r of item.lot.clone.reactivity" :key="`${Math.random()}`" x-small label class="chip">
                     {{ props.speciesMap.get(r) ? props.speciesMap.get(r).acronym : "?" }}
