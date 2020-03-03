@@ -76,7 +76,7 @@ export class LotEntity {
   @Column({
     name: "status",
   })
-  status: string;
+  status: number;
 
   @Column({
     name: "purpose",

@@ -27,7 +27,7 @@ import { existsSync } from "fs";
 import { pseudoRandomBytes } from "crypto";
 import { extname } from "path";
 import { ValidationFileService } from "../validationFile/validationFile.service";
-import { UpdateArchiveStateDto } from "@airlab/shared/lib/core/dto";
+import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const multer = require("multer");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -116,7 +116,7 @@ export class ValidationController {
   @Patch("validations/:id/archive")
   @ApiOperation({ summary: "Set archive state for the entity." })
   @ApiOkResponse({ type: ValidationDto })
-  async updateArchiveState(@Request() req, @Param("id") id: number, @Body() params: UpdateArchiveStateDto) {
+  async updateArchiveState(@Request() req, @Param("id") id: number, @Body() params: UpdateStateDto) {
     const item = await this.validationService.findById(id);
     const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
     if (member.role < 100) {

@@ -67,32 +67,47 @@
                 item-value="id"
                 :rules="requiredRules"
                 dense
+                @change="resetLotId()"
               />
             </v-col>
             <v-col>
               <v-autocomplete
                 label="Lot"
                 v-model="lotId"
+                :search-input.sync="lotSearchInput"
                 :items="lots"
-                item-text="number"
+                item-text="name"
                 item-value="id"
-                :rules="requiredRules"
+                clearable
+                open-on-clear
                 dense
+                @change="resetConjugateId()"
               />
             </v-col>
             <v-col>
               <v-autocomplete
                 label="Conjugate"
                 v-model="conjugateId"
+                :search-input.sync="conjugateSearchInput"
                 :items="conjugates"
                 item-text="tubeNumber"
                 item-value="id"
-                :rules="requiredRules"
+                clearable
+                open-on-clear
                 dense
               />
             </v-col>
           </v-row>
-          <v-autocomplete label="Species" v-model="speciesId" :items="species" item-text="name" item-value="id" dense />
+          <v-autocomplete
+            label="Species"
+            v-model="speciesId"
+            :items="species"
+            item-text="name"
+            item-value="id"
+            clearable
+            open-on-clear
+            dense
+          />
           <v-row>
             <v-col>
               <v-text-field label="Positive control" v-model="positiveControl" :rules="requiredRules" />
@@ -113,7 +128,14 @@
               />
             </v-col>
             <v-col>
-              <v-select label="Units" v-model="concentrationUnit" :items="['dilution', 'ug/mL']" clearable dense />
+              <v-select
+                label="Units"
+                v-model="concentrationUnit"
+                :items="['dilution', 'ug/mL']"
+                clearable
+                open-on-clear
+                dense
+              />
             </v-col>
           </v-row>
           <v-row>
@@ -125,6 +147,7 @@
                 item-value="id"
                 item-text="name"
                 clearable
+                open-on-clear
                 dense
               />
             </v-col>
@@ -140,6 +163,7 @@
                 v-model="antigenRetrievalType"
                 :items="antigenRetrievalTypes"
                 clearable
+                open-on-clear
                 dense
               />
             </v-col>
@@ -268,16 +292,16 @@ import { UpdateValidationDto } from "@airlab/shared/lib/validation/dto";
 
 @Component
 export default class EditValidation extends Vue {
-  readonly groupContext = groupModule.context(this.$store);
-  readonly validationContext = validationModule.context(this.$store);
-  readonly cloneContext = cloneModule.context(this.$store);
-  readonly lotContext = lotModule.context(this.$store);
-  readonly conjugateContext = conjugateModule.context(this.$store);
-  readonly speciesContext = speciesModule.context(this.$store);
+  private readonly groupContext = groupModule.context(this.$store);
+  private readonly validationContext = validationModule.context(this.$store);
+  private readonly cloneContext = cloneModule.context(this.$store);
+  private readonly lotContext = lotModule.context(this.$store);
+  private readonly conjugateContext = conjugateModule.context(this.$store);
+  private readonly speciesContext = speciesModule.context(this.$store);
 
-  readonly requiredRules = [required];
+  private readonly requiredRules = [required];
 
-  readonly fixations = [
+  private readonly fixations = [
     { id: 0, name: "FFPE" },
     { id: 1, name: "OCT" },
     { id: 2, name: "Bouin" },
@@ -288,76 +312,98 @@ export default class EditValidation extends Vue {
     { id: 7, name: "Other" },
   ];
 
-  readonly antigenRetrievalTypes = ["HIER Buffer", "Sodium Citrate", "2-step Retrieval", "RNAScope"];
+  private readonly antigenRetrievalTypes = ["HIER Buffer", "Sodium Citrate", "2-step Retrieval", "RNAScope"];
 
-  valid = false;
-  cloneId: number | null = null;
-  lotId: number | null = null;
-  conjugateId: number | null = null;
-  speciesId: number | null = null;
-  application = "1";
-  positiveControl: string | null = null;
-  negativeControl: string | null = null;
-  incubationConditions: string | null = null;
-  concentration: string | null = null;
-  concentrationUnit: string | null = null;
-  tissue: string | null = null;
-  fixation: number | null = null;
-  fixationNotes: string | null = null;
-  notes: string | null = null;
-  status = "3";
-  antigenRetrievalType: string | null = null;
-  antigenRetrievalTime: string | null = null;
-  antigenRetrievalTemperature: string | null = null;
-  saponin = "null";
-  saponinConcentration: string | null = null;
-  methanolTreatment = "null";
-  methanolTreatmentConcentration: string | null = null;
-  surfaceStaining = "null";
-  surfaceStainingConcentration: string | null = null;
+  private valid = false;
+  private cloneId: number | null = null;
+  private lotId: number | null = null;
+  private lotSearchInput = "";
+  private conjugateId: number | null = null;
+  private conjugateSearchInput = "";
+  private speciesId: number | null = null;
+  private application = "1";
+  private positiveControl: string | null = null;
+  private negativeControl: string | null = null;
+  private incubationConditions: string | null = null;
+  private concentration: string | null = null;
+  private concentrationUnit: string | null = null;
+  private tissue: string | null = null;
+  private fixation: number | null = null;
+  private fixationNotes: string | null = null;
+  private notes: string | null = null;
+  private status = "3";
+  private antigenRetrievalType: string | null = null;
+  private antigenRetrievalTime: string | null = null;
+  private antigenRetrievalTemperature: string | null = null;
+  private saponin = "null";
+  private saponinConcentration: string | null = null;
+  private methanolTreatment = "null";
+  private methanolTreatmentConcentration: string | null = null;
+  private surfaceStaining = "null";
+  private surfaceStainingConcentration: string | null = null;
 
-  file: File | null = null;
+  private file: File | null = null;
 
-  get activeGroupId() {
+  private get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
   }
 
-  get clones() {
+  private get clones() {
     return this.cloneContext.getters.clones;
   }
 
-  get lots() {
-    return this.lotContext.getters.lots;
+  private get lots() {
+    let items = this.lotContext.getters.lots;
+    if (this.cloneId) {
+      items = items.filter(item => item.cloneId === this.cloneId);
+    }
+    return items;
   }
 
-  get conjugates() {
-    return this.conjugateContext.getters.conjugates;
+  private get conjugates() {
+    let items = this.conjugateContext.getters.conjugates;
+    if (this.lotId) {
+      items = items.filter(item => item.lotId === this.lotId);
+    }
+    return items;
   }
 
-  get species() {
+  private get species() {
     return this.speciesContext.getters.species;
   }
 
-  get validation() {
+  private get validation() {
     return this.validationContext.getters.getValidation(+this.$router.currentRoute.params.id);
   }
 
-  get validationFiles() {
+  private get validationFiles() {
     return this.validation && (this.validation as any).validationFiles ? (this.validation as any).validationFiles : [];
   }
 
-  cancel() {
+  private resetLotId() {
+    this.lotId = null;
+    this.lotSearchInput = "";
+    this.conjugateId = null;
+    this.conjugateSearchInput = "";
+  }
+
+  private resetConjugateId() {
+    this.conjugateId = null;
+    this.conjugateSearchInput = "";
+  }
+
+  private cancel() {
     this.$router.back();
   }
 
-  reset() {
+  private reset() {
     if (this.$refs.form) {
       (this.$refs.form as any).resetValidation();
     }
     if (this.validation) {
-      this.cloneId = this.validation.cloneId;
-      this.lotId = this.validation.lotId;
-      this.conjugateId = this.validation.conjugateId;
+      this.cloneId = (this.validation as any).clone.id;
+      this.lotId = (this.validation as any).lot ? (this.validation as any).lot.id : null;
+      this.conjugateId = (this.validation as any).conjugate ? (this.validation as any).conjugate.id : null;
       this.speciesId = this.validation.speciesId;
       this.application = this.validation.application.toString();
       this.positiveControl = this.validation.positiveControl;
@@ -392,13 +438,13 @@ export default class EditValidation extends Vue {
     }
   }
 
-  async submit() {
+  private async submit() {
     if ((this.$refs.form as any).validate() && this.validation && this.cloneId) {
       const data: UpdateValidationDto = {
         cloneId: this.cloneId,
-        lotId: this.lotId,
-        conjugateId: this.conjugateId,
-        speciesId: this.speciesId,
+        lotId: this.lotId ? this.lotId : null,
+        conjugateId: this.conjugateId ? this.conjugateId : null,
+        speciesId: this.speciesId ? this.speciesId : null,
         application: Number(this.application),
         positiveControl: this.positiveControl,
         negativeControl: this.negativeControl,
@@ -428,7 +474,7 @@ export default class EditValidation extends Vue {
     }
   }
 
-  async upload() {
+  private async upload() {
     if (this.activeGroupId && this.validation && this.file) {
       const formData = new FormData();
       formData.append("groupId", this.activeGroupId.toString());
@@ -442,7 +488,7 @@ export default class EditValidation extends Vue {
     }
   }
 
-  async deleteFile(file) {
+  private async deleteFile(file) {
     if (self.confirm("Are you sure you want to delete the validation file?")) {
       await this.validationContext.actions.deleteValidationFile(file.id);
       await this.validationContext.actions.getValidation(+this.$router.currentRoute.params.id);

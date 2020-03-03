@@ -9,6 +9,8 @@
         :items-per-page="-1"
         hide-default-footer
         disable-pagination
+        disable-filtering
+        disable-sort
         @item-selected="
           ({ item, value }) => {
             props.onSelected(props.tag.id, item, value);
@@ -53,11 +55,11 @@ import { SpeciesDto } from "@airlab/shared/lib/species/dto";
 
 @Component
 export default class MetalExpansionPanel extends Vue {
-  @Prop(Array) conjugates!: ConjugateDto[];
-  @Prop(Map) speciesMap!: Map<number, SpeciesDto>;
-  @Prop(Object) tag!: TagDto;
-  @Prop(Array) selectedConjugates!: ConjugateDto[];
-  @Prop(Function) onSelected;
+  @Prop({ type: Array, required: true }) readonly conjugates!: ConjugateDto[];
+  @Prop({ type: Map, required: true }) readonly speciesMap!: Map<number, SpeciesDto>;
+  @Prop({ type: Object, required: true }) readonly tag!: TagDto;
+  @Prop({ type: Array, required: true }) readonly selectedConjugates!: ConjugateDto[];
+  @Prop({ type: Function, required: true }) readonly onSelected;
 
   getConjugateColor(conjugate: ConjugateDto, isSelected: boolean) {
     const isOver = conjugate.status === 2;

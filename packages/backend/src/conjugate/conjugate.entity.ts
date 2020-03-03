@@ -36,6 +36,16 @@ export class ConjugateEntity {
   tagId: number;
 
   @Column({
+    name: "labeled_by",
+  })
+  labeledBy: number;
+
+  @Column({
+    name: "finished_by",
+  })
+  finishedBy: number;
+
+  @Column({
     name: "status",
   })
   status: number;
@@ -48,7 +58,7 @@ export class ConjugateEntity {
   @Column({
     name: "concentration",
   })
-  concentration: string;
+  concentration: number;
 
   @Column({
     name: "description",
@@ -67,9 +77,9 @@ export class ConjugateEntity {
   meta: object;
 
   @Column({
-    name: "labeled_at",
+    name: "finished_at",
   })
-  labeledAt: string;
+  finishedAt: string;
 
   @Column({
     name: "created_at",
@@ -91,6 +101,14 @@ export class ConjugateEntity {
   @ManyToOne(type => MemberEntity)
   @JoinColumn({ name: "created_by" })
   member: MemberEntity;
+
+  @ManyToOne(type => MemberEntity)
+  @JoinColumn({ name: "labeled_by" })
+  labeledByMember: MemberEntity;
+
+  @ManyToOne(type => MemberEntity)
+  @JoinColumn({ name: "finished_by" })
+  finishedByMember: MemberEntity;
 
   user: UserEntity;
 

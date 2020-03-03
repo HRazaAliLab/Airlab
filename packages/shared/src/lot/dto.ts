@@ -1,4 +1,4 @@
-import { IsInt, IsOptional, IsString, IsUrl } from "class-validator";
+import { IsIn, IsInt, IsOptional, IsString, IsUrl } from "class-validator";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class LotDto {
@@ -42,7 +42,7 @@ export class LotDto {
   readonly number: string;
 
   @ApiProperty()
-  readonly status: string;
+  readonly status: number;
 
   @ApiProperty()
   readonly purpose: string;
@@ -89,7 +89,6 @@ export class LotDto {
 
 export class CreateLotDto {
   readonly createdBy?: number;
-  readonly status?: string;
 
   @IsInt()
   @ApiProperty()
@@ -137,11 +136,6 @@ export class CreateLotDto {
 }
 
 export class UpdateLotDto {
-  @IsString()
-  @IsOptional()
-  @ApiPropertyOptional()
-  readonly status?: string;
-
   @IsInt()
   @ApiProperty()
   readonly cloneId: number;
@@ -181,4 +175,10 @@ export class UpdateLotDto {
   @IsOptional()
   @ApiPropertyOptional()
   readonly note?: string | null;
+}
+
+export class UpdateLotStatusDto {
+  @IsInt()
+  @ApiProperty()
+  readonly status: number;
 }

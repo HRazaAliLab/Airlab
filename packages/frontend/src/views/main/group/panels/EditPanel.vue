@@ -51,11 +51,20 @@
       <v-card-text>
         <v-toolbar dense class="mb-2" elevation="1">
           <template>
+            <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Search by clone name"
+              dense
+              single-line
+              hide-details
+              clearable
+            />
             <v-spacer />
             <v-switch v-model="showEmpty" label="Show empty" hide-details inset class="ml-6" />
           </template>
         </v-toolbar>
-        <v-expansion-panels v-model="expanded" multiple>
+        <v-expansion-panels v-model="expanded" multiple tile>
           <MetalExpansionPanel
             v-for="metal in metals"
             :key="metal.id"
@@ -94,44 +103,39 @@ type ConjugatePanelData = {
   components: { MetalExpansionPanel },
 })
 export default class EditPanel extends Vue {
-  readonly groupContext = groupModule.context(this.$store);
-  readonly panelContext = panelModule.context(this.$store);
-  readonly conjugateContext = conjugateModule.context(this.$store);
-  readonly tagContext = tagModule.context(this.$store);
-  readonly speciesContext = speciesModule.context(this.$store);
+  private readonly groupContext = groupModule.context(this.$store);
+  private readonly panelContext = panelModule.context(this.$store);
+  private readonly conjugateContext = conjugateModule.context(this.$store);
+  private readonly tagContext = tagModule.context(this.$store);
+  private readonly speciesContext = speciesModule.context(this.$store);
 
-  readonly nameRules = [required];
-  readonly descriptionRules = [];
+  private readonly nameRules = [required];
+  private readonly descriptionRules = [];
 
-  readonly keys = [
-    { id: "tubeNumber", title: "Tube Number" },
-    { id: "concentration", title: "Concentration" },
-    { id: "description", title: "Description" },
-  ];
+  private fab = false;
+  private showEmpty = false;
+  private search: string | null = null;
 
-  fab = false;
-  showEmpty = false;
+  private valid = false;
+  private name = "";
+  private description = "";
+  private application: string | null = null;
+  private isFluorophore = false;
+  private isLocked = false;
+  private selectedTagConjugates = new Map<number, Set<ConjugateDto>>();
+  private conjugatePanelData = new Map<number, ConjugatePanelData>();
 
-  valid = false;
-  name = "";
-  description = "";
-  application: string | null = null;
-  isFluorophore = false;
-  isLocked = false;
-  selectedTagConjugates = new Map<number, Set<ConjugateDto>>();
-  conjugatePanelData = new Map<number, ConjugatePanelData>();
+  private expanded: number[] = []; // this.metals.map((k, i) => i);
 
-  expanded: number[] = []; // this.metals.map((k, i) => i);
-
-  get activeGroupId() {
+  private get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
   }
 
-  get metals() {
+  private get metals() {
     return Object.freeze(this.tagContext.getters.metals);
   }
 
-  get speciesMap() {
+  private get speciesMap() {
     const map = new Map<number, SpeciesDto>();
     for (const s of this.speciesContext.getters.species) {
       map.set(s.id, s);
@@ -139,36 +143,41 @@ export default class EditPanel extends Vue {
     return Object.freeze(map);
   }
 
-  get panel() {
+  private get panel() {
     return this.panelContext.getters.getPanel(+this.$router.currentRoute.params.id);
   }
 
-  get conjugates() {
-    return this.showEmpty
+  private get conjugates() {
+    let items = this.showEmpty
       ? Object.freeze(this.conjugateContext.getters.conjugates)
       : Object.freeze(this.conjugateContext.getters.conjugates.filter(item => item.status !== 2));
+    if (this.search !== null) {
+      const normalizedSearchTerm = this.search.toLowerCase().trim();
+      items = items.filter(item => (item as any).lot.clone.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1);
+    }
+    return items;
   }
 
-  getInitialState(tagId: number) {
+  private getInitialState(tagId: number) {
     const items = this.selectedTagConjugates.get(tagId);
     return items ? [...items] : [];
   }
 
-  getTagConjugates(tagId: number) {
+  private getTagConjugates(tagId: number) {
     return this.conjugates.filter(item => item.tagId === tagId);
   }
 
-  onScroll(e) {
+  private onScroll(e) {
     if (typeof window === "undefined") return;
     const top = window.pageYOffset || e.target.scrollTop || 0;
     this.fab = top > 20;
   }
 
-  toTop() {
+  private toTop() {
     this.$vuetify.goTo(0);
   }
 
-  congugateSelected(tagId: number, conjugate: ConjugateDto, isSelected: boolean) {
+  private congugateSelected(tagId: number, conjugate: ConjugateDto, isSelected: boolean) {
     let conjugatesSet = this.selectedTagConjugates.get(tagId);
     if (!conjugatesSet) {
       conjugatesSet = new Set<ConjugateDto>();
@@ -181,11 +190,11 @@ export default class EditPanel extends Vue {
     }
   }
 
-  cancel() {
+  private cancel() {
     this.$router.back();
   }
 
-  reset() {
+  private reset() {
     if (this.$refs.form) {
       (this.$refs.form as any).resetValidation();
     }
@@ -220,7 +229,7 @@ export default class EditPanel extends Vue {
     }
   }
 
-  async submit() {
+  private async submit() {
     if ((this.$refs.form as any).validate() && this.panel) {
       const elements: PanelElementDataDto[] = [];
       this.selectedTagConjugates.forEach((set: Set<ConjugateDto>, key, map) => {

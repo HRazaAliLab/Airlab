@@ -24,7 +24,7 @@ import {
 import { MemberService } from "../member/member.service";
 import { PanelElementService } from "../panelElement/panelElement.service";
 import { ConjugateService } from "../conjugate/conjugate.service";
-import { UpdateArchiveStateDto } from "@airlab/shared/lib/core/dto";
+import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
@@ -67,7 +67,7 @@ export class PanelController {
   @Patch("panels/:id/archive")
   @ApiOperation({ summary: "Set archive state for the entity." })
   @ApiOkResponse({ type: PanelDto })
-  async updateArchiveState(@Request() req, @Param("id") id: number, @Body() params: UpdateArchiveStateDto) {
+  async updateArchiveState(@Request() req, @Param("id") id: number, @Body() params: UpdateStateDto) {
     const item = await this.panelService.findById(id);
     const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
     if (member.role < 100) {

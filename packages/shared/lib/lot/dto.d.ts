@@ -12,7 +12,7 @@ export declare class LotDto {
     readonly receivedBy: number;
     readonly finishedBy: number;
     readonly number: string;
-    readonly status: string;
+    readonly status: number;
     readonly purpose: string;
     readonly url: string;
     readonly price: string;
@@ -30,7 +30,6 @@ export declare class LotDto {
 }
 export declare class CreateLotDto {
     readonly createdBy?: number;
-    readonly status?: string;
     readonly groupId: number;
     readonly cloneId: number;
     readonly providerId: number;
@@ -43,7 +42,6 @@ export declare class CreateLotDto {
     readonly note?: string | null;
 }
 export declare class UpdateLotDto {
-    readonly status?: string;
     readonly cloneId: number;
     readonly providerId: number;
     readonly name: string;
@@ -53,5 +51,8 @@ export declare class UpdateLotDto {
     readonly purpose: string | null;
     readonly price?: string | null;
     readonly note?: string | null;
+}
+export declare class UpdateLotStatusDto {
+    readonly status: number;
 }
 //# sourceMappingURL=dto.d.ts.map

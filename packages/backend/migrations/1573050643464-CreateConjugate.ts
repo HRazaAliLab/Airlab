@@ -21,6 +21,16 @@ export class CreateConjugate1573050643464 implements MigrationInterface {
             type: "int",
           },
           {
+            name: "labeled_by",
+            type: "int",
+            isNullable: true,
+          },
+          {
+            name: "finished_by",
+            type: "int",
+            isNullable: true,
+          },
+          {
             name: "lot_id",
             type: "int",
           },
@@ -41,12 +51,17 @@ export class CreateConjugate1573050643464 implements MigrationInterface {
           },
           {
             name: "concentration",
-            type: "varchar",
+            type: "real",
             isNullable: true,
           },
           {
             name: "description",
             type: "varchar",
+            isNullable: true,
+          },
+          {
+            name: "finished_at",
+            type: "timestamptz",
             isNullable: true,
           },
           {
@@ -57,12 +72,6 @@ export class CreateConjugate1573050643464 implements MigrationInterface {
           {
             name: "meta",
             type: "jsonb",
-            isNullable: true,
-          },
-          {
-            name: "labeled_at",
-            type: "timestamptz",
-            default: "NOW()",
             isNullable: true,
           },
           {
@@ -102,6 +111,20 @@ export class CreateConjugate1573050643464 implements MigrationInterface {
             name: "FK_conjugate_to_tag",
             referencedTableName: "tag",
             columnNames: ["tag_id"],
+            referencedColumnNames: ["id"],
+            onDelete: "cascade",
+          },
+          {
+            name: "FK_conjugate_labeled_by_to_member",
+            referencedTableName: "member",
+            columnNames: ["labeled_by"],
+            referencedColumnNames: ["id"],
+            onDelete: "cascade",
+          },
+          {
+            name: "FK_conjugate_finished_by_to_member",
+            referencedTableName: "member",
+            columnNames: ["finished_by"],
             referencedColumnNames: ["id"],
             onDelete: "cascade",
           },

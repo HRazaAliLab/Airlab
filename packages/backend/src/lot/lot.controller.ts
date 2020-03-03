@@ -17,7 +17,7 @@ import { CreateLotDto, LotDto, UpdateLotDto } from "@airlab/shared/lib/lot/dto";
 import { MemberService } from "../member/member.service";
 import { ConjugateService } from "../conjugate/conjugate.service";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
-import { UpdateArchiveStateDto } from "@airlab/shared/lib/core/dto";
+import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
@@ -35,7 +35,7 @@ export class LotController {
   @ApiCreatedResponse({ type: LotDto })
   async create(@Request() req, @Body() params: CreateLotDto) {
     const member = await this.memberService.checkMemberPermissions(req.user.userId, params.groupId);
-    return this.lotService.create({ ...params, createdBy: member.id, status: "requested" });
+    return this.lotService.create({ ...params, createdBy: member.id, status: 0 });
   }
 
   @Get("lots/:id")
@@ -59,7 +59,7 @@ export class LotController {
   @Patch("lots/:id/archive")
   @ApiOperation({ summary: "Set archive state for the entity." })
   @ApiOkResponse({ type: LotDto })
-  async updateArchiveState(@Request() req, @Param("id") id: number, @Body() params: UpdateArchiveStateDto) {
+  async updateArchiveState(@Request() req, @Param("id") id: number, @Body() params: UpdateStateDto) {
     const item = await this.lotService.findById(id);
     const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
     if (member.role < 100) {

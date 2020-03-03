@@ -70,7 +70,9 @@ export class CreateLot1573049366335 implements MigrationInterface {
           },
           {
             name: "status",
-            type: "varchar",
+            type: "smallint",
+            unsigned: true,
+            default: 0,
           },
           {
             name: "purpose",

@@ -67,32 +67,47 @@
                 item-value="id"
                 :rules="requiredRules"
                 dense
+                @change="resetLotId()"
               />
             </v-col>
             <v-col>
               <v-autocomplete
                 label="Lot"
                 v-model="lotId"
+                :search-input.sync="lotSearchInput"
                 :items="lots"
-                item-text="number"
+                item-text="name"
                 item-value="id"
-                :rules="requiredRules"
+                clearable
+                open-on-clear
                 dense
+                @change="resetConjugateId()"
               />
             </v-col>
             <v-col>
               <v-autocomplete
                 label="Conjugate"
                 v-model="conjugateId"
+                :search-input.sync="conjugateSearchInput"
                 :items="conjugates"
                 item-text="tubeNumber"
                 item-value="id"
-                :rules="requiredRules"
+                clearable
+                open-on-clear
                 dense
               />
             </v-col>
           </v-row>
-          <v-autocomplete label="Species" v-model="speciesId" :items="species" item-text="name" item-value="id" dense />
+          <v-autocomplete
+            label="Species"
+            v-model="speciesId"
+            :items="species"
+            item-text="name"
+            item-value="id"
+            clearable
+            open-on-clear
+            dense
+          />
           <v-row>
             <v-col>
               <v-text-field label="Positive control" v-model="positiveControl" :rules="requiredRules" />
@@ -113,7 +128,14 @@
               />
             </v-col>
             <v-col>
-              <v-select label="Units" v-model="concentrationUnit" :items="['dilution', 'ug/mL']" clearable dense />
+              <v-select
+                label="Units"
+                v-model="concentrationUnit"
+                :items="['dilution', 'ug/mL']"
+                clearable
+                open-on-clear
+                dense
+              />
             </v-col>
           </v-row>
           <v-row>
@@ -125,6 +147,7 @@
                 item-value="id"
                 item-text="name"
                 clearable
+                open-on-clear
                 dense
               />
             </v-col>
@@ -140,6 +163,7 @@
                 v-model="antigenRetrievalType"
                 :items="antigenRetrievalTypes"
                 clearable
+                open-on-clear
                 dense
               />
             </v-col>
@@ -253,7 +277,9 @@ export default class CreateValidation extends Vue {
   valid = false;
   cloneId: number | null = null;
   lotId: number | null = null;
+  private lotSearchInput = "";
   conjugateId: number | null = null;
+  private conjugateSearchInput = "";
   speciesId: number | null = null;
   application = "1";
   positiveControl: string | null = null;
@@ -285,15 +311,35 @@ export default class CreateValidation extends Vue {
   }
 
   get lots() {
-    return this.lotContext.getters.lots;
+    let items = this.lotContext.getters.lots;
+    if (this.cloneId) {
+      items = items.filter(item => item.cloneId === this.cloneId);
+    }
+    return items;
   }
 
   get conjugates() {
-    return this.conjugateContext.getters.conjugates;
+    let items = this.conjugateContext.getters.conjugates;
+    if (this.lotId) {
+      items = items.filter(item => item.lotId === this.lotId);
+    }
+    return items;
   }
 
   get species() {
     return this.speciesContext.getters.species;
+  }
+
+  private resetLotId() {
+    this.lotId = null;
+    this.lotSearchInput = "";
+    this.conjugateId = null;
+    this.conjugateSearchInput = "";
+  }
+
+  private resetConjugateId() {
+    this.conjugateId = null;
+    this.conjugateSearchInput = "";
   }
 
   cancel() {
@@ -302,8 +348,10 @@ export default class CreateValidation extends Vue {
 
   reset() {
     this.cloneId = this.$router.currentRoute.params.cloneId ? +this.$router.currentRoute.params.cloneId : null;
-    this.lotId = null;
+    this.lotId = this.$router.currentRoute.params.lotId ? +this.$router.currentRoute.params.lotId : null;
+    this.lotSearchInput = "";
     this.conjugateId = null;
+    this.conjugateSearchInput = "";
     this.speciesId = null;
     this.application = "1";
     this.positiveControl = null;
@@ -343,9 +391,9 @@ export default class CreateValidation extends Vue {
       const data: CreateValidationDto = {
         groupId: this.activeGroupId,
         cloneId: this.cloneId,
-        lotId: this.lotId,
-        conjugateId: this.conjugateId,
-        speciesId: this.speciesId,
+        lotId: this.lotId ? this.lotId : null,
+        conjugateId: this.conjugateId ? this.conjugateId : null,
+        speciesId: this.speciesId ? this.speciesId : null,
         application: Number(this.application),
         positiveControl: this.positiveControl,
         negativeControl: this.negativeControl,

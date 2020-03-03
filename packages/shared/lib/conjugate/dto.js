@@ -28,6 +28,14 @@ __decorate([
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Number)
+], ConjugateDto.prototype, "labeledBy", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Number)
+], ConjugateDto.prototype, "finishedBy", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Number)
 ], ConjugateDto.prototype, "lotId", void 0);
 __decorate([
     swagger_1.ApiProperty(),
@@ -43,7 +51,7 @@ __decorate([
 ], ConjugateDto.prototype, "tubeNumber", void 0);
 __decorate([
     swagger_1.ApiProperty(),
-    __metadata("design:type", String)
+    __metadata("design:type", Number)
 ], ConjugateDto.prototype, "concentration", void 0);
 __decorate([
     swagger_1.ApiProperty(),
@@ -89,13 +97,19 @@ __decorate([
 ], CreateConjugateDto.prototype, "tagId", void 0);
 __decorate([
     class_validator_1.IsInt(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiPropertyOptional(),
+    __metadata("design:type", Number)
+], CreateConjugateDto.prototype, "labeledBy", void 0);
+__decorate([
+    class_validator_1.IsInt(),
     swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], CreateConjugateDto.prototype, "tubeNumber", void 0);
 __decorate([
-    class_validator_1.IsString(),
+    class_validator_1.IsNumber(),
     swagger_1.ApiProperty(),
-    __metadata("design:type", String)
+    __metadata("design:type", Number)
 ], CreateConjugateDto.prototype, "concentration", void 0);
 __decorate([
     class_validator_1.IsString(),
@@ -117,13 +131,19 @@ __decorate([
 ], UpdateConjugateDto.prototype, "tagId", void 0);
 __decorate([
     class_validator_1.IsInt(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiPropertyOptional(),
+    __metadata("design:type", Number)
+], UpdateConjugateDto.prototype, "labeledBy", void 0);
+__decorate([
+    class_validator_1.IsInt(),
     swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], UpdateConjugateDto.prototype, "tubeNumber", void 0);
 __decorate([
-    class_validator_1.IsString(),
+    class_validator_1.IsNumber(),
     swagger_1.ApiProperty(),
-    __metadata("design:type", String)
+    __metadata("design:type", Number)
 ], UpdateConjugateDto.prototype, "concentration", void 0);
 __decorate([
     class_validator_1.IsString(),

@@ -18,7 +18,7 @@
             label="Lot"
             v-model="lotId"
             :items="lots"
-            item-text="number"
+            item-text="name"
             item-value="id"
             :rules="lotRules"
             dense

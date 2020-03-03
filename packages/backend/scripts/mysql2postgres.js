@@ -329,6 +329,27 @@ async function migrateLot() {
 
     const price = meta && meta.price ? meta.price : null;
     const note = meta && meta.note ? meta.note : meta && meta.ote ? meta.ote : null;
+    let status = row["tubFinishedBy"] !== 0 ? 5 : 0;
+    switch (row["reiStatus"]) {
+      case "requested":
+        status = 0;
+        break;
+      case "approved":
+        status = 1;
+        break;
+      case "rejected":
+        status = 2;
+        break;
+      case "ordered":
+        status = 3;
+        break;
+      case "stock":
+        status = 4;
+        break;
+      case "finished":
+        status = 5;
+        break;
+    }
 
     const values = [
       row["reiReagentInstanceId"],
@@ -344,7 +365,7 @@ async function migrateLot() {
       [0, 76, 90].includes(row["reiReceivedBy"]) ? null : row["reiReceivedBy"],
       [0, 76, 90].includes(row["tubFinishedBy"]) ? null : row["tubFinishedBy"],
       row["lotNumber"],
-      row["reiStatus"],
+      status,
       row["reiPurpose"],
       row["lotDataSheetLink"] === "0" ? null : row["lotDataSheetLink"],
       row["reiRequestedAt"] === "" || row["reiRequestedAt"] === null || row["reiRequestedAt"] === "0"
@@ -387,28 +408,84 @@ async function migrateConjugate() {
     }
 
     const sql =
-      'INSERT INTO "conjugate"(id, group_id, created_by, lot_id, tag_id, status, tube_number, concentration, is_archived, description, labeled_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)';
+      'INSERT INTO "conjugate"(id, group_id, created_by, labeled_by, finished_by, lot_id, tag_id, status, tube_number, concentration, is_archived, description, created_at, finished_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)';
 
     const status = row["tubFinishedBy"] > 0 ? 2 : row["tubIsLow"] !== 0 ? 1 : 0;
+
+    const dateOfLabeling =
+      row["labDateOfLabeling"] === "" || row["labDateOfLabeling"] === null || row["labDateOfLabeling"] === "0"
+        ? new Date().toISOString()
+        : row["labDateOfLabeling"]
+            .replace("0000", "")
+            .replace("0100", "")
+            .replace("0200", "")
+            .trim();
+
+    let concentration = row["labConcentration"] ? row["labConcentration"] : null;
+    if (concentration === "m" || concentration === "-" || concentration === "?") {
+      concentration = null;
+    }
+    if (concentration !== null) {
+      try {
+        concentration = Number(
+          concentration
+            .replace("mg/ml", "")
+            .replace("mg/mL", "")
+            .replace("µg/ml", "")
+            .replace("Âµg/ml", "")
+            .replace("Âµg/mL", "")
+            .replace("ug", "")
+            .trim()
+        );
+      } catch (e) {
+        concentration = null;
+      }
+    }
+
+    const description =
+      row["catchedInfo"] === 0 || row["catchedInfo"] === "0" || row["catchedInfo"] === "" ? null : row["catchedInfo"];
+
+    let labeledBy = [0, "HJ", "FP", "BB", "", null].includes(row["labContributorId"]) ? null : row["labContributorId"];
+    if (labeledBy) {
+      labeledBy = Number(labeledBy);
+      const memberInput = await postgresPool.query(`SELECT * FROM member WHERE user_id=${labeledBy}`);
+      if (memberInput.rows.length > 0) {
+        const row = memberInput.rows[0];
+        labeledBy = row["id"];
+      } else {
+        labeledBy = null;
+      }
+    }
+
+    let finishedBy = [0].includes(row["tubFinishedBy"]) ? null : row["tubFinishedBy"];
+    if (finishedBy) {
+      finishedBy = Number(finishedBy);
+      const memberInput = await postgresPool.query(`SELECT * FROM member WHERE id=${finishedBy}`);
+      if (memberInput.rows.length > 0) {
+        const row = memberInput.rows[0];
+        finishedBy = row["id"];
+      } else {
+        finishedBy = null;
+      }
+    }
 
     const values = [
       row["labLabeledAntibodyId"],
       row["groupId"],
       [0].includes(row["createdBy"]) ? 5 : row["createdBy"],
+      labeledBy,
+      finishedBy,
       row["labLotId"],
       row["labTagId"],
       status,
       row["labBBTubeNumber"],
-      row["labConcentration"],
+      concentration,
       row["deleted"],
-      row["catchedInfo"],
-      row["labDateOfLabeling"] === "" || row["labDateOfLabeling"] === null || row["labDateOfLabeling"] === "0"
+      description,
+      dateOfLabeling,
+      row["tubFinishedAt"] === "" || row["tubFinishedAt"] === null || row["tubFinishedAt"] === "0"
         ? null
-        : row["labDateOfLabeling"]
-            .replace("0000", "")
-            .replace("0100", "")
-            .replace("0200", "")
-            .trim(),
+        : row["tubFinishedAt"].replace("0000", "").trim(),
     ];
     await postgresPool.query(sql, values);
   }

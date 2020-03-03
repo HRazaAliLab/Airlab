@@ -2,8 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { LotEntity } from "./lot.entity";
-import { CreateLotDto, UpdateLotDto } from "@airlab/shared/lib/lot/dto";
-import { UpdateArchiveStateDto } from "@airlab/shared/lib/core/dto";
+import { CreateLotDto, UpdateLotDto, UpdateLotStatusDto } from "@airlab/shared/lib/lot/dto";
+import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
 
 @Injectable()
 export class LotService {
@@ -14,7 +14,13 @@ export class LotService {
 
   async create(params: CreateLotDto) {
     await this.clearCache(params.groupId);
-    return this.repository.save(params);
+    const now = new Date().toISOString();
+    return this.repository.save({
+      ...params,
+      requestedBy: params.createdBy,
+      requestedAt: now,
+      updatedAt: now,
+    });
   }
 
   async findById(id: number) {
@@ -42,8 +48,65 @@ export class LotService {
     return result.affected === 1 ? id : undefined;
   }
 
-  async updateArchiveState(id: number, params: UpdateArchiveStateDto) {
-    await this.repository.update(id, { isArchived: params.isArchived, updatedAt: new Date().toISOString() });
+  async updateArchiveState(id: number, params: UpdateStateDto) {
+    await this.repository.update(id, { isArchived: params.state, updatedAt: new Date().toISOString() });
+    const item = await this.findById(id);
+    await this.clearCache(item.groupId);
+    return item;
+  }
+
+  async updateStatus(id: number, memberId: number, params: UpdateLotStatusDto) {
+    const now = new Date().toISOString();
+    let values = {};
+    switch (params.status) {
+      case 0:
+        values = {
+          status: params.status,
+          requestedBy: memberId,
+          requestedAt: now,
+          updatedAt: now,
+        };
+        break;
+      case 1:
+        values = {
+          status: params.status,
+          approvedBy: memberId,
+          approvedAt: now,
+          updatedAt: now,
+        };
+        break;
+      case 2:
+        values = {
+          status: params.status,
+          updatedAt: now,
+        };
+        break;
+      case 3:
+        values = {
+          status: params.status,
+          orderedBy: memberId,
+          orderedAt: now,
+          updatedAt: now,
+        };
+        break;
+      case 4:
+        values = {
+          status: params.status,
+          receivedBy: memberId,
+          receivedAt: now,
+          updatedAt: now,
+        };
+        break;
+      case 5:
+        values = {
+          status: params.status,
+          finishedBy: memberId,
+          finishedAt: now,
+          updatedAt: now,
+        };
+        break;
+    }
+    await this.repository.update(id, values);
     const item = await this.findById(id);
     await this.clearCache(item.groupId);
     return item;

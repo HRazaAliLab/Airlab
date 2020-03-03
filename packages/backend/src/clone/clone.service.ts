@@ -3,7 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CloneEntity } from "./clone.entity";
 import { CreateCloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
-import { UpdateArchiveStateDto } from "@airlab/shared/lib/core/dto";
+import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
 
 @Injectable()
 export class CloneService {
@@ -42,8 +42,8 @@ export class CloneService {
     return result.affected === 1 ? id : undefined;
   }
 
-  async updateArchiveState(id: number, params: UpdateArchiveStateDto) {
-    await this.repository.update(id, { isArchived: params.isArchived, updatedAt: new Date().toISOString() });
+  async updateArchiveState(id: number, params: UpdateStateDto) {
+    await this.repository.update(id, { isArchived: params.state, updatedAt: new Date().toISOString() });
     const item = await this.findById(id);
     await this.clearCache(item.groupId);
     return item;
