@@ -16,9 +16,9 @@
   },
   "dependencies": {
     "@airlab/shared": "*",
-    "@nestjs/common": "6.11.8",
-    "@nestjs/core": "6.11.8",
-    "@nestjs/microservices": "6.11.8",
+    "@nestjs/common": "6.11.11",
+    "@nestjs/core": "6.11.11",
+    "@nestjs/microservices": "6.11.11",
     "amqp-connection-manager": "3.2.0",
     "amqplib": "0.5.5",
     "cache-manager": "3.1.0",
@@ -32,7 +32,7 @@
   "devDependencies": {
     "@nestjs/cli": "6.14.2",
     "@nestjs/schematics": "6.9.4",
-    "@nestjs/testing": "6.11.8",
+    "@nestjs/testing": "6.11.11",
     "@types/dotenv": "8.2.0",
     "@types/node": "12.12.28",
     "@types/nodemailer": "6.4.0",

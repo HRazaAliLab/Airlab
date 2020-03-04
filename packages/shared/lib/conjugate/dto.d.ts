@@ -1,3 +1,4 @@
+import { ConjugateStatus } from "./ConjugateStatus";
 export declare class ConjugateDto {
     readonly id: number;
     readonly groupId: number;
@@ -22,17 +23,17 @@ export declare class CreateConjugateDto {
     readonly lotId: number;
     readonly tagId: number;
     readonly labeledBy: number | null;
-    readonly tubeNumber: number;
-    readonly concentration: number;
+    readonly concentration: number | null;
     readonly description: string;
 }
 export declare class UpdateConjugateDto {
     readonly lotId: number;
     readonly tagId: number;
     readonly labeledBy: number | null;
-    readonly tubeNumber: number;
-    readonly concentration: number;
+    readonly concentration: number | null;
     readonly description: string;
-    readonly status: number;
+}
+export declare class UpdateConjugateStatusDto {
+    readonly status: ConjugateStatus;
 }
 //# sourceMappingURL=dto.d.ts.map

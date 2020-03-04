@@ -6,7 +6,7 @@ import { api } from "./api";
 import { ValidationGetters } from "./getters";
 import { ValidationMutations } from "./mutations";
 import { CreateValidationDto, UpdateValidationDto } from "@airlab/shared/lib/validation/dto";
-import { UpdateArchiveStateDto } from "@airlab/shared/lib/core/dto";
+import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
 
 export class ValidationActions extends Actions<
   ValidationState,
@@ -54,12 +54,12 @@ export class ValidationActions extends Actions<
     }
   }
 
-  async updateValidationArchiveState(payload: { id: number; data: UpdateArchiveStateDto }) {
+  async updateValidationArchiveState(payload: { id: number; data: UpdateStateDto }) {
     try {
       const data = await api.updateValidationArchiveState(payload.id, payload.data);
       this.mutations.updateEntity(data);
       this.main!.mutations.addNotification({
-        content: `Validation successfully ${payload.data.isArchived ? "archived" : "unarchived"}`,
+        content: `Validation successfully ${payload.data.state ? "archived" : "unarchived"}`,
         color: "success",
       });
     } catch (error) {

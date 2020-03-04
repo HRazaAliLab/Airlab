@@ -1,14 +1,15 @@
 <template functional>
   <v-card tile elevation="1" class="mb-3">
-    <v-card-title>
-      <v-chip class="mr-1">
-        {{ props.validation.application | applicationToString }}
-      </v-chip>
-    </v-card-title>
     <v-card-text>
       <div>
+        <span class="subheader">Application: </span>
+        <v-chip class="mr-1" small label>
+          {{ props.validation.application | applicationToString }}
+        </v-chip>
+      </div>
+      <div>
         <span class="subheader">Works: </span>
-        <v-chip :color="$options.methods.getColor(props.validation)" class="mr-1" dark small label>
+        <v-chip :color="$options.methods.getColor(props.validation)" class="mr-1" dark x-small label>
           {{ props.validation.status | validationStatusToString }}
         </v-chip>
       </div>

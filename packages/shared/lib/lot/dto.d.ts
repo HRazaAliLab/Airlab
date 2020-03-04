@@ -1,3 +1,4 @@
+import { LotStatus } from "./LotStatus";
 export declare class LotDto {
     readonly id: number;
     readonly groupId: number;
@@ -22,7 +23,6 @@ export declare class LotDto {
     readonly orderedAt: string;
     readonly receivedAt: string;
     readonly finishedAt: string;
-    readonly isLow: boolean;
     readonly isArchived: boolean;
     readonly meta: object;
     readonly createdAt: string;
@@ -53,6 +53,6 @@ export declare class UpdateLotDto {
     readonly note?: string | null;
 }
 export declare class UpdateLotStatusDto {
-    readonly status: number;
+    readonly status: LotStatus;
 }
 //# sourceMappingURL=dto.d.ts.map

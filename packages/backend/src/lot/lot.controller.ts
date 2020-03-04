@@ -35,7 +35,7 @@ export class LotController {
   @ApiCreatedResponse({ type: LotDto })
   async create(@Request() req, @Body() params: CreateLotDto) {
     const member = await this.memberService.checkMemberPermissions(req.user.userId, params.groupId);
-    return this.lotService.create({ ...params, createdBy: member.id, status: 0 });
+    return this.lotService.create({ ...params, createdBy: member.id });
   }
 
   @Get("lots/:id")

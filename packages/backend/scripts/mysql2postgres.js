@@ -293,7 +293,7 @@ async function migrateLot() {
     }
 
     const sql =
-      'INSERT INTO "lot"(id, group_id, created_by, provider_id, clone_id, name, reference, requested_by, approved_by, ordered_by, received_by, finished_by, number, status, purpose, url, requested_at, approved_at, ordered_at, received_at, finished_at, is_low, is_archived, price, note, meta) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26)';
+      'INSERT INTO "lot"(id, group_id, created_by, provider_id, clone_id, name, reference, requested_by, approved_by, ordered_by, received_by, finished_by, number, status, purpose, url, requested_at, approved_at, ordered_at, received_at, finished_at, is_archived, price, note, meta) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25)';
 
     let meta = row["catchedInfo"];
     if (
@@ -329,7 +329,7 @@ async function migrateLot() {
 
     const price = meta && meta.price ? meta.price : null;
     const note = meta && meta.note ? meta.note : meta && meta.ote ? meta.ote : null;
-    let status = row["tubFinishedBy"] !== 0 ? 5 : 0;
+    let status = 0;
     switch (row["reiStatus"]) {
       case "requested":
         status = 0;
@@ -347,8 +347,15 @@ async function migrateLot() {
         status = 4;
         break;
       case "finished":
-        status = 5;
+        status = 6;
         break;
+    }
+    const isLow = row["tubIsLow"] === null ? false : row["tubIsLow"];
+    if (isLow && status === 4) {
+      status = 5;
+    }
+    if (row["tubFinishedBy"] && row["tubFinishedBy"] > 0) {
+      status = 6;
     }
 
     const values = [
@@ -383,7 +390,6 @@ async function migrateLot() {
       row["tubFinishedAt"] === "" || row["tubFinishedAt"] === null || row["tubFinishedAt"] === "0"
         ? null
         : row["tubFinishedAt"].replace("0000", "").trim(),
-      row["tubIsLow"] === null ? false : row["tubIsLow"],
       row["deleted"] === null ? false : row["deleted"],
       price,
       note,
@@ -410,7 +416,10 @@ async function migrateConjugate() {
     const sql =
       'INSERT INTO "conjugate"(id, group_id, created_by, labeled_by, finished_by, lot_id, tag_id, status, tube_number, concentration, is_archived, description, created_at, finished_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)';
 
-    const status = row["tubFinishedBy"] > 0 ? 2 : row["tubIsLow"] !== 0 ? 1 : 0;
+    let status = row["tubIsLow"] !== 0 ? 1 : 0;
+    if (row["tubFinishedBy"] > 0) {
+      status = 2;
+    }
 
     const dateOfLabeling =
       row["labDateOfLabeling"] === "" || row["labDateOfLabeling"] === null || row["labDateOfLabeling"] === "0"
@@ -440,6 +449,9 @@ async function migrateConjugate() {
       } catch (e) {
         concentration = null;
       }
+    }
+    if (concentration === NaN) {
+      concentration = null;
     }
 
     const description =

@@ -52,6 +52,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { TagDto } from "@airlab/shared/lib/tag/dto";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 import { SpeciesDto } from "@airlab/shared/lib/species/dto";
+import { ConjugateStatus } from "@airlab/shared/lib/conjugate/ConjugateStatus";
 
 @Component
 export default class MetalExpansionPanel extends Vue {
@@ -62,8 +63,8 @@ export default class MetalExpansionPanel extends Vue {
   @Prop({ type: Function, required: true }) readonly onSelected;
 
   getConjugateColor(conjugate: ConjugateDto, isSelected: boolean) {
-    const isOver = conjugate.status === 2;
-    const isLow = conjugate.status === 1;
+    const isOver = conjugate.status === ConjugateStatus.Finished;
+    const isLow = conjugate.status === ConjugateStatus.Low;
     if (isSelected) {
       if (isOver) {
         return "red";

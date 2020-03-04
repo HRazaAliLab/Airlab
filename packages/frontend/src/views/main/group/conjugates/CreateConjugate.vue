@@ -32,8 +32,22 @@
             :rules="tagRules"
             dense
           />
-          <v-text-field label="Tube Number" v-model.number="tubeNumber" :rules="tubeNumberRules" />
-          <v-text-field label="Concentration (in ug/ml)" v-model="concentration" :rules="concentrationRules" />
+          <v-text-field
+            label="Concentration (in µg/mL)"
+            v-model.number="concentration"
+            :rules="concentrationRules"
+            type="number"
+          />
+          <v-autocomplete
+            label="Labeled by"
+            v-model="labeledBy"
+            :items="members"
+            item-text="user.name"
+            item-value="id"
+            dense
+            clearable
+            open-on-clear
+          />
           <v-text-field label="Description" v-model="description" :rules="descriptionRules" />
         </v-form>
       </v-card-text>
@@ -49,6 +63,7 @@ import { tagModule } from "@/modules/tag";
 import { conjugateModule } from "@/modules/conjugate";
 import { CreateConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 import { groupModule } from "@/modules/group";
+import { memberModule } from "@/modules/member";
 
 @Component
 export default class CreateConjugate extends Vue {
@@ -56,18 +71,18 @@ export default class CreateConjugate extends Vue {
   readonly lotContext = lotModule.context(this.$store);
   readonly tagContext = tagModule.context(this.$store);
   readonly conjugateContext = conjugateModule.context(this.$store);
+  readonly memberContext = memberModule.context(this.$store);
 
   readonly lotRules = [required];
   readonly tagRules = [required];
   readonly concentrationRules = [required];
-  readonly tubeNumberRules = [required];
   readonly descriptionRules = [];
 
   valid = false;
   lotId: number | null = null;
   tagId: number | null = null;
-  tubeNumber: number | null = null;
-  concentration = "";
+  labeledBy: number | null = null;
+  concentration: number | null = null;
   description = "";
 
   get activeGroupId() {
@@ -76,6 +91,10 @@ export default class CreateConjugate extends Vue {
 
   get lots() {
     return this.lotContext.getters.lots;
+  }
+
+  get members() {
+    return this.memberContext.getters.members;
   }
 
   get tags() {
@@ -92,8 +111,8 @@ export default class CreateConjugate extends Vue {
   reset() {
     this.lotId = this.$router.currentRoute.params.lotId ? +this.$router.currentRoute.params.lotId : null;
     this.tagId = null;
-    this.tubeNumber = null;
-    this.concentration = "";
+    this.labeledBy = null;
+    this.concentration = null;
     this.description = "";
     (this.$refs.form as any).resetValidation();
   }
@@ -103,6 +122,7 @@ export default class CreateConjugate extends Vue {
     await Promise.all([
       this.lotContext.actions.getGroupLots(+this.$router.currentRoute.params.groupId),
       this.tagContext.actions.getGroupTags(+this.$router.currentRoute.params.groupId),
+      this.memberContext.actions.getGroupMembers(+this.$router.currentRoute.params.groupId),
     ]);
   }
 
@@ -112,9 +132,9 @@ export default class CreateConjugate extends Vue {
         groupId: this.activeGroupId,
         lotId: Number(this.lotId),
         tagId: Number(this.tagId),
-        tubeNumber: Number(this.tubeNumber),
-        concentration: this.concentration,
+        concentration: this.concentration ? Number(this.concentration) : null,
         description: this.description,
+        labeledBy: this.labeledBy ? Number(this.labeledBy) : null,
       };
       await this.conjugateContext.actions.createConjugate(data);
       this.$router.back();

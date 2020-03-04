@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const class_validator_1 = require("class-validator");
 const swagger_1 = require("@nestjs/swagger");
+const ConjugateStatus_1 = require("./ConjugateStatus");
 class ConjugateDto {
 }
 __decorate([
@@ -102,13 +103,9 @@ __decorate([
     __metadata("design:type", Number)
 ], CreateConjugateDto.prototype, "labeledBy", void 0);
 __decorate([
-    class_validator_1.IsInt(),
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Number)
-], CreateConjugateDto.prototype, "tubeNumber", void 0);
-__decorate([
     class_validator_1.IsNumber(),
-    swagger_1.ApiProperty(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiPropertyOptional(),
     __metadata("design:type", Number)
 ], CreateConjugateDto.prototype, "concentration", void 0);
 __decorate([
@@ -136,13 +133,9 @@ __decorate([
     __metadata("design:type", Number)
 ], UpdateConjugateDto.prototype, "labeledBy", void 0);
 __decorate([
-    class_validator_1.IsInt(),
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Number)
-], UpdateConjugateDto.prototype, "tubeNumber", void 0);
-__decorate([
     class_validator_1.IsNumber(),
-    swagger_1.ApiProperty(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiPropertyOptional(),
     __metadata("design:type", Number)
 ], UpdateConjugateDto.prototype, "concentration", void 0);
 __decorate([
@@ -150,10 +143,15 @@ __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], UpdateConjugateDto.prototype, "description", void 0);
+exports.UpdateConjugateDto = UpdateConjugateDto;
+class UpdateConjugateStatusDto {
+}
 __decorate([
     class_validator_1.IsInt(),
+    class_validator_1.Min(0),
+    class_validator_1.Max(2),
     swagger_1.ApiProperty(),
     __metadata("design:type", Number)
-], UpdateConjugateDto.prototype, "status", void 0);
-exports.UpdateConjugateDto = UpdateConjugateDto;
+], UpdateConjugateStatusDto.prototype, "status", void 0);
+exports.UpdateConjugateStatusDto = UpdateConjugateStatusDto;
 //# sourceMappingURL=dto.js.map

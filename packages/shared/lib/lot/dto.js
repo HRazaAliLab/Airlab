@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const class_validator_1 = require("class-validator");
 const swagger_1 = require("@nestjs/swagger");
+const LotStatus_1 = require("./LotStatus");
 class LotDto {
 }
 __decorate([
@@ -105,10 +106,6 @@ __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], LotDto.prototype, "finishedAt", void 0);
-__decorate([
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Boolean)
-], LotDto.prototype, "isLow", void 0);
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Boolean)
@@ -239,6 +236,8 @@ class UpdateLotStatusDto {
 }
 __decorate([
     class_validator_1.IsInt(),
+    class_validator_1.Min(0),
+    class_validator_1.Max(6),
     swagger_1.ApiProperty(),
     __metadata("design:type", Number)
 ], UpdateLotStatusDto.prototype, "status", void 0);

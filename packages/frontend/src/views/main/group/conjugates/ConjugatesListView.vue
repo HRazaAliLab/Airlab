@@ -141,6 +141,7 @@
         </template>
         <template v-slot:item.user="{ item }">
           <router-link
+            v-if="item.user"
             class="link"
             :to="{
               name: 'main-admin-users-edit',
@@ -182,14 +183,14 @@
                   <v-list-item-title>Edit</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item v-if="isGroupAdmin" @click="updateConjugateArchiveState(item.id, !item.state)">
+              <v-list-item v-if="isGroupAdmin" @click="updateConjugateArchiveState(item.id, !item.isArchived)">
                 <v-list-item-icon>
                   <v-icon color="red accent-1">{{
-                      item.state ? "mdi-archive-arrow-up-outline" : "mdi-archive-arrow-down-outline"
-                      }}</v-icon>
+                    item.isArchived ? "mdi-archive-arrow-up-outline" : "mdi-archive-arrow-down-outline"
+                  }}</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title>{{ item.state ? "Unarchive" : "Archive" }}</v-list-item-title>
+                  <v-list-item-title>{{ item.isArchived ? "Unarchive" : "Archive" }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item v-if="isGroupAdmin" @click="deleteConjugate(item.id)">
@@ -250,7 +251,7 @@ export default class ConjugatesListViews extends Vue {
   readonly getConjugateStatusColor = getConjugateStatusColor;
 
   readonly statuses = [
-    { id: 0, name: "Normal" },
+    { id: 0, name: "Stock" },
     { id: 1, name: "Low" },
     { id: 2, name: "Finished" },
   ];
@@ -336,6 +337,7 @@ export default class ConjugatesListViews extends Vue {
       text: "Concentration",
       value: "concentration",
       align: "end",
+      filterable: false,
     },
     {
       text: "Status",
@@ -399,7 +401,6 @@ export default class ConjugatesListViews extends Vue {
       (item.lot ? item.lot.number.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
       (item.tag ? item.tag.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
       (item.user ? item.user.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
-      item.concentration.toLowerCase().indexOf(normalizedSearchTerm) !== -1 ||
       (item.description ? item.description.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false)
     );
   }
@@ -424,7 +425,7 @@ export default class ConjugatesListViews extends Vue {
 
   async updateConjugateArchiveState(id: number, state: boolean) {
     if (self.confirm(`Are you sure you want to ${state ? "archive" : "unarchive"} the conjugate?`)) {
-      await this.conjugateContext.actions.updateConjugateArchiveState({ id: id, data: { isArchived: state } });
+      await this.conjugateContext.actions.updateConjugateArchiveState({ id: id, data: { state: state } });
     }
   }
 

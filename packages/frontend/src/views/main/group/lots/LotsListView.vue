@@ -34,7 +34,7 @@
                 @click="select"
                 @click:close="removeStatusFilter(item)"
               >
-                {{ item }}
+                {{ item.text }}
               </v-chip>
             </template>
           </v-select>
@@ -116,8 +116,10 @@
             {{ item.clone.name }}
           </router-link>
         </template>
-        <template v-slot:item.isLow="{ item }">
-          <v-icon v-if="item.isLow" color="orange">mdi-flask-empty-remove-outline</v-icon>
+        <template v-slot:item.status="{ item }">
+          <v-chip :color="getLotStatusColor(item.status)" class="mr-1" x-small dark label>
+            {{ item.status | lotStatusToString }}
+          </v-chip>
         </template>
         <template v-slot:item.action="{ item }">
           <v-menu bottom left>
@@ -177,14 +179,14 @@
                   <v-list-item-title>Edit</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item v-if="isGroupAdmin" @click="updateLotArchiveState(item.id, !item.state)">
+              <v-list-item v-if="isGroupAdmin" @click="updateLotArchiveState(item.id, !item.isArchived)">
                 <v-list-item-icon>
                   <v-icon color="red accent-1">{{
-                    item.state ? "mdi-archive-arrow-up-outline" : "mdi-archive-arrow-down-outline"
-                    }}</v-icon>
+                    item.isArchived ? "mdi-archive-arrow-up-outline" : "mdi-archive-arrow-down-outline"
+                  }}</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title>{{ item.state ? "Unarchive" : "Archive" }}</v-list-item-title>
+                  <v-list-item-title>{{ item.isArchived ? "Unarchive" : "Archive" }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item v-if="isGroupAdmin" @click="deleteLot(item.id)">
@@ -228,6 +230,7 @@ import { LotDto } from "@airlab/shared/lib/lot/dto";
 import LotDetailsView from "@/views/main/group/lots/LotDetailsView.vue";
 import { providerModule } from "@/modules/provider";
 import LotExpandedView from "@/views/main/group/lots/LotExpandedView.vue";
+import { getLotStatusColor } from "@/utils/converters";
 
 @Component({
   components: {
@@ -240,6 +243,8 @@ export default class LotsListView extends Vue {
   readonly groupContext = groupModule.context(this.$store);
   readonly lotContext = lotModule.context(this.$store);
   readonly providerContext = providerModule.context(this.$store);
+
+  private readonly getLotStatusColor = getLotStatusColor;
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
@@ -298,15 +303,11 @@ export default class LotsListView extends Vue {
     {
       text: "Status",
       value: "status",
+      filterable: false,
     },
     {
       text: "Purpose",
       value: "purpose",
-    },
-    {
-      text: "Low",
-      value: "isLow",
-      filterable: false,
     },
     {
       text: "Actions",
@@ -325,12 +326,18 @@ export default class LotsListView extends Vue {
   detailsItem: LotDto | null = null;
   search = "";
 
-  statusFilter: string[] = [];
+  statusFilter: number[] = [];
   providerFilter: number[] = [];
 
-  get statuses() {
-    return [...new Set(this.lotContext.getters.lots.map(item => item.status))];
-  }
+  private readonly statuses = [
+    { value: 0, text: "Requested" },
+    { value: 1, text: "Approved" },
+    { value: 2, text: "Rejected" },
+    { value: 3, text: "Ordered" },
+    { value: 4, text: "Stock" },
+    { value: 5, text: "Low" },
+    { value: 6, text: "Finished" },
+  ];
 
   get providers() {
     return this.providerContext.getters.providers;
@@ -360,7 +367,6 @@ export default class LotsListView extends Vue {
       (item.reference ? item.reference.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
       (item.provider ? item.provider.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
       (item.clone ? item.clone.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
-      item.status.toLowerCase().indexOf(normalizedSearchTerm) !== -1 ||
       (item.purpose ? item.purpose.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false)
     );
   }
@@ -385,7 +391,7 @@ export default class LotsListView extends Vue {
 
   async updateLotArchiveState(id: number, state: boolean) {
     if (self.confirm(`Are you sure you want to ${state ? "archive" : "unarchive"} the lot?`)) {
-      await this.lotContext.actions.updateLotArchiveState({ id: id, data: { isArchived: state } });
+      await this.lotContext.actions.updateLotArchiveState({ id: id, data: { state: state } });
     }
   }
 

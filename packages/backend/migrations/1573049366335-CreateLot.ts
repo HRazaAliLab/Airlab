@@ -120,11 +120,6 @@ export class CreateLot1573049366335 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: "is_low",
-            type: "boolean",
-            default: false,
-          },
-          {
             name: "is_archived",
             type: "boolean",
             default: false,

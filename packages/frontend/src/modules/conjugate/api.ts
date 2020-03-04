@@ -1,7 +1,7 @@
 import { ApiManager } from "@/utils/api";
 import { ConjugateDto, CreateConjugateDto, UpdateConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 import { PanelDto } from "@airlab/shared/lib/panel/dto";
-import { UpdateArchiveStateDto } from "@airlab/shared/lib/core/dto";
+import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
 
 export const api = {
   async createConjugate(data: CreateConjugateDto) {
@@ -21,7 +21,7 @@ export const api = {
       })
       .json<ConjugateDto>();
   },
-  async updateConjugateArchiveState(id: number, data: UpdateArchiveStateDto) {
+  async updateConjugateArchiveState(id: number, data: UpdateStateDto) {
     return ApiManager.api
       .patch(`conjugates/${id}/archive`, {
         json: data,

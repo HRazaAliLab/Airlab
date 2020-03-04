@@ -5,6 +5,7 @@ import { MemberEntity } from "../member/member.entity";
 import { LotEntity } from "../lot/lot.entity";
 import { UserEntity } from "../user/user.entity";
 import { PanelElementEntity } from "../panelElement/panelElement.entity";
+import { ConjugateStatus } from "@airlab/shared/lib/conjugate/ConjugateStatus";
 
 @Entity({
   name: "conjugate",
@@ -48,7 +49,7 @@ export class ConjugateEntity {
   @Column({
     name: "status",
   })
-  status: number;
+  status: ConjugateStatus;
 
   @Column({
     name: "tube_number",

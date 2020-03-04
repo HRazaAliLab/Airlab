@@ -3,6 +3,7 @@ import { GroupEntity } from "../group/group.entity";
 import { CloneEntity } from "../clone/clone.entity";
 import { ConjugateEntity } from "../conjugate/conjugate.entity";
 import { ProviderEntity } from "../provider/provider.entity";
+import { LotStatus } from "@airlab/shared/lib/lot/LotStatus";
 
 @Entity({
   name: "lot",
@@ -76,7 +77,7 @@ export class LotEntity {
   @Column({
     name: "status",
   })
-  status: number;
+  status: LotStatus;
 
   @Column({
     name: "purpose",
@@ -122,11 +123,6 @@ export class LotEntity {
     name: "finished_at",
   })
   finishedAt: string;
-
-  @Column({
-    name: "is_low",
-  })
-  isLow: boolean;
 
   @Column({
     name: "is_archived",

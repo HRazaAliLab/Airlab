@@ -243,14 +243,14 @@
                   <v-list-item-title>Edit</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item v-if="isGroupAdmin" @click="updateCloneArchiveState(item.id, !item.state)">
+              <v-list-item v-if="isGroupAdmin" @click="updateCloneArchiveState(item.id, !item.isArchived)">
                 <v-list-item-icon>
                   <v-icon color="red accent-1">{{
-                    item.state ? "mdi-archive-arrow-up-outline" : "mdi-archive-arrow-down-outline"
-                    }}</v-icon>
+                    item.isArchived ? "mdi-archive-arrow-up-outline" : "mdi-archive-arrow-down-outline"
+                  }}</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title>{{ item.state ? "Unarchive" : "Archive" }}</v-list-item-title>
+                  <v-list-item-title>{{ item.isArchived ? "Unarchive" : "Archive" }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item v-if="isGroupAdmin" @click="deleteClone(item.id)">
@@ -492,7 +492,7 @@ export default class ClonesListView extends Vue {
 
   async updateCloneArchiveState(id: number, state: boolean) {
     if (self.confirm(`Are you sure you want to ${state ? "archive" : "unarchive"} the clone?`)) {
-      await this.cloneContext.actions.updateCloneArchiveState({ id: id, data: { isArchived: state } });
+      await this.cloneContext.actions.updateCloneArchiveState({ id: id, data: { state: state } });
     }
   }
 

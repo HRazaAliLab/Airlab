@@ -5,10 +5,14 @@
       <div><span class="subheader">Name: </span>{{ lot.name }}</div>
       <div><span class="subheader">Lot Number: </span>{{ lot.number }}</div>
       <div><span class="subheader">Reference: </span>{{ lot.reference }}</div>
-      <div><span class="subheader">Status: </span>{{ lot.status }}</div>
+      <div>
+        <span class="subheader">Status: </span>
+        <v-chip :color="getLotStatusColor(lot.status)" class="mr-1" x-small dark label>
+          {{ lot.status | lotStatusToString }}
+        </v-chip>
+      </div>
       <div><span class="subheader">Purpose: </span>{{ lot.purpose }}</div>
       <div><span class="subheader">Price: </span>{{ lot.price }}</div>
-      <div><span class="subheader">Low: </span><v-icon v-if="lot.isLow" color="orange">mdi-flask-empty-remove-outline</v-icon></div>
       <div>
         <span class="subheader">Provider: </span>
         <router-link
@@ -105,6 +109,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { lotModule } from "@/modules/lot";
 import LoadingView from "@/components/LoadingView.vue";
 import { groupModule } from "@/modules/group";
+import { getLotStatusColor } from "@/utils/converters";
 
 @Component({
   components: { LoadingView },
@@ -112,6 +117,8 @@ import { groupModule } from "@/modules/group";
 export default class LotView extends Vue {
   private readonly groupContext = groupModule.context(this.$store);
   private readonly lotContext = lotModule.context(this.$store);
+
+  private readonly getLotStatusColor = getLotStatusColor;
 
   @Prop({
     type: Number,

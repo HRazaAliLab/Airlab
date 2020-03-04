@@ -68,6 +68,7 @@
       </template>
       <template v-slot:item.user="{ item }">
         <router-link
+          v-if="item.user"
           class="link"
           :to="{
             name: 'main-admin-users-edit',

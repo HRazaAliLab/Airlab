@@ -17,6 +17,7 @@ export class LotService {
     const now = new Date().toISOString();
     return this.repository.save({
       ...params,
+      status: 0,
       requestedBy: params.createdBy,
       requestedAt: now,
       updatedAt: now,

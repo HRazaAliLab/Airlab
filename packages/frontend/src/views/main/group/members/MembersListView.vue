@@ -54,6 +54,7 @@
         :items="items"
         :loading="!items"
         :search="search"
+        :custom-filter="filter"
         :items-per-page="15"
         :footer-props="{
           itemsPerPageOptions: [10, 15, 20, -1],
@@ -215,6 +216,14 @@ export default class MembersListView extends Vue {
       items = items.filter(item => this.roleFilter.includes(item.role));
     }
     return items;
+  }
+
+  filter(value, search, item) {
+    if (!search) {
+      return true;
+    }
+    const normalizedSearchTerm = search.toLowerCase().trim();
+    return item.user ? item.user.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false;
   }
 
   async mounted() {

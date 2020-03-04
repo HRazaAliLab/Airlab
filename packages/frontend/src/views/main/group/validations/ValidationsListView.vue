@@ -256,14 +256,14 @@
                   <v-list-item-title>Edit</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item v-if="isGroupAdmin" @click="updateValidationArchiveState(item.id, !item.state)">
+              <v-list-item v-if="isGroupAdmin" @click="updateValidationArchiveState(item.id, !item.isArchived)">
                 <v-list-item-icon>
                   <v-icon color="red accent-1">{{
-                      item.state ? "mdi-archive-arrow-up-outline" : "mdi-archive-arrow-down-outline"
-                      }}</v-icon>
+                    item.isArchived ? "mdi-archive-arrow-up-outline" : "mdi-archive-arrow-down-outline"
+                  }}</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title>{{ item.state ? "Unarchive" : "Archive" }}</v-list-item-title>
+                  <v-list-item-title>{{ item.isArchived ? "Unarchive" : "Archive" }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item v-if="isGroupAdmin" @click="deleteValidation(item.id)">
@@ -528,7 +528,7 @@ export default class ValidationsListViews extends Vue {
 
   async updateValidationArchiveState(id: number, state: boolean) {
     if (self.confirm(`Are you sure you want to ${state ? "archive" : "unarchive"} the validation?`)) {
-      await this.validationContext.actions.updateValidationArchiveState({ id: id, data: { isArchived: state } });
+      await this.validationContext.actions.updateValidationArchiveState({ id: id, data: { state: state } });
     }
   }
 

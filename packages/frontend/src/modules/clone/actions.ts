@@ -6,7 +6,7 @@ import { api } from "./api";
 import { CloneGetters } from "./getters";
 import { CloneMutations } from "./mutations";
 import { CreateCloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
-import { UpdateArchiveStateDto } from "@airlab/shared/lib/core/dto";
+import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
 
 export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutations, CloneActions> {
   // Declare context type
@@ -59,12 +59,12 @@ export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutatio
     }
   }
 
-  async updateCloneArchiveState(payload: { id: number; data: UpdateArchiveStateDto }) {
+  async updateCloneArchiveState(payload: { id: number; data: UpdateStateDto }) {
     try {
       const data = await api.updateCloneArchiveState(payload.id, payload.data);
       this.mutations.updateEntity(data);
       this.main!.mutations.addNotification({
-        content: `Clone successfully ${payload.data.isArchived ? "archived" : "unarchived"}`,
+        content: `Clone successfully ${payload.data.state ? "archived" : "unarchived"}`,
         color: "success",
       });
     } catch (error) {

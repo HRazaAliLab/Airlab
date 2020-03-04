@@ -1,5 +1,6 @@
 import { ValidationDto } from "@airlab/shared/lib/validation/dto";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
+import { LotStatus } from "@airlab/shared/lib/lot/LotStatus";
 
 const applicationMap = {
   0: "SMC",
@@ -55,7 +56,7 @@ export function getStatusColor(validation: ValidationDto) {
 }
 
 const conjugateStatusMap = {
-  0: "Normal",
+  0: "Stock",
   1: "Low",
   2: "Finished",
 };
@@ -71,6 +72,33 @@ export function getConjugateStatusColor(conjugate: ConjugateDto) {
     case 1:
       return "orange lighten-1";
     case 2:
+      return "red lighten-1";
+    default:
+      return "grey";
+  }
+}
+
+const lotStatusMap = {
+  0: "Requested",
+  1: "Approved",
+  2: "Rejected",
+  3: "Ordered",
+  4: "Stock",
+  5: "Low",
+  6: "Finished",
+};
+
+export function lotStatusToString(value: number): string {
+  return lotStatusMap[value];
+}
+
+export function getLotStatusColor(status: LotStatus) {
+  switch (status) {
+    case LotStatus.Stock:
+      return "green lighten-1";
+    case LotStatus.Low:
+      return "orange lighten-1";
+    case LotStatus.Finished:
       return "red lighten-1";
     default:
       return "grey";

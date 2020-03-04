@@ -8,7 +8,12 @@ import router from "@/router";
 import store from "@/store";
 import Vue from "vue";
 import "@mdi/font/css/materialdesignicons.css";
-import { applicationToString, conjugateStatusToString, validationStatusToString } from "@/utils/converters"; // Ensure you are using css-loader
+import {
+  applicationToString,
+  conjugateStatusToString,
+  lotStatusToString,
+  validationStatusToString,
+} from "@/utils/converters"; // Ensure you are using css-loader
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -18,6 +23,7 @@ Vue.config.performance = isDev;
 Vue.filter("applicationToString", applicationToString);
 Vue.filter("validationStatusToString", validationStatusToString);
 Vue.filter("conjugateStatusToString", conjugateStatusToString);
+Vue.filter("lotStatusToString", lotStatusToString);
 
 new Vue({
   router: router,

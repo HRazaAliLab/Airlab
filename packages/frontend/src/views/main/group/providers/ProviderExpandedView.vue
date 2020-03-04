@@ -38,8 +38,10 @@
           {{ item.clone.name }}
         </router-link>
       </template>
-      <template v-slot:item.isLow="{ item }">
-        <v-icon v-if="item.isLow" color="orange">mdi-flask-empty-remove-outline</v-icon>
+      <template v-slot:item.status="{ item }">
+        <v-chip :color="getLotStatusColor(item.status)" class="mr-1" x-small dark label>
+          {{ item.status | lotStatusToString }}
+        </v-chip>
       </template>
     </v-data-table>
   </v-card>
@@ -51,11 +53,14 @@ import { LotDto } from "@airlab/shared/lib/lot/dto";
 import { groupModule } from "@/modules/group";
 import { providerModule } from "@/modules/provider";
 import { ProviderDto } from "@airlab/shared/lib/provider/dto";
+import { getLotStatusColor } from "@/utils/converters";
 
 @Component
 export default class ProviderExpandedView extends Vue {
   private readonly groupContext = groupModule.context(this.$store);
   private readonly providerContext = providerModule.context(this.$store);
+
+  private readonly getLotStatusColor = getLotStatusColor;
 
   @Prop(Object) readonly provider!: ProviderDto;
 
@@ -99,11 +104,6 @@ export default class ProviderExpandedView extends Vue {
     {
       text: "Purpose",
       value: "purpose",
-    },
-    {
-      text: "Low",
-      value: "isLow",
-      filterable: false,
     },
   ];
 

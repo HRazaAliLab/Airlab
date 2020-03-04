@@ -88,13 +88,15 @@
           <span v-if="item.tag">{{ item.label }}</span>
         </template>
         <template v-slot:item.lot="{ item }">
-          <span v-if="item.lot" :class="item.isLow ? 'low' : ''">{{ item.lot.number }}</span>
+          <span v-if="item.lot" :class="item.status === 1 ? 'low' : ''">{{ item.lot.number }}</span>
         </template>
         <template v-slot:item.clone="{ item }">
-          <span v-if="item.lot && item.lot.clone" :class="item.isLow ? 'low' : ''">{{ item.lot.clone.name }}</span>
+          <span v-if="item.lot && item.lot.clone" :class="item.status === 1 ? 'low' : ''">{{
+            item.lot.clone.name
+          }}</span>
         </template>
         <template v-slot:item.protein="{ item }">
-          <span v-if="item.lot && item.lot.clone && item.lot.clone.protein" :class="item.isLow ? 'low' : ''">{{
+          <span v-if="item.lot && item.lot.clone && item.lot.clone.protein" :class="item.status === 1 ? 'low' : ''">{{
             item.lot.clone.protein.name
           }}</span>
         </template>

@@ -1,5 +1,6 @@
-import { IsIn, IsInt, IsOptional, IsString, IsUrl } from "class-validator";
+import { IsInt, IsOptional, IsString, IsUrl, Max, Min } from "class-validator";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { LotStatus } from "./LotStatus";
 
 export class LotDto {
   @ApiProperty()
@@ -70,9 +71,6 @@ export class LotDto {
 
   @ApiProperty()
   readonly finishedAt: string;
-
-  @ApiProperty()
-  readonly isLow: boolean;
 
   @ApiProperty()
   readonly isArchived: boolean;
@@ -179,6 +177,8 @@ export class UpdateLotDto {
 
 export class UpdateLotStatusDto {
   @IsInt()
+  @Min(0)
+  @Max(6)
   @ApiProperty()
-  readonly status: number;
+  readonly status: LotStatus;
 }

@@ -1,5 +1,6 @@
-import { IsInt, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsInt, IsNumber, IsOptional, IsString, Max, Min } from "class-validator";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { ConjugateStatus } from "./ConjugateStatus";
 
 export class ConjugateDto {
   @ApiProperty()
@@ -71,13 +72,10 @@ export class CreateConjugateDto {
   @ApiPropertyOptional()
   readonly labeledBy: number | null;
 
-  @IsInt()
-  @ApiProperty()
-  readonly tubeNumber: number;
-
   @IsNumber()
-  @ApiProperty()
-  readonly concentration: number;
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly concentration: number | null;
 
   @IsString()
   @ApiProperty()
@@ -98,19 +96,20 @@ export class UpdateConjugateDto {
   @ApiPropertyOptional()
   readonly labeledBy: number | null;
 
-  @IsInt()
-  @ApiProperty()
-  readonly tubeNumber: number;
-
   @IsNumber()
-  @ApiProperty()
-  readonly concentration: number;
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly concentration: number | null;
 
   @IsString()
   @ApiProperty()
   readonly description: string;
+}
 
+export class UpdateConjugateStatusDto {
   @IsInt()
+  @Min(0)
+  @Max(2)
   @ApiProperty()
-  readonly status: number;
+  readonly status: ConjugateStatus;
 }

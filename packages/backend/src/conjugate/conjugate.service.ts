@@ -15,7 +15,8 @@ export class ConjugateService {
 
   async create(params: CreateConjugateDto) {
     await this.clearCache(params.groupId);
-    return this.repository.save(params);
+    const tubeNumber = await this.getTubeNumber(params.groupId);
+    return this.repository.save({ ...params, tubeNumber: tubeNumber });
   }
 
   async findById(id: number) {
@@ -30,8 +31,8 @@ export class ConjugateService {
       .addSelect(["clone.id", "clone.name", "clone.isPhospho"])
       .leftJoin("clone.protein", "protein")
       .addSelect(["protein.id", "protein.name"])
-      .leftJoin("conjugate.member", "member")
-      .leftJoinAndMapOne("conjugate.user", UserEntity, "user", "member.userId = user.id")
+      .leftJoin("conjugate.labeledByMember", "labeledByMember")
+      .leftJoinAndMapOne("conjugate.user", UserEntity, "user", "labeledByMember.userId = user.id")
       .getOne();
   }
 
@@ -69,8 +70,8 @@ export class ConjugateService {
       .addSelect(["clone.id", "clone.name", "clone.reactivity"])
       .leftJoin("clone.protein", "protein")
       .addSelect(["protein.id", "protein.name"])
-      .leftJoin("conjugate.member", "member")
-      .leftJoinAndMapOne("conjugate.user", UserEntity, "user", "member.userId = user.id")
+      .leftJoin("conjugate.labeledByMember", "labeledByMember")
+      .leftJoinAndMapOne("conjugate.user", UserEntity, "user", "labeledByMember.userId = user.id")
       .orderBy({ "conjugate.tubeNumber": "DESC" })
       .cache(`group_${groupId}_conjugates`, 1000 * 60 * 60)
       .getMany();
@@ -89,8 +90,8 @@ export class ConjugateService {
       .addSelect(["clone.id", "clone.name", "clone.isPhospho"])
       .leftJoin("clone.protein", "protein")
       .addSelect(["protein.id", "protein.name"])
-      .leftJoin("conjugate.member", "member")
-      .leftJoinAndMapOne("conjugate.user", UserEntity, "user", "member.userId = user.id")
+      .leftJoin("conjugate.labeledByMember", "labeledByMember")
+      .leftJoinAndMapOne("conjugate.user", UserEntity, "user", "labeledByMember.userId = user.id")
       .orderBy({ "conjugate.tubeNumber": "DESC" })
       .getMany();
   }
@@ -106,13 +107,13 @@ export class ConjugateService {
       .addSelect(["clone.id", "clone.name", "clone.isPhospho"])
       .leftJoin("clone.protein", "protein")
       .addSelect(["protein.id", "protein.name"])
-      .leftJoin("conjugate.member", "member")
-      .leftJoinAndMapOne("conjugate.user", UserEntity, "user", "member.userId = user.id")
+      .leftJoin("conjugate.labeledByMember", "labeledByMember")
+      .leftJoinAndMapOne("conjugate.user", UserEntity, "user", "labeledByMember.userId = user.id")
       .orderBy({ "conjugate.tubeNumber": "DESC" })
       .getMany();
   }
 
-  async lastConjugateForGroup(groupId: number) {
+  async getTubeNumber(groupId: number) {
     const entity = await this.repository.findOne({
       select: ["tubeNumber"],
       where: {
