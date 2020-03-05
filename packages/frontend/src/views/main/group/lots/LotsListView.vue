@@ -129,6 +129,63 @@
               </v-btn>
             </template>
             <v-list dense>
+              <v-list-item v-if="item.status !== 0" @click="updateLotStatus(item.id, 0)">
+                <v-list-item-icon>
+                  <v-icon color="primary">mdi-flask-empty-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Mark as Requested</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item v-if="item.status !== 1 && isGroupAdmin" @click="updateLotStatus(item.id, 1)">
+                <v-list-item-icon>
+                  <v-icon color="primary">mdi-flask-empty-plus-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Mark as Approved</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item v-if="item.status !== 2 && isGroupAdmin" @click="updateLotStatus(item.id, 2)">
+                <v-list-item-icon>
+                  <v-icon color="primary">mdi-flask-empty-minus-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Mark as Rejected</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item v-if="item.status !== 3 && isGroupAdmin" @click="updateLotStatus(item.id, 3)">
+                <v-list-item-icon>
+                  <v-icon color="primary">mdi-flask-empty-plus</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Mark as Ordered</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item v-if="item.status !== 4 && isGroupAdmin" @click="updateLotStatus(item.id, 4)">
+                <v-list-item-icon>
+                  <v-icon color="green">mdi-flask-empty</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Mark as Stock</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item v-if="item.status !== 5" @click="updateLotStatus(item.id, 5)">
+                <v-list-item-icon>
+                  <v-icon color="orange">mdi-speedometer-slow</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Mark as Low</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item v-if="item.status !== 6" @click="updateLotStatus(item.id, 6)">
+                <v-list-item-icon>
+                  <v-icon color="red accent-1">mdi-flask-empty-remove-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Mark as Finished</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider />
               <v-list-item
                 :to="{
                   name: 'main-group-conjugates-create',
@@ -231,6 +288,7 @@ import LotDetailsView from "@/views/main/group/lots/LotDetailsView.vue";
 import { providerModule } from "@/modules/provider";
 import LotExpandedView from "@/views/main/group/lots/LotExpandedView.vue";
 import { getLotStatusColor } from "@/utils/converters";
+import { LotStatus } from "@airlab/shared/lib/lot/LotStatus";
 
 @Component({
   components: {
@@ -392,6 +450,12 @@ export default class LotsListView extends Vue {
   async updateLotArchiveState(id: number, state: boolean) {
     if (self.confirm(`Are you sure you want to ${state ? "archive" : "unarchive"} the lot?`)) {
       await this.lotContext.actions.updateLotArchiveState({ id: id, data: { state: state } });
+    }
+  }
+
+  async updateLotStatus(id: number, status: LotStatus) {
+    if (self.confirm(`Are you sure you want to change the lot status to ${LotStatus[status]}?`)) {
+      await this.lotContext.actions.updateLotStatus({ id: id, data: { status: status } });
     }
   }
 

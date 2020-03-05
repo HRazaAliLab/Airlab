@@ -13,7 +13,7 @@ import {
 import { LotService } from "./lot.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
-import { CreateLotDto, LotDto, UpdateLotDto } from "@airlab/shared/lib/lot/dto";
+import { CreateLotDto, LotDto, UpdateLotDto, UpdateLotStatusDto } from "@airlab/shared/lib/lot/dto";
 import { MemberService } from "../member/member.service";
 import { ConjugateService } from "../conjugate/conjugate.service";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
@@ -66,6 +66,15 @@ export class LotController {
       throw new UnauthorizedException("Only group admins can perform this operation");
     }
     return this.lotService.updateArchiveState(id, params);
+  }
+
+  @Patch("lots/:id/status")
+  @ApiOperation({ summary: "Change lot status." })
+  @ApiOkResponse({ type: LotDto })
+  async updateStatus(@Request() req, @Param("id") id: number, @Body() params: UpdateLotStatusDto) {
+    const item = await this.lotService.findById(id);
+    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    return this.lotService.updateStatus(id, member.id, params);
   }
 
   @Delete("lots/:id")

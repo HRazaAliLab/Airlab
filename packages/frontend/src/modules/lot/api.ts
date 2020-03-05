@@ -1,5 +1,5 @@
 import { ApiManager } from "@/utils/api";
-import { CreateLotDto, LotDto, UpdateLotDto } from "@airlab/shared/lib/lot/dto";
+import { CreateLotDto, LotDto, UpdateLotDto, UpdateLotStatusDto } from "@airlab/shared/lib/lot/dto";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
 
@@ -24,6 +24,13 @@ export const api = {
   async updateLotArchiveState(id: number, data: UpdateStateDto) {
     return ApiManager.api
       .patch(`lots/${id}/archive`, {
+        json: data,
+      })
+      .json<LotDto>();
+  },
+  async updateLotStatus(id: number, data: UpdateLotStatusDto) {
+    return ApiManager.api
+      .patch(`lots/${id}/status`, {
         json: data,
       })
       .json<LotDto>();

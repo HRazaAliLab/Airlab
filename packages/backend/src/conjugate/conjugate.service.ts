@@ -2,9 +2,10 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { ConjugateEntity } from "./conjugate.entity";
-import { CreateConjugateDto, UpdateConjugateDto } from "@airlab/shared/lib/conjugate/dto";
+import { CreateConjugateDto, UpdateConjugateDto, UpdateConjugateStatusDto } from "@airlab/shared/lib/conjugate/dto";
 import { UserEntity } from "../user/user.entity";
 import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
+import { ConjugateStatus } from "@airlab/shared/lib/conjugate/ConjugateStatus";
 
 @Injectable()
 export class ConjugateService {
@@ -52,6 +53,31 @@ export class ConjugateService {
 
   async updateArchiveState(id: number, params: UpdateStateDto) {
     await this.repository.update(id, { isArchived: params.state, updatedAt: new Date().toISOString() });
+    const item = await this.findById(id);
+    await this.clearCache(item.groupId);
+    return item;
+  }
+
+  async updateStatus(id: number, memberId: number, params: UpdateConjugateStatusDto) {
+    const now = new Date().toISOString();
+    let data = {};
+    switch (params.status) {
+      case ConjugateStatus.Finished:
+        data = {
+          status: params.status,
+          finishedBy: memberId,
+          finishedAt: now,
+          updatedAt: now,
+        };
+        break;
+      default:
+        data = {
+          status: params.status,
+          updatedAt: now,
+        };
+        break;
+    }
+    await this.repository.update(id, data);
     const item = await this.findById(id);
     await this.clearCache(item.groupId);
     return item;

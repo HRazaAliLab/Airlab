@@ -4,6 +4,7 @@ import { Repository } from "typeorm";
 import { LotEntity } from "./lot.entity";
 import { CreateLotDto, UpdateLotDto, UpdateLotStatusDto } from "@airlab/shared/lib/lot/dto";
 import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
+import { LotStatus } from "@airlab/shared/lib/lot/LotStatus";
 
 @Injectable()
 export class LotService {
@@ -58,48 +59,54 @@ export class LotService {
 
   async updateStatus(id: number, memberId: number, params: UpdateLotStatusDto) {
     const now = new Date().toISOString();
-    let values = {};
+    let data = {};
     switch (params.status) {
-      case 0:
-        values = {
+      case LotStatus.Requested:
+        data = {
           status: params.status,
           requestedBy: memberId,
           requestedAt: now,
           updatedAt: now,
         };
         break;
-      case 1:
-        values = {
+      case LotStatus.Approved:
+        data = {
           status: params.status,
           approvedBy: memberId,
           approvedAt: now,
           updatedAt: now,
         };
         break;
-      case 2:
-        values = {
+      case LotStatus.Rejected:
+        data = {
           status: params.status,
           updatedAt: now,
         };
         break;
-      case 3:
-        values = {
+      case LotStatus.Ordered:
+        data = {
           status: params.status,
           orderedBy: memberId,
           orderedAt: now,
           updatedAt: now,
         };
         break;
-      case 4:
-        values = {
+      case LotStatus.Stock:
+        data = {
           status: params.status,
           receivedBy: memberId,
           receivedAt: now,
           updatedAt: now,
         };
         break;
-      case 5:
-        values = {
+      case LotStatus.Low:
+        data = {
+          status: params.status,
+          updatedAt: now,
+        };
+        break;
+      case LotStatus.Finished:
+        data = {
           status: params.status,
           finishedBy: memberId,
           finishedAt: now,
@@ -107,7 +114,7 @@ export class LotService {
         };
         break;
     }
-    await this.repository.update(id, values);
+    await this.repository.update(id, data);
     const item = await this.findById(id);
     await this.clearCache(item.groupId);
     return item;

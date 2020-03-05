@@ -5,8 +5,9 @@ import { ConjugateState } from ".";
 import { api } from "./api";
 import { ConjugateGetters } from "./getters";
 import { ConjugateMutations } from "./mutations";
-import { CreateConjugateDto, UpdateConjugateDto } from "@airlab/shared/lib/conjugate/dto";
+import { CreateConjugateDto, UpdateConjugateDto, UpdateConjugateStatusDto } from "@airlab/shared/lib/conjugate/dto";
 import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
+import { ConjugateStatus } from "@airlab/shared/lib/conjugate/ConjugateStatus";
 
 export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, ConjugateMutations, ConjugateActions> {
   // Declare context type
@@ -55,6 +56,19 @@ export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, 
       this.mutations.updateEntity(data);
       this.main!.mutations.addNotification({
         content: `Conjugate successfully ${payload.data.state ? "archived" : "unarchived"}`,
+        color: "success",
+      });
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
+
+  async updateConjugateStatus(payload: { id: number; data: UpdateConjugateStatusDto }) {
+    try {
+      const data = await api.updateConjugateStatus(payload.id, payload.data);
+      this.mutations.updateEntity(data);
+      this.main!.mutations.addNotification({
+        content: `Conjugate successfully changed its status to ${ConjugateStatus[payload.data.status]}`,
         color: "success",
       });
     } catch (error) {

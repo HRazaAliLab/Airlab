@@ -13,7 +13,12 @@ import {
 import { ConjugateService } from "./conjugate.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
-import { ConjugateDto, CreateConjugateDto, UpdateConjugateDto } from "@airlab/shared/lib/conjugate/dto";
+import {
+  ConjugateDto,
+  CreateConjugateDto,
+  UpdateConjugateDto,
+  UpdateConjugateStatusDto,
+} from "@airlab/shared/lib/conjugate/dto";
 import { MemberService } from "../member/member.service";
 import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
 
@@ -60,6 +65,15 @@ export class ConjugateController {
       throw new UnauthorizedException("Only group admins can perform this operation");
     }
     return this.conjugateService.updateArchiveState(id, params);
+  }
+
+  @Patch("conjugates/:id/status")
+  @ApiOperation({ summary: "Change conjugate status." })
+  @ApiOkResponse({ type: ConjugateDto })
+  async updateStatus(@Request() req, @Param("id") id: number, @Body() params: UpdateConjugateStatusDto) {
+    const item = await this.conjugateService.findById(id);
+    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    return this.conjugateService.updateStatus(id, member.id, params);
   }
 
   @Delete("conjugates/:id")

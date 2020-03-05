@@ -167,6 +167,31 @@
               </v-btn>
             </template>
             <v-list dense>
+              <v-list-item v-if="item.status !== 0" @click="updateConjugateStatus(item.id, 0)">
+                <v-list-item-icon>
+                  <v-icon color="green">mdi-flask-empty</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Mark as Stock</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item v-if="item.status !== 1" @click="updateConjugateStatus(item.id, 1)">
+                <v-list-item-icon>
+                  <v-icon color="orange">mdi-speedometer-slow</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Mark as Low</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item v-if="item.status !== 2" @click="updateConjugateStatus(item.id, 2)">
+                <v-list-item-icon>
+                  <v-icon color="red accent-1">mdi-flask-empty-remove-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Mark as Finished</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider />
               <v-list-item
                 :to="{
                   name: 'main-group-conjugates-edit',
@@ -235,6 +260,7 @@ import { tagModule } from "@/modules/tag";
 import ConjugateDetailsView from "@/views/main/group/conjugates/ConjugateDetailsView.vue";
 import { getConjugateStatusColor } from "@/utils/converters";
 import ConjugateExpandedView from "@/views/main/group/conjugates/ConjugateExpandedView.vue";
+import { ConjugateStatus } from "@airlab/shared/lib/conjugate/ConjugateStatus";
 
 @Component({
   components: {
@@ -426,6 +452,12 @@ export default class ConjugatesListViews extends Vue {
   async updateConjugateArchiveState(id: number, state: boolean) {
     if (self.confirm(`Are you sure you want to ${state ? "archive" : "unarchive"} the conjugate?`)) {
       await this.conjugateContext.actions.updateConjugateArchiveState({ id: id, data: { state: state } });
+    }
+  }
+
+  async updateConjugateStatus(id: number, status: ConjugateStatus) {
+    if (self.confirm(`Are you sure you want to change the conjugate status to ${ConjugateStatus[status]}?`)) {
+      await this.conjugateContext.actions.updateConjugateStatus({ id: id, data: { status: status } });
     }
   }
 
