@@ -13,11 +13,10 @@
     "prebuild": "rm -rf ./lib",
     "build": "tsc",
     "prepublish": "yarn run build",
-    "postinstall": "yarn run build",
     "test": "jest"
   },
   "dependencies": {
-    "@nestjs/swagger": "4.3.2",
+    "@nestjs/swagger": "4.4.0",
     "class-validator": "0.11.0"
   },
   "devDependencies": {
