@@ -76,8 +76,8 @@ export class CreateTag1573041004316 implements MigrationInterface {
         ],
         uniques: [
           {
-            name: "UQ_tag_name_and_mw",
-            columnNames: ["name", "mw"],
+            name: "UQ_tag_group_id_and_name_and_mw",
+            columnNames: ["group_id", "name", "mw"],
           },
         ],
       }),

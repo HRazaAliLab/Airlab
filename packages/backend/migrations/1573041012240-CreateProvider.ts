@@ -62,8 +62,8 @@ export class CreateProvider1573041012240 implements MigrationInterface {
         ],
         uniques: [
           {
-            name: "UQ_provider_name",
-            columnNames: ["name"],
+            name: "UQ_provider_group_id_and_name",
+            columnNames: ["group_id", "name"],
           },
         ],
       }),

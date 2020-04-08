@@ -4,7 +4,7 @@ import { applicationToString, validationStatusToString } from "@/utils/converter
 
 export class ValidationGetters extends Getters<ValidationState> {
   get validations() {
-    return this.state.ids.map(id => this.state.entities[id]);
+    return this.state.ids.map((id) => this.state.entities[id]);
   }
 
   getValidation(id: number) {
@@ -13,8 +13,8 @@ export class ValidationGetters extends Getters<ValidationState> {
 
   getCsv(items: any[]) {
     const separator = ",";
-    const header = ["Id", "Application", "Species", "Clone", "Protein", "Lot", "Conjugate", "CreatedBy", "Status"];
-    const lines = items.map(item => {
+    const header = ["Id", "Application", "Species", "Clone", "Protein", "Lot", "Conjugate", "CreatedBy", "Status", "Retrieval"];
+    const lines = items.map((item) => {
       const line = [
         item.id,
         applicationToString(item.application),
@@ -25,6 +25,7 @@ export class ValidationGetters extends Getters<ValidationState> {
         item.conjugate ? item.conjugate.id : "",
         item.user.name,
         validationStatusToString(item.status),
+        item.antigenRetrievalType,
       ];
       return line.join(separator);
     });

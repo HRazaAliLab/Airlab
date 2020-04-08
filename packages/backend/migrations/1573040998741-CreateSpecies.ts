@@ -52,12 +52,12 @@ export class CreateSpecies1573040998741 implements MigrationInterface {
         ],
         uniques: [
           {
-            name: "UQ_species_name",
-            columnNames: ["name"],
+            name: "UQ_species_group_id_and_name",
+            columnNames: ["group_id", "name"],
           },
           {
-            name: "UQ_species_acronym",
-            columnNames: ["acronym"],
+            name: "UQ_species_group_id_and_acronym",
+            columnNames: ["group_id", "acronym"],
           },
         ],
       }),

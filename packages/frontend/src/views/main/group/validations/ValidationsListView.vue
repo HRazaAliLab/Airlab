@@ -91,6 +91,29 @@
               </v-chip>
             </template>
           </v-select>
+          <v-select
+            v-model="retrievalFilter"
+            :items="antigenRetrievalTypes"
+            chips
+            clearable
+            label="Antigen Retrieval"
+            multiple
+            prepend-icon="mdi-filter-outline"
+            solo
+            dense
+          >
+            <template v-slot:selection="{ attrs, item, select, selected }">
+              <v-chip
+                v-bind="attrs"
+                :input-value="selected"
+                close
+                @click="select"
+                @click:close="removeRetrievalFilter(item)"
+              >
+                {{ item }}
+              </v-chip>
+            </template>
+          </v-select>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -314,7 +337,7 @@ import { validationModule } from "@/modules/validation";
 import { ValidationDto } from "@airlab/shared/lib/validation/dto";
 import { speciesModule } from "@/modules/species";
 import { exportCsv } from "@/utils/exporters";
-import { applicationEnum, statusEnum } from "@/utils/enums";
+import { applicationEnum, statusEnum, antigenRetrievalTypes } from "@/utils/enums";
 import { applicationToString } from "@/utils/converters";
 import ValidationDetailsView from "@/views/main/group/validations/ValidationDetailsView.vue";
 import { apiUrl } from "@/env";
@@ -330,9 +353,10 @@ export default class ValidationsListViews extends Vue {
   readonly validationContext = validationModule.context(this.$store);
   readonly speciesContext = speciesModule.context(this.$store);
 
-  readonly apiUrl = apiUrl;
-  readonly applications = applicationEnum;
-  readonly statuses = statusEnum;
+  private readonly apiUrl = apiUrl;
+  private readonly applications = applicationEnum;
+  private readonly statuses = statusEnum;
+  private readonly antigenRetrievalTypes = antigenRetrievalTypes;
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
@@ -457,19 +481,23 @@ export default class ValidationsListViews extends Vue {
   speciesFilter: number[] = [];
   applicationFilter: number[] = [];
   statusFilter: number[] = [];
+  retrievalFilter: string[] = [];
 
   get items() {
     let items = this.validationContext.getters.validations;
     if (this.speciesFilter.length > 0) {
-      items = items.filter(item =>
+      items = items.filter((item) =>
         (item as any).species ? this.speciesFilter.includes((item as any).species.id) : false
       );
     }
     if (this.applicationFilter.length > 0) {
-      items = items.filter(item => this.applicationFilter.includes(item.application));
+      items = items.filter((item) => this.applicationFilter.includes(item.application));
     }
     if (this.statusFilter.length > 0) {
-      items = items.filter(item => this.statusFilter.includes(item.status));
+      items = items.filter((item) => this.statusFilter.includes(item.status));
+    }
+    if (this.retrievalFilter.length > 0) {
+      items = items.filter((item) => this.retrievalFilter.includes(item.antigenRetrievalType));
     }
     return items;
   }
@@ -511,6 +539,11 @@ export default class ValidationsListViews extends Vue {
   removeStatusFilter(item) {
     this.statusFilter.splice(this.statusFilter.indexOf(item), 1);
     this.statusFilter = [...this.statusFilter];
+  }
+
+  removeRetrievalFilter(item) {
+    this.retrievalFilter.splice(this.retrievalFilter.indexOf(item), 1);
+    this.retrievalFilter = [...this.retrievalFilter];
   }
 
   async mounted() {

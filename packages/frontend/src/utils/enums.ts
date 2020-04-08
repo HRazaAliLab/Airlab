@@ -23,3 +23,5 @@ export const tagTypeEnum = [
   { value: 0, text: "Metal" },
   { value: 1, text: "Fluorophore" },
 ];
+
+export const antigenRetrievalTypes = ["HIER Buffer", "Sodium Citrate", "2-step Retrieval", "RNAScope"];

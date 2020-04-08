@@ -249,6 +249,7 @@ import { cloneModule } from "@/modules/clone";
 import { speciesModule } from "@/modules/species";
 import { CreateValidationDto } from "@airlab/shared/lib/validation/dto";
 import { validationModule } from "@/modules/validation";
+import { antigenRetrievalTypes } from "@/utils/enums";
 
 @Component
 export default class CreateValidation extends Vue {
@@ -271,8 +272,7 @@ export default class CreateValidation extends Vue {
     { id: 6, name: "Methanol/Acetone" },
     { id: 7, name: "Other" },
   ];
-
-  readonly antigenRetrievalTypes = ["HIER Buffer", "Sodium Citrate", "2-step Retrieval", "RNAScope"];
+  private readonly antigenRetrievalTypes = antigenRetrievalTypes;
 
   valid = false;
   cloneId: number | null = null;
@@ -313,7 +313,7 @@ export default class CreateValidation extends Vue {
   get lots() {
     let items = this.lotContext.getters.lots;
     if (this.cloneId) {
-      items = items.filter(item => item.cloneId === this.cloneId);
+      items = items.filter((item) => item.cloneId === this.cloneId);
     }
     return items;
   }
@@ -321,7 +321,7 @@ export default class CreateValidation extends Vue {
   get conjugates() {
     let items = this.conjugateContext.getters.conjugates;
     if (this.lotId) {
-      items = items.filter(item => item.lotId === this.lotId);
+      items = items.filter((item) => item.lotId === this.lotId);
     }
     return items;
   }
