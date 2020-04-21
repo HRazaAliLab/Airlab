@@ -3,7 +3,7 @@ import { PanelState } from ".";
 
 export class PanelGetters extends Getters<PanelState> {
   get panels() {
-    return this.state.ids.map(id => this.state.entities[id]);
+    return this.state.ids.map((id) => this.state.entities[id]);
   }
 
   getPanel(id: number) {

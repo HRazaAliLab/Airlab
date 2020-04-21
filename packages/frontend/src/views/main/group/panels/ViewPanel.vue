@@ -21,7 +21,7 @@
         outlined
         dense
         class="toolbar-text-field toolbar-item-margin"
-        style="width: 50px"
+        style="width: 50px;"
       />
       <v-text-field
         :value="diluentVolume"
@@ -266,7 +266,7 @@ export default class ViewPanel extends Vue {
         if (conjugate) {
           const validations =
             (conjugate as any).lot && (conjugate as any).lot.clone
-              ? this.validations.filter(validation => (validation as any).clone.id == (conjugate as any).lot.clone.id)
+              ? this.validations.filter((validation) => (validation as any).clone.id == (conjugate as any).lot.clone.id)
               : [];
           const item = {
             ...conjugate,
@@ -348,7 +348,7 @@ export default class ViewPanel extends Vue {
 
   async submit() {
     if (this.panel) {
-      const elements: PanelElementDataDto[] = this.items.map(item => {
+      const elements: PanelElementDataDto[] = this.items.map((item) => {
         return {
           conjugateId: Number(item.id),
           dilutionType: item.dilutionType ? Number(item.dilutionType) : 0,

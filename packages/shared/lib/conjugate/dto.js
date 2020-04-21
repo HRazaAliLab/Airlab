@@ -55,7 +55,7 @@ __decorate([
     __metadata("design:type", Number)
 ], ConjugateDto.prototype, "concentration", void 0);
 __decorate([
-    swagger_1.ApiProperty(),
+    swagger_1.ApiPropertyOptional(),
     __metadata("design:type", String)
 ], ConjugateDto.prototype, "description", void 0);
 __decorate([
@@ -78,6 +78,10 @@ __decorate([
     swagger_1.ApiPropertyOptional(),
     __metadata("design:type", String)
 ], ConjugateDto.prototype, "updatedAt", void 0);
+__decorate([
+    swagger_1.ApiPropertyOptional(),
+    __metadata("design:type", String)
+], ConjugateDto.prototype, "customId", void 0);
 exports.ConjugateDto = ConjugateDto;
 class CreateConjugateDto {
 }
@@ -110,9 +114,16 @@ __decorate([
 ], CreateConjugateDto.prototype, "concentration", void 0);
 __decorate([
     class_validator_1.IsString(),
-    swagger_1.ApiProperty(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiPropertyOptional(),
     __metadata("design:type", String)
 ], CreateConjugateDto.prototype, "description", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiPropertyOptional(),
+    __metadata("design:type", String)
+], CreateConjugateDto.prototype, "customId", void 0);
 exports.CreateConjugateDto = CreateConjugateDto;
 class UpdateConjugateDto {
 }
@@ -140,9 +151,16 @@ __decorate([
 ], UpdateConjugateDto.prototype, "concentration", void 0);
 __decorate([
     class_validator_1.IsString(),
-    swagger_1.ApiProperty(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiPropertyOptional(),
     __metadata("design:type", String)
 ], UpdateConjugateDto.prototype, "description", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiPropertyOptional(),
+    __metadata("design:type", String)
+], UpdateConjugateDto.prototype, "customId", void 0);
 exports.UpdateConjugateDto = UpdateConjugateDto;
 class UpdateConjugateStatusDto {
 }

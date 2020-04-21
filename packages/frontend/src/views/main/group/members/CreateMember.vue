@@ -76,7 +76,7 @@ export default class CreateMember extends Vue {
   }
 
   get users() {
-    return this.userContext.getters.users.map(item => ({
+    return this.userContext.getters.users.map((item) => ({
       id: item.id,
       name: `${item.name} [${item.email}]`,
     }));

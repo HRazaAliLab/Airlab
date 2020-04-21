@@ -18,6 +18,10 @@
             <v-text-field label="Name" v-model="name" :rules="nameRules" />
             <v-checkbox label="Metal" v-model="isMetal" />
             <v-checkbox label="Fluorophore" v-model="isFluorophore" />
+            <v-checkbox label="Enzyme" v-model="isEnzyme" />
+            <v-checkbox label="Biotin" v-model="isBiotin" />
+            <v-checkbox label="Other" v-model="isOther" />
+            <v-text-field label="Description" v-model="description" />
             <v-text-field v-if="isMetal" label="MW" v-model.number="mw" :rules="mwRules" type="number" />
             <v-text-field
               v-if="isFluorophore"
@@ -59,6 +63,10 @@ export default class EditTag extends Vue {
   name = "";
   isMetal = false;
   isFluorophore = false;
+  isEnzyme = false;
+  isBiotin = false;
+  isOther = false;
+  description: string | null = null;
   mw: number | null = null;
   emission: number | null = null;
   excitation: number | null = null;
@@ -80,6 +88,10 @@ export default class EditTag extends Vue {
       this.name = this.tag.name;
       this.isMetal = this.tag.isMetal;
       this.isFluorophore = this.tag.isFluorophore;
+      this.isEnzyme = this.tag.isEnzyme;
+      this.isBiotin = this.tag.isBiotin;
+      this.isOther = this.tag.isOther;
+      this.description = this.tag.description;
       this.mw = this.tag.mw;
       this.emission = this.tag.emission;
       this.excitation = this.tag.excitation;
@@ -96,6 +108,10 @@ export default class EditTag extends Vue {
         name: this.name,
         isMetal: this.isMetal,
         isFluorophore: this.isFluorophore,
+        isEnzyme: this.isEnzyme,
+        isBiotin: this.isBiotin,
+        isOther: this.isOther,
+        description: this.description,
         mw: this.mw,
         emission: this.emission,
         excitation: this.excitation,

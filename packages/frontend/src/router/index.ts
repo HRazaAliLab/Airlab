@@ -214,7 +214,9 @@ export default new Router({
                   path: "species",
                   name: "main-group-species",
                   component: () =>
-                    import(/* webpackChunkName: "main-group-species" */ "@/views/main/group/species/SpeciesListView.vue"),
+                    import(
+                      /* webpackChunkName: "main-group-species" */ "@/views/main/group/species/SpeciesListView.vue"
+                    ),
                 },
                 {
                   path: "species/create",
@@ -262,7 +264,9 @@ export default new Router({
                   path: "members",
                   name: "main-group-members",
                   component: () =>
-                    import(/* webpackChunkName: "main-group-members" */ "@/views/main/group/members/MembersListView.vue"),
+                    import(
+                      /* webpackChunkName: "main-group-members" */ "@/views/main/group/members/MembersListView.vue"
+                    ),
                 },
                 {
                   path: "members/create",

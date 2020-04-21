@@ -48,7 +48,8 @@
             clearable
             open-on-clear
           />
-          <v-text-field label="Description" v-model="description" :rules="descriptionRules" />
+          <v-text-field label="Description" v-model="description" />
+          <v-text-field label="Custom ID" v-model="customId" />
         </v-form>
       </v-card-text>
     </v-card>
@@ -76,14 +77,14 @@ export default class CreateConjugate extends Vue {
   readonly lotRules = [required];
   readonly tagRules = [required];
   readonly concentrationRules = [required];
-  readonly descriptionRules = [];
 
   valid = false;
   lotId: number | null = null;
   tagId: number | null = null;
   labeledBy: number | null = null;
   concentration: number | null = null;
-  description = "";
+  description: string | null = null;
+  customId: string | null = null;
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
@@ -98,7 +99,7 @@ export default class CreateConjugate extends Vue {
   }
 
   get tags() {
-    return this.tagContext.getters.tags.map(item => ({
+    return this.tagContext.getters.tags.map((item) => ({
       id: item.id,
       name: item.mw ? item.name + item.mw : item.name,
     }));
@@ -113,7 +114,8 @@ export default class CreateConjugate extends Vue {
     this.tagId = null;
     this.labeledBy = null;
     this.concentration = null;
-    this.description = "";
+    this.description = null;
+    this.customId = null;
     (this.$refs.form as any).resetValidation();
   }
 
@@ -134,6 +136,7 @@ export default class CreateConjugate extends Vue {
         tagId: Number(this.tagId),
         concentration: this.concentration ? Number(this.concentration) : null,
         description: this.description,
+        customId: this.customId,
         labeledBy: this.labeledBy ? Number(this.labeledBy) : null,
       };
       await this.conjugateContext.actions.createConjugate(data);

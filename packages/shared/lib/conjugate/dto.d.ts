@@ -10,12 +10,13 @@ export declare class ConjugateDto {
     readonly status: number;
     readonly tubeNumber: number;
     readonly concentration: number;
-    readonly description: string;
+    readonly description: string | null;
     readonly isArchived: boolean;
     readonly meta: object;
     readonly labeledAt: string;
     readonly createdAt: string;
     readonly updatedAt: string;
+    readonly customId: string;
 }
 export declare class CreateConjugateDto {
     readonly createdBy?: number;
@@ -24,14 +25,16 @@ export declare class CreateConjugateDto {
     readonly tagId: number;
     readonly labeledBy: number | null;
     readonly concentration: number | null;
-    readonly description: string;
+    readonly description: string | null;
+    readonly customId: string | null;
 }
 export declare class UpdateConjugateDto {
     readonly lotId: number;
     readonly tagId: number;
     readonly labeledBy: number | null;
     readonly concentration: number | null;
-    readonly description: string;
+    readonly description: string | null;
+    readonly customId: string | null;
 }
 export declare class UpdateConjugateStatusDto {
     readonly status: ConjugateStatus;

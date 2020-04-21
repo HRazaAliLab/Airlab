@@ -400,12 +400,12 @@ export default class ClonesListView extends Vue {
   get items() {
     let items = this.cloneContext.getters.clones;
     if (this.speciesFilter.length > 0) {
-      items = items.filter(item =>
+      items = items.filter((item) =>
         (item as any).species ? this.speciesFilter.includes((item as any).species.id) : false
       );
     }
     if (this.applicationFilter.length > 0) {
-      items = items.filter(item => {
+      items = items.filter((item) => {
         for (const validation of (item as any).validations) {
           if (this.applicationFilter.includes(validation.application)) {
             return true;
@@ -417,7 +417,7 @@ export default class ClonesListView extends Vue {
     if (this.statusFilter.length > 0) {
       items =
         this.applicationFilter.length > 0
-          ? items.filter(item => {
+          ? items.filter((item) => {
               for (const validation of (item as any).validations) {
                 if (
                   this.applicationFilter.includes(validation.application) &&
@@ -428,7 +428,7 @@ export default class ClonesListView extends Vue {
               }
               return false;
             })
-          : items.filter(item => {
+          : items.filter((item) => {
               for (const validation of (item as any).validations) {
                 if (this.statusFilter.includes(validation.status)) {
                   return true;
@@ -438,7 +438,7 @@ export default class ClonesListView extends Vue {
             });
     }
     if (this.reactivityFilter.length > 0) {
-      items = items.filter(item => item.reactivity.some(element => this.reactivityFilter.includes(element)));
+      items = items.filter((item) => item.reactivity.some((element) => this.reactivityFilter.includes(element)));
     }
     return items;
   }

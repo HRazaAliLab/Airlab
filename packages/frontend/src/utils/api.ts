@@ -12,7 +12,7 @@ export class ApiManager {
       throwHttpErrors: true,
       hooks: {
         beforeRequest: [
-          async request => {
+          async (request) => {
             request.headers.set("Authorization", `Bearer ${ApiManager._token}`);
           },
         ],

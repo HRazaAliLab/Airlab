@@ -3,11 +3,11 @@ import { TagState } from ".";
 
 export class TagGetters extends Getters<TagState> {
   get tags() {
-    return this.state.ids.map(id => this.state.entities[id]);
+    return this.state.ids.map((id) => this.state.entities[id]);
   }
 
   get metals() {
-    return this.getters.tags.filter(item => item.isMetal);
+    return this.getters.tags.filter((item) => item.isMetal);
   }
 
   getTag(id: number) {

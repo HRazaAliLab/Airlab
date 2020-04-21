@@ -43,6 +43,12 @@
             <v-btn small value="4">
               IHC
             </v-btn>
+            <v-btn small value="5">
+              IHCF
+            </v-btn>
+            <v-btn small value="6">
+              WB
+            </v-btn>
           </v-btn-toggle>
           <v-checkbox label="Fluorophore" v-model="isFluorophore" />
           <v-checkbox label="Locked" v-model="isLocked" />
@@ -150,10 +156,10 @@ export default class EditPanel extends Vue {
   private get conjugates() {
     let items = this.showEmpty
       ? Object.freeze(this.conjugateContext.getters.conjugates)
-      : Object.freeze(this.conjugateContext.getters.conjugates.filter(item => item.status !== 2));
+      : Object.freeze(this.conjugateContext.getters.conjugates.filter((item) => item.status !== 2));
     if (this.search !== null) {
       const normalizedSearchTerm = this.search.toLowerCase().trim();
-      items = items.filter(item => (item as any).lot.clone.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1);
+      items = items.filter((item) => (item as any).lot.clone.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1);
     }
     return items;
   }
@@ -164,7 +170,7 @@ export default class EditPanel extends Vue {
   }
 
   private getTagConjugates(tagId: number) {
-    return this.conjugates.filter(item => item.tagId === tagId);
+    return this.conjugates.filter((item) => item.tagId === tagId);
   }
 
   private onScroll(e) {
@@ -233,7 +239,7 @@ export default class EditPanel extends Vue {
     if ((this.$refs.form as any).validate() && this.panel) {
       const elements: PanelElementDataDto[] = [];
       this.selectedTagConjugates.forEach((set: Set<ConjugateDto>, key, map) => {
-        set.forEach(conjugate => {
+        set.forEach((conjugate) => {
           const conjugateData = this.conjugatePanelData.get(conjugate.id);
           elements.push({
             conjugateId: conjugate.id,

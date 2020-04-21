@@ -48,7 +48,8 @@
             clearable
             open-on-clear
           />
-          <v-text-field label="Description" v-model="description" :rules="descriptionRules" />
+          <v-text-field label="Description" v-model="description" />
+          <v-text-field label="Custom ID" v-model="customId" />
         </v-form>
       </v-card-text>
     </v-card>
@@ -83,7 +84,8 @@ export default class EditConjugate extends Vue {
   tagId: number | null = null;
   labeledBy: number | null = null;
   concentration: number | null = null;
-  description = "";
+  description: string | null = null;
+  customId: string | null = null;
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
@@ -98,7 +100,7 @@ export default class EditConjugate extends Vue {
   }
 
   get tags() {
-    return this.tagContext.getters.tags.map(item => ({
+    return this.tagContext.getters.tags.map((item) => ({
       id: item.id,
       name: item.mw ? item.name + item.mw : item.name,
     }));
@@ -122,6 +124,7 @@ export default class EditConjugate extends Vue {
       this.labeledBy = this.conjugate.labeledBy;
       this.concentration = this.conjugate.concentration;
       this.description = this.conjugate.description;
+      this.customId = this.conjugate.customId;
     }
   }
 
@@ -142,6 +145,7 @@ export default class EditConjugate extends Vue {
         tagId: Number(this.tagId),
         concentration: this.concentration,
         description: this.description,
+        customId: this.customId,
         labeledBy: this.labeledBy ? Number(this.labeledBy) : null,
       };
       await this.conjugateContext.actions.updateConjugate({

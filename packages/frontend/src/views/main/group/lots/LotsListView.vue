@@ -404,10 +404,10 @@ export default class LotsListView extends Vue {
   get items() {
     let items = this.lotContext.getters.lots;
     if (this.statusFilter.length > 0) {
-      items = items.filter(item => this.statusFilter.includes(item.status));
+      items = items.filter((item) => this.statusFilter.includes(item.status));
     }
     if (this.providerFilter.length > 0) {
-      items = items.filter(item =>
+      items = items.filter((item) =>
         (item as any).provider ? this.providerFilter.includes((item as any).provider.id) : false
       );
     }

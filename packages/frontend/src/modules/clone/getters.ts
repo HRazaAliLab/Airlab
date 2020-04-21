@@ -3,7 +3,7 @@ import { CloneState } from ".";
 
 export class CloneGetters extends Getters<CloneState> {
   get clones() {
-    return this.state.ids.map(id => this.state.entities[id]);
+    return this.state.ids.map((id) => this.state.entities[id]);
   }
 
   getClone(id: number) {
@@ -13,7 +13,7 @@ export class CloneGetters extends Getters<CloneState> {
   getCsv(items: any[]) {
     const separator = ",";
     const header = ["Id", "Clone", "Protein", "Host", "Isotype", "Epitope", "Phospho", "Polyclonal"];
-    const lines = items.map(item => {
+    const lines = items.map((item) => {
       const line = [
         item.id,
         item.name,

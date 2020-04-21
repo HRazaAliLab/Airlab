@@ -34,6 +34,22 @@ __decorate([
     __metadata("design:type", Boolean)
 ], TagDto.prototype, "isFluorophore", void 0);
 __decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Boolean)
+], TagDto.prototype, "isEnzyme", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Boolean)
+], TagDto.prototype, "isBiotin", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Boolean)
+], TagDto.prototype, "isOther", void 0);
+__decorate([
+    swagger_1.ApiPropertyOptional(),
+    __metadata("design:type", String)
+], TagDto.prototype, "description", void 0);
+__decorate([
     swagger_1.ApiPropertyOptional(),
     __metadata("design:type", Number)
 ], TagDto.prototype, "mw", void 0);
@@ -77,6 +93,27 @@ __decorate([
     __metadata("design:type", Boolean)
 ], CreateTagDto.prototype, "isFluorophore", void 0);
 __decorate([
+    class_validator_1.IsBoolean(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Boolean)
+], CreateTagDto.prototype, "isEnzyme", void 0);
+__decorate([
+    class_validator_1.IsBoolean(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Boolean)
+], CreateTagDto.prototype, "isBiotin", void 0);
+__decorate([
+    class_validator_1.IsBoolean(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Boolean)
+], CreateTagDto.prototype, "isOther", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiPropertyOptional(),
+    __metadata("design:type", String)
+], CreateTagDto.prototype, "description", void 0);
+__decorate([
     class_validator_1.IsInt(),
     class_validator_1.IsOptional(),
     swagger_1.ApiPropertyOptional(),
@@ -112,6 +149,27 @@ __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Boolean)
 ], UpdateTagDto.prototype, "isFluorophore", void 0);
+__decorate([
+    class_validator_1.IsBoolean(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Boolean)
+], UpdateTagDto.prototype, "isEnzyme", void 0);
+__decorate([
+    class_validator_1.IsBoolean(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Boolean)
+], UpdateTagDto.prototype, "isBiotin", void 0);
+__decorate([
+    class_validator_1.IsBoolean(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Boolean)
+], UpdateTagDto.prototype, "isOther", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiPropertyOptional(),
+    __metadata("design:type", String)
+], UpdateTagDto.prototype, "description", void 0);
 __decorate([
     class_validator_1.IsInt(),
     class_validator_1.IsOptional(),

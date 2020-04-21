@@ -210,10 +210,10 @@ export default class MembersListView extends Vue {
   get items() {
     let items = this.memberContext.getters.members;
     if (!this.showInactiveMembers) {
-      items = items.filter(item => item.isActive);
+      items = items.filter((item) => item.isActive);
     }
     if (this.roleFilter.length > 0) {
-      items = items.filter(item => this.roleFilter.includes(item.role));
+      items = items.filter((item) => this.roleFilter.includes(item.role));
     }
     return items;
   }

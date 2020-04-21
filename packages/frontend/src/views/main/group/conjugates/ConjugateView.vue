@@ -65,6 +65,7 @@
       </div>
       <div><span class="subheader">Concentration: </span>{{ conjugate.concentration }}</div>
       <div><span class="subheader">Description: </span>{{ conjugate.description }}</div>
+      <div><span class="subheader">Custom ID: </span>{{ conjugate.customId }}</div>
       <div><span class="subheader">Created: </span>{{ new Date(conjugate.createdAt).toUTCString() }}</div>
       <div><span class="subheader">Updated: </span>{{ new Date(conjugate.updatedAt).toUTCString() }}</div>
     </v-card-text>

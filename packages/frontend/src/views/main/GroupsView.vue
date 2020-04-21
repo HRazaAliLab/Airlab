@@ -39,7 +39,7 @@ export default class GroupsView extends Vue {
 
   get groups() {
     const items = this.search
-      ? this.groupContext.getters.groups.filter(item => item.name.toLowerCase().includes(this.search.toLowerCase()))
+      ? this.groupContext.getters.groups.filter((item) => item.name.toLowerCase().includes(this.search.toLowerCase()))
       : this.groupContext.getters.groups;
     return items;
   }

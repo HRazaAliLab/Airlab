@@ -13,7 +13,18 @@ export class ValidationGetters extends Getters<ValidationState> {
 
   getCsv(items: any[]) {
     const separator = ",";
-    const header = ["Id", "Application", "Species", "Clone", "Protein", "Lot", "Conjugate", "CreatedBy", "Status", "Retrieval"];
+    const header = [
+      "Id",
+      "Application",
+      "Species",
+      "Clone",
+      "Protein",
+      "Lot",
+      "Conjugate",
+      "CreatedBy",
+      "Status",
+      "Retrieval",
+    ];
     const lines = items.map((item) => {
       const line = [
         item.id,

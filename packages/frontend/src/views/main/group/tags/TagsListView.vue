@@ -35,6 +35,15 @@
         <template v-slot:item.isFluorophore="{ item }">
           <v-icon v-if="item.isFluorophore">mdi-check</v-icon>
         </template>
+        <template v-slot:item.isEnzyme="{ item }">
+          <v-icon v-if="item.isEnzyme">mdi-check</v-icon>
+        </template>
+        <template v-slot:item.isBiotin="{ item }">
+          <v-icon v-if="item.isBiotin">mdi-check</v-icon>
+        </template>
+        <template v-slot:item.isOther="{ item }">
+          <v-icon v-if="item.isOther">mdi-check</v-icon>
+        </template>
         <template v-slot:item.action="{ item }">
           <v-menu bottom left>
             <template v-slot:activator="{ on }">
@@ -136,6 +145,37 @@ export default class TagsListView extends Vue {
       align: "left",
       filterable: false,
       width: "140",
+    },
+    {
+      text: "Enzyme",
+      sortable: true,
+      value: "isEnzyme",
+      align: "left",
+      filterable: false,
+      width: "140",
+    },
+    {
+      text: "Biotin",
+      sortable: true,
+      value: "isBiotin",
+      align: "left",
+      filterable: false,
+      width: "140",
+    },
+    {
+      text: "Other",
+      sortable: true,
+      value: "isOther",
+      align: "left",
+      filterable: false,
+      width: "140",
+    },
+    {
+      text: "Description",
+      sortable: true,
+      value: "description",
+      align: "left",
+      filterable: false,
     },
     {
       text: "MW",

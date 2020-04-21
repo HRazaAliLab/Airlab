@@ -56,6 +56,12 @@
         <v-chip :color="getApplicationColor(applicationMap.IHC)" small disabled class="chip">
           IHC
         </v-chip>
+        <v-chip :color="getApplicationColor(applicationMap.IHCF)" small disabled class="chip">
+          IHC-F
+        </v-chip>
+        <v-chip :color="getApplicationColor(applicationMap.WB)" small disabled class="chip">
+          WB
+        </v-chip>
       </v-chip-group>
       <div class="subheader">
         Reactivity:
@@ -93,6 +99,7 @@ import { groupModule } from "@/modules/group";
 import { cloneModule } from "@/modules/clone";
 import LoadingView from "@/components/LoadingView.vue";
 import { speciesModule } from "@/modules/species";
+import { applicationNameToId } from "@/utils/enums";
 
 @Component({
   components: { LoadingView },
@@ -108,13 +115,7 @@ export default class CloneView extends Vue {
   })
   readonly cloneId!: number;
 
-  private readonly applicationMap = {
-    sMC: 0,
-    iMC: 1,
-    FC: 2,
-    IF: 3,
-    IHC: 4,
-  };
+  private readonly applicationMap = applicationNameToId;
 
   private get activeGroupId() {
     return this.groupContext.getters.activeGroupId;

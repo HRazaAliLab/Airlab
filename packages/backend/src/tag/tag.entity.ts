@@ -31,6 +31,26 @@ export class TagEntity {
   isFluorophore: boolean;
 
   @Column({
+    name: "is_enzyme",
+  })
+  isEnzyme: boolean;
+
+  @Column({
+    name: "is_biotin",
+  })
+  isBiotin: boolean;
+
+  @Column({
+    name: "is_other",
+  })
+  isOther: boolean;
+
+  @Column({
+    name: "description",
+  })
+  description: string;
+
+  @Column({
     name: "mw",
   })
   mw?: number;
@@ -56,10 +76,7 @@ export class TagEntity {
   })
   createdAt: string;
 
-  @ManyToOne(
-    type => GroupEntity,
-    group => group.tags
-  )
+  @ManyToOne((type) => GroupEntity, (group) => group.tags)
   @JoinColumn({ name: "group_id" })
   group!: GroupEntity;
 }

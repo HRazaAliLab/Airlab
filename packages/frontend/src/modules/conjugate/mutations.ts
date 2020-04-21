@@ -11,7 +11,7 @@ export class ConjugateMutations extends Mutations<ConjugateState> {
   }
 
   setEntity(payload: ConjugateDto) {
-    const existingId = this.state.ids.find(id => id === payload.id);
+    const existingId = this.state.ids.find((id) => id === payload.id);
     if (!existingId) {
       this.state.ids = this.state.ids.concat(payload.id);
     }
@@ -28,7 +28,7 @@ export class ConjugateMutations extends Mutations<ConjugateState> {
   }
 
   deleteEntity(id: number) {
-    this.state.ids = this.state.ids.filter(item => item !== id);
+    this.state.ids = this.state.ids.filter((item) => item !== id);
     const entities = { ...this.state.entities };
     delete entities[id];
     this.state.entities = entities;

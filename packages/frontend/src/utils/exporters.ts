@@ -49,11 +49,7 @@ function addComponentsPanelToTemplate(
 
         if (item.lot && item.lot.clone && item.lot.clone.protein) {
           let proName = item.lot.clone.protein.name;
-          proName = proName
-            .replace(" ", "")
-            .replace("_", "")
-            .replace("/", "")
-            .replace("\\", "");
+          proName = proName.replace(" ", "").replace("_", "").replace("/", "").replace("\\", "");
           let descrp = proName.substring(0, proName.length > 7 ? 7 : proName.length);
           if (item.lot.clone.isPhospho) descrp += "_phospho";
           descrp += "_";
@@ -97,11 +93,7 @@ function addComponentsPanelToTemplate(
         aSecond = aSecond.replace("{isotopeMass}", mass);
         if (item.lot && item.lot.clone && item.lot.clone.protein) {
           let proName = item.lot.clone.protein.name;
-          proName = proName
-            .replace(" ", "")
-            .replace("_", "")
-            .replace("/", "")
-            .replace("\\", "");
+          proName = proName.replace(" ", "").replace("_", "").replace("/", "").replace("\\", "");
           let descrp = proName.substring(0, proName.length > 7 ? 7 : proName.length);
           if (item.lot.clone.isPhospho) descrp += "_phospho";
           descrp += "_";
@@ -160,11 +152,7 @@ export function exportCSVCyTOF201608(panel: PanelDto, items) {
     txt += item.tag.mw + item.tag.name + ",";
     if (item.lot && item.lot.clone && item.lot.clone.protein) {
       let proName = item.lot.clone.protein.name;
-      proName = proName
-        .replace(" ", "")
-        .replace("_", "")
-        .replace("/", "")
-        .replace("\\", "");
+      proName = proName.replace(" ", "").replace("_", "").replace("/", "").replace("\\", "");
       let descrp = proName.substring(0, proName.length > 7 ? 7 : proName.length);
       if (item.lot.clone.isPhospho) descrp += "_phospho";
       descrp += "_";

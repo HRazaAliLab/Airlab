@@ -280,10 +280,10 @@ export default class PanelsListView extends Vue {
   get items() {
     let items = this.panelContext.getters.panels;
     if (this.showOwnPanels && this.member !== null) {
-      items = items.filter(item => item.createdBy === this.member!.id);
+      items = items.filter((item) => item.createdBy === this.member!.id);
     }
     if (this.applicationFilter.length > 0) {
-      items = items.filter(item => this.applicationFilter.includes(item.application));
+      items = items.filter((item) => this.applicationFilter.includes(item.application));
     }
     return items;
   }

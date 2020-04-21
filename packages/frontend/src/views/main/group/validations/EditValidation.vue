@@ -35,6 +35,12 @@
                 <v-btn small value="4">
                   IHC
                 </v-btn>
+                <v-btn small value="5">
+                  IHCF
+                </v-btn>
+                <v-btn small value="6">
+                  WB
+                </v-btn>
               </v-btn-toggle>
             </v-col>
             <v-col>

@@ -3,7 +3,7 @@ import { ConjugateState } from ".";
 
 export class ConjugateGetters extends Getters<ConjugateState> {
   get conjugates() {
-    return this.state.ids.map(id => this.state.entities[id]);
+    return this.state.ids.map((id) => this.state.entities[id]);
   }
 
   getConjugate(id: number) {
@@ -11,6 +11,6 @@ export class ConjugateGetters extends Getters<ConjugateState> {
   }
 
   getConjugatesForTag(tagId: number) {
-    return this.getters.conjugates.filter(item => item.tagId === tagId);
+    return this.getters.conjugates.filter((item) => item.tagId === tagId);
   }
 }

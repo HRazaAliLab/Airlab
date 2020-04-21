@@ -371,6 +371,11 @@ export default class ConjugatesListViews extends Vue {
       filterable: false,
     },
     {
+      text: "Custom ID",
+      value: "customId",
+      filterable: false,
+    },
+    {
       text: "Actions",
       value: "action",
       sortable: false,
@@ -391,14 +396,14 @@ export default class ConjugatesListViews extends Vue {
   statusFilter: number[] = [];
 
   get tags() {
-    return this.tagContext.getters.tags.map(item => ({
+    return this.tagContext.getters.tags.map((item) => ({
       id: item.id,
       name: item.mw ? item.name + item.mw : item.name,
     }));
   }
 
   get items() {
-    let items = this.conjugateContext.getters.conjugates.map(item => ({
+    let items = this.conjugateContext.getters.conjugates.map((item) => ({
       ...item,
       label: (item as any).tag
         ? (item as any).tag.mw
@@ -407,10 +412,10 @@ export default class ConjugatesListViews extends Vue {
         : "unknown",
     }));
     if (this.tagFilter.length > 0) {
-      items = items.filter(item => ((item as any).tag ? this.tagFilter.includes((item as any).tag.id) : false));
+      items = items.filter((item) => ((item as any).tag ? this.tagFilter.includes((item as any).tag.id) : false));
     }
     if (this.statusFilter.length > 0) {
-      items = items.filter(item => this.statusFilter.includes(item.status));
+      items = items.filter((item) => this.statusFilter.includes(item.status));
     }
     return items;
   }

@@ -1,17 +1,10 @@
 import { ValidationDto } from "@airlab/shared/lib/validation/dto";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 import { LotStatus } from "@airlab/shared/lib/lot/LotStatus";
-
-const applicationMap = {
-  0: "SMC",
-  1: "IMC",
-  2: "FC",
-  3: "IF",
-  4: "IHC",
-};
+import { applicationIdToName } from "@/utils/enums";
 
 export function applicationToString(value: number): string {
-  return applicationMap[value];
+  return applicationIdToName[value];
 }
 
 const validationStatusMap = {

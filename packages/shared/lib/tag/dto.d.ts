@@ -4,6 +4,10 @@ export declare class TagDto {
     readonly name: string;
     readonly isMetal: boolean;
     readonly isFluorophore: boolean;
+    readonly isEnzyme: boolean;
+    readonly isBiotin: boolean;
+    readonly isOther: boolean;
+    readonly description: string | null;
     readonly mw: number | null;
     readonly emission: number | null;
     readonly excitation: number | null;
@@ -15,6 +19,10 @@ export declare class CreateTagDto {
     readonly name: string;
     readonly isMetal: boolean;
     readonly isFluorophore: boolean;
+    readonly isEnzyme: boolean;
+    readonly isBiotin: boolean;
+    readonly isOther: boolean;
+    readonly description: string | null;
     readonly mw: number | null;
     readonly emission: number | null;
     readonly excitation: number | null;
@@ -23,6 +31,10 @@ export declare class UpdateTagDto {
     readonly name: string;
     readonly isMetal: boolean;
     readonly isFluorophore: boolean;
+    readonly isEnzyme: boolean;
+    readonly isBiotin: boolean;
+    readonly isOther: boolean;
+    readonly description: string | null;
     readonly mw: number | null;
     readonly emission: number | null;
     readonly excitation: number | null;

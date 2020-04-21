@@ -92,38 +92,37 @@ export class ConjugateEntity {
   })
   updatedAt: string;
 
-  @ManyToOne(
-    type => GroupEntity,
-    group => group.conjugates
-  )
+  @Column({
+    name: "custom_id",
+  })
+  customId: string;
+
+  @ManyToOne((type) => GroupEntity, (group) => group.conjugates)
   @JoinColumn({ name: "group_id" })
   group: GroupEntity;
 
-  @ManyToOne(type => MemberEntity)
+  @ManyToOne((type) => MemberEntity)
   @JoinColumn({ name: "created_by" })
   member: MemberEntity;
 
-  @ManyToOne(type => MemberEntity)
+  @ManyToOne((type) => MemberEntity)
   @JoinColumn({ name: "labeled_by" })
   labeledByMember: MemberEntity;
 
-  @ManyToOne(type => MemberEntity)
+  @ManyToOne((type) => MemberEntity)
   @JoinColumn({ name: "finished_by" })
   finishedByMember: MemberEntity;
 
   user: UserEntity;
 
-  @ManyToOne(type => TagEntity)
+  @ManyToOne((type) => TagEntity)
   @JoinColumn({ name: "tag_id" })
   tag: TagEntity;
 
-  @ManyToOne(type => LotEntity)
+  @ManyToOne((type) => LotEntity)
   @JoinColumn({ name: "lot_id" })
   lot: LotEntity;
 
-  @OneToMany(
-    type => PanelElementEntity,
-    element => element.panel
-  )
+  @OneToMany((type) => PanelElementEntity, (element) => element.panel)
   elements!: PanelElementEntity[];
 }

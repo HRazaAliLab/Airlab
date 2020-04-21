@@ -12,7 +12,11 @@
       {{ group.institution }}
     </v-card-text>
     <v-card-actions>
-      <v-btn v-if="isMember || user.isAdmin" color="primary" :to="{ name: 'main-group', params: { groupId: group.id } }">
+      <v-btn
+        v-if="isMember || user.isAdmin"
+        color="primary"
+        :to="{ name: 'main-group', params: { groupId: group.id } }"
+      >
         Open
       </v-btn>
       <v-btn v-else-if="group.isOpen" color="primary" @click="joinGroup()">
@@ -46,7 +50,7 @@ export default class GroupCard extends Vue {
 
   get userIds() {
     return (this.group as any).members
-      ? (this.group as any).members.filter(item => item.isActive).map(member => member.userId)
+      ? (this.group as any).members.filter((item) => item.isActive).map((member) => member.userId)
       : [];
   }
 

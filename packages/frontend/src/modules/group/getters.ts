@@ -3,7 +3,7 @@ import { GroupState } from ".";
 
 export class GroupGetters extends Getters<GroupState> {
   get groups() {
-    return this.state.ids.map(id => this.state.entities[id]);
+    return this.state.ids.map((id) => this.state.entities[id]);
   }
 
   getGroup(id: number) {

@@ -119,6 +119,32 @@
                     </v-btn>
                   </v-btn-toggle>
                 </v-col>
+                <v-col>
+                  <div class="subtitle-3">
+                    IHC-F
+                  </div>
+                  <v-btn-toggle v-model="ihcfApplication">
+                    <v-btn small value="true">
+                      <v-icon small>mdi-checkbox-marked-outline</v-icon>
+                    </v-btn>
+                    <v-btn small value="false">
+                      <v-icon small>mdi-checkbox-blank-outline</v-icon>
+                    </v-btn>
+                  </v-btn-toggle>
+                </v-col>
+                <v-col>
+                  <div class="subtitle-3">
+                    WB
+                  </div>
+                  <v-btn-toggle v-model="wbApplication">
+                    <v-btn small value="true">
+                      <v-icon small>mdi-checkbox-marked-outline</v-icon>
+                    </v-btn>
+                    <v-btn small value="false">
+                      <v-icon small>mdi-checkbox-blank-outline</v-icon>
+                    </v-btn>
+                  </v-btn-toggle>
+                </v-col>
               </v-row>
             </v-col>
           </v-row>
@@ -136,6 +162,7 @@ import { CreateCloneDto } from "@airlab/shared/lib/clone/dto";
 import { proteinModule } from "@/modules/protein";
 import { speciesModule } from "@/modules/species";
 import { groupModule } from "@/modules/group";
+import { applicationNameToId } from "@/utils/enums";
 
 @Component
 export default class CreateClone extends Vue {
@@ -148,13 +175,7 @@ export default class CreateClone extends Vue {
   readonly proteinRules = [required];
   readonly hostRules = [required];
 
-  readonly applicationMap = {
-    sMC: 0,
-    iMC: 1,
-    FC: 2,
-    IF: 3,
-    IHC: 4,
-  };
+  readonly applicationMap = applicationNameToId;
 
   valid = false;
   name = "";
@@ -170,6 +191,8 @@ export default class CreateClone extends Vue {
   fcApplication = null;
   ifApplication = null;
   ihcApplication = null;
+  ihcfApplication = null;
+  wbApplication = null;
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
@@ -201,6 +224,8 @@ export default class CreateClone extends Vue {
     this.fcApplication = null;
     this.ifApplication = null;
     this.ihcApplication = null;
+    this.ihcfApplication = null;
+    this.wbApplication = null;
     (this.$refs.form as any).resetValidation();
   }
 
@@ -229,6 +254,12 @@ export default class CreateClone extends Vue {
       }
       if (this.ihcApplication) {
         application[this.applicationMap.IHC] = this.ihcApplication === "true";
+      }
+      if (this.ihcfApplication) {
+        application[this.applicationMap.IHCF] = this.ihcfApplication === "true";
+      }
+      if (this.wbApplication) {
+        application[this.applicationMap.WB] = this.wbApplication === "true";
       }
       const data: CreateCloneDto = {
         groupId: this.activeGroupId,

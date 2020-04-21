@@ -9,6 +9,10 @@
       <div><span class="subheader">Created: </span>{{ new Date(tag.createdAt).toUTCString() }}</div>
       <v-checkbox label="Metal" v-model="tag.isMetal" readonly hide-details />
       <v-checkbox label="Fluorophore" v-model="tag.isFluorophore" readonly hide-details />
+      <v-checkbox label="Enzyme" v-model="tag.isEnzyme" readonly hide-details />
+      <v-checkbox label="Biotin" v-model="tag.isBiotin" readonly hide-details />
+      <v-checkbox label="Other" v-model="tag.isOther" readonly hide-details />
+      <div><span class="subheader">Description: </span>{{ tag.description }}</div>
     </v-card-text>
     <v-card-actions>
       <v-btn

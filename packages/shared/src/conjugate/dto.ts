@@ -33,8 +33,8 @@ export class ConjugateDto {
   @ApiProperty()
   readonly concentration: number;
 
-  @ApiProperty()
-  readonly description: string;
+  @ApiPropertyOptional()
+  readonly description: string | null;
 
   @ApiProperty()
   readonly isArchived: boolean;
@@ -50,6 +50,9 @@ export class ConjugateDto {
 
   @ApiPropertyOptional()
   readonly updatedAt: string;
+
+  @ApiPropertyOptional()
+  readonly customId: string;
 }
 
 export class CreateConjugateDto {
@@ -78,8 +81,14 @@ export class CreateConjugateDto {
   readonly concentration: number | null;
 
   @IsString()
-  @ApiProperty()
-  readonly description: string;
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly description: string | null;
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly customId: string | null;
 }
 
 export class UpdateConjugateDto {
@@ -102,8 +111,14 @@ export class UpdateConjugateDto {
   readonly concentration: number | null;
 
   @IsString()
-  @ApiProperty()
-  readonly description: string;
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly description: string | null;
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly customId: string | null;
 }
 
 export class UpdateConjugateStatusDto {

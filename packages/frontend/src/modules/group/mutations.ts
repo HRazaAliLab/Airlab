@@ -16,7 +16,7 @@ export class GroupMutations extends Mutations<GroupState> {
   }
 
   setEntity(payload: GroupDto) {
-    const existingId = this.state.ids.find(id => id === payload.id);
+    const existingId = this.state.ids.find((id) => id === payload.id);
     if (!existingId) {
       this.state.ids = this.state.ids.concat(payload.id);
     }
@@ -33,7 +33,7 @@ export class GroupMutations extends Mutations<GroupState> {
   }
 
   deleteEntity(id: number) {
-    this.state.ids = this.state.ids.filter(item => item !== id);
+    this.state.ids = this.state.ids.filter((item) => item !== id);
     const entities = { ...this.state.entities };
     delete entities[id];
     this.state.entities = entities;

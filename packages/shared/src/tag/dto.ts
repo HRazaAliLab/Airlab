@@ -17,6 +17,18 @@ export class TagDto {
   @ApiProperty()
   readonly isFluorophore: boolean;
 
+  @ApiProperty()
+  readonly isEnzyme: boolean;
+
+  @ApiProperty()
+  readonly isBiotin: boolean;
+
+  @ApiProperty()
+  readonly isOther: boolean;
+
+  @ApiPropertyOptional()
+  readonly description: string | null;
+
   @ApiPropertyOptional()
   readonly mw: number | null;
 
@@ -50,6 +62,23 @@ export class CreateTagDto {
   @ApiProperty()
   readonly isFluorophore: boolean;
 
+  @IsBoolean()
+  @ApiProperty()
+  readonly isEnzyme: boolean;
+
+  @IsBoolean()
+  @ApiProperty()
+  readonly isBiotin: boolean;
+
+  @IsBoolean()
+  @ApiProperty()
+  readonly isOther: boolean;
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly description: string | null;
+
   @IsInt()
   @IsOptional()
   @ApiPropertyOptional()
@@ -78,6 +107,23 @@ export class UpdateTagDto {
   @IsBoolean()
   @ApiProperty()
   readonly isFluorophore: boolean;
+
+  @IsBoolean()
+  @ApiProperty()
+  readonly isEnzyme: boolean;
+
+  @IsBoolean()
+  @ApiProperty()
+  readonly isBiotin: boolean;
+
+  @IsBoolean()
+  @ApiProperty()
+  readonly isOther: boolean;
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly description: string | null;
 
   @IsInt()
   @IsOptional()

@@ -26,7 +26,7 @@ export default class InfoView extends Vue {
   getMetaProps(item) {
     if (item.meta) {
       const items = Object.entries(item.meta);
-      return items.map(item => {
+      return items.map((item) => {
         return {
           name: item[0],
           value: item[1],
