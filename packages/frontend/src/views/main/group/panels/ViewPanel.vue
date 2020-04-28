@@ -66,6 +66,19 @@
           </v-list>
         </v-menu>
         <v-divider vertical />
+        <v-btn
+          text
+          color="primary"
+          :to="{
+            name: 'main-group-panels-edit',
+            params: {
+              groupId: activeGroupId,
+              id: panel.id,
+            },
+          }"
+          >Edit</v-btn
+        >
+        <v-divider vertical />
         <v-btn @click="cancel" text color="primary">Cancel</v-btn>
         <v-btn @click="reset" text color="primary">Reset</v-btn>
         <v-btn @click="submit" text color="primary">Save</v-btn>
@@ -228,7 +241,7 @@ export default class ViewPanel extends Vue {
       sortable: false,
     },
     {
-      text: "Concentration",
+      text: "Staining Concentration",
       value: "actualConcentration",
     },
     {

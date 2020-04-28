@@ -291,13 +291,13 @@ export default class ConjugatesListViews extends Vue {
   }
 
   readonly headers = [
-    {
-      text: "Id",
-      value: "id",
-      align: "end",
-      filterable: false,
-      width: "80",
-    },
+    // {
+    //   text: "Id",
+    //   value: "id",
+    //   align: "end",
+    //   filterable: false,
+    //   width: "80",
+    // },
     {
       text: "Tube Number",
       value: "tubeNumber",
@@ -360,7 +360,7 @@ export default class ConjugatesListViews extends Vue {
       },
     },
     {
-      text: "Concentration",
+      text: "Stock Concentration",
       value: "concentration",
       align: "end",
       filterable: false,

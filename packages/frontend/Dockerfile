@@ -23,7 +23,7 @@ RUN yarn build:frontend
 
 
 # Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
-FROM nginx:1.16.1-alpine
+FROM nginx:1.18.0-alpine
 
 LABEL maintainer="Anton Rau <anton.rau@gmail.com>"
 

@@ -2,6 +2,7 @@
   <LoadingView v-if="!conjugate" text="Loading conjugate details..." />
   <v-card v-else tile elevation="1">
     <v-card-text>
+      <div><span class="subheader">ID: </span>{{ conjugate.id }}</div>
       <div><span class="subheader">Tube Number: </span>{{ conjugate.tubeNumber }}</div>
       <div>
         <span class="subheader">Tag: </span>

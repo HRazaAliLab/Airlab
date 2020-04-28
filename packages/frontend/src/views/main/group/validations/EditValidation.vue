@@ -165,7 +165,7 @@
           <v-row v-if="application === '1' || application === '3' || application === '4'">
             <v-col>
               <v-select
-                label="Antigen retrieval"
+                label="Protocol"
                 v-model="antigenRetrievalType"
                 :items="antigenRetrievalTypes"
                 clearable

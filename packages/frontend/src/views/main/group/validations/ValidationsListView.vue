@@ -96,7 +96,7 @@
             :items="antigenRetrievalTypes"
             chips
             clearable
-            label="Antigen Retrieval"
+            label="Protocol"
             multiple
             prepend-icon="mdi-filter-outline"
             solo
@@ -438,7 +438,7 @@ export default class ValidationsListViews extends Vue {
       },
     },
     {
-      text: "Retrieval",
+      text: "Protocol",
       value: "antigenRetrievalType",
       sort: (a, b) => {
         if (a === null) {

@@ -62,6 +62,19 @@
         multi-sort
         show-expand
       >
+        <template v-slot:item.name="{ item }">
+          <router-link
+            class="link"
+            :to="{
+              name: 'main-group-panels-view',
+              params: {
+                id: item.id,
+              },
+            }"
+          >
+            {{ item.name }}
+          </router-link>
+        </template>
         <template v-slot:item.application="{ item }">
           {{ item.application | applicationToString }}
         </template>

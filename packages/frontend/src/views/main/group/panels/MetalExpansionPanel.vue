@@ -1,7 +1,7 @@
 <template functional>
-  <v-expansion-panel>
-    <v-expansion-panel-header class="panel-header">{{ props.tag.name + props.tag.mw }}</v-expansion-panel-header>
-    <v-expansion-panel-content>
+  <v-card tile class="mb-2" elevation="1">
+    <v-card-title class="panel-header">{{ props.tag.name + props.tag.mw }}</v-card-title>
+    <v-card-text>
       <v-data-iterator
         :value="props.selectedConjugates"
         :items="props.conjugates"
@@ -28,7 +28,6 @@
               @click.prevent="isSelected(item) ? select(item, false) : select(item, true)"
               :color="$options.methods.getConjugateColor(item, isSelected(item))"
             >
-              <div class="header"><span class="subheader">Lot:</span> {{ item.lot.name }}</div>
               <div class="content">
                 <div><span class="subheader">Protein:</span> {{ item.lot.clone.protein.name }}</div>
                 <div><span class="subheader">Clone:</span> {{ item.lot.clone.name }}</div>
@@ -43,8 +42,8 @@
           </v-row>
         </template>
       </v-data-iterator>
-    </v-expansion-panel-content>
-  </v-expansion-panel>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script lang="ts">

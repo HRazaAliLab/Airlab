@@ -88,7 +88,7 @@
       </div>
       <div v-if="props.validation.notes"><span class="subheader">Notes: </span>{{ props.validation.notes }}</div>
       <div v-if="props.validation.antigenRetrievalType">
-        <span class="subheader">Antigen retrieval type: </span>{{ props.validation.antigenRetrievalType }}
+        <span class="subheader">Protocol: </span>{{ props.validation.antigenRetrievalType }}
       </div>
       <div v-if="props.validation.antigenRetrievalTime">
         <span class="subheader">Antigen retrieval time: </span>{{ props.validation.antigenRetrievalTime }}

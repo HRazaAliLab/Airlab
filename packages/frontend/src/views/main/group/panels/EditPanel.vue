@@ -70,7 +70,7 @@
             <v-switch v-model="showEmpty" label="Show empty" hide-details inset class="ml-6" />
           </template>
         </v-toolbar>
-        <v-expansion-panels v-model="expanded" multiple tile>
+        <div>
           <MetalExpansionPanel
             v-for="metal in metals"
             :key="metal.id"
@@ -80,7 +80,7 @@
             :conjugates="getTagConjugates(metal.id)"
             :species-map="speciesMap"
           />
-        </v-expansion-panels>
+        </div>
       </v-card-text>
     </v-card>
   </v-container>

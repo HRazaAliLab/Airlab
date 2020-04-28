@@ -149,7 +149,7 @@ export class ConjugateService {
         tubeNumber: "DESC",
       },
     });
-    return entity.tubeNumber + 1;
+    return entity ? entity.tubeNumber + 1 : 0;
   }
 
   private async clearCache(groupId: number) {
