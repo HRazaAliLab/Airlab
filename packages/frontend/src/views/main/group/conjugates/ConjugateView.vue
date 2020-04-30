@@ -84,7 +84,7 @@
       >
         Edit
       </v-btn>
-      <v-btn color="secondary" text @click="deleteConjugate()">
+      <v-btn v-if="isGroupAdmin" color="secondary" text @click="deleteConjugate()">
         Delete
       </v-btn>
     </v-card-actions>
@@ -109,6 +109,10 @@ export default class ConjugateView extends Vue {
     required: true,
   })
   readonly conjugateId!: number;
+
+  private get isGroupAdmin() {
+    return this.groupContext.getters.isGroupAdmin;
+  }
 
   private get activeGroupId() {
     return this.groupContext.getters.activeGroupId;

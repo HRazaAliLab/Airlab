@@ -313,13 +313,13 @@ export default class LotsListView extends Vue {
   }
 
   readonly headers = [
-    {
-      text: "Id",
-      value: "id",
-      align: "end",
-      filterable: false,
-      width: "80",
-    },
+    // {
+    //   text: "Id",
+    //   value: "id",
+    //   align: "end",
+    //   filterable: false,
+    //   width: "80",
+    // },
     {
       text: "Name",
       value: "name",

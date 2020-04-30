@@ -2,6 +2,7 @@
   <LoadingView v-if="!provider" text="Loading provider details..." />
   <v-card v-else tile elevation="1">
     <v-card-text>
+      <div><span class="subheader">ID: </span>{{ provider.id }}</div>
       <div><span class="subheader">Name: </span>{{ provider.name }}</div>
       <div><span class="subheader">Description: </span>{{ provider.description }}</div>
       <div>
@@ -23,7 +24,7 @@
       >
         Edit
       </v-btn>
-      <v-btn color="secondary" text @click="deleteProvider()">
+      <v-btn v-if="isGroupAdmin" color="secondary" text @click="deleteProvider()">
         Delete
       </v-btn>
     </v-card-actions>
@@ -48,6 +49,10 @@ export default class ProviderView extends Vue {
     required: true,
   })
   readonly providerId!: number;
+
+  private get isGroupAdmin() {
+    return this.groupContext.getters.isGroupAdmin;
+  }
 
   private get activeGroupId() {
     return this.groupContext.getters.activeGroupId;

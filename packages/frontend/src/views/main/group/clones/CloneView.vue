@@ -2,6 +2,7 @@
   <LoadingView v-if="!clone" text="Loading clone details..." />
   <v-card v-else tile elevation="1">
     <v-card-text>
+      <div><span class="subheader">ID: </span>{{ clone.id }}</div>
       <div><span class="subheader">Name: </span>{{ clone.name }}</div>
       <div>
         <span class="subheader">Protein: </span>
@@ -86,7 +87,7 @@
       >
         Edit
       </v-btn>
-      <v-btn color="secondary" text @click="deleteClone()">
+      <v-btn v-if="isGroupAdmin" color="secondary" text @click="deleteClone()">
         Delete
       </v-btn>
     </v-card-actions>
@@ -116,6 +117,10 @@ export default class CloneView extends Vue {
   readonly cloneId!: number;
 
   private readonly applicationMap = applicationNameToId;
+
+  private get isGroupAdmin() {
+    return this.groupContext.getters.isGroupAdmin;
+  }
 
   private get activeGroupId() {
     return this.groupContext.getters.activeGroupId;

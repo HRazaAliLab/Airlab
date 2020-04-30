@@ -367,13 +367,13 @@ export default class ValidationsListViews extends Vue {
   }
 
   readonly headers = [
-    {
-      text: "Id",
-      value: "id",
-      align: "end",
-      filterable: false,
-      width: "80",
-    },
+    // {
+    //   text: "Id",
+    //   value: "id",
+    //   align: "end",
+    //   filterable: false,
+    //   width: "80",
+    // },
     {
       text: "Application",
       value: "application",

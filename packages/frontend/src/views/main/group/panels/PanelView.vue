@@ -2,6 +2,7 @@
   <LoadingView v-if="!panel" text="Loading panel details..." />
   <v-card v-else tile elevation="1">
     <v-card-text>
+      <div><span class="subheader">ID: </span>{{ panel.id }}</div>
       <div><span class="subheader">Name: </span>{{ panel.name }}</div>
       <div><span class="subheader">Description: </span>{{ panel.description }}</div>
       <div>
@@ -42,7 +43,7 @@
       >
         Edit
       </v-btn>
-      <v-btn color="secondary" text @click="deletePanel()">
+      <v-btn v-if="isGroupAdmin" color="secondary" text @click="deletePanel()">
         Delete
       </v-btn>
     </v-card-actions>
@@ -70,6 +71,10 @@ export default class PanelView extends Vue {
     required: true,
   })
   readonly panelId!: number;
+
+  private get isGroupAdmin() {
+    return this.groupContext.getters.isGroupAdmin;
+  }
 
   private get activeGroupId() {
     return this.groupContext.getters.activeGroupId;

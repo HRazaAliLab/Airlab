@@ -1,6 +1,7 @@
 <template functional>
   <v-card tile elevation="1" class="mb-3">
     <v-card-text>
+      <div><span class="subheader">ID: </span>{{ props.validation.id }}</div>
       <div>
         <span class="subheader">Application: </span>
         <v-chip class="mr-1" small label>

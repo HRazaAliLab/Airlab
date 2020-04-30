@@ -2,6 +2,7 @@
   <LoadingView v-if="!species" text="Loading species details..." />
   <v-card v-else tile elevation="1">
     <v-card-text>
+      <div><span class="subheader">ID: </span>{{ species.id }}</div>
       <div><span class="subheader">Name: </span>{{ species.name }}</div>
       <div><span class="subheader">Acronym: </span>{{ species.acronym }}</div>
       <div><span class="subheader">Created: </span>{{ new Date(species.createdAt).toUTCString() }}</div>
@@ -20,7 +21,7 @@
       >
         Edit
       </v-btn>
-      <v-btn color="secondary" text @click="deleteSpecies()">
+      <v-btn v-if="isGroupAdmin" color="secondary" text @click="deleteSpecies()">
         Delete
       </v-btn>
     </v-card-actions>
@@ -45,6 +46,10 @@ export default class SpeciesView extends Vue {
     required: true,
   })
   readonly speciesId!: number;
+
+  private get isGroupAdmin() {
+    return this.groupContext.getters.isGroupAdmin;
+  }
 
   private get activeGroupId() {
     return this.groupContext.getters.activeGroupId;

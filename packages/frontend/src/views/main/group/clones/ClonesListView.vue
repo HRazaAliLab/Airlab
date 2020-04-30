@@ -174,6 +174,31 @@
         <template v-slot:item.isPolyclonal="{ item }">
           <v-icon v-if="item.isPolyclonal">mdi-check</v-icon>
         </template>
+        <template v-slot:item.application="{ item }">
+          <v-chip-group v-if="item.application" multiple column active-class="primary--text">
+            <v-chip v-if="item.application[applicationMap.sMC]" x-small dark disabled class="mr-1">
+              SMC
+            </v-chip>
+            <v-chip v-if="item.application[applicationMap.iMC]" x-small dark disabled class="mr-1">
+              IMC
+            </v-chip>
+            <v-chip v-if="item.application[applicationMap.FC]" x-small dark disabled class="mr-1">
+              FC
+            </v-chip>
+            <v-chip v-if="item.application[applicationMap.IF]" x-small dark disabled class="mr-1">
+              IF
+            </v-chip>
+            <v-chip v-if="item.application[applicationMap.IHC]" x-small dark disabled class="mr-1">
+              IHC
+            </v-chip>
+            <v-chip v-if="item.application[applicationMap.IHCF]" x-small dark disabled class="mr-1">
+              IHC-F
+            </v-chip>
+            <v-chip v-if="item.application[applicationMap.WB]" x-small dark disabled class="mr-1">
+              WB
+            </v-chip>
+          </v-chip-group>
+        </template>
         <template v-slot:item.validations="{ item }">
           <v-chip
             v-for="validation in item.validations"
@@ -295,7 +320,7 @@ import { speciesModule } from "@/modules/species";
 import { exportCsv } from "@/utils/exporters";
 import CloneDetailsView from "@/views/main/group/clones/CloneDetailsView.vue";
 import { getStatusColor } from "@/utils/converters";
-import { applicationEnum, statusEnum } from "@/utils/enums";
+import { applicationEnum, applicationNameToId, statusEnum } from "@/utils/enums";
 import CloneExpandedView from "@/views/main/group/clones/CloneExpandedView.vue";
 
 @Component({
@@ -314,6 +339,8 @@ export default class ClonesListView extends Vue {
   readonly applications = applicationEnum;
   readonly statuses = statusEnum;
 
+  private readonly applicationMap = applicationNameToId;
+
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
   }
@@ -323,21 +350,21 @@ export default class ClonesListView extends Vue {
   }
 
   readonly headers = [
-    {
-      text: "Id",
-      value: "id",
-      align: "end",
-      filterable: false,
-      width: "80",
-    },
-    {
-      text: "Name",
-      value: "name",
-    },
+    // {
+    //   text: "Id",
+    //   value: "id",
+    //   align: "end",
+    //   filterable: false,
+    //   width: "80",
+    // },
     {
       text: "Protein",
       value: "protein",
       sort: (a, b) => a.name.localeCompare(b.name),
+    },
+    {
+      text: "Name",
+      value: "name",
     },
     {
       text: "Host",
@@ -353,17 +380,22 @@ export default class ClonesListView extends Vue {
       },
     },
     {
-      text: "Isotype",
-      value: "isotype",
-    },
-    {
       text: "Phospho",
       value: "isPhospho",
       filterable: false,
     },
+    // {
+    //   text: "Isotype",
+    //   value: "isotype",
+    // },
+    // {
+    //   text: "Polyclonal",
+    //   value: "isPolyclonal",
+    //   filterable: false,
+    // },
     {
-      text: "Polyclonal",
-      value: "isPolyclonal",
+      text: "Application",
+      value: "application",
       filterable: false,
     },
     {

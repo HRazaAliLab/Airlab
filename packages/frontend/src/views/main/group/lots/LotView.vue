@@ -2,6 +2,7 @@
   <LoadingView v-if="!lot" text="Loading lot details..." />
   <v-card v-else tile elevation="1">
     <v-card-text>
+      <div><span class="subheader">ID: </span>{{ lot.id }}</div>
       <div><span class="subheader">Name: </span>{{ lot.name }}</div>
       <div><span class="subheader">Lot Number: </span>{{ lot.number }}</div>
       <div><span class="subheader">Reference: </span>{{ lot.reference }}</div>
@@ -97,7 +98,7 @@
       >
         Edit
       </v-btn>
-      <v-btn color="secondary" text @click="deleteLot()">
+      <v-btn v-if="isGroupAdmin" color="secondary" text @click="deleteLot()">
         Delete
       </v-btn>
     </v-card-actions>
@@ -125,6 +126,10 @@ export default class LotView extends Vue {
     required: true,
   })
   readonly lotId!: number;
+
+  private get isGroupAdmin() {
+    return this.groupContext.getters.isGroupAdmin;
+  }
 
   private get activeGroupId() {
     return this.groupContext.getters.activeGroupId;

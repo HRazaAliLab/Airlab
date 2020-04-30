@@ -2,6 +2,7 @@
   <LoadingView v-if="!tag" text="Loading tag details..." />
   <v-card v-else tile elevation="1">
     <v-card-text>
+      <div><span class="subheader">ID: </span>{{ tag.id }}</div>
       <div><span class="subheader">Name: </span>{{ tag.name }}</div>
       <div><span class="subheader" v-if="tag.isMetal">MW: </span>{{ tag.mw }}</div>
       <div><span class="subheader" v-if="tag.isFluorophore">Emission: </span>{{ tag.emission }}</div>
@@ -28,7 +29,7 @@
       >
         Edit
       </v-btn>
-      <v-btn color="secondary" text @click="deleteTag()">
+      <v-btn v-if="isGroupAdmin" color="secondary" text @click="deleteTag()">
         Delete
       </v-btn>
     </v-card-actions>
@@ -53,6 +54,10 @@ export default class TagView extends Vue {
     required: true,
   })
   readonly tagId!: number;
+
+  private get isGroupAdmin() {
+    return this.groupContext.getters.isGroupAdmin;
+  }
 
   private get activeGroupId() {
     return this.groupContext.getters.activeGroupId;

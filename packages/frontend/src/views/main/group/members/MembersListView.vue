@@ -144,14 +144,14 @@ export default class MembersListView extends Vue {
   readonly roles = roleEnum;
 
   readonly headers = [
-    {
-      text: "Id",
-      sortable: true,
-      value: "id",
-      align: "right",
-      filterable: false,
-      width: "80",
-    },
+    // {
+    //   text: "Id",
+    //   sortable: true,
+    //   value: "id",
+    //   align: "right",
+    //   filterable: false,
+    //   width: "80",
+    // },
     {
       text: "Name",
       value: "user",

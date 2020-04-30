@@ -101,14 +101,14 @@ export default class SpeciesListView extends Vue {
   readonly speciesContext = speciesModule.context(this.$store);
 
   readonly headers = [
-    {
-      text: "Id",
-      sortable: true,
-      value: "id",
-      align: "right",
-      filterable: false,
-      width: "80",
-    },
+    // {
+    //   text: "Id",
+    //   sortable: true,
+    //   value: "id",
+    //   align: "right",
+    //   filterable: false,
+    //   width: "80",
+    // },
     {
       text: "Name",
       sortable: true,
