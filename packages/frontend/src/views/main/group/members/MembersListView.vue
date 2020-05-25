@@ -178,12 +178,12 @@ export default class MembersListView extends Vue {
       width: "100",
     },
     {
-      text: "Panels",
+      text: "All panels",
       sortable: true,
       value: "allPanels",
       align: "left",
       filterable: false,
-      width: "100",
+      width: "130",
     },
     {
       text: "Actions",

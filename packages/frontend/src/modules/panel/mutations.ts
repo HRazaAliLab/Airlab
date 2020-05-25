@@ -35,7 +35,10 @@ export class PanelMutations extends Mutations<PanelState> {
   }
 
   reset() {
-    this.state.ids = [];
-    this.state.entities = {};
+    // acquire initial state
+    const s = new PanelState();
+    Object.keys(s).forEach((key) => {
+      this.state[key] = s[key];
+    });
   }
 }

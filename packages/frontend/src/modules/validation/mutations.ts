@@ -35,7 +35,10 @@ export class ValidationMutations extends Mutations<ValidationState> {
   }
 
   reset() {
-    this.state.ids = [];
-    this.state.entities = {};
+    // acquire initial state
+    const s = new ValidationState();
+    Object.keys(s).forEach((key) => {
+      this.state[key] = s[key];
+    });
   }
 }

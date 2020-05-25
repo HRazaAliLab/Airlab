@@ -35,7 +35,10 @@ export class SpeciesMutations extends Mutations<SpeciesState> {
   }
 
   reset() {
-    this.state.ids = [];
-    this.state.entities = {};
+    // acquire initial state
+    const s = new SpeciesState();
+    Object.keys(s).forEach((key) => {
+      this.state[key] = s[key];
+    });
   }
 }

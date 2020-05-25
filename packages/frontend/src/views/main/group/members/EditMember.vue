@@ -23,7 +23,7 @@
             </v-btn-toggle>
             <v-checkbox label="Active" v-model="isActive" hint="Access is permited" />
             <v-row>
-              <v-checkbox label="Panels" v-model="allPanels" class="mr-4" />
+              <v-checkbox label="Can access all panels" v-model="allPanels" class="mr-4" />
             </v-row>
           </v-form>
         </template>

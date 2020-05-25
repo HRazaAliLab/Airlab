@@ -35,7 +35,10 @@ export class ConjugateMutations extends Mutations<ConjugateState> {
   }
 
   reset() {
-    this.state.ids = [];
-    this.state.entities = {};
+    // acquire initial state
+    const s = new ConjugateState();
+    Object.keys(s).forEach((key) => {
+      this.state[key] = s[key];
+    });
   }
 }

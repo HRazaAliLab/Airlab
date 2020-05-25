@@ -35,7 +35,10 @@ export class MemberMutations extends Mutations<MemberState> {
   }
 
   reset() {
-    this.state.ids = [];
-    this.state.entities = {};
+    // acquire initial state
+    const s = new MemberState();
+    Object.keys(s).forEach((key) => {
+      this.state[key] = s[key];
+    });
   }
 }

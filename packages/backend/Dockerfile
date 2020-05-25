@@ -1,7 +1,7 @@
 FROM node:12.16.3-alpine3.11
 LABEL maintainer="Anton Rau <anton.rau@gmail.com>"
 
-RUN yarn global add pm2@4.2.3
+RUN yarn global add pm2@4.4.0
 
 WORKDIR /app
 

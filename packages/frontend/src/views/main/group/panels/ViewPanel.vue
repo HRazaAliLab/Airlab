@@ -97,21 +97,81 @@
         disable-filtering
         disable-pagination
       >
+        <template v-slot:item.tubeNumber="{ item }">
+          <router-link
+            class="link"
+            :to="{
+              name: 'main-group-conjugates-edit',
+              params: {
+                groupId: activeGroupId,
+                id: item.id,
+              },
+            }"
+          >
+            <span :class="item.status === 2 ? 'empty' : item.status === 1 ? 'low' : ''">{{ item.tubeNumber }}</span>
+          </router-link>
+        </template>
         <template v-slot:item.label="{ item }">
-          <span v-if="item.tag">{{ item.label }}</span>
-        </template>
-        <template v-slot:item.lot="{ item }">
-          <span v-if="item.lot" :class="item.status === 1 ? 'low' : ''">{{ item.lot.number }}</span>
-        </template>
-        <template v-slot:item.clone="{ item }">
-          <span v-if="item.lot && item.lot.clone" :class="item.status === 1 ? 'low' : ''">{{
-            item.lot.clone.name
-          }}</span>
+          <router-link
+            v-if="item.tag"
+            class="link"
+            :to="{
+              name: 'main-group-tags-edit',
+              params: {
+                groupId: activeGroupId,
+                id: item.tag.id,
+              },
+            }"
+          >
+            <span :class="item.status === 2 ? 'empty' : item.status === 1 ? 'low' : ''">{{ item.label }}</span>
+          </router-link>
         </template>
         <template v-slot:item.protein="{ item }">
-          <span v-if="item.lot && item.lot.clone && item.lot.clone.protein" :class="item.status === 1 ? 'low' : ''">{{
-            item.lot.clone.protein.name
-          }}</span>
+          <router-link
+            v-if="item.lot && item.lot.clone && item.lot.clone.protein"
+            class="link"
+            :to="{
+              name: 'main-group-proteins-edit',
+              params: {
+                groupId: activeGroupId,
+                id: item.lot.clone.protein.id,
+              },
+            }"
+          >
+            <span :class="item.status === 2 ? 'empty' : item.status === 1 ? 'low' : ''">{{
+              item.lot.clone.protein.name
+            }}</span>
+          </router-link>
+        </template>
+        <template v-slot:item.lot="{ item }">
+          <router-link
+            v-if="item.lot"
+            class="link"
+            :to="{
+              name: 'main-group-lots-edit',
+              params: {
+                groupId: activeGroupId,
+                id: item.lot.id,
+              },
+            }"
+          >
+            <span :class="item.status === 2 ? 'empty' : item.status === 1 ? 'low' : ''">{{ item.lot.number }}</span>
+          </router-link>
+        </template>
+        <template v-slot:item.clone="{ item }">
+          <router-link
+            v-if="item.lot && item.lot.clone"
+            class="link"
+            :to="{
+              name: 'main-group-clones-edit',
+              params: {
+                groupId: activeGroupId,
+                id: item.lot.clone.id,
+              },
+            }"
+          >
+            <span :class="item.status === 2 ? 'empty' : item.status === 1 ? 'low' : ''">{{ item.lot.clone.name }}</span>
+          </router-link>
         </template>
         <template v-slot:item.validations="{ item }">
           <v-chip
@@ -149,7 +209,9 @@
           </v-edit-dialog>
         </template>
         <template v-slot:item.pipet="{ item }">
-          <span>{{ getAmountAntibodyText(item) }}</span>
+          <span :class="item.status === 2 ? 'empty' : item.status === 1 ? 'low' : ''">{{
+            getAmountAntibodyText(item)
+          }}</span>
         </template>
       </v-data-table>
     </v-card>
@@ -423,5 +485,8 @@ export default class ViewPanel extends Vue {
 }
 .low {
   color: red;
+}
+.empty {
+  text-decoration: line-through;
 }
 </style>

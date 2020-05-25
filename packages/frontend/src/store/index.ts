@@ -18,6 +18,7 @@ import { providerModule } from "@/modules/provider";
 import { lotModule } from "@/modules/lot";
 import { validationModule } from "@/modules/validation";
 import { memberModule } from "@/modules/member";
+import { RootActions } from "@/store/actions";
 
 Vue.use(Vuex);
 
@@ -40,6 +41,7 @@ const rootModule = new Module({
     provider: providerModule,
     settings: settingsModule,
   },
+  actions: RootActions,
 });
 
 const vuexStorage = new VuexPersistence<typeof rootModule>({

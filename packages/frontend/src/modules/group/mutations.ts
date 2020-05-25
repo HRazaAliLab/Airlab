@@ -44,9 +44,10 @@ export class GroupMutations extends Mutations<GroupState> {
   }
 
   reset() {
-    this.state.ids = [];
-    this.state.entities = {};
-    this.state.activeGroupId = undefined;
-    this.state.myMember = null;
+    // acquire initial state
+    const s = new GroupState();
+    Object.keys(s).forEach((key) => {
+      this.state[key] = s[key];
+    });
   }
 }

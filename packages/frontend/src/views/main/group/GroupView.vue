@@ -35,7 +35,7 @@ export default class GroupView extends Vue {
     // if (process.env.VUE_APP_ENV !== "development") {
     //   this.groupContext.mutations.reset();
     // }
-    this.groupContext.mutations.reset();
+    this.$store.dispatch("reset");
   }
 }
 </script>
