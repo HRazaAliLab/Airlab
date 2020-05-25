@@ -1,6 +1,6 @@
 <template functional>
   <v-card tile class="mb-2" elevation="1">
-    <v-card-title class="panel-header">{{ props.tag.name + props.tag.mw }}</v-card-title>
+    <v-card-title class="panel-header">{{ props.tag.name + (props.tag.isMetal ? props.tag.mw : ``) }}</v-card-title>
     <v-card-text>
       <v-data-iterator
         :value="props.selectedConjugates"

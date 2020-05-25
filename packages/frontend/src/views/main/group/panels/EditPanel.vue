@@ -120,7 +120,7 @@ export default class EditPanel extends Vue {
   private readonly descriptionRules = [];
 
   private fab = false;
-  private showMetals = true;
+  private showMetals = false;
   private showEmpty = false;
   private search: string | null = null;
 
@@ -138,9 +138,7 @@ export default class EditPanel extends Vue {
   }
 
   private get tags() {
-    return this.showMetals
-      ? this.tagContext.getters.tags.filter((item) => item.isMetal)
-      : this.tagContext.getters.tags;
+    return this.showMetals ? this.tagContext.getters.tags.filter((item) => item.isMetal) : this.tagContext.getters.tags;
   }
 
   private get speciesMap() {

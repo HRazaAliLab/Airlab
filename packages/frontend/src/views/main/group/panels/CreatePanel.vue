@@ -114,7 +114,7 @@ export default class CreatePanel extends Vue {
   private readonly descriptionRules = [];
 
   private fab = false;
-  private showMetals = true;
+  private showMetals = false;
   private showEmpty = false;
   private search: string | null = null;
 
@@ -144,8 +144,8 @@ export default class CreatePanel extends Vue {
 
   private get conjugates() {
     let items = this.showEmpty
-      ? Object.freeze(this.conjugateContext.getters.conjugates)
-      : Object.freeze(this.conjugateContext.getters.conjugates.filter((item) => item.status !== 2));
+      ? this.conjugateContext.getters.conjugates
+      : this.conjugateContext.getters.conjugates.filter((item) => item.status !== 2);
     if (this.search !== null) {
       const normalizedSearchTerm = this.search.toLowerCase().trim();
       items = items.filter((item) => (item as any).lot.clone.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1);
