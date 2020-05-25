@@ -131,6 +131,12 @@ export default class TagsListView extends Vue {
       align: "left",
     },
     {
+      text: "MW",
+      sortable: true,
+      value: "mw",
+      align: "right",
+    },
+    {
       text: "Metal",
       sortable: true,
       value: "isMetal",
@@ -176,12 +182,6 @@ export default class TagsListView extends Vue {
       value: "description",
       align: "left",
       filterable: false,
-    },
-    {
-      text: "MW",
-      sortable: true,
-      value: "mw",
-      align: "right",
     },
     {
       text: "Emission",
@@ -230,6 +230,11 @@ export default class TagsListView extends Vue {
   }
 
   async mounted() {
+    document.onkeydown = (evt) => {
+      if (this.drawer && evt.key === "Escape") {
+        this.drawer = false;
+      }
+    };
     await this.tagContext.actions.getGroupTags(+this.$router.currentRoute.params.groupId);
   }
 

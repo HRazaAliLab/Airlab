@@ -442,6 +442,11 @@ export default class ConjugatesListViews extends Vue {
   }
 
   async mounted() {
+    document.onkeydown = (evt) => {
+      if (this.drawer && evt.key === "Escape") {
+        this.drawer = false;
+      }
+    };
     await Promise.all([
       this.conjugateContext.actions.getGroupConjugates(+this.$router.currentRoute.params.groupId),
       this.tagContext.actions.getGroupTags(+this.$router.currentRoute.params.groupId),

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.LotStatus = void 0;
 var LotStatus;
 (function (LotStatus) {
     LotStatus[LotStatus["Requested"] = 0] = "Requested";

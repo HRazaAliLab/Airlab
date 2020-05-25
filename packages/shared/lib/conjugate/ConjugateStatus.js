@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ConjugateStatus = void 0;
 var ConjugateStatus;
 (function (ConjugateStatus) {
     ConjugateStatus[ConjugateStatus["Stock"] = 0] = "Stock";

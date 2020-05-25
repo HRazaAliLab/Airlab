@@ -9,14 +9,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.UpdateStateDto = void 0;
 const class_validator_1 = require("class-validator");
 const swagger_1 = require("@nestjs/swagger");
-class UpdateStateDto {
-}
-__decorate([
-    class_validator_1.IsBoolean(),
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Boolean)
-], UpdateStateDto.prototype, "state", void 0);
+let UpdateStateDto = /** @class */ (() => {
+    class UpdateStateDto {
+    }
+    __decorate([
+        class_validator_1.IsBoolean(),
+        swagger_1.ApiProperty(),
+        __metadata("design:type", Boolean)
+    ], UpdateStateDto.prototype, "state", void 0);
+    return UpdateStateDto;
+})();
 exports.UpdateStateDto = UpdateStateDto;
 //# sourceMappingURL=dto.js.map

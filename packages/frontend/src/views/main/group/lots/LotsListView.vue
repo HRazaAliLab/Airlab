@@ -7,6 +7,7 @@
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
+        <v-btn text @click="exportFile()" color="primary">Export CSV</v-btn>
         <v-btn text :to="`/main/groups/${activeGroupId}/lots/create`" color="primary">Create Lot</v-btn>
       </v-toolbar-items>
     </v-toolbar>
@@ -289,6 +290,7 @@ import { providerModule } from "@/modules/provider";
 import LotExpandedView from "@/views/main/group/lots/LotExpandedView.vue";
 import { getLotStatusColor } from "@/utils/converters";
 import { LotStatus } from "@airlab/shared/lib/lot/LotStatus";
+import { exportCsv } from "@/utils/exporters";
 
 @Component({
   components: {
@@ -398,7 +400,7 @@ export default class LotsListView extends Vue {
   ];
 
   get providers() {
-    return this.providerContext.getters.providers;
+    return this.providerContext.getters.providers.sort((a, b) => a.name.localeCompare(b.name));
   }
 
   get items() {
@@ -435,6 +437,11 @@ export default class LotsListView extends Vue {
   }
 
   async mounted() {
+    document.onkeydown = (evt) => {
+      if (this.drawer && evt.key === "Escape") {
+        this.drawer = false;
+      }
+    };
     await Promise.all([
       this.lotContext.actions.getGroupLots(+this.$router.currentRoute.params.groupId),
       this.providerContext.actions.getGroupProviders(+this.$router.currentRoute.params.groupId),
@@ -467,6 +474,11 @@ export default class LotsListView extends Vue {
   removeProviderFilter(item) {
     this.providerFilter.splice(this.providerFilter.indexOf(item), 1);
     this.providerFilter = [...this.providerFilter];
+  }
+
+  exportFile() {
+    const csv = this.lotContext.getters.getCsv(this.items);
+    exportCsv(csv, "lots.csv");
   }
 }
 </script>

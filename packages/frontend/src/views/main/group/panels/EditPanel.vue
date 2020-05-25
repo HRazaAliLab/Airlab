@@ -67,17 +67,18 @@
               clearable
             />
             <v-spacer />
+            <v-switch v-model="showMetals" label="Show metals" hide-details inset class="ml-6" />
             <v-switch v-model="showEmpty" label="Show empty" hide-details inset class="ml-6" />
           </template>
         </v-toolbar>
         <div>
           <MetalExpansionPanel
-            v-for="metal in metals"
-            :key="metal.id"
-            :tag="metal"
+            v-for="tag in tags"
+            :key="tag.id"
+            :tag="tag"
             :on-selected="congugateSelected"
-            :selected-conjugates="getInitialState(metal.id)"
-            :conjugates="getTagConjugates(metal.id)"
+            :selected-conjugates="getInitialState(tag.id)"
+            :conjugates="getTagConjugates(tag.id)"
             :species-map="speciesMap"
           />
         </div>
@@ -119,6 +120,7 @@ export default class EditPanel extends Vue {
   private readonly descriptionRules = [];
 
   private fab = false;
+  private showMetals = true;
   private showEmpty = false;
   private search: string | null = null;
 
@@ -131,14 +133,14 @@ export default class EditPanel extends Vue {
   private selectedTagConjugates = new Map<number, Set<ConjugateDto>>();
   private conjugatePanelData = new Map<number, ConjugatePanelData>();
 
-  private expanded: number[] = []; // this.metals.map((k, i) => i);
-
   private get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
   }
 
-  private get metals() {
-    return Object.freeze(this.tagContext.getters.metals);
+  private get tags() {
+    return this.showMetals
+      ? this.tagContext.getters.tags.filter((item) => item.isMetal)
+      : this.tagContext.getters.tags;
   }
 
   private get speciesMap() {
@@ -228,9 +230,8 @@ export default class EditPanel extends Vue {
           });
           conjugatesSet.add(conjugate);
           const tag = this.tagContext.getters.getTag(tagId);
-          newExpanded.add(this.metals.indexOf(tag));
+          newExpanded.add(this.tags.indexOf(tag));
         }
-        this.expanded = [...newExpanded];
       }
     }
   }

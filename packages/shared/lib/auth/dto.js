@@ -9,22 +9,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ResetPasswordDto = exports.JwtPayloadDto = void 0;
 const class_validator_1 = require("class-validator");
 const swagger_1 = require("@nestjs/swagger");
 class JwtPayloadDto {
 }
 exports.JwtPayloadDto = JwtPayloadDto;
-class ResetPasswordDto {
-}
-__decorate([
-    class_validator_1.IsString(),
-    swagger_1.ApiProperty(),
-    __metadata("design:type", String)
-], ResetPasswordDto.prototype, "newPassword", void 0);
-__decorate([
-    class_validator_1.IsString(),
-    swagger_1.ApiProperty(),
-    __metadata("design:type", String)
-], ResetPasswordDto.prototype, "token", void 0);
+let ResetPasswordDto = /** @class */ (() => {
+    class ResetPasswordDto {
+    }
+    __decorate([
+        class_validator_1.IsString(),
+        swagger_1.ApiProperty(),
+        __metadata("design:type", String)
+    ], ResetPasswordDto.prototype, "newPassword", void 0);
+    __decorate([
+        class_validator_1.IsString(),
+        swagger_1.ApiProperty(),
+        __metadata("design:type", String)
+    ], ResetPasswordDto.prototype, "token", void 0);
+    return ResetPasswordDto;
+})();
 exports.ResetPasswordDto = ResetPasswordDto;
 //# sourceMappingURL=dto.js.map

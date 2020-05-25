@@ -174,6 +174,11 @@ export default class ProteinsListView extends Vue {
   }
 
   async mounted() {
+    document.onkeydown = (evt) => {
+      if (this.drawer && evt.key === "Escape") {
+        this.drawer = false;
+      }
+    };
     await this.proteinContext.actions.getGroupProteins(+this.$router.currentRoute.params.groupId);
   }
 

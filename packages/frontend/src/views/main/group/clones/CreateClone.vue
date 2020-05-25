@@ -59,11 +59,11 @@
                     SMC
                   </div>
                   <v-btn-toggle v-model="smcApplication">
-                    <v-btn small value="true">
-                      <v-icon small>mdi-checkbox-marked-outline</v-icon>
+                    <v-btn small value="true" active-class="true">
+                      Yes
                     </v-btn>
-                    <v-btn small value="false">
-                      <v-icon small>mdi-checkbox-blank-outline</v-icon>
+                    <v-btn small value="false" active-class="false">
+                      No
                     </v-btn>
                   </v-btn-toggle>
                 </v-col>
@@ -72,11 +72,11 @@
                     IMC
                   </div>
                   <v-btn-toggle v-model="imcApplication">
-                    <v-btn small value="true">
-                      <v-icon small>mdi-checkbox-marked-outline</v-icon>
+                    <v-btn small value="true" active-class="true">
+                      Yes
                     </v-btn>
-                    <v-btn small value="false">
-                      <v-icon small>mdi-checkbox-blank-outline</v-icon>
+                    <v-btn small value="false" active-class="false">
+                      No
                     </v-btn>
                   </v-btn-toggle>
                 </v-col>
@@ -85,11 +85,11 @@
                     FC
                   </div>
                   <v-btn-toggle v-model="fcApplication">
-                    <v-btn small value="true">
-                      <v-icon small>mdi-checkbox-marked-outline</v-icon>
+                    <v-btn small value="true" active-class="true">
+                      Yes
                     </v-btn>
-                    <v-btn small value="false">
-                      <v-icon small>mdi-checkbox-blank-outline</v-icon>
+                    <v-btn small value="false" active-class="false">
+                      No
                     </v-btn>
                   </v-btn-toggle>
                 </v-col>
@@ -98,11 +98,11 @@
                     IF
                   </div>
                   <v-btn-toggle v-model="ifApplication">
-                    <v-btn small value="true">
-                      <v-icon small>mdi-checkbox-marked-outline</v-icon>
+                    <v-btn small value="true" active-class="true">
+                      Yes
                     </v-btn>
-                    <v-btn small value="false">
-                      <v-icon small>mdi-checkbox-blank-outline</v-icon>
+                    <v-btn small value="false" active-class="false">
+                      No
                     </v-btn>
                   </v-btn-toggle>
                 </v-col>
@@ -111,11 +111,11 @@
                     IHC
                   </div>
                   <v-btn-toggle v-model="ihcApplication">
-                    <v-btn small value="true">
-                      <v-icon small>mdi-checkbox-marked-outline</v-icon>
+                    <v-btn small value="true" active-class="true">
+                      Yes
                     </v-btn>
-                    <v-btn small value="false">
-                      <v-icon small>mdi-checkbox-blank-outline</v-icon>
+                    <v-btn small value="false" active-class="false">
+                      No
                     </v-btn>
                   </v-btn-toggle>
                 </v-col>
@@ -124,11 +124,11 @@
                     IHC-F
                   </div>
                   <v-btn-toggle v-model="ihcfApplication">
-                    <v-btn small value="true">
-                      <v-icon small>mdi-checkbox-marked-outline</v-icon>
+                    <v-btn small value="true" active-class="true">
+                      Yes
                     </v-btn>
-                    <v-btn small value="false">
-                      <v-icon small>mdi-checkbox-blank-outline</v-icon>
+                    <v-btn small value="false" active-class="false">
+                      No
                     </v-btn>
                   </v-btn-toggle>
                 </v-col>
@@ -137,11 +137,11 @@
                     WB
                   </div>
                   <v-btn-toggle v-model="wbApplication">
-                    <v-btn small value="true">
-                      <v-icon small>mdi-checkbox-marked-outline</v-icon>
+                    <v-btn small value="true" active-class="true">
+                      Yes
                     </v-btn>
-                    <v-btn small value="false">
-                      <v-icon small>mdi-checkbox-blank-outline</v-icon>
+                    <v-btn small value="false" active-class="false">
+                      No
                     </v-btn>
                   </v-btn-toggle>
                 </v-col>
@@ -279,3 +279,12 @@ export default class CreateClone extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.true {
+  background: #96ff96 !important;
+}
+.false {
+  background: #ffa583 !important;
+}
+</style>

@@ -197,8 +197,8 @@ export default class ViewPanel extends Vue {
       value: "label",
     },
     {
-      text: "Lot",
-      value: "lot",
+      text: "Protein",
+      value: "protein",
       sort: (a, b) => {
         if (a === null) {
           return 1;
@@ -223,8 +223,8 @@ export default class ViewPanel extends Vue {
       },
     },
     {
-      text: "Protein",
-      value: "protein",
+      text: "Lot",
+      value: "lot",
       sort: (a, b) => {
         if (a === null) {
           return 1;

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Message = void 0;
 class Message {
     constructor(groupId, type, payload) {
         this.groupId = groupId;

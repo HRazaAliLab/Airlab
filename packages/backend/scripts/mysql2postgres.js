@@ -742,21 +742,21 @@ async function downloadFiles() {
 }
 
 async function migrate() {
-  await migrateGroup();
-  await migrateUser();
-  await migrateMember();
-  await migrateSpecies();
-  await migrateTag();
-  await migrateProvider();
-  await migrateProtein();
-  await migrateClone();
-  await migrateLot();
-  await migrateConjugate();
-  await migratePanel();
-  await migrateValidation();
-  await migrateValidationFile();
+  // await migrateGroup();
+  // await migrateUser();
+  // await migrateMember();
+  // await migrateSpecies();
+  // await migrateTag();
+  // await migrateProvider();
+  // await migrateProtein();
+  // await migrateClone();
+  // await migrateLot();
+  // await migrateConjugate();
+  // await migratePanel();
+  // await migrateValidation();
+  // await migrateValidationFile();
 
-  // await downloadFiles();
+  await downloadFiles();
 
   // await postgresPool.query(
   //   "SELECT 'SELECT setval(''public.' || c.relname || ''',' || ' (SELECT MAX(ID) FROM PUBLIC.' || REPLACE(c.relname,'_id_seq','') || '), true);' FROM pg_class c WHERE c.relkind = 'S' ORDER BY C.RELNAME;"

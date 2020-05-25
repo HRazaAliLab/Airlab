@@ -156,6 +156,11 @@ export default class ProvidersListView extends Vue {
   }
 
   async mounted() {
+    document.onkeydown = (evt) => {
+      if (this.drawer && evt.key === "Escape") {
+        this.drawer = false;
+      }
+    };
     await this.providerContext.actions.getGroupProviders(+this.$router.currentRoute.params.groupId);
   }
 

@@ -340,7 +340,6 @@ import { exportCsv } from "@/utils/exporters";
 import { applicationEnum, statusEnum, antigenRetrievalTypes } from "@/utils/enums";
 import { applicationToString } from "@/utils/converters";
 import ValidationDetailsView from "@/views/main/group/validations/ValidationDetailsView.vue";
-import { apiUrl } from "@/env";
 
 @Component({
   components: {
@@ -353,7 +352,6 @@ export default class ValidationsListViews extends Vue {
   readonly validationContext = validationModule.context(this.$store);
   readonly speciesContext = speciesModule.context(this.$store);
 
-  private readonly apiUrl = apiUrl;
   private readonly applications = applicationEnum;
   private readonly statuses = statusEnum;
   private readonly antigenRetrievalTypes = antigenRetrievalTypes;
@@ -375,40 +373,13 @@ export default class ValidationsListViews extends Vue {
     //   width: "80",
     // },
     {
-      text: "Application",
-      value: "application",
-      filterable: false,
-      sort: (a, b) => {
-        if (a === null) {
-          return 1;
-        }
-        if (b === null) {
-          return -1;
-        }
-        return applicationToString(a).localeCompare(applicationToString(b));
-      },
-    },
-    {
-      text: "Species",
-      value: "species",
-      sort: (a, b) => {
-        if (a === null) {
-          return 1;
-        }
-        if (b === null) {
-          return -1;
-        }
-        return a.name.localeCompare(b.name);
-      },
+      text: "Protein",
+      value: "clone.protein",
+      sort: (a, b) => a.name.localeCompare(b.name),
     },
     {
       text: "Clone",
       value: "clone",
-      sort: (a, b) => a.name.localeCompare(b.name),
-    },
-    {
-      text: "Protein",
-      value: "clone.protein",
       sort: (a, b) => a.name.localeCompare(b.name),
     },
     {
@@ -425,6 +396,19 @@ export default class ValidationsListViews extends Vue {
       },
     },
     {
+      text: "Species",
+      value: "species",
+      sort: (a, b) => {
+        if (a === null) {
+          return 1;
+        }
+        if (b === null) {
+          return -1;
+        }
+        return a.name.localeCompare(b.name);
+      },
+    },
+    {
       text: "Conjugate",
       value: "conjugate",
       sort: (a, b) => {
@@ -435,6 +419,20 @@ export default class ValidationsListViews extends Vue {
           return -1;
         }
         return a.tubeNumber > b.tubeNumber ? 1 : -1;
+      },
+    },
+    {
+      text: "Application",
+      value: "application",
+      filterable: false,
+      sort: (a, b) => {
+        if (a === null) {
+          return 1;
+        }
+        if (b === null) {
+          return -1;
+        }
+        return applicationToString(a).localeCompare(applicationToString(b));
       },
     },
     {
@@ -547,6 +545,11 @@ export default class ValidationsListViews extends Vue {
   }
 
   async mounted() {
+    document.onkeydown = (evt) => {
+      if (this.drawer && evt.key === "Escape") {
+        this.drawer = false;
+      }
+    };
     await Promise.all([
       this.validationContext.actions.getGroupValidations(+this.$router.currentRoute.params.groupId),
       this.speciesContext.actions.getGroupSpecies(+this.$router.currentRoute.params.groupId),

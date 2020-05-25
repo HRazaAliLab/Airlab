@@ -9,82 +9,92 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.UpdateProviderDto = exports.CreateProviderDto = exports.ProviderDto = void 0;
 const class_validator_1 = require("class-validator");
 const swagger_1 = require("@nestjs/swagger");
-class ProviderDto {
-}
-__decorate([
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Number)
-], ProviderDto.prototype, "id", void 0);
-__decorate([
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Number)
-], ProviderDto.prototype, "groupId", void 0);
-__decorate([
-    swagger_1.ApiProperty(),
-    __metadata("design:type", String)
-], ProviderDto.prototype, "name", void 0);
-__decorate([
-    swagger_1.ApiProperty(),
-    __metadata("design:type", String)
-], ProviderDto.prototype, "description", void 0);
-__decorate([
-    swagger_1.ApiProperty(),
-    __metadata("design:type", String)
-], ProviderDto.prototype, "url", void 0);
-__decorate([
-    swagger_1.ApiPropertyOptional(),
-    __metadata("design:type", Object)
-], ProviderDto.prototype, "meta", void 0);
-__decorate([
-    swagger_1.ApiPropertyOptional(),
-    __metadata("design:type", String)
-], ProviderDto.prototype, "createdAt", void 0);
+let ProviderDto = /** @class */ (() => {
+    class ProviderDto {
+    }
+    __decorate([
+        swagger_1.ApiProperty(),
+        __metadata("design:type", Number)
+    ], ProviderDto.prototype, "id", void 0);
+    __decorate([
+        swagger_1.ApiProperty(),
+        __metadata("design:type", Number)
+    ], ProviderDto.prototype, "groupId", void 0);
+    __decorate([
+        swagger_1.ApiProperty(),
+        __metadata("design:type", String)
+    ], ProviderDto.prototype, "name", void 0);
+    __decorate([
+        swagger_1.ApiProperty(),
+        __metadata("design:type", String)
+    ], ProviderDto.prototype, "description", void 0);
+    __decorate([
+        swagger_1.ApiProperty(),
+        __metadata("design:type", String)
+    ], ProviderDto.prototype, "url", void 0);
+    __decorate([
+        swagger_1.ApiPropertyOptional(),
+        __metadata("design:type", Object)
+    ], ProviderDto.prototype, "meta", void 0);
+    __decorate([
+        swagger_1.ApiPropertyOptional(),
+        __metadata("design:type", String)
+    ], ProviderDto.prototype, "createdAt", void 0);
+    return ProviderDto;
+})();
 exports.ProviderDto = ProviderDto;
-class CreateProviderDto {
-}
-__decorate([
-    class_validator_1.IsInt(),
-    swagger_1.ApiProperty(),
-    __metadata("design:type", Number)
-], CreateProviderDto.prototype, "groupId", void 0);
-__decorate([
-    class_validator_1.IsString(),
-    swagger_1.ApiProperty(),
-    __metadata("design:type", String)
-], CreateProviderDto.prototype, "name", void 0);
-__decorate([
-    class_validator_1.IsString(),
-    class_validator_1.IsOptional(),
-    swagger_1.ApiPropertyOptional(),
-    __metadata("design:type", String)
-], CreateProviderDto.prototype, "description", void 0);
-__decorate([
-    class_validator_1.IsUrl(),
-    class_validator_1.IsOptional(),
-    swagger_1.ApiPropertyOptional(),
-    __metadata("design:type", String)
-], CreateProviderDto.prototype, "url", void 0);
+let CreateProviderDto = /** @class */ (() => {
+    class CreateProviderDto {
+    }
+    __decorate([
+        class_validator_1.IsInt(),
+        swagger_1.ApiProperty(),
+        __metadata("design:type", Number)
+    ], CreateProviderDto.prototype, "groupId", void 0);
+    __decorate([
+        class_validator_1.IsString(),
+        swagger_1.ApiProperty(),
+        __metadata("design:type", String)
+    ], CreateProviderDto.prototype, "name", void 0);
+    __decorate([
+        class_validator_1.IsString(),
+        class_validator_1.IsOptional(),
+        swagger_1.ApiPropertyOptional(),
+        __metadata("design:type", String)
+    ], CreateProviderDto.prototype, "description", void 0);
+    __decorate([
+        class_validator_1.IsUrl(),
+        class_validator_1.IsOptional(),
+        swagger_1.ApiPropertyOptional(),
+        __metadata("design:type", String)
+    ], CreateProviderDto.prototype, "url", void 0);
+    return CreateProviderDto;
+})();
 exports.CreateProviderDto = CreateProviderDto;
-class UpdateProviderDto {
-}
-__decorate([
-    class_validator_1.IsString(),
-    swagger_1.ApiProperty(),
-    __metadata("design:type", String)
-], UpdateProviderDto.prototype, "name", void 0);
-__decorate([
-    class_validator_1.IsString(),
-    class_validator_1.IsOptional(),
-    swagger_1.ApiPropertyOptional(),
-    __metadata("design:type", String)
-], UpdateProviderDto.prototype, "description", void 0);
-__decorate([
-    class_validator_1.IsUrl(),
-    class_validator_1.IsOptional(),
-    swagger_1.ApiPropertyOptional(),
-    __metadata("design:type", String)
-], UpdateProviderDto.prototype, "url", void 0);
+let UpdateProviderDto = /** @class */ (() => {
+    class UpdateProviderDto {
+    }
+    __decorate([
+        class_validator_1.IsString(),
+        swagger_1.ApiProperty(),
+        __metadata("design:type", String)
+    ], UpdateProviderDto.prototype, "name", void 0);
+    __decorate([
+        class_validator_1.IsString(),
+        class_validator_1.IsOptional(),
+        swagger_1.ApiPropertyOptional(),
+        __metadata("design:type", String)
+    ], UpdateProviderDto.prototype, "description", void 0);
+    __decorate([
+        class_validator_1.IsUrl(),
+        class_validator_1.IsOptional(),
+        swagger_1.ApiPropertyOptional(),
+        __metadata("design:type", String)
+    ], UpdateProviderDto.prototype, "url", void 0);
+    return UpdateProviderDto;
+})();
 exports.UpdateProviderDto = UpdateProviderDto;
 //# sourceMappingURL=dto.js.map

@@ -156,6 +156,11 @@ export default class SpeciesListView extends Vue {
   }
 
   async mounted() {
+    document.onkeydown = (evt) => {
+      if (this.drawer && evt.key === "Escape") {
+        this.drawer = false;
+      }
+    };
     await this.speciesContext.actions.getGroupSpecies(+this.$router.currentRoute.params.groupId);
   }
 

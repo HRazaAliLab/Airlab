@@ -176,25 +176,25 @@
         </template>
         <template v-slot:item.application="{ item }">
           <v-chip-group v-if="item.application" multiple column active-class="primary--text">
-            <v-chip v-if="item.application[applicationMap.sMC]" x-small dark disabled class="mr-1">
+            <v-chip v-if="item.application[applicationMap.sMC]" x-small pill disabled class="mr-1">
               SMC
             </v-chip>
-            <v-chip v-if="item.application[applicationMap.iMC]" x-small dark disabled class="mr-1">
+            <v-chip v-if="item.application[applicationMap.iMC]" x-small pill disabled class="mr-1">
               IMC
             </v-chip>
-            <v-chip v-if="item.application[applicationMap.FC]" x-small dark disabled class="mr-1">
+            <v-chip v-if="item.application[applicationMap.FC]" x-small pill disabled class="mr-1">
               FC
             </v-chip>
-            <v-chip v-if="item.application[applicationMap.IF]" x-small dark disabled class="mr-1">
+            <v-chip v-if="item.application[applicationMap.IF]" x-small pill disabled class="mr-1">
               IF
             </v-chip>
-            <v-chip v-if="item.application[applicationMap.IHC]" x-small dark disabled class="mr-1">
+            <v-chip v-if="item.application[applicationMap.IHC]" x-small pill disabled class="mr-1">
               IHC
             </v-chip>
-            <v-chip v-if="item.application[applicationMap.IHCF]" x-small dark disabled class="mr-1">
+            <v-chip v-if="item.application[applicationMap.IHCF]" x-small pill disabled class="mr-1">
               IHC-F
             </v-chip>
-            <v-chip v-if="item.application[applicationMap.WB]" x-small dark disabled class="mr-1">
+            <v-chip v-if="item.application[applicationMap.WB]" x-small pill disabled class="mr-1">
               WB
             </v-chip>
           </v-chip-group>
@@ -337,7 +337,13 @@ export default class ClonesListView extends Vue {
 
   readonly getStatusColor = getStatusColor;
   readonly applications = applicationEnum;
-  readonly statuses = statusEnum;
+  readonly statuses = [
+    { value: 0, text: "Yes" },
+    { value: 1, text: "So-So" },
+    { value: 2, text: "No" },
+    { value: 3, text: "Undefined" },
+    { value: -1, text: "No validations" },
+  ];
 
   private readonly applicationMap = applicationNameToId;
 
@@ -461,12 +467,15 @@ export default class ClonesListView extends Vue {
               return false;
             })
           : items.filter((item) => {
-              for (const validation of (item as any).validations) {
-                if (this.statusFilter.includes(validation.status)) {
-                  return true;
+              if ((item as any).validations && (item as any).validations.length > 0) {
+                for (const validation of (item as any).validations) {
+                  if (this.statusFilter.includes(validation.status)) {
+                    return true;
+                  }
                 }
+              } else {
+                return this.statusFilter.includes(-1);
               }
-              return false;
             });
     }
     if (this.reactivityFilter.length > 0) {
@@ -510,6 +519,11 @@ export default class ClonesListView extends Vue {
   }
 
   async mounted() {
+    document.onkeydown = (evt) => {
+      if (this.drawer && evt.key === "Escape") {
+        this.drawer = false;
+      }
+    };
     await Promise.all([
       this.cloneContext.actions.getGroupClones(+this.$router.currentRoute.params.groupId),
       this.speciesContext.actions.getGroupSpecies(+this.$router.currentRoute.params.groupId),
