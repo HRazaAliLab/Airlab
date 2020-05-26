@@ -13,7 +13,7 @@ module.exports = {
     appleMobileWebAppStatusBarStyle: "black",
     workboxPluginMode: "InjectManifest",
     workboxOptions: {
-      swSrc: "public/sw.js",
+      swSrc: "public/service-worker.js",
     },
   },
 
