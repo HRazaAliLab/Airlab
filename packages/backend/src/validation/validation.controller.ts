@@ -34,7 +34,7 @@ const multer = require("multer");
 const mkdirp = require("mkdirp");
 
 const storage = multer.diskStorage({
-  destination: function(
+  destination: function (
     req,
     file: {
       fieldname: string;
@@ -57,7 +57,7 @@ const storage = multer.diskStorage({
     }
     cb(null, destination);
   },
-  filename: function(
+  filename: function (
     req,
     file: {
       fieldname: string;
@@ -73,7 +73,7 @@ const storage = multer.diskStorage({
     cb: (error: Error | null, filename: string) => void
   ) {
     const ext = extname(file.originalname);
-    pseudoRandomBytes(16, function(err, raw) {
+    pseudoRandomBytes(16, function (err, raw) {
       cb(err, err ? undefined : raw.toString("hex") + ext);
     });
   },

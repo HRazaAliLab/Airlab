@@ -8,7 +8,7 @@ import {
   Post,
   Request,
   UnauthorizedException,
-  UseGuards
+  UseGuards,
 } from "@nestjs/common";
 import { ProviderService } from "./provider.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
@@ -26,7 +26,7 @@ export class ProviderController {
   constructor(
     private readonly providerService: ProviderService,
     private readonly memberService: MemberService,
-    private readonly lotService: LotService,
+    private readonly lotService: LotService
   ) {}
 
   @Post("providers")

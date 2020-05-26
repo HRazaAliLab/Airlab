@@ -56,17 +56,11 @@ export class MemberEntity {
   })
   updatedAt: string;
 
-  @ManyToOne(
-    type => GroupEntity,
-    group => group.members
-  )
+  @ManyToOne((type) => GroupEntity, (group) => group.members)
   @JoinColumn({ name: "group_id" })
   group!: GroupEntity;
 
-  @ManyToOne(
-    type => UserEntity,
-    user => user.members
-  )
+  @ManyToOne((type) => UserEntity, (user) => user.members)
   @JoinColumn({ name: "user_id" })
   user!: UserEntity;
 }

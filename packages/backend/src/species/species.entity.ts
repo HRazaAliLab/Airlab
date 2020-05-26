@@ -36,10 +36,7 @@ export class SpeciesEntity {
   })
   createdAt: string;
 
-  @ManyToOne(
-    type => GroupEntity,
-    group => group.species
-  )
+  @ManyToOne((type) => GroupEntity, (group) => group.species)
   @JoinColumn({ name: "group_id" })
   group!: GroupEntity;
 }

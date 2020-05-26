@@ -8,7 +8,7 @@ import {
   Post,
   Request,
   UnauthorizedException,
-  UseGuards
+  UseGuards,
 } from "@nestjs/common";
 import { SpeciesService } from "./species.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";

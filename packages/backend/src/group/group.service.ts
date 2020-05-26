@@ -75,10 +75,7 @@ export class GroupService {
 
   private checkPublicKey(publicKey: string, userId: number) {
     const compound = `${userId}${privateKey}${userId}`;
-    const hash = crypto
-      .createHash("sha1")
-      .update(compound)
-      .digest("hex");
+    const hash = crypto.createHash("sha1").update(compound).digest("hex");
     return publicKey === hash;
   }
 

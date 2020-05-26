@@ -42,16 +42,10 @@ export class ProteinEntity {
   })
   createdAt: string;
 
-  @ManyToOne(
-    type => GroupEntity,
-    group => group.proteins
-  )
+  @ManyToOne((type) => GroupEntity, (group) => group.proteins)
   @JoinColumn({ name: "group_id" })
   group: GroupEntity;
 
-  @OneToMany(
-    type => CloneEntity,
-    clone => clone.protein
-  )
+  @OneToMany((type) => CloneEntity, (clone) => clone.protein)
   clones: CloneEntity[];
 }

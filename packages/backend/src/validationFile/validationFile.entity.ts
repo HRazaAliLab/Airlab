@@ -56,10 +56,7 @@ export class ValidationFileEntity {
   })
   createdAt: string;
 
-  @ManyToOne(
-    type => ValidationEntity,
-    validation => validation.validationFiles
-  )
+  @ManyToOne((type) => ValidationEntity, (validation) => validation.validationFiles)
   @JoinColumn({ name: "validation_id" })
   validation: ValidationEntity;
 }

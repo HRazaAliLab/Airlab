@@ -15,7 +15,7 @@ export class PanelElementService {
     await this.repository.delete({
       panelId: panelId,
     });
-    const data = elements.map(item => {
+    const data = elements.map((item) => {
       return {
         panelId: panelId,
         conjugateId: item.conjugateId,

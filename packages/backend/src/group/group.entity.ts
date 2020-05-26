@@ -49,57 +49,30 @@ export class GroupEntity {
   })
   createdAt: string;
 
-  @OneToMany(
-    type => SpeciesEntity,
-    species => species.group
-  )
+  @OneToMany((type) => SpeciesEntity, (species) => species.group)
   species: SpeciesEntity[];
 
-  @OneToMany(
-    type => TagEntity,
-    tag => tag.group
-  )
+  @OneToMany((type) => TagEntity, (tag) => tag.group)
   tags: TagEntity[];
 
-  @OneToMany(
-    type => ProviderEntity,
-    provider => provider.group
-  )
+  @OneToMany((type) => ProviderEntity, (provider) => provider.group)
   providers: ProviderEntity[];
 
-  @OneToMany(
-    type => ProteinEntity,
-    protein => protein.group
-  )
+  @OneToMany((type) => ProteinEntity, (protein) => protein.group)
   proteins: ProteinEntity[];
 
-  @OneToMany(
-    type => CloneEntity,
-    clone => clone.group
-  )
+  @OneToMany((type) => CloneEntity, (clone) => clone.group)
   clones: CloneEntity[];
 
-  @OneToMany(
-    type => LotEntity,
-    lot => lot.group
-  )
+  @OneToMany((type) => LotEntity, (lot) => lot.group)
   lots: LotEntity[];
 
-  @OneToMany(
-    type => ConjugateEntity,
-    conjugate => conjugate.group
-  )
+  @OneToMany((type) => ConjugateEntity, (conjugate) => conjugate.group)
   conjugates: ConjugateEntity[];
 
-  @OneToMany(
-    type => PanelEntity,
-    panel => panel.group
-  )
+  @OneToMany((type) => PanelEntity, (panel) => panel.group)
   panels: PanelEntity[];
 
-  @OneToMany(
-    type => MemberEntity,
-    member => member.group
-  )
+  @OneToMany((type) => MemberEntity, (member) => member.group)
   members!: MemberEntity[];
 }

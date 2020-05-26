@@ -168,35 +168,32 @@ export class ValidationEntity {
   })
   updatedAt: string;
 
-  @ManyToOne(type => GroupEntity)
+  @ManyToOne((type) => GroupEntity)
   @JoinColumn({ name: "group_id" })
   group: GroupEntity;
 
-  @ManyToOne(type => MemberEntity)
+  @ManyToOne((type) => MemberEntity)
   @JoinColumn({ name: "created_by" })
   member: MemberEntity;
 
   user: UserEntity;
 
-  @ManyToOne(type => CloneEntity)
+  @ManyToOne((type) => CloneEntity)
   @JoinColumn({ name: "clone_id" })
   clone: CloneEntity;
 
-  @ManyToOne(type => LotEntity)
+  @ManyToOne((type) => LotEntity)
   @JoinColumn({ name: "lot_id" })
   lot?: LotEntity;
 
-  @ManyToOne(type => ConjugateEntity)
+  @ManyToOne((type) => ConjugateEntity)
   @JoinColumn({ name: "conjugate_id" })
   conjugate?: ConjugateEntity;
 
-  @ManyToOne(type => SpeciesEntity)
+  @ManyToOne((type) => SpeciesEntity)
   @JoinColumn({ name: "species_id" })
   species: SpeciesEntity;
 
-  @OneToMany(
-    type => ValidationFileEntity,
-    validationFile => validationFile.validation
-  )
+  @OneToMany((type) => ValidationFileEntity, (validationFile) => validationFile.validation)
   validationFiles: ValidationFileEntity[];
 }

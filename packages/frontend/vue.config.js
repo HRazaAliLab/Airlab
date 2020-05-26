@@ -1,13 +1,23 @@
+const manifestJSON = require("./public/manifest.json");
+
 module.exports = {
   lintOnSave: false,
   runtimeCompiler: false,
   transpileDependencies: ["vuetify"],
 
   pwa: {
-    name: "AirLab",
+    themeColor: manifestJSON.theme_color,
+    name: manifestJSON.short_name,
+    msTileColor: manifestJSON.background_color,
+    appleMobileWebAppCapable: "yes",
+    appleMobileWebAppStatusBarStyle: "black",
+    workboxPluginMode: "InjectManifest",
+    workboxOptions: {
+      swSrc: "public/sw.js",
+    },
   },
 
-  configureWebpack: config => {
+  configureWebpack: (config) => {
     if (process.env.NODE_ENV === "production") {
       ("nosources-source-map");
     } else {

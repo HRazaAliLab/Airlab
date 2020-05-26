@@ -149,24 +149,18 @@ export class LotEntity {
   })
   updatedAt: string;
 
-  @ManyToOne(
-    type => GroupEntity,
-    group => group.lots
-  )
+  @ManyToOne((type) => GroupEntity, (group) => group.lots)
   @JoinColumn({ name: "group_id" })
   group: GroupEntity;
 
-  @ManyToOne(type => ProviderEntity)
+  @ManyToOne((type) => ProviderEntity)
   @JoinColumn({ name: "provider_id" })
   provider: ProviderEntity;
 
-  @ManyToOne(type => CloneEntity)
+  @ManyToOne((type) => CloneEntity)
   @JoinColumn({ name: "clone_id" })
   clone: CloneEntity;
 
-  @OneToMany(
-    type => ConjugateEntity,
-    conjugate => conjugate.lot
-  )
+  @OneToMany((type) => ConjugateEntity, (conjugate) => conjugate.lot)
   conjugates: ConjugateEntity[];
 }

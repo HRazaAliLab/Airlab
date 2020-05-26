@@ -97,37 +97,25 @@ export class CloneEntity {
   })
   updatedAt: string;
 
-  @ManyToOne(
-    type => GroupEntity,
-    group => group.clones
-  )
+  @ManyToOne((type) => GroupEntity, (group) => group.clones)
   @JoinColumn({ name: "group_id" })
   group: GroupEntity;
 
-  @ManyToOne(type => MemberEntity)
+  @ManyToOne((type) => MemberEntity)
   @JoinColumn({ name: "created_by" })
   member: MemberEntity;
 
-  @ManyToOne(
-    type => ProteinEntity,
-    protein => protein.clones
-  )
+  @ManyToOne((type) => ProteinEntity, (protein) => protein.clones)
   @JoinColumn({ name: "protein_id" })
   protein: ProteinEntity;
 
-  @ManyToOne(type => SpeciesEntity)
+  @ManyToOne((type) => SpeciesEntity)
   @JoinColumn({ name: "species_id" })
   species: SpeciesEntity;
 
-  @OneToMany(
-    type => LotEntity,
-    lot => lot.clone
-  )
+  @OneToMany((type) => LotEntity, (lot) => lot.clone)
   lots: LotEntity[];
 
-  @OneToMany(
-    type => ValidationEntity,
-    validation => validation.clone
-  )
+  @OneToMany((type) => ValidationEntity, (validation) => validation.clone)
   validations: ValidationEntity[];
 }

@@ -71,22 +71,16 @@ export class PanelEntity {
   })
   updatedAt: string;
 
-  @ManyToOne(
-    type => GroupEntity,
-    group => group.panels
-  )
+  @ManyToOne((type) => GroupEntity, (group) => group.panels)
   @JoinColumn({ name: "group_id" })
   group: GroupEntity;
 
-  @ManyToOne(type => MemberEntity)
+  @ManyToOne((type) => MemberEntity)
   @JoinColumn({ name: "created_by" })
   member: MemberEntity;
 
   user: UserEntity;
 
-  @OneToMany(
-    type => PanelElementEntity,
-    element => element.panel
-  )
+  @OneToMany((type) => PanelElementEntity, (element) => element.panel)
   elements!: PanelElementEntity[];
 }

@@ -37,7 +37,7 @@ export class PanelService {
   }
 
   async update(id: number, params: UpdatePanelDto) {
-    const elements = params.elements.map(item => {
+    const elements = params.elements.map((item) => {
       return { ...item };
     });
     delete params.elements;
@@ -64,7 +64,7 @@ export class PanelService {
 
   async duplicate(id: number, params: DuplicatePanelDto) {
     const item = await this.findById(id);
-    const elements = item.elements.map(item => {
+    const elements = item.elements.map((item) => {
       return { ...item };
     });
     delete item.id;

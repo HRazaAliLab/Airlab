@@ -31,17 +31,11 @@ export class PanelElementEntity {
   })
   concentration?: number;
 
-  @ManyToOne(
-    type => PanelEntity,
-    panel => panel.elements
-  )
+  @ManyToOne((type) => PanelEntity, (panel) => panel.elements)
   @JoinColumn({ name: "panel_id" })
   panel: PanelEntity;
 
-  @ManyToOne(
-    type => ConjugateEntity,
-    conjugate => conjugate.elements
-  )
+  @ManyToOne((type) => ConjugateEntity, (conjugate) => conjugate.elements)
   @JoinColumn({ name: "conjugate_id" })
   conjugate: ConjugateEntity;
 }

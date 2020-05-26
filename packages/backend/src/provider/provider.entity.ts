@@ -41,10 +41,7 @@ export class ProviderEntity {
   })
   createdAt: string;
 
-  @ManyToOne(
-    type => GroupEntity,
-    group => group.providers
-  )
+  @ManyToOne((type) => GroupEntity, (group) => group.providers)
   @JoinColumn({ name: "group_id" })
   group!: GroupEntity;
 }
