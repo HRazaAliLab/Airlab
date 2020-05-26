@@ -16,7 +16,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@nestjs/swagger": "4.5.7",
+    "@nestjs/swagger": "4.5.8",
     "class-validator": "0.12.2"
   },
   "devDependencies": {

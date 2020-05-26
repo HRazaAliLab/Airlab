@@ -12,7 +12,7 @@ export class CloneGetters extends Getters<CloneState> {
   }
 
   getCsv(items: readonly CloneDto[]) {
-    const separator = ",";
+    const separator = ";";
     const header = ["Id", "Clone", "Protein", "Host", "Isotype", "Epitope", "Phospho", "Polyclonal"];
     const lines = items.map((item) => {
       const line = [

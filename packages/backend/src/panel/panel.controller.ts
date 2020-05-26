@@ -9,7 +9,7 @@ import {
   Put,
   Request,
   UnauthorizedException,
-  UseGuards
+  UseGuards,
 } from "@nestjs/common";
 import { PanelService } from "./panel.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
@@ -51,7 +51,10 @@ export class PanelController {
   @ApiOkResponse({ type: PanelDto })
   async findById(@Request() req, @Param("id") id: number) {
     const item = await this.panelService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    if (!member.allPanels && item.createdBy !== member.id) {
+      throw new UnauthorizedException("You can access only your own panels");
+    }
     return item;
   }
 
@@ -60,7 +63,10 @@ export class PanelController {
   @ApiOkResponse({ type: PanelDto })
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdatePanelDto) {
     const item = await this.panelService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    if (!member.allPanels && item.createdBy !== member.id) {
+      throw new UnauthorizedException("You can access only your own panels");
+    }
     return this.panelService.update(id, params);
   }
 
@@ -70,7 +76,7 @@ export class PanelController {
   async updateArchiveState(@Request() req, @Param("id") id: number, @Body() params: UpdateStateDto) {
     const item = await this.panelService.findById(id);
     const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
-    if (member.role < 100) {
+    if (member.role < 100 || !member.allPanels) {
       throw new UnauthorizedException("Only group admins can perform this operation");
     }
     return this.panelService.updateArchiveState(id, params);
@@ -90,7 +96,7 @@ export class PanelController {
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.panelService.findById(id);
     const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
-    if (member.role < 100) {
+    if (member.role < 100 || !member.allPanels) {
       throw new UnauthorizedException("Only group admins can perform this operation");
     }
     return this.panelService.deleteById(id);

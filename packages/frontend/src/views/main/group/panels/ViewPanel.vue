@@ -181,6 +181,7 @@
             class="mr-1"
             x-small
             dark
+            @click="showValidation(validation.id)"
           >
             {{ validation.application | applicationToString }}
           </v-chip>
@@ -215,6 +216,9 @@
         </template>
       </v-data-table>
     </v-card>
+    <v-navigation-drawer v-model="drawer" right fixed temporary width="600">
+      <ValidationDetailsView v-if="drawer" :validation-id="selectedValidationId" />
+    </v-navigation-drawer>
   </v-container>
 </template>
 
@@ -235,9 +239,10 @@ import {
   exportHeliosPanel,
   exportPanelCsv,
 } from "@/utils/exporters";
+import ValidationDetailsView from "@/views/main/group/validations/ValidationDetailsView.vue";
 
 @Component({
-  components: { MetalExpansionPanel },
+  components: { ValidationDetailsView, MetalExpansionPanel },
 })
 export default class ViewPanel extends Vue {
   readonly groupContext = groupModule.context(this.$store);
@@ -320,6 +325,9 @@ export default class ViewPanel extends Vue {
   fab = false;
   excludeEmpty = false;
   totalVolume = 100;
+
+  drawer = false;
+  selectedValidationId: number | null = null;
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
@@ -461,7 +469,17 @@ export default class ViewPanel extends Vue {
     exportHeliosPanel(this.panel, this.items);
   }
 
+  showValidation(id: number) {
+    this.selectedValidationId = id;
+    this.drawer = !this.drawer;
+  }
+
   async mounted() {
+    document.onkeydown = (evt) => {
+      if (this.drawer && evt.key === "Escape") {
+        this.drawer = false;
+      }
+    };
     await Promise.all([
       this.panelContext.actions.getPanel(+this.$router.currentRoute.params.id),
       this.conjugateContext.actions.getGroupConjugates(+this.$router.currentRoute.params.groupId),
