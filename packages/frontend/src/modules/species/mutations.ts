@@ -7,7 +7,7 @@ export class SpeciesMutations extends Mutations<SpeciesState> {
   setEntities(payload: SpeciesDto[]) {
     const normalizedData = normalize<SpeciesDto>(payload, speciesListSchema);
     this.state.ids = normalizedData.result;
-    this.state.entities = normalizedData.entities.species ? normalizedData.entities.species : {};
+    this.state.entities = normalizedData.entities.species ? Object.freeze(normalizedData.entities.species) : {};
   }
 
   setEntity(payload: SpeciesDto) {
@@ -15,23 +15,23 @@ export class SpeciesMutations extends Mutations<SpeciesState> {
     if (!existingId) {
       this.state.ids = this.state.ids.concat(payload.id);
     }
-    this.state.entities = { ...this.state.entities, [payload.id]: payload };
+    this.state.entities = Object.freeze({ ...this.state.entities, [payload.id]: payload });
   }
 
   addEntity(payload: SpeciesDto) {
     this.state.ids = this.state.ids.concat(payload.id);
-    this.state.entities = { ...this.state.entities, [payload.id]: payload };
+    this.state.entities = Object.freeze({ ...this.state.entities, [payload.id]: payload });
   }
 
   updateEntity(payload: SpeciesDto) {
-    this.state.entities = { ...this.state.entities, [payload.id]: payload };
+    this.state.entities = Object.freeze({ ...this.state.entities, [payload.id]: payload });
   }
 
   deleteEntity(id: number) {
     this.state.ids = this.state.ids.filter((item) => item !== id);
     const entities = { ...this.state.entities };
     delete entities[id];
-    this.state.entities = entities;
+    this.state.entities = Object.freeze(entities);
   }
 
   reset() {

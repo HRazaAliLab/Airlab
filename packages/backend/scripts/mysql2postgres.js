@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const mysql = require("mysql2/promise");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { Pool } = require("pg");
@@ -9,6 +10,8 @@ const { Storage } = require("@google-cloud/storage");
 const mkdirp = require("mkdirp");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const fs = require("fs");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const R = require("rambda");
 
 const mysqlPool = mysql.createPool({
   host: "localhost",
@@ -193,6 +196,7 @@ async function migrateClone() {
         .filter(item => item !== "")
         .map(item => parseInt(item, 10))
         .filter(item => !isNaN(item));
+      reactivity = R.uniq(reactivity);
     }
 
     let application = row["cloApplication"];

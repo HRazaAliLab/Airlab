@@ -67,7 +67,7 @@ export class PanelEntity {
 
   @Column({
     name: "updated_at",
-    select: false,
+    select: true,
   })
   updatedAt: string;
 

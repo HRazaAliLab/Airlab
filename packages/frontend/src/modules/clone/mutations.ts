@@ -7,7 +7,7 @@ export class CloneMutations extends Mutations<CloneState> {
   setEntities(payload: CloneDto[]) {
     const normalizedData = normalize<CloneDto>(payload, cloneListSchema);
     this.state.ids = normalizedData.result;
-    this.state.entities = normalizedData.entities.clones ? normalizedData.entities.clones : {};
+    this.state.entities = normalizedData.entities.clones ? Object.freeze(normalizedData.entities.clones) : {};
   }
 
   setEntity(payload: CloneDto) {
@@ -15,23 +15,23 @@ export class CloneMutations extends Mutations<CloneState> {
     if (!existingId) {
       this.state.ids = this.state.ids.concat(payload.id);
     }
-    this.state.entities = { ...this.state.entities, [payload.id]: payload };
+    this.state.entities = Object.freeze({ ...this.state.entities, [payload.id]: payload });
   }
 
   addEntity(payload: CloneDto) {
     this.state.ids = this.state.ids.concat(payload.id);
-    this.state.entities = { ...this.state.entities, [payload.id]: payload };
+    this.state.entities = Object.freeze({ ...this.state.entities, [payload.id]: payload });
   }
 
   updateEntity(payload: CloneDto) {
-    this.state.entities = { ...this.state.entities, [payload.id]: payload };
+    this.state.entities = Object.freeze({ ...this.state.entities, [payload.id]: payload });
   }
 
   deleteEntity(id: number) {
     this.state.ids = this.state.ids.filter((item) => item !== id);
     const entities = { ...this.state.entities };
     delete entities[id];
-    this.state.entities = entities;
+    this.state.entities = Object.freeze(entities);
   }
 
   reset() {

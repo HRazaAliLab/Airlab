@@ -12,7 +12,7 @@ export class GroupMutations extends Mutations<GroupState> {
   setEntities(payload: GroupDto[]) {
     const normalizedData = normalize<GroupDto>(payload, groupListSchema);
     this.state.ids = normalizedData.result;
-    this.state.entities = normalizedData.entities.groups ? normalizedData.entities.groups : {};
+    this.state.entities = normalizedData.entities.groups ? Object.freeze(normalizedData.entities.groups) : {};
   }
 
   setEntity(payload: GroupDto) {
@@ -20,23 +20,23 @@ export class GroupMutations extends Mutations<GroupState> {
     if (!existingId) {
       this.state.ids = this.state.ids.concat(payload.id);
     }
-    this.state.entities = { ...this.state.entities, [payload.id]: payload };
+    this.state.entities = Object.freeze({ ...this.state.entities, [payload.id]: payload });
   }
 
   addEntity(payload: GroupDto) {
     this.state.ids = this.state.ids.concat(payload.id);
-    this.state.entities = { ...this.state.entities, [payload.id]: payload };
+    this.state.entities = Object.freeze({ ...this.state.entities, [payload.id]: payload });
   }
 
   updateEntity(payload: GroupDto) {
-    this.state.entities = { ...this.state.entities, [payload.id]: payload };
+    this.state.entities = Object.freeze({ ...this.state.entities, [payload.id]: payload });
   }
 
   deleteEntity(id: number) {
     this.state.ids = this.state.ids.filter((item) => item !== id);
     const entities = { ...this.state.entities };
     delete entities[id];
-    this.state.entities = entities;
+    this.state.entities = Object.freeze(entities);
   }
 
   setMyMember(payload: MemberDto) {

@@ -7,7 +7,7 @@ export class ConjugateMutations extends Mutations<ConjugateState> {
   setEntities(payload: ConjugateDto[]) {
     const normalizedData = normalize<ConjugateDto>(payload, conjugateListSchema);
     this.state.ids = normalizedData.result;
-    this.state.entities = normalizedData.entities.conjugates ? normalizedData.entities.conjugates : {};
+    this.state.entities = normalizedData.entities.conjugates ? Object.freeze(normalizedData.entities.conjugates) : {};
   }
 
   setEntity(payload: ConjugateDto) {
@@ -15,23 +15,23 @@ export class ConjugateMutations extends Mutations<ConjugateState> {
     if (!existingId) {
       this.state.ids = this.state.ids.concat(payload.id);
     }
-    this.state.entities = { ...this.state.entities, [payload.id]: payload };
+    this.state.entities = Object.freeze({ ...this.state.entities, [payload.id]: payload });
   }
 
   addEntity(payload: ConjugateDto) {
     this.state.ids = this.state.ids.concat(payload.id);
-    this.state.entities = { ...this.state.entities, [payload.id]: payload };
+    this.state.entities = Object.freeze({ ...this.state.entities, [payload.id]: payload });
   }
 
   updateEntity(payload: ConjugateDto) {
-    this.state.entities = { ...this.state.entities, [payload.id]: payload };
+    this.state.entities = Object.freeze({ ...this.state.entities, [payload.id]: payload });
   }
 
   deleteEntity(id: number) {
     this.state.ids = this.state.ids.filter((item) => item !== id);
     const entities = { ...this.state.entities };
     delete entities[id];
-    this.state.entities = entities;
+    this.state.entities = Object.freeze(entities);
   }
 
   reset() {

@@ -31,12 +31,12 @@
               <div class="content">
                 <div><span class="subheader">Protein:</span> {{ item.lot.clone.protein.name }}</div>
                 <div><span class="subheader">Clone:</span> {{ item.lot.clone.name }}</div>
-                <div>
-                  <span class="subheader">Reactivity: </span>
-                  <v-chip v-for="r of item.lot.clone.reactivity" :key="`${Math.random()}`" x-small label class="chip">
-                    {{ props.speciesMap.get(r) ? props.speciesMap.get(r).acronym : "?" }}
-                  </v-chip>
-                </div>
+<!--                <div>-->
+<!--                  <span class="subheader">Reactivity: </span>-->
+<!--                  <v-chip v-for="r of item.lot.clone.reactivity" :key="`${Math.random()}`" x-small label class="chip">-->
+<!--                    {{ props.speciesMap.get(r) ? props.speciesMap.get(r).acronym : "?" }}-->
+<!--                  </v-chip>-->
+<!--                </div>-->
               </div>
             </v-sheet>
           </v-row>

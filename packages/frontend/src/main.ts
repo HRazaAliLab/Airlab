@@ -10,6 +10,7 @@ import Vue from "vue";
 import "@mdi/font/css/materialdesignicons.css";
 import {
   applicationToString,
+  stringToUTCString,
   conjugateStatusToString,
   lotStatusToString,
   validationStatusToString,
@@ -21,6 +22,7 @@ Vue.config.productionTip = false;
 Vue.config.performance = isDev;
 
 Vue.filter("applicationToString", applicationToString);
+Vue.filter("stringToUTCString", stringToUTCString);
 Vue.filter("validationStatusToString", validationStatusToString);
 Vue.filter("conjugateStatusToString", conjugateStatusToString);
 Vue.filter("lotStatusToString", lotStatusToString);

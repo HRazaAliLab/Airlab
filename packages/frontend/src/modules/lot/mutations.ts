@@ -7,7 +7,7 @@ export class LotMutations extends Mutations<LotState> {
   setEntities(payload: LotDto[]) {
     const normalizedData = normalize<LotDto>(payload, lotListSchema);
     this.state.ids = normalizedData.result;
-    this.state.entities = normalizedData.entities.lots ? normalizedData.entities.lots : {};
+    this.state.entities = normalizedData.entities.lots ? Object.freeze(normalizedData.entities.lots) : {};
   }
 
   setEntity(payload: LotDto) {
@@ -15,23 +15,23 @@ export class LotMutations extends Mutations<LotState> {
     if (!existingId) {
       this.state.ids = this.state.ids.concat(payload.id);
     }
-    this.state.entities = { ...this.state.entities, [payload.id]: payload };
+    this.state.entities = Object.freeze({ ...this.state.entities, [payload.id]: payload });
   }
 
   addEntity(payload: LotDto) {
     this.state.ids = this.state.ids.concat(payload.id);
-    this.state.entities = { ...this.state.entities, [payload.id]: payload };
+    this.state.entities = Object.freeze({ ...this.state.entities, [payload.id]: payload });
   }
 
   updateEntity(payload: LotDto) {
-    this.state.entities = { ...this.state.entities, [payload.id]: payload };
+    this.state.entities = Object.freeze({ ...this.state.entities, [payload.id]: payload });
   }
 
   deleteEntity(id: number) {
     this.state.ids = this.state.ids.filter((item) => item !== id);
     const entities = { ...this.state.entities };
     delete entities[id];
-    this.state.entities = entities;
+    this.state.entities = Object.freeze(entities);
   }
 
   reset() {

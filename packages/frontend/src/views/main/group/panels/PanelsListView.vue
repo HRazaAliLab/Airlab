@@ -78,6 +78,9 @@
         <template v-slot:item.application="{ item }">
           {{ item.application | applicationToString }}
         </template>
+        <template v-slot:item.updatedAt="{ item }">
+          {{ item.updatedAt | stringToUTCString }}
+        </template>
         <template v-slot:item.isFluorophore="{ item }">
           <v-icon v-if="item.isFluorophore">mdi-check</v-icon>
         </template>
@@ -268,6 +271,11 @@ export default class PanelsListView extends Vue {
     {
       text: "Created by",
       value: "user",
+      sort: (a, b) => a.name.localeCompare(b.name),
+    },
+    {
+      text: "Updated at",
+      value: "updatedAt",
       sort: (a, b) => a.name.localeCompare(b.name),
     },
     {

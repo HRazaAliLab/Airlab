@@ -7,6 +7,10 @@ export function applicationToString(value: number): string {
   return applicationIdToName[value];
 }
 
+export function stringToUTCString(value: string): string {
+  return new Date(value).toUTCString();
+}
+
 const validationStatusMap = {
   0: "Yes",
   1: "So-So",
