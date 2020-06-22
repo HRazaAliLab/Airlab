@@ -24,7 +24,7 @@
         <v-form v-model="valid" ref="form" lazy-validation>
           <v-text-field label="Name" v-model="name" :rules="nameRules" />
           <v-text-field label="Description" v-model="description" :rules="descriptionRules" />
-          <div class="subtitle-1">
+          <div class="text-subtitle-1">
             Application
           </div>
           <v-btn-toggle v-model="application">

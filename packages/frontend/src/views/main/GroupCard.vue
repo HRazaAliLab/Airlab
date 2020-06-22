@@ -3,8 +3,8 @@
     <v-card-title>
       <v-row no-gutters>
         <v-col>
-          <h5 class="headline">{{ group.name }}</h5>
-          <span class="caption"><v-icon small>mdi-link</v-icon> {{ group.url }}</span>
+          <h5 class="text-h5">{{ group.name }}</h5>
+          <span class="text-caption"><v-icon small>mdi-link</v-icon> {{ group.url }}</span>
         </v-col>
       </v-row>
     </v-card-title>

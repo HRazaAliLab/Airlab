@@ -1,6 +1,6 @@
 <template>
   <v-card flat class="my-2">
-    <v-card-text class="subtitle-2">Conjugate Elements</v-card-text>
+    <v-card-text class="text-subtitle-2">Conjugate Elements</v-card-text>
     <v-data-table
       :headers="headers"
       :items="items"

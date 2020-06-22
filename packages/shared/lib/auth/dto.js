@@ -15,20 +15,17 @@ const swagger_1 = require("@nestjs/swagger");
 class JwtPayloadDto {
 }
 exports.JwtPayloadDto = JwtPayloadDto;
-let ResetPasswordDto = /** @class */ (() => {
-    class ResetPasswordDto {
-    }
-    __decorate([
-        class_validator_1.IsString(),
-        swagger_1.ApiProperty(),
-        __metadata("design:type", String)
-    ], ResetPasswordDto.prototype, "newPassword", void 0);
-    __decorate([
-        class_validator_1.IsString(),
-        swagger_1.ApiProperty(),
-        __metadata("design:type", String)
-    ], ResetPasswordDto.prototype, "token", void 0);
-    return ResetPasswordDto;
-})();
+class ResetPasswordDto {
+}
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], ResetPasswordDto.prototype, "newPassword", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], ResetPasswordDto.prototype, "token", void 0);
 exports.ResetPasswordDto = ResetPasswordDto;
 //# sourceMappingURL=dto.js.map

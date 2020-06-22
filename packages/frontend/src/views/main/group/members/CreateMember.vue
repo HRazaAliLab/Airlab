@@ -24,7 +24,7 @@
               :rules="userRules"
               dense
             />
-            <div class="subtitle-1">
+            <div class="text-subtitle-1">
               Role
             </div>
             <v-btn-toggle v-model="role">

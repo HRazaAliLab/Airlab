@@ -86,7 +86,7 @@
     </v-toolbar>
     <v-card v-if="panel">
       <v-card-title primary-title>
-        <div class="headline primary--text">{{ panel.name }}</div>
+        <div class="text-h5 primary--text">{{ panel.name }}</div>
       </v-card-title>
       <v-data-table
         :headers="headers"

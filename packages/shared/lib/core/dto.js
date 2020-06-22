@@ -12,15 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateStateDto = void 0;
 const class_validator_1 = require("class-validator");
 const swagger_1 = require("@nestjs/swagger");
-let UpdateStateDto = /** @class */ (() => {
-    class UpdateStateDto {
-    }
-    __decorate([
-        class_validator_1.IsBoolean(),
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Boolean)
-    ], UpdateStateDto.prototype, "state", void 0);
-    return UpdateStateDto;
-})();
+class UpdateStateDto {
+}
+__decorate([
+    class_validator_1.IsBoolean(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Boolean)
+], UpdateStateDto.prototype, "state", void 0);
 exports.UpdateStateDto = UpdateStateDto;
 //# sourceMappingURL=dto.js.map

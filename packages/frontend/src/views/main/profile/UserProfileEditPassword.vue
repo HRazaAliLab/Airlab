@@ -2,13 +2,13 @@
   <v-container fluid>
     <v-card class="ma-4 pa-4">
       <v-card-title primary-title>
-        <div class="headline primary--text">Set Password</div>
+        <div class="text-h5 primary--text">Set Password</div>
       </v-card-title>
       <v-card-text>
         <template>
           <div class="my-4">
             <div class="subtitle-1 primary--text text--lighten-2">User</div>
-            <div class="title primary--text text--darken-2">
+            <div class="text-h6 primary--text text--darken-2">
               {{ userProfile.email }}
             </div>
           </div>

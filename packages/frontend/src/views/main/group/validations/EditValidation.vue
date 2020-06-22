@@ -16,7 +16,7 @@
         <v-form v-model="valid" ref="form">
           <v-row>
             <v-col>
-              <div class="subtitle-1">
+              <div class="text-subtitle-1">
                 Application
               </div>
               <v-btn-toggle v-model="application" mandatory>
@@ -44,7 +44,7 @@
               </v-btn-toggle>
             </v-col>
             <v-col>
-              <div class="subtitle-1">
+              <div class="text-subtitle-1">
                 Status
               </div>
               <v-btn-toggle v-model="status" mandatory>
@@ -244,7 +244,7 @@
     </v-card>
     <v-card class="mt-4 px-4">
       <v-card-title primary-title>
-        <div class="headline">Validation Files</div>
+        <div class="text-h5">Validation Files</div>
       </v-card-title>
       <v-card-text>
         <v-list dense>

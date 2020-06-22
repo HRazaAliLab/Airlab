@@ -2,12 +2,12 @@
   <v-container fluid>
     <v-card class="ma-4 pa-4">
       <v-card-title primary-title>
-        <div class="headline primary--text">Edit Group Member</div>
+        <div class="text-h5 primary--text">Edit Group Member</div>
       </v-card-title>
       <v-card-text>
         <template>
           <v-form v-model="valid" ref="form" lazy-validation>
-            <div class="subtitle-1">
+            <div class="text-subtitle-1">
               Role
             </div>
             <v-btn-toggle v-model="role">

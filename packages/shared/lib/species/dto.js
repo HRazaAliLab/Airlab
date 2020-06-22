@@ -12,71 +12,62 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateSpeciesDto = exports.CreateSpeciesDto = exports.SpeciesDto = void 0;
 const class_validator_1 = require("class-validator");
 const swagger_1 = require("@nestjs/swagger");
-let SpeciesDto = /** @class */ (() => {
-    class SpeciesDto {
-    }
-    __decorate([
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Number)
-    ], SpeciesDto.prototype, "id", void 0);
-    __decorate([
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Number)
-    ], SpeciesDto.prototype, "groupId", void 0);
-    __decorate([
-        swagger_1.ApiProperty(),
-        __metadata("design:type", String)
-    ], SpeciesDto.prototype, "name", void 0);
-    __decorate([
-        swagger_1.ApiProperty(),
-        __metadata("design:type", String)
-    ], SpeciesDto.prototype, "acronym", void 0);
-    __decorate([
-        swagger_1.ApiPropertyOptional(),
-        __metadata("design:type", Object)
-    ], SpeciesDto.prototype, "meta", void 0);
-    __decorate([
-        swagger_1.ApiPropertyOptional(),
-        __metadata("design:type", Object)
-    ], SpeciesDto.prototype, "createdAt", void 0);
-    return SpeciesDto;
-})();
+class SpeciesDto {
+}
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Number)
+], SpeciesDto.prototype, "id", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Number)
+], SpeciesDto.prototype, "groupId", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], SpeciesDto.prototype, "name", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], SpeciesDto.prototype, "acronym", void 0);
+__decorate([
+    swagger_1.ApiPropertyOptional(),
+    __metadata("design:type", Object)
+], SpeciesDto.prototype, "meta", void 0);
+__decorate([
+    swagger_1.ApiPropertyOptional(),
+    __metadata("design:type", Object)
+], SpeciesDto.prototype, "createdAt", void 0);
 exports.SpeciesDto = SpeciesDto;
-let CreateSpeciesDto = /** @class */ (() => {
-    class CreateSpeciesDto {
-    }
-    __decorate([
-        class_validator_1.IsInt(),
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Number)
-    ], CreateSpeciesDto.prototype, "groupId", void 0);
-    __decorate([
-        class_validator_1.IsString(),
-        swagger_1.ApiProperty(),
-        __metadata("design:type", String)
-    ], CreateSpeciesDto.prototype, "name", void 0);
-    __decorate([
-        class_validator_1.IsString(),
-        swagger_1.ApiProperty(),
-        __metadata("design:type", String)
-    ], CreateSpeciesDto.prototype, "acronym", void 0);
-    return CreateSpeciesDto;
-})();
+class CreateSpeciesDto {
+}
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Number)
+], CreateSpeciesDto.prototype, "groupId", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], CreateSpeciesDto.prototype, "name", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], CreateSpeciesDto.prototype, "acronym", void 0);
 exports.CreateSpeciesDto = CreateSpeciesDto;
-let UpdateSpeciesDto = /** @class */ (() => {
-    class UpdateSpeciesDto {
-    }
-    __decorate([
-        class_validator_1.IsString(),
-        swagger_1.ApiProperty(),
-        __metadata("design:type", String)
-    ], UpdateSpeciesDto.prototype, "name", void 0);
-    __decorate([
-        class_validator_1.IsString(),
-        swagger_1.ApiProperty(),
-        __metadata("design:type", String)
-    ], UpdateSpeciesDto.prototype, "acronym", void 0);
-    return UpdateSpeciesDto;
-})();
+class UpdateSpeciesDto {
+}
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], UpdateSpeciesDto.prototype, "name", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], UpdateSpeciesDto.prototype, "acronym", void 0);
 exports.UpdateSpeciesDto = UpdateSpeciesDto;
 //# sourceMappingURL=dto.js.map

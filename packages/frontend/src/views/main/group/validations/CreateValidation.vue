@@ -16,7 +16,7 @@
         <v-form v-model="valid" ref="form" lazy-validation>
           <v-row>
             <v-col>
-              <div class="subtitle-1">
+              <div class="text-subtitle-1">
                 Application
               </div>
               <v-btn-toggle v-model="application" mandatory>
@@ -44,7 +44,7 @@
               </v-btn-toggle>
             </v-col>
             <v-col>
-              <div class="subtitle-1">
+              <div class="text-subtitle-1">
                 Status
               </div>
               <v-btn-toggle v-model="status" mandatory>

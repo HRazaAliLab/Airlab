@@ -39,7 +39,7 @@
           <v-checkbox label="Phosphoantibody" v-model="isPhospho" />
           <v-row>
             <v-col cols="4">
-              <div class="subtitle-1">
+              <div class="text-subtitle-1">
                 Reactivity
               </div>
               <v-chip-group v-model="reactivity" multiple column active-class="primary--text">
@@ -50,7 +50,7 @@
             </v-col>
             <v-col />
             <v-col cols="7">
-              <div class="subtitle-1">
+              <div class="text-subtitle-1">
                 Application
               </div>
               <v-row>

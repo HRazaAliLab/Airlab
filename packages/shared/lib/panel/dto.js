@@ -12,183 +12,168 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DuplicatePanelDto = exports.UpdatePanelDto = exports.CreatePanelDto = exports.PanelDto = exports.PanelElementDataDto = void 0;
 const class_validator_1 = require("class-validator");
 const swagger_1 = require("@nestjs/swagger");
-let PanelElementDataDto = /** @class */ (() => {
-    class PanelElementDataDto {
-    }
-    __decorate([
-        class_validator_1.IsInt(),
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Number)
-    ], PanelElementDataDto.prototype, "conjugateId", void 0);
-    __decorate([
-        class_validator_1.IsInt(),
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Number)
-    ], PanelElementDataDto.prototype, "dilutionType", void 0);
-    __decorate([
-        class_validator_1.IsNumber(),
-        class_validator_1.IsOptional(),
-        swagger_1.ApiPropertyOptional(),
-        __metadata("design:type", Number)
-    ], PanelElementDataDto.prototype, "concentration", void 0);
-    return PanelElementDataDto;
-})();
+class PanelElementDataDto {
+}
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Number)
+], PanelElementDataDto.prototype, "conjugateId", void 0);
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Number)
+], PanelElementDataDto.prototype, "dilutionType", void 0);
+__decorate([
+    class_validator_1.IsNumber(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiPropertyOptional(),
+    __metadata("design:type", Number)
+], PanelElementDataDto.prototype, "concentration", void 0);
 exports.PanelElementDataDto = PanelElementDataDto;
-let PanelDto = /** @class */ (() => {
-    class PanelDto {
-    }
-    __decorate([
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Number)
-    ], PanelDto.prototype, "id", void 0);
-    __decorate([
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Number)
-    ], PanelDto.prototype, "groupId", void 0);
-    __decorate([
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Number)
-    ], PanelDto.prototype, "createdBy", void 0);
-    __decorate([
-        swagger_1.ApiProperty(),
-        __metadata("design:type", String)
-    ], PanelDto.prototype, "name", void 0);
-    __decorate([
-        swagger_1.ApiProperty(),
-        __metadata("design:type", String)
-    ], PanelDto.prototype, "description", void 0);
-    __decorate([
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Boolean)
-    ], PanelDto.prototype, "isFluorophore", void 0);
-    __decorate([
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Boolean)
-    ], PanelDto.prototype, "isLocked", void 0);
-    __decorate([
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Number)
-    ], PanelDto.prototype, "application", void 0);
-    __decorate([
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Object)
-    ], PanelDto.prototype, "meta", void 0);
-    __decorate([
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Boolean)
-    ], PanelDto.prototype, "isArchived", void 0);
-    __decorate([
-        swagger_1.ApiProperty(),
-        __metadata("design:type", String)
-    ], PanelDto.prototype, "createdAt", void 0);
-    __decorate([
-        swagger_1.ApiProperty(),
-        __metadata("design:type", String)
-    ], PanelDto.prototype, "updatedAt", void 0);
-    __decorate([
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Array)
-    ], PanelDto.prototype, "elements", void 0);
-    return PanelDto;
-})();
+class PanelDto {
+}
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Number)
+], PanelDto.prototype, "id", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Number)
+], PanelDto.prototype, "groupId", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Number)
+], PanelDto.prototype, "createdBy", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], PanelDto.prototype, "name", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], PanelDto.prototype, "description", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Boolean)
+], PanelDto.prototype, "isFluorophore", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Boolean)
+], PanelDto.prototype, "isLocked", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Number)
+], PanelDto.prototype, "application", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Object)
+], PanelDto.prototype, "meta", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Boolean)
+], PanelDto.prototype, "isArchived", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], PanelDto.prototype, "createdAt", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], PanelDto.prototype, "updatedAt", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Array)
+], PanelDto.prototype, "elements", void 0);
 exports.PanelDto = PanelDto;
-let CreatePanelDto = /** @class */ (() => {
-    class CreatePanelDto {
-    }
-    __decorate([
-        class_validator_1.IsInt(),
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Number)
-    ], CreatePanelDto.prototype, "groupId", void 0);
-    __decorate([
-        class_validator_1.IsString(),
-        swagger_1.ApiProperty(),
-        __metadata("design:type", String)
-    ], CreatePanelDto.prototype, "name", void 0);
-    __decorate([
-        class_validator_1.IsString(),
-        swagger_1.ApiPropertyOptional(),
-        __metadata("design:type", String)
-    ], CreatePanelDto.prototype, "description", void 0);
-    __decorate([
-        class_validator_1.IsBoolean(),
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Boolean)
-    ], CreatePanelDto.prototype, "isFluorophore", void 0);
-    __decorate([
-        class_validator_1.IsBoolean(),
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Boolean)
-    ], CreatePanelDto.prototype, "isLocked", void 0);
-    __decorate([
-        class_validator_1.IsInt(),
-        class_validator_1.IsOptional(),
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Number)
-    ], CreatePanelDto.prototype, "application", void 0);
-    __decorate([
-        class_validator_1.IsArray(),
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Array)
-    ], CreatePanelDto.prototype, "elements", void 0);
-    return CreatePanelDto;
-})();
+class CreatePanelDto {
+}
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Number)
+], CreatePanelDto.prototype, "groupId", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], CreatePanelDto.prototype, "name", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiPropertyOptional(),
+    __metadata("design:type", String)
+], CreatePanelDto.prototype, "description", void 0);
+__decorate([
+    class_validator_1.IsBoolean(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Boolean)
+], CreatePanelDto.prototype, "isFluorophore", void 0);
+__decorate([
+    class_validator_1.IsBoolean(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Boolean)
+], CreatePanelDto.prototype, "isLocked", void 0);
+__decorate([
+    class_validator_1.IsInt(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Number)
+], CreatePanelDto.prototype, "application", void 0);
+__decorate([
+    class_validator_1.IsArray(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Array)
+], CreatePanelDto.prototype, "elements", void 0);
 exports.CreatePanelDto = CreatePanelDto;
-let UpdatePanelDto = /** @class */ (() => {
-    class UpdatePanelDto {
-    }
-    __decorate([
-        class_validator_1.IsString(),
-        class_validator_1.IsOptional(),
-        swagger_1.ApiProperty(),
-        __metadata("design:type", String)
-    ], UpdatePanelDto.prototype, "name", void 0);
-    __decorate([
-        class_validator_1.IsString(),
-        class_validator_1.IsOptional(),
-        swagger_1.ApiPropertyOptional(),
-        __metadata("design:type", String)
-    ], UpdatePanelDto.prototype, "description", void 0);
-    __decorate([
-        class_validator_1.IsBoolean(),
-        class_validator_1.IsOptional(),
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Boolean)
-    ], UpdatePanelDto.prototype, "isFluorophore", void 0);
-    __decorate([
-        class_validator_1.IsBoolean(),
-        class_validator_1.IsOptional(),
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Boolean)
-    ], UpdatePanelDto.prototype, "isLocked", void 0);
-    __decorate([
-        class_validator_1.IsInt(),
-        class_validator_1.IsOptional(),
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Number)
-    ], UpdatePanelDto.prototype, "application", void 0);
-    __decorate([
-        class_validator_1.IsArray(),
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Array)
-    ], UpdatePanelDto.prototype, "elements", void 0);
-    return UpdatePanelDto;
-})();
+class UpdatePanelDto {
+}
+__decorate([
+    class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], UpdatePanelDto.prototype, "name", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiPropertyOptional(),
+    __metadata("design:type", String)
+], UpdatePanelDto.prototype, "description", void 0);
+__decorate([
+    class_validator_1.IsBoolean(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Boolean)
+], UpdatePanelDto.prototype, "isFluorophore", void 0);
+__decorate([
+    class_validator_1.IsBoolean(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Boolean)
+], UpdatePanelDto.prototype, "isLocked", void 0);
+__decorate([
+    class_validator_1.IsInt(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Number)
+], UpdatePanelDto.prototype, "application", void 0);
+__decorate([
+    class_validator_1.IsArray(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Array)
+], UpdatePanelDto.prototype, "elements", void 0);
 exports.UpdatePanelDto = UpdatePanelDto;
-let DuplicatePanelDto = /** @class */ (() => {
-    class DuplicatePanelDto {
-    }
-    __decorate([
-        class_validator_1.IsInt(),
-        swagger_1.ApiProperty(),
-        __metadata("design:type", Number)
-    ], DuplicatePanelDto.prototype, "groupId", void 0);
-    __decorate([
-        class_validator_1.IsString(),
-        swagger_1.ApiProperty(),
-        __metadata("design:type", String)
-    ], DuplicatePanelDto.prototype, "name", void 0);
-    return DuplicatePanelDto;
-})();
+class DuplicatePanelDto {
+}
+__decorate([
+    class_validator_1.IsInt(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Number)
+], DuplicatePanelDto.prototype, "groupId", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], DuplicatePanelDto.prototype, "name", void 0);
 exports.DuplicatePanelDto = DuplicatePanelDto;
 //# sourceMappingURL=dto.js.map
