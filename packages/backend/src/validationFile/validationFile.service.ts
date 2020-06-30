@@ -44,12 +44,13 @@ export class ValidationFileService {
     return result.affected === 1 ? id : undefined;
   }
 
-  async getAllFilesForGroup(groupId: number) {
-    return this.repository.find({
-      where: {
-        groupId: groupId,
-      },
-    });
+  async exportGroupValidationFiles(groupId: number) {
+    return this.repository
+      .createQueryBuilder("validationFile")
+      .leftJoin("validationFile.validation", "validation")
+      .where("validation.groupId = :groupId", { groupId: groupId })
+      .orderBy("validationFile.id", "ASC")
+      .getMany();
   }
 
   async getAllFilesForMember(memberId: number) {

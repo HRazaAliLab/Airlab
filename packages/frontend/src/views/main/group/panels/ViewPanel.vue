@@ -1,5 +1,6 @@
 <template>
-  <v-container fluid>
+  <LoadingView v-if="!panel" text="Loading panel..." />
+  <v-container v-else fluid>
     <v-tooltip left>
       <template v-slot:activator="{ on }">
         <v-btn v-on="on" v-scroll="onScroll" v-show="fab" fab fixed bottom right color="primary" @click="toTop">
@@ -240,9 +241,10 @@ import {
   exportPanelCsv,
 } from "@/utils/exporters";
 import ValidationDetailsView from "@/views/main/group/validations/ValidationDetailsView.vue";
+import LoadingView from "@/components/LoadingView.vue";
 
 @Component({
-  components: { ValidationDetailsView, MetalExpansionPanel },
+  components: { LoadingView, ValidationDetailsView, MetalExpansionPanel },
 })
 export default class ViewPanel extends Vue {
   readonly groupContext = groupModule.context(this.$store);
@@ -334,7 +336,7 @@ export default class ViewPanel extends Vue {
   }
 
   get panel() {
-    return this.panelContext.getters.getPanel(+this.$router.currentRoute.params.id);
+    return this.panelContext.getters.getPanel(+this.$route.params.id);
   }
 
   get validations() {
@@ -481,12 +483,11 @@ export default class ViewPanel extends Vue {
       }
     };
     await Promise.all([
-      this.panelContext.actions.getPanel(+this.$router.currentRoute.params.id),
-      this.conjugateContext.actions.getGroupConjugates(+this.$router.currentRoute.params.groupId),
-      this.tagContext.actions.getGroupTags(+this.$router.currentRoute.params.groupId),
-      this.validationContext.actions.getGroupValidations(+this.$router.currentRoute.params.groupId),
+      this.panelContext.actions.getPanel(+this.$route.params.id),
+      this.conjugateContext.actions.getGroupConjugates(+this.$route.params.groupId),
+      this.tagContext.actions.getGroupTags(+this.$route.params.groupId),
+      this.validationContext.actions.getGroupValidations(+this.$route.params.groupId),
     ]);
-    this.reset();
   }
 }
 </script>

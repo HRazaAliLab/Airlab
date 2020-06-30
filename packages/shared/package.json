@@ -1,6 +1,6 @@
 {
   "name": "@airlab/shared",
-  "version": "0.0.1",
+  "version": "2020.06.30",
   "directories": {
     "src": "src"
   },
@@ -16,7 +16,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@nestjs/swagger": "4.5.10",
+    "@nestjs/swagger": "4.5.12",
     "class-validator": "0.12.2"
   },
   "devDependencies": {

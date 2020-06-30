@@ -63,6 +63,26 @@ export class UserService {
     });
   }
 
+  async exportGroupUsers(groupId: number) {
+    return this.repository
+      .createQueryBuilder("user")
+      .select([
+        "user.id",
+        "user.name",
+        "user.password",
+        "user.email",
+        "user.isActive",
+        "user.isAdmin",
+        "user.meta",
+        "user.createdAt",
+        "user.updatedAt",
+      ])
+      .leftJoin("user.members", "members")
+      .where("members.groupId = :groupId", { groupId: groupId })
+      .orderBy("user.id", "ASC")
+      .getMany();
+  }
+
   private async clearCache() {
     await this.repository.manager.connection.queryResultCache.remove([`users`]);
   }

@@ -2,11 +2,11 @@
   <v-col>
     <v-toolbar dense class="toolbar">
       <v-toolbar-title>
-        Groups
+        Users
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn v-if="isAdmin" text to="/main/admin/groups/create" color="primary">Create Group</v-btn>
+        <v-btn v-if="isAdmin" text to="/main/admin/users/create" color="primary">Create User</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -28,8 +28,11 @@
         }"
         multi-sort
       >
-        <template v-slot:item.isOpen="{ item }">
-          <v-icon v-if="item.isOpen">mdi-check</v-icon>
+        <template v-slot:item.isActive="{ item }">
+          <v-icon v-if="item.isActive">mdi-check</v-icon>
+        </template>
+        <template v-slot:item.isAdmin="{ item }">
+          <v-icon v-if="item.isAdmin">mdi-check</v-icon>
         </template>
         <template v-slot:item.action="{ item }">
           <v-menu bottom left>
@@ -41,7 +44,7 @@
             <v-list dense>
               <v-list-item
                 :to="{
-                  name: 'main-admin-groups-edit',
+                  name: 'main-admin-users-edit',
                   params: {
                     id: item.id,
                   },
@@ -54,14 +57,6 @@
                   <v-list-item-title>Edit</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item @click="deleteGroup(item.id)">
-                <v-list-item-icon>
-                  <v-icon color="red accent-1">mdi-delete-outline</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Delete</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
             </v-list>
           </v-menu>
         </template>
@@ -71,13 +66,13 @@
 </template>
 
 <script lang="ts">
+import { userModule } from "@/modules/user";
 import { Component, Vue } from "vue-property-decorator";
-import { groupModule } from "@/modules/group";
 import { mainModule } from "@/modules/main";
 
 @Component
-export default class AdminGroups extends Vue {
-  readonly groupContext = groupModule.context(this.$store);
+export default class UsersListView extends Vue {
+  readonly userContext = userModule.context(this.$store);
   readonly mainContext = mainModule.context(this.$store);
 
   readonly headers = [
@@ -90,24 +85,32 @@ export default class AdminGroups extends Vue {
       width: "80",
     },
     {
+      text: "Email",
+      sortable: true,
+      value: "email",
+      align: "left",
+    },
+    {
       text: "Name",
       sortable: true,
       value: "name",
       align: "left",
     },
     {
-      text: "Institution",
+      text: "Active",
       sortable: true,
-      value: "institution",
-      align: "left",
-    },
-    {
-      text: "Open",
-      sortable: true,
-      value: "isOpen",
+      value: "isActive",
       align: "left",
       filterable: false,
-      width: "100",
+      width: "110",
+    },
+    {
+      text: "Admin",
+      sortable: true,
+      value: "isAdmin",
+      align: "left",
+      filterable: false,
+      width: "110",
     },
     {
       text: "Actions",
@@ -125,17 +128,11 @@ export default class AdminGroups extends Vue {
   }
 
   get items() {
-    return this.groupContext.getters.groups;
+    return this.userContext.getters.users;
   }
 
   async mounted() {
-    await this.groupContext.actions.getGroups();
-  }
-
-  async deleteGroup(id: number) {
-    if (self.confirm("Are you sure you want to delete the group?")) {
-      await this.groupContext.actions.deleteGroup(id);
-    }
+    await this.userContext.actions.getUsers();
   }
 }
 </script>

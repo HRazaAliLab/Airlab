@@ -45,4 +45,13 @@ export class PanelElementService {
       .addSelect(["lot.id", "lot.name"])
       .getMany();
   }
+
+  async exportGroupElements(groupId: number) {
+    return this.repository
+      .createQueryBuilder("element")
+      .leftJoin("element.panel", "panel")
+      .where("panel.groupId = :groupId", { groupId: groupId })
+      .orderBy("element.id", "ASC")
+      .getMany();
+  }
 }

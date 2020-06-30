@@ -89,6 +89,16 @@ export class MemberService {
       .getMany();
   }
 
+  async exportGroupMembers(groupId: number) {
+    return this.repository
+      .createQueryBuilder("member")
+      .where("member.groupId = :groupId", { groupId: groupId })
+      .leftJoin("member.user", "user")
+      .addSelect(["user.id", "user.name", "user.email"])
+      .orderBy("member.id", "ASC")
+      .getMany();
+  }
+
   private async clearCache(groupId: number) {
     await Promise.all([
       this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_members`]),
