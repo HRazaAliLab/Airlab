@@ -20,6 +20,11 @@ export class ConjugateService {
     return this.repository.save({ ...params, tubeNumber: tubeNumber });
   }
 
+  async import(params) {
+    delete params.id;
+    return await this.repository.save(params);
+  }
+
   async findById(id: number) {
     return this.repository
       .createQueryBuilder("conjugate")
@@ -150,6 +155,36 @@ export class ConjugateService {
       },
     });
     return entity ? entity.tubeNumber + 1 : 0;
+  }
+
+  async exportGroupConjugates(groupId: number) {
+    return this.repository.find({
+      select: [
+        "id",
+        "groupId",
+        "createdBy",
+        "labeledBy",
+        "finishedBy",
+        "lotId",
+        "tagId",
+        "status",
+        "tubeNumber",
+        "concentration",
+        "description",
+        "finishedAt",
+        "isArchived",
+        "meta",
+        "createdAt",
+        "updatedAt",
+        "customId",
+      ],
+      where: {
+        groupId: groupId,
+      },
+      order: {
+        id: "ASC",
+      },
+    });
   }
 
   private async clearCache(groupId: number) {

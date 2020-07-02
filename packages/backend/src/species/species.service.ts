@@ -16,6 +16,11 @@ export class SpeciesService {
     return this.repository.save(params);
   }
 
+  async import(params) {
+    delete params.id;
+    return await this.repository.save(params);
+  }
+
   async findById(id: number) {
     return this.repository.findOne(id, {
       select: ["id", "groupId", "name", "acronym", "createdAt"],
@@ -48,6 +53,18 @@ export class SpeciesService {
       cache: {
         id: `group_${groupId}_species`,
         milliseconds: 1000 * 60 * 60,
+      },
+    });
+  }
+
+  async exportGroupSpecies(groupId: number) {
+    return this.repository.find({
+      select: ["id", "groupId", "name", "acronym", "meta", "createdAt"],
+      where: {
+        groupId: groupId,
+      },
+      order: {
+        id: "ASC",
       },
     });
   }

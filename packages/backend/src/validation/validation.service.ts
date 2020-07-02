@@ -18,6 +18,11 @@ export class ValidationService {
     return this.repository.save(params);
   }
 
+  async import(params) {
+    delete params.id;
+    return await this.repository.save(params);
+  }
+
   async findById(id: number) {
     return this.repository
       .createQueryBuilder("validation")
@@ -160,6 +165,50 @@ export class ValidationService {
       .leftJoinAndMapOne("validation.user", UserEntity, "user", "member.userId = user.id")
       .orderBy({ "validation.id": "DESC" })
       .getMany();
+  }
+
+  async exportGroupValidations(groupId: number) {
+    return this.repository.find({
+      select: [
+        "id",
+        "groupId",
+        "createdBy",
+        "cloneId",
+        "lotId",
+        "conjugateId",
+        "speciesId",
+        "application",
+        "positiveControl",
+        "negativeControl",
+        "incubationConditions",
+        "concentration",
+        "concentrationUnit",
+        "tissue",
+        "fixation",
+        "fixationNotes",
+        "notes",
+        "status",
+        "antigenRetrievalType",
+        "antigenRetrievalTime",
+        "antigenRetrievalTemperature",
+        "saponin",
+        "saponinConcentration",
+        "methanolTreatment",
+        "methanolTreatmentConcentration",
+        "surfaceStaining",
+        "surfaceStainingConcentration",
+        "meta",
+        "isArchived",
+        "createdAt",
+        "updatedAt",
+      ],
+      where: {
+        groupId: groupId,
+      },
+      order: {
+        id: "ASC",
+      },
+    });
   }
 
   async clearCache(groupId: number) {

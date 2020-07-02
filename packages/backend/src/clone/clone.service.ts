@@ -17,6 +17,11 @@ export class CloneService {
     return this.repository.save(params);
   }
 
+  async import(params) {
+    delete params.id;
+    return await this.repository.save(params);
+  }
+
   async findById(id: number) {
     return this.repository
       .createQueryBuilder("clone")
@@ -91,6 +96,35 @@ export class CloneService {
       .addSelect(["validations.id", "validations.application", "validations.status"])
       .orderBy("clone.id", "DESC")
       .getMany();
+  }
+
+  async exportGroupClones(groupId: number) {
+    return this.repository.find({
+      select: [
+        "id",
+        "groupId",
+        "createdBy",
+        "proteinId",
+        "speciesId",
+        "name",
+        "isotype",
+        "epitope",
+        "isPhospho",
+        "isPolyclonal",
+        "reactivity",
+        "application",
+        "isArchived",
+        "meta",
+        "createdAt",
+        "updatedAt",
+      ],
+      where: {
+        groupId: groupId,
+      },
+      order: {
+        id: "ASC",
+      },
+    });
   }
 
   private async clearCache(groupId: number) {

@@ -11,6 +11,11 @@ export class PanelElementService {
     private readonly repository: Repository<PanelElementEntity>
   ) {}
 
+  async import(params) {
+    delete params.id;
+    return await this.repository.save(params);
+  }
+
   async updatePanelElements(panelId: number, elements: PanelElementDataDto[]) {
     await this.repository.delete({
       panelId: panelId,

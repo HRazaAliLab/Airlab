@@ -23,7 +23,6 @@ import { CreateGroupDto, GroupDto, InviteDto, UpdateGroupDto } from "@airlab/sha
 import { JwtPayloadDto } from "@airlab/shared/lib/auth/dto";
 import { Response } from "express";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { UploadValidationDto } from "@airlab/shared/lib/validation/dto";
 import { existsSync } from "fs";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const multer = require("multer");
@@ -51,6 +50,9 @@ const storage = multer.diskStorage({
       mkdirp.sync(destination);
     }
     cb(null, destination);
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
   },
 });
 
@@ -124,30 +126,13 @@ export class GroupController {
     FileInterceptor("file", {
       storage: storage,
       preservePath: true,
-      fileFilter(
-        req,
-        file: {
-          fieldname: string;
-          originalname: string;
-          encoding: string;
-          mimetype: string;
-          size: number;
-          destination: string;
-          filename: string;
-          path: string;
-          buffer: Buffer;
-        },
-        cb: (error: Error | null, acceptFile: boolean) => void
-      ): void {
-        cb(null, true);
-      },
       limits: {
         fileSize: 1000000 * 1000 * 10, // 10 GB in bytes
       },
     })
   )
-  async importGroupData(@Request() req, @UploadedFile() file, @Body() params: UploadValidationDto) {
-    return this.groupService.importGroupData(file.originalname);
+  async importGroupData(@Request() req, @UploadedFile() file) {
+    return this.groupService.importGroupData(file.path);
   }
 
   @Post("groups/:id/join")

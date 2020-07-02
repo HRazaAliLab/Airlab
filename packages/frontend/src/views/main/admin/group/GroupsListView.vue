@@ -6,9 +6,13 @@
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn v-if="isAdmin" text to="/main/admin/groups/create" color="primary">Import Group</v-btn>
+        <v-btn v-if="isAdmin" text @click="trigger" color="primary">
+          <v-icon small left>mdi-cloud-upload</v-icon>
+          Import Group
+        </v-btn>
         <v-btn v-if="isAdmin" text to="/main/admin/groups/create" color="primary">Create Group</v-btn>
       </v-toolbar-items>
+      <input :multiple="false" class="visually-hidden" type="file" v-on:change="files" ref="fileInput" />
     </v-toolbar>
 
     <v-card>
@@ -80,7 +84,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Emit, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
 import { mainModule } from "@/modules/main";
 
@@ -137,6 +141,22 @@ export default class GroupsListView extends Vue {
     return this.groupContext.getters.groups;
   }
 
+  @Emit()
+  async files(e): Promise<FileList> {
+    const formData = new FormData();
+    const file = e.target.files[0];
+    formData.append("file", file, file.name);
+    e.target.value = "";
+    await this.groupContext.actions.importGroupData({
+      formData: formData,
+    });
+    return e.target.files;
+  }
+
+  trigger() {
+    (this.$refs.fileInput as HTMLElement).click();
+  }
+
   async mounted() {
     await this.groupContext.actions.getGroups();
   }
@@ -161,5 +181,12 @@ export default class GroupsListView extends Vue {
 <style scoped>
 .toolbar {
   margin-bottom: 10px;
+}
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
 }
 </style>

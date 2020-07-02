@@ -18,6 +18,15 @@ export class UserService {
     return this.repository.save({ ...params, password: passwordHash, isActive: true });
   }
 
+  async import(params) {
+    const existingUser = await this.findByEmail(params.email);
+    if (!existingUser) {
+      delete params.id;
+      return await this.repository.save({ ...params });
+    }
+    return existingUser;
+  }
+
   async findById(id: number) {
     return this.repository.findOne(id, {
       select: ["id", "name", "email", "isActive", "isAdmin", "meta", "createdAt", "updatedAt"],

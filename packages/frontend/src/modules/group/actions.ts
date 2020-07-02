@@ -82,7 +82,8 @@ export class GroupActions extends Actions<GroupState, GroupGetters, GroupMutatio
 
   async importGroupData(payload: { formData: FormData }) {
     try {
-      const group = await api.importGroupData(payload.formData);
+      const data = await api.importGroupData(payload.formData);
+      this.mutations.addEntity(data);
       this.main!.mutations.addNotification({ content: "Group data successfully imported", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);

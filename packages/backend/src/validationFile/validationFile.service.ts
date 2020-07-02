@@ -4,7 +4,7 @@ import { Repository } from "typeorm";
 import { ValidationFileEntity } from "./validationFile.entity";
 import { CreateValidationFileDto, UpdateValidationFileDto } from "@airlab/shared/lib/validationFile/dto";
 import { Readable } from "stream";
-const fs = require("fs").promises;
+import { promises as fsAsync } from "fs";
 
 @Injectable()
 export class ValidationFileService {
@@ -19,6 +19,11 @@ export class ValidationFileService {
 
   async create(params: CreateValidationFileDto) {
     return this.repository.save(params);
+  }
+
+  async import(params) {
+    delete params.id;
+    return await this.repository.save(params);
   }
 
   async update(id: number, params: UpdateValidationFileDto) {
@@ -37,20 +42,11 @@ export class ValidationFileService {
     if (file) {
       const dir = `/data/groups/${file.validation.groupId}/uploads/validation/${file.validation.id}`;
       const path = `${dir}/${file.hash}.${file.extension}`;
-      await fs.unlink(path);
+      await fsAsync.unlink(path);
     }
     const result = await this.repository.delete(id);
     await this.repository.manager.connection.queryResultCache.remove([`group_${file.validation.groupId}_validations`]);
     return result.affected === 1 ? id : undefined;
-  }
-
-  async exportGroupValidationFiles(groupId: number) {
-    return this.repository
-      .createQueryBuilder("validationFile")
-      .leftJoin("validationFile.validation", "validation")
-      .where("validation.groupId = :groupId", { groupId: groupId })
-      .orderBy("validationFile.id", "ASC")
-      .getMany();
   }
 
   async getAllFilesForMember(memberId: number) {
@@ -71,7 +67,7 @@ export class ValidationFileService {
   }
 
   async getFileBuffer(path: string): Promise<Buffer> {
-    const content = await fs.readFile(path);
+    const content = await fsAsync.readFile(path);
     return content;
   }
 
@@ -80,5 +76,14 @@ export class ValidationFileService {
     stream.push(buffer);
     stream.push(null);
     return stream;
+  }
+
+  async exportGroupValidationFiles(groupId: number) {
+    return this.repository
+      .createQueryBuilder("validationFile")
+      .leftJoin("validationFile.validation", "validation")
+      .where("validation.groupId = :groupId", { groupId: groupId })
+      .orderBy("validationFile.id", "ASC")
+      .getMany();
   }
 }

@@ -25,6 +25,11 @@ export class LotService {
     });
   }
 
+  async import(params) {
+    delete params.id;
+    return await this.repository.save(params);
+  }
+
   async findById(id: number) {
     return this.repository
       .createQueryBuilder("lot")
@@ -154,6 +159,46 @@ export class LotService {
       .addSelect(["clone.id", "clone.name"])
       .orderBy("lot.id", "DESC")
       .getMany();
+  }
+
+  async exportGroupLots(groupId: number) {
+    return this.repository.find({
+      select: [
+        "id",
+        "groupId",
+        "createdBy",
+        "cloneId",
+        "providerId",
+        "name",
+        "reference",
+        "requestedBy",
+        "approvedBy",
+        "orderedBy",
+        "receivedBy",
+        "finishedBy",
+        "number",
+        "status",
+        "purpose",
+        "url",
+        "price",
+        "note",
+        "requestedAt",
+        "approvedAt",
+        "orderedAt",
+        "receivedAt",
+        "finishedAt",
+        "isArchived",
+        "meta",
+        "createdAt",
+        "updatedAt",
+      ],
+      where: {
+        groupId: groupId,
+      },
+      order: {
+        id: "ASC",
+      },
+    });
   }
 
   private async clearCache(groupId: number) {

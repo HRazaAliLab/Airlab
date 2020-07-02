@@ -1,6 +1,6 @@
 <template>
   <span>
-    <v-btn @click="trigger" color="primary" elevation="1" small>
+    <v-btn @click="trigger" color="primary" text>
       <v-icon small left>mdi-cloud-upload</v-icon>
       Upload
     </v-btn>
@@ -14,10 +14,9 @@ import { groupModule } from "@/modules/group";
 
 @Component
 export default class UploadButton extends Vue {
-  groupContext = groupModule.context(this.$store);
+  private readonly groupContext = groupModule.context(this.$store);
 
-  @Prop(Number) id!: number;
-  @Prop({ default: false }) multiple!: boolean;
+  @Prop({ default: false }) multiple = false;
 
   @Emit()
   async files(e): Promise<FileList> {
@@ -25,10 +24,9 @@ export default class UploadButton extends Vue {
     const file = e.target.files[0];
     formData.append("file", file, file.name);
     e.target.value = "";
-    // await this.groupContext.actions.upload({
-    //   id: this.id,
-    //   data: formData,
-    // });
+    await this.groupContext.actions.importGroupData({
+      formData: formData,
+    });
     return e.target.files;
   }
 

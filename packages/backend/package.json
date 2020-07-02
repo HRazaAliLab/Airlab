@@ -48,6 +48,7 @@
     "rxjs": "6.5.5",
     "swagger-ui-express": "4.1.4",
     "typeorm": "0.2.25",
+    "unzipper": "0.10.11",
     "uuid": "8.2.0"
   },
   "devDependencies": {
