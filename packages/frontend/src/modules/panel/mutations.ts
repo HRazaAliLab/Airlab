@@ -2,6 +2,7 @@ import { Mutations } from "vuex-smart-module";
 import { panelListSchema, PanelState } from ".";
 import { PanelDto } from "@airlab/shared/lib/panel/dto";
 import { normalize } from "normalizr";
+import { TagDto } from "@airlab/shared/lib/tag/dto";
 
 export class PanelMutations extends Mutations<PanelState> {
   setEntities(payload: PanelDto[]) {
@@ -32,6 +33,10 @@ export class PanelMutations extends Mutations<PanelState> {
     const entities = { ...this.state.entities };
     delete entities[id];
     this.state.entities = entities;
+  }
+
+  setActivePanelTag(tag: TagDto | null) {
+    this.state.activePanelTag = tag;
   }
 
   reset() {

@@ -19,42 +19,50 @@
         <v-btn @click="submit" text :disabled="!valid" color="primary">Save</v-btn>
       </v-toolbar-items>
     </v-toolbar>
-    <v-card class="mt-4 px-4">
-      <v-card-text>
-        <v-form v-model="valid" ref="form">
-          <v-text-field label="Name" v-model="name" :rules="nameRules" />
-          <v-text-field label="Description" v-model="description" :rules="descriptionRules" />
-          <div class="text-subtitle-1">
-            Application
-          </div>
-          <v-btn-toggle v-model="application">
-            <v-btn small value="0">
-              SMC
-            </v-btn>
-            <v-btn small value="1">
-              IMC
-            </v-btn>
-            <v-btn small value="2">
-              FC
-            </v-btn>
-            <v-btn small value="3">
-              IF
-            </v-btn>
-            <v-btn small value="4">
-              IHC
-            </v-btn>
-            <v-btn small value="5">
-              IHCF
-            </v-btn>
-            <v-btn small value="6">
-              WB
-            </v-btn>
-          </v-btn-toggle>
-          <v-checkbox label="Fluorophore" v-model="isFluorophore" />
-          <v-checkbox label="Locked" v-model="isLocked" />
-        </v-form>
-      </v-card-text>
-      <v-card-text>
+    <v-expansion-panels class="mt-4" :value="0">
+      <v-expansion-panel>
+        <v-expansion-panel-header>Details</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <v-form v-model="valid" ref="form">
+            <v-text-field label="Name" v-model="name" :rules="nameRules" />
+            <v-text-field label="Description" v-model="description" :rules="descriptionRules" />
+            <div class="text-subtitle-1">
+              Application
+            </div>
+            <v-btn-toggle v-model="application">
+              <v-btn small value="0">
+                SMC
+              </v-btn>
+              <v-btn small value="1">
+                IMC
+              </v-btn>
+              <v-btn small value="2">
+                FC
+              </v-btn>
+              <v-btn small value="3">
+                IF
+              </v-btn>
+              <v-btn small value="4">
+                IHC
+              </v-btn>
+              <v-btn small value="5">
+                IHCF
+              </v-btn>
+              <v-btn small value="6">
+                WB
+              </v-btn>
+            </v-btn-toggle>
+            <v-checkbox label="Fluorophore" v-model="isFluorophore" />
+            <v-checkbox label="Locked" v-model="isLocked" />
+          </v-form>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
+    <v-row>
+      <v-col cols="2">
+        <PanelTagsView />
+      </v-col>
+      <v-col>
         <v-toolbar dense class="mb-2" elevation="1">
           <template>
             <v-text-field
@@ -82,8 +90,8 @@
             :species-map="speciesMap"
           />
         </div>
-      </v-card-text>
-    </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -99,6 +107,7 @@ import { tagModule } from "@/modules/tag";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 import { speciesModule } from "@/modules/species";
 import { SpeciesDto } from "@airlab/shared/lib/species/dto";
+import PanelTagsView from "@/views/main/group/panels/PanelTagsView.vue";
 
 type ConjugatePanelData = {
   dilutionType: number;
@@ -107,7 +116,7 @@ type ConjugatePanelData = {
 };
 
 @Component({
-  components: { MetalExpansionPanel },
+  components: { PanelTagsView, MetalExpansionPanel },
 })
 export default class EditPanel extends Vue {
   private readonly groupContext = groupModule.context(this.$store);

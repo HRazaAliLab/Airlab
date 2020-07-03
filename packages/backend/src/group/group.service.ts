@@ -215,8 +215,10 @@ export class GroupService {
     );
     const validationFilesIdMap = await this.importValidationFiles(
       `${srcFolder}/validationFiles.json`,
+      group.id,
       membersIdMap,
-      validationsIdMap
+      validationsIdMap,
+      `${srcFolder}/validationFiles`
     );
 
     await fsAsync.unlink(path);
@@ -447,8 +449,10 @@ export class GroupService {
 
   private async importValidationFiles(
     path: string,
+    newGroupId: number,
     membersIdMap: Map<number, number>,
-    validationsIdMap: Map<number, number>
+    validationsIdMap: Map<number, number>,
+    validationFilesFolder: string
   ) {
     const data = await fsAsync.readFile(path, "utf8");
     const json = JSON.parse(data);
@@ -459,6 +463,16 @@ export class GroupService {
       item.validationId = validationsIdMap.get(item.validationId);
       const validationFile = await this.validationFileService.import(item);
       map.set(oldId, validationFile.id);
+
+      const filename = `${validationFile.hash}.${validationFile.extension}`;
+      const srcFile = `${validationFilesFolder}/${filename}`;
+      if (fs.existsSync(srcFile)) {
+        const destFolder = `/data/groups/${newGroupId}/uploads/validation/${validationFile.validationId}`;
+        if (!fs.existsSync(destFolder)) {
+          await fsAsync.mkdir(destFolder, { recursive: true });
+        }
+        await fsAsync.copyFile(srcFile, `${destFolder}/${filename}`);
+      }
     }
     return map;
   }

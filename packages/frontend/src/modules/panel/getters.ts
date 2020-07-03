@@ -9,4 +9,8 @@ export class PanelGetters extends Getters<PanelState> {
   getPanel(id: number) {
     return this.state.entities[id];
   }
+
+  get activePanelTag() {
+    return this.state.activePanelTag;
+  }
 }
