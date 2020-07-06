@@ -10,7 +10,7 @@ export class PanelGetters extends Getters<PanelState> {
     return this.state.entities[id];
   }
 
-  get activePanelTag() {
-    return this.state.activePanelTag;
+  get activePanelTagId() {
+    return this.state.activePanelTagId;
   }
 }

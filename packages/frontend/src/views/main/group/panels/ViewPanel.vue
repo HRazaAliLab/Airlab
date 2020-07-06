@@ -85,7 +85,7 @@
         <v-btn @click="submit" text color="primary">Save</v-btn>
       </v-toolbar-items>
     </v-toolbar>
-    <v-card v-if="panel">
+    <v-card>
       <v-card-title primary-title>
         <div class="text-h5 primary--text">{{ panel.name }}</div>
       </v-card-title>

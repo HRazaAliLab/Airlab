@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <div class="mx-2 mt-2">
     <v-tooltip left>
       <template v-slot:activator="{ on }">
         <v-btn v-on="on" v-scroll="onScroll" v-show="fab" fab fixed bottom right color="primary" @click="toTop">
@@ -58,47 +58,28 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
-    <v-row>
+    <v-row dense class="mt-1">
       <v-col cols="2">
         <PanelTagsView />
       </v-col>
       <v-col>
-        <v-toolbar dense class="mb-2" elevation="1">
-          <template>
-            <v-text-field
-              v-model="search"
-              append-icon="mdi-magnify"
-              label="Search by clone name"
-              dense
-              single-line
-              hide-details
-              clearable
-            />
-            <v-spacer />
-            <v-switch v-model="showMetals" label="Show metals" hide-details inset class="ml-6" />
-            <v-switch v-model="showEmpty" label="Show empty" hide-details inset class="ml-6" />
-          </template>
-        </v-toolbar>
-        <div>
-          <MetalExpansionPanel
-            v-for="tag in tags"
-            :key="tag.id"
-            :tag="tag"
-            :on-selected="congugateSelected"
-            :selected-conjugates="getInitialState(tag.id)"
-            :conjugates="getTagConjugates(tag.id)"
-            :species-map="speciesMap"
-          />
-        </div>
+        <TagConjugatesView
+          v-if="activePanelTag"
+          :tag="activePanelTag"
+          :on-selected="congugateSelected"
+          :selected-conjugates="getInitialState()"
+        />
+      </v-col>
+      <v-col cols="4">
+        <PanelPreview :conjugates="selectedTagConjugates" />
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script lang="ts">
 import { required } from "@/utils/validators";
 import { Component, Vue } from "vue-property-decorator";
-import { groupModule } from "@/modules/group";
 import { panelModule } from "@/modules/panel";
 import { PanelElementDataDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
 import MetalExpansionPanel from "@/views/main/group/panels/MetalExpansionPanel.vue";
@@ -106,8 +87,9 @@ import { conjugateModule } from "@/modules/conjugate";
 import { tagModule } from "@/modules/tag";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 import { speciesModule } from "@/modules/species";
-import { SpeciesDto } from "@airlab/shared/lib/species/dto";
 import PanelTagsView from "@/views/main/group/panels/PanelTagsView.vue";
+import TagConjugatesView from "@/views/main/group/panels/TagConjugatesView.vue";
+import PanelPreview from "@/views/main/group/panels/PanelPreview.vue";
 
 type ConjugatePanelData = {
   dilutionType: number;
@@ -116,10 +98,9 @@ type ConjugatePanelData = {
 };
 
 @Component({
-  components: { PanelTagsView, MetalExpansionPanel },
+  components: { PanelPreview, TagConjugatesView, PanelTagsView, MetalExpansionPanel },
 })
 export default class EditPanel extends Vue {
-  private readonly groupContext = groupModule.context(this.$store);
   private readonly panelContext = panelModule.context(this.$store);
   private readonly conjugateContext = conjugateModule.context(this.$store);
   private readonly tagContext = tagModule.context(this.$store);
@@ -129,9 +110,6 @@ export default class EditPanel extends Vue {
   private readonly descriptionRules = [];
 
   private fab = false;
-  private showMetals = false;
-  private showEmpty = false;
-  private search: string | null = null;
 
   private valid = false;
   private name = "";
@@ -139,47 +117,25 @@ export default class EditPanel extends Vue {
   private application: string | null = null;
   private isFluorophore = false;
   private isLocked = false;
+
   private selectedTagConjugates = new Map<number, Set<ConjugateDto>>();
   private conjugatePanelData = new Map<number, ConjugatePanelData>();
 
-  private get activeGroupId() {
-    return this.groupContext.getters.activeGroupId;
+  get activePanelTagId() {
+    return this.panelContext.getters.activePanelTagId;
   }
 
-  private get tags() {
-    return this.showMetals ? this.tagContext.getters.tags.filter((item) => item.isMetal) : this.tagContext.getters.tags;
-  }
-
-  private get speciesMap() {
-    const map = new Map<number, SpeciesDto>();
-    for (const s of this.speciesContext.getters.species) {
-      map.set(s.id, s);
-    }
-    return Object.freeze(map);
+  get activePanelTag() {
+    return this.activePanelTagId ? this.tagContext.getters.getTag(this.activePanelTagId) : null;
   }
 
   private get panel() {
     return this.panelContext.getters.getPanel(+this.$router.currentRoute.params.id);
   }
 
-  private get conjugates() {
-    let items = this.showEmpty
-      ? Object.freeze(this.conjugateContext.getters.conjugates)
-      : Object.freeze(this.conjugateContext.getters.conjugates.filter((item) => item.status !== 2));
-    if (this.search !== null) {
-      const normalizedSearchTerm = this.search.toLowerCase().trim();
-      items = items.filter((item) => (item as any).lot.clone.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1);
-    }
-    return items;
-  }
-
-  private getInitialState(tagId: number) {
-    const items = this.selectedTagConjugates.get(tagId);
+  private getInitialState() {
+    const items = this.selectedTagConjugates.get(this.activePanelTagId!);
     return items ? [...items] : [];
-  }
-
-  private getTagConjugates(tagId: number) {
-    return this.conjugates.filter((item) => item.tagId === tagId);
   }
 
   private onScroll(e) {
@@ -203,6 +159,7 @@ export default class EditPanel extends Vue {
     } else {
       conjugatesSet.delete(conjugate);
     }
+    this.selectedTagConjugates = new Map(this.selectedTagConjugates);
   }
 
   private cancel() {
@@ -222,7 +179,6 @@ export default class EditPanel extends Vue {
       this.selectedTagConjugates = new Map<number, Set<ConjugateDto>>();
       this.conjugatePanelData = new Map<number, ConjugatePanelData>();
       if (this.panel.elements.length > 0) {
-        const newExpanded = new Set<number>();
         for (const element of this.panel.elements) {
           const conjugate = this.conjugateContext.getters.getConjugate(element.conjugateId);
           const tagId = conjugate.tagId;
@@ -236,8 +192,6 @@ export default class EditPanel extends Vue {
             concentration: element.concentration,
           });
           conjugatesSet.add(conjugate);
-          const tag = this.tagContext.getters.getTag(tagId);
-          newExpanded.add(this.tags.indexOf(tag));
         }
       }
     }
