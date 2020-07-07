@@ -23,15 +23,13 @@ import {
 } from "@airlab/shared/lib/validation/dto";
 import { MemberService } from "../member/member.service";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { existsSync } from "fs";
+import { existsSync, mkdirSync } from "fs";
 import { pseudoRandomBytes } from "crypto";
 import { extname } from "path";
 import { ValidationFileService } from "../validationFile/validationFile.service";
 import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const multer = require("multer");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const mkdirp = require("mkdirp");
 
 const storage = multer.diskStorage({
   destination: function (
@@ -53,7 +51,7 @@ const storage = multer.diskStorage({
     const validationId = req.params.id;
     const destination = `/data/groups/${groupId}/uploads/validation/${validationId}`;
     if (!existsSync(destination)) {
-      mkdirp.sync(destination);
+      mkdirSync(destination, { recursive: true });
     }
     cb(null, destination);
   },

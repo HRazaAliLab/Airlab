@@ -11,6 +11,7 @@ export const panelListSchema = [panelSchema];
 export class PanelState {
   ids: ReadonlyArray<number> = [];
   entities: { [key: number]: PanelDto } = {};
+  activePanelTagId: number | null = null;
 }
 
 export const panelModule = new Module({

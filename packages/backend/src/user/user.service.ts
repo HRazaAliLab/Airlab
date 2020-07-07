@@ -18,6 +18,15 @@ export class UserService {
     return this.repository.save({ ...params, password: passwordHash, isActive: true });
   }
 
+  async import(params) {
+    const existingUser = await this.findByEmail(params.email);
+    if (!existingUser) {
+      delete params.id;
+      return await this.repository.save({ ...params });
+    }
+    return existingUser;
+  }
+
   async findById(id: number) {
     return this.repository.findOne(id, {
       select: ["id", "name", "email", "isActive", "isAdmin", "meta", "createdAt", "updatedAt"],
@@ -61,6 +70,26 @@ export class UserService {
         milliseconds: 1000 * 60 * 60,
       },
     });
+  }
+
+  async exportGroupUsers(groupId: number) {
+    return this.repository
+      .createQueryBuilder("user")
+      .select([
+        "user.id",
+        "user.name",
+        "user.password",
+        "user.email",
+        "user.isActive",
+        "user.isAdmin",
+        "user.meta",
+        "user.createdAt",
+        "user.updatedAt",
+      ])
+      .leftJoin("user.members", "members")
+      .where("members.groupId = :groupId", { groupId: groupId })
+      .orderBy("user.id", "ASC")
+      .getMany();
   }
 
   private async clearCache() {

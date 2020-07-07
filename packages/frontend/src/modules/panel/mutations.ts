@@ -34,6 +34,10 @@ export class PanelMutations extends Mutations<PanelState> {
     this.state.entities = entities;
   }
 
+  setActivePanelTagId(id: number | null) {
+    this.state.activePanelTagId = id;
+  }
+
   reset() {
     // acquire initial state
     const s = new PanelState();

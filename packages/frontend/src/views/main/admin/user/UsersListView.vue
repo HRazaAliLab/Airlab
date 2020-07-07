@@ -71,7 +71,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { mainModule } from "@/modules/main";
 
 @Component
-export default class AdminUsers extends Vue {
+export default class UsersListView extends Vue {
   readonly userContext = userModule.context(this.$store);
   readonly mainContext = mainModule.context(this.$store);
 

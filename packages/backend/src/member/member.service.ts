@@ -16,6 +16,11 @@ export class MemberService {
     return this.repository.save(params);
   }
 
+  async import(params) {
+    delete params.id;
+    return await this.repository.save(params);
+  }
+
   async findById(id: number) {
     return this.repository.findOne(id, {
       select: ["id", "groupId", "role", "isActive", "allPanels"],
@@ -86,6 +91,25 @@ export class MemberService {
       .addSelect(["user.id", "user.name", "user.email"])
       .orderBy("member.id", "DESC")
       .cache(`group_${groupId}_members`, 1000 * 60 * 60)
+      .getMany();
+  }
+
+  async exportGroupMembers(groupId: number) {
+    return this.repository
+      .createQueryBuilder("member")
+      .select([
+        "member.id",
+        "member.groupId",
+        "member.userId",
+        "member.role",
+        "member.isActive",
+        "member.allPanels",
+        "member.activationKey",
+        "member.createdAt",
+        "member.updatedAt",
+      ])
+      .where("member.groupId = :groupId", { groupId: groupId })
+      .orderBy("member.id", "ASC")
       .getMany();
   }
 

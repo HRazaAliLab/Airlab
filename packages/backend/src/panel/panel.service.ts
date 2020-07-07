@@ -23,6 +23,11 @@ export class PanelService {
     return this.findById(item.id);
   }
 
+  async import(params) {
+    delete params.id;
+    return await this.repository.save(params);
+  }
+
   async findById(id: number) {
     return this.repository
       .createQueryBuilder("panel")
@@ -115,6 +120,31 @@ export class PanelService {
       .andWhere("elements.conjugateId = :conjugateId", { conjugateId: conjugateId })
       .orderBy({ "panel.id": "DESC" })
       .getMany();
+  }
+
+  async exportGroupPanels(groupId: number) {
+    return this.repository.find({
+      select: [
+        "id",
+        "groupId",
+        "createdBy",
+        "name",
+        "description",
+        "isFluorophore",
+        "isLocked",
+        "application",
+        "meta",
+        "isArchived",
+        "createdAt",
+        "updatedAt",
+      ],
+      where: {
+        groupId: groupId,
+      },
+      order: {
+        id: "ASC",
+      },
+    });
   }
 
   private async clearCache(groupId: number) {

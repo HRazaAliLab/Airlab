@@ -32,4 +32,15 @@ export const api = {
   async getMyMember(groupId: number) {
     return ApiManager.api.get(`groups/${groupId}/members/me`).json<MemberDto>();
   },
+  async exportGroupData(id: number, format: "json" | "csv") {
+    return ApiManager.api.get(`groups/${id}/export?format=${format}`).blob();
+  },
+  async importGroupData(formData: FormData) {
+    return ApiManager.api
+      .post(`groups/import`, {
+        body: formData,
+        timeout: false,
+      })
+      .json<GroupDto>();
+  },
 };

@@ -16,6 +16,11 @@ export class ProteinService {
     return this.repository.save(params);
   }
 
+  async import(params) {
+    delete params.id;
+    return await this.repository.save(params);
+  }
+
   async findById(id: number) {
     return this.repository.findOne(id, {
       select: ["id", "groupId", "name", "description", "createdAt"],
@@ -48,6 +53,18 @@ export class ProteinService {
       cache: {
         id: `group_${groupId}_proteins`,
         milliseconds: 1000 * 60 * 60,
+      },
+    });
+  }
+
+  async exportGroupProteins(groupId: number) {
+    return this.repository.find({
+      select: ["id", "groupId", "createdBy", "name", "description", "meta", "createdAt"],
+      where: {
+        groupId: groupId,
+      },
+      order: {
+        id: "ASC",
       },
     });
   }

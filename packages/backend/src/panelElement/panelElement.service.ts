@@ -11,6 +11,11 @@ export class PanelElementService {
     private readonly repository: Repository<PanelElementEntity>
   ) {}
 
+  async import(params) {
+    delete params.id;
+    return await this.repository.save(params);
+  }
+
   async updatePanelElements(panelId: number, elements: PanelElementDataDto[]) {
     await this.repository.delete({
       panelId: panelId,
@@ -43,6 +48,15 @@ export class PanelElementService {
       .addSelect(["conjugate.id", "conjugate.tubeNumber"])
       .leftJoin("conjugate.lot", "lot")
       .addSelect(["lot.id", "lot.name"])
+      .getMany();
+  }
+
+  async exportGroupElements(groupId: number) {
+    return this.repository
+      .createQueryBuilder("element")
+      .leftJoin("element.panel", "panel")
+      .where("panel.groupId = :groupId", { groupId: groupId })
+      .orderBy("element.id", "ASC")
       .getMany();
   }
 }

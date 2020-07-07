@@ -6,6 +6,7 @@ import { api } from "./api";
 import { GroupGetters } from "./getters";
 import { GroupMutations } from "./mutations";
 import { CreateGroupDto, UpdateGroupDto } from "@airlab/shared/lib/group/dto";
+import { saveAs } from "file-saver";
 
 export class GroupActions extends Actions<GroupState, GroupGetters, GroupMutations, GroupActions> {
   // Declare context type
@@ -64,6 +65,26 @@ export class GroupActions extends Actions<GroupState, GroupGetters, GroupMutatio
       const data = await api.deleteGroup(id);
       this.mutations.deleteEntity(data);
       this.main!.mutations.addNotification({ content: "Group successfully deleted", color: "success" });
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
+
+  async exportGroupData(payload: { id: number; format: "json" | "csv" }) {
+    try {
+      const blob = await api.exportGroupData(payload.id, payload.format);
+      saveAs(blob, `group_${payload.id}.zip`);
+      this.main!.mutations.addNotification({ content: "Group data successfully exported", color: "success" });
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
+
+  async importGroupData(payload: { formData: FormData }) {
+    try {
+      const data = await api.importGroupData(payload.formData);
+      this.mutations.addEntity(data);
+      this.main!.mutations.addNotification({ content: "Group data successfully imported", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
     }

@@ -318,7 +318,7 @@ export default new Router({
                 {
                   path: "users",
                   component: () =>
-                    import(/* webpackChunkName: "main-admin-users" */ "@/views/main/admin/user/AdminUsers.vue"),
+                    import(/* webpackChunkName: "main-admin-users" */ "@/views/main/admin/user/UsersListView.vue"),
                 },
                 {
                   path: "users/:id/edit",
@@ -336,7 +336,7 @@ export default new Router({
                 {
                   path: "groups",
                   component: () =>
-                    import(/* webpackChunkName: "main-admin-groups" */ "@/views/main/admin/group/AdminGroups.vue"),
+                    import(/* webpackChunkName: "main-admin-groups" */ "@/views/main/admin/group/GroupsListView.vue"),
                 },
                 {
                   path: "groups/create",
