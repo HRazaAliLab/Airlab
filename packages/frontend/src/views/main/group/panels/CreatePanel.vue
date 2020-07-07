@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <div class="mx-2 mt-2">
     <v-tooltip left>
       <template v-slot:activator="{ on }">
         <v-btn v-on="on" v-scroll="onScroll" v-show="fab" fab fixed bottom right color="primary" @click="toTop">
@@ -10,7 +10,7 @@
     </v-tooltip>
     <v-toolbar dense>
       <v-toolbar-title>
-        Create Panel
+        Edit Panel
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
@@ -19,89 +19,76 @@
         <v-btn @click="submit" text :disabled="!valid" color="primary">Save</v-btn>
       </v-toolbar-items>
     </v-toolbar>
-    <v-card class="mt-4 px-4">
-      <v-card-text>
-        <v-form v-model="valid" ref="form" lazy-validation>
-          <v-text-field label="Name" v-model="name" :rules="nameRules" />
-          <v-text-field label="Description" v-model="description" :rules="descriptionRules" />
-          <div class="text-subtitle-1">
-            Application
-          </div>
-          <v-btn-toggle v-model="application">
-            <v-btn small value="0">
-              SMC
-            </v-btn>
-            <v-btn small value="1">
-              IMC
-            </v-btn>
-            <v-btn small value="2">
-              FC
-            </v-btn>
-            <v-btn small value="3">
-              IF
-            </v-btn>
-            <v-btn small value="4">
-              IHC
-            </v-btn>
-            <v-btn small value="5">
-              IHCF
-            </v-btn>
-            <v-btn small value="6">
-              WB
-            </v-btn>
-          </v-btn-toggle>
-          <v-checkbox label="Fluorophore" v-model="isFluorophore" />
-          <v-checkbox label="Locked" v-model="isLocked" />
-        </v-form>
-      </v-card-text>
-      <v-card-text>
-        <v-toolbar dense class="mb-2" elevation="1">
-          <template>
-            <v-text-field
-              v-model="search"
-              append-icon="mdi-magnify"
-              label="Search by clone name"
-              dense
-              single-line
-              hide-details
-              clearable
-            />
-            <v-spacer />
-            <v-switch v-model="showMetals" label="Show metals" hide-details inset class="ml-6" />
-            <v-switch v-model="showEmpty" label="Show empty" hide-details inset class="ml-6" />
-          </template>
-        </v-toolbar>
-        <div>
-          <MetalExpansionPanel
-            v-for="tag in tags"
-            :key="tag.id"
-            :tag="tag"
-            :on-selected="congugateSelected"
-            :selected-conjugates="getInitialState(tag.id)"
-            :conjugates="getTagConjugates(tag.id)"
-            :species-map="speciesMap"
-          />
-        </div>
-      </v-card-text>
-    </v-card>
-  </v-container>
+    <v-expansion-panels class="mt-4" v-model="expanded">
+      <v-expansion-panel>
+        <v-expansion-panel-header>Details</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <v-form v-model="valid" ref="form">
+            <v-text-field label="Name" v-model="name" :rules="nameRules" />
+            <v-text-field label="Description" v-model="description" :rules="descriptionRules" />
+            <div class="text-subtitle-1">
+              Application
+            </div>
+            <v-btn-toggle v-model="application">
+              <v-btn small value="0">
+                SMC
+              </v-btn>
+              <v-btn small value="1">
+                IMC
+              </v-btn>
+              <v-btn small value="2">
+                FC
+              </v-btn>
+              <v-btn small value="3">
+                IF
+              </v-btn>
+              <v-btn small value="4">
+                IHC
+              </v-btn>
+              <v-btn small value="5">
+                IHCF
+              </v-btn>
+              <v-btn small value="6">
+                WB
+              </v-btn>
+            </v-btn-toggle>
+            <v-checkbox label="Fluorophore" v-model="isFluorophore" />
+            <v-checkbox label="Locked" v-model="isLocked" />
+          </v-form>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
+    <v-row dense class="mt-1">
+      <v-col cols="2">
+        <PanelTagsView :expanded="expanded" />
+      </v-col>
+      <v-col>
+        <TagConjugatesView v-if="activePanelTag" :tag="activePanelTag" :on-selected="congugateSelected" />
+      </v-col>
+      <v-col cols="4">
+        <PanelPreview :conjugates="selectedTagConjugates" :expanded="expanded" />
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script lang="ts">
 import { required } from "@/utils/validators";
 import { Component, Vue } from "vue-property-decorator";
-import { groupModule } from "@/modules/group";
 import { panelModule } from "@/modules/panel";
 import { CreatePanelDto, PanelElementDataDto } from "@airlab/shared/lib/panel/dto";
 import { conjugateModule } from "@/modules/conjugate";
 import { tagModule } from "@/modules/tag";
-import MetalExpansionPanel from "@/views/main/group/panels/MetalExpansionPanel.vue";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
-import { SpeciesDto } from "@airlab/shared/lib/species/dto";
 import { speciesModule } from "@/modules/species";
+import PanelTagsView from "@/views/main/group/panels/PanelTagsView.vue";
+import TagConjugatesView from "@/views/main/group/panels/TagConjugatesView.vue";
+import PanelPreview from "@/views/main/group/panels/PanelPreview.vue";
+import { validationModule } from "@/modules/validation";
+import { groupModule } from "@/modules/group";
 
 @Component({
-  components: { MetalExpansionPanel },
+  components: { PanelPreview, TagConjugatesView, PanelTagsView },
 })
 export default class CreatePanel extends Vue {
   private readonly groupContext = groupModule.context(this.$store);
@@ -109,14 +96,13 @@ export default class CreatePanel extends Vue {
   private readonly conjugateContext = conjugateModule.context(this.$store);
   private readonly tagContext = tagModule.context(this.$store);
   private readonly speciesContext = speciesModule.context(this.$store);
+  private readonly validationContext = validationModule.context(this.$store);
 
   private readonly nameRules = [required];
   private readonly descriptionRules = [];
 
   private fab = false;
-  private showMetals = false;
-  private showEmpty = false;
-  private search: string | null = null;
+  private expanded = 0;
 
   private valid = false;
   private name = "";
@@ -124,42 +110,19 @@ export default class CreatePanel extends Vue {
   private application: string | null = null;
   private isFluorophore = false;
   private isLocked = false;
+
   private selectedTagConjugates = new Map<number, Set<ConjugateDto>>();
 
   private get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
   }
 
-  private get tags() {
-    return this.showMetals ? this.tagContext.getters.tags.filter((item) => item.isMetal) : this.tagContext.getters.tags;
+  get activePanelTagId() {
+    return this.panelContext.getters.activePanelTagId;
   }
 
-  private get speciesMap() {
-    const map = new Map<number, SpeciesDto>();
-    for (const s of this.speciesContext.getters.species) {
-      map.set(s.id, s);
-    }
-    return Object.freeze(map);
-  }
-
-  private get conjugates() {
-    let items = this.showEmpty
-      ? this.conjugateContext.getters.conjugates
-      : this.conjugateContext.getters.conjugates.filter((item) => item.status !== 2);
-    if (this.search !== null) {
-      const normalizedSearchTerm = this.search.toLowerCase().trim();
-      items = items.filter((item) => (item as any).lot.clone.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1);
-    }
-    return items;
-  }
-
-  private getInitialState(tagId: number) {
-    const items = this.selectedTagConjugates.get(tagId);
-    return items ? [...items] : [];
-  }
-
-  private getTagConjugates(tagId: number) {
-    return this.conjugates.filter((item) => item.tagId === tagId);
+  get activePanelTag() {
+    return this.activePanelTagId ? this.tagContext.getters.getTag(this.activePanelTagId) : null;
   }
 
   private onScroll(e) {
@@ -183,6 +146,7 @@ export default class CreatePanel extends Vue {
     } else {
       conjugatesSet.delete(conjugate);
     }
+    this.selectedTagConjugates = new Map(this.selectedTagConjugates);
   }
 
   private cancel() {
@@ -225,10 +189,12 @@ export default class CreatePanel extends Vue {
   }
 
   async mounted() {
+    this.panelContext.mutations.setActivePanelTagId(null);
     await Promise.all([
       this.conjugateContext.actions.getGroupConjugates(+this.$router.currentRoute.params.groupId),
       this.tagContext.actions.getGroupTags(+this.$router.currentRoute.params.groupId),
       this.speciesContext.actions.getGroupSpecies(+this.$router.currentRoute.params.groupId),
+      this.validationContext.actions.getGroupValidations(+this.$route.params.groupId),
     ]);
   }
 }

@@ -19,7 +19,7 @@
         <v-btn @click="submit" text :disabled="!valid" color="primary">Save</v-btn>
       </v-toolbar-items>
     </v-toolbar>
-    <v-expansion-panels class="mt-4" :value="0">
+    <v-expansion-panels class="mt-4" v-model="expanded">
       <v-expansion-panel>
         <v-expansion-panel-header>Details</v-expansion-panel-header>
         <v-expansion-panel-content>
@@ -60,7 +60,7 @@
     </v-expansion-panels>
     <v-row dense class="mt-1">
       <v-col cols="2">
-        <PanelTagsView />
+        <PanelTagsView :expanded="expanded" />
       </v-col>
       <v-col>
         <TagConjugatesView
@@ -71,7 +71,7 @@
         />
       </v-col>
       <v-col cols="4">
-        <PanelPreview :conjugates="selectedTagConjugates" />
+        <PanelPreview :conjugates="selectedTagConjugates" :expanded="expanded" />
       </v-col>
     </v-row>
   </div>
@@ -82,7 +82,6 @@ import { required } from "@/utils/validators";
 import { Component, Vue } from "vue-property-decorator";
 import { panelModule } from "@/modules/panel";
 import { PanelElementDataDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
-import MetalExpansionPanel from "@/views/main/group/panels/MetalExpansionPanel.vue";
 import { conjugateModule } from "@/modules/conjugate";
 import { tagModule } from "@/modules/tag";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
@@ -90,6 +89,7 @@ import { speciesModule } from "@/modules/species";
 import PanelTagsView from "@/views/main/group/panels/PanelTagsView.vue";
 import TagConjugatesView from "@/views/main/group/panels/TagConjugatesView.vue";
 import PanelPreview from "@/views/main/group/panels/PanelPreview.vue";
+import { validationModule } from "@/modules/validation";
 
 type ConjugatePanelData = {
   dilutionType: number;
@@ -98,18 +98,20 @@ type ConjugatePanelData = {
 };
 
 @Component({
-  components: { PanelPreview, TagConjugatesView, PanelTagsView, MetalExpansionPanel },
+  components: { PanelPreview, TagConjugatesView, PanelTagsView },
 })
 export default class EditPanel extends Vue {
   private readonly panelContext = panelModule.context(this.$store);
   private readonly conjugateContext = conjugateModule.context(this.$store);
   private readonly tagContext = tagModule.context(this.$store);
   private readonly speciesContext = speciesModule.context(this.$store);
+  private readonly validationContext = validationModule.context(this.$store);
 
   private readonly nameRules = [required];
   private readonly descriptionRules = [];
 
   private fab = false;
+  private expanded = 0;
 
   private valid = false;
   private name = "";
@@ -227,11 +229,13 @@ export default class EditPanel extends Vue {
   }
 
   async mounted() {
+    this.panelContext.mutations.setActivePanelTagId(null);
     await Promise.all([
       this.panelContext.actions.getPanel(+this.$router.currentRoute.params.id),
       this.conjugateContext.actions.getGroupConjugates(+this.$router.currentRoute.params.groupId),
       this.tagContext.actions.getGroupTags(+this.$router.currentRoute.params.groupId),
       this.speciesContext.actions.getGroupSpecies(+this.$router.currentRoute.params.groupId),
+      this.validationContext.actions.getGroupValidations(+this.$route.params.groupId),
     ]);
     this.reset();
   }

@@ -228,7 +228,6 @@ import { Component, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
 import { panelModule } from "@/modules/panel";
 import { PanelElementDataDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
-import MetalExpansionPanel from "@/views/main/group/panels/MetalExpansionPanel.vue";
 import { conjugateModule } from "@/modules/conjugate";
 import { tagModule } from "@/modules/tag";
 import { validationModule } from "@/modules/validation";
@@ -244,7 +243,7 @@ import ValidationDetailsView from "@/views/main/group/validations/ValidationDeta
 import LoadingView from "@/components/LoadingView.vue";
 
 @Component({
-  components: { LoadingView, ValidationDetailsView, MetalExpansionPanel },
+  components: { LoadingView, ValidationDetailsView },
 })
 export default class ViewPanel extends Vue {
   readonly groupContext = groupModule.context(this.$store);

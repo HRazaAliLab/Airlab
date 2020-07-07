@@ -44,11 +44,14 @@ export default class PanelPreview extends Vue {
   readonly responsiveContext = responsiveModule.context(this.$store);
 
   @Prop({ type: Map, required: true }) readonly conjugates!: Map<number, Set<ConjugateDto>>;
+  @Prop({ type: Number }) readonly expanded?: number;
 
   private items: ConjugateDto[] = [];
 
   get height() {
-    return this.responsiveContext.getters.responsive.height! - 552;
+    return this.expanded === 0
+      ? this.responsiveContext.getters.responsive.height! - 552
+      : this.responsiveContext.getters.responsive.height! - 182;
   }
 
   @Watch("conjugates")
@@ -101,7 +104,7 @@ export default class PanelPreview extends Vue {
       },
     },
     {
-      text: "Tube Number",
+      text: "Tube",
       value: "tubeNumber",
       align: "end",
     },

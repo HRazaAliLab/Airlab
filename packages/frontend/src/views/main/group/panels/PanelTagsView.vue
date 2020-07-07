@@ -36,7 +36,7 @@
     <v-toolbar dense flat>
       <v-switch v-model="showOnlyMetals" label="Show only metals" hide-details inset dense />
     </v-toolbar>
-    <v-list dense class="overflow-y-auto scroll-view">
+    <v-list dense class="overflow-y-auto" :height="height">
       <v-list-item-group v-model="selectedTag" color="primary">
         <v-list-item v-for="tag in tags" :key="tag.id" :value="tag.id">
           <v-list-item-avatar :color="getColor(tag)" size="30">
@@ -54,15 +54,19 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { tagModule } from "@/modules/tag";
 import { TagDto } from "@airlab/shared/lib/tag/dto";
 import { panelModule } from "@/modules/panel";
+import { responsiveModule } from "@/modules/responsive";
 
 @Component
 export default class PanelTagsView extends Vue {
   private readonly tagContext = tagModule.context(this.$store);
   private readonly panelContext = panelModule.context(this.$store);
+  private readonly responsiveContext = responsiveModule.context(this.$store);
+
+  @Prop({ type: Number }) readonly expanded?: number;
 
   private readonly sortByOptions = [
     { id: "name", title: "Name" },
@@ -80,6 +84,12 @@ export default class PanelTagsView extends Vue {
 
   set selectedTag(value: number | null) {
     this.panelContext.mutations.setActivePanelTagId(value ? value : null);
+  }
+
+  get height() {
+    return this.expanded === 0
+      ? this.responsiveContext.getters.responsive.height! - 752
+      : this.responsiveContext.getters.responsive.height! - 390;
   }
 
   private get tags() {
@@ -132,9 +142,3 @@ export default class PanelTagsView extends Vue {
   }
 }
 </script>
-
-<style scoped>
-.scroll-view {
-  height: calc(100vh - 760px);
-}
-</style>

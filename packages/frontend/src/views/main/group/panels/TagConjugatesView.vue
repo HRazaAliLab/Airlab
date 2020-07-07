@@ -67,12 +67,29 @@
                     {{ speciesMap.get(r) ? speciesMap.get(r).acronym : "?" }}
                   </v-chip>
                 </div>
+                <div v-if="item.validations && item.validations.length > 0">
+                  <span class="subheader">Validations: </span>
+                  <v-chip
+                    v-for="validation in item.validations"
+                    :key="validation.id"
+                    :color="getStatusColor(validation)"
+                    class="mr-1"
+                    x-small
+                    dark
+                    @click.stop="showValidation(validation.id)"
+                  >
+                    {{ validation.application | applicationToString }}
+                  </v-chip>
+                </div>
               </div>
             </v-sheet>
           </v-row>
         </template>
       </v-data-iterator>
     </v-card-text>
+    <v-navigation-drawer v-model="drawer" right fixed temporary width="600">
+      <ValidationDetailsView v-if="drawer" :validation-id="selectedValidationId" />
+    </v-navigation-drawer>
   </v-card>
 </template>
 
@@ -84,14 +101,21 @@ import { SpeciesDto } from "@airlab/shared/lib/species/dto";
 import { ConjugateStatus } from "@airlab/shared/lib/conjugate/ConjugateStatus";
 import { conjugateModule } from "@/modules/conjugate";
 import { speciesModule } from "@/modules/species";
-
-@Component
+import { validationModule } from "@/modules/validation";
+import { getStatusColor } from "@/utils/converters";
+import ValidationDetailsView from "@/views/main/group/validations/ValidationDetailsView.vue";
+@Component({
+  components: { ValidationDetailsView },
+})
 export default class TagConjugatesView extends Vue {
   private readonly conjugateContext = conjugateModule.context(this.$store);
   private readonly speciesContext = speciesModule.context(this.$store);
+  private readonly validationContext = validationModule.context(this.$store);
+
+  private readonly getStatusColor = getStatusColor;
 
   @Prop({ type: Object, required: true }) readonly tag!: TagDto;
-  @Prop({ type: Array, required: true }) readonly selectedConjugates!: ConjugateDto[];
+  @Prop({ type: Array, required: false }) readonly selectedConjugates!: ConjugateDto[];
   @Prop({ type: Function, required: true }) readonly onSelected;
 
   private readonly sortByOptions = [
@@ -106,6 +130,13 @@ export default class TagConjugatesView extends Vue {
   private showEmpty = false;
   private search: string | null = null;
 
+  private drawer = false;
+  private selectedValidationId: number | null = null;
+
+  get validations() {
+    return this.validationContext.getters.validations;
+  }
+
   private get items() {
     let items = this.conjugateContext.getters.conjugates.filter((item) => item.tagId === this.tag.id);
     items = this.showEmpty ? items : items.filter((item) => item.status !== 2);
@@ -119,20 +150,30 @@ export default class TagConjugatesView extends Vue {
     }
     switch (this.sortBy) {
       case "tube": {
-        return this.sortDesc
+        items = this.sortDesc
           ? items.sort((a, b) => b.tubeNumber - a.tubeNumber)
           : items.sort((a, b) => a.tubeNumber - b.tubeNumber);
+        break;
       }
       case "protein": {
-        return this.sortDesc
+        items = this.sortDesc
           ? items.sort((a: any, b: any) => b.lot.clone.protein.name.localeCompare(a.lot.clone.protein.name))
           : items.sort((a: any, b: any) => a.lot.clone.protein.name.localeCompare(b.lot.clone.protein.name));
+        break;
       }
       case "clone": {
-        return this.sortDesc
+        items = this.sortDesc
           ? items.sort((a: any, b: any) => b.lot.clone.name.localeCompare(a.lot.clone.name))
           : items.sort((a: any, b: any) => a.lot.clone.name.localeCompare(b.lot.clone.name));
+        break;
       }
+    }
+    for (const item of items) {
+      const validations =
+        (item as any).lot && (item as any).lot.clone
+          ? this.validations.filter((validation: any) => validation.clone.id == (item as any).lot.clone.id)
+          : [];
+      (item as any).validations = validations;
     }
     return items;
   }
@@ -143,6 +184,11 @@ export default class TagConjugatesView extends Vue {
       map.set(s.id, s);
     }
     return map;
+  }
+
+  showValidation(id: number) {
+    this.selectedValidationId = id;
+    this.drawer = !this.drawer;
   }
 
   getConjugateColor(conjugate: ConjugateDto, isSelected: boolean) {
@@ -164,6 +210,14 @@ export default class TagConjugatesView extends Vue {
       return "yellow lighten-5";
     }
     return "default";
+  }
+
+  async mounted() {
+    document.onkeydown = (evt) => {
+      if (this.drawer && evt.key === "Escape") {
+        this.drawer = false;
+      }
+    };
   }
 }
 </script>
