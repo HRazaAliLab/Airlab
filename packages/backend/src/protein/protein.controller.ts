@@ -32,7 +32,7 @@ export class ProteinController {
   @Post("proteins")
   @ApiCreatedResponse({ description: "Create entity.", type: ProteinDto })
   async create(@Request() req, @Body() params: CreateProteinDto) {
-    const member = await this.memberService.checkMemberPermissions(req.user.userId, params.groupId);
+    const member = await this.memberService.checkStandardMemberPermissions(req.user.userId, params.groupId);
     return this.proteinService.create({ ...params, createdBy: member.id });
   }
 
@@ -40,7 +40,7 @@ export class ProteinController {
   @ApiOkResponse({ description: "Find entity by Id.", type: ProteinDto })
   async findById(@Request() req, @Param("id") id: number) {
     const item = await this.proteinService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, item.groupId);
     return item;
   }
 
@@ -48,7 +48,7 @@ export class ProteinController {
   @ApiOkResponse({ description: "Updated entity.", type: ProteinDto })
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdateProteinDto) {
     const item = await this.proteinService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    await this.memberService.checkStandardMemberPermissions(req.user.userId, item.groupId);
     return this.proteinService.update(id, params);
   }
 
@@ -56,17 +56,14 @@ export class ProteinController {
   @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.proteinService.findById(id);
-    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
-    if (member.role < 100) {
-      throw new UnauthorizedException("Only group admins can perform this operation");
-    }
+    await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
     return this.proteinService.deleteById(id);
   }
 
   @Get("groups/:groupId/proteins")
   @ApiOkResponse({ description: "Find all proteins for the group.", type: ProteinDto, isArray: true })
   async getGroupProteins(@Request() req, @Param("groupId") groupId: number) {
-    await this.memberService.checkMemberPermissions(req.user.userId, groupId);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, groupId);
     return this.proteinService.getGroupProteins(groupId);
   }
 
@@ -78,7 +75,7 @@ export class ProteinController {
   })
   async getProteinClones(@Request() req, @Param("id") id: number) {
     const protein = await this.proteinService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, protein.groupId);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, protein.groupId);
     return this.cloneService.getProteinClones(id);
   }
 }

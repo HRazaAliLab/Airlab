@@ -8,6 +8,7 @@ import { LotMutations } from "./mutations";
 import { CreateLotDto, UpdateLotDto, UpdateLotStatusDto } from "@airlab/shared/lib/lot/dto";
 import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
 import { ConjugateStatus } from "@airlab/shared/lib/conjugate/ConjugateStatus";
+import { RequestQuery } from "@/utils/QueryBuilder";
 
 export class LotActions extends Actions<LotState, LotGetters, LotMutations, LotActions> {
   // Declare context type
@@ -86,9 +87,9 @@ export class LotActions extends Actions<LotState, LotGetters, LotMutations, LotA
     }
   }
 
-  async getGroupLots(groupId: number) {
+  async getGroupLots(payload: { groupId: number; query?: RequestQuery }) {
     try {
-      const data = await api.getGroupLots(groupId);
+      const data = await api.getGroupLots(payload.groupId, payload.query);
       if (data) {
         this.mutations.setEntities(data);
       }

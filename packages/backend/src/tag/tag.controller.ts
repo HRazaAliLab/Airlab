@@ -32,7 +32,7 @@ export class TagController {
   @Post("tags")
   @ApiCreatedResponse({ description: "Create entity.", type: TagDto })
   async create(@Request() req, @Body() params: CreateTagDto) {
-    await this.memberService.checkMemberPermissions(req.user.userId, params.groupId);
+    await this.memberService.checkStandardMemberPermissions(req.user.userId, params.groupId);
     return this.tagService.create({ ...params });
   }
 
@@ -40,7 +40,7 @@ export class TagController {
   @ApiOkResponse({ description: "Find entity by Id.", type: TagDto })
   async findById(@Request() req, @Param("id") id: number) {
     const item = await this.tagService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, item.groupId);
     return item;
   }
 
@@ -48,7 +48,7 @@ export class TagController {
   @ApiOkResponse({ description: "Updated entity.", type: TagDto })
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdateTagDto) {
     const item = await this.tagService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    await this.memberService.checkStandardMemberPermissions(req.user.userId, item.groupId);
     return this.tagService.update(id, params);
   }
 
@@ -56,17 +56,14 @@ export class TagController {
   @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.tagService.findById(id);
-    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
-    if (member.role < 100) {
-      throw new UnauthorizedException("Only group admins can perform this operation");
-    }
+    await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
     return this.tagService.deleteById(id);
   }
 
   @Get("groups/:groupId/tags")
   @ApiOkResponse({ description: "Find all tags for the group.", type: TagDto, isArray: true })
   async getGroupTags(@Request() req, @Param("groupId") groupId: number) {
-    await this.memberService.checkMemberPermissions(req.user.userId, groupId);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, groupId);
     return this.tagService.getGroupTags(groupId);
   }
 
@@ -78,7 +75,7 @@ export class TagController {
   })
   async getTagConjugates(@Request() req, @Param("id") id: number) {
     const tag = await this.tagService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, tag.groupId);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, tag.groupId);
     return this.conjugateService.getTagConjugates(id);
   }
 }

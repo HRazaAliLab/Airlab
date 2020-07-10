@@ -83,6 +83,17 @@ export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutatio
     }
   }
 
+  async getGroupArchivedClones(groupId: number) {
+    try {
+      const data = await api.getGroupArchivedClones(groupId);
+      if (data) {
+        this.mutations.setEntities(data);
+      }
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
+
   async getCloneLots(cloneId: number) {
     try {
       return api.getCloneLots(cloneId);

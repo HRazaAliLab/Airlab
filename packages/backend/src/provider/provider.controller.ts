@@ -32,7 +32,7 @@ export class ProviderController {
   @Post("providers")
   @ApiCreatedResponse({ description: "Create entity.", type: ProviderDto })
   async create(@Request() req, @Body() params: CreateProviderDto) {
-    await this.memberService.checkMemberPermissions(req.user.userId, params.groupId);
+    await this.memberService.checkStandardMemberPermissions(req.user.userId, params.groupId);
     return this.providerService.create({ ...params });
   }
 
@@ -40,7 +40,7 @@ export class ProviderController {
   @ApiOkResponse({ description: "Find entity by Id.", type: ProviderDto })
   async findById(@Request() req, @Param("id") id: number) {
     const item = await this.providerService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, item.groupId);
     return item;
   }
 
@@ -48,7 +48,7 @@ export class ProviderController {
   @ApiOkResponse({ description: "Updated entity.", type: ProviderDto })
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdateProviderDto) {
     const item = await this.providerService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    await this.memberService.checkStandardMemberPermissions(req.user.userId, item.groupId);
     return this.providerService.update(id, params);
   }
 
@@ -56,17 +56,14 @@ export class ProviderController {
   @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.providerService.findById(id);
-    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
-    if (member.role < 100) {
-      throw new UnauthorizedException("Only group admins can perform this operation");
-    }
+    await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
     return this.providerService.deleteById(id);
   }
 
   @Get("groups/:groupId/providers")
   @ApiOkResponse({ description: "Find all providers for the group.", type: ProviderDto, isArray: true })
   async getGroupSpecies(@Request() req, @Param("groupId") groupId: number) {
-    await this.memberService.checkMemberPermissions(req.user.userId, groupId);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, groupId);
     return this.providerService.getGroupProviders(groupId);
   }
 
@@ -78,7 +75,7 @@ export class ProviderController {
   })
   async getProviderLots(@Request() req, @Param("id") id: number) {
     const provider = await this.providerService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, provider.groupId);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, provider.groupId);
     return this.lotService.getProviderLots(id);
   }
 }

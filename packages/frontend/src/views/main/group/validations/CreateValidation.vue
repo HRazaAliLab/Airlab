@@ -386,7 +386,7 @@ export default class CreateValidation extends Vue {
     this.reset();
     await Promise.all([
       this.cloneContext.actions.getGroupClones(+this.$router.currentRoute.params.groupId),
-      this.lotContext.actions.getGroupLots(+this.$router.currentRoute.params.groupId),
+      this.lotContext.actions.getGroupLots({ groupId: +this.$router.currentRoute.params.groupId }),
       this.conjugateContext.actions.getGroupConjugates(+this.$router.currentRoute.params.groupId),
       this.speciesContext.actions.getGroupSpecies(+this.$router.currentRoute.params.groupId),
     ]);

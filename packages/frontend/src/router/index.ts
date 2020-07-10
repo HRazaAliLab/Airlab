@@ -47,8 +47,16 @@ export default new Router({
               path: "groups/:groupId",
               name: "main-group",
               component: () => import(/* webpackChunkName: "main-group" */ "@/views/main/group/GroupView.vue"),
-              redirect: "groups/:groupId/clones",
+              redirect: "groups/:groupId/dashboard",
               children: [
+                {
+                  path: "dashboard",
+                  name: "main-group-dashboard",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-group-dashboard" */ "@/views/main/group/dashboard/DashboardView.vue"
+                    ),
+                },
                 {
                   path: "proteins",
                   name: "main-group-proteins",

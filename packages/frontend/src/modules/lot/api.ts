@@ -2,6 +2,7 @@ import { ApiManager } from "@/utils/api";
 import { CreateLotDto, LotDto, UpdateLotDto, UpdateLotStatusDto } from "@airlab/shared/lib/lot/dto";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
+import { getQueryString, RequestQuery } from "@/utils/QueryBuilder";
 
 export const api = {
   async createLot(data: CreateLotDto) {
@@ -38,8 +39,9 @@ export const api = {
   async deleteLot(id: number) {
     return ApiManager.api.delete(`lots/${id}`).json<number>();
   },
-  async getGroupLots(groupId: number) {
-    return ApiManager.api.get(`groups/${groupId}/lots`).json<LotDto[]>();
+  async getGroupLots(groupId: number, query?: RequestQuery) {
+    const queryString = getQueryString(query);
+    return ApiManager.api.get(`groups/${groupId}/lots${queryString}`).json<LotDto[]>();
   },
   async getLotConjugates(lotId: number) {
     return ApiManager.api.get(`lots/${lotId}/conjugates`).json<ConjugateDto[]>();

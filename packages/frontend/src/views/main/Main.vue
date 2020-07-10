@@ -3,21 +3,19 @@
     <v-navigation-drawer :clipped="$vuetify.breakpoint.lgAndUp" v-model="showDrawer" fixed app width="180">
       <v-row no-gutters>
         <v-col>
-          <v-list dense flat>
-            <v-list-item to="/main/groups">
-              <v-list-item-icon>
-                <v-icon>mdi-view-dashboard-outline</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>Groups</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
           <v-list nav dense expand>
             <v-list-group v-if="activeGroupId" :value="true">
               <template v-slot:activator>
                 <v-list-item-title>Group</v-list-item-title>
               </template>
+              <v-list-item :to="`/main/groups/${activeGroupId}/dashboard`">
+                <v-list-item-icon>
+                  <v-icon>mdi-view-dashboard-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Dashboard</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
               <v-list-item :to="`/main/groups/${activeGroupId}/clones`">
                 <v-list-item-icon>
                   <v-icon>mdi-test-tube</v-icon>

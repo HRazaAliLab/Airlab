@@ -74,10 +74,26 @@ export class MemberService {
     });
   }
 
-  async checkMemberPermissions(userId: number, groupId: number) {
+  async checkAdminMemberPermissions(userId: number, groupId: number) {
+    const member = await this.findByUserIdAndGroupId(userId, groupId);
+    if (!member || member.role < 100 || !member.isActive) {
+      throw new UnauthorizedException("Only group admins can perform this operation");
+    }
+    return member;
+  }
+
+  async checkStandardMemberPermissions(userId: number, groupId: number) {
+    const member = await this.findByUserIdAndGroupId(userId, groupId);
+    if (!member || member.role === 0 || !member.isActive) {
+      throw new UnauthorizedException("You don't have proper group permissions");
+    }
+    return member;
+  }
+
+  async checkGuestMemberPermissions(userId: number, groupId: number) {
     const member = await this.findByUserIdAndGroupId(userId, groupId);
     if (!member || !member.isActive) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException("You don't have proper group permissions");
     }
     return member;
   }

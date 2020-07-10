@@ -27,10 +27,7 @@ export class MemberController {
   @ApiCreatedResponse({ description: "Create entity.", type: MemberDto })
   async create(@Request() req, @Body() params: CreateMemberDto) {
     if (!req.user.isAdmin) {
-      const member = await this.memberService.checkMemberPermissions(req.user.userId, params.groupId);
-      if (member.role < 100) {
-        throw new UnauthorizedException();
-      }
+      await this.memberService.checkAdminMemberPermissions(req.user.userId, params.groupId);
     }
     const existingMember = await this.memberService.findByUserIdAndGroupId(params.userId, params.groupId);
     if (existingMember) {
@@ -44,7 +41,7 @@ export class MemberController {
   async findById(@Request() req, @Param("id") id: number) {
     const item = await this.memberService.findById(id);
     if (!req.user.isAdmin) {
-      await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+      await this.memberService.checkGuestMemberPermissions(req.user.userId, item.groupId);
     }
     return item;
   }
@@ -54,10 +51,7 @@ export class MemberController {
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdateMemberDto) {
     const item = await this.memberService.findById(id);
     if (!req.user.isAdmin) {
-      const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
-      if (member.role < 100) {
-        throw new UnauthorizedException("Only group admins can perform this operation");
-      }
+      await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
     }
     return this.memberService.update(id, params);
   }
@@ -67,10 +61,7 @@ export class MemberController {
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.memberService.findById(id);
     if (!req.user.isAdmin) {
-      const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
-      if (member.role < 100) {
-        throw new UnauthorizedException("Only group admins can perform this operation");
-      }
+      await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
     }
     return this.memberService.deleteById(id);
   }
@@ -79,7 +70,7 @@ export class MemberController {
   @ApiOkResponse({ description: "Find all members of the group.", type: MemberDto, isArray: true })
   async getGroupMembers(@Request() req, @Param("groupId") groupId: number) {
     if (!req.user.isAdmin) {
-      await this.memberService.checkMemberPermissions(req.user.userId, groupId);
+      await this.memberService.checkGuestMemberPermissions(req.user.userId, groupId);
     }
     return this.memberService.getGroupMembers(groupId);
   }
@@ -87,6 +78,6 @@ export class MemberController {
   @Get("groups/:groupId/members/me")
   @ApiOkResponse({ description: "Find personal member of the group.", type: MemberDto })
   async getMyMember(@Request() req, @Param("groupId") groupId: number) {
-    return await this.memberService.checkMemberPermissions(req.user.userId, groupId);
+    return await this.memberService.checkGuestMemberPermissions(req.user.userId, groupId);
   }
 }
