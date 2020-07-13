@@ -268,7 +268,7 @@ export class GroupService {
     const json = JSON.parse(data);
     const map = new Map<number, number>();
     for (const item of json) {
-      const oldId = item.id;
+      const oldId = item.id ? item.id : newGroupId;
       item.groupId = newGroupId;
       const species = await this.speciesService.import(item);
       map.set(oldId, species.id);
@@ -281,7 +281,7 @@ export class GroupService {
     const json = JSON.parse(data);
     const map = new Map<number, number>();
     for (const item of json) {
-      const oldId = item.id;
+      const oldId = item.id ? item.id : newGroupId;
       item.groupId = newGroupId;
       const tag = await this.tagService.import(item);
       map.set(oldId, tag.id);
@@ -294,7 +294,7 @@ export class GroupService {
     const json = JSON.parse(data);
     const map = new Map<number, number>();
     for (const item of json) {
-      const oldId = item.id;
+      const oldId = item.id ? item.id : newGroupId;
       item.groupId = newGroupId;
       const provider = await this.providerService.import(item);
       map.set(oldId, provider.id);
@@ -307,9 +307,9 @@ export class GroupService {
     const json = JSON.parse(data);
     const map = new Map<number, number>();
     for (const item of json) {
-      const oldId = item.id;
+      const oldId = item.id ? item.id : newGroupId;
       item.groupId = newGroupId;
-      item.createdBy = membersIdMap.get(item.createdBy);
+      item.createdBy = item.createdBy ? membersIdMap.get(item.createdBy) : membersIdMap.values().next().value;
       const protein = await this.proteinService.import(item);
       map.set(oldId, protein.id);
     }
@@ -323,6 +323,9 @@ export class GroupService {
     proteinsIdMap: Map<number, number>,
     speciesIdMap: Map<number, number>
   ) {
+    if (!fs.existsSync(path)) {
+      return null;
+    }
     const data = await fsAsync.readFile(path, "utf8");
     const json = JSON.parse(data);
     const map = new Map<number, number>();
@@ -346,6 +349,9 @@ export class GroupService {
     clonesIdMap: Map<number, number>,
     providersIdMap: Map<number, number>
   ) {
+    if (!fs.existsSync(path)) {
+      return null;
+    }
     const data = await fsAsync.readFile(path, "utf8");
     const json = JSON.parse(data);
     const map = new Map<number, number>();
@@ -373,6 +379,9 @@ export class GroupService {
     lotsIdMap: Map<number, number>,
     tagsIdMap: Map<number, number>
   ) {
+    if (!fs.existsSync(path)) {
+      return null;
+    }
     const data = await fsAsync.readFile(path, "utf8");
     const json = JSON.parse(data);
     const map = new Map<number, number>();
@@ -390,6 +399,9 @@ export class GroupService {
   }
 
   private async importPanels(path: string, newGroupId: number, membersIdMap: Map<number, number>) {
+    if (!fs.existsSync(path)) {
+      return null;
+    }
     const data = await fsAsync.readFile(path, "utf8");
     const json = JSON.parse(data);
     const map = new Map<number, number>();
@@ -408,6 +420,9 @@ export class GroupService {
     panelsIdMap: Map<number, number>,
     conjugatesIdMap: Map<number, number>
   ) {
+    if (!fs.existsSync(path)) {
+      return null;
+    }
     const data = await fsAsync.readFile(path, "utf8");
     const json = JSON.parse(data);
     const map = new Map<number, number>();
@@ -430,6 +445,9 @@ export class GroupService {
     conjugatesIdMap: Map<number, number>,
     speciesIdMap: Map<number, number>
   ) {
+    if (!fs.existsSync(path)) {
+      return null;
+    }
     const data = await fsAsync.readFile(path, "utf8");
     const json = JSON.parse(data);
     const map = new Map<number, number>();
@@ -454,6 +472,9 @@ export class GroupService {
     validationsIdMap: Map<number, number>,
     validationFilesFolder: string
   ) {
+    if (!fs.existsSync(path)) {
+      return null;
+    }
     const data = await fsAsync.readFile(path, "utf8");
     const json = JSON.parse(data);
     const map = new Map<number, number>();

@@ -1,15 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post, Query,
-  Request,
-  UnauthorizedException,
-  UseGuards
-} from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Request, UseGuards } from "@nestjs/common";
 import { LotService } from "./lot.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
