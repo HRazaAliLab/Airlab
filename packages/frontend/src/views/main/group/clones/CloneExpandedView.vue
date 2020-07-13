@@ -9,6 +9,7 @@
       hide-default-footer
       disable-filtering
       dense
+      show-expand
     >
       <template v-slot:item.id="{ item }">
         <router-link
@@ -44,6 +45,11 @@
           {{ item.status | lotStatusToString }}
         </v-chip>
       </template>
+      <template v-slot:expanded-item="{ headers, item }">
+        <td :colspan="headers.length">
+          <CloneLotExpandedView :lot="item" />
+        </td>
+      </template>
     </v-data-table>
   </v-card>
 </template>
@@ -55,8 +61,11 @@ import { CloneDto } from "@airlab/shared/lib/clone/dto";
 import { LotDto } from "@airlab/shared/lib/lot/dto";
 import { groupModule } from "@/modules/group";
 import { getLotStatusColor } from "@/utils/converters";
+import CloneLotExpandedView from "@/views/main/group/clones/CloneLotExpandedView.vue";
 
-@Component
+@Component({
+  components: { CloneLotExpandedView },
+})
 export default class CloneExpandedView extends Vue {
   private readonly groupContext = groupModule.context(this.$store);
   private readonly cloneContext = cloneModule.context(this.$store);
@@ -105,6 +114,10 @@ export default class CloneExpandedView extends Vue {
     {
       text: "Purpose",
       value: "purpose",
+    },
+    {
+      text: "",
+      value: "data-table-expand",
     },
   ];
 

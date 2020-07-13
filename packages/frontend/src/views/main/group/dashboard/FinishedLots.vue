@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      Recent Orders
+      Finished Lots
     </v-card-title>
     <v-card-text>
       <v-data-table
@@ -31,7 +31,7 @@ import { lotModule } from "@/modules/lot";
 import { LotDto } from "@airlab/shared/lib/lot/dto";
 
 @Component
-export default class RecentOrders extends Vue {
+export default class FinishedLots extends Vue {
   private readonly lotContext = lotModule.context(this.$store);
 
   private items: LotDto[] = [];
@@ -62,7 +62,7 @@ export default class RecentOrders extends Vue {
   ];
 
   async mounted() {
-    this.items = await this.lotContext.actions.getRecentOrders(+this.$router.currentRoute.params.groupId);
+    this.items = await this.lotContext.actions.getFinishedLots(+this.$router.currentRoute.params.groupId);
   }
 }
 </script>

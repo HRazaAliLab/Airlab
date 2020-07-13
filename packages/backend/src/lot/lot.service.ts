@@ -137,7 +137,7 @@ export class LotService {
       .leftJoin("lot.provider", "provider")
       .addSelect(["provider.id", "provider.name"])
       .orderBy("lot.id", "DESC");
-    return !query.limit
+    return Object.keys(query).length === 0
       ? select.cache(`group_${groupId}_lots`, 1000 * 60 * 60).getMany()
       : select
           .andWhere("lot.status = :status", { status: Number(query.status) })

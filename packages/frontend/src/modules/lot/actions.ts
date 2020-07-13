@@ -98,6 +98,30 @@ export class LotActions extends Actions<LotState, LotGetters, LotMutations, LotA
     }
   }
 
+  async getRecentOrders(groupId: number) {
+    try {
+      return await api.getGroupLots(groupId, { limit: 10, status: 0 });
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
+
+  async getFinishedLots(groupId: number) {
+    try {
+      return await api.getGroupLots(groupId, { limit: 10, status: 6 });
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
+
+  async getLowLots(groupId: number) {
+    try {
+      return await api.getGroupLots(groupId, { limit: 10, status: 5 });
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
+
   async getLotConjugates(lotId: number) {
     try {
       return api.getLotConjugates(lotId);
