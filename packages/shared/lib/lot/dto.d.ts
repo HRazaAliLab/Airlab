@@ -54,5 +54,6 @@ export declare class UpdateLotDto {
 }
 export declare class UpdateLotStatusDto {
     readonly status: LotStatus;
+    readonly lotNumber?: string;
 }
 //# sourceMappingURL=dto.d.ts.map

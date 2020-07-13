@@ -7,7 +7,7 @@ import {
   Patch,
   Post,
   Request,
-  UnauthorizedException,
+  Query,
   UseGuards,
 } from "@nestjs/common";
 import { CloneService } from "./clone.service";
@@ -37,7 +37,7 @@ export class CloneController {
   @ApiOperation({ summary: "Create new clone." })
   @ApiCreatedResponse({ type: CloneDto })
   async create(@Request() req, @Body() params: CreateCloneDto) {
-    const member = await this.memberService.checkMemberPermissions(req.user.userId, params.groupId);
+    const member = await this.memberService.checkStandardMemberPermissions(req.user.userId, params.groupId);
     return this.cloneService.create({ ...params, createdBy: member.id });
   }
 
@@ -46,7 +46,7 @@ export class CloneController {
   @ApiOkResponse({ type: CloneDto })
   async findById(@Request() req, @Param("id") id: number) {
     const item = await this.cloneService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, item.groupId);
     return item;
   }
 
@@ -55,7 +55,7 @@ export class CloneController {
   @ApiOkResponse({ type: CloneDto })
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdateCloneDto) {
     const item = await this.cloneService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    await this.memberService.checkStandardMemberPermissions(req.user.userId, item.groupId);
     return this.cloneService.update(id, params);
   }
 
@@ -64,10 +64,7 @@ export class CloneController {
   @ApiOkResponse({ type: CloneDto })
   async updateArchiveState(@Request() req, @Param("id") id: number, @Body() params: UpdateStateDto) {
     const item = await this.cloneService.findById(id);
-    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
-    if (member.role < 100) {
-      throw new UnauthorizedException("Only group admins can perform this operation");
-    }
+    await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
     return this.cloneService.updateArchiveState(id, params);
   }
 
@@ -76,19 +73,20 @@ export class CloneController {
   @ApiOkResponse({ type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.cloneService.findById(id);
-    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
-    if (member.role < 100) {
-      throw new UnauthorizedException("Only group admins can perform this operation");
-    }
+    await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
     return this.cloneService.deleteById(id);
   }
 
   @Get("groups/:groupId/clones")
   @ApiOperation({ summary: "Find all clones belonging to the group." })
   @ApiOkResponse({ type: CloneDto, isArray: true })
-  async getGroupClones(@Request() req, @Param("groupId") groupId: number) {
-    await this.memberService.checkMemberPermissions(req.user.userId, groupId);
-    return this.cloneService.getGroupClones(groupId);
+  async getGroupClones(@Request() req, @Param("groupId") groupId: number, @Query() query) {
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, groupId);
+    if (query.filter && query.filter === "archived") {
+      return this.cloneService.getGroupArchivedClones(groupId);
+    } else {
+      return this.cloneService.getGroupClones(groupId);
+    }
   }
 
   @Get("clones/:id/lots")
@@ -96,7 +94,7 @@ export class CloneController {
   @ApiOkResponse({ type: LotDto, isArray: true })
   async findCloneLots(@Request() req, @Param("id") id: number) {
     const clone = await this.cloneService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, clone.groupId);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, clone.groupId);
     return this.lotService.getCloneLots(id);
   }
 
@@ -105,7 +103,7 @@ export class CloneController {
   @ApiOkResponse({ type: ValidationDto, isArray: true })
   async findCloneValidations(@Request() req, @Param("id") id: number) {
     const clone = await this.cloneService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, clone.groupId);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, clone.groupId);
     return this.validationService.getCloneValidations(id);
   }
 }

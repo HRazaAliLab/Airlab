@@ -116,6 +116,7 @@
               </v-chip>
             </template>
           </v-select>
+          <v-switch label="Show archived clones" @change="showArchivedChanged" />
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -518,18 +519,6 @@ export default class ClonesListView extends Vue {
     }`;
   }
 
-  async mounted() {
-    document.onkeydown = (evt) => {
-      if (this.drawer && evt.key === "Escape") {
-        this.drawer = false;
-      }
-    };
-    await Promise.all([
-      this.cloneContext.actions.getGroupClones(+this.$router.currentRoute.params.groupId),
-      this.speciesContext.actions.getGroupSpecies(+this.$router.currentRoute.params.groupId),
-    ]);
-  }
-
   async deleteClone(id: number) {
     if (self.confirm("Are you sure you want to delete the clone?")) {
       await this.cloneContext.actions.deleteClone(id);
@@ -565,6 +554,26 @@ export default class ClonesListView extends Vue {
   exportFile() {
     const csv = this.cloneContext.getters.getCsv(this.items);
     exportCsv(csv, "clones.csv");
+  }
+
+  async showArchivedChanged(value: boolean) {
+    if (value) {
+      await this.cloneContext.actions.getGroupArchivedClones(+this.$router.currentRoute.params.groupId);
+    } else {
+      await this.cloneContext.actions.getGroupClones(+this.$router.currentRoute.params.groupId);
+    }
+  }
+
+  async mounted() {
+    document.onkeydown = (evt) => {
+      if (this.drawer && evt.key === "Escape") {
+        this.drawer = false;
+      }
+    };
+    await Promise.all([
+      this.cloneContext.actions.getGroupClones(+this.$router.currentRoute.params.groupId),
+      this.speciesContext.actions.getGroupSpecies(+this.$router.currentRoute.params.groupId),
+    ]);
   }
 }
 </script>

@@ -1,6 +1,6 @@
 {
   "name": "@airlab/frontend",
-  "version": "2020.06.30",
+  "version": "2020.07.13",
   "private": true,
   "scripts": {
     "serve": "FRONTEND_ENV=development && VUE_APP_ENV=development && vue-cli-service serve",
@@ -12,7 +12,7 @@
     "@airlab/shared": "*",
     "core-js": "3.6.5",
     "file-saver": "2.0.2",
-    "ky": "0.20.0",
+    "ky": "0.21.0",
     "localforage": "1.7.4",
     "normalizr": "3.6.0",
     "rambda": "5.9.0",
@@ -21,10 +21,10 @@
     "vue-class-component": "7.2.3",
     "vue-property-decorator": "9.0.0",
     "vue-router": "3.3.4",
-    "vuetify": "2.3.3",
+    "vuetify": "2.3.4",
     "vuex": "3.5.1",
     "vuex-persist": "2.2.0",
-    "vuex-smart-module": "0.4.2"
+    "vuex-smart-module": "0.4.3"
   },
   "devDependencies": {
     "@mdi/font": "5.3.45",
@@ -40,12 +40,12 @@
     "deepmerge": "4.2.2",
     "eslint-plugin-vue": "6.2.2",
     "fibers": "5.0.0",
-    "sass": "1.26.9",
+    "sass": "1.26.10",
     "sass-loader": "8.0.2",
     "vue-cli-plugin-vuetify": "2.0.6",
     "vue-cli-plugin-webpack-bundle-analyzer": "2.0.0",
     "vue-masonry-css": "1.0.3",
     "vue-template-compiler": "2.6.11",
-    "vuetify-loader": "1.5.0"
+    "vuetify-loader": "1.6.0"
   }
 }

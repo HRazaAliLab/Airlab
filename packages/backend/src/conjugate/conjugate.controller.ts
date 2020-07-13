@@ -33,7 +33,7 @@ export class ConjugateController {
   @ApiOperation({ summary: "Create new conjugate." })
   @ApiCreatedResponse({ type: ConjugateDto })
   async create(@Request() req, @Body() params: CreateConjugateDto) {
-    const member = await this.memberService.checkMemberPermissions(req.user.userId, params.groupId);
+    const member = await this.memberService.checkStandardMemberPermissions(req.user.userId, params.groupId);
     return this.conjugateService.create({ ...params, createdBy: member.id });
   }
 
@@ -42,7 +42,7 @@ export class ConjugateController {
   @ApiOkResponse({ type: ConjugateDto })
   async findById(@Request() req, @Param("id") id: number) {
     const item = await this.conjugateService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, item.groupId);
     return item;
   }
 
@@ -51,7 +51,7 @@ export class ConjugateController {
   @ApiOkResponse({ type: ConjugateDto })
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdateConjugateDto) {
     const item = await this.conjugateService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    await this.memberService.checkStandardMemberPermissions(req.user.userId, item.groupId);
     return this.conjugateService.update(id, params);
   }
 
@@ -60,10 +60,7 @@ export class ConjugateController {
   @ApiOkResponse({ type: ConjugateDto })
   async updateArchiveState(@Request() req, @Param("id") id: number, @Body() params: UpdateStateDto) {
     const item = await this.conjugateService.findById(id);
-    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
-    if (member.role < 100) {
-      throw new UnauthorizedException("Only group admins can perform this operation");
-    }
+    await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
     return this.conjugateService.updateArchiveState(id, params);
   }
 
@@ -72,7 +69,7 @@ export class ConjugateController {
   @ApiOkResponse({ type: ConjugateDto })
   async updateStatus(@Request() req, @Param("id") id: number, @Body() params: UpdateConjugateStatusDto) {
     const item = await this.conjugateService.findById(id);
-    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    const member = await this.memberService.checkStandardMemberPermissions(req.user.userId, item.groupId);
     return this.conjugateService.updateStatus(id, member.id, params);
   }
 
@@ -81,10 +78,7 @@ export class ConjugateController {
   @ApiOkResponse({ type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.conjugateService.findById(id);
-    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
-    if (member.role < 100) {
-      throw new UnauthorizedException("Only group admins can perform this operation");
-    }
+    await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
     return this.conjugateService.deleteById(id);
   }
 
@@ -92,7 +86,7 @@ export class ConjugateController {
   @ApiOperation({ summary: "Find all conjugates belonging to the group." })
   @ApiOkResponse({ type: ConjugateDto, isArray: true })
   async getGroupConjugates(@Request() req, @Param("groupId") groupId: number) {
-    await this.memberService.checkMemberPermissions(req.user.userId, groupId);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, groupId);
     return this.conjugateService.getGroupConjugates(groupId);
   }
 }

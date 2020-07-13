@@ -70,6 +70,21 @@ export class CloneService {
       .getMany();
   }
 
+  async getGroupArchivedClones(groupId: number) {
+    return this.repository
+      .createQueryBuilder("clone")
+      .where("clone.groupId = :groupId", { groupId: groupId })
+      .andWhere("clone.isArchived = true")
+      .leftJoin("clone.protein", "protein")
+      .addSelect(["protein.id", "protein.name"])
+      .leftJoin("clone.species", "species")
+      .addSelect(["species.id", "species.name"])
+      .leftJoin("clone.validations", "validations")
+      .addSelect(["validations.id", "validations.application", "validations.status"])
+      .orderBy("clone.id", "DESC")
+      .getMany();
+  }
+
   async getProteinClones(proteinId: number) {
     return this.repository
       .createQueryBuilder("clone")

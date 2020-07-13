@@ -91,7 +91,7 @@ export class ValidationController {
   @Post("validations")
   @ApiCreatedResponse({ description: "Create entity.", type: ValidationDto })
   async create(@Request() req, @Body() params: CreateValidationDto) {
-    const member = await this.memberService.checkMemberPermissions(req.user.userId, params.groupId);
+    const member = await this.memberService.checkStandardMemberPermissions(req.user.userId, params.groupId);
     return this.validationService.create({ ...params, createdBy: member.id });
   }
 
@@ -99,7 +99,7 @@ export class ValidationController {
   @ApiOkResponse({ description: "Find entity by Id.", type: ValidationDto })
   async findById(@Request() req, @Param("id") id: number) {
     const item = await this.validationService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, item.groupId);
     return item;
   }
 
@@ -107,7 +107,7 @@ export class ValidationController {
   @ApiOkResponse({ description: "Updated entity.", type: ValidationDto })
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdateValidationDto) {
     const item = await this.validationService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    await this.memberService.checkStandardMemberPermissions(req.user.userId, item.groupId);
     return this.validationService.update(id, params);
   }
 
@@ -116,10 +116,7 @@ export class ValidationController {
   @ApiOkResponse({ type: ValidationDto })
   async updateArchiveState(@Request() req, @Param("id") id: number, @Body() params: UpdateStateDto) {
     const item = await this.validationService.findById(id);
-    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
-    if (member.role < 100) {
-      throw new UnauthorizedException("Only group admins can perform this operation");
-    }
+    await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
     return this.validationService.updateArchiveState(id, params);
   }
 
@@ -127,10 +124,7 @@ export class ValidationController {
   @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.validationService.findById(id);
-    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
-    if (member.role < 100) {
-      throw new UnauthorizedException("Only group admins can perform this operation");
-    }
+    await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
     return this.validationService.deleteById(id);
   }
 
@@ -141,7 +135,7 @@ export class ValidationController {
     isArray: true,
   })
   async getGroupValidations(@Request() req, @Param("groupId") groupId: number) {
-    await this.memberService.checkMemberPermissions(req.user.userId, groupId);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, groupId);
     return this.validationService.getGroupValidations(groupId);
   }
 
@@ -175,7 +169,7 @@ export class ValidationController {
     })
   )
   async upload(@Param("id") id: number, @Request() req, @UploadedFile() file, @Body() params: UploadValidationDto) {
-    const member = await this.memberService.checkMemberPermissions(req.user.userId, Number(params.groupId));
+    const member = await this.memberService.checkStandardMemberPermissions(req.user.userId, Number(params.groupId));
     const extension = extname(file.originalname);
     await this.validationService.clearCache(Number(params.groupId));
     const fileEntity = await this.validationFileService.create({

@@ -162,7 +162,7 @@
                   <v-list-item-title>Mark as Ordered</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item v-if="item.status !== 4 && isGroupAdmin" @click="updateLotStatus(item.id, 4)">
+              <v-list-item v-if="item.status !== 4 && isGroupAdmin" @click="updateLotStatusAndNumber(item.id, 4)">
                 <v-list-item-icon>
                   <v-icon color="green">mdi-flask-empty</v-icon>
                 </v-list-item-icon>
@@ -443,7 +443,7 @@ export default class LotsListView extends Vue {
       }
     };
     await Promise.all([
-      this.lotContext.actions.getGroupLots(+this.$router.currentRoute.params.groupId),
+      this.lotContext.actions.getGroupLots({ groupId: +this.$router.currentRoute.params.groupId }),
       this.providerContext.actions.getGroupProviders(+this.$router.currentRoute.params.groupId),
     ]);
   }
@@ -463,6 +463,13 @@ export default class LotsListView extends Vue {
   async updateLotStatus(id: number, status: LotStatus) {
     if (self.confirm(`Are you sure you want to change the lot status to ${LotStatus[status]}?`)) {
       await this.lotContext.actions.updateLotStatus({ id: id, data: { status: status } });
+    }
+  }
+
+  async updateLotStatusAndNumber(id: number, status: LotStatus) {
+    const lotNumber = self.prompt("Please enter lot number:");
+    if (lotNumber) {
+      await this.lotContext.actions.updateLotStatus({ id: id, data: { status: status, lotNumber: lotNumber } });
     }
   }
 

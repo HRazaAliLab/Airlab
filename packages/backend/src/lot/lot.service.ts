@@ -99,6 +99,7 @@ export class LotService {
       case LotStatus.Stock:
         data = {
           status: params.status,
+          number: params.lotNumber,
           receivedBy: memberId,
           receivedAt: now,
           updatedAt: now,
@@ -125,8 +126,9 @@ export class LotService {
     return item;
   }
 
-  async getGroupLots(groupId: number) {
-    return this.repository
+  async getGroupLots(groupId: number, query) {
+    console.log(query);
+    const select = this.repository
       .createQueryBuilder("lot")
       .where("lot.groupId = :groupId", { groupId: groupId })
       .andWhere("lot.isArchived = false")
@@ -134,9 +136,13 @@ export class LotService {
       .addSelect(["clone.id", "clone.name"])
       .leftJoin("lot.provider", "provider")
       .addSelect(["provider.id", "provider.name"])
-      .orderBy("lot.id", "DESC")
-      .cache(`group_${groupId}_lots`, 1000 * 60 * 60)
-      .getMany();
+      .orderBy("lot.id", "DESC");
+    return Object.keys(query).length === 0
+      ? select.cache(`group_${groupId}_lots`, 1000 * 60 * 60).getMany()
+      : select
+          .andWhere("lot.status = :status", { status: Number(query.status) })
+          .limit(Number(query.limit))
+          .getMany();
   }
 
   async getCloneLots(cloneId: number) {

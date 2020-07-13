@@ -32,7 +32,7 @@ export class SpeciesController {
   @Post("species")
   @ApiCreatedResponse({ description: "Create entity.", type: SpeciesDto })
   async create(@Request() req, @Body() params: CreateSpeciesDto) {
-    await this.memberService.checkMemberPermissions(req.user.userId, params.groupId);
+    await this.memberService.checkStandardMemberPermissions(req.user.userId, params.groupId);
     return this.speciesService.create({ ...params });
   }
 
@@ -40,7 +40,7 @@ export class SpeciesController {
   @ApiOkResponse({ description: "Find entity by Id.", type: SpeciesDto })
   async findById(@Request() req, @Param("id") id: number) {
     const item = await this.speciesService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, item.groupId);
     return item;
   }
 
@@ -48,7 +48,7 @@ export class SpeciesController {
   @ApiOkResponse({ description: "Updated entity.", type: SpeciesDto })
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdateSpeciesDto) {
     const item = await this.speciesService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    await this.memberService.checkStandardMemberPermissions(req.user.userId, item.groupId);
     return this.speciesService.update(id, params);
   }
 
@@ -56,17 +56,14 @@ export class SpeciesController {
   @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.speciesService.findById(id);
-    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
-    if (member.role < 100) {
-      throw new UnauthorizedException("Only group admins can perform this operation");
-    }
+    await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
     return this.speciesService.deleteById(id);
   }
 
   @Get("groups/:groupId/species")
   @ApiOkResponse({ description: "Find all species for the group.", type: SpeciesDto, isArray: true })
   async getGroupSpecies(@Request() req, @Param("groupId") groupId: number) {
-    await this.memberService.checkMemberPermissions(req.user.userId, groupId);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, groupId);
     return this.speciesService.getGroupSpecies(groupId);
   }
 
@@ -78,7 +75,7 @@ export class SpeciesController {
   })
   async getSpeciesClones(@Request() req, @Param("id") id: number) {
     const species = await this.speciesService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, species.groupId);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, species.groupId);
     return this.cloneService.getSpeciesClones(id);
   }
 }

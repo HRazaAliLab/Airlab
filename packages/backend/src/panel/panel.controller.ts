@@ -42,7 +42,7 @@ export class PanelController {
   @ApiOperation({ summary: "Create entity." })
   @ApiCreatedResponse({ type: PanelDto })
   async create(@Request() req, @Body() params: CreatePanelDto) {
-    const member = await this.memberService.checkMemberPermissions(req.user.userId, params.groupId);
+    const member = await this.memberService.checkStandardMemberPermissions(req.user.userId, params.groupId);
     return this.panelService.create({ ...params, createdBy: member.id });
   }
 
@@ -51,7 +51,7 @@ export class PanelController {
   @ApiOkResponse({ type: PanelDto })
   async findById(@Request() req, @Param("id") id: number) {
     const item = await this.panelService.findById(id);
-    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    const member = await this.memberService.checkGuestMemberPermissions(req.user.userId, item.groupId);
     if (!member.allPanels && item.createdBy !== member.id) {
       throw new UnauthorizedException("You can access only your own panels");
     }
@@ -63,7 +63,7 @@ export class PanelController {
   @ApiOkResponse({ type: PanelDto })
   async update(@Request() req, @Param("id") id: number, @Body() params: UpdatePanelDto) {
     const item = await this.panelService.findById(id);
-    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    const member = await this.memberService.checkStandardMemberPermissions(req.user.userId, item.groupId);
     if (!member.allPanels && item.createdBy !== member.id) {
       throw new UnauthorizedException("You can access only your own panels");
     }
@@ -75,10 +75,7 @@ export class PanelController {
   @ApiOkResponse({ type: PanelDto })
   async updateArchiveState(@Request() req, @Param("id") id: number, @Body() params: UpdateStateDto) {
     const item = await this.panelService.findById(id);
-    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
-    if (member.role < 100 || !member.allPanels) {
-      throw new UnauthorizedException("Only group admins can perform this operation");
-    }
+    await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
     return this.panelService.updateArchiveState(id, params);
   }
 
@@ -86,7 +83,7 @@ export class PanelController {
   @ApiOperation({ summary: "Duplicate entity." })
   @ApiOkResponse({ type: PanelDto })
   async duplicate(@Request() req, @Param("id") id: number, @Body() params: DuplicatePanelDto) {
-    const member = await this.memberService.checkMemberPermissions(req.user.userId, params.groupId);
+    const member = await this.memberService.checkStandardMemberPermissions(req.user.userId, params.groupId);
     return this.panelService.duplicate(id, { ...params, createdBy: member.id });
   }
 
@@ -95,10 +92,7 @@ export class PanelController {
   @ApiOkResponse({ type: Number })
   async deleteById(@Request() req, @Param("id") id: number) {
     const item = await this.panelService.findById(id);
-    const member = await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
-    if (member.role < 100 || !member.allPanels) {
-      throw new UnauthorizedException("Only group admins can perform this operation");
-    }
+    await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
     return this.panelService.deleteById(id);
   }
 
@@ -107,7 +101,7 @@ export class PanelController {
   @ApiOkResponse({ type: PanelElementDataDto, isArray: true })
   async findPanelElements(@Request() req, @Param("id") id: number) {
     const item = await this.panelService.findById(id);
-    await this.memberService.checkMemberPermissions(req.user.userId, item.groupId);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, item.groupId);
     return this.panelElementService.findPanelElements(id);
   }
 
@@ -115,7 +109,7 @@ export class PanelController {
   @ApiOperation({ summary: "Find all panels for the group." })
   @ApiOkResponse({ type: PanelDto, isArray: true })
   async getGroupPanels(@Request() req, @Param("groupId") groupId: number) {
-    const member = await this.memberService.checkMemberPermissions(req.user.userId, groupId);
+    const member = await this.memberService.checkGuestMemberPermissions(req.user.userId, groupId);
     return member.allPanels
       ? this.panelService.getGroupPanels(groupId)
       : this.panelService.getPersonalGroupPanels(groupId, member.id);
@@ -126,7 +120,7 @@ export class PanelController {
   @ApiOkResponse({ type: PanelDto, isArray: true })
   async getConjugatePanels(@Request() req, @Param("conjugateId") conjugateId: number) {
     const conjugate = await this.conjugateService.findById(conjugateId);
-    await this.memberService.checkMemberPermissions(req.user.userId, conjugate.groupId);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, conjugate.groupId);
     return this.panelService.getConjugatePanels(conjugateId);
   }
 }

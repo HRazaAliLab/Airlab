@@ -181,4 +181,9 @@ export class UpdateLotStatusDto {
   @Max(6)
   @ApiProperty()
   readonly status: LotStatus;
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly lotNumber?: string;
 }

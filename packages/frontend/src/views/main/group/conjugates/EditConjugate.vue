@@ -131,7 +131,7 @@ export default class EditConjugate extends Vue {
   async mounted() {
     await Promise.all([
       this.conjugateContext.actions.getConjugate(+this.$router.currentRoute.params.id),
-      this.lotContext.actions.getGroupLots(+this.$router.currentRoute.params.groupId),
+      this.lotContext.actions.getGroupLots({ groupId: +this.$router.currentRoute.params.groupId }),
       this.tagContext.actions.getGroupTags(+this.$router.currentRoute.params.groupId),
       this.memberContext.actions.getGroupMembers(+this.$router.currentRoute.params.groupId),
     ]);
