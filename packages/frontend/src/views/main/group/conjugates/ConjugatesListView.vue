@@ -2,9 +2,7 @@
   <LoadingView v-if="!items" text="Loading conjugates..." />
   <v-col v-else>
     <v-toolbar dense class="toolbar">
-      <v-toolbar-title>
-        Conjugates
-      </v-toolbar-title>
+      <v-toolbar-title>Conjugates</v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
         <v-btn text :to="`/main/groups/${activeGroupId}/conjugates/create`" color="primary">Create Conjugate</v-btn>

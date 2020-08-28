@@ -24,9 +24,7 @@
       >
         Edit
       </v-btn>
-      <v-btn v-if="isGroupAdmin" color="secondary" text @click="deleteProvider()">
-        Delete
-      </v-btn>
+      <v-btn v-if="isGroupAdmin" color="secondary" text @click="deleteProvider()">Delete</v-btn>
     </v-card-actions>
   </v-card>
 </template>

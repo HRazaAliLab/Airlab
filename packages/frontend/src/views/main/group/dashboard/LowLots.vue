@@ -1,8 +1,6 @@
 <template>
   <v-card>
-    <v-card-title>
-      Low Lots
-    </v-card-title>
+    <v-card-title>Low Lots</v-card-title>
     <v-card-text>
       <v-data-table
         :headers="headers"

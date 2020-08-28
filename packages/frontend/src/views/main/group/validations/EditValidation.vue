@@ -1,9 +1,7 @@
 <template>
   <v-container fluid>
     <v-toolbar dense>
-      <v-toolbar-title>
-        Edit Validation
-      </v-toolbar-title>
+      <v-toolbar-title>Edit Validation</v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
         <v-btn @click="cancel" text color="primary">Cancel</v-btn>
@@ -16,50 +14,24 @@
         <v-form v-model="valid" ref="form">
           <v-row>
             <v-col>
-              <div class="text-subtitle-1">
-                Application
-              </div>
+              <div class="text-subtitle-1">Application</div>
               <v-btn-toggle v-model="application" mandatory>
-                <v-btn small value="0">
-                  SMC
-                </v-btn>
-                <v-btn small value="1">
-                  IMC
-                </v-btn>
-                <v-btn small value="2">
-                  FC
-                </v-btn>
-                <v-btn small value="3">
-                  IF
-                </v-btn>
-                <v-btn small value="4">
-                  IHC
-                </v-btn>
-                <v-btn small value="5">
-                  IHCF
-                </v-btn>
-                <v-btn small value="6">
-                  WB
-                </v-btn>
+                <v-btn small value="0">SMC</v-btn>
+                <v-btn small value="1">IMC</v-btn>
+                <v-btn small value="2">FC</v-btn>
+                <v-btn small value="3">IF</v-btn>
+                <v-btn small value="4">IHC</v-btn>
+                <v-btn small value="5">IHCF</v-btn>
+                <v-btn small value="6">WB</v-btn>
               </v-btn-toggle>
             </v-col>
             <v-col>
-              <div class="text-subtitle-1">
-                Status
-              </div>
+              <div class="text-subtitle-1">Status</div>
               <v-btn-toggle v-model="status" mandatory>
-                <v-btn small value="0">
-                  Yes
-                </v-btn>
-                <v-btn small value="1">
-                  So-So
-                </v-btn>
-                <v-btn small value="2">
-                  No
-                </v-btn>
-                <v-btn small value="3">
-                  Undefined
-                </v-btn>
+                <v-btn small value="0">Yes</v-btn>
+                <v-btn small value="1">So-So</v-btn>
+                <v-btn small value="2">No</v-btn>
+                <v-btn small value="3">Undefined</v-btn>
               </v-btn-toggle>
             </v-col>
           </v-row>
@@ -185,15 +157,9 @@
               <v-col cols="2">Saponin</v-col>
               <v-col cols="3">
                 <v-btn-toggle v-model="saponin" mandatory>
-                  <v-btn small value="true">
-                    Yes
-                  </v-btn>
-                  <v-btn small value="false">
-                    No
-                  </v-btn>
-                  <v-btn small value="null">
-                    Not tested
-                  </v-btn>
+                  <v-btn small value="true">Yes</v-btn>
+                  <v-btn small value="false">No</v-btn>
+                  <v-btn small value="null">Not tested</v-btn>
                 </v-btn-toggle>
               </v-col>
               <v-col>
@@ -204,15 +170,9 @@
               <v-col cols="2">Methanol treatment</v-col>
               <v-col cols="3">
                 <v-btn-toggle v-model="methanolTreatment" mandatory>
-                  <v-btn small value="true">
-                    Yes
-                  </v-btn>
-                  <v-btn small value="false">
-                    No
-                  </v-btn>
-                  <v-btn small value="null">
-                    Not tested
-                  </v-btn>
+                  <v-btn small value="true">Yes</v-btn>
+                  <v-btn small value="false">No</v-btn>
+                  <v-btn small value="null">Not tested</v-btn>
                 </v-btn-toggle>
               </v-col>
               <v-col>
@@ -223,15 +183,9 @@
               <v-col cols="2">Surface staining</v-col>
               <v-col cols="3">
                 <v-btn-toggle v-model="surfaceStaining" mandatory>
-                  <v-btn small value="true">
-                    Yes
-                  </v-btn>
-                  <v-btn small value="false">
-                    No
-                  </v-btn>
-                  <v-btn small value="null">
-                    Not tested
-                  </v-btn>
+                  <v-btn small value="true">Yes</v-btn>
+                  <v-btn small value="false">No</v-btn>
+                  <v-btn small value="null">Not tested</v-btn>
                 </v-btn-toggle>
               </v-col>
               <v-col>
@@ -277,9 +231,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer />
-        <v-btn @click="upload" :disabled="!file">
-          Upload
-        </v-btn>
+        <v-btn @click="upload" :disabled="!file">Upload</v-btn>
       </v-card-actions>
     </v-card>
   </v-container>

@@ -2,9 +2,7 @@
   <LoadingView v-if="!items" text="Loading proteins..." />
   <v-col v-else>
     <v-toolbar dense class="toolbar">
-      <v-toolbar-title>
-        Proteins
-      </v-toolbar-title>
+      <v-toolbar-title>Proteins</v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
         <v-btn text :to="`/main/groups/${activeGroupId}/proteins/create`" color="primary">Create Protein</v-btn>

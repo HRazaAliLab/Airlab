@@ -9,9 +9,7 @@
       <span>Scroll to top</span>
     </v-tooltip>
     <v-toolbar dense>
-      <v-toolbar-title>
-        Edit Panel
-      </v-toolbar-title>
+      <v-toolbar-title>Edit Panel</v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
         <v-btn @click="cancel" text color="primary">Cancel</v-btn>
@@ -26,31 +24,15 @@
           <v-form v-model="valid" ref="form">
             <v-text-field label="Name" v-model="name" :rules="nameRules" />
             <v-text-field label="Description" v-model="description" :rules="descriptionRules" />
-            <div class="text-subtitle-1">
-              Application
-            </div>
+            <div class="text-subtitle-1">Application</div>
             <v-btn-toggle v-model="application">
-              <v-btn small value="0">
-                SMC
-              </v-btn>
-              <v-btn small value="1">
-                IMC
-              </v-btn>
-              <v-btn small value="2">
-                FC
-              </v-btn>
-              <v-btn small value="3">
-                IF
-              </v-btn>
-              <v-btn small value="4">
-                IHC
-              </v-btn>
-              <v-btn small value="5">
-                IHCF
-              </v-btn>
-              <v-btn small value="6">
-                WB
-              </v-btn>
+              <v-btn small value="0">SMC</v-btn>
+              <v-btn small value="1">IMC</v-btn>
+              <v-btn small value="2">FC</v-btn>
+              <v-btn small value="3">IF</v-btn>
+              <v-btn small value="4">IHC</v-btn>
+              <v-btn small value="5">IHCF</v-btn>
+              <v-btn small value="6">WB</v-btn>
             </v-btn-toggle>
             <v-checkbox label="Fluorophore" v-model="isFluorophore" />
             <v-checkbox label="Locked" v-model="isLocked" />

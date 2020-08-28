@@ -10,9 +10,7 @@
       <span>Scroll to top</span>
     </v-tooltip>
     <v-toolbar dense class="toolbar">
-      <v-toolbar-title class="toolbar-item-margin">
-        Panel View
-      </v-toolbar-title>
+      <v-toolbar-title class="toolbar-item-margin">Panel View</v-toolbar-title>
       <v-spacer />
       <v-text-field
         v-model.number="totalVolume"
@@ -22,7 +20,7 @@
         outlined
         dense
         class="toolbar-text-field toolbar-item-margin"
-        style="width: 50px;"
+        style="width: 50px"
       />
       <v-text-field
         :value="diluentVolume"
@@ -43,9 +41,7 @@
         <v-divider vertical />
         <v-menu offset-y>
           <template v-slot:activator="{ on }">
-            <v-btn text v-on="on" color="primary">
-              Export
-            </v-btn>
+            <v-btn text v-on="on" color="primary">Export</v-btn>
           </template>
           <v-list>
             <v-list-item @click="exportCsv">
@@ -200,12 +196,8 @@
             {{ item.dilutionType === 1 ? "1/__" : "µg/mL" }}
             <template v-slot:input>
               <v-btn-toggle v-model.number="item.dilutionType">
-                <v-btn small value="0">
-                  µg/mL
-                </v-btn>
-                <v-btn small value="1">
-                  1/__
-                </v-btn>
+                <v-btn small value="0"> µg/mL </v-btn>
+                <v-btn small value="1"> 1/__ </v-btn>
               </v-btn-toggle>
             </template>
           </v-edit-dialog>

@@ -36,24 +36,18 @@
               </div>
               <v-row>
                 <v-col class="text-caption text-right py-0">
-                  <router-link to="/recover-password">
-                    Recover password
-                  </router-link>
+                  <router-link to="/recover-password">Recover password</router-link>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col class="text-caption text-right py-0">
-                  <router-link to="/signup">
-                    Register an account
-                  </router-link>
+                  <router-link to="/signup">Register an account</router-link>
                 </v-col>
               </v-row>
             </v-card-text>
             <v-card-actions>
               <v-spacer />
-              <v-btn @click.prevent="submit">
-                Login
-              </v-btn>
+              <v-btn @click.prevent="submit">Login</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>

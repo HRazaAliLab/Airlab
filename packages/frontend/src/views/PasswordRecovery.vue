@@ -8,9 +8,7 @@
               <v-toolbar-title>{{ appName }} - Password Recovery</v-toolbar-title>
             </v-toolbar>
             <v-card-text>
-              <p class="subtitle-3">
-                A password recovery email will be sent to the registered account
-              </p>
+              <p class="subtitle-3">A password recovery email will be sent to the registered account</p>
               <v-form @keyup.enter="submit" v-model="valid" ref="form" @submit.prevent="" lazy-validation>
                 <v-text-field
                   @keyup.enter="submit"
@@ -25,9 +23,7 @@
             <v-card-actions>
               <v-spacer />
               <v-btn @click="cancel">Cancel</v-btn>
-              <v-btn @click.prevent="submit" :disabled="!valid">
-                Recover Password
-              </v-btn>
+              <v-btn @click.prevent="submit" :disabled="!valid">Recover Password</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>

@@ -1,8 +1,6 @@
 <template>
   <v-card tile>
-    <v-card-title>
-      Tags
-    </v-card-title>
+    <v-card-title>Tags</v-card-title>
     <v-toolbar dense flat>
       <v-text-field v-model="search" label="Search tags" single-line hide-details clearable dense>
         <template v-slot:append-outer>

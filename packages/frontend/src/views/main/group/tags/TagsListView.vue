@@ -1,9 +1,7 @@
 <template>
   <v-col>
     <v-toolbar dense class="toolbar">
-      <v-toolbar-title>
-        Tags
-      </v-toolbar-title>
+      <v-toolbar-title>Tags</v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
         <v-btn text :to="`/main/groups/${activeGroupId}/tags/create`" color="primary">Create Tag</v-btn>

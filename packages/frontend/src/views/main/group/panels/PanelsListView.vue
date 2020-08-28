@@ -2,9 +2,7 @@
   <LoadingView v-if="!items" text="Loading panels..." />
   <v-col v-else>
     <v-toolbar dense class="toolbar">
-      <v-toolbar-title>
-        Panels
-      </v-toolbar-title>
+      <v-toolbar-title>Panels</v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
         <v-btn text :to="`/main/groups/${activeGroupId}/panels/create`" color="primary">Create Panel</v-btn>

@@ -7,19 +7,11 @@
       <v-card-text>
         <template>
           <v-form v-model="valid" ref="form" lazy-validation>
-            <div class="text-subtitle-1">
-              Role
-            </div>
+            <div class="text-subtitle-1">Role</div>
             <v-btn-toggle v-model="role">
-              <v-btn small value="100">
-                Admin
-              </v-btn>
-              <v-btn small value="10">
-                Standard
-              </v-btn>
-              <v-btn small value="0">
-                Guest
-              </v-btn>
+              <v-btn small value="100">Admin</v-btn>
+              <v-btn small value="10">Standard</v-btn>
+              <v-btn small value="0">Guest</v-btn>
             </v-btn-toggle>
             <v-checkbox label="Active" v-model="isActive" hint="Access is permited" />
             <v-row>
@@ -32,9 +24,7 @@
         <v-spacer />
         <v-btn @click="cancel">Cancel</v-btn>
         <v-btn @click="reset">Reset</v-btn>
-        <v-btn @click="submit" :disabled="!valid">
-          Save
-        </v-btn>
+        <v-btn @click="submit" :disabled="!valid">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-container>

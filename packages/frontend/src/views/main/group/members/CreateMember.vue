@@ -1,9 +1,7 @@
 <template>
   <v-container fluid>
     <v-toolbar dense>
-      <v-toolbar-title>
-        Create Group Member
-      </v-toolbar-title>
+      <v-toolbar-title>Create Group Member</v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
         <v-btn @click="cancel" text color="primary">Cancel</v-btn>
@@ -24,19 +22,11 @@
               :rules="userRules"
               dense
             />
-            <div class="text-subtitle-1">
-              Role
-            </div>
+            <div class="text-subtitle-1">Role</div>
             <v-btn-toggle v-model="role">
-              <v-btn small value="100">
-                Admin
-              </v-btn>
-              <v-btn small value="10">
-                Standard
-              </v-btn>
-              <v-btn small value="0">
-                Guest
-              </v-btn>
+              <v-btn small value="100">Admin</v-btn>
+              <v-btn small value="10">Standard</v-btn>
+              <v-btn small value="0">Guest</v-btn>
             </v-btn-toggle>
             <v-checkbox label="Active" v-model="isActive" hint="Access is permited" />
             <v-row>

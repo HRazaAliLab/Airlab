@@ -1,9 +1,7 @@
 <template>
   <v-container fluid>
     <v-toolbar dense>
-      <v-toolbar-title>
-        Create Clone
-      </v-toolbar-title>
+      <v-toolbar-title> Create Clone </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
         <v-btn @click="cancel" text color="primary">Cancel</v-btn>
@@ -39,9 +37,7 @@
           <v-checkbox label="Phosphoantibody" v-model="isPhospho" />
           <v-row>
             <v-col cols="4">
-              <div class="text-subtitle-1">
-                Reactivity
-              </div>
+              <div class="text-subtitle-1">Reactivity</div>
               <v-chip-group v-model="reactivity" multiple column active-class="primary--text">
                 <v-chip v-for="item in species" :key="item.id" :value="item.id" small label>
                   {{ item.name }}
@@ -50,99 +46,55 @@
             </v-col>
             <v-col />
             <v-col cols="7">
-              <div class="text-subtitle-1">
-                Application
-              </div>
+              <div class="text-subtitle-1">Application</div>
               <v-row>
                 <v-col>
-                  <div class="subtitle-3">
-                    SMC
-                  </div>
+                  <div class="subtitle-3">SMC</div>
                   <v-btn-toggle v-model="smcApplication">
-                    <v-btn small value="true" active-class="true">
-                      Yes
-                    </v-btn>
-                    <v-btn small value="false" active-class="false">
-                      No
-                    </v-btn>
+                    <v-btn small value="true" active-class="true">Yes</v-btn>
+                    <v-btn small value="false" active-class="false">No</v-btn>
                   </v-btn-toggle>
                 </v-col>
                 <v-col>
-                  <div class="subtitle-3">
-                    IMC
-                  </div>
+                  <div class="subtitle-3">IMC</div>
                   <v-btn-toggle v-model="imcApplication">
-                    <v-btn small value="true" active-class="true">
-                      Yes
-                    </v-btn>
-                    <v-btn small value="false" active-class="false">
-                      No
-                    </v-btn>
+                    <v-btn small value="true" active-class="true">Yes</v-btn>
+                    <v-btn small value="false" active-class="false">No</v-btn>
                   </v-btn-toggle>
                 </v-col>
                 <v-col>
-                  <div class="subtitle-3">
-                    FC
-                  </div>
+                  <div class="subtitle-3">FC</div>
                   <v-btn-toggle v-model="fcApplication">
-                    <v-btn small value="true" active-class="true">
-                      Yes
-                    </v-btn>
-                    <v-btn small value="false" active-class="false">
-                      No
-                    </v-btn>
+                    <v-btn small value="true" active-class="true">Yes</v-btn>
+                    <v-btn small value="false" active-class="false">No</v-btn>
                   </v-btn-toggle>
                 </v-col>
                 <v-col>
-                  <div class="subtitle-3">
-                    IF
-                  </div>
+                  <div class="subtitle-3">IF</div>
                   <v-btn-toggle v-model="ifApplication">
-                    <v-btn small value="true" active-class="true">
-                      Yes
-                    </v-btn>
-                    <v-btn small value="false" active-class="false">
-                      No
-                    </v-btn>
+                    <v-btn small value="true" active-class="true">Yes</v-btn>
+                    <v-btn small value="false" active-class="false">No</v-btn>
                   </v-btn-toggle>
                 </v-col>
                 <v-col>
-                  <div class="subtitle-3">
-                    IHC
-                  </div>
+                  <div class="subtitle-3">IHC</div>
                   <v-btn-toggle v-model="ihcApplication">
-                    <v-btn small value="true" active-class="true">
-                      Yes
-                    </v-btn>
-                    <v-btn small value="false" active-class="false">
-                      No
-                    </v-btn>
+                    <v-btn small value="true" active-class="true">Yes</v-btn>
+                    <v-btn small value="false" active-class="false">No</v-btn>
                   </v-btn-toggle>
                 </v-col>
                 <v-col>
-                  <div class="subtitle-3">
-                    IHC-F
-                  </div>
+                  <div class="subtitle-3">IHC-F</div>
                   <v-btn-toggle v-model="ihcfApplication">
-                    <v-btn small value="true" active-class="true">
-                      Yes
-                    </v-btn>
-                    <v-btn small value="false" active-class="false">
-                      No
-                    </v-btn>
+                    <v-btn small value="true" active-class="true">Yes</v-btn>
+                    <v-btn small value="false" active-class="false">No</v-btn>
                   </v-btn-toggle>
                 </v-col>
                 <v-col>
-                  <div class="subtitle-3">
-                    WB
-                  </div>
+                  <div class="subtitle-3">WB</div>
                   <v-btn-toggle v-model="wbApplication">
-                    <v-btn small value="true" active-class="true">
-                      Yes
-                    </v-btn>
-                    <v-btn small value="false" active-class="false">
-                      No
-                    </v-btn>
+                    <v-btn small value="true" active-class="true">Yes</v-btn>
+                    <v-btn small value="false" active-class="false">No</v-btn>
                   </v-btn-toggle>
                 </v-col>
               </v-row>

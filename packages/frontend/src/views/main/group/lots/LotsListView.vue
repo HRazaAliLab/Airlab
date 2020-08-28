@@ -2,9 +2,7 @@
   <LoadingView v-if="!items" text="Loading lots..." />
   <v-col v-else>
     <v-toolbar dense class="toolbar">
-      <v-toolbar-title>
-        Lots
-      </v-toolbar-title>
+      <v-toolbar-title>Lots</v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
         <v-btn text @click="exportFile()" color="primary">Export CSV</v-btn>

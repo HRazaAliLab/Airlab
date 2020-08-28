@@ -4,7 +4,7 @@
       <v-row no-gutters>
         <v-col>
           <h5 class="text-h5">{{ group.name }}</h5>
-          <span class="text-caption"><v-icon small>mdi-link</v-icon> {{ group.url }}</span>
+          <span class="text-caption"><v-icon small>mdi-link</v-icon>{{ group.url }}</span>
         </v-col>
       </v-row>
     </v-card-title>
@@ -19,9 +19,7 @@
       >
         Open
       </v-btn>
-      <v-btn v-else-if="group.isOpen" color="primary" @click="joinGroup()">
-        Request Access
-      </v-btn>
+      <v-btn v-else-if="group.isOpen" color="primary" @click="joinGroup()">Request Access</v-btn>
     </v-card-actions>
   </v-card>
 </template>

@@ -3,9 +3,7 @@
     <v-progress-circular class="ma-2" indeterminate v-show="showProgress"></v-progress-circular>
     {{ currentNotificationContent }}
     <template v-slot:action="{ attrs }">
-      <v-btn text v-bind="attrs" @click="close">
-        Close
-      </v-btn>
+      <v-btn text v-bind="attrs" @click="close">Close</v-btn>
     </template>
   </v-snackbar>
 </template>

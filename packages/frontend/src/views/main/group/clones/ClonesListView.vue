@@ -2,9 +2,7 @@
   <LoadingView v-if="!items" text="Loading clones..." />
   <v-col v-else>
     <v-toolbar dense class="toolbar">
-      <v-toolbar-title>
-        Clones
-      </v-toolbar-title>
+      <v-toolbar-title>Clones</v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
         <v-btn text @click="exportFile()" color="primary">Export CSV</v-btn>
@@ -177,27 +175,13 @@
         </template>
         <template v-slot:item.application="{ item }">
           <v-chip-group v-if="item.application" multiple column active-class="primary--text">
-            <v-chip v-if="item.application[applicationMap.sMC]" x-small pill disabled class="mr-1">
-              SMC
-            </v-chip>
-            <v-chip v-if="item.application[applicationMap.iMC]" x-small pill disabled class="mr-1">
-              IMC
-            </v-chip>
-            <v-chip v-if="item.application[applicationMap.FC]" x-small pill disabled class="mr-1">
-              FC
-            </v-chip>
-            <v-chip v-if="item.application[applicationMap.IF]" x-small pill disabled class="mr-1">
-              IF
-            </v-chip>
-            <v-chip v-if="item.application[applicationMap.IHC]" x-small pill disabled class="mr-1">
-              IHC
-            </v-chip>
-            <v-chip v-if="item.application[applicationMap.IHCF]" x-small pill disabled class="mr-1">
-              IHC-F
-            </v-chip>
-            <v-chip v-if="item.application[applicationMap.WB]" x-small pill disabled class="mr-1">
-              WB
-            </v-chip>
+            <v-chip v-if="item.application[applicationMap.sMC]" x-small pill disabled class="mr-1"> SMC </v-chip>
+            <v-chip v-if="item.application[applicationMap.iMC]" x-small pill disabled class="mr-1"> IMC </v-chip>
+            <v-chip v-if="item.application[applicationMap.FC]" x-small pill disabled class="mr-1"> FC </v-chip>
+            <v-chip v-if="item.application[applicationMap.IF]" x-small pill disabled class="mr-1"> IF </v-chip>
+            <v-chip v-if="item.application[applicationMap.IHC]" x-small pill disabled class="mr-1"> IHC </v-chip>
+            <v-chip v-if="item.application[applicationMap.IHCF]" x-small pill disabled class="mr-1"> IHC-F </v-chip>
+            <v-chip v-if="item.application[applicationMap.WB]" x-small pill disabled class="mr-1"> WB </v-chip>
           </v-chip-group>
         </template>
         <template v-slot:item.validations="{ item }">

@@ -8,7 +8,7 @@
         </template>
       </v-text-field>
       <v-spacer />
-      <v-switch v-model="showEmpty" label="Show empty" hide-details inset dense class="ml-2" style="width: 250px;" />
+      <v-switch v-model="showEmpty" label="Show empty" hide-details inset dense class="ml-2" style="width: 250px" />
       <v-select
         v-model="sortBy"
         flat

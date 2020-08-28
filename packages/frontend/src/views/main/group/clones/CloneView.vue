@@ -38,35 +38,17 @@
       <div><span class="subheader">Epitope: </span>{{ clone.epitope }}</div>
       <div><span class="subheader">Polyclonal: </span>{{ clone.isPolyclonal }}</div>
       <div><span class="subheader">Phospho: </span>{{ clone.isPhospho }}</div>
-      <div class="subheader">
-        Application:
-      </div>
+      <div class="subheader">Application:</div>
       <v-chip-group multiple column active-class="primary--text">
-        <v-chip :color="getApplicationColor(applicationMap.sMC)" small disabled class="chip">
-          SMC
-        </v-chip>
-        <v-chip :color="getApplicationColor(applicationMap.iMC)" small disabled class="chip">
-          IMC
-        </v-chip>
-        <v-chip :color="getApplicationColor(applicationMap.FC)" small disabled class="chip">
-          FC
-        </v-chip>
-        <v-chip :color="getApplicationColor(applicationMap.IF)" small disabled class="chip">
-          IF
-        </v-chip>
-        <v-chip :color="getApplicationColor(applicationMap.IHC)" small disabled class="chip">
-          IHC
-        </v-chip>
-        <v-chip :color="getApplicationColor(applicationMap.IHCF)" small disabled class="chip">
-          IHC-F
-        </v-chip>
-        <v-chip :color="getApplicationColor(applicationMap.WB)" small disabled class="chip">
-          WB
-        </v-chip>
+        <v-chip :color="getApplicationColor(applicationMap.sMC)" small disabled class="chip">SMC</v-chip>
+        <v-chip :color="getApplicationColor(applicationMap.iMC)" small disabled class="chip">IMC</v-chip>
+        <v-chip :color="getApplicationColor(applicationMap.FC)" small disabled class="chip">FC</v-chip>
+        <v-chip :color="getApplicationColor(applicationMap.IF)" small disabled class="chip">IF</v-chip>
+        <v-chip :color="getApplicationColor(applicationMap.IHC)" small disabled class="chip">IHC</v-chip>
+        <v-chip :color="getApplicationColor(applicationMap.IHCF)" small disabled class="chip">IHC-F</v-chip>
+        <v-chip :color="getApplicationColor(applicationMap.WB)" small disabled class="chip">WB</v-chip>
       </v-chip-group>
-      <div class="subheader">
-        Reactivity:
-      </div>
+      <div class="subheader">Reactivity:</div>
       <v-chip-group :value="clone.reactivity" multiple column active-class="primary--text">
         <v-chip v-for="s in species" :key="s.id" :value="s.id" label small disabled class="chip">
           {{ s.name }}
@@ -87,9 +69,7 @@
       >
         Edit
       </v-btn>
-      <v-btn v-if="isGroupAdmin" color="secondary" text @click="deleteClone()">
-        Delete
-      </v-btn>
+      <v-btn v-if="isGroupAdmin" color="secondary" text @click="deleteClone()">Delete</v-btn>
     </v-card-actions>
   </v-card>
 </template>
