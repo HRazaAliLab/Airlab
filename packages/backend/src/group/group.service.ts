@@ -390,6 +390,7 @@ export class GroupService {
       item.groupId = newGroupId;
       item.createdBy = membersIdMap.get(item.createdBy);
       item.labeledBy = membersIdMap.get(item.labeledBy);
+      item.finishedBy = membersIdMap.get(item.finishedBy);
       item.lotId = lotsIdMap.get(item.lotId);
       item.tagId = tagsIdMap.get(item.tagId);
       const conjugate = await this.conjugateService.import(item);

@@ -70,6 +70,11 @@ export class CreateConjugate1573050643464 implements MigrationInterface {
             default: false,
           },
           {
+            name: "custom_id",
+            type: "varchar",
+            isNullable: true,
+          },
+          {
             name: "meta",
             type: "jsonb",
             isNullable: true,

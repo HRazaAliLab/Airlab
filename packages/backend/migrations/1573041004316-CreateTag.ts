@@ -21,12 +21,32 @@ export class CreateTag1573041004316 implements MigrationInterface {
             type: "varchar",
           },
           {
+            name: "description",
+            type: "varchar",
+            isNullable: true,
+          },
+          {
             name: "is_metal",
             type: "boolean",
             default: false,
           },
           {
             name: "is_fluorophore",
+            type: "boolean",
+            default: false,
+          },
+          {
+            name: "is_enzyme",
+            type: "boolean",
+            default: false,
+          },
+          {
+            name: "is_biotin",
+            type: "boolean",
+            default: false,
+          },
+          {
+            name: "is_other",
             type: "boolean",
             default: false,
           },
@@ -47,6 +67,12 @@ export class CreateTag1573041004316 implements MigrationInterface {
             type: "smallint",
             unsigned: true,
             isNullable: true,
+          },
+          {
+            name: "status",
+            type: "smallint",
+            unsigned: true,
+            default: 0,
           },
           {
             name: "meta",

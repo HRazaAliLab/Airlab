@@ -1,7 +1,7 @@
 {
   "name": "airlab",
   "private": true,
-  "version": "2020.07.13",
+  "version": "2020.08.27",
   "description": "AirLab platform",
   "author": {
     "name": "Anton Rau",
@@ -45,13 +45,13 @@
     "start:worker:prod": "yarn workspace @airlab/worker run start:prod"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "3.6.0",
-    "@typescript-eslint/parser": "3.6.0",
-    "eslint": "7.4.0",
+    "@typescript-eslint/eslint-plugin": "3.10.1",
+    "@typescript-eslint/parser": "3.10.1",
+    "eslint": "7.7.0",
     "eslint-config-prettier": "6.11.0",
     "eslint-plugin-prettier": "3.1.4",
-    "jest": "26.1.0",
-    "prettier": "2.0.5",
-    "typescript": "3.9.6"
+    "jest": "26.4.2",
+    "prettier": "2.1.1",
+    "typescript": "4.0.2"
   }
 }
