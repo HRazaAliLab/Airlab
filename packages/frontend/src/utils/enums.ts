@@ -46,4 +46,10 @@ export const tagTypeEnum = [
   { value: 1, text: "Fluorophore" },
 ];
 
+export const tagStatusEnum = [
+  { value: 0, text: "Stock" },
+  { value: 1, text: "Low" },
+  { value: 2, text: "Finished" },
+];
+
 export const antigenRetrievalTypes = ["HIER Buffer", "Sodium Citrate", "2-step Retrieval", "RNAScope"];

@@ -1,3 +1,4 @@
+import { TagStatus } from "./TagStatus";
 export declare class TagDto {
     readonly id: number;
     readonly groupId: number;
@@ -7,6 +8,7 @@ export declare class TagDto {
     readonly isEnzyme: boolean;
     readonly isBiotin: boolean;
     readonly isOther: boolean;
+    readonly status: number;
     readonly description: string | null;
     readonly mw: number | null;
     readonly emission: number | null;
@@ -22,6 +24,7 @@ export declare class CreateTagDto {
     readonly isEnzyme: boolean;
     readonly isBiotin: boolean;
     readonly isOther: boolean;
+    readonly status: TagStatus;
     readonly description: string | null;
     readonly mw: number | null;
     readonly emission: number | null;
@@ -34,6 +37,7 @@ export declare class UpdateTagDto {
     readonly isEnzyme: boolean;
     readonly isBiotin: boolean;
     readonly isOther: boolean;
+    readonly status: TagStatus;
     readonly description: string | null;
     readonly mw: number | null;
     readonly emission: number | null;

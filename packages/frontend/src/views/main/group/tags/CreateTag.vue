@@ -35,6 +35,7 @@
               :rules="excitationRules"
               type="number"
             />
+            <v-select label="Status" v-model="status" :items="statuses" item-value="value" item-text="text" dense />
           </v-form>
         </template>
       </v-card-text>
@@ -48,7 +49,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { tagModule } from "@/modules/tag";
 import { CreateTagDto } from "@airlab/shared/lib/tag/dto";
 import { groupModule } from "@/modules/group";
-import { tagTypeEnum } from "@/utils/enums";
+import { tagStatusEnum, tagTypeEnum } from "@/utils/enums";
 
 @Component
 export default class CreateTag extends Vue {
@@ -56,6 +57,7 @@ export default class CreateTag extends Vue {
   readonly tagContext = tagModule.context(this.$store);
 
   readonly tagTypes = tagTypeEnum;
+  readonly statuses = tagStatusEnum;
 
   readonly nameRules = [required];
   readonly mwRules = [];
@@ -73,6 +75,7 @@ export default class CreateTag extends Vue {
   mw: number | null = null;
   emission: number | null = null;
   excitation: number | null = null;
+  status = 0;
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
@@ -89,6 +92,7 @@ export default class CreateTag extends Vue {
     this.mw = null;
     this.emission = null;
     this.excitation = null;
+    this.status = 0;
     (this.$refs.form as any).resetValidation();
   }
 
@@ -110,6 +114,7 @@ export default class CreateTag extends Vue {
         mw: this.mw,
         emission: this.emission,
         excitation: this.excitation,
+        status: this.status,
       };
       await this.tagContext.actions.createTag(data);
       this.$router.back();

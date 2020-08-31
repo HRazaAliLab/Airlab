@@ -1,5 +1,6 @@
-import { IsBoolean, IsInt, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsInt, IsOptional, IsString, Max, Min } from "class-validator";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { TagStatus } from "./TagStatus";
 
 export class TagDto {
   @ApiProperty()
@@ -25,6 +26,9 @@ export class TagDto {
 
   @ApiProperty()
   readonly isOther: boolean;
+
+  @ApiProperty()
+  readonly status: number;
 
   @ApiPropertyOptional()
   readonly description: string | null;
@@ -74,6 +78,12 @@ export class CreateTagDto {
   @ApiProperty()
   readonly isOther: boolean;
 
+  @IsInt()
+  @Min(0)
+  @Max(2)
+  @ApiProperty()
+  readonly status: TagStatus;
+
   @IsString()
   @IsOptional()
   @ApiPropertyOptional()
@@ -119,6 +129,12 @@ export class UpdateTagDto {
   @IsBoolean()
   @ApiProperty()
   readonly isOther: boolean;
+
+  @IsInt()
+  @Min(0)
+  @Max(2)
+  @ApiProperty()
+  readonly status: TagStatus;
 
   @IsString()
   @IsOptional()

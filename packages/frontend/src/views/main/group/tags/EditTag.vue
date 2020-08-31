@@ -35,6 +35,7 @@
               :rules="excitationRules"
               type="number"
             />
+            <v-select label="Status" v-model="status" :items="statuses" item-value="value" item-text="text" dense />
           </v-form>
         </template>
       </v-card-text>
@@ -47,6 +48,7 @@ import { required } from "@/utils/validators";
 import { Component, Vue } from "vue-property-decorator";
 import { tagModule } from "@/modules/tag";
 import { UpdateTagDto } from "@airlab/shared/lib/tag/dto";
+import { tagStatusEnum } from "@/utils/enums";
 
 @Component
 export default class EditTag extends Vue {
@@ -56,6 +58,7 @@ export default class EditTag extends Vue {
   readonly mwRules = [];
   readonly emissionRules = [];
   readonly excitationRules = [];
+  readonly statuses = tagStatusEnum;
 
   valid = true;
   name = "";
@@ -68,6 +71,7 @@ export default class EditTag extends Vue {
   mw: number | null = null;
   emission: number | null = null;
   excitation: number | null = null;
+  status = 0;
 
   get tag() {
     return this.tagContext.getters.getTag(+this.$router.currentRoute.params.id);
@@ -93,6 +97,7 @@ export default class EditTag extends Vue {
       this.mw = this.tag.mw;
       this.emission = this.tag.emission;
       this.excitation = this.tag.excitation;
+      this.status = this.tag.status;
     }
   }
 
@@ -113,6 +118,7 @@ export default class EditTag extends Vue {
         mw: this.mw,
         emission: this.emission,
         excitation: this.excitation,
+        status: this.status,
       };
       await this.tagContext.actions.updateTag({
         id: this.tag!.id,

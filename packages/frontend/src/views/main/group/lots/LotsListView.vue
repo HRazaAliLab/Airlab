@@ -116,7 +116,7 @@
           </router-link>
         </template>
         <template v-slot:item.status="{ item }">
-          <v-chip :color="getLotStatusColor(item.status)" class="mr-1" x-small dark label>
+          <v-chip :color="getLotStatusColor(item.status)" class="mr-1" small dark label>
             {{ item.status | lotStatusToString }}
           </v-chip>
         </template>

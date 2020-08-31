@@ -1,5 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { GroupEntity } from "../group/group.entity";
+import { TagStatus } from "@airlab/shared/lib/tag/TagStatus";
 
 @Entity({
   name: "tag",
@@ -44,6 +45,11 @@ export class TagEntity {
     name: "is_other",
   })
   isOther: boolean;
+
+  @Column({
+    name: "status",
+  })
+  status: TagStatus;
 
   @Column({
     name: "description",

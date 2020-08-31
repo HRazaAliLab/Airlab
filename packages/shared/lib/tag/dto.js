@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateTagDto = exports.CreateTagDto = exports.TagDto = void 0;
 const class_validator_1 = require("class-validator");
 const swagger_1 = require("@nestjs/swagger");
+const TagStatus_1 = require("./TagStatus");
 class TagDto {
 }
 __decorate([
@@ -46,6 +47,10 @@ __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Boolean)
 ], TagDto.prototype, "isOther", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Number)
+], TagDto.prototype, "status", void 0);
 __decorate([
     swagger_1.ApiPropertyOptional(),
     __metadata("design:type", String)
@@ -109,6 +114,13 @@ __decorate([
     __metadata("design:type", Boolean)
 ], CreateTagDto.prototype, "isOther", void 0);
 __decorate([
+    class_validator_1.IsInt(),
+    class_validator_1.Min(0),
+    class_validator_1.Max(2),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Number)
+], CreateTagDto.prototype, "status", void 0);
+__decorate([
     class_validator_1.IsString(),
     class_validator_1.IsOptional(),
     swagger_1.ApiPropertyOptional(),
@@ -165,6 +177,13 @@ __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Boolean)
 ], UpdateTagDto.prototype, "isOther", void 0);
+__decorate([
+    class_validator_1.IsInt(),
+    class_validator_1.Min(0),
+    class_validator_1.Max(2),
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Number)
+], UpdateTagDto.prototype, "status", void 0);
 __decorate([
     class_validator_1.IsString(),
     class_validator_1.IsOptional(),

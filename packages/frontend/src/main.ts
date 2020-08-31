@@ -14,6 +14,7 @@ import {
   conjugateStatusToString,
   lotStatusToString,
   validationStatusToString,
+  tagStatusToString,
 } from "@/utils/converters"; // Ensure you are using css-loader
 
 const isDev = process.env.NODE_ENV === "development";
@@ -26,6 +27,7 @@ Vue.filter("stringToUTCString", stringToUTCString);
 Vue.filter("validationStatusToString", validationStatusToString);
 Vue.filter("conjugateStatusToString", conjugateStatusToString);
 Vue.filter("lotStatusToString", lotStatusToString);
+Vue.filter("tagStatusToString", tagStatusToString);
 
 new Vue({
   router: router,

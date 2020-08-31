@@ -42,6 +42,11 @@
         <template v-slot:item.isOther="{ item }">
           <v-icon v-if="item.isOther">mdi-check</v-icon>
         </template>
+        <template v-slot:item.status="{ item }">
+          <v-chip :color="getTagStatusColor(item)" class="mr-1" small dark label>
+            {{ item.status | tagStatusToString }}
+          </v-chip>
+        </template>
         <template v-slot:item.action="{ item }">
           <v-menu bottom left>
             <template v-slot:activator="{ on }">
@@ -105,6 +110,7 @@ import { groupModule } from "@/modules/group";
 import { TagDto } from "@airlab/shared/lib/tag/dto";
 import TagDetailsView from "@/views/main/group/tags/TagDetailsView.vue";
 import TagExpandedView from "@/views/main/group/tags/TagExpandedView.vue";
+import { getTagStatusColor } from "@/utils/converters";
 
 @Component({
   components: { TagExpandedView, TagDetailsView },
@@ -112,6 +118,8 @@ import TagExpandedView from "@/views/main/group/tags/TagExpandedView.vue";
 export default class TagsListView extends Vue {
   readonly groupContext = groupModule.context(this.$store);
   readonly tagContext = tagModule.context(this.$store);
+
+  readonly getTagStatusColor = getTagStatusColor;
 
   readonly headers = [
     // {
@@ -192,6 +200,11 @@ export default class TagsListView extends Vue {
       sortable: true,
       value: "excitation",
       align: "right",
+    },
+    {
+      text: "Status",
+      value: "status",
+      filterable: false,
     },
     {
       text: "Actions",

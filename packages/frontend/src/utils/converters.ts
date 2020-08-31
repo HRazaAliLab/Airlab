@@ -2,6 +2,7 @@ import { ValidationDto } from "@airlab/shared/lib/validation/dto";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 import { LotStatus } from "@airlab/shared/lib/lot/LotStatus";
 import { applicationIdToName } from "@/utils/enums";
+import { TagDto } from "@airlab/shared/lib/tag/dto";
 
 export function applicationToString(value: number): string {
   return applicationIdToName[value];
@@ -96,6 +97,29 @@ export function getLotStatusColor(status: LotStatus) {
     case LotStatus.Low:
       return "orange lighten-1";
     case LotStatus.Finished:
+      return "red lighten-1";
+    default:
+      return "grey";
+  }
+}
+
+const tagStatusMap = {
+  0: "Stock",
+  1: "Low",
+  2: "Finished",
+};
+
+export function tagStatusToString(value: number): string {
+  return tagStatusMap[value];
+}
+
+export function getTagStatusColor(conjugate: TagDto) {
+  switch (conjugate.status) {
+    case 0:
+      return "green lighten-1";
+    case 1:
+      return "orange lighten-1";
+    case 2:
       return "red lighten-1";
     default:
       return "grey";
