@@ -113,6 +113,9 @@ export class TagService {
   }
 
   private async clearCache(groupId: number) {
-    await this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_tags`]);
+    await Promise.all([
+      this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_tags`]),
+      this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_panels`]),
+    ]);
   }
 }
