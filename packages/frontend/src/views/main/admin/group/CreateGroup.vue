@@ -11,14 +11,12 @@
     </v-toolbar>
     <v-card class="mt-4 px-4">
       <v-card-text>
-        <template>
-          <v-form v-model="valid" ref="form" lazy-validation>
-            <v-text-field label="Name" v-model="name" :rules="nameRules" />
-            <v-text-field label="Institution" v-model="institution" />
-            <v-text-field label="URL" v-model="url" />
-            <v-checkbox label="Open" v-model="isOpen" />
-          </v-form>
-        </template>
+        <v-form v-model="valid" ref="form" lazy-validation>
+          <v-text-field label="Name" v-model="name" :rules="nameRules" />
+          <v-text-field label="Institution" v-model="institution" />
+          <v-text-field label="URL" v-model="url" />
+          <v-checkbox label="Open" v-model="isOpen" />
+        </v-form>
       </v-card-text>
     </v-card>
   </v-container>

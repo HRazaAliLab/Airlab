@@ -11,38 +11,36 @@
     </v-toolbar>
     <v-card class="mt-4 px-4">
       <v-card-text>
-        <template>
-          <v-form v-model="valid" ref="form">
-            <v-text-field label="Name" v-model="name" />
-            <v-text-field label="E-mail" type="email" v-model="email" :rules="emailRules" />
-            <v-checkbox label="Active" v-model="isActive" />
-            <v-checkbox label="Admin" v-model="isAdmin" />
-            <v-row align="center">
-              <v-col class="shrink">
-                <v-checkbox v-model="setPassword" />
-              </v-col>
-              <v-col>
-                <v-text-field
-                  :disabled="!setPassword"
-                  type="password"
-                  ref="password"
-                  label="Set Password"
-                  :rules="password1Rules"
-                  v-model="password1"
-                >
-                </v-text-field>
-                <v-text-field
-                  v-show="setPassword"
-                  type="password"
-                  label="Confirm Password"
-                  :rules="password2Rules"
-                  v-model="password2"
-                >
-                </v-text-field>
-              </v-col>
-            </v-row>
-          </v-form>
-        </template>
+        <v-form v-model="valid" ref="form">
+          <v-text-field label="Name" v-model="name" />
+          <v-text-field label="E-mail" type="email" v-model="email" :rules="emailRules" />
+          <v-checkbox label="Active" v-model="isActive" />
+          <v-checkbox label="Admin" v-model="isAdmin" />
+          <v-row align="center">
+            <v-col class="shrink">
+              <v-checkbox v-model="setPassword" />
+            </v-col>
+            <v-col>
+              <v-text-field
+                :disabled="!setPassword"
+                type="password"
+                ref="password"
+                label="Set Password"
+                :rules="password1Rules"
+                v-model="password1"
+              >
+              </v-text-field>
+              <v-text-field
+                v-show="setPassword"
+                type="password"
+                label="Confirm Password"
+                :rules="password2Rules"
+                v-model="password2"
+              >
+              </v-text-field>
+            </v-col>
+          </v-row>
+        </v-form>
       </v-card-text>
     </v-card>
   </v-container>

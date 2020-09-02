@@ -5,12 +5,10 @@
         <div class="text-h5 primary--text">Edit User Profile</div>
       </v-card-title>
       <v-card-text>
-        <template>
-          <v-form v-model="valid" ref="form" lazy-validation>
-            <v-text-field label="Name" v-model="name" />
-            <v-text-field label="E-mail" type="email" v-model="email" :rules="emailRules" />
-          </v-form>
-        </template>
+        <v-form v-model="valid" ref="form" lazy-validation>
+          <v-text-field label="Name" v-model="name" />
+          <v-text-field label="E-mail" type="email" v-model="email" :rules="emailRules" />
+        </v-form>
       </v-card-text>
       <v-card-actions>
         <v-spacer />

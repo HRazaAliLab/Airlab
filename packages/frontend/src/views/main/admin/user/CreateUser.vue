@@ -11,24 +11,22 @@
     </v-toolbar>
     <v-card class="mt-4 px-4">
       <v-card-text>
-        <template>
-          <v-form v-model="valid" ref="form" lazy-validation>
-            <v-text-field label="Name" v-model="name" />
-            <v-text-field label="E-mail" type="email" v-model="email" :rules="emailRules" />
-            <v-row align="center">
-              <v-col>
-                <v-text-field
-                  type="password"
-                  ref="password"
-                  label="Set Password"
-                  :rules="password1Rules"
-                  v-model="password1"
-                />
-                <v-text-field type="password" label="Confirm Password" :rules="password2Rules" v-model="password2" />
-              </v-col>
-            </v-row>
-          </v-form>
-        </template>
+        <v-form v-model="valid" ref="form" lazy-validation>
+          <v-text-field label="Name" v-model="name" />
+          <v-text-field label="E-mail" type="email" v-model="email" :rules="emailRules" />
+          <v-row align="center">
+            <v-col>
+              <v-text-field
+                type="password"
+                ref="password"
+                label="Set Password"
+                :rules="password1Rules"
+                v-model="password1"
+              />
+              <v-text-field type="password" label="Confirm Password" :rules="password2Rules" v-model="password2" />
+            </v-col>
+          </v-row>
+        </v-form>
       </v-card-text>
     </v-card>
   </v-container>

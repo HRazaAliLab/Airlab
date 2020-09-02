@@ -4,6 +4,12 @@
     <v-card-text>
       <div><span class="subheader">ID: </span>{{ tag.id }}</div>
       <div><span class="subheader">Name: </span>{{ tag.name }}</div>
+      <div>
+        <span class="subheader">Status: </span>
+        <v-chip :color="getTagStatusColor(tag)" class="mr-1" x-small dark label>
+          {{ tag.status | tagStatusToString }}
+        </v-chip>
+      </div>
       <div><span class="subheader" v-if="tag.isMetal">MW: </span>{{ tag.mw }}</div>
       <div><span class="subheader" v-if="tag.isFluorophore">Emission: </span>{{ tag.emission }}</div>
       <div><span class="subheader" v-if="tag.isFluorophore">Excitation: </span>{{ tag.excitation }}</div>
@@ -13,7 +19,7 @@
       <v-checkbox label="Enzyme" v-model="tag.isEnzyme" readonly hide-details />
       <v-checkbox label="Biotin" v-model="tag.isBiotin" readonly hide-details />
       <v-checkbox label="Other" v-model="tag.isOther" readonly hide-details />
-      <div><span class="subheader">Description: </span>{{ tag.description }}</div>
+      <div v-if="tag.description"><span class="subheader">Description: </span>{{ tag.description }}</div>
     </v-card-text>
     <v-card-actions>
       <v-btn
@@ -39,6 +45,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { groupModule } from "@/modules/group";
 import LoadingView from "@/components/LoadingView.vue";
 import { tagModule } from "@/modules/tag";
+import { getTagStatusColor } from "@/utils/converters";
 
 @Component({
   components: { LoadingView },
@@ -46,6 +53,8 @@ import { tagModule } from "@/modules/tag";
 export default class TagView extends Vue {
   private readonly groupContext = groupModule.context(this.$store);
   private readonly tagContext = tagModule.context(this.$store);
+
+  private readonly getTagStatusColor = getTagStatusColor;
 
   @Prop({
     type: Number,

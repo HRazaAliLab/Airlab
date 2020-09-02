@@ -257,6 +257,12 @@ export default class ViewPanel extends Vue {
       value: "label",
     },
     {
+      text: "Mass",
+      value: "tag.mw",
+      align: "end",
+      filterable: false,
+    },
+    {
       text: "Protein",
       value: "protein",
       sort: (a, b) => {

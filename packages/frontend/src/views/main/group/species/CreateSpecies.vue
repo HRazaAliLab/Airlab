@@ -11,12 +11,10 @@
     </v-toolbar>
     <v-card class="mt-4 px-4">
       <v-card-text>
-        <template>
-          <v-form v-model="valid" ref="form" lazy-validation>
-            <v-text-field label="Name" v-model="name" :rules="nameRules" />
-            <v-text-field label="Acronym" v-model="acronym" :rules="acronymRules" />
-          </v-form>
-        </template>
+        <v-form v-model="valid" ref="form" lazy-validation>
+          <v-text-field label="Name" v-model="name" :rules="nameRules" />
+          <v-text-field label="Acronym" v-model="acronym" :rules="acronymRules" />
+        </v-form>
       </v-card-text>
     </v-card>
   </v-container>

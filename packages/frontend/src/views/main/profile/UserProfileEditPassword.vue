@@ -5,20 +5,18 @@
         <div class="text-h5 primary--text">Set Password</div>
       </v-card-title>
       <v-card-text>
-        <template>
-          <div class="my-4">
-            <div class="subtitle-1 primary--text text--lighten-2">User</div>
-            <div class="text-h6 primary--text text--darken-2">
-              {{ userProfile.email }}
-            </div>
+        <div class="my-4">
+          <div class="subtitle-1 primary--text text--lighten-2">User</div>
+          <div class="text-h6 primary--text text--darken-2">
+            {{ userProfile.email }}
           </div>
-          <v-form ref="form">
-            <v-text-field type="password" ref="password" label="Password" :rules="password1Rules" v-model="password1">
-            </v-text-field>
-            <v-text-field type="password" label="Confirm Password" :rules="password2Rules" v-model="password2">
-            </v-text-field>
-          </v-form>
-        </template>
+        </div>
+        <v-form ref="form">
+          <v-text-field type="password" ref="password" label="Password" :rules="password1Rules" v-model="password1">
+          </v-text-field>
+          <v-text-field type="password" label="Confirm Password" :rules="password2Rules" v-model="password2">
+          </v-text-field>
+        </v-form>
       </v-card-text>
       <v-card-actions>
         <v-spacer />

@@ -11,33 +11,31 @@
     </v-toolbar>
     <v-card class="mt-4 px-4">
       <v-card-text>
-        <template>
-          <v-form v-model="valid" ref="form" lazy-validation>
-            <v-text-field label="Name" v-model="name" :rules="nameRules" />
-            <v-checkbox label="Metal" v-model="isMetal" />
-            <v-checkbox label="Fluorophore" v-model="isFluorophore" />
-            <v-checkbox label="Enzyme" v-model="isEnzyme" />
-            <v-checkbox label="Biotin" v-model="isBiotin" />
-            <v-checkbox label="Other" v-model="isOther" />
-            <v-text-field label="Description" v-model="description" />
-            <v-text-field v-if="isMetal" label="MW" v-model.number="mw" :rules="mwRules" type="number" />
-            <v-text-field
-              v-if="isFluorophore"
-              label="Emission"
-              v-model.number="emission"
-              :rules="emissionRules"
-              type="number"
-            />
-            <v-text-field
-              v-if="isFluorophore"
-              label="Excitation"
-              v-model.number="excitation"
-              :rules="excitationRules"
-              type="number"
-            />
-            <v-select label="Status" v-model="status" :items="statuses" item-value="value" item-text="text" dense />
-          </v-form>
-        </template>
+        <v-form v-model="valid" ref="form" lazy-validation>
+          <v-text-field label="Name" v-model="name" :rules="nameRules" />
+          <v-checkbox label="Metal" v-model="isMetal" />
+          <v-checkbox label="Fluorophore" v-model="isFluorophore" />
+          <v-checkbox label="Enzyme" v-model="isEnzyme" />
+          <v-checkbox label="Biotin" v-model="isBiotin" />
+          <v-checkbox label="Other" v-model="isOther" />
+          <v-text-field label="Description" v-model="description" />
+          <v-text-field v-if="isMetal" label="MW" v-model.number="mw" :rules="mwRules" type="number" />
+          <v-text-field
+            v-if="isFluorophore"
+            label="Emission"
+            v-model.number="emission"
+            :rules="emissionRules"
+            type="number"
+          />
+          <v-text-field
+            v-if="isFluorophore"
+            label="Excitation"
+            v-model.number="excitation"
+            :rules="excitationRules"
+            type="number"
+          />
+          <v-select label="Status" v-model="status" :items="statuses" item-value="value" item-text="text" dense />
+        </v-form>
       </v-card-text>
     </v-card>
   </v-container>
