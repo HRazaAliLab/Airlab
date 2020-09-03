@@ -10,7 +10,7 @@
           {{ tag.status | tagStatusToString }}
         </v-chip>
       </div>
-      <div><span class="subheader" v-if="tag.isMetal">MW: </span>{{ tag.mw }}</div>
+      <div><span class="subheader" v-if="tag.isMetal">Mass: </span>{{ tag.mw }}</div>
       <div><span class="subheader" v-if="tag.isFluorophore">Emission: </span>{{ tag.emission }}</div>
       <div><span class="subheader" v-if="tag.isFluorophore">Excitation: </span>{{ tag.excitation }}</div>
       <div><span class="subheader">Created: </span>{{ new Date(tag.createdAt).toUTCString() }}</div>

@@ -51,6 +51,7 @@
         :items="items"
         :loading="!items"
         :search="search"
+        :custom-filter="filter"
         :items-per-page="15"
         :footer-props="{
           itemsPerPageOptions: [10, 15, 20, 100],
@@ -305,6 +306,18 @@ export default class PanelsListView extends Vue {
       items = items.filter((item) => this.applicationFilter.includes(item.application));
     }
     return items;
+  }
+
+  filter(value: any, search: string | null, item: any) {
+    if (!search) {
+      return true;
+    }
+    const normalizedSearchTerm = search.toLowerCase().trim();
+    return (
+      (item.name ? item.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
+      (item.description ? item.description.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
+      (item.user && item.user.name ? item.user.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false)
+    );
   }
 
   showDetails(item: PanelDto) {

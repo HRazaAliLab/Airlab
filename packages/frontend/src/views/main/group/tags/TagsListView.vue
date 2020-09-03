@@ -137,7 +137,7 @@ export default class TagsListView extends Vue {
       align: "left",
     },
     {
-      text: "MW",
+      text: "Mass",
       sortable: true,
       value: "mw",
       align: "right",

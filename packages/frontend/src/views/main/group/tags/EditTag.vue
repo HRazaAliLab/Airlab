@@ -13,13 +13,14 @@
       <v-card-text>
         <v-form v-model="valid" ref="form" lazy-validation>
           <v-text-field label="Name" v-model="name" :rules="nameRules" />
+          <v-text-field label="Description" v-model="description" />
+          <v-select label="Status" v-model="status" :items="statuses" item-value="value" item-text="text" dense />
           <v-checkbox label="Metal" v-model="isMetal" />
+          <v-text-field v-if="isMetal" label="Mass" v-model.number="mw" :rules="mwRules" type="number" />
           <v-checkbox label="Fluorophore" v-model="isFluorophore" />
           <v-checkbox label="Enzyme" v-model="isEnzyme" />
           <v-checkbox label="Biotin" v-model="isBiotin" />
           <v-checkbox label="Other" v-model="isOther" />
-          <v-text-field label="Description" v-model="description" />
-          <v-text-field v-if="isMetal" label="MW" v-model.number="mw" :rules="mwRules" type="number" />
           <v-text-field
             v-if="isFluorophore"
             label="Emission"
@@ -34,7 +35,6 @@
             :rules="excitationRules"
             type="number"
           />
-          <v-select label="Status" v-model="status" :items="statuses" item-value="value" item-text="text" dense />
         </v-form>
       </v-card-text>
     </v-card>
@@ -52,8 +52,14 @@ import { tagStatusEnum } from "@/utils/enums";
 export default class EditTag extends Vue {
   readonly tagContext = tagModule.context(this.$store);
 
+  private massRequired(value) {
+    if (!this.isMetal) return true;
+    if (!!value) return true;
+    return "Required";
+  }
+
   readonly nameRules = [required];
-  readonly mwRules = [];
+  readonly mwRules = [this.massRequired];
   readonly emissionRules = [];
   readonly excitationRules = [];
   readonly statuses = tagStatusEnum;
