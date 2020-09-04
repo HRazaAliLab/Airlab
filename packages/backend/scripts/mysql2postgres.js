@@ -209,7 +209,7 @@ async function migrateClone() {
     }
 
     let meta = row["catchedInfo"];
-    if ([1903, 2332, 2340, 2376, 2176].includes(row["cloCloneId"])) {
+    if ([1903, 2332, 2340, 2376, 2176, 2597].includes(row["cloCloneId"])) {
       meta = null;
     }
     if (meta === null || meta === "") {
@@ -746,21 +746,21 @@ async function downloadFiles() {
 }
 
 async function migrate() {
-  // await migrateGroup();
-  // await migrateUser();
-  // await migrateMember();
-  // await migrateSpecies();
-  // await migrateTag();
-  // await migrateProvider();
-  // await migrateProtein();
-  // await migrateClone();
-  // await migrateLot();
-  // await migrateConjugate();
-  // await migratePanel();
-  // await migrateValidation();
-  // await migrateValidationFile();
+  await migrateGroup();
+  await migrateUser();
+  await migrateMember();
+  await migrateSpecies();
+  await migrateTag();
+  await migrateProvider();
+  await migrateProtein();
+  await migrateClone();
+  await migrateLot();
+  await migrateConjugate();
+  await migratePanel();
+  await migrateValidation();
+  await migrateValidationFile();
 
-  await downloadFiles();
+  // await downloadFiles();
 
   // await postgresPool.query(
   //   "SELECT 'SELECT setval(''public.' || c.relname || ''',' || ' (SELECT MAX(ID) FROM PUBLIC.' || REPLACE(c.relname,'_id_seq','') || '), true);' FROM pg_class c WHERE c.relkind = 'S' ORDER BY C.RELNAME;"
