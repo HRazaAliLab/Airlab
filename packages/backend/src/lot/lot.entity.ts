@@ -4,6 +4,7 @@ import { CloneEntity } from "../clone/clone.entity";
 import { ConjugateEntity } from "../conjugate/conjugate.entity";
 import { ProviderEntity } from "../provider/provider.entity";
 import { LotStatus } from "@airlab/shared/lib/lot/LotStatus";
+import { MemberEntity } from "../member/member.entity";
 
 @Entity({
   name: "lot",
@@ -160,6 +161,26 @@ export class LotEntity {
   @ManyToOne((type) => CloneEntity)
   @JoinColumn({ name: "clone_id" })
   clone: CloneEntity;
+
+  @ManyToOne((type) => MemberEntity)
+  @JoinColumn({ name: "requested_by" })
+  requestedByMember: MemberEntity;
+
+  @ManyToOne((type) => MemberEntity)
+  @JoinColumn({ name: "approved_by" })
+  approvedByMember: MemberEntity;
+
+  @ManyToOne((type) => MemberEntity)
+  @JoinColumn({ name: "ordered_by" })
+  orderedByMember: MemberEntity;
+
+  @ManyToOne((type) => MemberEntity)
+  @JoinColumn({ name: "received_by" })
+  receivedByMember: MemberEntity;
+
+  @ManyToOne((type) => MemberEntity)
+  @JoinColumn({ name: "finished_by" })
+  finishedByMember: MemberEntity;
 
   @OneToMany((type) => ConjugateEntity, (conjugate) => conjugate.lot)
   conjugates: ConjugateEntity[];

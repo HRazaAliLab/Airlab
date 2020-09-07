@@ -14,7 +14,7 @@
       </div>
       <div><span class="subheader">Purpose: </span>{{ lot.purpose }}</div>
       <div><span class="subheader">Price: </span>{{ lot.price }}</div>
-      <div>
+      <div v-if="lot.provider">
         <span class="subheader">Provider: </span>
         <router-link
           class="link"
@@ -44,7 +44,7 @@
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>{{ `Requested ${new Date(lot.requestedAt).toUTCString()}` }}</v-list-item-title>
-          <v-list-item-subtitle v-if="lot.requestedBy">{{ `by ${lot.requestedBy}` }}</v-list-item-subtitle>
+          <v-list-item-subtitle v-if="lot.requestedByUser">{{ `by ${lot.requestedByUser.name}` }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
       <v-list-item v-if="lot.approvedAt">
@@ -53,7 +53,7 @@
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>{{ `Approved ${new Date(lot.approvedAt).toUTCString()}` }}</v-list-item-title>
-          <v-list-item-subtitle v-if="lot.approvedBy">{{ `by ${lot.approvedBy}` }}</v-list-item-subtitle>
+          <v-list-item-subtitle v-if="lot.approvedByUser">{{ `by ${lot.approvedByUser.name}` }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
       <v-list-item v-if="lot.orderedAt">
@@ -62,7 +62,7 @@
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>{{ `Ordered ${new Date(lot.orderedAt).toUTCString()}` }}</v-list-item-title>
-          <v-list-item-subtitle v-if="lot.orderedBy">{{ `by ${lot.orderedBy}` }}</v-list-item-subtitle>
+          <v-list-item-subtitle v-if="lot.orderedByUser">{{ `by ${lot.orderedByUser.name}` }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
       <v-list-item v-if="lot.receivedAt">
@@ -71,7 +71,7 @@
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>{{ `Received ${new Date(lot.receivedAt).toUTCString()}` }}</v-list-item-title>
-          <v-list-item-subtitle v-if="lot.receivedBy">{{ `by ${lot.receivedBy}` }}</v-list-item-subtitle>
+          <v-list-item-subtitle v-if="lot.receivedByUser">{{ `by ${lot.receivedByUser.name}` }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
       <v-list-item v-if="lot.finishedAt">
@@ -80,7 +80,7 @@
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>{{ `Finished ${new Date(lot.finishedAt).toUTCString()}` }}</v-list-item-title>
-          <v-list-item-subtitle v-if="lot.finishedBy">{{ `by ${lot.finishedBy}` }}</v-list-item-subtitle>
+          <v-list-item-subtitle v-if="lot.finishedByUser">{{ `by ${lot.finishedByUser.name}` }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </v-list>

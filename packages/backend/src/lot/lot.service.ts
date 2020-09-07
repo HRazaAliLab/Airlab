@@ -5,6 +5,7 @@ import { LotEntity } from "./lot.entity";
 import { CreateLotDto, UpdateLotDto, UpdateLotStatusDto } from "@airlab/shared/lib/lot/dto";
 import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
 import { LotStatus } from "@airlab/shared/lib/lot/LotStatus";
+import { UserEntity } from "../user/user.entity";
 
 @Injectable()
 export class LotService {
@@ -38,6 +39,36 @@ export class LotService {
       .addSelect(["clone.id", "clone.name"])
       .leftJoin("lot.provider", "provider")
       .addSelect(["provider.id", "provider.name"])
+      .leftJoin("lot.requestedByMember", "requestedByMember")
+      .leftJoinAndMapOne(
+        "lot.requestedByUser",
+        UserEntity,
+        "requestedByUser",
+        "requestedByMember.userId = requestedByUser.id"
+      )
+      .leftJoin("lot.approvedByMember", "approvedByMember")
+      .leftJoinAndMapOne(
+        "lot.approvedByUser",
+        UserEntity,
+        "approvedByUser",
+        "approvedByMember.userId = approvedByUser.id"
+      )
+      .leftJoin("lot.orderedByMember", "orderedByMember")
+      .leftJoinAndMapOne("lot.orderedByUser", UserEntity, "orderedByUser", "orderedByMember.userId = orderedByUser.id")
+      .leftJoin("lot.receivedByMember", "receivedByMember")
+      .leftJoinAndMapOne(
+        "lot.receivedByUser",
+        UserEntity,
+        "receivedByUser",
+        "receivedByMember.userId = receivedByUser.id"
+      )
+      .leftJoin("lot.finishedByMember", "finishedByMember")
+      .leftJoinAndMapOne(
+        "lot.finishedByUser",
+        UserEntity,
+        "finishedByUser",
+        "finishedByMember.userId = finishedByUser.id"
+      )
       .getOne();
   }
 
