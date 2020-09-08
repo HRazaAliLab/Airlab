@@ -5,7 +5,7 @@ import { LotState } from ".";
 import { api } from "./api";
 import { LotGetters } from "./getters";
 import { LotMutations } from "./mutations";
-import { CreateLotDto, UpdateLotDto, UpdateLotStatusDto } from "@airlab/shared/lib/lot/dto";
+import { CreateLotDto, ReorderLotDto, UpdateLotDto, UpdateLotStatusDto } from "@airlab/shared/lib/lot/dto";
 import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
 import { ConjugateStatus } from "@airlab/shared/lib/conjugate/ConjugateStatus";
 import { RequestQuery } from "@/utils/QueryBuilder";
@@ -70,6 +70,19 @@ export class LotActions extends Actions<LotState, LotGetters, LotMutations, LotA
       this.mutations.updateEntity(data);
       this.main!.mutations.addNotification({
         content: `Lot successfully changed its status to ${ConjugateStatus[payload.data.status]}`,
+        color: "success",
+      });
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
+
+  async reorderLot(payload: { id: number; data: ReorderLotDto }) {
+    try {
+      const data = await api.reorderLot(payload.id, payload.data);
+      this.mutations.addEntity(data);
+      this.main!.mutations.addNotification({
+        content: `Lot successfully reordered`,
         color: "success",
       });
     } catch (error) {

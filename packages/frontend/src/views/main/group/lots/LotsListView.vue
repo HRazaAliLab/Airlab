@@ -219,6 +219,15 @@
                 </v-list-item-content>
               </v-list-item>
               <v-divider />
+              <v-list-item @click="reorderLot(item.id)">
+                <v-list-item-icon>
+                  <v-icon color="primary">mdi-shopping-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Reorder</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider />
               <v-list-item
                 :to="{
                   name: 'main-group-lots-edit',
@@ -468,6 +477,13 @@ export default class LotsListView extends Vue {
     const lotNumber = self.prompt("Please enter lot number:");
     if (lotNumber) {
       await this.lotContext.actions.updateLotStatus({ id: id, data: { status: status, lotNumber: lotNumber } });
+    }
+  }
+
+  async reorderLot(id: number) {
+    const purpose = self.prompt("Please enter this re-order's purpose:");
+    if (purpose) {
+      await this.lotContext.actions.reorderLot({ id: id, data: { purpose: purpose } });
     }
   }
 

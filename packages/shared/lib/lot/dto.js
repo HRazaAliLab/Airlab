@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateLotStatusDto = exports.UpdateLotDto = exports.CreateLotDto = exports.LotDto = void 0;
+exports.ReorderLotDto = exports.UpdateLotStatusDto = exports.UpdateLotDto = exports.CreateLotDto = exports.LotDto = void 0;
 const class_validator_1 = require("class-validator");
 const swagger_1 = require("@nestjs/swagger");
 const LotStatus_1 = require("./LotStatus");
@@ -249,4 +249,13 @@ __decorate([
     __metadata("design:type", String)
 ], UpdateLotStatusDto.prototype, "lotNumber", void 0);
 exports.UpdateLotStatusDto = UpdateLotStatusDto;
+class ReorderLotDto {
+}
+__decorate([
+    class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
+    swagger_1.ApiPropertyOptional(),
+    __metadata("design:type", String)
+], ReorderLotDto.prototype, "purpose", void 0);
+exports.ReorderLotDto = ReorderLotDto;
 //# sourceMappingURL=dto.js.map

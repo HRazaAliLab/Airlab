@@ -187,3 +187,10 @@ export class UpdateLotStatusDto {
   @ApiPropertyOptional()
   readonly lotNumber?: string;
 }
+
+export class ReorderLotDto {
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly purpose?: string;
+}

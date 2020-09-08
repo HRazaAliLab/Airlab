@@ -1,8 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Request, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Request, UseGuards } from "@nestjs/common";
 import { LotService } from "./lot.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
-import { CreateLotDto, LotDto, UpdateLotDto, UpdateLotStatusDto } from "@airlab/shared/lib/lot/dto";
+import { CreateLotDto, LotDto, ReorderLotDto, UpdateLotDto, UpdateLotStatusDto } from "@airlab/shared/lib/lot/dto";
 import { MemberService } from "../member/member.service";
 import { ConjugateService } from "../conjugate/conjugate.service";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
@@ -61,6 +61,15 @@ export class LotController {
     const item = await this.lotService.findById(id);
     const member = await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
     return this.lotService.updateStatus(id, member.id, params);
+  }
+
+  @Put("lots/:id/reorder")
+  @ApiOperation({ summary: "Reorder the lot." })
+  @ApiOkResponse({ type: LotDto })
+  async reorder(@Request() req, @Param("id") id: number, @Body() params: ReorderLotDto) {
+    const item = await this.lotService.findById(id);
+    const member = await this.memberService.checkStandardMemberPermissions(req.user.userId, item.groupId);
+    return this.lotService.reorder(item, member.id, params);
   }
 
   @Delete("lots/:id")

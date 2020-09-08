@@ -101,7 +101,7 @@ services:
 
   rabbitmq:
     restart: always
-    image: rabbitmq:3.8.7-alpine
+    image: rabbitmq:3.8.8-alpine
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
 
@@ -126,7 +126,7 @@ services:
 
   portainer:
     restart: always
-    image: portainer/portainer:1.24.1-alpine
+    image: portainer/portainer-ce:2.0.0-alpine
     command: -H unix:///var/run/docker.sock
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -136,7 +136,7 @@ services:
 
   proxy:
     restart: always
-    image: traefik:2.2.8
+    image: traefik:2.2.10
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:

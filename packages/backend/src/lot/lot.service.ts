@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { LotEntity } from "./lot.entity";
-import { CreateLotDto, UpdateLotDto, UpdateLotStatusDto } from "@airlab/shared/lib/lot/dto";
+import { CreateLotDto, LotDto, ReorderLotDto, UpdateLotDto, UpdateLotStatusDto } from "@airlab/shared/lib/lot/dto";
 import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
 import { LotStatus } from "@airlab/shared/lib/lot/LotStatus";
 import { UserEntity } from "../user/user.entity";
@@ -19,7 +19,7 @@ export class LotService {
     const now = new Date().toISOString();
     return this.repository.save({
       ...params,
-      status: 0,
+      status: LotStatus.Requested,
       requestedBy: params.createdBy,
       requestedAt: now,
       updatedAt: now,
@@ -155,6 +155,29 @@ export class LotService {
     const item = await this.findById(id);
     await this.clearCache(item.groupId);
     return item;
+  }
+
+  async reorder(lot: LotDto, memberId: number, params: ReorderLotDto) {
+    await this.clearCache(lot.groupId);
+    const now = new Date().toISOString();
+    const data: any = {
+      ...lot,
+      purpose: params.purpose,
+      status: LotStatus.Requested,
+      requestedBy: memberId,
+      requestedAt: now,
+      approvedBy: null,
+      approvedAt: null,
+      orderedBy: null,
+      orderedAt: null,
+      receivedBy: null,
+      receivedAt: null,
+      finishedBy: null,
+      finishedAt: null,
+      updatedAt: now,
+    };
+    delete data.id;
+    return this.repository.save(data);
   }
 
   async getGroupLots(groupId: number, query) {
