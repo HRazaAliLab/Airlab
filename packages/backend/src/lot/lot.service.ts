@@ -162,6 +162,7 @@ export class LotService {
     const now = new Date().toISOString();
     const data: any = {
       ...lot,
+      number: "Pending",
       purpose: params.purpose,
       status: LotStatus.Requested,
       requestedBy: memberId,
