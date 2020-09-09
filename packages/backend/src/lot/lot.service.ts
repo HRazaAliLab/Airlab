@@ -182,7 +182,6 @@ export class LotService {
   }
 
   async getGroupLots(groupId: number, query) {
-    console.log(query);
     const select = this.repository
       .createQueryBuilder("lot")
       .where("lot.groupId = :groupId", { groupId: groupId })
