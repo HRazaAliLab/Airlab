@@ -4,6 +4,7 @@ import { Repository } from "typeorm";
 import { CloneEntity } from "./clone.entity";
 import { CreateCloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
 import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
+import { ConjugateEntity } from "../conjugate/conjugate.entity";
 
 @Injectable()
 export class CloneService {
@@ -111,6 +112,10 @@ export class CloneService {
       .addSelect(["validations.id", "validations.application", "validations.status"])
       .orderBy("clone.id", "DESC")
       .getMany();
+  }
+
+  async getConjugateClones(conjugate: ConjugateEntity) {
+    return this.getProteinClones(conjugate.lot.clone.protein.id);
   }
 
   async exportGroupClones(groupId: number) {

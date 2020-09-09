@@ -104,4 +104,12 @@ export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, 
       await this.main!.actions.checkApiError(error);
     }
   }
+
+  async getConjugateClones(id: number) {
+    try {
+      return api.getConjugateClones(id);
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
 }

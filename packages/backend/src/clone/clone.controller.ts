@@ -9,6 +9,7 @@ import { LotService } from "../lot/lot.service";
 import { ValidationService } from "../validation/validation.service";
 import { ValidationDto } from "@airlab/shared/lib/validation/dto";
 import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
+import { ConjugateService } from "../conjugate/conjugate.service";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
@@ -19,6 +20,7 @@ export class CloneController {
     private readonly cloneService: CloneService,
     private readonly memberService: MemberService,
     private readonly lotService: LotService,
+    private readonly conjugateService: ConjugateService,
     private readonly validationService: ValidationService
   ) {}
 
@@ -94,5 +96,14 @@ export class CloneController {
     const clone = await this.cloneService.findById(id);
     await this.memberService.checkGuestMemberPermissions(req.user.userId, clone.groupId);
     return this.validationService.getCloneValidations(id);
+  }
+
+  @Get("conjugates/:conjugateId/clones")
+  @ApiOperation({ summary: "Find all clones for the conjugate." })
+  @ApiOkResponse({ type: CloneDto, isArray: true })
+  async getConjugateClones(@Request() req, @Param("conjugateId") conjugateId: number) {
+    const conjugate = await this.conjugateService.findById(conjugateId);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, conjugate.groupId);
+    return this.cloneService.getConjugateClones(conjugate);
   }
 }

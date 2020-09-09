@@ -115,7 +115,7 @@ export class PanelController {
       : this.panelService.getPersonalGroupPanels(groupId, member.id);
   }
 
-  @Get("conjugate/:conjugateId/panels")
+  @Get("conjugates/:conjugateId/panels")
   @ApiOperation({ summary: "Find all panels for the conjugate." })
   @ApiOkResponse({ type: PanelDto, isArray: true })
   async getConjugatePanels(@Request() req, @Param("conjugateId") conjugateId: number) {

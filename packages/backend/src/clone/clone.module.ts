@@ -6,9 +6,10 @@ import { CloneController } from "./clone.controller";
 import { MemberModule } from "../member/member.module";
 import { LotModule } from "../lot/lot.module";
 import { ValidationModule } from "../validation/validation.module";
+import { ConjugateModule } from "../conjugate/conjugate.module";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CloneEntity]), MemberModule, LotModule, ValidationModule],
+  imports: [TypeOrmModule.forFeature([CloneEntity]), MemberModule, LotModule, ConjugateModule, ValidationModule],
   providers: [CloneService],
   controllers: [CloneController],
   exports: [CloneService],

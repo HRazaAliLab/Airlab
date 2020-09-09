@@ -1,15 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Request,
-  UnauthorizedException,
-  UseGuards,
-} from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { ConjugateService } from "./conjugate.service";
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
