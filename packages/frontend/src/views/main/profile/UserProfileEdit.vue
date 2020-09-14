@@ -58,7 +58,7 @@ export default class UserProfileEdit extends Vue {
         email: this.email,
       };
       await this.mainContext.actions.updateUserProfile(updatedProfile);
-      this.$router.push("/main/profile");
+      this.$router.push("/main/profile", () => {});
     }
   }
 

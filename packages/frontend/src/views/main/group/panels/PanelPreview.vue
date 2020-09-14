@@ -14,7 +14,7 @@
     >
       <template v-slot:item.tag="{ item }">
         <span :class="item.status === 2 ? 'empty' : item.status === 1 ? 'low' : ''">{{
-          item.tag.mw ? item.tag.name + item.tag.mw : item.tag.name
+          item.tag.mw ? item.tag.mw + item.tag.name : item.tag.name
         }}</span>
       </template>
       <template v-slot:item.lot.clone.protein="{ item }">
@@ -74,7 +74,7 @@ export default class PanelPreview extends Vue {
         if (b === null) {
           return -1;
         }
-        return a.name.localeCompare(b.name);
+        return a.mw - b.mw;
       },
     },
     {

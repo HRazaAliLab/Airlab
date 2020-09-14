@@ -5,6 +5,7 @@ import { CloneEntity } from "./clone.entity";
 import { CreateCloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
 import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
 import { ConjugateEntity } from "../conjugate/conjugate.entity";
+import { UserEntity } from "../user/user.entity";
 
 @Injectable()
 export class CloneService {
@@ -31,6 +32,8 @@ export class CloneService {
       .addSelect(["protein.id", "protein.name"])
       .leftJoin("clone.species", "species")
       .addSelect(["species.id", "species.name"])
+      .leftJoin("clone.member", "member")
+      .leftJoinAndMapOne("clone.user", UserEntity, "user", "member.userId = user.id")
       .getOne();
   }
 

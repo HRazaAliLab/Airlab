@@ -67,7 +67,7 @@ export default class UserProfileEdit extends Vue {
   }
 
   cancel() {
-    this.$router.push("/");
+    this.$router.push("/", () => {});
   }
 
   checkToken() {
@@ -77,7 +77,7 @@ export default class UserProfileEdit extends Vue {
         content: "No token provided in the URL, start a new password recovery",
         color: "error",
       });
-      this.$router.push("/recover-password");
+      this.$router.push("/recover-password", () => {});
     } else {
       return token;
     }
@@ -91,7 +91,7 @@ export default class UserProfileEdit extends Vue {
           token,
           password: this.password1,
         });
-        this.$router.push("/");
+        this.$router.push("/", () => {});
       }
     }
   }

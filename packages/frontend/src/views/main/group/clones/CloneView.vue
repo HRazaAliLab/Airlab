@@ -34,6 +34,21 @@
           {{ clone.species.name }}
         </router-link>
       </div>
+      <div v-if="clone.user">
+        <span class="subheader">Created by: </span>
+        <router-link
+          class="link"
+          :to="{
+            name: 'main-admin-users-edit',
+            params: {
+              groupId: activeGroupId,
+              id: clone.user.id,
+            },
+          }"
+        >
+          {{ clone.user.name }}
+        </router-link>
+      </div>
       <div><span class="subheader">Isotype: </span>{{ clone.isotype }}</div>
       <div><span class="subheader">Epitope: </span>{{ clone.epitope }}</div>
       <div><span class="subheader">Polyclonal: </span>{{ clone.isPolyclonal }}</div>

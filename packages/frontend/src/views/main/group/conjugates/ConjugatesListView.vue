@@ -405,7 +405,7 @@ export default class ConjugatesListViews extends Vue {
       ...item,
       label: (item as any).tag
         ? (item as any).tag.mw
-          ? (item as any).tag.name + (item as any).tag.mw
+          ? (item as any).tag.mw + (item as any).tag.name
           : (item as any).tag.name
         : "unknown",
     }));

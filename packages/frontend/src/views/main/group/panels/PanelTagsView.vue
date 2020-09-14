@@ -42,7 +42,7 @@
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title>
-              {{ tag.isMetal ? tag.name + tag.mw : tag.name }}
+              {{ tag.isMetal ? tag.mw + tag.name : tag.name }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>

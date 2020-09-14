@@ -257,12 +257,6 @@ export default class ViewPanel extends Vue {
       value: "label",
     },
     {
-      text: "Mass",
-      value: "tag.mw",
-      align: "end",
-      filterable: false,
-    },
-    {
       text: "Protein",
       value: "protein",
       sort: (a, b) => {
@@ -354,7 +348,7 @@ export default class ViewPanel extends Vue {
             ...conjugate,
             label: (conjugate as any).tag
               ? (conjugate as any).tag.mw
-                ? (conjugate as any).tag.name + (conjugate as any).tag.mw
+                ? (conjugate as any).tag.mw + (conjugate as any).tag.name
                 : (conjugate as any).tag.name
               : "unknown",
             validations: validations,

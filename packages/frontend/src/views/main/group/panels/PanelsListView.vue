@@ -295,7 +295,7 @@ export default class PanelsListView extends Vue {
   search = "";
 
   applicationFilter: number[] = [];
-  showOwnPanels = false;
+  showOwnPanels = true;
 
   get items() {
     let items = this.panelContext.getters.panels;
