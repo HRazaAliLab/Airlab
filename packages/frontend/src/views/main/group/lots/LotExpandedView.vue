@@ -63,7 +63,7 @@
             },
           }"
         >
-          {{ (item.tag.mw ? item.tag.mw : "") + item.tag.name }}
+          {{ item.tag.mw ? item.tag.name + item.tag.mw : item.tag.name }}
         </router-link>
       </template>
       <template v-slot:item.user="{ item }">

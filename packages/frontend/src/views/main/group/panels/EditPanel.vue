@@ -11,6 +11,8 @@
     <v-toolbar dense>
       <v-toolbar-title>Edit Panel</v-toolbar-title>
       <v-spacer />
+      <v-switch v-model="alternateView" label="Alternate View" hide-details class="toolbox-item-margin" />
+      <v-switch v-model="showOverview" label="Overview" hide-details />
       <v-toolbar-items>
         <v-btn @click="cancel" text color="primary">Cancel</v-btn>
         <v-btn @click="reset" text color="primary">Reset</v-btn>
@@ -41,18 +43,23 @@
       </v-expansion-panel>
     </v-expansion-panels>
     <v-row dense class="mt-1">
-      <v-col cols="2">
+      <v-col v-if="!alternateView" :cols="showOverview ? 2 : 3">
         <PanelTagsView :expanded="expanded" />
       </v-col>
-      <v-col>
+      <v-col :cols="alternateView ? (showOverview ? 8 : 12) : showOverview ? 6 : 9">
+        <AllConjugatesView
+          v-if="alternateView"
+          :on-selected="congugateSelected"
+          :selected-conjugates="getInitialState()"
+        />
         <TagConjugatesView
-          v-if="activePanelTag"
+          v-else
           :tag="activePanelTag"
           :on-selected="congugateSelected"
           :selected-conjugates="getInitialState()"
         />
       </v-col>
-      <v-col cols="4">
+      <v-col v-show="showOverview" cols="4">
         <PanelPreview :conjugates="selectedTagConjugates" :expanded="expanded" />
       </v-col>
     </v-row>
@@ -72,6 +79,7 @@ import PanelTagsView from "@/views/main/group/panels/PanelTagsView.vue";
 import TagConjugatesView from "@/views/main/group/panels/TagConjugatesView.vue";
 import PanelPreview from "@/views/main/group/panels/PanelPreview.vue";
 import { validationModule } from "@/modules/validation";
+import AllConjugatesView from "@/views/main/group/panels/AllConjugatesView.vue";
 
 type ConjugatePanelData = {
   dilutionType: number;
@@ -80,7 +88,7 @@ type ConjugatePanelData = {
 };
 
 @Component({
-  components: { PanelPreview, TagConjugatesView, PanelTagsView },
+  components: { AllConjugatesView, PanelPreview, TagConjugatesView, PanelTagsView },
 })
 export default class EditPanel extends Vue {
   private readonly panelContext = panelModule.context(this.$store);
@@ -93,7 +101,9 @@ export default class EditPanel extends Vue {
   private readonly descriptionRules = [];
 
   private fab = false;
-  private expanded = 0;
+  private expanded = null;
+  private showOverview = true;
+  private alternateView = false;
 
   private valid = false;
   private name = "";
@@ -118,8 +128,18 @@ export default class EditPanel extends Vue {
   }
 
   private getInitialState() {
-    const items = this.selectedTagConjugates.get(this.activePanelTagId!);
-    return items ? [...items] : [];
+    if (this.alternateView) {
+      const result: ConjugateDto[] = [];
+      for (const conjugates of this.selectedTagConjugates.values()) {
+        for (const item of conjugates.values()) {
+          result.push(item);
+        }
+      }
+      return result;
+    } else {
+      const items = this.selectedTagConjugates.get(this.activePanelTagId!);
+      return items ? [...items] : [];
+    }
   }
 
   private onScroll(e) {
@@ -157,7 +177,7 @@ export default class EditPanel extends Vue {
     if (this.panel) {
       this.name = this.panel.name;
       this.description = this.panel.description;
-      this.application = this.panel.application.toString(10);
+      this.application = this.panel.application ? this.panel.application.toString(10) : "";
       this.isFluorophore = this.panel.isFluorophore;
       this.isLocked = this.panel.isLocked;
       this.selectedTagConjugates = new Map<number, Set<ConjugateDto>>();
@@ -223,3 +243,9 @@ export default class EditPanel extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.toolbox-item-margin {
+  margin-right: 16px;
+}
+</style>

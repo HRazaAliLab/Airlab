@@ -9,8 +9,10 @@
       <span>Scroll to top</span>
     </v-tooltip>
     <v-toolbar dense>
-      <v-toolbar-title>Edit Panel</v-toolbar-title>
+      <v-toolbar-title>Create Panel</v-toolbar-title>
       <v-spacer />
+      <v-switch v-model="alternateView" label="Alternate View" hide-details class="toolbox-item-margin" />
+      <v-switch v-model="showOverview" label="Overview" hide-details />
       <v-toolbar-items>
         <v-btn @click="cancel" text color="primary">Cancel</v-btn>
         <v-btn @click="reset" text color="primary">Reset</v-btn>
@@ -41,13 +43,14 @@
       </v-expansion-panel>
     </v-expansion-panels>
     <v-row dense class="mt-1">
-      <v-col cols="2">
+      <v-col v-if="!alternateView" :cols="showOverview ? 2 : 3">
         <PanelTagsView :expanded="expanded" />
       </v-col>
-      <v-col>
-        <TagConjugatesView v-if="activePanelTag" :tag="activePanelTag" :on-selected="congugateSelected" />
+      <v-col :cols="alternateView ? (showOverview ? 8 : 12) : showOverview ? 6 : 9">
+        <AllConjugatesView v-if="alternateView" :on-selected="congugateSelected" />
+        <TagConjugatesView v-else :tag="activePanelTag" :on-selected="congugateSelected" />
       </v-col>
-      <v-col cols="4">
+      <v-col v-show="showOverview" cols="4">
         <PanelPreview :conjugates="selectedTagConjugates" :expanded="expanded" />
       </v-col>
     </v-row>
@@ -68,9 +71,10 @@ import TagConjugatesView from "@/views/main/group/panels/TagConjugatesView.vue";
 import PanelPreview from "@/views/main/group/panels/PanelPreview.vue";
 import { validationModule } from "@/modules/validation";
 import { groupModule } from "@/modules/group";
+import AllConjugatesView from "@/views/main/group/panels/AllConjugatesView.vue";
 
 @Component({
-  components: { PanelPreview, TagConjugatesView, PanelTagsView },
+  components: { AllConjugatesView, PanelPreview, TagConjugatesView, PanelTagsView },
 })
 export default class CreatePanel extends Vue {
   private readonly groupContext = groupModule.context(this.$store);
@@ -85,6 +89,8 @@ export default class CreatePanel extends Vue {
 
   private fab = false;
   private expanded = 0;
+  private showOverview = true;
+  private alternateView = false;
 
   private valid = false;
   private name = "";

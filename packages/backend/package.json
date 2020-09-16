@@ -1,6 +1,6 @@
 {
   "name": "@airlab/backend",
-  "version": "2020.09.14",
+  "version": "2020.09.16",
   "scripts": {
     "prebuild": "rm -rf ./dist",
     "build": "nest build",

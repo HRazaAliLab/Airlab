@@ -13,9 +13,10 @@
       @click:row="clickRow"
     >
       <template v-slot:item.tag="{ item }">
-        <span :class="item.status === 2 ? 'empty' : item.status === 1 ? 'low' : ''">{{
-          item.tag.mw ? item.tag.mw + item.tag.name : item.tag.name
-        }}</span>
+        <span :class="item.status === 2 ? 'empty' : item.status === 1 ? 'low' : ''">{{ item.tag.name }}</span>
+      </template>
+      <template v-slot:item.mass="{ item }">
+        <span :class="item.status === 2 ? 'empty' : item.status === 1 ? 'low' : ''">{{ item.tag.mw }}</span>
       </template>
       <template v-slot:item.lot.clone.protein="{ item }">
         <span :class="item.status === 2 ? 'empty' : item.status === 1 ? 'low' : ''">{{
@@ -49,8 +50,8 @@ export default class PanelPreview extends Vue {
   private items: ConjugateDto[] = [];
 
   get height() {
-    return this.expanded === 0
-      ? this.responsiveContext.getters.responsive.height! - 552
+    return this.expanded === 0 // expanded
+      ? this.responsiveContext.getters.responsive.height! - 542
       : this.responsiveContext.getters.responsive.height! - 182;
   }
 
@@ -74,7 +75,21 @@ export default class PanelPreview extends Vue {
         if (b === null) {
           return -1;
         }
-        return a.mw - b.mw;
+        return a.name.localeCompare(b.name);
+      },
+    },
+    {
+      text: "Mass",
+      value: "tag.mw",
+      align: "end",
+      sort: (a, b) => {
+        if (a === null) {
+          return 1;
+        }
+        if (b === null) {
+          return -1;
+        }
+        return a - b;
       },
     },
     {

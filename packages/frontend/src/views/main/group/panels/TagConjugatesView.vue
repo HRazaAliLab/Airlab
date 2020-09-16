@@ -1,6 +1,5 @@
 <template>
   <v-card tile>
-    <v-card-title class="panel-header">{{ tag.name + (tag.isMetal ? tag.mw : ``) }}</v-card-title>
     <v-toolbar flat dense class="mb-2">
       <v-text-field v-model="search" label="Search conjugates" single-line hide-details clearable dense>
         <template v-slot:append-outer>
@@ -8,7 +7,7 @@
         </template>
       </v-text-field>
       <v-spacer />
-      <v-switch v-model="showEmpty" label="Show empty" hide-details inset dense class="ml-2" style="width: 250px" />
+      <v-switch v-model="showEmpty" label="Show empty" hide-details inset dense class="ml-2" style="width: 200px" />
       <v-select
         v-model="sortBy"
         flat
@@ -21,7 +20,7 @@
         label="Sort by"
         dense
       />
-      <v-btn-toggle v-model="sortDesc" mandatory>
+      <v-btn-toggle v-model="sortDesc" mandatory dense>
         <v-btn depressed :value="false" x-small>
           <v-icon x-small>mdi-arrow-up</v-icon>
         </v-btn>
@@ -58,6 +57,9 @@
               :color="getConjugateColor(item, isSelected(item))"
             >
               <div class="content">
+                <div>
+                  <span class="subheader">Tag:</span> {{ item.tag.mw ? item.tag.name + item.tag.mw : item.tag.name }}
+                </div>
                 <div><span class="subheader">Tube:</span> {{ item.tubeNumber }}</div>
                 <div><span class="subheader">Protein:</span> {{ item.lot.clone.protein.name }}</div>
                 <div><span class="subheader">Clone:</span> {{ item.lot.clone.name }}</div>
@@ -104,6 +106,7 @@ import { speciesModule } from "@/modules/species";
 import { validationModule } from "@/modules/validation";
 import { getStatusColor } from "@/utils/converters";
 import ValidationDetailsView from "@/views/main/group/validations/ValidationDetailsView.vue";
+
 @Component({
   components: { ValidationDetailsView },
 })
@@ -114,17 +117,17 @@ export default class TagConjugatesView extends Vue {
 
   private readonly getStatusColor = getStatusColor;
 
-  @Prop({ type: Object, required: true }) readonly tag!: TagDto;
+  @Prop({ type: Object, required: false }) readonly tag?: TagDto;
   @Prop({ type: Array, required: false }) readonly selectedConjugates!: ConjugateDto[];
   @Prop({ type: Function, required: true }) readonly onSelected;
 
   private readonly sortByOptions = [
-    { id: "tube", title: "Tube" },
     { id: "protein", title: "Protein" },
     { id: "clone", title: "Clone" },
+    { id: "tube", title: "Tube" },
   ];
 
-  private sortBy = "tube";
+  private sortBy = "protein";
   private sortDesc = false;
 
   private showEmpty = false;
@@ -149,7 +152,8 @@ export default class TagConjugatesView extends Vue {
           (item as any).lot.clone.protein.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1
       );
     } else {
-      items = this.conjugateContext.getters.conjugates.filter((item) => item.tagId === this.tag.id);
+      if (!this.tag) return [];
+      items = this.conjugateContext.getters.conjugates.filter((item) => item.tagId === this.tag!.id);
       items = this.showEmpty ? items : items.filter((item) => item.status !== 2);
     }
     switch (this.sortBy) {
@@ -227,9 +231,6 @@ export default class TagConjugatesView extends Vue {
 </script>
 
 <style scoped>
-.panel-header {
-  font-weight: bold;
-}
 .content {
   font-size: small;
   margin: 8px;

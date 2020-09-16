@@ -348,7 +348,7 @@ export default class ViewPanel extends Vue {
             ...conjugate,
             label: (conjugate as any).tag
               ? (conjugate as any).tag.mw
-                ? (conjugate as any).tag.mw + (conjugate as any).tag.name
+                ? (conjugate as any).tag.name + (conjugate as any).tag.mw
                 : (conjugate as any).tag.name
               : "unknown",
             validations: validations,

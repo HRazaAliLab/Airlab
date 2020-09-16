@@ -16,7 +16,7 @@
             },
           }"
         >
-          {{ conjugate.tag.mw ? conjugate.tag.mw : "" + conjugate.tag.name }}
+          {{ conjugate.tag.mw ? conjugate.tag.name + conjugate.tag.mw : conjugate.tag.name }}
         </router-link>
       </div>
       <div>

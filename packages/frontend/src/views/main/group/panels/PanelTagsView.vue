@@ -1,6 +1,5 @@
 <template>
   <v-card tile>
-    <v-card-title>Tags</v-card-title>
     <v-toolbar dense flat>
       <v-text-field v-model="search" label="Search tags" single-line hide-details clearable dense>
         <template v-slot:append-outer>
@@ -21,8 +20,11 @@
         label="Sort by"
         dense
       />
+    </v-toolbar>
+    <v-toolbar dense flat>
+      <v-switch v-model="showOnlyMetals" label="Metals" hide-details inset dense />
       <v-spacer />
-      <v-btn-toggle v-model="sortDesc" mandatory>
+      <v-btn-toggle v-model="sortDesc" mandatory dense>
         <v-btn depressed :value="false" x-small>
           <v-icon x-small>mdi-arrow-up</v-icon>
         </v-btn>
@@ -30,9 +32,6 @@
           <v-icon x-small>mdi-arrow-down</v-icon>
         </v-btn>
       </v-btn-toggle>
-    </v-toolbar>
-    <v-toolbar dense flat>
-      <v-switch v-model="showOnlyMetals" label="Show only metals" hide-details inset dense />
     </v-toolbar>
     <v-list dense class="overflow-y-auto" :height="height">
       <v-list-item-group v-model="selectedTag" color="primary">
@@ -42,7 +41,7 @@
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title>
-              {{ tag.isMetal ? tag.mw + tag.name : tag.name }}
+              {{ tag.isMetal ? tag.name + tag.mw : tag.name }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -86,8 +85,8 @@ export default class PanelTagsView extends Vue {
 
   get height() {
     return this.expanded === 0
-      ? this.responsiveContext.getters.responsive.height! - 752
-      : this.responsiveContext.getters.responsive.height! - 390;
+      ? this.responsiveContext.getters.responsive.height! - 686
+      : this.responsiveContext.getters.responsive.height! - 326;
   }
 
   private get tags() {
