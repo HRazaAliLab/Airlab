@@ -7,7 +7,7 @@
  */
 
 //Change this value every time before you build
-const LATEST_VERSION = "2020.09.16";
+const LATEST_VERSION = "2020.09.17";
 
 workbox.core.setCacheNameDetails({ prefix: "airlab" });
 

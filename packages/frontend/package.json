@@ -1,6 +1,6 @@
 {
   "name": "@airlab/frontend",
-  "version": "2020.09.16",
+  "version": "2020.09.17",
   "private": true,
   "scripts": {
     "serve": "FRONTEND_ENV=development && VUE_APP_ENV=development && vue-cli-service serve",
@@ -17,7 +17,7 @@
     "normalizr": "3.6.0",
     "register-service-worker": "1.7.1",
     "vue": "2.6.12",
-    "vue-class-component": "7.2.5",
+    "vue-class-component": "7.2.6",
     "vue-property-decorator": "9.0.0",
     "vue-router": "3.4.3",
     "vuetify": "2.3.10",
@@ -26,7 +26,7 @@
     "vuex-smart-module": "0.4.5"
   },
   "devDependencies": {
-    "@mdi/font": "5.5.55",
+    "@mdi/font": "5.6.55",
     "@types/file-saver": "2.0.1",
     "@vue/cli-plugin-babel": "4.5.6",
     "@vue/cli-plugin-pwa": "4.5.6",

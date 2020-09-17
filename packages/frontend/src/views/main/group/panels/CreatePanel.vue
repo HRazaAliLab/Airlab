@@ -25,7 +25,7 @@
         <v-expansion-panel-content>
           <v-form v-model="valid" ref="form">
             <v-text-field label="Name" v-model="name" :rules="nameRules" />
-            <v-text-field label="Description" v-model="description" :rules="descriptionRules" />
+            <v-text-field label="Description" v-model="description" />
             <div class="text-subtitle-1">Application</div>
             <v-btn-toggle v-model="application">
               <v-btn small value="0">SMC</v-btn>
@@ -85,7 +85,6 @@ export default class CreatePanel extends Vue {
   private readonly validationContext = validationModule.context(this.$store);
 
   private readonly nameRules = [required];
-  private readonly descriptionRules = [];
 
   private fab = false;
   private expanded = 0;
