@@ -1,6 +1,6 @@
 {
   "name": "@airlab/worker",
-  "version": "2020.09.17",
+  "version": "2020.09.18",
   "scripts": {
     "prebuild": "rm -rf ./dist",
     "build": "nest build",

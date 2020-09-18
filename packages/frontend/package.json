@@ -1,6 +1,6 @@
 {
   "name": "@airlab/frontend",
-  "version": "2020.09.17",
+  "version": "2020.09.18",
   "private": true,
   "scripts": {
     "serve": "FRONTEND_ENV=development && VUE_APP_ENV=development && vue-cli-service serve",
