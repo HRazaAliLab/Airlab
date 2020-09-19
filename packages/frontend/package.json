@@ -1,6 +1,6 @@
 {
   "name": "@airlab/frontend",
-  "version": "2020.09.18",
+  "version": "2020.09.19",
   "private": true,
   "scripts": {
     "serve": "FRONTEND_ENV=development && VUE_APP_ENV=development && vue-cli-service serve",
@@ -22,7 +22,7 @@
     "vue-router": "3.4.3",
     "vuetify": "2.3.10",
     "vuex": "3.5.1",
-    "vuex-persist": "2.2.0",
+    "vuex-persist": "3.1.0",
     "vuex-smart-module": "0.4.5"
   },
   "devDependencies": {
@@ -39,7 +39,7 @@
     "deepmerge": "4.2.2",
     "eslint-plugin-vue": "6.2.2",
     "fibers": "5.0.0",
-    "sass": "1.26.10",
+    "sass": "1.26.11",
     "sass-loader": "10.0.2",
     "vue-cli-plugin-vuetify": "2.0.7",
     "vue-cli-plugin-webpack-bundle-analyzer": "2.0.0",

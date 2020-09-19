@@ -1,6 +1,6 @@
 {
   "name": "@airlab/backend",
-  "version": "2020.09.18",
+  "version": "2020.09.19",
   "scripts": {
     "prebuild": "rm -rf ./dist",
     "build": "nest build",
@@ -62,7 +62,7 @@
     "@types/express": "4.17.8",
     "@types/json2csv": "5.0.1",
     "@types/mailgen": "2.0.3",
-    "@types/node": "12.12.58",
+    "@types/node": "12.12.62",
     "@types/passport-jwt": "3.0.3",
     "@types/passport-local": "1.0.33",
     "@types/redis": "2.8.27",
@@ -70,10 +70,10 @@
     "@types/uuid": "8.3.0",
     "@types/ws": "7.2.6",
     "dirty-json": "0.9.2",
-    "mysql2": "2.1.0",
+    "mysql2": "2.2.2",
     "supertest": "4.0.2",
     "ts-jest": "26.3.0",
-    "ts-loader": "8.0.3",
+    "ts-loader": "8.0.4",
     "ts-node": "9.0.0",
     "tsconfig-paths": "3.9.0"
   }
