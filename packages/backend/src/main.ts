@@ -10,23 +10,7 @@ const apiRoot = "/api/v1";
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.enableCors({
-    origin: [
-      "http://localhost",
-      "ws://localhost",
-      "http://localhost:9999",
-      "https://localhost",
-      "https://localhost:9999",
-      "http://130.60.24.75",
-      "https://130.60.24.75",
-      "http://172.23.37.252",
-      "https://172.23.37.252",
-      "http://airlab.bio",
-      "https://airlab.bio",
-    ],
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
-  });
+  app.enableCors();
   app.setGlobalPrefix(apiRoot);
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new LoggingInterceptor());
