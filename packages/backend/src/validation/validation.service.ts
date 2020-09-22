@@ -304,6 +304,11 @@ export class ValidationService {
   }
 
   async clearCache(groupId: number) {
-    await this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_validations`]);
+    await Promise.all([
+      this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_validations`]),
+      this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_clones`]),
+      this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_lots`]),
+      this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_conjugates`])
+    ]);
   }
 }
