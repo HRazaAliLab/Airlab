@@ -251,7 +251,9 @@ export default class TagsListView extends Vue {
 
   async deleteTag(id: number) {
     if (self.confirm("Are you sure you want to delete the tag?")) {
-      await this.tagContext.actions.deleteTag(id);
+      if (self.confirm("All children entities will be deleted!")) {
+        await this.tagContext.actions.deleteTag(id);
+      }
     }
   }
 }

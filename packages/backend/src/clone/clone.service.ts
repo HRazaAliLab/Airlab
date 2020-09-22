@@ -32,6 +32,8 @@ export class CloneService {
       .addSelect(["protein.id", "protein.name"])
       .leftJoin("clone.species", "species")
       .addSelect(["species.id", "species.name"])
+      .leftJoin("clone.validations", "validations")
+      .addSelect(["validations.id", "validations.application", "validations.status"])
       .leftJoin("clone.member", "member")
       .leftJoinAndMapOne("clone.user", UserEntity, "user", "member.userId = user.id")
       .getOne();

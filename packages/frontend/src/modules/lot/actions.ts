@@ -142,4 +142,12 @@ export class LotActions extends Actions<LotState, LotGetters, LotMutations, LotA
       await this.main!.actions.checkApiError(error);
     }
   }
+
+  async getLotValidations(lotId: number) {
+    try {
+      return api.getLotValidations(lotId);
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
 }

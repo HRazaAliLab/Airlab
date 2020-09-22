@@ -3,6 +3,7 @@ import { CreateLotDto, LotDto, ReorderLotDto, UpdateLotDto, UpdateLotStatusDto }
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
 import { getQueryString, RequestQuery } from "@/utils/QueryBuilder";
+import { ValidationDto } from "@airlab/shared/lib/validation/dto";
 
 export const api = {
   async createLot(data: CreateLotDto) {
@@ -52,5 +53,8 @@ export const api = {
   },
   async getLotConjugates(lotId: number) {
     return ApiManager.api.get(`lots/${lotId}/conjugates`).json<ConjugateDto[]>();
+  },
+  async getLotValidations(lotId: number) {
+    return ApiManager.api.get(`lots/${lotId}/validations`).json<ValidationDto[]>();
   },
 };

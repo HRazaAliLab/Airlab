@@ -5,9 +5,10 @@ import { LotEntity } from "./lot.entity";
 import { LotController } from "./lot.controller";
 import { MemberModule } from "../member/member.module";
 import { ConjugateModule } from "../conjugate/conjugate.module";
+import { ValidationModule } from "../validation/validation.module";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([LotEntity]), MemberModule, ConjugateModule],
+  imports: [TypeOrmModule.forFeature([LotEntity]), MemberModule, ConjugateModule, ValidationModule],
   providers: [LotService],
   controllers: [LotController],
   exports: [LotService],

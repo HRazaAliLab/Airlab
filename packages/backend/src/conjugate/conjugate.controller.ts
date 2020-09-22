@@ -10,13 +10,19 @@ import {
 } from "@airlab/shared/lib/conjugate/dto";
 import { MemberService } from "../member/member.service";
 import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
+import { ValidationDto } from "@airlab/shared/lib/validation/dto";
+import { ValidationService } from "../validation/validation.service";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
 @ApiTags("conjugates")
 @ApiBearerAuth()
 export class ConjugateController {
-  constructor(private readonly conjugateService: ConjugateService, private readonly memberService: MemberService) {}
+  constructor(
+    private readonly conjugateService: ConjugateService,
+    private readonly memberService: MemberService,
+    private readonly validationService: ValidationService
+  ) {}
 
   @Post("conjugates")
   @ApiOperation({ summary: "Create new conjugate." })
@@ -77,5 +83,14 @@ export class ConjugateController {
   async getGroupConjugates(@Request() req, @Param("groupId") groupId: number) {
     await this.memberService.checkGuestMemberPermissions(req.user.userId, groupId);
     return this.conjugateService.getGroupConjugates(groupId);
+  }
+
+  @Get("conjugates/:id/validations")
+  @ApiOperation({ summary: "Find all validations belonging to the conjugate." })
+  @ApiOkResponse({ type: ValidationDto, isArray: true })
+  async findConjugateValidations(@Request() req, @Param("id") id: number) {
+    const conjugate = await this.conjugateService.findById(id);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, conjugate.groupId);
+    return this.validationService.getConjugateValidations(id);
   }
 }

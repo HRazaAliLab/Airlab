@@ -48,7 +48,7 @@
       </v-col>
       <v-col :cols="alternateView ? (showOverview ? 8 : 12) : showOverview ? 6 : 9">
         <AllConjugatesView v-if="alternateView" :on-selected="congugateSelected" />
-        <TagConjugatesView v-else :tag="activePanelTag" :on-selected="congugateSelected" />
+        <TagConjugatesView v-else-if="activePanelTag" :tag="activePanelTag" :on-selected="congugateSelected" />
       </v-col>
       <v-col v-show="showOverview" cols="4">
         <PanelPreview :conjugates="selectedTagConjugates" :expanded="expanded" />

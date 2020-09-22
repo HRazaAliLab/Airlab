@@ -139,7 +139,9 @@ export default class LotView extends Vue {
 
   private async deleteLot() {
     if (self.confirm("Are you sure you want to delete the lot?")) {
-      await this.lotContext.actions.deleteLot(this.lotId);
+      if (self.confirm("All children conjugates will be deleted!")) {
+        await this.lotContext.actions.deleteLot(this.lotId);
+      }
     }
   }
 

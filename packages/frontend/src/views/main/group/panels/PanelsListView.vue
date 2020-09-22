@@ -347,7 +347,9 @@ export default class PanelsListView extends Vue {
 
   async deletePanel(id: number) {
     if (self.confirm("Are you sure you want to delete the panel?")) {
-      await this.panelContext.actions.deletePanel(id);
+      if (self.confirm("All children entities will be deleted!")) {
+        await this.panelContext.actions.deletePanel(id);
+      }
     }
   }
 

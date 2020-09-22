@@ -41,7 +41,7 @@
         disable-sort
         @item-selected="
           ({ item, value }) => {
-            onSelected(tag.id, item, value);
+            onSelected(item.tag.id, item, value);
           }
         "
       >
@@ -117,7 +117,7 @@ export default class TagConjugatesView extends Vue {
 
   private readonly getStatusColor = getStatusColor;
 
-  @Prop({ type: Object, required: false }) readonly tag?: TagDto;
+  @Prop({ type: Object, required: true }) readonly tag!: TagDto;
   @Prop({ type: Array, required: false }) readonly selectedConjugates!: ConjugateDto[];
   @Prop({ type: Function, required: true }) readonly onSelected;
 
@@ -141,20 +141,15 @@ export default class TagConjugatesView extends Vue {
   }
 
   private get items() {
-    let items: ConjugateDto[] = [];
-    if (this.search !== null && this.search.length >= 3) {
-      items = this.conjugateContext.getters.conjugates;
-      items = this.showEmpty ? items : items.filter((item) => item.status !== 2);
+    let items = this.conjugateContext.getters.conjugates.filter((item) => item.tagId === this.tag.id);
+    items = this.showEmpty ? items : items.filter((item) => item.status !== 2);
+    if (this.search !== null) {
       const normalizedSearchTerm = this.search.toLowerCase().trim();
       items = items.filter(
         (item) =>
           (item as any).lot.clone.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 ||
           (item as any).lot.clone.protein.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1
       );
-    } else {
-      if (!this.tag) return [];
-      items = this.conjugateContext.getters.conjugates.filter((item) => item.tagId === this.tag!.id);
-      items = this.showEmpty ? items : items.filter((item) => item.status !== 2);
     }
     switch (this.sortBy) {
       case "tube": {

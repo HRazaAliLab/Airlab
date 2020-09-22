@@ -2,12 +2,7 @@
   <v-card flat>
     <v-card-title>Validation Details</v-card-title>
     <v-card-text>
-      <v-tabs v-model="tab">
-        <v-tab>Info</v-tab>
-        <v-tab-item>
-          <ValidationView :validation="validation" :group-id="activeGroupId" :api-url="apiUrl" />
-        </v-tab-item>
-      </v-tabs>
+      <ValidationView v-if="validation" :validation="validation" :group-id="activeGroupId" :api-url="apiUrl" />
     </v-card-text>
   </v-card>
 </template>
@@ -33,8 +28,6 @@ export default class ValidationDetailsView extends Vue {
     required: true,
   })
   readonly validationId!: number;
-
-  private tab = 0;
 
   private get activeGroupId() {
     return this.groupContext.getters.activeGroupId;

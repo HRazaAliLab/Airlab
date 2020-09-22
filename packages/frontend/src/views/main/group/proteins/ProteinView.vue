@@ -59,7 +59,9 @@ export default class ProteinView extends Vue {
 
   private async deleteProtein() {
     if (self.confirm("Are you sure you want to delete the protein?")) {
-      await this.proteinContext.actions.deleteProtein(this.proteinId);
+      if (self.confirm("All children entities will be deleted!")) {
+        await this.proteinContext.actions.deleteProtein(this.proteinId);
+      }
     }
   }
 

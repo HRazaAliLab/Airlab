@@ -230,7 +230,9 @@ export default class MembersListView extends Vue {
 
   async deleteMember(id: number) {
     if (self.confirm("Are you sure you want to delete the group member?")) {
-      await this.memberContext.actions.deleteMember(id);
+      if (self.confirm("All children entities will be deleted!")) {
+        await this.memberContext.actions.deleteMember(id);
+      }
     }
   }
 

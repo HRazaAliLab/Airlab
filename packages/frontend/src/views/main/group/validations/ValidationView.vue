@@ -142,8 +142,16 @@ import { getStatusColor } from "@/utils/converters";
 
 @Component
 export default class ValidationView extends Vue {
-  @Prop(Number) readonly groupId!: number;
-  @Prop(Object) readonly validation!: ValidationDto;
+  @Prop({
+    type: Number,
+    required: true,
+  })
+  readonly groupId!: number;
+  @Prop({
+    type: Object,
+    required: true,
+  })
+  readonly validation!: ValidationDto;
   @Prop({
     type: String,
     required: true,

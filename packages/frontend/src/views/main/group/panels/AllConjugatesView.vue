@@ -114,13 +114,31 @@ export default class AllConjugatesView extends Vue {
       const tagConjugates = tagMap.get(item.tagId);
       tagConjugates!.push(item);
     }
-    return tagMap;
+    return new Map(
+      [...tagMap.entries()]
+        .sort((a, b) => {
+          const tagA = this.tagContext.getters.getTag(a[0]);
+          const tagB = this.tagContext.getters.getTag(b[0]);
+          return tagA.name.localeCompare(tagB.name);
+        })
+        .sort((a, b) => {
+          const tagA = this.tagContext.getters.getTag(a[0]);
+          const tagB = this.tagContext.getters.getTag(b[0]);
+          if (tagA.mw === null) {
+            return 1;
+          }
+          if (tagB.mw === null) {
+            return -1;
+          }
+          return tagA.mw - tagB.mw;
+        })
+    );
   }
 
   private get items() {
     let items = this.conjugateContext.getters.conjugates;
     items = this.showEmpty ? items : items.filter((item) => item.status !== 2);
-    if (this.search !== null && this.search.length >= 3) {
+    if (this.search !== null) {
       const normalizedSearchTerm = this.search.toLowerCase().trim();
       items = items.filter(
         (item) =>

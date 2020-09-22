@@ -62,7 +62,9 @@ export default class ProviderView extends Vue {
 
   private async deleteProvider() {
     if (self.confirm("Are you sure you want to delete the provider?")) {
-      await this.providerContext.actions.deleteProvider(this.providerId);
+      if (self.confirm("All children entities will be deleted!")) {
+        await this.providerContext.actions.deleteProvider(this.providerId);
+      }
     }
   }
 

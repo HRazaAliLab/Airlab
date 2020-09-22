@@ -556,7 +556,9 @@ export default class ValidationsListViews extends Vue {
 
   async deleteValidation(id: number) {
     if (self.confirm("Are you sure you want to delete the validation?")) {
-      await this.validationContext.actions.deleteValidation(id);
+      if (self.confirm("All children entities will be deleted!")) {
+        await this.validationContext.actions.deleteValidation(id);
+      }
     }
   }
 

@@ -8,6 +8,7 @@ import {
 import { PanelDto } from "@airlab/shared/lib/panel/dto";
 import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
 import { CloneDto } from "@airlab/shared/lib/clone/dto";
+import { ValidationDto } from "@airlab/shared/lib/validation/dto";
 
 export const api = {
   async createConjugate(data: CreateConjugateDto) {
@@ -52,5 +53,8 @@ export const api = {
   },
   async getConjugateClones(id: number) {
     return ApiManager.api.get(`conjugates/${id}/clones`).json<CloneDto[]>();
+  },
+  async getConjugateValidations(conjugateId: number) {
+    return ApiManager.api.get(`conjugates/${conjugateId}/validations`).json<ValidationDto[]>();
   },
 };

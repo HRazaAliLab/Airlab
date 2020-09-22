@@ -57,6 +57,56 @@
               </v-chip>
             </template>
           </v-select>
+          <v-select
+            v-model="validationApplicationFilter"
+            :items="applications"
+            item-text="text"
+            item-value="value"
+            chips
+            clearable
+            label="Validation Application"
+            multiple
+            prepend-icon="mdi-filter-outline"
+            solo
+            dense
+          >
+            <template v-slot:selection="{ attrs, item, select, selected }">
+              <v-chip
+                v-bind="attrs"
+                :input-value="selected"
+                close
+                @click="select"
+                @click:close="removeValidationApplicationFilter(item)"
+              >
+                {{ item.text }}
+              </v-chip>
+            </template>
+          </v-select>
+          <v-select
+            v-model="validationStatusFilter"
+            :items="validationStatuses"
+            item-text="text"
+            item-value="value"
+            chips
+            clearable
+            label="Validation Status"
+            multiple
+            prepend-icon="mdi-filter-outline"
+            solo
+            dense
+          >
+            <template v-slot:selection="{ attrs, item, select, selected }">
+              <v-chip
+                v-bind="attrs"
+                :input-value="selected"
+                close
+                @click="select"
+                @click:close="removeValidationStatusFilter(item)"
+              >
+                {{ item.text }}
+              </v-chip>
+            </template>
+          </v-select>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -123,7 +173,7 @@
             {{ item.lot.number }}
           </router-link>
         </template>
-        <template v-slot:item.label="{ item }">
+        <template v-slot:item.tag.name="{ item }">
           <router-link
             class="link"
             :to="{
@@ -134,7 +184,7 @@
               },
             }"
           >
-            {{ item.label }}
+            {{ item.tag.name }}
           </router-link>
         </template>
         <template v-slot:item.user="{ item }">
@@ -155,6 +205,19 @@
         <template v-slot:item.status="{ item }">
           <v-chip :color="getConjugateStatusColor(item)" class="mr-1" small dark label>
             {{ item.status | conjugateStatusToString }}
+          </v-chip>
+        </template>
+        <template v-slot:item.validations="{ item }">
+          <v-chip
+            v-for="validation in item.validations"
+            :key="validation.id"
+            :color="getStatusColor(validation)"
+            class="mr-1"
+            x-small
+            dark
+            @click.stop="showValidation(validation.id)"
+          >
+            {{ validation.application | applicationToString }}
           </v-chip>
         </template>
         <template v-slot:item.action="{ item }">
@@ -242,8 +305,11 @@
         </template>
       </v-data-table>
     </v-card>
-    <v-navigation-drawer v-model="drawer" right fixed temporary width="400">
+    <v-navigation-drawer v-model="drawer" right fixed temporary width="600">
       <ConjugateDetailsView v-if="drawer" :conjugate="detailsItem" />
+    </v-navigation-drawer>
+    <v-navigation-drawer v-model="validationDrawer" right fixed temporary width="600">
+      <ValidationDetailsView v-if="validationDrawer" :validation-id="selectedValidationId" />
     </v-navigation-drawer>
   </v-col>
 </template>
@@ -256,12 +322,15 @@ import { conjugateModule } from "@/modules/conjugate";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 import { tagModule } from "@/modules/tag";
 import ConjugateDetailsView from "@/views/main/group/conjugates/ConjugateDetailsView.vue";
-import { getConjugateStatusColor } from "@/utils/converters";
+import { getConjugateStatusColor, getStatusColor } from "@/utils/converters";
 import ConjugateExpandedView from "@/views/main/group/conjugates/ConjugateExpandedView.vue";
 import { ConjugateStatus } from "@airlab/shared/lib/conjugate/ConjugateStatus";
+import { applicationEnum } from "@/utils/enums";
+import ValidationDetailsView from "@/views/main/group/validations/ValidationDetailsView.vue";
 
 @Component({
   components: {
+    ValidationDetailsView,
     ConjugateExpandedView,
     ConjugateDetailsView,
     LoadingView,
@@ -273,6 +342,15 @@ export default class ConjugatesListViews extends Vue {
   readonly conjugateContext = conjugateModule.context(this.$store);
 
   readonly getConjugateStatusColor = getConjugateStatusColor;
+  readonly getStatusColor = getStatusColor;
+  readonly applications = applicationEnum;
+  readonly validationStatuses = [
+    { value: 0, text: "Yes" },
+    { value: 1, text: "So-So" },
+    { value: 2, text: "No" },
+    { value: 3, text: "Undefined" },
+    { value: -1, text: "No validations" },
+  ];
 
   readonly statuses = [
     { id: 0, name: "Stock" },
@@ -342,7 +420,14 @@ export default class ConjugatesListViews extends Vue {
     },
     {
       text: "Tag",
-      value: "label",
+      value: "tag.name",
+    },
+    {
+      text: "Mass",
+      value: "tag.mw",
+      align: "end",
+      filterable: false,
+      width: 100,
     },
     {
       text: "Labeled by",
@@ -369,8 +454,8 @@ export default class ConjugatesListViews extends Vue {
       filterable: false,
     },
     {
-      text: "Custom ID",
-      value: "customId",
+      text: "Validations",
+      value: "validations",
       filterable: false,
     },
     {
@@ -388,10 +473,16 @@ export default class ConjugatesListViews extends Vue {
 
   drawer = false;
   detailsItem: ConjugateDto | null = null;
+
+  validationDrawer = false;
+  selectedValidationId: number | null = null;
+
   search = "";
 
   tagFilter: number[] = [];
   statusFilter: number[] = [];
+  validationApplicationFilter: number[] = [];
+  validationStatusFilter: number[] = [];
 
   get tags() {
     return this.tagContext.getters.tags.map((item) => ({
@@ -401,19 +492,48 @@ export default class ConjugatesListViews extends Vue {
   }
 
   get items() {
-    let items = this.conjugateContext.getters.conjugates.map((item) => ({
-      ...item,
-      label: (item as any).tag
-        ? (item as any).tag.mw
-          ? (item as any).tag.name + (item as any).tag.mw
-          : (item as any).tag.name
-        : "unknown",
-    }));
+    let items = this.conjugateContext.getters.conjugates;
     if (this.tagFilter.length > 0) {
       items = items.filter((item) => ((item as any).tag ? this.tagFilter.includes((item as any).tag.id) : false));
     }
     if (this.statusFilter.length > 0) {
       items = items.filter((item) => this.statusFilter.includes(item.status));
+    }
+    if (this.validationApplicationFilter.length > 0) {
+      items = items.filter((item) => {
+        for (const validation of (item as any).validations) {
+          if (this.validationApplicationFilter.includes(validation.application)) {
+            return true;
+          }
+        }
+        return false;
+      });
+    }
+    if (this.validationStatusFilter.length > 0) {
+      items =
+        this.validationApplicationFilter.length > 0
+          ? items.filter((item) => {
+              for (const validation of (item as any).validations) {
+                if (
+                  this.validationApplicationFilter.includes(validation.application) &&
+                  this.validationStatusFilter.includes(validation.status)
+                ) {
+                  return true;
+                }
+              }
+              return false;
+            })
+          : items.filter((item) => {
+              if ((item as any).validations && (item as any).validations.length > 0) {
+                for (const validation of (item as any).validations) {
+                  if (this.validationStatusFilter.includes(validation.status)) {
+                    return true;
+                  }
+                }
+              } else {
+                return this.validationStatusFilter.includes(-1);
+              }
+            });
     }
     return items;
   }
@@ -439,21 +559,16 @@ export default class ConjugatesListViews extends Vue {
     this.drawer = !this.drawer;
   }
 
-  async mounted() {
-    document.onkeydown = (evt) => {
-      if (this.drawer && evt.key === "Escape") {
-        this.drawer = false;
-      }
-    };
-    await Promise.all([
-      this.conjugateContext.actions.getGroupConjugates(+this.$router.currentRoute.params.groupId),
-      this.tagContext.actions.getGroupTags(+this.$router.currentRoute.params.groupId),
-    ]);
+  showValidation(id: number) {
+    this.selectedValidationId = id;
+    this.validationDrawer = !this.validationDrawer;
   }
 
   async deleteConjugate(id: number) {
     if (self.confirm("Are you sure you want to delete the conjugate?")) {
-      await this.conjugateContext.actions.deleteConjugate(id);
+      if (self.confirm("All children entities will be deleted!")) {
+        await this.conjugateContext.actions.deleteConjugate(id);
+      }
     }
   }
 
@@ -477,6 +592,29 @@ export default class ConjugatesListViews extends Vue {
   removeStatusFilter(item) {
     this.statusFilter.splice(this.statusFilter.indexOf(item), 1);
     this.statusFilter = [...this.statusFilter];
+  }
+
+  removeValidationApplicationFilter(item) {
+    this.validationApplicationFilter.splice(this.validationApplicationFilter.indexOf(item), 1);
+    this.validationApplicationFilter = [...this.validationApplicationFilter];
+  }
+
+  removeValidationStatusFilter(item) {
+    this.validationStatusFilter.splice(this.validationStatusFilter.indexOf(item), 1);
+    this.validationStatusFilter = [...this.validationStatusFilter];
+  }
+
+  async mounted() {
+    document.onkeydown = (evt) => {
+      if (this.drawer && evt.key === "Escape") {
+        this.drawer = false;
+        this.validationDrawer = false;
+      }
+    };
+    await Promise.all([
+      this.conjugateContext.actions.getGroupConjugates(+this.$router.currentRoute.params.groupId),
+      this.tagContext.actions.getGroupTags(+this.$router.currentRoute.params.groupId),
+    ]);
   }
 }
 </script>

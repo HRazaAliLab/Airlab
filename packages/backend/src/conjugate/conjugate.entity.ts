@@ -6,6 +6,7 @@ import { LotEntity } from "../lot/lot.entity";
 import { UserEntity } from "../user/user.entity";
 import { PanelElementEntity } from "../panelElement/panelElement.entity";
 import { ConjugateStatus } from "@airlab/shared/lib/conjugate/ConjugateStatus";
+import { ValidationEntity } from "../validation/validation.entity";
 
 @Entity({
   name: "conjugate",
@@ -125,4 +126,7 @@ export class ConjugateEntity {
 
   @OneToMany((type) => PanelElementEntity, (element) => element.panel)
   elements!: PanelElementEntity[];
+
+  @OneToMany((type) => ValidationEntity, (validation) => validation.conjugate)
+  validations: ValidationEntity[];
 }

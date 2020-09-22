@@ -19,7 +19,7 @@
           {{ clone.protein.name }}
         </router-link>
       </div>
-      <div>
+      <div v-if="clone.species">
         <span class="subheader">Host: </span>
         <router-link
           class="link"
@@ -139,7 +139,9 @@ export default class CloneView extends Vue {
 
   private async deleteClone() {
     if (self.confirm("Are you sure you want to delete the clone?")) {
-      await this.cloneContext.actions.deleteClone(this.cloneId);
+      if (self.confirm("All children lots and conjugates will be deleted!")) {
+        await this.cloneContext.actions.deleteClone(this.cloneId);
+      }
     }
   }
 

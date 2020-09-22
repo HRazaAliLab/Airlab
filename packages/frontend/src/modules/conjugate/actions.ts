@@ -112,4 +112,12 @@ export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, 
       await this.main!.actions.checkApiError(error);
     }
   }
+
+  async getConjugateValidations(conjugateId: number) {
+    try {
+      return api.getConjugateValidations(conjugateId);
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
 }

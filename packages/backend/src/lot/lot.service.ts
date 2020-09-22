@@ -39,6 +39,8 @@ export class LotService {
       .addSelect(["clone.id", "clone.name"])
       .leftJoin("lot.provider", "provider")
       .addSelect(["provider.id", "provider.name"])
+      .leftJoin("lot.validations", "validations")
+      .addSelect(["validations.id", "validations.application", "validations.status"])
       .leftJoin("lot.requestedByMember", "requestedByMember")
       .leftJoinAndMapOne(
         "lot.requestedByUser",
@@ -188,6 +190,8 @@ export class LotService {
       .andWhere("lot.isArchived = false")
       .leftJoin("lot.clone", "clone")
       .addSelect(["clone.id", "clone.name"])
+      .leftJoin("lot.validations", "validations")
+      .addSelect(["validations.id", "validations.application", "validations.status"])
       .leftJoin("lot.provider", "provider")
       .addSelect(["provider.id", "provider.name"])
       .orderBy("lot.id", "DESC");

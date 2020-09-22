@@ -122,7 +122,9 @@ export default class ConjugateView extends Vue {
 
   private async deleteConjugate() {
     if (self.confirm("Are you sure you want to delete the conjugate?")) {
-      await this.conjugateContext.actions.deleteConjugate(this.conjugateId);
+      if (self.confirm("All children entities will be deleted!")) {
+        await this.conjugateContext.actions.deleteConjugate(this.conjugateId);
+      }
     }
   }
 

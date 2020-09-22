@@ -59,7 +59,9 @@ export default class SpeciesView extends Vue {
 
   private async deleteSpecies() {
     if (self.confirm("Are you sure you want to delete the species?")) {
-      await this.speciesContext.actions.deleteSpecies(this.speciesId);
+      if (self.confirm("All children entities will be deleted!")) {
+        await this.speciesContext.actions.deleteSpecies(this.speciesId);
+      }
     }
   }
 

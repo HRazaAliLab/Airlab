@@ -37,6 +37,8 @@ export class ConjugateService {
       .addSelect(["clone.id", "clone.name", "clone.isPhospho"])
       .leftJoin("clone.protein", "protein")
       .addSelect(["protein.id", "protein.name"])
+      .leftJoin("conjugate.validations", "validations")
+      .addSelect(["validations.id", "validations.application", "validations.status"])
       .leftJoin("conjugate.labeledByMember", "labeledByMember")
       .leftJoinAndMapOne("conjugate.user", UserEntity, "user", "labeledByMember.userId = user.id")
       .getOne();
@@ -101,6 +103,8 @@ export class ConjugateService {
       .addSelect(["clone.id", "clone.name", "clone.reactivity"])
       .leftJoin("clone.protein", "protein")
       .addSelect(["protein.id", "protein.name"])
+      .leftJoin("conjugate.validations", "validations")
+      .addSelect(["validations.id", "validations.application", "validations.status"])
       .leftJoin("conjugate.labeledByMember", "labeledByMember")
       .leftJoinAndMapOne("conjugate.user", UserEntity, "user", "labeledByMember.userId = user.id")
       .orderBy({ "conjugate.tubeNumber": "DESC" })

@@ -108,9 +108,8 @@
             <span :class="item.status === 2 ? 'empty' : item.status === 1 ? 'low' : ''">{{ item.tubeNumber }}</span>
           </router-link>
         </template>
-        <template v-slot:item.label="{ item }">
+        <template v-slot:item.tag.name="{ item }">
           <router-link
-            v-if="item.tag"
             class="link"
             :to="{
               name: 'main-group-tags-edit',
@@ -120,7 +119,7 @@
               },
             }"
           >
-            <span :class="item.status === 2 ? 'empty' : item.status === 1 ? 'low' : ''">{{ item.label }}</span>
+            <span :class="item.status === 2 ? 'empty' : item.status === 1 ? 'low' : ''">{{ item.tag.name }}</span>
           </router-link>
         </template>
         <template v-slot:item.protein="{ item }">
@@ -254,7 +253,14 @@ export default class ViewPanel extends Vue {
     },
     {
       text: "Tag",
-      value: "label",
+      value: "tag.name",
+    },
+    {
+      text: "Mass",
+      value: "tag.mw",
+      align: "end",
+      filterable: false,
+      width: 100,
     },
     {
       text: "Protein",
@@ -346,11 +352,6 @@ export default class ViewPanel extends Vue {
               : [];
           const item = {
             ...conjugate,
-            label: (conjugate as any).tag
-              ? (conjugate as any).tag.mw
-                ? (conjugate as any).tag.name + (conjugate as any).tag.mw
-                : (conjugate as any).tag.name
-              : "unknown",
             validations: validations,
             actualConcentration: element.concentration,
             dilutionType: element.dilutionType,

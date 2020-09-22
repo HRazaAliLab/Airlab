@@ -62,6 +62,56 @@
               </v-chip>
             </template>
           </v-select>
+          <v-select
+            v-model="validationApplicationFilter"
+            :items="applications"
+            item-text="text"
+            item-value="value"
+            chips
+            clearable
+            label="Validation Application"
+            multiple
+            prepend-icon="mdi-filter-outline"
+            solo
+            dense
+          >
+            <template v-slot:selection="{ attrs, item, select, selected }">
+              <v-chip
+                v-bind="attrs"
+                :input-value="selected"
+                close
+                @click="select"
+                @click:close="removeValidationApplicationFilter(item)"
+              >
+                {{ item.text }}
+              </v-chip>
+            </template>
+          </v-select>
+          <v-select
+            v-model="validationStatusFilter"
+            :items="validationStatuses"
+            item-text="text"
+            item-value="value"
+            chips
+            clearable
+            label="Validation Status"
+            multiple
+            prepend-icon="mdi-filter-outline"
+            solo
+            dense
+          >
+            <template v-slot:selection="{ attrs, item, select, selected }">
+              <v-chip
+                v-bind="attrs"
+                :input-value="selected"
+                close
+                @click="select"
+                @click:close="removeValidationStatusFilter(item)"
+              >
+                {{ item.text }}
+              </v-chip>
+            </template>
+          </v-select>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -118,6 +168,19 @@
         <template v-slot:item.status="{ item }">
           <v-chip :color="getLotStatusColor(item.status)" class="mr-1" small dark label>
             {{ item.status | lotStatusToString }}
+          </v-chip>
+        </template>
+        <template v-slot:item.validations="{ item }">
+          <v-chip
+            v-for="validation in item.validations"
+            :key="validation.id"
+            :color="getStatusColor(validation)"
+            class="mr-1"
+            x-small
+            dark
+            @click.stop="showValidation(validation.id)"
+          >
+            {{ validation.application | applicationToString }}
           </v-chip>
         </template>
         <template v-slot:item.action="{ item }">
@@ -280,8 +343,11 @@
         </template>
       </v-data-table>
     </v-card>
-    <v-navigation-drawer v-model="drawer" right fixed temporary width="400">
+    <v-navigation-drawer v-model="drawer" right fixed temporary width="600">
       <LotDetailsView v-if="drawer" :lot="detailsItem" />
+    </v-navigation-drawer>
+    <v-navigation-drawer v-model="validationDrawer" right fixed temporary width="600">
+      <ValidationDetailsView v-if="validationDrawer" :validation-id="selectedValidationId" />
     </v-navigation-drawer>
   </v-col>
 </template>
@@ -295,12 +361,15 @@ import { LotDto } from "@airlab/shared/lib/lot/dto";
 import LotDetailsView from "@/views/main/group/lots/LotDetailsView.vue";
 import { providerModule } from "@/modules/provider";
 import LotExpandedView from "@/views/main/group/lots/LotExpandedView.vue";
-import { getLotStatusColor } from "@/utils/converters";
+import { getLotStatusColor, getStatusColor } from "@/utils/converters";
 import { LotStatus } from "@airlab/shared/lib/lot/LotStatus";
 import { exportCsv } from "@/utils/exporters";
+import ValidationDetailsView from "@/views/main/group/validations/ValidationDetailsView.vue";
+import { applicationEnum } from "@/utils/enums";
 
 @Component({
   components: {
+    ValidationDetailsView,
     LotExpandedView,
     LotDetailsView,
     LoadingView,
@@ -312,6 +381,15 @@ export default class LotsListView extends Vue {
   readonly providerContext = providerModule.context(this.$store);
 
   private readonly getLotStatusColor = getLotStatusColor;
+  readonly getStatusColor = getStatusColor;
+  readonly applications = applicationEnum;
+  readonly validationStatuses = [
+    { value: 0, text: "Yes" },
+    { value: 1, text: "So-So" },
+    { value: 2, text: "No" },
+    { value: 3, text: "Undefined" },
+    { value: -1, text: "No validations" },
+  ];
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
@@ -377,6 +455,11 @@ export default class LotsListView extends Vue {
     //   value: "purpose",
     // },
     {
+      text: "Validations",
+      value: "validations",
+      filterable: false,
+    },
+    {
       text: "Actions",
       value: "action",
       sortable: false,
@@ -391,10 +474,16 @@ export default class LotsListView extends Vue {
 
   drawer = false;
   detailsItem: LotDto | null = null;
+
+  validationDrawer = false;
+  selectedValidationId: number | null = null;
+
   search = "";
 
   statusFilter: number[] = [];
   providerFilter: number[] = [];
+  validationApplicationFilter: number[] = [];
+  validationStatusFilter: number[] = [];
 
   private readonly statuses = [
     { value: 0, text: "Requested" },
@@ -420,6 +509,42 @@ export default class LotsListView extends Vue {
         (item as any).provider ? this.providerFilter.includes((item as any).provider.id) : false
       );
     }
+    if (this.validationApplicationFilter.length > 0) {
+      items = items.filter((item) => {
+        for (const validation of (item as any).validations) {
+          if (this.validationApplicationFilter.includes(validation.application)) {
+            return true;
+          }
+        }
+        return false;
+      });
+    }
+    if (this.validationStatusFilter.length > 0) {
+      items =
+        this.validationApplicationFilter.length > 0
+          ? items.filter((item) => {
+              for (const validation of (item as any).validations) {
+                if (
+                  this.validationApplicationFilter.includes(validation.application) &&
+                  this.validationStatusFilter.includes(validation.status)
+                ) {
+                  return true;
+                }
+              }
+              return false;
+            })
+          : items.filter((item) => {
+              if ((item as any).validations && (item as any).validations.length > 0) {
+                for (const validation of (item as any).validations) {
+                  if (this.validationStatusFilter.includes(validation.status)) {
+                    return true;
+                  }
+                }
+              } else {
+                return this.validationStatusFilter.includes(-1);
+              }
+            });
+    }
     return items;
   }
 
@@ -443,21 +568,16 @@ export default class LotsListView extends Vue {
     this.drawer = !this.drawer;
   }
 
-  async mounted() {
-    document.onkeydown = (evt) => {
-      if (this.drawer && evt.key === "Escape") {
-        this.drawer = false;
-      }
-    };
-    await Promise.all([
-      this.lotContext.actions.getGroupLots({ groupId: +this.$router.currentRoute.params.groupId }),
-      this.providerContext.actions.getGroupProviders(+this.$router.currentRoute.params.groupId),
-    ]);
+  showValidation(id: number) {
+    this.selectedValidationId = id;
+    this.validationDrawer = !this.validationDrawer;
   }
 
   async deleteLot(id: number) {
     if (self.confirm("Are you sure you want to delete the lot?")) {
-      await this.lotContext.actions.deleteLot(id);
+      if (self.confirm("All children conjugates will be deleted!")) {
+        await this.lotContext.actions.deleteLot(id);
+      }
     }
   }
 
@@ -497,9 +617,32 @@ export default class LotsListView extends Vue {
     this.providerFilter = [...this.providerFilter];
   }
 
+  removeValidationApplicationFilter(item) {
+    this.validationApplicationFilter.splice(this.validationApplicationFilter.indexOf(item), 1);
+    this.validationApplicationFilter = [...this.validationApplicationFilter];
+  }
+
+  removeValidationStatusFilter(item) {
+    this.validationStatusFilter.splice(this.validationStatusFilter.indexOf(item), 1);
+    this.validationStatusFilter = [...this.validationStatusFilter];
+  }
+
   exportFile() {
     const csv = this.lotContext.getters.getCsv(this.items);
     exportCsv(csv, "lots.csv");
+  }
+
+  async mounted() {
+    document.onkeydown = (evt) => {
+      if (this.drawer && evt.key === "Escape") {
+        this.drawer = false;
+        this.validationDrawer = false;
+      }
+    };
+    await Promise.all([
+      this.lotContext.actions.getGroupLots({ groupId: +this.$router.currentRoute.params.groupId }),
+      this.providerContext.actions.getGroupProviders(+this.$router.currentRoute.params.groupId),
+    ]);
   }
 }
 </script>

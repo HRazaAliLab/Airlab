@@ -53,7 +53,7 @@
           :selected-conjugates="getInitialState()"
         />
         <TagConjugatesView
-          v-else
+          v-else-if="activePanelTag"
           :tag="activePanelTag"
           :on-selected="congugateSelected"
           :selected-conjugates="getInitialState()"

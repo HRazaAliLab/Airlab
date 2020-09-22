@@ -160,8 +160,10 @@ export default class GroupsListView extends Vue {
   }
 
   async deleteGroup(id: number) {
-    if (self.confirm("Are you sure you want to delete the group?")) {
-      await this.groupContext.actions.deleteGroup(id);
+    if (self.confirm("Delete the group?")) {
+      if (self.confirm("Are you sure you want to delete the group?")) {
+        await this.groupContext.actions.deleteGroup(id);
+      }
     }
   }
 

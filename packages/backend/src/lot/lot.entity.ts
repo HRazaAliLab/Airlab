@@ -5,6 +5,7 @@ import { ConjugateEntity } from "../conjugate/conjugate.entity";
 import { ProviderEntity } from "../provider/provider.entity";
 import { LotStatus } from "@airlab/shared/lib/lot/LotStatus";
 import { MemberEntity } from "../member/member.entity";
+import { ValidationEntity } from "../validation/validation.entity";
 
 @Entity({
   name: "lot",
@@ -134,7 +135,7 @@ export class LotEntity {
   @Column({
     name: "meta",
     type: "jsonb",
-    select: false,
+    select: true,
   })
   meta: object;
 
@@ -184,4 +185,7 @@ export class LotEntity {
 
   @OneToMany((type) => ConjugateEntity, (conjugate) => conjugate.lot)
   conjugates: ConjugateEntity[];
+
+  @OneToMany((type) => ValidationEntity, (validation) => validation.lot)
+  validations: ValidationEntity[];
 }

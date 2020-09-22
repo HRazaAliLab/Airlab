@@ -192,6 +192,7 @@
             class="mr-1"
             x-small
             dark
+            @click.stop="showValidation(validation.id)"
           >
             {{ validation.application | applicationToString }}
           </v-chip>
@@ -292,6 +293,9 @@
     <v-navigation-drawer v-model="drawer" right fixed temporary width="600">
       <CloneDetailsView v-if="drawer" :clone="detailsItem" />
     </v-navigation-drawer>
+    <v-navigation-drawer v-model="validationDrawer" right fixed temporary width="600">
+      <ValidationDetailsView v-if="validationDrawer" :validation-id="selectedValidationId" />
+    </v-navigation-drawer>
   </v-col>
 </template>
 
@@ -305,11 +309,13 @@ import { speciesModule } from "@/modules/species";
 import { exportCsv } from "@/utils/exporters";
 import CloneDetailsView from "@/views/main/group/clones/CloneDetailsView.vue";
 import { getStatusColor } from "@/utils/converters";
-import { applicationEnum, applicationNameToId, statusEnum } from "@/utils/enums";
+import { applicationEnum, applicationNameToId } from "@/utils/enums";
 import CloneExpandedView from "@/views/main/group/clones/CloneExpandedView.vue";
+import ValidationDetailsView from "@/views/main/group/validations/ValidationDetailsView.vue";
 
 @Component({
   components: {
+    ValidationDetailsView,
     CloneExpandedView,
     CloneDetailsView,
     LoadingView,
@@ -409,6 +415,10 @@ export default class ClonesListView extends Vue {
 
   drawer = false;
   detailsItem: CloneDto | null = null;
+
+  validationDrawer = false;
+  selectedValidationId: number | null = null;
+
   search = "";
 
   speciesFilter: number[] = [];
@@ -487,6 +497,11 @@ export default class ClonesListView extends Vue {
     this.drawer = !this.drawer;
   }
 
+  showValidation(id: number) {
+    this.selectedValidationId = id;
+    this.validationDrawer = !this.validationDrawer;
+  }
+
   citeAb(clone: CloneDto) {
     return `https://www.citeab.com/antibodies/search?q=${clone.name}`;
   }
@@ -505,7 +520,9 @@ export default class ClonesListView extends Vue {
 
   async deleteClone(id: number) {
     if (self.confirm("Are you sure you want to delete the clone?")) {
-      await this.cloneContext.actions.deleteClone(id);
+      if (self.confirm("All children lots and conjugates will be deleted!")) {
+        await this.cloneContext.actions.deleteClone(id);
+      }
     }
   }
 
@@ -552,6 +569,7 @@ export default class ClonesListView extends Vue {
     document.onkeydown = (evt) => {
       if (this.drawer && evt.key === "Escape") {
         this.drawer = false;
+        this.validationDrawer = false;
       }
     };
     await Promise.all([

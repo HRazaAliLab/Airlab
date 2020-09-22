@@ -7,6 +7,8 @@ import { MemberService } from "../member/member.service";
 import { ConjugateService } from "../conjugate/conjugate.service";
 import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
+import { ValidationDto } from "@airlab/shared/lib/validation/dto";
+import { ValidationService } from "../validation/validation.service";
 
 @Controller()
 @UseGuards(AuthGuard("jwt"))
@@ -16,7 +18,8 @@ export class LotController {
   constructor(
     private readonly lotService: LotService,
     private readonly memberService: MemberService,
-    private readonly conjugateService: ConjugateService
+    private readonly conjugateService: ConjugateService,
+    private readonly validationService: ValidationService
   ) {}
 
   @Post("lots")
@@ -96,5 +99,14 @@ export class LotController {
     const lot = await this.lotService.findById(id);
     await this.memberService.checkGuestMemberPermissions(req.user.userId, lot.groupId);
     return this.conjugateService.getLotConjugates(id);
+  }
+
+  @Get("lots/:id/validations")
+  @ApiOperation({ summary: "Find all validations belonging to the lot." })
+  @ApiOkResponse({ type: ValidationDto, isArray: true })
+  async findLotValidations(@Request() req, @Param("id") id: number) {
+    const lot = await this.lotService.findById(id);
+    await this.memberService.checkGuestMemberPermissions(req.user.userId, lot.groupId);
+    return this.validationService.getLotValidations(id);
   }
 }
