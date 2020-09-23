@@ -7,6 +7,8 @@ services:
       dockerfile: packages/backend/Dockerfile
       args:
         BACKEND_ENV: staging
+    ports:
+      - 3000:3000
     command: ["yarn", "run", "start:backend:prod"]
 
   worker:
