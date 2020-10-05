@@ -255,6 +255,25 @@
               <v-divider />
               <v-list-item
                 :to="{
+                  name: 'main-group-validations-create',
+                  params: {
+                    groupId: activeGroupId,
+                    cloneId: item.lot.clone.id,
+                    lotId: item.lotId,
+                    conjugateId: item.id,
+                  },
+                }"
+              >
+                <v-list-item-icon>
+                  <v-icon color="primary">mdi-plus-circle-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Add Validation</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider />
+              <v-list-item
+                :to="{
                   name: 'main-group-conjugates-edit',
                   params: {
                     groupId: activeGroupId,

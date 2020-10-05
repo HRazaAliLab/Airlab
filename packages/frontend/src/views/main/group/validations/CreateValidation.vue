@@ -66,7 +66,7 @@
               <v-autocomplete
                 label="Conjugate"
                 v-model="conjugateId"
-                :search-input.sync="conjugateSearchInput"
+                :filter="filterConjugates"
                 :items="conjugates"
                 item-text="tubeNumber"
                 item-value="id"
@@ -302,6 +302,10 @@ export default class CreateValidation extends Vue {
     this.conjugateSearchInput = "";
   }
 
+  private filterConjugates(item: any, queryText: string, itemText: string) {
+    return itemText.toLocaleLowerCase().indexOf(queryText.toLocaleLowerCase()) > -1;
+  }
+
   cancel() {
     this.$router.back();
   }
@@ -309,8 +313,10 @@ export default class CreateValidation extends Vue {
   reset() {
     this.cloneId = this.$router.currentRoute.params.cloneId ? +this.$router.currentRoute.params.cloneId : null;
     this.lotId = this.$router.currentRoute.params.lotId ? +this.$router.currentRoute.params.lotId : null;
+    this.conjugateId = this.$router.currentRoute.params.conjugateId
+      ? +this.$router.currentRoute.params.conjugateId
+      : null;
     this.lotSearchInput = "";
-    this.conjugateId = null;
     this.conjugateSearchInput = "";
     this.speciesId = null;
     this.application = "1";
