@@ -66,7 +66,7 @@
               <v-autocomplete
                 label="Conjugate"
                 v-model="conjugateId"
-                :search-input.sync="conjugateSearchInput"
+                :filter="filterConjugates"
                 :items="conjugates"
                 item-text="tubeNumber"
                 item-value="id"
@@ -348,6 +348,10 @@ export default class EditValidation extends Vue {
   private resetConjugateId() {
     this.conjugateId = null;
     this.conjugateSearchInput = "";
+  }
+
+  private filterConjugates(item: any, queryText: string, itemText: string) {
+    return itemText.toLocaleLowerCase().indexOf(queryText.toLocaleLowerCase()) > -1;
   }
 
   private cancel() {
