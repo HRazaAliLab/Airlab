@@ -395,7 +395,7 @@ export default class CreateValidation extends Vue {
       };
       const validation = await this.validationContext.actions.createValidation(data);
 
-      if (validation && this.file) {
+      if (validation && validation.id && this.file) {
         const formData = new FormData();
         formData.append("groupId", this.activeGroupId.toString());
         formData.append("file", this.file);
