@@ -28,6 +28,7 @@ export class ValidationActions extends Actions<
       const data = await api.createValidation(payload);
       this.mutations.addEntity(data);
       this.main!.mutations.addNotification({ content: "Validation successfully created", color: "success" });
+      return data;
     } catch (error) {
       await this.main!.actions.checkApiError(error);
     }

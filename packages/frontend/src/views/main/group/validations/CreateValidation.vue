@@ -196,6 +196,16 @@
         </v-form>
       </v-card-text>
     </v-card>
+    <v-card class="mt-4 px-4">
+      <v-card-title primary-title>
+        <div class="text-h5">Validation File</div>
+      </v-card-title>
+      <v-card-text>
+        <v-form>
+          <v-file-input v-model="file" label="File upload" show-size />
+        </v-form>
+      </v-card-text>
+    </v-card>
   </v-container>
 </template>
 
@@ -261,6 +271,8 @@ export default class CreateValidation extends Vue {
   methanolTreatmentConcentration: string | null = null;
   surfaceStaining = "null";
   surfaceStainingConcentration: string | null = null;
+
+  private file: File | null = null;
 
   get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
@@ -381,7 +393,18 @@ export default class CreateValidation extends Vue {
         surfaceStaining: this.surfaceStaining === "yes" ? true : this.surfaceStaining === "false" ? false : null,
         surfaceStainingConcentration: this.surfaceStainingConcentration,
       };
-      await this.validationContext.actions.createValidation(data);
+      const validation = await this.validationContext.actions.createValidation(data);
+
+      if (validation && this.file) {
+        const formData = new FormData();
+        formData.append("groupId", this.activeGroupId.toString());
+        formData.append("file", this.file);
+        await this.validationContext.actions.uploadValidationFile({
+          validationId: validation.id,
+          formData: formData,
+        });
+      }
+
       this.$router.back();
     }
   }
