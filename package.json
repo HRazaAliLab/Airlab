@@ -1,7 +1,7 @@
 {
   "name": "airlab",
   "private": true,
-  "version": "2020.10.05",
+  "version": "2020.10.20",
   "description": "AirLab platform",
   "author": {
     "name": "Anton Rau",
@@ -28,6 +28,8 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
+    "migration:run": "yarn workspace @airlab/backend run migration:run",
+    "serve:frontend": "yarn workspace @airlab/frontend run serve",
     "build:frontend": "yarn workspace @airlab/frontend run build",
     "build:backend": "yarn workspace @airlab/backend run build",
     "build:worker": "yarn workspace @airlab/worker run build",
@@ -45,12 +47,12 @@
     "start:worker:prod": "yarn workspace @airlab/worker run start:prod"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "4.3.0",
-    "@typescript-eslint/parser": "4.3.0",
-    "eslint": "7.10.0",
-    "eslint-config-prettier": "6.12.0",
+    "@typescript-eslint/eslint-plugin": "4.5.0",
+    "@typescript-eslint/parser": "4.5.0",
+    "eslint": "7.11.0",
+    "eslint-config-prettier": "6.13.0",
     "eslint-plugin-prettier": "3.1.4",
-    "jest": "26.5.0",
+    "jest": "26.6.0",
     "prettier": "2.1.2",
     "typescript": "4.0.3"
   }

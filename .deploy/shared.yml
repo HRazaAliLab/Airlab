@@ -87,7 +87,7 @@ services:
 
   pgadmin:
     restart: always
-    image: dpage/pgadmin4:4.26
+    image: dpage/pgadmin4:4.27
     depends_on:
       - db
     environment:
@@ -116,7 +116,7 @@ services:
 
   redisinsight:
     restart: always
-    image: redislabs/redisinsight:1.7.0
+    image: redislabs/redisinsight:1.7.1
     depends_on:
       - redis
     ports:
