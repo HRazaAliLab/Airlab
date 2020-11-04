@@ -62,7 +62,7 @@ export class LotController {
   @ApiOkResponse({ type: LotDto })
   async updateStatus(@Request() req, @Param("id") id: number, @Body() params: UpdateLotStatusDto) {
     const item = await this.lotService.findById(id);
-    const member = await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
+    const member = await this.memberService.checkStandardMemberPermissions(req.user.userId, item.groupId);
     return this.lotService.updateStatus(id, member.id, params);
   }
 
