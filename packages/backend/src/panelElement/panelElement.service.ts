@@ -51,12 +51,13 @@ export class PanelElementService {
       .getMany();
   }
 
-  async exportGroupElements(groupId: number) {
-    return this.repository
-      .createQueryBuilder("element")
-      .leftJoin("element.panel", "panel")
-      .where("panel.groupId = :groupId", { groupId: groupId })
-      .orderBy("element.id", "ASC")
-      .getMany();
+  async exportPanelElements(groupId?: number) {
+    let query = this.repository.createQueryBuilder("element");
+
+    if (groupId) {
+      query = query.leftJoin("element.panel", "panel").where("panel.groupId = :groupId", { groupId: groupId });
+    }
+
+    return query.orderBy("element.id", "ASC").getMany();
   }
 }

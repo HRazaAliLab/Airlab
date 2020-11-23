@@ -67,7 +67,7 @@ export class ValidationFileController {
   @Get("group/:groupId")
   @ApiOkResponse({ description: "Find all files for the group.", type: ValidationFileDto, isArray: true })
   getAllFilesForGroup(@Param("groupId") groupId: number) {
-    return this.fileService.exportGroupValidationFiles(groupId);
+    return this.fileService.exportValidationFiles(groupId);
   }
 
   @Get("memberId/:memberId")

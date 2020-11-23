@@ -85,31 +85,53 @@ export class TagService {
     });
   }
 
-  async exportGroupTags(groupId: number) {
-    return this.repository.find({
-      select: [
-        "id",
-        "groupId",
-        "name",
-        "isMetal",
-        "isFluorophore",
-        "isEnzyme",
-        "isBiotin",
-        "isOther",
-        "status",
-        "description",
-        "mw",
-        "emission",
-        "excitation",
-        "createdAt",
-      ],
-      where: {
-        groupId: groupId,
-      },
-      order: {
-        id: "ASC",
-      },
-    });
+  async exportTags(groupId?: number) {
+    return groupId
+      ? this.repository.find({
+          select: [
+            "id",
+            "groupId",
+            "name",
+            "isMetal",
+            "isFluorophore",
+            "isEnzyme",
+            "isBiotin",
+            "isOther",
+            "status",
+            "description",
+            "mw",
+            "emission",
+            "excitation",
+            "createdAt",
+          ],
+          where: {
+            groupId: groupId,
+          },
+          order: {
+            id: "ASC",
+          },
+        })
+      : this.repository.find({
+          select: [
+            "id",
+            "groupId",
+            "name",
+            "isMetal",
+            "isFluorophore",
+            "isEnzyme",
+            "isBiotin",
+            "isOther",
+            "status",
+            "description",
+            "mw",
+            "emission",
+            "excitation",
+            "createdAt",
+          ],
+          order: {
+            id: "ASC",
+          },
+        });
   }
 
   private async clearCache(groupId: number) {

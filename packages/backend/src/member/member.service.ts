@@ -110,8 +110,8 @@ export class MemberService {
       .getMany();
   }
 
-  async exportGroupMembers(groupId: number) {
-    return this.repository
+  async exportMembers(groupId?: number) {
+    let query = this.repository
       .createQueryBuilder("member")
       .select([
         "member.id",
@@ -123,10 +123,13 @@ export class MemberService {
         "member.activationKey",
         "member.createdAt",
         "member.updatedAt",
-      ])
-      .where("member.groupId = :groupId", { groupId: groupId })
-      .orderBy("member.id", "ASC")
-      .getMany();
+      ]);
+
+    if (groupId) {
+      query = query.where("member.groupId = :groupId", { groupId: groupId });
+    }
+
+    return query.orderBy("member.id", "ASC").getMany();
   }
 
   private async clearCache(groupId: number) {

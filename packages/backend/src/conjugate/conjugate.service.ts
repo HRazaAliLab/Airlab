@@ -161,34 +161,59 @@ export class ConjugateService {
     return entity ? entity.tubeNumber + 1 : 0;
   }
 
-  async exportGroupConjugates(groupId: number) {
-    return this.repository.find({
-      select: [
-        "id",
-        "groupId",
-        "createdBy",
-        "labeledBy",
-        "finishedBy",
-        "lotId",
-        "tagId",
-        "status",
-        "tubeNumber",
-        "concentration",
-        "description",
-        "finishedAt",
-        "isArchived",
-        "meta",
-        "createdAt",
-        "updatedAt",
-        "customId",
-      ],
-      where: {
-        groupId: groupId,
-      },
-      order: {
-        id: "ASC",
-      },
-    });
+  async exportConjugates(groupId?: number) {
+    return groupId
+      ? this.repository.find({
+          select: [
+            "id",
+            "groupId",
+            "createdBy",
+            "labeledBy",
+            "finishedBy",
+            "lotId",
+            "tagId",
+            "status",
+            "tubeNumber",
+            "concentration",
+            "description",
+            "finishedAt",
+            "isArchived",
+            "meta",
+            "createdAt",
+            "updatedAt",
+            "customId",
+          ],
+          where: {
+            groupId: groupId,
+          },
+          order: {
+            id: "ASC",
+          },
+        })
+      : this.repository.find({
+          select: [
+            "id",
+            "groupId",
+            "createdBy",
+            "labeledBy",
+            "finishedBy",
+            "lotId",
+            "tagId",
+            "status",
+            "tubeNumber",
+            "concentration",
+            "description",
+            "finishedAt",
+            "isArchived",
+            "meta",
+            "createdAt",
+            "updatedAt",
+            "customId",
+          ],
+          order: {
+            id: "ASC",
+          },
+        });
   }
 
   private async clearCache(groupId: number) {

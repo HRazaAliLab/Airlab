@@ -225,44 +225,79 @@ export class LotService {
       .getMany();
   }
 
-  async exportGroupLots(groupId: number) {
-    return this.repository.find({
-      select: [
-        "id",
-        "groupId",
-        "createdBy",
-        "cloneId",
-        "providerId",
-        "name",
-        "reference",
-        "requestedBy",
-        "approvedBy",
-        "orderedBy",
-        "receivedBy",
-        "finishedBy",
-        "number",
-        "status",
-        "purpose",
-        "url",
-        "price",
-        "note",
-        "requestedAt",
-        "approvedAt",
-        "orderedAt",
-        "receivedAt",
-        "finishedAt",
-        "isArchived",
-        "meta",
-        "createdAt",
-        "updatedAt",
-      ],
-      where: {
-        groupId: groupId,
-      },
-      order: {
-        id: "ASC",
-      },
-    });
+  async exportLots(groupId?: number) {
+    return groupId
+      ? this.repository.find({
+          select: [
+            "id",
+            "groupId",
+            "createdBy",
+            "cloneId",
+            "providerId",
+            "name",
+            "reference",
+            "requestedBy",
+            "approvedBy",
+            "orderedBy",
+            "receivedBy",
+            "finishedBy",
+            "number",
+            "status",
+            "purpose",
+            "url",
+            "price",
+            "note",
+            "requestedAt",
+            "approvedAt",
+            "orderedAt",
+            "receivedAt",
+            "finishedAt",
+            "isArchived",
+            "meta",
+            "createdAt",
+            "updatedAt",
+          ],
+          where: {
+            groupId: groupId,
+          },
+          order: {
+            id: "ASC",
+          },
+        })
+      : this.repository.find({
+          select: [
+            "id",
+            "groupId",
+            "createdBy",
+            "cloneId",
+            "providerId",
+            "name",
+            "reference",
+            "requestedBy",
+            "approvedBy",
+            "orderedBy",
+            "receivedBy",
+            "finishedBy",
+            "number",
+            "status",
+            "purpose",
+            "url",
+            "price",
+            "note",
+            "requestedAt",
+            "approvedAt",
+            "orderedAt",
+            "receivedAt",
+            "finishedAt",
+            "isArchived",
+            "meta",
+            "createdAt",
+            "updatedAt",
+          ],
+          order: {
+            id: "ASC",
+          },
+        });
   }
 
   private async clearCache(groupId: number) {

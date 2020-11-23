@@ -57,16 +57,23 @@ export class ProviderService {
     });
   }
 
-  async exportGroupProviders(groupId: number) {
-    return this.repository.find({
-      select: ["id", "groupId", "name", "description", "url", "meta", "createdAt"],
-      where: {
-        groupId: groupId,
-      },
-      order: {
-        id: "ASC",
-      },
-    });
+  async exportProviders(groupId?: number) {
+    return groupId
+      ? this.repository.find({
+          select: ["id", "groupId", "name", "description", "url", "meta", "createdAt"],
+          where: {
+            groupId: groupId,
+          },
+          order: {
+            id: "ASC",
+          },
+        })
+      : this.repository.find({
+          select: ["id", "groupId", "name", "description", "url", "meta", "createdAt"],
+          order: {
+            id: "ASC",
+          },
+        });
   }
 
   private async clearCache(groupId: number) {

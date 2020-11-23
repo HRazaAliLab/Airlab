@@ -72,8 +72,8 @@ export class UserService {
     });
   }
 
-  async exportGroupUsers(groupId: number) {
-    return this.repository
+  async exportUsers(groupId?: number) {
+    let query = this.repository
       .createQueryBuilder("user")
       .select([
         "user.id",
@@ -85,11 +85,13 @@ export class UserService {
         "user.meta",
         "user.createdAt",
         "user.updatedAt",
-      ])
-      .leftJoin("user.members", "members")
-      .where("members.groupId = :groupId", { groupId: groupId })
-      .orderBy("user.id", "ASC")
-      .getMany();
+      ]);
+
+    if (groupId) {
+      query = query.leftJoin("user.members", "members").where("members.groupId = :groupId", { groupId: groupId });
+    }
+
+    return query.orderBy("user.id", "ASC").getMany();
   }
 
   private async clearCache() {

@@ -80,11 +80,31 @@ export class GroupActions extends Actions<GroupState, GroupGetters, GroupMutatio
     }
   }
 
+  async exportAllData(payload: { format: "json" | "csv" }) {
+    try {
+      const blob = await api.exportAllData(payload.format);
+      saveAs(blob, `airlab.zip`);
+      this.main!.mutations.addNotification({ content: "Data successfully exported", color: "success" });
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
+
   async importGroupData(payload: { formData: FormData }) {
     try {
       const data = await api.importGroupData(payload.formData);
       this.mutations.addEntity(data);
       this.main!.mutations.addNotification({ content: "Group data successfully imported", color: "success" });
+    } catch (error) {
+      await this.main!.actions.checkApiError(error);
+    }
+  }
+
+  async importAllData(payload: { formData: FormData }) {
+    try {
+      const data = await api.importAllData(payload.formData);
+      this.mutations.setEntities(data);
+      this.main!.mutations.addNotification({ content: "Data successfully imported", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
     }
