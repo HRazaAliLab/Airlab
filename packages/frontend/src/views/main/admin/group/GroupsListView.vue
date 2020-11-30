@@ -4,13 +4,23 @@
       <v-toolbar-title>Groups</v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn v-if="isAdmin" text @click="trigger" color="primary">
+        <v-btn v-if="isAdmin" text @click="exportAllData" color="primary">
+          <v-icon small left>mdi-cloud-download</v-icon>
+          Export All Data
+        </v-btn>
+<!--        <v-btn v-if="isAdmin" text @click="importAllData" color="primary">-->
+<!--          <v-icon small left>mdi-cloud-upload</v-icon>-->
+<!--          Import All Data-->
+<!--        </v-btn>-->
+        <v-divider vertical />
+        <v-btn v-if="isAdmin" text @click="importGroupData" color="primary">
           <v-icon small left>mdi-cloud-upload</v-icon>
           Import Group
         </v-btn>
         <v-btn v-if="isAdmin" text to="/main/admin/groups/create" color="primary">Create Group</v-btn>
       </v-toolbar-items>
-      <input :multiple="false" class="visually-hidden" type="file" v-on:change="files" ref="fileInput" />
+      <input :multiple="false" class="visually-hidden" type="file" v-on:change="groupFiles" ref="groupFileInput" />
+      <input :multiple="false" class="visually-hidden" type="file" v-on:change="allFiles" ref="allFileInput" />
     </v-toolbar>
 
     <v-card>
@@ -140,7 +150,7 @@ export default class GroupsListView extends Vue {
   }
 
   @Emit()
-  async files(e): Promise<FileList> {
+  async groupFiles(e): Promise<FileList> {
     const formData = new FormData();
     const file = e.target.files[0];
     formData.append("file", file, file.name);
@@ -151,8 +161,24 @@ export default class GroupsListView extends Vue {
     return e.target.files;
   }
 
-  trigger() {
-    (this.$refs.fileInput as HTMLElement).click();
+  @Emit()
+  async allFiles(e): Promise<FileList> {
+    const formData = new FormData();
+    const file = e.target.files[0];
+    formData.append("file", file, file.name);
+    e.target.value = "";
+    await this.groupContext.actions.importAllData({
+      formData: formData,
+    });
+    return e.target.files;
+  }
+
+  importGroupData() {
+    (this.$refs.groupFileInput as HTMLElement).click();
+  }
+
+  importAllData() {
+    (this.$refs.allFileInput as HTMLElement).click();
   }
 
   async mounted() {
@@ -171,6 +197,14 @@ export default class GroupsListView extends Vue {
     if (self.confirm("Download all group data as .zip file?")) {
       await this.groupContext.actions.exportGroupData({
         id: id,
+        format: "json",
+      });
+    }
+  }
+
+  async exportAllData() {
+    if (self.confirm("Download all data as .zip file?")) {
+      await this.groupContext.actions.exportAllData({
         format: "json",
       });
     }

@@ -104,6 +104,18 @@ export class GroupController {
     return this.groupService.deleteById(id);
   }
 
+  @Get("export")
+  @ApiOperation({ summary: "Export all data." })
+  @Roles("admin")
+  @UseGuards(RolesGuard)
+  @Header("Content-Type", "application/zip")
+  async exportAllData(@Request() req, @Res() res: Response, @Query() query) {
+    const zip = await this.groupService.exportAllData(query.format);
+    res.attachment(`airlab.zip`);
+    zip.pipe(res);
+    await zip.finalize();
+  }
+
   @Get("groups/:id/export")
   @ApiOperation({ summary: "Export group data." })
   @Roles("admin")
@@ -133,6 +145,25 @@ export class GroupController {
   )
   async importGroupData(@Request() req, @UploadedFile() file) {
     return this.groupService.importGroupData(file.path);
+  }
+
+  @Post("import")
+  @ApiConsumes("multipart/form-data")
+  @ApiOperation({ summary: "Import all data." })
+  @Roles("admin")
+  @UseGuards(RolesGuard)
+  @ApiCreatedResponse({ type: GroupDto, isArray: true })
+  @UseInterceptors(
+    FileInterceptor("file", {
+      storage: storage,
+      preservePath: true,
+      limits: {
+        fileSize: 1000000 * 1000 * 10, // 10 GB in bytes
+      },
+    })
+  )
+  async importAllData(@Request() req, @UploadedFile() file) {
+    return this.groupService.importAllData(file.path);
   }
 
   @Post("groups/:id/join")

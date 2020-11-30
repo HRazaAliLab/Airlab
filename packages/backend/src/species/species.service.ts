@@ -57,16 +57,23 @@ export class SpeciesService {
     });
   }
 
-  async exportGroupSpecies(groupId: number) {
-    return this.repository.find({
-      select: ["id", "groupId", "name", "acronym", "meta", "createdAt"],
-      where: {
-        groupId: groupId,
-      },
-      order: {
-        id: "ASC",
-      },
-    });
+  async exportSpecies(groupId?: number) {
+    return groupId
+      ? this.repository.find({
+          select: ["id", "groupId", "name", "acronym", "meta", "createdAt"],
+          where: {
+            groupId: groupId,
+          },
+          order: {
+            id: "ASC",
+          },
+        })
+      : this.repository.find({
+          select: ["id", "groupId", "name", "acronym", "meta", "createdAt"],
+          order: {
+            id: "ASC",
+          },
+        });
   }
 
   private async clearCache(groupId: number) {

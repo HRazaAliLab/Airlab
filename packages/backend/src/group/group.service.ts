@@ -56,6 +56,10 @@ export class GroupService {
     return this.repository.findOne(id);
   }
 
+  async exportAll() {
+    return this.repository.find();
+  }
+
   async update(id: number, params: UpdateGroupDto) {
     await this.repository.update(id, params);
     await this.clearCache();
@@ -110,49 +114,102 @@ export class GroupService {
     return publicKey === hash;
   }
 
+  async exportAllData(format: "json" | "csv" = "json") {
+    const zip = archiver("zip");
+
+    const groups = await this.exportAll();
+    zip.append(exportObject(groups, format), { name: `groups.${format}` });
+
+    const users = await this.userService.exportUsers();
+    zip.append(exportObject(users, format), { name: `users.${format}` });
+
+    const members = await this.memberService.exportMembers();
+    zip.append(exportObject(members, format), { name: `members.${format}` });
+
+    const species = await this.speciesService.exportSpecies();
+    zip.append(exportObject(species, format), { name: `species.${format}` });
+
+    const tags = await this.tagService.exportTags();
+    zip.append(exportObject(tags, format), { name: `tags.${format}` });
+
+    const providers = await this.providerService.exportProviders();
+    zip.append(exportObject(providers, format), { name: `providers.${format}` });
+
+    const proteins = await this.proteinService.exportProteins();
+    zip.append(exportObject(proteins, format), { name: `proteins.${format}` });
+
+    const clones = await this.cloneService.exportClones();
+    zip.append(exportObject(clones, format), { name: `clones.${format}` });
+
+    const lots = await this.lotService.exportLots();
+    zip.append(exportObject(lots, format), { name: `lots.${format}` });
+
+    const conjugates = await this.conjugateService.exportConjugates();
+    zip.append(exportObject(conjugates, format), { name: `conjugates.${format}` });
+
+    const panels = await this.panelService.exportPanels();
+    zip.append(exportObject(panels, format), { name: `panels.${format}` });
+
+    const panelElements = await this.panelElementService.exportPanelElements();
+    zip.append(exportObject(panelElements, format), { name: `panelElements.${format}` });
+
+    const validations = await this.validationService.exportValidations();
+    zip.append(exportObject(validations, format), { name: `validations.${format}` });
+
+    const validationFiles = await this.validationFileService.exportValidationFiles();
+    zip.append(exportObject(validationFiles, format), { name: `validationFiles.${format}` });
+    validationFiles.forEach((file) => {
+      const dir = `/data/groups/${file.validation.groupId}/uploads/validation/${file.validationId}`;
+      const path = `${dir}/${file.hash}.${file.extension}`;
+      zip.file(path, { name: `validationFiles/${file.hash}.${file.extension}` });
+    });
+
+    return zip;
+  }
+
   async exportGroupData(groupId: number, format: "json" | "csv" = "json") {
     const zip = archiver("zip");
 
     const group = await this.findById(groupId);
     zip.append(exportObject(group, format), { name: `group.${format}` });
 
-    const users = await this.userService.exportGroupUsers(groupId);
+    const users = await this.userService.exportUsers(groupId);
     zip.append(exportObject(users, format), { name: `users.${format}` });
 
-    const members = await this.memberService.exportGroupMembers(groupId);
+    const members = await this.memberService.exportMembers(groupId);
     zip.append(exportObject(members, format), { name: `members.${format}` });
 
-    const species = await this.speciesService.exportGroupSpecies(groupId);
+    const species = await this.speciesService.exportSpecies(groupId);
     zip.append(exportObject(species, format), { name: `species.${format}` });
 
-    const tags = await this.tagService.exportGroupTags(groupId);
+    const tags = await this.tagService.exportTags(groupId);
     zip.append(exportObject(tags, format), { name: `tags.${format}` });
 
-    const providers = await this.providerService.exportGroupProviders(groupId);
+    const providers = await this.providerService.exportProviders(groupId);
     zip.append(exportObject(providers, format), { name: `providers.${format}` });
 
-    const proteins = await this.proteinService.exportGroupProteins(groupId);
+    const proteins = await this.proteinService.exportProteins(groupId);
     zip.append(exportObject(proteins, format), { name: `proteins.${format}` });
 
-    const clones = await this.cloneService.exportGroupClones(groupId);
+    const clones = await this.cloneService.exportClones(groupId);
     zip.append(exportObject(clones, format), { name: `clones.${format}` });
 
-    const lots = await this.lotService.exportGroupLots(groupId);
+    const lots = await this.lotService.exportLots(groupId);
     zip.append(exportObject(lots, format), { name: `lots.${format}` });
 
-    const conjugates = await this.conjugateService.exportGroupConjugates(groupId);
+    const conjugates = await this.conjugateService.exportConjugates(groupId);
     zip.append(exportObject(conjugates, format), { name: `conjugates.${format}` });
 
-    const panels = await this.panelService.exportGroupPanels(groupId);
+    const panels = await this.panelService.exportPanels(groupId);
     zip.append(exportObject(panels, format), { name: `panels.${format}` });
 
-    const panelElements = await this.panelElementService.exportGroupElements(groupId);
+    const panelElements = await this.panelElementService.exportPanelElements(groupId);
     zip.append(exportObject(panelElements, format), { name: `panelElements.${format}` });
 
-    const validations = await this.validationService.exportGroupValidations(groupId);
+    const validations = await this.validationService.exportValidations(groupId);
     zip.append(exportObject(validations, format), { name: `validations.${format}` });
 
-    const validationFiles = await this.validationFileService.exportGroupValidationFiles(groupId);
+    const validationFiles = await this.validationFileService.exportValidationFiles(groupId);
     zip.append(exportObject(validationFiles, format), { name: `validationFiles.${format}` });
     validationFiles.forEach((file) => {
       const dir = `/data/groups/${groupId}/uploads/validation/${file.validationId}`;
@@ -224,6 +281,10 @@ export class GroupService {
     await fsAsync.unlink(path);
     await fsAsync.rmdir(srcFolder, { recursive: true });
     return group;
+  }
+
+  async importAllData(path: string) {
+    return null;
   }
 
   private async importGroups(path: string): Promise<[GroupDto, Map<number, number>]> {

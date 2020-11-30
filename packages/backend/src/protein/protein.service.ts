@@ -57,16 +57,23 @@ export class ProteinService {
     });
   }
 
-  async exportGroupProteins(groupId: number) {
-    return this.repository.find({
-      select: ["id", "groupId", "createdBy", "name", "description", "meta", "createdAt"],
-      where: {
-        groupId: groupId,
-      },
-      order: {
-        id: "ASC",
-      },
-    });
+  async exportProteins(groupId?: number) {
+    return groupId
+      ? this.repository.find({
+          select: ["id", "groupId", "createdBy", "name", "description", "meta", "createdAt"],
+          where: {
+            groupId: groupId,
+          },
+          order: {
+            id: "ASC",
+          },
+        })
+      : this.repository.find({
+          select: ["id", "groupId", "createdBy", "name", "description", "meta", "createdAt"],
+          order: {
+            id: "ASC",
+          },
+        });
   }
 
   private async clearCache(groupId: number) {

@@ -1,4 +1,4 @@
-FROM node:14.15.0-alpine3.12
+FROM node:14.15.1-alpine3.12
 LABEL maintainer="Anton Rau <anton.rau@gmail.com>"
 
 RUN yarn global add pm2@4.5.0

@@ -566,9 +566,9 @@ export default class ConjugatesListViews extends Vue {
       item.tubeNumber.toString().indexOf(normalizedSearchTerm) !== -1 ||
       (item.lot ? item.lot.clone.protein.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
       (item.lot ? item.lot.clone.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
-      (item.lot ? item.lot.number.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
+      (item.lot && item.lot.number ? item.lot.number.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
       (item.tag ? item.tag.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
-      (item.user ? item.user.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
+      (item.user && item.user.name ? item.user.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
       (item.description ? item.description.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false)
     );
   }

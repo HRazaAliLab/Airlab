@@ -35,6 +35,9 @@ export const api = {
   async exportGroupData(id: number, format: "json" | "csv") {
     return ApiManager.api.get(`groups/${id}/export?format=${format}`).blob();
   },
+  async exportAllData(format: "json" | "csv") {
+    return ApiManager.api.get(`export?format=${format}`).blob();
+  },
   async importGroupData(formData: FormData) {
     return ApiManager.api
       .post(`groups/import`, {
@@ -42,5 +45,13 @@ export const api = {
         timeout: false,
       })
       .json<GroupDto>();
+  },
+  async importAllData(formData: FormData) {
+    return ApiManager.api
+      .post(`import`, {
+        body: formData,
+        timeout: false,
+      })
+      .json<GroupDto[]>();
   },
 };

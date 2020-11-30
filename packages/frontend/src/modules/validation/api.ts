@@ -28,7 +28,7 @@ export const api = {
       .json<ValidationDto>();
   },
   async deleteValidation(id: number) {
-    return ApiManager.api.delete(`validation/${id}`).json<number>();
+    return ApiManager.api.delete(`validations/${id}`).json<number>();
   },
   async getGroupValidations(groupId: number) {
     return ApiManager.api.get(`groups/${groupId}/validations`).json<ValidationDto[]>();

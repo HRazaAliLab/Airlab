@@ -122,29 +122,49 @@ export class PanelService {
       .getMany();
   }
 
-  async exportGroupPanels(groupId: number) {
-    return this.repository.find({
-      select: [
-        "id",
-        "groupId",
-        "createdBy",
-        "name",
-        "description",
-        "isFluorophore",
-        "isLocked",
-        "application",
-        "meta",
-        "isArchived",
-        "createdAt",
-        "updatedAt",
-      ],
-      where: {
-        groupId: groupId,
-      },
-      order: {
-        id: "ASC",
-      },
-    });
+  async exportPanels(groupId?: number) {
+    return groupId
+      ? this.repository.find({
+          select: [
+            "id",
+            "groupId",
+            "createdBy",
+            "name",
+            "description",
+            "isFluorophore",
+            "isLocked",
+            "application",
+            "meta",
+            "isArchived",
+            "createdAt",
+            "updatedAt",
+          ],
+          where: {
+            groupId: groupId,
+          },
+          order: {
+            id: "ASC",
+          },
+        })
+      : this.repository.find({
+          select: [
+            "id",
+            "groupId",
+            "createdBy",
+            "name",
+            "description",
+            "isFluorophore",
+            "isLocked",
+            "application",
+            "meta",
+            "isArchived",
+            "createdAt",
+            "updatedAt",
+          ],
+          order: {
+            id: "ASC",
+          },
+        });
   }
 
   private async clearCache(groupId: number) {

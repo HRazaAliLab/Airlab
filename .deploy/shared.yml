@@ -73,7 +73,7 @@ services:
 
   db:
     restart: always
-    image: postgres:12.4-alpine
+    image: postgres:12.5-alpine
     environment:
       - POSTGRES_SERVER
       - POSTGRES_USER
@@ -87,7 +87,7 @@ services:
 
   pgadmin:
     restart: always
-    image: dpage/pgadmin4:4.27
+    image: dpage/pgadmin4:4.28
     depends_on:
       - db
     environment:
@@ -116,7 +116,7 @@ services:
 
   redisinsight:
     restart: always
-    image: redislabs/redisinsight:1.7.1
+    image: redislabs/redisinsight:1.8.0
     depends_on:
       - redis
     ports:
@@ -136,7 +136,7 @@ services:
 
   proxy:
     restart: always
-    image: traefik:2.3.2
+    image: traefik:2.3.3
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:

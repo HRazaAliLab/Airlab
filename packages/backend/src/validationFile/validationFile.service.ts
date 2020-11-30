@@ -78,12 +78,16 @@ export class ValidationFileService {
     return stream;
   }
 
-  async exportGroupValidationFiles(groupId: number) {
-    return this.repository
+  async exportValidationFiles(groupId?: number) {
+    let query = this.repository
       .createQueryBuilder("validationFile")
       .leftJoin("validationFile.validation", "validation")
-      .where("validation.groupId = :groupId", { groupId: groupId })
-      .orderBy("validationFile.id", "ASC")
-      .getMany();
+      .addSelect(["validation.groupId"]);
+
+    if (groupId) {
+      query = query.where("validation.groupId = :groupId", { groupId: groupId });
+    }
+
+    return query.orderBy("validationFile.id", "ASC").getMany();
   }
 }
