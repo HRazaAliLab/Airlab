@@ -13,7 +13,7 @@
         dense
       >
         <template v-slot:item.provider="{ item }">
-          {{ item.provider.name }}
+          {{ item.provider ? item.provider.name : "" }}
         </template>
         <template v-slot:item.clone="{ item }">
           {{ item.clone.name }}

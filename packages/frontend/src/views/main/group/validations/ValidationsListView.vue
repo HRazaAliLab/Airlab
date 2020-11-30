@@ -510,9 +510,9 @@ export default class ValidationsListViews extends Vue {
     return (
       (item.species ? item.species.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
       (item.clone ? item.clone.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
-      (item.lot ? item.lot.number.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
+      (item.lot && item.lot.number ? item.lot.number.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
       (item.conjugate ? item.conjugate.tubeNumber.toString().indexOf(normalizedSearchTerm) !== -1 : false) ||
-      (item.user ? item.user.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
+      (item.user && item.user.name ? item.user.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false) ||
       (item.clone ? item.clone.protein.name.toLowerCase().indexOf(normalizedSearchTerm) !== -1 : false)
     );
   }
