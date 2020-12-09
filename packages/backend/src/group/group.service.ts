@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
+import { ConflictException, Injectable, NotFoundException, NotImplementedException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { GroupEntity } from "./group.entity";
@@ -284,7 +284,7 @@ export class GroupService {
   }
 
   async importAllData(path: string) {
-    return null;
+    throw new NotImplementedException();
   }
 
   private async importGroups(path: string): Promise<[GroupDto, Map<number, number>]> {
@@ -541,6 +541,9 @@ export class GroupService {
     const json = JSON.parse(data);
     const map = new Map<number, number>();
     for (const item of json) {
+      if (item.hasOwnProperty("validation")) {
+        delete item.validation;
+      }
       const oldId = item.id;
       item.createdBy = membersIdMap.get(item.createdBy);
       item.validationId = validationsIdMap.get(item.validationId);
