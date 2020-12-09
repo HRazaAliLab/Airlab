@@ -72,7 +72,7 @@ export class UserActions extends Actions<UserState, UserGetters, UserMutations, 
     try {
       const data = await api.signUp(payload);
       this.main!.actions.routeLogOut();
-      this.main!.mutations.addNotification({ content: "User successfully signed up", color: "success" });
+      this.main!.mutations.addNotification({ content: "Account confirmation email was sent", color: "success" });
     } catch (error) {
       await this.main!.actions.checkApiError(error);
     }
