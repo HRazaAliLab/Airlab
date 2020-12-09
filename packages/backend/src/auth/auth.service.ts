@@ -17,9 +17,9 @@ export class AuthService {
     private readonly utilsService: UtilsService
   ) {}
 
-  async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.userService.findByEmail(username);
-    if (user) {
+  async validateUser(email: string, pass: string): Promise<any> {
+    const user = await this.userService.findByEmail(email);
+    if (user && user.isActive) {
       const same = await comparePasswordHash(pass, user.password);
       if (same) {
         const { password, ...result } = user;
@@ -99,6 +99,44 @@ export class AuthService {
     if (user) {
       throw new HttpException("The user with this email already exists in the system", 400);
     }
-    return this.userService.create(params);
+
+    const signupConfirmationToken = this.jwtService.sign(
+      { email: params.email },
+      {
+        subject: "SignUpConfirmation",
+        issuer: "AirLab",
+        expiresIn: "1d",
+        algorithm: "HS256",
+      }
+    );
+    const content = {
+      body: {
+        name: params.name,
+        intro: "You have received this email because an account creation was requested.",
+        action: {
+          instructions: "Click the button below to complete account registration:",
+          button: {
+            color: "#DC4D2F",
+            text: "Confirm Registration",
+            link: `${this.configService.domainLink}/api/v1/auth/confirm-signup/${signupConfirmationToken}`,
+          },
+        },
+        outro: "If you did not request an account creation, no further action is required on your part.",
+      },
+    };
+    await this.utilsService.sendEmail(this.configService.fromEmail, params.email, "AirLab Account Confirmation", content);
+    return this.userService.signup(params);
+  }
+
+  async confirmSignup(token: string) {
+    const payload = this.jwtService.decode(token);
+    if (payload.sub !== "SignUpConfirmation" || !payload["email"]) {
+      throw new HttpException("Invalid token", 400);
+    }
+    const user = await this.userService.findByEmail(payload["email"]);
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+    await this.userService.enableUser(user.id);
   }
 }

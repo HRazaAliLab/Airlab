@@ -18,6 +18,12 @@ export class UserService {
     return this.repository.save({ ...params, password: passwordHash, isActive: true });
   }
 
+  async signup(params: CreateUserDto) {
+    const passwordHash = await getPasswordHash(params.password);
+    await this.clearCache();
+    return this.repository.save({ ...params, password: passwordHash, isActive: false });
+  }
+
   async import(params) {
     const existingUser = await this.findByEmail(params.email);
     if (!existingUser) {
@@ -51,6 +57,12 @@ export class UserService {
     await this.repository.update(id, { password: passwordHash, updatedAt: new Date().toISOString() });
     await this.clearCache();
     return this.findById(id);
+  }
+
+  async enableUser(userId: number) {
+    await this.repository.update(userId, { isActive: true, updatedAt: new Date().toISOString() });
+    await this.clearCache();
+    return this.findById(userId);
   }
 
   async deleteById(id: number) {

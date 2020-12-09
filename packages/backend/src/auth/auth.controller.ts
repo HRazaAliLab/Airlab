@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Request, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Redirect, Request, UseGuards } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags } from "@nestjs/swagger";
@@ -23,6 +23,7 @@ export class AuthController {
 
   @Post("auth/reset-password")
   async passwordReset(@Body() params: ResetPasswordDto) {
+    console.log(params)
     return this.authService.resetPassword(params);
   }
 
@@ -36,5 +37,11 @@ export class AuthController {
     const user = await this.authService.signup(params);
     const { password, ...result } = user;
     return result;
+  }
+
+  @Get("auth/confirm-signup/:token")
+  @Redirect("/", 302)
+  async confirmSignup(@Param("token") token: string) {
+    await this.authService.confirmSignup(token);
   }
 }
