@@ -124,7 +124,12 @@ export class AuthService {
         outro: "If you did not request an account creation, no further action is required on your part.",
       },
     };
-    await this.utilsService.sendEmail(this.configService.fromEmail, params.email, "AirLab Account Confirmation", content);
+    await this.utilsService.sendEmail(
+      this.configService.fromEmail,
+      params.email,
+      "AirLab Account Confirmation",
+      content
+    );
     return this.userService.signup(params);
   }
 

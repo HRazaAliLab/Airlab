@@ -7,7 +7,7 @@
  */
 
 //Change this value every time before you build
-const LATEST_VERSION = "2020.12.09";
+const LATEST_VERSION = require("../package.json").version;
 
 workbox.core.setCacheNameDetails({ prefix: "airlab" });
 

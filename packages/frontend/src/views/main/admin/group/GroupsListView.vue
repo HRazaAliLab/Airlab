@@ -8,10 +8,10 @@
           <v-icon small left>mdi-cloud-download</v-icon>
           Export All Data
         </v-btn>
-<!--        <v-btn v-if="isAdmin" text @click="importAllData" color="primary">-->
-<!--          <v-icon small left>mdi-cloud-upload</v-icon>-->
-<!--          Import All Data-->
-<!--        </v-btn>-->
+        <!--        <v-btn v-if="isAdmin" text @click="importAllData" color="primary">-->
+        <!--          <v-icon small left>mdi-cloud-upload</v-icon>-->
+        <!--          Import All Data-->
+        <!--        </v-btn>-->
         <v-divider vertical />
         <v-btn v-if="isAdmin" text @click="importGroupData" color="primary">
           <v-icon small left>mdi-cloud-upload</v-icon>
