@@ -52,13 +52,13 @@ export class ProviderController {
     return this.providerService.update(id, params);
   }
 
-  @Delete("providers/:id")
-  @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
-  async deleteById(@Request() req, @Param("id") id: number) {
-    const item = await this.providerService.findById(id);
-    await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
-    return this.providerService.deleteById(id);
-  }
+  // @Delete("providers/:id")
+  // @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
+  // async deleteById(@Request() req, @Param("id") id: number) {
+  //   const item = await this.providerService.findById(id);
+  //   await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
+  //   return this.providerService.deleteById(id);
+  // }
 
   @Get("groups/:groupId/providers")
   @ApiOkResponse({ description: "Find all providers for the group.", type: ProviderDto, isArray: true })

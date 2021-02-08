@@ -52,13 +52,13 @@ export class TagController {
     return this.tagService.update(id, params);
   }
 
-  @Delete("tags/:id")
-  @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
-  async deleteById(@Request() req, @Param("id") id: number) {
-    const item = await this.tagService.findById(id);
-    await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
-    return this.tagService.deleteById(id);
-  }
+  // @Delete("tags/:id")
+  // @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
+  // async deleteById(@Request() req, @Param("id") id: number) {
+  //   const item = await this.tagService.findById(id);
+  //   await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
+  //   return this.tagService.deleteById(id);
+  // }
 
   @Get("groups/:groupId/tags")
   @ApiOkResponse({ description: "Find all tags for the group.", type: TagDto, isArray: true })

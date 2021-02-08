@@ -67,14 +67,14 @@
                   <v-list-item-title>Edit</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item @click="deleteGroup(item.id)">
-                <v-list-item-icon>
-                  <v-icon color="red accent-1">mdi-delete-outline</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Delete</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
+<!--              <v-list-item @click="deleteGroup(item.id)">-->
+<!--                <v-list-item-icon>-->
+<!--                  <v-icon color="red accent-1">mdi-delete-outline</v-icon>-->
+<!--                </v-list-item-icon>-->
+<!--                <v-list-item-content>-->
+<!--                  <v-list-item-title>Delete</v-list-item-title>-->
+<!--                </v-list-item-content>-->
+<!--              </v-list-item>-->
               <v-list-item @click="exportGroupData(item.id)">
                 <v-list-item-icon>
                   <v-icon color="grey">mdi-database-export</v-icon>

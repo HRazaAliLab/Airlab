@@ -52,13 +52,13 @@ export class ProteinController {
     return this.proteinService.update(id, params);
   }
 
-  @Delete("proteins/:id")
-  @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
-  async deleteById(@Request() req, @Param("id") id: number) {
-    const item = await this.proteinService.findById(id);
-    await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
-    return this.proteinService.deleteById(id);
-  }
+  // @Delete("proteins/:id")
+  // @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
+  // async deleteById(@Request() req, @Param("id") id: number) {
+  //   const item = await this.proteinService.findById(id);
+  //   await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
+  //   return this.proteinService.deleteById(id);
+  // }
 
   @Get("groups/:groupId/proteins")
   @ApiOkResponse({ description: "Find all proteins for the group.", type: ProteinDto, isArray: true })

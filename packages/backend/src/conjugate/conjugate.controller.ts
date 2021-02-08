@@ -68,14 +68,14 @@ export class ConjugateController {
     return this.conjugateService.updateStatus(id, member.id, params);
   }
 
-  @Delete("conjugates/:id")
-  @ApiOperation({ summary: "Delete conjugate by its id." })
-  @ApiOkResponse({ type: Number })
-  async deleteById(@Request() req, @Param("id") id: number) {
-    const item = await this.conjugateService.findById(id);
-    await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
-    return this.conjugateService.deleteById(id);
-  }
+  // @Delete("conjugates/:id")
+  // @ApiOperation({ summary: "Delete conjugate by its id." })
+  // @ApiOkResponse({ type: Number })
+  // async deleteById(@Request() req, @Param("id") id: number) {
+  //   const item = await this.conjugateService.findById(id);
+  //   await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
+  //   return this.conjugateService.deleteById(id);
+  // }
 
   @Get("groups/:groupId/conjugates")
   @ApiOperation({ summary: "Find all conjugates belonging to the group." })

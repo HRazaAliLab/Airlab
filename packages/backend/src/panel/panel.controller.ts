@@ -87,14 +87,14 @@ export class PanelController {
     return this.panelService.duplicate(id, { ...params, createdBy: member.id });
   }
 
-  @Delete("panels/:id")
-  @ApiOperation({ summary: "Delete entity by Id." })
-  @ApiOkResponse({ type: Number })
-  async deleteById(@Request() req, @Param("id") id: number) {
-    const item = await this.panelService.findById(id);
-    await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
-    return this.panelService.deleteById(id);
-  }
+  // @Delete("panels/:id")
+  // @ApiOperation({ summary: "Delete entity by Id." })
+  // @ApiOkResponse({ type: Number })
+  // async deleteById(@Request() req, @Param("id") id: number) {
+  //   const item = await this.panelService.findById(id);
+  //   await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
+  //   return this.panelService.deleteById(id);
+  // }
 
   @Get("panels/:id/elements")
   @ApiOperation({ summary: "Find all panel conjugate elements." })

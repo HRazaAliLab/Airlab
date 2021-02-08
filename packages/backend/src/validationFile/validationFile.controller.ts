@@ -29,11 +29,11 @@ export class ValidationFileController {
     return this.fileService.findById(id);
   }
 
-  @Delete(":id")
-  @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
-  deleteById(@Param("id") id: number) {
-    return this.fileService.deleteById(id);
-  }
+  // @Delete(":id")
+  // @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
+  // deleteById(@Param("id") id: number) {
+  //   return this.fileService.deleteById(id);
+  // }
 
   @Get(":id/serve")
   @ApiOkResponse({ description: "Find entity by Id." })

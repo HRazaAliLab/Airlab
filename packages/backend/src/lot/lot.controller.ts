@@ -75,14 +75,14 @@ export class LotController {
     return this.lotService.reorder(item, member.id, params);
   }
 
-  @Delete("lots/:id")
-  @ApiOperation({ summary: "Delete entity by Id." })
-  @ApiOkResponse({ type: Number })
-  async deleteById(@Request() req, @Param("id") id: number) {
-    const item = await this.lotService.findById(id);
-    await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
-    return this.lotService.deleteById(id);
-  }
+  // @Delete("lots/:id")
+  // @ApiOperation({ summary: "Delete entity by Id." })
+  // @ApiOkResponse({ type: Number })
+  // async deleteById(@Request() req, @Param("id") id: number) {
+  //   const item = await this.lotService.findById(id);
+  //   await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
+  //   return this.lotService.deleteById(id);
+  // }
 
   @Get("groups/:groupId/lots")
   @ApiOperation({ summary: "Find all lots for the group." })

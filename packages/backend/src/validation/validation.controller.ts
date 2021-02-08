@@ -120,13 +120,13 @@ export class ValidationController {
     return this.validationService.updateArchiveState(id, params);
   }
 
-  @Delete("validations/:id")
-  @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
-  async deleteById(@Request() req, @Param("id") id: number) {
-    const item = await this.validationService.findById(id);
-    await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
-    return this.validationService.deleteById(id);
-  }
+  // @Delete("validations/:id")
+  // @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
+  // async deleteById(@Request() req, @Param("id") id: number) {
+  //   const item = await this.validationService.findById(id);
+  //   await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
+  //   return this.validationService.deleteById(id);
+  // }
 
   @Get("groups/:groupId/validations")
   @ApiOkResponse({

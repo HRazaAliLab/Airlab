@@ -66,13 +66,13 @@ export class UserController {
     return this.userService.update(id, params);
   }
 
-  @Delete("users/:id")
-  @Roles("admin")
-  @UseGuards(RolesGuard)
-  @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
-  async deleteById(@Request() req, @Param("id") id: number) {
-    return this.userService.deleteById(id);
-  }
+  // @Delete("users/:id")
+  // @Roles("admin")
+  // @UseGuards(RolesGuard)
+  // @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
+  // async deleteById(@Request() req, @Param("id") id: number) {
+  //   return this.userService.deleteById(id);
+  // }
 
   @Get("users")
   @ApiOkResponse({ description: "Find all entities.", type: UserDto, isArray: true })

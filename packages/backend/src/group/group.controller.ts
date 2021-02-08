@@ -95,14 +95,14 @@ export class GroupController {
     return this.groupService.update(id, params);
   }
 
-  @Delete("groups/:id")
-  @ApiOperation({ summary: "Delete group." })
-  @Roles("admin")
-  @UseGuards(RolesGuard)
-  @ApiOkResponse({ type: Number })
-  async deleteById(@Request() req, @Param("id") id: number) {
-    return this.groupService.deleteById(id);
-  }
+  // @Delete("groups/:id")
+  // @ApiOperation({ summary: "Delete group." })
+  // @Roles("admin")
+  // @UseGuards(RolesGuard)
+  // @ApiOkResponse({ type: Number })
+  // async deleteById(@Request() req, @Param("id") id: number) {
+  //   return this.groupService.deleteById(id);
+  // }
 
   @Get("export")
   @ApiOperation({ summary: "Export all data." })

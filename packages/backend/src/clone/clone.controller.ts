@@ -59,14 +59,14 @@ export class CloneController {
     return this.cloneService.updateArchiveState(id, params);
   }
 
-  @Delete("clones/:id")
-  @ApiOperation({ summary: "Delete clone by its id." })
-  @ApiOkResponse({ type: Number })
-  async deleteById(@Request() req, @Param("id") id: number) {
-    const item = await this.cloneService.findById(id);
-    await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
-    return this.cloneService.deleteById(id);
-  }
+  // @Delete("clones/:id")
+  // @ApiOperation({ summary: "Delete clone by its id." })
+  // @ApiOkResponse({ type: Number })
+  // async deleteById(@Request() req, @Param("id") id: number) {
+  //   const item = await this.cloneService.findById(id);
+  //   await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
+  //   return this.cloneService.deleteById(id);
+  // }
 
   @Get("groups/:groupId/clones")
   @ApiOperation({ summary: "Find all clones belonging to the group." })

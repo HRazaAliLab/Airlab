@@ -52,13 +52,13 @@ export class SpeciesController {
     return this.speciesService.update(id, params);
   }
 
-  @Delete("species/:id")
-  @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
-  async deleteById(@Request() req, @Param("id") id: number) {
-    const item = await this.speciesService.findById(id);
-    await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
-    return this.speciesService.deleteById(id);
-  }
+  // @Delete("species/:id")
+  // @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
+  // async deleteById(@Request() req, @Param("id") id: number) {
+  //   const item = await this.speciesService.findById(id);
+  //   await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
+  //   return this.speciesService.deleteById(id);
+  // }
 
   @Get("groups/:groupId/species")
   @ApiOkResponse({ description: "Find all species for the group.", type: SpeciesDto, isArray: true })

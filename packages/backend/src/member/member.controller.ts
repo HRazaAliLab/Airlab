@@ -56,15 +56,15 @@ export class MemberController {
     return this.memberService.update(id, params);
   }
 
-  @Delete("members/:id")
-  @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
-  async deleteById(@Request() req, @Param("id") id: number) {
-    const item = await this.memberService.findById(id);
-    if (!req.user.isAdmin) {
-      await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
-    }
-    return this.memberService.deleteById(id);
-  }
+  // @Delete("members/:id")
+  // @ApiOkResponse({ description: "Delete entity by Id.", type: Number })
+  // async deleteById(@Request() req, @Param("id") id: number) {
+  //   const item = await this.memberService.findById(id);
+  //   if (!req.user.isAdmin) {
+  //     await this.memberService.checkAdminMemberPermissions(req.user.userId, item.groupId);
+  //   }
+  //   return this.memberService.deleteById(id);
+  // }
 
   @Get("groups/:groupId/members")
   @ApiOkResponse({ description: "Find all members of the group.", type: MemberDto, isArray: true })
