@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   backend:
-    image: '${DOCKER_IMAGE_BACKEND}:${TAG-latest}'
+    image: '${DOCKER_IMAGE_BACKEND}:${DOCKER_TAG-latest}'
     build:
       context: ../
       dockerfile: packages/backend/Dockerfile
@@ -9,7 +9,7 @@ services:
         BACKEND_ENV: production
 
   worker:
-    image: '${DOCKER_IMAGE_WORKER}:${TAG-latest}'
+    image: '${DOCKER_IMAGE_WORKER}:${DOCKER_TAG-latest}'
     build:
       context: ../
       dockerfile: packages/worker/Dockerfile
@@ -17,9 +17,11 @@ services:
         BACKEND_ENV: production
 
   frontend:
-    image: '${DOCKER_IMAGE_FRONTEND}:${TAG-latest}'
+    image: '${DOCKER_IMAGE_FRONTEND}:${DOCKER_TAG-latest}'
     build:
       context: ../
       dockerfile: packages/frontend/Dockerfile
       args:
-        FRONTEND_ENV: production
+        VUE_APP_NAME: ${VUE_APP_NAME}
+        VUE_APP_PROTOCOL: ${VUE_APP_PROTOCOL}
+        VUE_APP_DOMAIN: ${DOMAIN_PROD}

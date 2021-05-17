@@ -29,9 +29,15 @@ deploy-staging:
 build:
 	./scripts/build.sh
 
+build-staging:
+	./scripts/build-staging.sh
+
 # Build Docker images and push them to Docker Hub
 build-push:
 	./scripts/build-push.sh
+
+build-staging-push:
+	./scripts/build-staging-push.sh
 
 # Clean local development environment
 clean:

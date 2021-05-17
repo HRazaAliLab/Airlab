@@ -12,8 +12,14 @@ RUN yarn install --frozen-lockfile --non-interactive
 COPY packages/shared ./packages/shared/
 COPY packages/frontend ./packages/frontend/
 
-ARG FRONTEND_ENV
-ENV VUE_APP_ENV=${FRONTEND_ENV}
+ARG VUE_APP_NAME
+ENV VUE_APP_NAME=${VUE_APP_NAME}
+
+ARG VUE_APP_PROTOCOL
+ENV VUE_APP_PROTOCOL=${VUE_APP_PROTOCOL}
+
+ARG VUE_APP_DOMAIN
+ENV VUE_APP_DOMAIN=${VUE_APP_DOMAIN}
 
 # Comment out the next line to disable tests
 # RUN yarn test:frontend
@@ -25,7 +31,7 @@ RUN yarn build:frontend
 # Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
 FROM nginx:1.20.0-alpine
 
-LABEL maintainer="Anton Rau <anton.rau@gmail.com>"
+LABEL maintainer="Anton Rau <anton.rau@uzh.ch>"
 
 COPY --from=build-stage /app/packages/frontend/dist/ /usr/share/nginx/html
 

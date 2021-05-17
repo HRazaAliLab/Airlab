@@ -1,6 +1,5 @@
-version: '3.7'
+version: "3.7"
 services:
-
   backend:
     restart: "no"
     build:
@@ -8,6 +7,8 @@ services:
       dockerfile: packages/backend/Dockerfile
       args:
         BACKEND_ENV: development
+        PROTOCOL: ${PROTOCOL}
+        DOMAIN: ${DOMAIN_DEV}
     command: ["yarn", "run", "start:backend:debug"]
     ports:
       - 3000:3000
@@ -17,7 +18,7 @@ services:
       - ../packages/shared:/app/packages/shared
       - /app/packages/backend/node_modules/
       - /app/packages/shared/node_modules/
-#      - /app/packages/backend/dist/
+  #      - /app/packages/backend/dist/
 
   worker:
     restart: "no"
@@ -26,6 +27,8 @@ services:
       dockerfile: packages/worker/Dockerfile
       args:
         BACKEND_ENV: development
+        PROTOCOL: ${PROTOCOL}
+        DOMAIN: ${DOMAIN_DEV}
     command: ["yarn", "run", "start:worker:debug"]
     ports:
       - 9230:9230
@@ -34,7 +37,7 @@ services:
       - ../packages/shared:/app/packages/shared
       - /app/packages/worker/node_modules/
       - /app/packages/shared/node_modules/
-#      - /app/packages/worker/dist/
+  #      - /app/packages/worker/dist/
 
   frontend:
     restart: "no"
@@ -43,7 +46,9 @@ services:
       dockerfile: packages/frontend/Dockerfile
       args:
         FRONTEND_ENV: development
-        VUE_APP_NAME: AirLab
+        VUE_APP_NAME: ${VUE_APP_NAME}
+        VUE_APP_PROTOCOL: ${VUE_APP_PROTOCOL}
+        VUE_APP_DOMAIN: ${DOMAIN_DEV}
 
   proxy:
     command:

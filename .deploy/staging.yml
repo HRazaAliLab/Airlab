@@ -1,38 +1,26 @@
 version: '3.7'
 services:
   backend:
-    restart: "no"
-    build:
-      context: ../
-      dockerfile: packages/backend/Dockerfile
-      args:
-        BACKEND_ENV: staging
+    restart: always
+    image: ${DOCKER_IMAGE_BACKEND_STAGING}:${DOCKER_TAG-latest}
     ports:
       - 3000:3000
     command: ["yarn", "run", "start:backend:prod"]
 
   worker:
-    restart: "no"
-    build:
-      context: ../
-      dockerfile: packages/worker/Dockerfile
-      args:
-        BACKEND_ENV: staging
+    restart: always
+    image: ${DOCKER_IMAGE_WORKER_STAGING}:${DOCKER_TAG-latest}
     command: ["yarn", "run", "start:worker:prod"]
 
   frontend:
-    restart: "no"
-    build:
-      context: ../
-      dockerfile: packages/frontend/Dockerfile
-      args:
-        FRONTEND_ENV: staging
+    restart: always
+    image: ${DOCKER_IMAGE_FRONTEND_STAGING}:${DOCKER_TAG-latest}
 
   proxy:
     command:
-      - "--log.level=DEBUG"
-      - "--api.insecure=true"
-      - "--api.debug=true"
+      - "--log.level=INFO"
+      - "--api.insecure=false"
+      - "--api.debug=false"
       - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=true"
+      - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"

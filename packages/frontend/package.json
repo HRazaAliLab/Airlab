@@ -3,7 +3,7 @@
   "version": "2021.05.12",
   "private": true,
   "scripts": {
-    "serve": "FRONTEND_ENV=development && vue-cli-service serve",
+    "serve": "export VUE_APP_PROTOCOL=http && export VUE_APP_DOMAIN=localhost && export VUE_APP_NAME=histoCAT && vue-cli-service serve",
     "build": "vue-cli-service build --modern",
     "lint": "eslint --ext .ts,.vue .",
     "test": "vue-cli-service test:unit"

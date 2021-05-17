@@ -4,6 +4,6 @@
 set -e
 
 TAG=${DOCKER_TAG-latest} \
-source ./scripts/build.sh
+source ./scripts/build-staging.sh
 
 docker-compose -f docker-stack.yml push
