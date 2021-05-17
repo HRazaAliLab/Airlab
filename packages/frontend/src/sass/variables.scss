@@ -10,3 +10,8 @@
 //
 //@import "~vuetify/src/components/VTabs/_variables.scss";
 //$tabs-bar-height: 36px;
+
+// TODO: remove this hack as soon as Vuetify issue is fixed: https://github.com/vuetifyjs/vuetify/issues/12890
+.v-navigation-drawer {
+  will-change: initial;
+}

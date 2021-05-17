@@ -11,7 +11,7 @@ const mkdirp = require("mkdirp");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const fs = require("fs");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const R = require("rambda");
+const { uniq } = require("lodash-es");
 
 const mysqlPool = mysql.createPool({
   host: "localhost",
@@ -196,7 +196,7 @@ async function migrateClone() {
         .filter(item => item !== "")
         .map(item => parseInt(item, 10))
         .filter(item => !isNaN(item));
-      reactivity = R.uniq(reactivity);
+      reactivity = uniq(reactivity);
     }
 
     let application = row["cloApplication"];

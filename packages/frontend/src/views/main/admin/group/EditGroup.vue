@@ -15,7 +15,7 @@
           <v-text-field label="Name" v-model="name" :rules="nameRules" />
           <v-text-field label="Institution" v-model="institution" />
           <v-text-field label="URL" v-model="url" />
-          <v-checkbox label="Open" v-model="isOpen" />
+          <v-checkbox label="Public" v-model="isOpen" />
         </v-form>
       </v-card-text>
     </v-card>

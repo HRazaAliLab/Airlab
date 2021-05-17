@@ -7,4 +7,4 @@ NODE_ENV=production \
 TAG=${TAG-latest} \
 docker-compose -f .deploy/build.yml config > docker-stack.yml
 
-docker-compose -f docker-stack.yml build
+docker-compose -f docker-stack.yml build --parallel

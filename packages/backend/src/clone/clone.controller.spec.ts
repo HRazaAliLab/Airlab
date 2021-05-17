@@ -6,6 +6,7 @@ import { CloneEntity } from "./clone.entity";
 import { MemberModule } from "../member/member.module";
 import { LotModule } from "../lot/lot.module";
 import { ValidationModule } from "../validation/validation.module";
+import { ConjugateModule } from "../conjugate/conjugate.module";
 
 describe(CloneController.name, () => {
   let controller: CloneController;
@@ -17,6 +18,7 @@ describe(CloneController.name, () => {
         TypeOrmModule.forFeature([CloneEntity]),
         MemberModule,
         LotModule,
+        ConjugateModule,
         ValidationModule,
       ],
       providers: [CloneService],

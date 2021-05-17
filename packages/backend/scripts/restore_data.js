@@ -7,7 +7,6 @@ const mkdirp = require("mkdirp");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const fs = require("fs");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const R = require("rambda");
 
 const dataFolder = "/home/anton/Downloads/airlab/";
 

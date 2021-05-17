@@ -51,14 +51,14 @@
                   <v-list-item-title>Edit</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-<!--              <v-list-item v-if="isGroupAdmin" @click="deleteSpecies(item.id)">-->
-<!--                <v-list-item-icon>-->
-<!--                  <v-icon color="red accent-1">mdi-delete-outline</v-icon>-->
-<!--                </v-list-item-icon>-->
-<!--                <v-list-item-content>-->
-<!--                  <v-list-item-title>Delete</v-list-item-title>-->
-<!--                </v-list-item-content>-->
-<!--              </v-list-item>-->
+              <!--              <v-list-item v-if="isGroupAdmin" @click="deleteSpecies(item.id)">-->
+              <!--                <v-list-item-icon>-->
+              <!--                  <v-icon color="red accent-1">mdi-delete-outline</v-icon>-->
+              <!--                </v-list-item-icon>-->
+              <!--                <v-list-item-content>-->
+              <!--                  <v-list-item-title>Delete</v-list-item-title>-->
+              <!--                </v-list-item-content>-->
+              <!--              </v-list-item>-->
             </v-list>
           </v-menu>
           <v-tooltip bottom>
