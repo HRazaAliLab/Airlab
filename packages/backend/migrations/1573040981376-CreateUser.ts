@@ -1,4 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
+import { getPasswordHash } from "../src/auth/helpers";
+import { UserEntity } from "../src/user/user.entity";
 
 export class CreateUser1573040981376 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
@@ -72,6 +74,15 @@ export class CreateUser1573040981376 implements MigrationInterface {
       }),
       true
     );
+
+    // Create super-admin user
+    const passwordHash = await getPasswordHash(process.env.FIRST_SUPERUSER_PASSWORD);
+    const superadmin = new UserEntity();
+    superadmin.email = process.env.FIRST_SUPERUSER;
+    superadmin.isActive = true;
+    superadmin.isAdmin = true;
+    superadmin.password = passwordHash;
+    await queryRunner.manager.save(superadmin);
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
