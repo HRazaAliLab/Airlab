@@ -1,0 +1,27 @@
+site_name: AirLab
+
+copyright: Copyright &copy; 2021 Anton Rau
+repo_url: https://github.com/BodenmillerGroup/airlab-web
+
+theme:
+  name: material
+  logo: assets/logo.png
+  favicon: assets/favicon.ico
+  features:
+    - navigation.tabs
+    - navigation.top
+
+markdown_extensions:
+  - admonition
+  - footnotes
+
+plugins:
+  - include-markdown
+  - search
+
+nav:
+  - Home:
+    - index.md
+    - changelog.md
+  - Developer documentation:
+    - dev/developer.md

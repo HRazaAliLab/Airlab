@@ -41,3 +41,6 @@ lerna-debug.log*
 
 # Docker
 docker-stack.yml
+
+# Python virtual environment in case you use it locally to run mkdocs
+venv
