@@ -44,3 +44,10 @@ clean:
 	sudo find . -type d -name node_modules -exec rm -rf {} \+
 	sudo find . -type d -name dist -exec rm -rf {} \+
 	rm docker-stack.yml
+
+# Some Docker-related helper commands
+stop:
+	docker container stop $(docker container ls -aq)
+
+restart:
+	docker container restart $(docker container ls -aq)
