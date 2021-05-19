@@ -23,5 +23,5 @@ nav:
   - Home:
     - index.md
     - changelog.md
-  - Developer documentation:
+  - Development:
     - dev/developer.md
