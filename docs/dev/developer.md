@@ -20,7 +20,7 @@ There are other services deployed together with AirLab application:
 - Portainer (Docker admin app)
 
 !!! info "Info"
-    Services configuration is defined in `.deploy/shared.yml`file. 
+    Services configuration is defined in `.deploy/shared.yml` file. Please also check `.deploy/development.yml`, `.deploy/production.yml` or `.deploy/staging.yml` depending on your deployment scenario.
 
 Three deployment configurations are available by default: `development`, `staging` and `production`.
 It is highly recommended to use `make` commands (see `Makefile` for available options) to manage all tasks.
@@ -104,7 +104,7 @@ make deploy-production
 ```
 
 !!! warning "Warning"
-    Please check that env variables DOMAIN, VUE_APP_DOMAIN, DOMAIN_PROD, etc. are properly set on production server before deployment! 
+    Please check that env variables DOMAIN, VUE_APP_DOMAIN, DOMAIN_PROD, BACKEND_CORS_ORIGINS etc. are properly set on production server before deployment! 
 
 
 ## Staging deployment
@@ -132,4 +132,4 @@ make deploy-staging
 ```
 
 !!! warning "Warning"
-    Please check that env variables DOMAIN, VUE_APP_DOMAIN, DOMAIN_STAGE, etc. are properly set on production server before deployment! 
+    Please check that env variables DOMAIN, VUE_APP_DOMAIN, DOMAIN_STAGE, BACKEND_CORS_ORIGINS etc. are properly set on production server before deployment! 

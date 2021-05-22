@@ -8,10 +8,10 @@
           <v-icon small left>mdi-cloud-download</v-icon>
           Export All Data
         </v-btn>
-        <!--        <v-btn v-if="isAdmin" text @click="importAllData" color="primary">-->
-        <!--          <v-icon small left>mdi-cloud-upload</v-icon>-->
-        <!--          Import All Data-->
-        <!--        </v-btn>-->
+        <v-btn v-if="isAdmin" text @click="importAllData" color="primary">
+          <v-icon small left>mdi-cloud-upload</v-icon>
+          Import All Data
+        </v-btn>
         <v-divider vertical />
         <v-btn v-if="isAdmin" text @click="importGroupData" color="primary">
           <v-icon small left>mdi-cloud-upload</v-icon>
@@ -163,13 +163,17 @@ export default class GroupsListView extends Vue {
 
   @Emit()
   async allFiles(e): Promise<FileList> {
-    const formData = new FormData();
-    const file = e.target.files[0];
-    formData.append("file", file, file.name);
-    e.target.value = "";
-    await this.groupContext.actions.importAllData({
-      formData: formData,
-    });
+    if (self.confirm("Import AirLab data?")) {
+      if (self.confirm("All existing data will be overwritten! Are you sure you want to continue?")) {
+        const formData = new FormData();
+        const file = e.target.files[0];
+        formData.append("file", file, file.name);
+        e.target.value = "";
+        await this.groupContext.actions.importAllData({
+          formData: formData,
+        });
+      }
+    }
     return e.target.files;
   }
 

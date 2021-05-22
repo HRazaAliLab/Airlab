@@ -19,9 +19,11 @@ import { PanelModule } from "../panel/panel.module";
 import { PanelElementModule } from "../panelElement/panelElement.module";
 import { ValidationModule } from "../validation/validation.module";
 import { ValidationFileModule } from "../validationFile/validationFile.module";
+import { ConfigModule } from "../config/config.module";
 
 @Module({
   imports: [
+    ConfigModule,
     TypeOrmModule.forFeature([GroupEntity]),
     AuthModule,
     PubSubModule,

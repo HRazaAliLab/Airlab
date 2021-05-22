@@ -119,42 +119,6 @@ async function restoreClone() {
   }
 }
 
-async function restoreClone() {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const json = require(dataFolder + "clones.json");
-
-  for (item of json) {
-    if (item.groupId === 2) {
-      const result = await postgresPool.query("SELECT * FROM clone WHERE id=" + item.id);
-      const exists = result.rowCount === 1;
-
-      if (!exists) {
-        console.log("Clone: ", item);
-        const sql =
-          'INSERT INTO "clone"(id, group_id, created_by, protein_id, species_id, name, isotype, epitope, is_phospho, is_polyclonal, reactivity, application, is_archived, created_at, updated_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)';
-        const values = [
-          item.id,
-          item.groupId,
-          item.createdBy,
-          item.proteinId,
-          item.speciesId,
-          item.name,
-          item.isotype,
-          item.epitope,
-          item.isPhospho,
-          item.isPolyclonal,
-          item.reactivity,
-          JSON.stringify(item.application),
-          item.isArchived,
-          item.createdAt,
-          item.updatedAt,
-        ];
-        await postgresPool.query(sql, values);
-      }
-    }
-  }
-}
-
 async function restoreLot() {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const json = require(dataFolder + "lots.json");

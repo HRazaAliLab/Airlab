@@ -2,6 +2,7 @@ import { ConflictException, Injectable, NotFoundException, NotImplementedExcepti
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { GroupEntity } from "./group.entity";
+import { ConfigService } from "../config/config.service";
 import { MemberService } from "../member/member.service";
 import * as crypto from "crypto";
 import { CreateGroupDto, GroupDto, InviteDto, UpdateGroupDto } from "@airlab/shared/lib/group/dto";
@@ -23,6 +24,7 @@ import { ValidationFileService } from "../validationFile/validationFile.service"
 import * as fs from "fs";
 import { promises as fsAsync } from "fs";
 import * as unzipper from "unzipper";
+import { Importer } from "./importer";
 
 const privateKey = "fsdfC987XXasdf979werl$#";
 
@@ -31,6 +33,7 @@ export class GroupService {
   constructor(
     @InjectRepository(GroupEntity)
     private readonly repository: Repository<GroupEntity>,
+    private readonly configService: ConfigService,
     private readonly userService: UserService,
     private readonly memberService: MemberService,
     private readonly speciesService: SpeciesService,
@@ -284,7 +287,12 @@ export class GroupService {
   }
 
   async importAllData(path: string) {
-    throw new NotImplementedException();
+    const importer = new Importer(this.configService);
+    importer.init();
+    await importer.importFromZip(path);
+    await importer.close();
+    await this.clearAllCache();
+    return this.findAll();
   }
 
   private async importGroups(path: string): Promise<[GroupDto, Map<number, number>]> {
@@ -565,5 +573,9 @@ export class GroupService {
 
   private async clearCache() {
     await this.repository.manager.connection.queryResultCache.remove([`groups`]);
+  }
+
+  private async clearAllCache() {
+    await this.repository.manager.connection.queryResultCache.clear();
   }
 }
