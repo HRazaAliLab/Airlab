@@ -5,10 +5,6 @@ services:
     build:
       context: ../
       dockerfile: packages/backend/Dockerfile
-      args:
-        BACKEND_ENV: development
-        PROTOCOL: ${PROTOCOL}
-        DOMAIN: ${DOMAIN_DEV}
     command: ["yarn", "run", "start:backend:debug"]
     ports:
       - 3000:3000
@@ -25,10 +21,6 @@ services:
     build:
       context: ../
       dockerfile: packages/worker/Dockerfile
-      args:
-        BACKEND_ENV: development
-        PROTOCOL: ${PROTOCOL}
-        DOMAIN: ${DOMAIN_DEV}
     command: ["yarn", "run", "start:worker:debug"]
     ports:
       - 9230:9230
@@ -45,10 +37,7 @@ services:
       context: ../
       dockerfile: packages/frontend/Dockerfile
       args:
-        FRONTEND_ENV: development
-        VUE_APP_NAME: ${VUE_APP_NAME}
-        VUE_APP_PROTOCOL: ${VUE_APP_PROTOCOL}
-        VUE_APP_DOMAIN: ${DOMAIN_DEV}
+        VUE_APP_NAME: ${PROJECT_NAME}
 
   proxy:
     command:

@@ -2,25 +2,34 @@ version: '3.7'
 services:
   backend:
     restart: always
-    image: ${DOCKER_IMAGE_BACKEND_STAGING}:${DOCKER_TAG-latest}
+    build:
+      context: ../
+      dockerfile: packages/backend/Dockerfile
     ports:
       - 3000:3000
     command: ["yarn", "run", "start:backend:prod"]
 
   worker:
     restart: always
-    image: ${DOCKER_IMAGE_WORKER_STAGING}:${DOCKER_TAG-latest}
+    build:
+      context: ../
+      dockerfile: packages/worker/Dockerfile
     command: ["yarn", "run", "start:worker:prod"]
 
   frontend:
     restart: always
-    image: ${DOCKER_IMAGE_FRONTEND_STAGING}:${DOCKER_TAG-latest}
+    build:
+      context: ../
+      dockerfile: packages/frontend/Dockerfile
+      args:
+        VUE_APP_NAME: ${PROJECT_NAME}
 
   proxy:
     command:
-      - "--log.level=INFO"
+      - "--log.level=DEBUG"
       - "--api.insecure=false"
-      - "--api.debug=false"
+      - "--api.debug=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
+

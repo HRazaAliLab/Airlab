@@ -5,11 +5,6 @@ services:
       - NODE_ENV
       - PROTOCOL
       - DOMAIN
-      - POSTGRES_SERVER
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - POSTGRES_DB
-      - BACKEND_CORS_ORIGINS
       - PROJECT_NAME
       - FIRST_SUPERUSER
       - FIRST_SUPERUSER_PASSWORD
@@ -61,10 +56,6 @@ services:
       - "traefik.enable=true"
 
   frontend:
-    environment:
-      - VUE_APP_NAME
-      - VUE_APP_PROTOCOL
-      - VUE_APP_DOMAIN
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.frontend.rule=PathPrefix(`/`)"
@@ -74,10 +65,10 @@ services:
     restart: always
     image: postgres:12.7-alpine
     environment:
-      - POSTGRES_SERVER
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - POSTGRES_DB
+      - POSTGRES_SERVER=${TYPEORM_HOST}
+      - POSTGRES_USER=${TYPEORM_USERNAME}
+      - POSTGRES_PASSWORD=${TYPEORM_PASSWORD}
+      - POSTGRES_DB=${TYPEORM_DATABASE}
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - postgres_data:/var/lib/postgresql/data

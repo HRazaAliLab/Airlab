@@ -104,7 +104,7 @@ make deploy-production
 ```
 
 !!! warning "Warning"
-    Please check that env variables DOMAIN, VUE_APP_DOMAIN, DOMAIN_PROD, BACKEND_CORS_ORIGINS etc. are properly set on production server before deployment! 
+    Please check that env variables DOMAIN, VUE_APP_DOMAIN, DOMAIN_PROD etc. are properly set on production server before deployment! 
 
 
 ## Staging deployment
@@ -132,4 +132,4 @@ make deploy-staging
 ```
 
 !!! warning "Warning"
-    Please check that env variables DOMAIN, VUE_APP_DOMAIN, DOMAIN_STAGE, BACKEND_CORS_ORIGINS etc. are properly set on production server before deployment! 
+    Please check that env variables DOMAIN, VUE_APP_DOMAIN, DOMAIN_STAGE etc. are properly set on production server before deployment! 

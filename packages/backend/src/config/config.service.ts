@@ -32,11 +32,11 @@ export class ConfigService {
   get typeOrmConfig(): TypeOrmModuleOptions {
     return {
       type: this.get("TYPEORM_CONNECTION") as "postgres",
-      host: this.get("POSTGRES_SERVER"),
+      host: this.get("TYPEORM_HOST"),
       port: parseInt(this.get("TYPEORM_PORT")),
-      username: this.get("POSTGRES_USER"),
-      password: this.get("POSTGRES_PASSWORD"),
-      database: this.get("POSTGRES_DB"),
+      username: this.get("TYPEORM_USERNAME"),
+      password: this.get("TYPEORM_PASSWORD"),
+      database: this.get("TYPEORM_DATABASE"),
 
       entities: [
         UserEntity,

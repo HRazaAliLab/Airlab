@@ -5,16 +5,12 @@ services:
     build:
       context: ../
       dockerfile: packages/backend/Dockerfile
-      args:
-        BACKEND_ENV: production
 
   worker:
     image: '${DOCKER_IMAGE_WORKER}:${DOCKER_TAG-latest}'
     build:
       context: ../
       dockerfile: packages/worker/Dockerfile
-      args:
-        BACKEND_ENV: production
 
   frontend:
     image: '${DOCKER_IMAGE_FRONTEND}:${DOCKER_TAG-latest}'
@@ -22,6 +18,4 @@ services:
       context: ../
       dockerfile: packages/frontend/Dockerfile
       args:
-        VUE_APP_NAME: ${VUE_APP_NAME}
-        VUE_APP_PROTOCOL: ${VUE_APP_PROTOCOL}
-        VUE_APP_DOMAIN: ${DOMAIN_PROD}
+        VUE_APP_NAME: ${PROJECT_NAME}

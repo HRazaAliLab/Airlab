@@ -15,12 +15,6 @@ COPY packages/frontend ./packages/frontend/
 ARG VUE_APP_NAME
 ENV VUE_APP_NAME=${VUE_APP_NAME}
 
-ARG VUE_APP_PROTOCOL
-ENV VUE_APP_PROTOCOL=${VUE_APP_PROTOCOL}
-
-ARG VUE_APP_DOMAIN
-ENV VUE_APP_DOMAIN=${VUE_APP_DOMAIN}
-
 # Comment out the next line to disable tests
 # RUN yarn test:frontend
 
