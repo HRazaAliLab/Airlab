@@ -4,6 +4,7 @@
 set -e
 
 NODE_ENV=production \
+TAG=${DOCKER_TAG-latest} \
 docker-compose \
 -f .deploy/shared.yml \
 -f .deploy/production.yml \
