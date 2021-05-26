@@ -10,12 +10,12 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+# Keep sensitive information out of Git!!
+.env
+
 # local env files
 .env.local
 .env.*.local
-
-# Keep sensitive information out of Git!!
-.env
 
 # OS
 .DS_Store
