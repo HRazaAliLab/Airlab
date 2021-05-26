@@ -16,6 +16,9 @@ lerna-debug.log*
 .env.local
 .env.*.local
 
+# Keep sensitive information out of Git!!
+.env
+
 # OS
 .DS_Store
 

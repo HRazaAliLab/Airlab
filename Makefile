@@ -46,8 +46,11 @@ clean:
 	rm docker-stack.yml
 
 # Some Docker-related helper commands
+start:
+	docker ps -qa | xargs docker start
+
 stop:
-	docker container stop $(docker container ls -aq)
+	docker ps -q | xargs docker stop
 
 restart:
-	docker container restart $(docker container ls -aq)
+	docker ps -qa | xargs docker restart
