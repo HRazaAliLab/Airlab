@@ -2,19 +2,19 @@ version: "3.7"
 services:
   backend:
     restart: always
-    image: ${DOCKER_IMAGE_BACKEND}:${TAG-latest}
+    image: ${DOCKER_IMAGE_BACKEND}:${DOCKER_TAG-latest}
     ports:
       - 3000:3000
     command: ["yarn", "run", "start:backend:prod"]
 
   worker:
     restart: always
-    image: ${DOCKER_IMAGE_WORKER}:${TAG-latest}
+    image: ${DOCKER_IMAGE_WORKER}:${DOCKER_TAG-latest}
     command: ["yarn", "run", "start:worker:prod"]
 
   frontend:
     restart: always
-    image: ${DOCKER_IMAGE_FRONTEND}:${TAG-latest}
+    image: ${DOCKER_IMAGE_FRONTEND}:${DOCKER_TAG-latest}
 
   proxy:
     command:
