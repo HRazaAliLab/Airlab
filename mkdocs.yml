@@ -2,6 +2,7 @@ site_name: AirLab
 
 copyright: Copyright &copy; 2021 Anton Rau
 repo_url: https://github.com/BodenmillerGroup/airlab-web
+site_url: https://bodenmillergroup.github.io/airlab-web
 
 theme:
   name: material
@@ -23,5 +24,6 @@ nav:
   - Home:
     - index.md
     - changelog.md
+    - license.md
   - Development:
     - dev/developer.md
