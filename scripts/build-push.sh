@@ -5,4 +5,4 @@ set -e
 
 source ./scripts/build.sh
 
-docker-compose -f docker-stack.yml push
+docker compose -f docker-stack.yml push

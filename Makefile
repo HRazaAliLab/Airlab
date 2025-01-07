@@ -11,7 +11,7 @@ deploy-development:
 
 # Run database migrations
 db-migration:
-	docker exec -it airlab_backend_1 yarn run migration:run
+	docker exec -it airlab-backend-1 yarn run migration:run
 
 # Serve development version of front-end app
 serve-frontend:

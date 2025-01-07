@@ -3,7 +3,9 @@
 # Exit in case of error
 set -e
 
-NODE_ENV=production \
-docker-compose -f .deploy/build.yml config > docker-stack.yml
+source /etc/airlab.sh
 
-docker-compose -f docker-stack.yml build --parallel
+NODE_ENV=production \
+docker compose -f .deploy/build.yml config > docker-stack.yml
+
+docker compose -f docker-stack.yml build --parallel

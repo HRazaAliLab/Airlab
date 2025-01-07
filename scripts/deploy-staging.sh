@@ -3,9 +3,11 @@
 # Exit in case of error
 set -e
 
-docker-compose \
+source /etc/airlab.sh
+
+docker compose \
 -f .deploy/shared.yml \
 -f .deploy/staging.yml \
 config > docker-stack.yml
 
-docker-compose -f docker-stack.yml up -d
+docker compose -f docker-stack.yml up -d

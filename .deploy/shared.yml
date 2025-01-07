@@ -63,7 +63,7 @@ services:
 
   db:
     restart: always
-    image: postgres:12.7-alpine
+    image: postgres:15.10-alpine
     environment:
       - POSTGRES_SERVER=${TYPEORM_HOST}
       - POSTGRES_USER=${TYPEORM_USERNAME}
@@ -77,7 +77,7 @@ services:
 
   pgadmin:
     restart: always
-    image: dpage/pgadmin4:5.2
+    image: dpage/pgadmin4:8.14
     depends_on:
       - db
     environment:
