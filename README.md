@@ -15,7 +15,7 @@ Issue tracker: [https://github.com/BodenmillerGroup/airlab-web/issues](https://g
 ## Authors
 
 - [Anton Rau](mailto:anton.rau@uzh.ch) (main author)
-- [Neus][](author)
+- [Neus Masque Soler](neus.masquesoler@cruk.cam.ac.uk) (author)
 
 ## Contributing
 
