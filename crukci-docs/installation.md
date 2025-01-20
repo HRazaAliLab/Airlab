@@ -1,9 +1,9 @@
-###### Installation Notes ######
+# Installation Notes #
 
 Original developers' installation instructions are available at
 https://bodenmillergroup.github.io/airlab-web/dev/developer/
 
-##### Site Specific Notes #####
+## Site Specific Notes ##
 
 Copying `.env.template` to `.env` in the root directory didn't work.
 What ended up happening is the template was copied to `/etc/airlab.sh`
@@ -23,7 +23,7 @@ container used version 12, but the dump file provided was from 15 and
 wouldn't work with 12) and moving to the latest version of _pgadmin_
 just so it would properly support Postgres 15.
 
-##### How to Deploy #####
+## How to Deploy ##
 
 Much as the original instructions really:
 
@@ -46,7 +46,7 @@ sudo make start
 sudo make stop
 ```
 
-##### Locations #####
+## Locations ##
 
 The Postgres data lives in the Docker volumes under `airlab_postgres_data`.
 It can be accessed by running (on the server):
@@ -60,13 +60,13 @@ The uploaded files (images) can be found in the Docker volume
 
 The Docker volumes are located at `/var/lib/docker/volumes`.
 
-##### System Admin (setting up) #####
+## System Admin (setting up) ##
 
 Our IT team provided a minimal Rocky Linux 8 VM to start with.
 They (well, Gareth) also set up a local _postfix_ mail agent
 and allowed used of _mailrelay_.
 
-#### Allowing PGAdmin Access through the firewall ####
+### Allowing PGAdmin Access through the firewall ###
 
 Create the file `/etc/firewalld/services/pgadmin.xml`:
 
@@ -88,12 +88,11 @@ sudo firewall-cmd --permanent --add-service pgadmin
 sudo firewall-cmd --reload
 ```
 
-#### Postgres ####
+### Postgres ###
 
 ```BASH
 sudo dnf module reset -y postgresql
 sudo dnf module enable -y postgresql:15
 sudo dnf install postgresql
 ```
-
 
