@@ -190,6 +190,6 @@ export class LotEntity {
   validations: ValidationEntity[];
 
   public get nameAndNumber(): string {
-      return "${this.name}/${this.number}";
+      return `${this.name}/${this.number}`;
   }
 }

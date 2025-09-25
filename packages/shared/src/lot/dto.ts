@@ -83,6 +83,9 @@ export class LotDto {
 
   @ApiProperty()
   readonly updatedAt: string;
+
+  @ApiProperty()
+  readonly nameAndNumber: string;
 }
 
 export class CreateLotDto {
