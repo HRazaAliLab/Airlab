@@ -54,7 +54,7 @@
                 v-model="lotId"
                 :search-input.sync="lotSearchInput"
                 :items="lots"
-                item-text="nameAndNumber"
+                item-text="nameAndNumber()"
                 item-value="id"
                 clearable
                 open-on-clear
