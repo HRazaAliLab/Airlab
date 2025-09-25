@@ -189,7 +189,7 @@ export class LotEntity {
   @OneToMany((type) => ValidationEntity, (validation) => validation.lot)
   validations: ValidationEntity[];
 
-  nameAndNumber(): string {
-      return this.name + '/' + this.number;
+  public get nameAndNumber(): string {
+      return "${this.name}/${this.number}";
   }
 }
