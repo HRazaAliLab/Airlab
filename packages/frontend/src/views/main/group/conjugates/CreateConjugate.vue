@@ -89,7 +89,10 @@ export default class CreateConjugate extends Vue {
   }
 
   get lots() {
-    return this.lotContext.getters.lots;
+    return this.lotContext.getters.lots.map((item) => ({
+      id: item.id,
+      name: `${item.name} - ${item.id}`,
+    }));
   }
 
   get members() {

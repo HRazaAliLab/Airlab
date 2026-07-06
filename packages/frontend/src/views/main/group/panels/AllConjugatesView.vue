@@ -68,6 +68,19 @@
                   <div><span class="subheader">Tube:</span> {{ item.tubeNumber }}</div>
                   <div><span class="subheader">Protein:</span> {{ item.lot.clone.protein.name }}</div>
                   <div><span class="subheader">Clone:</span> {{ item.lot.clone.name }}</div>
+                  <div v-if="item.validations && item.validations.length > 0">
+                    <span class="subheader">Validations: </span>
+                    <v-chip
+                      v-for="validation in item.validations"
+                      :key="validation.id"
+                      :color="getStatusColor(validation)"
+                      class="mr-1"
+                      x-small
+                      dark
+                    >
+                      {{ validation.application | applicationToString }}
+                    </v-chip>
+                  </div>
                 </div>
               </v-sheet>
             </v-row>
@@ -84,6 +97,7 @@ import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 import { ConjugateStatus } from "@airlab/shared/lib/conjugate/ConjugateStatus";
 import { conjugateModule } from "@/modules/conjugate";
 import { tagModule } from "@/modules/tag";
+import { getStatusColor } from "@/utils/converters";
 
 @Component
 export default class AllConjugatesView extends Vue {
@@ -189,6 +203,10 @@ export default class AllConjugatesView extends Vue {
       return "yellow lighten-5";
     }
     return "default";
+  }
+
+  getStatusColor(validation) {
+    return getStatusColor(validation);
   }
 }
 </script>
