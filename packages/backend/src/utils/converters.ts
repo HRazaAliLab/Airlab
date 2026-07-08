@@ -1,9 +1,8 @@
-import { Parser } from "json2csv";
+import { Parser } from "@json2csv/plainjs";
 
 export function exportToCsv(obj: any) {
   const parser = new Parser({
     delimiter: ";",
-    excelStrings: false,
   });
   return parser.parse(obj);
 }

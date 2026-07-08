@@ -22,7 +22,8 @@ export class TagService {
   }
 
   async findById(id: number) {
-    return this.repository.findOne(id, {
+    return this.repository.findOne({
+      where: { id },
       select: [
         "id",
         "groupId",
@@ -136,8 +137,8 @@ export class TagService {
 
   private async clearCache(groupId: number) {
     await Promise.all([
-      this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_tags`]),
-      this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_panels`]),
+      this.repository.manager.connection.queryResultCache?.remove([`group_${groupId}_tags`]),
+      this.repository.manager.connection.queryResultCache?.remove([`group_${groupId}_panels`]),
     ]);
   }
 }

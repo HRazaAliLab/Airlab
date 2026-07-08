@@ -13,7 +13,7 @@ import { ConjugateEntity } from "../conjugate/conjugate.entity";
 import { LotEntity } from "../lot/lot.entity";
 import { PanelEntity } from "../panel/panel.entity";
 import { ValidationEntity } from "../validation/validation.entity";
-import { ClientOpts } from "redis";
+import type { RedisOptions } from "ioredis";
 import { PanelElementEntity } from "../panelElement/panelElement.entity";
 
 export class ConfigService {
@@ -57,14 +57,11 @@ export class ConfigService {
 
       migrationsTableName: "migrations",
       migrations: ["src/migrations/*.ts"],
-      cli: {
-        migrationsDir: "src/migrations",
-      },
 
       ssl: false,
       synchronize: false,
       cache: {
-        type: "redis",
+        type: "ioredis",
         options: {
           host: this.get("REDIS_HOST"),
           port: Number(this.get("REDIS_PORT")),
@@ -73,7 +70,7 @@ export class ConfigService {
     };
   }
 
-  get redisConfig(): ClientOpts {
+  get redisConfig(): RedisOptions {
     return {
       host: this.get("REDIS_HOST"),
       port: Number(this.get("REDIS_PORT")),

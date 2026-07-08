@@ -22,7 +22,8 @@ export class ProviderService {
   }
 
   async findById(id: number) {
-    return this.repository.findOne(id, {
+    return this.repository.findOne({
+      where: { id },
       select: ["id", "groupId", "name", "description", "url", "createdAt"],
     });
   }
@@ -77,6 +78,6 @@ export class ProviderService {
   }
 
   private async clearCache(groupId: number) {
-    await this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_providers`]);
+    await this.repository.manager.connection.queryResultCache?.remove([`group_${groupId}_providers`]);
   }
 }

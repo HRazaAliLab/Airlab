@@ -32,7 +32,8 @@ export class ValidationFileService {
   }
 
   async findById(id: number) {
-    return this.repository.findOne(id, {
+    return this.repository.findOne({
+      where: { id },
       relations: ["validation"],
     });
   }
@@ -45,7 +46,9 @@ export class ValidationFileService {
       await fsAsync.unlink(path);
     }
     const result = await this.repository.delete(id);
-    await this.repository.manager.connection.queryResultCache.remove([`group_${file.validation.groupId}_validations`]);
+    await this.repository.manager.connection.queryResultCache?.remove([
+      `group_${file.validation.groupId}_validations`,
+    ]);
     return result.affected === 1 ? id : undefined;
   }
 

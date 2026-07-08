@@ -1,9 +1,9 @@
-import ky from "ky";
+import ky, { type KyInstance } from "ky";
 import { apiUrl } from "@/env";
 
 export class ApiManager {
   private static _token: string;
-  private static _api: typeof ky;
+  private static _api: KyInstance;
 
   static init(token: string) {
     ApiManager._token = token;
@@ -20,7 +20,7 @@ export class ApiManager {
           async (request, options, response) => {
             if (!response.ok) {
               try {
-                const errorJson = await response.json();
+                const errorJson = await response.json() as any;
                 return new Response(null, {
                   status: errorJson.statusCode,
                   statusText: errorJson.message ? errorJson.message : errorJson.error,

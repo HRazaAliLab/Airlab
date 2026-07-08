@@ -22,7 +22,8 @@ export class ProteinService {
   }
 
   async findById(id: number) {
-    return this.repository.findOne(id, {
+    return this.repository.findOne({
+      where: { id },
       select: ["id", "groupId", "name", "description", "createdAt"],
     });
   }
@@ -77,6 +78,6 @@ export class ProteinService {
   }
 
   private async clearCache(groupId: number) {
-    await this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_proteins`]);
+    await this.repository.manager.connection.queryResultCache?.remove([`group_${groupId}_proteins`]);
   }
 }

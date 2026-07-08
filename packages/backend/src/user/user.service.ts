@@ -34,7 +34,8 @@ export class UserService {
   }
 
   async findById(id: number) {
-    return this.repository.findOne(id, {
+    return this.repository.findOne({
+      where: { id },
       select: ["id", "name", "email", "isActive", "isAdmin", "meta", "createdAt", "updatedAt"],
     });
   }
@@ -107,6 +108,6 @@ export class UserService {
   }
 
   private async clearCache() {
-    await this.repository.manager.connection.queryResultCache.remove([`users`]);
+    await this.repository.manager.connection.queryResultCache?.remove([`users`]);
   }
 }

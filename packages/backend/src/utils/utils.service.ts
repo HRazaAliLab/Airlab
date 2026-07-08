@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "../config/config.service";
-import * as Mailgen from "mailgen";
+import Mailgen from "mailgen";
 import { ClientProxy } from "@nestjs/microservices";
 import { SEND_EMAIL_MESSAGE } from "@airlab/shared/lib/constants";
 import { SendEmailEvent } from "@airlab/shared/lib/events";

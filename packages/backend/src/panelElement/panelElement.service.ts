@@ -33,8 +33,10 @@ export class PanelElementService {
 
   async findByPanelIdAndConjugateId(panelId: number, conjugateId: number) {
     return this.repository.findOne({
-      panelId: panelId,
-      conjugateId: conjugateId,
+      where: {
+        panelId: panelId,
+        conjugateId: conjugateId,
+      },
     });
   }
 

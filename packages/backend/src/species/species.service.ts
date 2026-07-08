@@ -22,7 +22,8 @@ export class SpeciesService {
   }
 
   async findById(id: number) {
-    return this.repository.findOne(id, {
+    return this.repository.findOne({
+      where: { id },
       select: ["id", "groupId", "name", "acronym", "createdAt"],
     });
   }
@@ -77,6 +78,6 @@ export class SpeciesService {
   }
 
   private async clearCache(groupId: number) {
-    await this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_species`]);
+    await this.repository.manager.connection.queryResultCache?.remove([`group_${groupId}_species`]);
   }
 }

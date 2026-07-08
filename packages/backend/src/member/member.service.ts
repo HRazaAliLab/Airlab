@@ -22,7 +22,8 @@ export class MemberService {
   }
 
   async findById(id: number) {
-    return this.repository.findOne(id, {
+    return this.repository.findOne({
+      where: { id },
       select: ["id", "groupId", "role", "isActive", "allPanels"],
     });
   }
@@ -63,14 +64,16 @@ export class MemberService {
 
   async findByUserIdAndGroupId(userId: number, groupId: number) {
     return this.repository.findOne({
-      groupId: groupId,
-      userId: userId,
+      where: {
+        groupId: groupId,
+        userId: userId,
+      },
     });
   }
 
   async findByUserId(userId: number) {
     return this.repository.find({
-      userId: userId,
+      where: { userId: userId },
     });
   }
 
@@ -134,9 +137,9 @@ export class MemberService {
 
   private async clearCache(groupId: number) {
     await Promise.all([
-      this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_members`]),
-      this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_panels`]),
-      this.repository.manager.connection.queryResultCache.remove([`groups`]),
+      this.repository.manager.connection.queryResultCache?.remove([`group_${groupId}_members`]),
+      this.repository.manager.connection.queryResultCache?.remove([`group_${groupId}_panels`]),
+      this.repository.manager.connection.queryResultCache?.remove([`groups`]),
     ]);
   }
 }

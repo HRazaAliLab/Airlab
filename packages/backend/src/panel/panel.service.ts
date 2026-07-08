@@ -168,6 +168,6 @@ export class PanelService {
   }
 
   private async clearCache(groupId: number) {
-    await this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_panels`]);
+    await this.repository.manager.connection.queryResultCache?.remove([`group_${groupId}_panels`]);
   }
 }

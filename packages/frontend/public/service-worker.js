@@ -5,11 +5,13 @@
  * disable HTTP caching for this file too.
  * See https://goo.gl/nhQhGp
  */
+import { clientsClaim, setCacheNameDetails } from "workbox-core";
+import { precacheAndRoute } from "workbox-precaching";
 
 //Change this value every time before you build
 const LATEST_VERSION = require("../package.json").version;
 
-workbox.core.setCacheNameDetails({ prefix: "airlab" });
+setCacheNameDetails({ prefix: "airlab" });
 
 self.addEventListener("activate", (event) => {
   console.log(`%c ${LATEST_VERSION} `, "background: #ddd; color: #0000ff");
@@ -37,14 +39,12 @@ self.addEventListener("activate", (event) => {
   }
 });
 
-workbox.skipWaiting();
-workbox.clientsClaim();
+self.skipWaiting();
+clientsClaim();
 
 /**
- * The workboxSW.precacheAndRoute() method efficiently caches and responds to
+ * The precacheAndRoute() method efficiently caches and responds to
  * requests for URLs in the manifest.
  * See https://goo.gl/S9QRab
  */
-self.__precacheManifest = [].concat(self.__precacheManifest || []);
-// workbox.precaching.suppressWarnings();
-workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
+precacheAndRoute(self.__WB_MANIFEST);

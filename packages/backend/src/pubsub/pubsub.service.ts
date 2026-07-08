@@ -1,6 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "../config/config.service";
-import * as redis from "redis";
+import Redis from "ioredis";
 import { UPDATES_CHANNEL_NAME } from "@airlab/shared/lib/events/channels";
 import { EventsGateway } from "../events/events.gateway";
 import { Message } from "@airlab/shared/lib/events/message";
@@ -8,12 +8,12 @@ import { Message } from "@airlab/shared/lib/events/message";
 @Injectable()
 export class PubSubService {
   private readonly logger = new Logger(PubSubService.name);
-  private readonly pub;
-  private readonly sub;
+  private readonly pub: Redis;
+  private readonly sub: Redis;
 
   constructor(private readonly configService: ConfigService, private readonly eventsGateway: EventsGateway) {
-    this.pub = redis.createClient(this.configService.redisConfig);
-    this.sub = redis.createClient(this.configService.redisConfig);
+    this.pub = new Redis(this.configService.redisConfig);
+    this.sub = new Redis(this.configService.redisConfig);
     this.sub.on("message", (channel, message) => this.messageHandler(channel, message));
     this.sub.subscribe(UPDATES_CHANNEL_NAME);
   }

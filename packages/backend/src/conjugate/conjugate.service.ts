@@ -217,6 +217,6 @@ export class ConjugateService {
   }
 
   private async clearCache(groupId: number) {
-    await this.repository.manager.connection.queryResultCache.remove([`group_${groupId}_conjugates`]);
+    await this.repository.manager.connection.queryResultCache?.remove([`group_${groupId}_conjugates`]);
   }
 }

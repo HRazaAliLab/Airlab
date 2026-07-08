@@ -7,7 +7,7 @@ import { MemberService } from "../member/member.service";
 import * as crypto from "crypto";
 import { CreateGroupDto, GroupDto, InviteDto, UpdateGroupDto } from "@airlab/shared/lib/group/dto";
 import { PubSubService } from "../pubsub/pubsub.service";
-import * as archiver from "archiver";
+import archiver from "archiver";
 import { SpeciesService } from "../species/species.service";
 import { TagService } from "../tag/tag.service";
 import { ProviderService } from "../provider/provider.service";
@@ -23,7 +23,7 @@ import { ValidationService } from "../validation/validation.service";
 import { ValidationFileService } from "../validationFile/validationFile.service";
 import * as fs from "fs";
 import { promises as fsAsync } from "fs";
-import * as unzipper from "unzipper";
+import unzipper from "unzipper";
 import { Importer } from "./importer";
 
 const privateKey = "fsdfC987XXasdf979werl$#";
@@ -56,7 +56,7 @@ export class GroupService {
   }
 
   async findById(id: number) {
-    return this.repository.findOne(id);
+    return this.repository.findOne({ where: { id } });
   }
 
   async exportAll() {
@@ -73,7 +73,7 @@ export class GroupService {
     await this.clearCache();
     const result = await this.repository.delete(id);
     const dir = `/data/groups/${id}`;
-    await fsAsync.rmdir(dir, { recursive: true });
+    await fsAsync.rm(dir, { recursive: true, force: true });
     return result.affected === 1 ? id : undefined;
   }
 
@@ -282,7 +282,7 @@ export class GroupService {
     );
 
     await fsAsync.unlink(path);
-    await fsAsync.rmdir(srcFolder, { recursive: true });
+    await fsAsync.rm(srcFolder, { recursive: true, force: true });
     return group;
   }
 
@@ -572,10 +572,10 @@ export class GroupService {
   }
 
   private async clearCache() {
-    await this.repository.manager.connection.queryResultCache.remove([`groups`]);
+    await this.repository.manager.connection.queryResultCache?.remove([`groups`]);
   }
 
   private async clearAllCache() {
-    await this.repository.manager.connection.queryResultCache.clear();
+    await this.repository.manager.connection.queryResultCache?.clear();
   }
 }

@@ -16,7 +16,8 @@ async function bootstrap(): Promise<void> {
       queueOptions: { durable: false },
     },
   });
-  worker.listen(() => logger.log("Worker is listening"));
+  await worker.listen();
+  logger.log("Worker is listening");
 }
 
 bootstrap();

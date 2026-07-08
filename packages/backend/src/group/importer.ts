@@ -1,5 +1,5 @@
 import { Pool } from "pg";
-import * as unzipper from "unzipper";
+import unzipper from "unzipper";
 import { ConfigService } from "../config/config.service";
 import { existsSync, rmdirSync, createReadStream, renameSync, promises as fsAsync } from "fs";
 const mkdirp = require("mkdirp");
