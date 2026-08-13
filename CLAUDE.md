@@ -77,6 +77,8 @@ The frontend dev server requires the legacy OpenSSL provider — this is already
 - TypeScript-only library; compiled with `tsc` to `./lib`
 - Contains entity types, DTOs, and interfaces shared between backend and frontend
 
+We are fixed for the time being on Vue version 2.
+
 ## TypeScript Configuration
 
 All packages enable `experimentalDecorators` and `emitDecoratorMetadata` (required by NestJS and vue-class-component).

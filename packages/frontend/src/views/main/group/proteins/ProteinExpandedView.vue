@@ -123,7 +123,7 @@ export default class ProteinExpandedView extends Vue {
   }
 
   async mounted() {
-    this.items = await this.proteinContext.actions.getProteinClones(this.protein.id);
+    this.items = (await this.proteinContext.actions.getProteinClones(this.protein.id)) as CloneDto[];
     this.loading = false;
   }
 }

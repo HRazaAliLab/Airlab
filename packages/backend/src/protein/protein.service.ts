@@ -24,7 +24,7 @@ export class ProteinService {
   async findById(id: number) {
     return this.repository.findOne({
       where: { id },
-      select: ["id", "groupId", "name", "description", "createdAt"],
+      select: { id: true, groupId: true, name: true, description: true, createdAt: true },
     });
   }
 
@@ -44,7 +44,7 @@ export class ProteinService {
 
   async getGroupProteins(groupId: number) {
     return this.repository.find({
-      select: ["id", "name", "description"],
+      select: { id: true, name: true, description: true },
       where: {
         groupId: groupId,
       },
@@ -61,7 +61,7 @@ export class ProteinService {
   async exportProteins(groupId?: number) {
     return groupId
       ? this.repository.find({
-          select: ["id", "groupId", "createdBy", "name", "description", "meta", "createdAt"],
+          select: { id: true, groupId: true, createdBy: true, name: true, description: true, meta: true, createdAt: true },
           where: {
             groupId: groupId,
           },
@@ -70,7 +70,7 @@ export class ProteinService {
           },
         })
       : this.repository.find({
-          select: ["id", "groupId", "createdBy", "name", "description", "meta", "createdAt"],
+          select: { id: true, groupId: true, createdBy: true, name: true, description: true, meta: true, createdAt: true },
           order: {
             id: "ASC",
           },

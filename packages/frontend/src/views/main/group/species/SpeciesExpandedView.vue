@@ -205,7 +205,7 @@ export default class SpeciesExpandedView extends Vue {
       this.speciesContext.actions.getSpeciesClones(this.species.id),
       this.cloneContext.actions.getGroupClones(this.activeGroupId!),
     ]);
-    this.hostItems = result[0];
+    this.hostItems = result[0] as CloneDto[];
     this.loading = false;
   }
 }

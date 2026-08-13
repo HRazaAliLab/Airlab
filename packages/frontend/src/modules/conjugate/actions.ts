@@ -5,9 +5,12 @@ import { ConjugateState } from ".";
 import { api } from "./api";
 import { ConjugateGetters } from "./getters";
 import { ConjugateMutations } from "./mutations";
-import { CreateConjugateDto, UpdateConjugateDto, UpdateConjugateStatusDto } from "@airlab/shared/lib/conjugate/dto";
+import { ConjugateDto, CreateConjugateDto, UpdateConjugateDto, UpdateConjugateStatusDto } from "@airlab/shared/lib/conjugate/dto";
 import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
 import { ConjugateStatus } from "@airlab/shared/lib/conjugate/ConjugateStatus";
+import { PanelDto } from "@airlab/shared/lib/panel/dto";
+import { CloneDto } from "@airlab/shared/lib/clone/dto";
+import { ValidationDto } from "@airlab/shared/lib/validation/dto";
 
 export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, ConjugateMutations, ConjugateActions> {
   // Declare context type
@@ -97,7 +100,7 @@ export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, 
     }
   }
 
-  async getConjugatePanels(id: number) {
+  async getConjugatePanels(id: number): Promise<PanelDto[] | undefined> {
     try {
       return api.getConjugatePanels(id);
     } catch (error) {
@@ -105,7 +108,7 @@ export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, 
     }
   }
 
-  async getConjugateClones(id: number) {
+  async getConjugateClones(id: number): Promise<CloneDto[] | undefined> {
     try {
       return api.getConjugateClones(id);
     } catch (error) {
@@ -113,7 +116,7 @@ export class ConjugateActions extends Actions<ConjugateState, ConjugateGetters, 
     }
   }
 
-  async getConjugateValidations(conjugateId: number) {
+  async getConjugateValidations(conjugateId: number): Promise<ValidationDto[] | undefined> {
     try {
       return api.getConjugateValidations(conjugateId);
     } catch (error) {

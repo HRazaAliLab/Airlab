@@ -24,7 +24,7 @@ export class MemberService {
   async findById(id: number) {
     return this.repository.findOne({
       where: { id },
-      select: ["id", "groupId", "role", "isActive", "allPanels"],
+      select: { id: true, groupId: true, role: true, isActive: true, allPanels: true },
     });
   }
 

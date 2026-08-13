@@ -220,7 +220,7 @@ export default class ConjugateExpandedView extends Vue {
 
   private loading = true;
   private panels: PanelDto[] = [];
-  private clones: PanelDto[] = [];
+  private clones: CloneDto[] = [];
 
   private get activeGroupId() {
     return this.groupContext.getters.activeGroupId;
@@ -231,8 +231,8 @@ export default class ConjugateExpandedView extends Vue {
       this.conjugateContext.actions.getConjugatePanels(this.conjugate.id),
       this.conjugateContext.actions.getConjugateClones(this.conjugate.id),
     ]);
-    this.panels = result[0];
-    this.clones = result[1];
+    this.panels = result[0] as PanelDto[];
+    this.clones = result[1] as CloneDto[];
     this.loading = false;
   }
 }

@@ -55,7 +55,7 @@ export default class ProviderDetailsView extends Vue {
   }
 
   async mounted() {
-    this.validations = await this.conjugateContext.actions.getConjugateValidations(this.conjugate.id);
+    this.validations = (await this.conjugateContext.actions.getConjugateValidations(this.conjugate.id)) as ValidationDto[];
   }
 }
 </script>

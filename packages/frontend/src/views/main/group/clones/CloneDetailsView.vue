@@ -51,7 +51,7 @@ export default class CloneDetailsView extends Vue {
   }
 
   async mounted() {
-    this.validations = await this.cloneContext.actions.getCloneValidations(this.clone.id);
+    this.validations = (await this.cloneContext.actions.getCloneValidations(this.clone.id)) as ValidationDto[];
   }
 }
 </script>

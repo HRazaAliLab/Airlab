@@ -6,6 +6,7 @@ import { api } from "./api";
 import { ProviderGetters } from "./getters";
 import { ProviderMutations } from "./mutations";
 import { CreateProviderDto, UpdateProviderDto } from "@airlab/shared/lib/provider/dto";
+import { LotDto } from "@airlab/shared/lib/lot/dto";
 
 export class ProviderActions extends Actions<ProviderState, ProviderGetters, ProviderMutations, ProviderActions> {
   // Declare context type
@@ -69,7 +70,7 @@ export class ProviderActions extends Actions<ProviderState, ProviderGetters, Pro
     }
   }
 
-  async getProviderLots(providerId: number) {
+  async getProviderLots(providerId: number): Promise<LotDto[] | undefined> {
     try {
       return api.getProviderLots(providerId);
     } catch (error) {

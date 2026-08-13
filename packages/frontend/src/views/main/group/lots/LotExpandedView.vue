@@ -192,7 +192,7 @@ export default class LotExpandedView extends Vue {
   }
 
   async mounted() {
-    this.items = await this.lotContext.actions.getLotConjugates(this.lot.id);
+    this.items = (await this.lotContext.actions.getLotConjugates(this.lot.id)) as ConjugateDto[];
     this.loading = false;
   }
 }

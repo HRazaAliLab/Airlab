@@ -192,7 +192,7 @@ export default class TagExpandedView extends Vue {
   }
 
   async mounted() {
-    this.items = await this.tagContext.actions.getTagConjugates(this.tag.id);
+    this.items = (await this.tagContext.actions.getTagConjugates(this.tag.id)) as ConjugateDto[];
     this.loading = false;
   }
 }

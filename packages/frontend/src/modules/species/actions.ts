@@ -6,6 +6,7 @@ import { api } from "./api";
 import { SpeciesGetters } from "./getters";
 import { SpeciesMutations } from "./mutations";
 import { CreateSpeciesDto, UpdateSpeciesDto } from "@airlab/shared/lib/species/dto";
+import { CloneDto } from "@airlab/shared/lib/clone/dto";
 
 export class SpeciesActions extends Actions<SpeciesState, SpeciesGetters, SpeciesMutations, SpeciesActions> {
   // Declare context type
@@ -69,7 +70,7 @@ export class SpeciesActions extends Actions<SpeciesState, SpeciesGetters, Specie
     }
   }
 
-  async getSpeciesClones(speciesId: number) {
+  async getSpeciesClones(speciesId: number): Promise<CloneDto[] | undefined> {
     try {
       return api.getSpeciesClones(speciesId);
     } catch (error) {

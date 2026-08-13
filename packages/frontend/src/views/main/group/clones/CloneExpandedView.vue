@@ -129,7 +129,7 @@ export default class CloneExpandedView extends Vue {
   }
 
   async mounted() {
-    this.items = await this.cloneContext.actions.getCloneLots(this.clone.id);
+    this.items = (await this.cloneContext.actions.getCloneLots(this.clone.id)) as LotDto[];
     this.loading = false;
   }
 }

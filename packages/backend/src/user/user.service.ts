@@ -36,13 +36,13 @@ export class UserService {
   async findById(id: number) {
     return this.repository.findOne({
       where: { id },
-      select: ["id", "name", "email", "isActive", "isAdmin", "meta", "createdAt", "updatedAt"],
+      select: { id: true, name: true, email: true, isActive: true, isAdmin: true, meta: true, createdAt: true, updatedAt: true },
     });
   }
 
   async findByEmail(email: string) {
     return this.repository.findOne({
-      select: ["id", "email", "password", "name", "isActive", "isAdmin"],
+      select: { id: true, email: true, password: true, name: true, isActive: true, isAdmin: true },
       where: { email: email },
     });
   }
@@ -74,7 +74,7 @@ export class UserService {
 
   async findAll() {
     return this.repository.find({
-      select: ["id", "name", "email", "isActive", "isAdmin", "meta", "createdAt", "updatedAt"],
+      select: { id: true, name: true, email: true, isActive: true, isAdmin: true, meta: true, createdAt: true, updatedAt: true },
       order: {
         id: "DESC",
       },

@@ -5,7 +5,7 @@ import { PanelState } from ".";
 import { api } from "./api";
 import { PanelGetters } from "./getters";
 import { PanelMutations } from "./mutations";
-import { CreatePanelDto, DuplicatePanelDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
+import { CreatePanelDto, DuplicatePanelDto, PanelElementDataDto, UpdatePanelDto } from "@airlab/shared/lib/panel/dto";
 import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
 
 export class PanelActions extends Actions<PanelState, PanelGetters, PanelMutations, PanelActions> {
@@ -93,7 +93,7 @@ export class PanelActions extends Actions<PanelState, PanelGetters, PanelMutatio
     }
   }
 
-  async getPanelElements(panelId: number) {
+  async getPanelElements(panelId: number): Promise<PanelElementDataDto[] | undefined> {
     try {
       return api.getPanelElements(panelId);
     } catch (error) {

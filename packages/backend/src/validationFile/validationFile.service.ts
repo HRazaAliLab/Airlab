@@ -34,7 +34,7 @@ export class ValidationFileService {
   async findById(id: number) {
     return this.repository.findOne({
       where: { id },
-      relations: ["validation"],
+      relations: { validation: true },
     });
   }
 
@@ -62,7 +62,7 @@ export class ValidationFileService {
 
   async getFileHash(fileId: number) {
     return this.repository.find({
-      select: ["hash", "extension"],
+      select: { hash: true, extension: true },
       where: {
         id: fileId,
       },

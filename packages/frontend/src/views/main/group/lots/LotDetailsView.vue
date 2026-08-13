@@ -60,7 +60,7 @@ export default class LotDetailsView extends Vue {
   }
 
   async mounted() {
-    this.validations = await this.lotContext.actions.getLotValidations(this.lot.id);
+    this.validations = (await this.lotContext.actions.getLotValidations(this.lot.id)) as ValidationDto[];
   }
 }
 </script>

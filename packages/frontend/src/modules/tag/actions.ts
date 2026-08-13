@@ -6,6 +6,7 @@ import { api } from "./api";
 import { TagGetters } from "./getters";
 import { TagMutations } from "./mutations";
 import { CreateTagDto, UpdateTagDto } from "@airlab/shared/lib/tag/dto";
+import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 
 export class TagActions extends Actions<TagState, TagGetters, TagMutations, TagActions> {
   // Declare context type
@@ -69,7 +70,7 @@ export class TagActions extends Actions<TagState, TagGetters, TagMutations, TagA
     }
   }
 
-  async getTagConjugates(tagId: number) {
+  async getTagConjugates(tagId: number): Promise<ConjugateDto[] | undefined> {
     try {
       return api.getTagConjugates(tagId);
     } catch (error) {

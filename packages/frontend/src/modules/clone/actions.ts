@@ -7,6 +7,8 @@ import { CloneGetters } from "./getters";
 import { CloneMutations } from "./mutations";
 import { CreateCloneDto, UpdateCloneDto } from "@airlab/shared/lib/clone/dto";
 import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
+import { LotDto } from "@airlab/shared/lib/lot/dto";
+import { ValidationDto } from "@airlab/shared/lib/validation/dto";
 
 export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutations, CloneActions> {
   // Declare context type
@@ -94,7 +96,7 @@ export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutatio
     }
   }
 
-  async getCloneLots(cloneId: number) {
+  async getCloneLots(cloneId: number): Promise<LotDto[] | undefined> {
     try {
       return api.getCloneLots(cloneId);
     } catch (error) {
@@ -102,7 +104,7 @@ export class CloneActions extends Actions<CloneState, CloneGetters, CloneMutatio
     }
   }
 
-  async getCloneValidations(cloneId: number) {
+  async getCloneValidations(cloneId: number): Promise<ValidationDto[] | undefined> {
     try {
       return api.getCloneValidations(cloneId);
     } catch (error) {

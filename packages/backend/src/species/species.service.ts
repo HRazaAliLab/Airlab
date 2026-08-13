@@ -24,7 +24,7 @@ export class SpeciesService {
   async findById(id: number) {
     return this.repository.findOne({
       where: { id },
-      select: ["id", "groupId", "name", "acronym", "createdAt"],
+      select: { id: true, groupId: true, name: true, acronym: true, createdAt: true },
     });
   }
 
@@ -44,7 +44,7 @@ export class SpeciesService {
 
   async getGroupSpecies(groupId: number) {
     return this.repository.find({
-      select: ["id", "name", "acronym"],
+      select: { id: true, name: true, acronym: true },
       where: {
         groupId: groupId,
       },
@@ -61,7 +61,7 @@ export class SpeciesService {
   async exportSpecies(groupId?: number) {
     return groupId
       ? this.repository.find({
-          select: ["id", "groupId", "name", "acronym", "meta", "createdAt"],
+          select: { id: true, groupId: true, name: true, acronym: true, meta: true, createdAt: true },
           where: {
             groupId: groupId,
           },
@@ -70,7 +70,7 @@ export class SpeciesService {
           },
         })
       : this.repository.find({
-          select: ["id", "groupId", "name", "acronym", "meta", "createdAt"],
+          select: { id: true, groupId: true, name: true, acronym: true, meta: true, createdAt: true },
           order: {
             id: "ASC",
           },

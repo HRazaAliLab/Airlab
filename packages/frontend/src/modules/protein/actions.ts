@@ -6,6 +6,7 @@ import { api } from "./api";
 import { ProteinGetters } from "./getters";
 import { ProteinMutations } from "./mutations";
 import { CreateProteinDto, UpdateProteinDto } from "@airlab/shared/lib/protein/dto";
+import { CloneDto } from "@airlab/shared/lib/clone/dto";
 
 export class ProteinActions extends Actions<ProteinState, ProteinGetters, ProteinMutations, ProteinActions> {
   // Declare context type
@@ -69,7 +70,7 @@ export class ProteinActions extends Actions<ProteinState, ProteinGetters, Protei
     }
   }
 
-  async getProteinClones(proteinId: number) {
+  async getProteinClones(proteinId: number): Promise<CloneDto[] | undefined> {
     try {
       return api.getProteinClones(proteinId);
     } catch (error) {

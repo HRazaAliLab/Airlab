@@ -217,7 +217,7 @@ import { conjugateModule } from "@/modules/conjugate";
 import { groupModule } from "@/modules/group";
 import { cloneModule } from "@/modules/clone";
 import { speciesModule } from "@/modules/species";
-import { CreateValidationDto } from "@airlab/shared/lib/validation/dto";
+import { CreateValidationDto, ValidationDto } from "@airlab/shared/lib/validation/dto";
 import { validationModule } from "@/modules/validation";
 import { antigenRetrievalTypes } from "@/utils/enums";
 
@@ -393,7 +393,7 @@ export default class CreateValidation extends Vue {
         surfaceStaining: this.surfaceStaining === "yes" ? true : this.surfaceStaining === "false" ? false : null,
         surfaceStainingConcentration: this.surfaceStainingConcentration,
       };
-      const validation = await this.validationContext.actions.createValidation(data);
+      const validation = (await this.validationContext.actions.createValidation(data)) as ValidationDto | undefined;
 
       if (validation && validation.id && this.file) {
         const formData = new FormData();

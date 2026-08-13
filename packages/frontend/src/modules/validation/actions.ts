@@ -5,7 +5,7 @@ import { ValidationState } from ".";
 import { api } from "./api";
 import { ValidationGetters } from "./getters";
 import { ValidationMutations } from "./mutations";
-import { CreateValidationDto, UpdateValidationDto } from "@airlab/shared/lib/validation/dto";
+import { CreateValidationDto, UpdateValidationDto, ValidationDto } from "@airlab/shared/lib/validation/dto";
 import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
 
 export class ValidationActions extends Actions<
@@ -23,7 +23,7 @@ export class ValidationActions extends Actions<
     this.main = mainModule.context(store);
   }
 
-  async createValidation(payload: CreateValidationDto) {
+  async createValidation(payload: CreateValidationDto): Promise<ValidationDto | undefined> {
     try {
       const data = await api.createValidation(payload);
       this.mutations.addEntity(data);

@@ -5,10 +5,12 @@ import { LotState } from ".";
 import { api } from "./api";
 import { LotGetters } from "./getters";
 import { LotMutations } from "./mutations";
-import { CreateLotDto, ReorderLotDto, UpdateLotDto, UpdateLotStatusDto } from "@airlab/shared/lib/lot/dto";
+import { CreateLotDto, LotDto, ReorderLotDto, UpdateLotDto, UpdateLotStatusDto } from "@airlab/shared/lib/lot/dto";
+import { ConjugateDto } from "@airlab/shared/lib/conjugate/dto";
 import { UpdateStateDto } from "@airlab/shared/lib/core/dto";
 import { ConjugateStatus } from "@airlab/shared/lib/conjugate/ConjugateStatus";
 import { RequestQuery } from "@/utils/QueryBuilder";
+import { ValidationDto } from "@airlab/shared/lib/validation/dto";
 
 export class LotActions extends Actions<LotState, LotGetters, LotMutations, LotActions> {
   // Declare context type
@@ -111,7 +113,7 @@ export class LotActions extends Actions<LotState, LotGetters, LotMutations, LotA
     }
   }
 
-  async getRecentOrders(groupId: number) {
+  async getRecentOrders(groupId: number): Promise<LotDto[] | undefined> {
     try {
       return await api.getGroupLots(groupId, { limit: 10, status: 0 });
     } catch (error) {
@@ -119,7 +121,7 @@ export class LotActions extends Actions<LotState, LotGetters, LotMutations, LotA
     }
   }
 
-  async getFinishedLots(groupId: number) {
+  async getFinishedLots(groupId: number): Promise<LotDto[] | undefined> {
     try {
       return await api.getGroupLots(groupId, { limit: 10, status: 6 });
     } catch (error) {
@@ -127,7 +129,7 @@ export class LotActions extends Actions<LotState, LotGetters, LotMutations, LotA
     }
   }
 
-  async getLowLots(groupId: number) {
+  async getLowLots(groupId: number): Promise<LotDto[] | undefined> {
     try {
       return await api.getGroupLots(groupId, { limit: 10, status: 5 });
     } catch (error) {
@@ -135,7 +137,7 @@ export class LotActions extends Actions<LotState, LotGetters, LotMutations, LotA
     }
   }
 
-  async getLotConjugates(lotId: number) {
+  async getLotConjugates(lotId: number): Promise<ConjugateDto[] | undefined> {
     try {
       return api.getLotConjugates(lotId);
     } catch (error) {
@@ -143,7 +145,7 @@ export class LotActions extends Actions<LotState, LotGetters, LotMutations, LotA
     }
   }
 
-  async getLotValidations(lotId: number) {
+  async getLotValidations(lotId: number): Promise<ValidationDto[] | undefined> {
     try {
       return api.getLotValidations(lotId);
     } catch (error) {

@@ -60,7 +60,7 @@ export default class FinishedLots extends Vue {
   ];
 
   async mounted() {
-    this.items = await this.lotContext.actions.getFinishedLots(+this.$router.currentRoute.params.groupId);
+    this.items = (await this.lotContext.actions.getFinishedLots(+this.$router.currentRoute.params.groupId)) as LotDto[];
   }
 }
 </script>

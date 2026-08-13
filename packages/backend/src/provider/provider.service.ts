@@ -24,7 +24,7 @@ export class ProviderService {
   async findById(id: number) {
     return this.repository.findOne({
       where: { id },
-      select: ["id", "groupId", "name", "description", "url", "createdAt"],
+      select: { id: true, groupId: true, name: true, description: true, url: true, createdAt: true },
     });
   }
 
@@ -44,7 +44,7 @@ export class ProviderService {
 
   async getGroupProviders(groupId: number) {
     return this.repository.find({
-      select: ["id", "name"],
+      select: { id: true, name: true },
       where: {
         groupId: groupId,
       },
@@ -61,7 +61,7 @@ export class ProviderService {
   async exportProviders(groupId?: number) {
     return groupId
       ? this.repository.find({
-          select: ["id", "groupId", "name", "description", "url", "meta", "createdAt"],
+          select: { id: true, groupId: true, name: true, description: true, url: true, meta: true, createdAt: true },
           where: {
             groupId: groupId,
           },
@@ -70,7 +70,7 @@ export class ProviderService {
           },
         })
       : this.repository.find({
-          select: ["id", "groupId", "name", "description", "url", "meta", "createdAt"],
+          select: { id: true, groupId: true, name: true, description: true, url: true, meta: true, createdAt: true },
           order: {
             id: "ASC",
           },

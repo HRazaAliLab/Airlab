@@ -115,7 +115,7 @@ export default class ProviderExpandedView extends Vue {
   }
 
   async mounted() {
-    this.items = await this.providerContext.actions.getProviderLots(this.provider.id);
+    this.items = (await this.providerContext.actions.getProviderLots(this.provider.id)) as LotDto[];
     this.loading = false;
   }
 }

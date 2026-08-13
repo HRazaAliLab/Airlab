@@ -89,7 +89,7 @@ export default class PanelExpandedView extends Vue {
   }
 
   async mounted() {
-    this.items = await this.panelContext.actions.getPanelElements(this.panel.id);
+    this.items = (await this.panelContext.actions.getPanelElements(this.panel.id)) as PanelElementDataDto[];
     this.loading = false;
   }
 }
