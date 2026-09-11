@@ -73,3 +73,33 @@ sudo dnf module enable -y postgresql:15
 sudo dnf install postgresql
 ```
 
+## Docker Images
+
+To facilitate updating the Docker images we have to move the images from
+the "dqbm" organisation to ours. Since there is no Raza lab account on
+Docker Hub, they're under "crukcibioinformatics". The three repositories
+are:
+
+1. airlab-worker
+2. airlab-backend
+3. airlab-frontend
+
+The 1.0.0 images were pulled from "dqbm", retagged for "crukcibioinformatics"
+and pushed. New images should be pushed from the build.
+
+### Script for the conversion
+
+```BASH
+#!/bin/bash
+
+VERSION=1.0.0
+
+set -x
+
+for image in airlab-backend airlab-worker airlab-frontend
+do
+  sudo docker pull dqbm/$image:$VERSION
+  sudo docker tag dqbm/$image:$VERSION crukcibioinformatics/$image:$VERSION
+  sudo docker push crukcibioinformatics/$image:$VERSION
+done
+```
