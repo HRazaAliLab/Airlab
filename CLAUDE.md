@@ -121,7 +121,7 @@ Copy `.env.template` to `.env`. Key variables:
 
 ## Docker / Deployment
 
-- `docker-stack.yml` defines the full stack (backend, frontend/nginx, worker, postgres, redis, rabbitmq, pgAdmin, Traefik)
+- `docker-stack.yml` defines the full stack (backend, frontend/nginx, worker, postgres, redis, rabbitmq, Traefik)
 - Dockerfiles: Node 22-alpine for backend/worker; multi-stage (build + nginx 1.20-alpine) for frontend
 - `Makefile` targets: `bootstrap`, `build`, `build-push`, `deploy-development`, `deploy-staging`, `deploy-production`, `db-migration`
 - Deploy scripts in `scripts/deploy-{development,staging,production}.sh`

@@ -20,8 +20,7 @@ otherwise unchanged. These are checked into the repository.
 Some of the dependencies were updated in the container definitions
 under `.deploy`. These included moving to Postgres 15 (the original
 container used version 12, but the dump file provided was from 15 and
-wouldn't work with 12) and moving to the latest version of _pgadmin_
-just so it would properly support Postgres 15.
+wouldn't work with 12).
 
 ## How to Deploy ##
 
@@ -65,28 +64,6 @@ The Docker volumes are located at `/var/lib/docker/volumes`.
 Our IT team provided a minimal Rocky Linux 8 VM to start with.
 They (well, Gareth) also set up a local _postfix_ mail agent
 and allowed used of _mailrelay_.
-
-### Allowing PGAdmin Access through the firewall ###
-
-Create the file `/etc/firewalld/services/pgadmin.xml`:
-
-```XML
-<?xml version="1.0" encoding="utf-8"?>
-<service>
-  <short>Postgres Admin</short>
-  <description>The Postgres administration web interface.</description>
-  <port protocol="tcp" port="5050"/>
-</service>
-```
-
-Enable with `firewall-cmd`:
-
-```BASH
-sudo chmod 640 /etc/firewalld/services/pgadmin.xml
-sudo restorecon /etc/firewalld/services/pgadmin.xml
-sudo firewall-cmd --permanent --add-service pgadmin
-sudo firewall-cmd --reload
-```
 
 ### Postgres ###
 

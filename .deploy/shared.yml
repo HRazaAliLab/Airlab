@@ -100,16 +100,6 @@ services:
     volumes:
       - redisinsight_data:/db
 
-  portainer:
-    restart: always
-    image: portainer/portainer-ce:2.1.1-alpine
-    command: -H unix:///var/run/docker.sock
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
-    ports:
-      - 9000:9000
-
   proxy:
     restart: always
     image: traefik:2.4.8
@@ -124,7 +114,6 @@ volumes:
   app_data:
   worker_data:
   postgres_data:
-  portainer_data:
   redis_data:
   redisinsight_data:
   rabbitmq_data:
