@@ -15,9 +15,7 @@ There are other services deployed together with AirLab application:
 - Redis (cache/pub-sub)
 - RabbitMQ (job queue)
 - Traefik (load-balancer)
-- pgAdmin (Postgres admin app)
 - RedisInsight (Redis admin app)
-- Portainer (Docker admin app)
 
 !!! info "Info"
     Services configuration is defined in `.deploy/shared.yml` file. Please also check `.deploy/development.yml`, `.deploy/production.yml` or `.deploy/staging.yml` depending on your deployment scenario.

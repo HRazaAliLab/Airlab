@@ -75,20 +75,6 @@ services:
     ports:
       - 5432:5432
 
-  pgadmin:
-    restart: always
-    image: dpage/pgadmin4:8.14
-    depends_on:
-      - db
-    environment:
-      - PGADMIN_LISTEN_PORT
-      - PGADMIN_DEFAULT_EMAIL
-      - PGADMIN_DEFAULT_PASSWORD
-    ports:
-      - 5050:5050
-    volumes:
-      - pgadmin_data:/var/lib/pgadmin
-
   rabbitmq:
     restart: always
     image: rabbitmq:3.8.16-alpine
@@ -114,16 +100,6 @@ services:
     volumes:
       - redisinsight_data:/db
 
-  portainer:
-    restart: always
-    image: portainer/portainer-ce:2.1.1-alpine
-    command: -H unix:///var/run/docker.sock
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
-    ports:
-      - 9000:9000
-
   proxy:
     restart: always
     image: traefik:2.4.8
@@ -138,8 +114,6 @@ volumes:
   app_data:
   worker_data:
   postgres_data:
-  portainer_data:
   redis_data:
   redisinsight_data:
   rabbitmq_data:
-  pgadmin_data:
